@@ -1,7 +1,8 @@
 # oner365-springboot
 
 #### 介绍
-个人练习springboot
+1. 个人练习使用。 
+2. 核心框架: Springboot, 数据库采用Mysql, 缓存Redis, 索引查询Elasticsearch, 文件上传使用Fastdfs, 队列为Rabbitmq.
 
 #### 软件架构
 软件架构说明
@@ -15,9 +16,9 @@
 
 #### 使用说明
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+1.  导入mysql脚本, 在 resources/scripts中
+2.  修改配置文件 application.yml 相关路径。
+3.  启动服务
 
 #### 参与贡献
 
