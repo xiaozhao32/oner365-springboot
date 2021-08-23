@@ -1,0 +1,165 @@
+# server
+server:
+  port: 8080
+  servlet:
+    context-path: /
+  tomcat:
+    uri-encoding: UTF-8
+    threads:
+      max: 800
+      min-spare: 30
+
+spring:
+  application:
+    name: oner365-springboot
+
+  profiles:
+    active: default
+
+  # database
+  datasource:
+    druid:
+      db-type: com.alibaba.druid.pool.DruidDataSource
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/oner365?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=GMT%2B8
+      username: root
+      password: 1234
+
+      test-while-idle: true
+      initial-size: 1
+      max-active: 10
+      min-idle: 1
+
+  # servlet file
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 1024MB
+      max-request-size: 1024MB
+
+  main:
+    allow-bean-definition-overriding: true
+  devtools:
+    add-properties: false
+
+  # elasticsearch
+  elasticsearch:
+    rest:
+      connection-timeout: 6000
+      read-timeout: 6000
+      uris: localhost:9200
+
+  data:
+    redis:
+      repositories:
+        enabled: false
+
+    elasticsearch:
+      repositories:
+        enabled: true
+      client:
+        reactive:
+          connection-timeout: 6000
+          socket-timeout: 6000
+          max-in-memory-size: 500MB
+
+  # rabbitmq
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: admin
+    password: admin123
+    connection-timeout: 6000
+
+  # redis
+  redis:
+    enable: true
+    host: localhost
+    port: 6379
+    password:
+    database: 1
+    timeout: 10s
+    lettuce:
+      pool:
+        min-idle: 0
+        max-idle: 8
+        max-active: 8
+        max-wait: -1ms
+
+  jpa:
+    open-in-view: true
+
+  # 线程池
+  task:
+    scheduling:
+      thread-name-prefix: SyncDataTask-
+    execution:
+      pool:
+        allow-core-thread-timeout: false
+        max-size: 60
+        core-size: 10
+        queue-capacity: 100
+        keep-alive: 90
+
+# FastDFS
+fdfs:
+  connect-timeout: 60
+  so-timeout: 1500
+  tracker-list: 192.168.101.130:22122
+  thumb-image:
+    height: 150
+    width: 150
+  web-server-url: http://192.168.101.130
+  ip: 192.168.101.130
+  port: 22
+  user: root
+  password: root
+  storage:
+    # 用于文件路径展示
+    path: /data/fastdfs-storage/data
+  pool:
+    #连接池最大数量
+    max-total: 200
+    #每个tracker地址的最大连接数
+    max-total-per-key: 50
+    #连接耗尽时等待获取连接的最大毫秒数
+    max-wait-millis: 5000
+
+# mybatis
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.oner365.**.entity
+
+# Logger
+logging:
+  file:
+    path: /Users/zhaoyong/Downloads
+  level:
+    web: warn
+    org:
+      springframework: error
+      elasticsearch: error
+
+# Access Token
+ACCESS_TOKEN_SECRET: test
+ACCESS_TOKEN_EXPIRY_MIN: 14400
+
+# 白名单
+ignore:
+  whites:
+    - /api
+    - /system/auth
+    - /system/file/download
+
+# 文件上传下载地址
+file:
+  # web访问地址  如不使用fastDfs 访问web路径
+  web: http://localhost/uploads
+  # 上传地址
+  path: /Users/zhaoyong/Downloads
+  excel:
+    suffix: xlsx
+
+druid:
+  mysql:
+    use-ping-method: false

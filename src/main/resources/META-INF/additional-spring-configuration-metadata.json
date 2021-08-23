@@ -1,0 +1,69 @@
+{"properties": [
+  {
+    "name": "ACCESS_TOKEN_SECRET",
+    "type": "java.lang.String",
+    "description": "Token validate secret."
+  },
+  {
+    "name": "ACCESS_TOKEN_EXPIRY_MIN",
+    "type": "java.lang.String",
+    "description": "Token Expire minute time."
+  },
+  {
+    "name": "spring.redis.enable",
+    "type": "java.lang.Boolean",
+    "defaultValue": false,
+    "description": "Redis Cache enabled."
+  },
+  {
+    "name": "file.path",
+    "type": "java.lang.String",
+    "description": "File upload and download path."
+  },
+  {
+    "name": "file.excel.suffix",
+    "type": "java.lang.String",
+    "description": "Export excel file suffix."
+  },
+  {
+    "name": "fdfs.storage.path",
+    "type": "java.lang.String",
+    "description": "Fastdfs storage path."
+  },
+  {
+    "name": "fdfs.ip",
+    "type": "java.lang.String",
+    "description": "Fastdfs IP address."
+  },
+  {
+    "name": "fdfs.port",
+    "type": "java.lang.String",
+    "description": "Fastdfs port."
+  },
+  {
+    "name": "fdfs.user",
+    "type": "java.lang.String",
+    "description": "Fastdfs user account."
+  },
+  {
+    "name": "fdfs.password",
+    "type": "java.lang.String",
+    "description": "Fastdfs user password."
+  },
+  {
+    "name": "druid.mysql.use-ping-method",
+    "type": "java.lang.Boolean",
+    "defaultValue": true,
+    "description": "druid MySQL warn discard long time none received connection."
+  },
+  {
+    "name": "file.web",
+    "type": "java.lang.String",
+    "description": "A description for 'file.web'."
+  },
+  {
+    "name": "ignore.whites",
+    "type": "java.util.List",
+    "description": "A description for 'ignore.whites'."
+  }
+]}
