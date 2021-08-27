@@ -15,7 +15,7 @@ public class BaseTest {
     public static final Logger LOGGER = LoggerFactory.getLogger(BaseTest.class);
 
     @Test
-    public void test() {
+    public void baseTest() {
         
     }
 }

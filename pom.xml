@@ -29,7 +29,7 @@
 		<java.version>1.8</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		<org.springframework.boot.version>2.5.3</org.springframework.boot.version>
+		<org.springframework.boot.version>2.5.4</org.springframework.boot.version>
 		<org.springframework.version>5.3.9</org.springframework.version>
 
 		<org.apache.tomcat.version>9.0.52</org.apache.tomcat.version>

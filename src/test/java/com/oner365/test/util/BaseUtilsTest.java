@@ -13,7 +13,7 @@ import com.oner365.test.BaseTest;
 public class BaseUtilsTest extends BaseTest {
 
     @Test
-    public void test() {
+    public void baseUtilsTest() {
         
     }
 }

@@ -26,7 +26,7 @@ import com.oner365.common.auth.AuthUser;
  */
 public class RequestUtils {
 
-    private static final ThreadLocal<HttpServletRequest> threadLocal = new ThreadLocal<>();
+    private static final ThreadLocal<HttpServletRequest> LOCAL = new ThreadLocal<>();
 
     public static final String AUTH_USER = "authUser";
 
@@ -50,7 +50,7 @@ public class RequestUtils {
      * @param request HttpServletRequest
      */
     public static void setHttpRequest(HttpServletRequest request) {
-        threadLocal.set(request);
+        LOCAL.set(request);
     }
 
     /**
@@ -59,14 +59,14 @@ public class RequestUtils {
      * @return HttpServletRequest
      */
     public static HttpServletRequest getHttpRequest() {
-        return threadLocal.get();
+        return LOCAL.get();
     }
 
     /**
      * remove method
      */
     public static void remove() {
-        threadLocal.remove();
+        LOCAL.remove();
     }
 
     /**
