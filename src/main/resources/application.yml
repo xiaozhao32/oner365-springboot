@@ -148,8 +148,15 @@ ACCESS_TOKEN_EXPIRY_MIN: 14400
 ignore:
   whites:
     - /api
-    - /system/auth
+    - /system/auth/login
+    - /system/auth/captchaImage
     - /system/file/download
+    - /swagger
+    - /webjars
+    - /v2
+    - /error
+    - /csrf
+
 
 # 文件上传下载地址
 file:

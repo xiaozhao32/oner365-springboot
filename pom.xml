@@ -636,10 +636,10 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-      <groupId>org.apache.tomcat.embed</groupId>
-      <artifactId>tomcat-embed-websocket</artifactId>
-      <version>${org.apache.tomcat.version}</version>
-    </dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-websocket</artifactId>
+			<version>${org.apache.tomcat.version}</version>
+		</dependency>
 
 		<!-- elasticsearch -->
 		<dependency>
@@ -666,6 +666,13 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-elasticsearch</artifactId>
 			<version>${org.springframework.boot.version}</version>
+		</dependency>
+		
+		<!-- Swagger -->
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-boot-starter</artifactId>
+			<version>3.0.0</version>
 		</dependency>
 
 	</dependencies>

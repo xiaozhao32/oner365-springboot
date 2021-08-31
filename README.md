@@ -19,6 +19,9 @@
 1.  导入mysql脚本, 在 resources/scripts中
 2.  修改配置文件 application.yml 相关路径。
 3.  启动服务
+4.  Swagger地址
+
+      http://localhost:8704/swagger-ui/index.html
 
 #### 参与贡献
 

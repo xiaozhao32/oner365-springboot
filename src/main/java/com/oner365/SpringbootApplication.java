@@ -6,13 +6,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.web.client.RestTemplate;
 
 import com.oner365.log.init.ApplicationLoggerInitializer;
+
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * 主函数启动服务
@@ -21,6 +21,7 @@ import com.oner365.log.init.ApplicationLoggerInitializer;
  */
 @SpringBootApplication
 @EnableAsync
+@EnableSwagger2
 @EnableScheduling
 @ServletComponentScan
 @MapperScan({ "com.oner365.**.mapper" })
@@ -37,11 +38,6 @@ public class SpringbootApplication extends SpringBootServletInitializer {
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         return application.sources(SpringbootApplication.class);
-    }
-
-    @Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
     }
 
 }

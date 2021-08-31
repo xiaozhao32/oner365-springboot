@@ -22,7 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @author zhaoyong
  *
  */
-@ControllerAdvice
+@ControllerAdvice(basePackages = "com.oner365.**.controller")
 public class ResponseAdvice implements ResponseBodyAdvice<Object> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ResponseAdvice.class);

@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpHeaders;
@@ -34,6 +36,8 @@ import com.oner365.util.DataUtils;
  *
  */
 public class TokenInterceptor implements HandlerInterceptor {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(TokenInterceptor.class);
 
     /**
      * 项目密钥
@@ -91,6 +95,7 @@ public class TokenInterceptor implements HandlerInterceptor {
         try {
             response.getOutputStream().write(JSON.toJSONString(responseData).getBytes());
         } catch (IOException e) {
+            LOGGER.error("TokenInterceptor setUnauthorizedResponse error: {}", e);
             throw new ProjectRuntimeException(e);
         }
         return false;
@@ -103,6 +108,9 @@ public class TokenInterceptor implements HandlerInterceptor {
      * @return boolean
      */
     private boolean validateIgnoreWhites(HttpServletRequest request) {
+        if (PublicConstants.DELIMITER.equals(request.getRequestURI())) {
+            return true;
+        }
         List<String> paths = ignoreWhiteProperties.getWhites();
         return paths.stream().anyMatch(request.getRequestURI()::contains);
     }
@@ -114,8 +122,13 @@ public class TokenInterceptor implements HandlerInterceptor {
      * @return boolean
      */
     private boolean validateToken(HttpServletRequest request) {
-        String auth = request.getHeader(HttpHeaders.AUTHORIZATION);
-        return JwtUtils.validateToken(auth, secret);
+        try {
+            String auth = request.getHeader(HttpHeaders.AUTHORIZATION);
+            return JwtUtils.validateToken(auth, secret);
+        } catch (Exception e) {
+            LOGGER.error("TokenInterceptor validateToken error: {}", request.getRequestURI(), e);
+            throw new ProjectRuntimeException(e);
+        }
     }
 
     /**
