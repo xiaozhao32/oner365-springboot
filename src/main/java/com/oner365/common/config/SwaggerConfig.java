@@ -1,6 +1,6 @@
 package com.oner365.common.config;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.context.annotation.Bean;
@@ -9,15 +9,18 @@ import org.springframework.http.HttpHeaders;
 
 import com.oner365.common.constants.PublicConstants;
 
+import io.swagger.models.auth.In;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.builders.RequestParameterBuilder;
 import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.ApiKey;
+import springfox.documentation.service.AuthorizationScope;
 import springfox.documentation.service.Contact;
-import springfox.documentation.service.ParameterType;
-import springfox.documentation.service.RequestParameter;
+import springfox.documentation.service.SecurityReference;
+import springfox.documentation.service.SecurityScheme;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 
 /**
@@ -31,25 +34,38 @@ public class SwaggerConfig {
 
     @Bean
     public Docket createRestApi() {
-        return new Docket(DocumentationType.OAS_30).apiInfo(apiInfo()).select()
-                .apis(RequestHandlerSelectors.basePackage("com.oner365")).paths(PathSelectors.any())
-                .build().globalRequestParameters(setRequestParameter())
-                .pathMapping(PublicConstants.DELIMITER);
+        return new Docket(DocumentationType.OAS_30).pathMapping(PublicConstants.DELIMITER)
+                .apiInfo(apiInfo()).select()
+                .apis(RequestHandlerSelectors.any())
+                .paths(PathSelectors.any()).build()
+                .securitySchemes(securitySchemes())
+                .securityContexts(securityContexts());
     }
 
     private ApiInfo apiInfo() {
-        return new ApiInfoBuilder().title("Springboot Swagger3").description("springboot | swagger")
-                .contact(new Contact("oner365", "https://www.oner365.com", "service@oner365.com")).version("1.0.0")
+        return new ApiInfoBuilder()
+                .title("Springboot Swagger3")
+                .description("springboot | swagger")
+                .contact(new Contact("oner365", "https://www.oner365.com", "service@oner365.com"))
+                .version("1.0.0")
                 .build();
     }
-    
-    private List<RequestParameter> setRequestParameter() {
-        List<RequestParameter> result = new ArrayList<>();
 
-        RequestParameterBuilder builder = new RequestParameterBuilder();
-        builder.name(HttpHeaders.AUTHORIZATION).description("token").required(false).in(ParameterType.HEADER).build();
-        result.add(builder.build());
-        return result;
+    /**
+     * 设置授权信息
+     */
+    private List<SecurityScheme> securitySchemes() {
+        ApiKey apiKey = new ApiKey(HttpHeaders.AUTHORIZATION, HttpHeaders.AUTHORIZATION, In.HEADER.toValue());
+        return Collections.singletonList(apiKey);
+    }
+
+    /**
+     * 授权信息全局应用
+     */
+    private List<SecurityContext> securityContexts() {
+        return Collections.singletonList(SecurityContext.builder().securityReferences(Collections.singletonList(
+                new SecurityReference(HttpHeaders.AUTHORIZATION, new AuthorizationScope[] { new AuthorizationScope("global", "") })))
+                .build());
     }
 
 }
