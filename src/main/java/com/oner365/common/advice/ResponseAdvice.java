@@ -12,9 +12,11 @@ import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
-import com.oner365.common.ResponseData;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.oner365.common.ResponseData;
+
+import springfox.documentation.spring.web.plugins.Docket;
 
 /**
  * Controller Advice
@@ -22,7 +24,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @author zhaoyong
  *
  */
-@ControllerAdvice(basePackages = "com.oner365.**.controller")
+@ControllerAdvice(basePackages = "com.oner365")
 public class ResponseAdvice implements ResponseBodyAdvice<Object> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ResponseAdvice.class);
@@ -32,7 +34,7 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
 
     @Override
     public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
-        return true;
+        return !returnType.getDeclaringClass().equals(Docket.class);
     }
 
     @Override

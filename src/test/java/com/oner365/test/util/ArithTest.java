@@ -15,12 +15,12 @@ public class ArithTest extends BaseUtilsTest {
     @Test
     public void add() {
         double result = Arith.add(1d, 2d);
-        Assertions.assertEquals(0, 3d, result);
+        Assertions.assertEquals(3d, result);
     }
 
     @Test
     public void sub() {
         double result = Arith.sub(1d, -2d);
-        Assertions.assertEquals(0, 3d, result);
+        Assertions.assertEquals(3d, result);
     }
 }
