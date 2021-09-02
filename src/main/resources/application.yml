@@ -154,7 +154,6 @@ ignore:
     - /swagger
     - /webjars
     - /v2
-    - /error
     - /csrf
 
 
