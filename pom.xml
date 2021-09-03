@@ -80,6 +80,12 @@
 			<artifactId>fst</artifactId>
 			<version>3.0.3</version>
 		</dependency>
+		<!-- screw-core -->
+		<dependency>
+    		<groupId>cn.smallbun.screw</groupId>
+			<artifactId>screw-core</artifactId>
+			<version>1.0.5</version>
+		</dependency>
 
 		<!-- apache -->
 		<dependency>
@@ -674,7 +680,7 @@
 			<artifactId>springfox-boot-starter</artifactId>
 			<version>3.0.0</version>
 		</dependency>
-
+		
 	</dependencies>
 
 	<build>
