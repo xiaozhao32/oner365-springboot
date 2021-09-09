@@ -12,8 +12,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 import com.oner365.log.init.ApplicationLoggerInitializer;
 
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
-
 /**
  * 主函数启动服务
  * 
@@ -21,7 +19,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @SpringBootApplication
 @EnableAsync
-@EnableSwagger2
 @EnableScheduling
 @ServletComponentScan
 @MapperScan({ "com.oner365.**.mapper" })

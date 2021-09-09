@@ -155,7 +155,7 @@ ignore:
     - /webjars
     - /v2
     - /csrf
-
+    - /doc.html
 
 # 文件上传下载地址
 file:
