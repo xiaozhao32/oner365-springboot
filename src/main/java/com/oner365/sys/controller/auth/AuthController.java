@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import com.oner365.common.ResponseData;
@@ -34,6 +33,7 @@ import com.oner365.controller.BaseController;
 import com.oner365.sys.constants.SysConstants;
 import com.oner365.sys.service.ISysRoleService;
 import com.oner365.sys.service.ISysUserService;
+import com.oner365.sys.vo.LoginUserVo;
 import com.oner365.util.DataUtils;
 import com.oner365.util.VerifyCodeUtils;
 
@@ -63,27 +63,27 @@ public class AuthController extends BaseController {
     /**
      * 系统登录
      *
-     * @param json 登录对象
+     * @param loginUserVo 登录对象
      * @return ResponseData
      */
     @PostMapping("/login")
     @ApiOperation("登录")
-    public ResponseData<Map<String, Object>> login(HttpServletRequest request, @RequestBody JSONObject json) {
+    public ResponseData<Map<String, Object>> login(HttpServletRequest request, @RequestBody LoginUserVo loginUserVo) {
         // 验证码
-        if (!DataUtils.isEmpty(json.getString(SysConstants.UUID))) {
-            String verifyKey = SysConstants.CAPTCHA_IMAGE + ":" + json.getString(SysConstants.UUID);
+        if (!DataUtils.isEmpty(loginUserVo.getUuid())) {
+            String verifyKey = SysConstants.CAPTCHA_IMAGE + ":" + loginUserVo.getUuid();
             String captcha = redisCache.getCacheObject(verifyKey);
             redisCache.deleteObject(verifyKey);
-            if (captcha == null || !captcha.equalsIgnoreCase(json.getString(SysConstants.CODE))) {
+            if (captcha == null || !captcha.equalsIgnoreCase(loginUserVo.getCode())) {
                 return ResponseData.error(ErrorCodes.ERR_PARAM, ErrorInfo.ERR_CAPTCHA_ERROR);
             }
         }
         
-        String userName = json.getString(SysConstants.USER_NAME);
+        String userName = loginUserVo.getUserName();
         if (Strings.isNullOrEmpty(userName)) {
             return ResponseData.error(ErrorCodes.ERR_USER_NAME_NOT_NULL, ErrorInfo.ERR_USER_NAME_NOT_NULL);
         }
-        String password = json.getString(SysConstants.PASS);
+        String password = loginUserVo.getPassword();
         if (Strings.isNullOrEmpty(password)) {
             return ResponseData.error(ErrorCodes.ERR_PASSWORD_NOT_NULL, ErrorInfo.ERR_PASS_NOT_NULL);
         }
