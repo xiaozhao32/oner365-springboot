@@ -15,14 +15,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Maps;
 import com.oner365.common.constants.PublicConstants;
 import com.oner365.controller.BaseController;
 import com.oner365.elasticsearch.entity.SampleGene;
 import com.oner365.elasticsearch.service.ISampleGeneElasticsearchService;
 import com.oner365.gateway.constants.GatewayConstants;
+import com.oner365.sys.vo.SampleGeneVo;
 import com.oner365.util.DataUtils;
 import com.oner365.util.GeneTransFormUtils;
-import com.google.common.collect.Maps;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * Elasticsearch Controller
@@ -32,6 +36,7 @@ import com.google.common.collect.Maps;
  */
 @RestController
 @RequestMapping("/elasticsearch/sampleGene")
+@Api(tags = "Elasticsearch 基因型信息")
 public class SampleGeneController extends BaseController {
 
     @Autowired
@@ -40,12 +45,13 @@ public class SampleGeneController extends BaseController {
     /**
      * 保存
      *
-     * @param paramJson 基因对象
+     * @param sampleGeneVo 基因对象
      * @return Map<String, Object>
      */
     @PutMapping("/save")
-    public Map<String, Object> save(@RequestBody JSONObject paramJson) {
-        SampleGene sampleGene = JSON.toJavaObject(paramJson, SampleGene.class);
+    @ApiOperation("保存")
+    public Map<String, Object> save(@RequestBody SampleGeneVo sampleGeneVo) {
+        SampleGene sampleGene = sampleGeneVo.toObject();
         
         Map<String, Object> result = Maps.newHashMap();
         result.put(GatewayConstants.CODE, PublicConstants.ERROR_CODE);
@@ -74,6 +80,7 @@ public class SampleGeneController extends BaseController {
      * @return SampleGene
      */
     @GetMapping("/get/{id}")
+    @ApiOperation("按id查询")
     public SampleGene get(@PathVariable("id") String id) {
         SampleGene sampleGene = service.findById(id);
         if (sampleGene != null && !DataUtils.isEmpty(sampleGene.getGeneInfo())) {
@@ -90,6 +97,7 @@ public class SampleGeneController extends BaseController {
      * @return Map<String, Object>
      */
     @DeleteMapping("/delete")
+    @ApiOperation("删除")
     public Map<String, Object> delete(@RequestBody String... ids) {
         for (String id : ids) {
             service.deleteById(id);
@@ -106,6 +114,7 @@ public class SampleGeneController extends BaseController {
      * @return Page<SampleGene>
      */
     @PostMapping("/list")
+    @ApiOperation("获取列表")
     public Page<SampleGene> list(@RequestBody JSONObject paramJson) {
         return this.service.findList(paramJson);
     }

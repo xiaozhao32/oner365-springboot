@@ -54,7 +54,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Springboot Swagger3")
+                .title("Oner365 Springboot")
                 .description("springboot | swagger")
                 .contact(new Contact("oner365", "https://www.oner365.com", "service@oner365.com"))
                 .version("1.0.0")

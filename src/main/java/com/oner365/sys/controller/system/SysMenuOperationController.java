@@ -13,14 +13,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Maps;
 import com.oner365.common.constants.PublicConstants;
 import com.oner365.controller.BaseController;
 import com.oner365.sys.constants.SysConstants;
 import com.oner365.sys.entity.SysMenuOperation;
 import com.oner365.sys.service.ISysMenuOperationService;
-import com.google.common.collect.Maps;
+import com.oner365.sys.vo.SysMenuOperationVo;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * 菜单操作权限
@@ -29,6 +32,7 @@ import com.google.common.collect.Maps;
  */
 @RestController
 @RequestMapping("/system/menuOperation")
+@Api(tags = "系统管理 - 菜单操作权限")
 public class SysMenuOperationController extends BaseController {
 
     @Autowired
@@ -36,12 +40,13 @@ public class SysMenuOperationController extends BaseController {
 
     /**
      * 保存
-     * @param paramJson 操作对象
+     * @param sysMenuOperationVo 操作对象
      * @return Map<String, Object>
      */
     @PutMapping("/save")
-    public Map<String, Object> save(@RequestBody JSONObject paramJson){
-        SysMenuOperation sysMenuOperation = JSON.toJavaObject(paramJson, SysMenuOperation.class);
+    @ApiOperation("保存")
+    public Map<String, Object> save(@RequestBody SysMenuOperationVo sysMenuOperationVo){
+        SysMenuOperation sysMenuOperation = sysMenuOperationVo.toObject();
         Map<String, Object> result = Maps.newHashMap();
         result.put(PublicConstants.CODE, PublicConstants.ERROR_CODE);
         if (sysMenuOperation != null) {
@@ -59,6 +64,7 @@ public class SysMenuOperationController extends BaseController {
      * @return SysMenuOperation
      */
     @GetMapping("/get/{id}")
+    @ApiOperation("按id查询")
     public SysMenuOperation getById(@PathVariable String id) {
         return menuOperationService.getById(id);
     }
@@ -69,6 +75,7 @@ public class SysMenuOperationController extends BaseController {
      * @return Page<SysMenuOperation>
      */
     @PostMapping("/list")
+    @ApiOperation("获取列表")
     public Page<SysMenuOperation> findList(@RequestBody JSONObject paramJson){
         return menuOperationService.pageList(paramJson);
     }
@@ -76,17 +83,16 @@ public class SysMenuOperationController extends BaseController {
     /**
      * 删除
      * @param ids 编号
-     * @return Map<String, Object>
+     * @return Integer
      */
     @DeleteMapping("/delete")
-    public Map<String, Object> delete(@RequestBody String... ids) {
+    @ApiOperation("删除")
+    public Integer delete(@RequestBody String... ids) {
         int code = 0;
         for (String id : ids) {
             code = menuOperationService.deleteById(id);
         }
-        Map<String, Object> result = Maps.newHashMap();
-        result.put(PublicConstants.CODE, code);
-        return result;
+        return code;
     }
 
     /**
@@ -95,6 +101,7 @@ public class SysMenuOperationController extends BaseController {
      * @return Map<String, Object>
      */
     @PostMapping("/checkType")
+    @ApiOperation("判断是否存在")
     public Map<String, Object> checkType(@RequestBody JSONObject paramJson) {
         String id = paramJson.getString(SysConstants.ID);
         String type = paramJson.getString(SysConstants.CODE);

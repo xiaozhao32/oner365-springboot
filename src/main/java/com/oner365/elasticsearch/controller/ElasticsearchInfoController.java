@@ -18,6 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.oner365.controller.BaseController;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
@@ -30,6 +34,7 @@ import com.google.common.collect.Maps;
 @RestController
 @RequestMapping("/elasticsearch/info")
 @SuppressWarnings({ "deprecation", "resource" })
+@Api(tags = "Elasticsearch 信息")
 public class ElasticsearchInfoController extends BaseController {
 
     @Value("${spring.elasticsearch.rest.uris}")
@@ -41,6 +46,7 @@ public class ElasticsearchInfoController extends BaseController {
      * @return Map<String, Object>
      */
     @GetMapping("/index")
+    @ApiOperation("首页信息")
     public Map<String, Object> index() {
         String hostname = StringUtils.substringBefore(uris, ":");
         int port = 9300;

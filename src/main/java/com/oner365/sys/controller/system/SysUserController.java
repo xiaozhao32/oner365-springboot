@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Maps;
 import com.oner365.common.auth.AuthUser;
 import com.oner365.common.auth.annotation.CurrentUser;
 import com.oner365.common.constants.PublicConstants;
@@ -33,8 +33,11 @@ import com.oner365.sys.entity.SysUser;
 import com.oner365.sys.service.ISysJobService;
 import com.oner365.sys.service.ISysRoleService;
 import com.oner365.sys.service.ISysUserService;
+import com.oner365.sys.vo.SysUserVo;
 import com.oner365.util.DataUtils;
-import com.google.common.collect.Maps;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * 用户管理
@@ -42,6 +45,7 @@ import com.google.common.collect.Maps;
  */
 @RestController
 @RequestMapping("/system/user")
+@Api(tags = "系统管理 - 用户")
 public class SysUserController extends BaseController {
 
     @Autowired
@@ -63,6 +67,7 @@ public class SysUserController extends BaseController {
      * @return Page<SysUser>
      */
     @PostMapping("/list")
+    @ApiOperation("用户列表")
     public Page<SysUser> findUserList(@RequestBody JSONObject paramJson) {
         return sysUserService.pageList(paramJson);
     }
@@ -70,12 +75,13 @@ public class SysUserController extends BaseController {
     /**
      * 用户保存
      *
-     * @param paramJson 用户对象
+     * @param sysUserVo 用户对象
      * @return Map<String, Object>
      */
     @PutMapping("/save")
-    public Map<String, Object> save(@RequestBody JSONObject paramJson, HttpServletRequest request) {
-        SysUser sysUser = JSON.toJavaObject(paramJson, SysUser.class);
+    @ApiOperation("保存")
+    public Map<String, Object> save(@RequestBody SysUserVo sysUserVo, HttpServletRequest request) {
+        SysUser sysUser = sysUserVo.toObject();
         sysUser.setLastIp(DataUtils.getIpAddress(request));
         SysUser entity = sysUserService.saveUser(sysUser);
         Map<String, Object> result = Maps.newHashMap();
@@ -91,6 +97,7 @@ public class SysUserController extends BaseController {
      * @return Map<String, Object>
      */
     @GetMapping("/get/{id}")
+    @ApiOperation("按id查询")
     public Map<String, Object> get(@PathVariable String id) {
         SysUser sysUser = sysUserService.getById(id);
 
@@ -109,6 +116,7 @@ public class SysUserController extends BaseController {
      * @return SysUser
      */
     @GetMapping("/profile")
+    @ApiOperation("个人信息")
     public SysUser profile(@CurrentUser AuthUser authUser) {
         return sysUserService.getById(authUser.getId());
     }
@@ -121,6 +129,7 @@ public class SysUserController extends BaseController {
      * @return String
      */
     @PostMapping("/avatar")
+    @ApiOperation("上传头像")
     public String avatar(@CurrentUser AuthUser authUser, @RequestParam("avatarfile") MultipartFile file) {
         if (!file.isEmpty()) {
             String fileUrl = fastdfsClient.uploadFile(file);
@@ -136,13 +145,14 @@ public class SysUserController extends BaseController {
     /**
      * 更新个人信息
      * 
-     * @param paramJson 对象
+     * @param sysUserVo 对象
      * @param authUser  登录对象
      * @return ResponseData
      */
     @PostMapping("/updateUserProfile")
-    public SysUser updateUserProfile(@RequestBody JSONObject paramJson, @CurrentUser AuthUser authUser) {
-        SysUser vo = JSON.toJavaObject(paramJson, SysUser.class);
+    @ApiOperation("更新个人信息")
+    public SysUser updateUserProfile(@RequestBody SysUserVo sysUserVo, @CurrentUser AuthUser authUser) {
+        SysUser vo = sysUserVo.toObject();
         if (vo != null) {
             SysUser sysUser = sysUserService.getById(authUser.getId());
             sysUser.setEmail(vo.getEmail());
@@ -159,17 +169,16 @@ public class SysUserController extends BaseController {
      * 删除用户
      *
      * @param ids 编号
-     * @return Map<String, Object>
+     * @return Integer
      */
     @DeleteMapping("/delete")
-    public Map<String, Object> delete(@RequestBody String... ids) {
+    @ApiOperation("删除")
+    public Integer delete(@RequestBody String... ids) {
         int code = 0;
         for (String id : ids) {
             code = sysUserService.deleteById(id);
         }
-        Map<String, Object> result = Maps.newHashMap();
-        result.put(PublicConstants.CODE, code);
-        return result;
+        return code;
     }
 
     /**
@@ -179,6 +188,7 @@ public class SysUserController extends BaseController {
      * @return Map<String, Object>
      */
     @PostMapping("/checkUserName")
+    @ApiOperation("判断存在")
     public Map<String, Object> checkUserName(@RequestBody JSONObject json) {
         String userName = json.getString(SysConstants.USER_NAME);
         String userId = json.getString(SysConstants.ID);
@@ -196,6 +206,7 @@ public class SysUserController extends BaseController {
      * @return Map<String, Object>
      */
     @PostMapping("/resetPassword")
+    @ApiOperation("重置密码")
     public Map<String, Object> resetPassword(@RequestBody JSONObject json) {
         String userId = json.getString(SysConstants.USER_ID);
         String password = json.getString(SysConstants.P);
@@ -214,6 +225,7 @@ public class SysUserController extends BaseController {
      * @return Map<String, Object>
      */
     @PostMapping("/editPassword")
+    @ApiOperation("修改密码")
     public Map<String, Object> editPassword(@CurrentUser AuthUser authUser, @RequestBody JSONObject json) {
         String oldPassword = DigestUtils.md5Hex(json.getString("oldPassword")).toUpperCase();
         String password = json.getString(SysConstants.P);
@@ -233,17 +245,14 @@ public class SysUserController extends BaseController {
      * 修改用户状态
      *
      * @param json 参数
-     * @return Map<String, Object>
+     * @return Integer
      */
     @PostMapping("/editStatus")
-    public Map<String, Object> editStatus(@RequestBody JSONObject json) {
+    @ApiOperation("修改状态")
+    public Integer editStatus(@RequestBody JSONObject json) {
         String status = json.getString(SysConstants.STATUS);
         String userId = json.getString(SysConstants.USER_ID);
-        Integer code = sysUserService.editStatus(userId, status);
-
-        Map<String, Object> result = Maps.newHashMap();
-        result.put(PublicConstants.CODE, code);
-        return result;
+        return sysUserService.editStatus(userId, status);
     }
 
     /**
@@ -253,6 +262,7 @@ public class SysUserController extends BaseController {
      * @return ResponseEntity<byte[]>
      */
     @PostMapping("/export")
+    @ApiOperation("导出")
     public ResponseEntity<byte[]> export(@RequestBody JSONObject paramJson) {
         List<SysUser> list = sysUserService.findList(paramJson);
 

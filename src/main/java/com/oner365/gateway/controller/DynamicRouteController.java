@@ -13,13 +13,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Maps;
 import com.oner365.controller.BaseController;
 import com.oner365.gateway.constants.GatewayConstants;
 import com.oner365.gateway.entity.GatewayRoute;
 import com.oner365.gateway.service.DynamicRouteService;
-import com.google.common.collect.Maps;
+import com.oner365.sys.vo.GatewayRouteVo;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * 动态路由控制
@@ -29,6 +32,7 @@ import com.google.common.collect.Maps;
  */
 @RestController
 @RequestMapping("/route")
+@Api(tags = "动态路由控制")
 public class DynamicRouteController extends BaseController {
 
     @Autowired
@@ -41,6 +45,7 @@ public class DynamicRouteController extends BaseController {
      * @return Page<GatewayRoute>
      */
     @PostMapping("/list")
+    @ApiOperation("获取列表")
     public Page<GatewayRoute> list(@RequestBody JSONObject paramJson) {
         return dynamicRouteService.pageList(paramJson);
     }
@@ -48,12 +53,13 @@ public class DynamicRouteController extends BaseController {
     /**
      * 增加路由
      *
-     * @param paramJson 路由对象
+     * @param gatewayRouteVo 路由对象
      * @return Map<String, Object>
      */
     @PostMapping("/add")
-    public Map<String, Object> add(@RequestBody JSONObject paramJson) {
-        GatewayRoute gatewayRoute = JSON.toJavaObject(paramJson, GatewayRoute.class);
+    @ApiOperation("添加路由")
+    public Map<String, Object> add(@RequestBody GatewayRouteVo gatewayRouteVo) {
+        GatewayRoute gatewayRoute = gatewayRouteVo.toObject();
         String msg = dynamicRouteService.save(gatewayRoute);
 
         Map<String, Object> result = Maps.newHashMap();
@@ -69,6 +75,7 @@ public class DynamicRouteController extends BaseController {
      * @return GatewayRoute
      */
     @GetMapping("/get/{id}")
+    @ApiOperation("按id获取路由信息")
     public GatewayRoute get(@PathVariable String id) {
         return dynamicRouteService.getById(id);
     }
@@ -80,6 +87,7 @@ public class DynamicRouteController extends BaseController {
      * @return Map<String, Object>
      */
     @DeleteMapping("/delete")
+    @ApiOperation("删除路由")
     public Map<String, Object> delete(@RequestBody String... ids) {
         for (String id : ids) {
             dynamicRouteService.delete(id);
@@ -93,12 +101,13 @@ public class DynamicRouteController extends BaseController {
     /**
      * 更新路由
      *
-     * @param paramJson 路由对象
+     * @param gatewayRouteVo 路由对象
      * @return Map<String, Object>
      */
     @PostMapping("/update")
-    public Map<String, Object> update(@RequestBody JSONObject paramJson) {
-        GatewayRoute gatewayRoute = JSON.toJavaObject(paramJson, GatewayRoute.class);
+    @ApiOperation("更新路由")
+    public Map<String, Object> update(@RequestBody GatewayRouteVo gatewayRouteVo) {
+        GatewayRoute gatewayRoute = gatewayRouteVo.toObject();
         String msg = dynamicRouteService.update(gatewayRoute);
 
         Map<String, Object> result = Maps.newHashMap();
@@ -113,6 +122,7 @@ public class DynamicRouteController extends BaseController {
      * @return List<GatewayRoute>
      */
     @GetMapping("/refresh")
+    @ApiOperation("刷新路由")
     public List<GatewayRoute> refresh() {
         return dynamicRouteService.refreshRoute();
     }
@@ -125,6 +135,7 @@ public class DynamicRouteController extends BaseController {
      * @return Map<String, Object>
      */
     @GetMapping("/updateRouteStatus/{id}/{status}")
+    @ApiOperation("更新状态")
     public Map<String, Object> updateRouteStatus(@PathVariable String id, @PathVariable String status) {
         String msg = dynamicRouteService.updateRouteStatus(id, status);
 

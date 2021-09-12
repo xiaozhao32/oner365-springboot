@@ -54,7 +54,7 @@ public class GuavaCache<T> {
                     return Optional.empty();
                 }
                 @Override
-                public ListenableFuture<Optional<T>> reload(String key, Optional<T> value) throws Exception {
+                public ListenableFuture<Optional<T>> reload(String key, Optional<T> value) {
                     LOGGER.debug("reload: {}, value: {}", key, value);
                     return Futures.immediateFuture(load(key));
                 }

@@ -20,6 +20,9 @@ import com.oner365.common.constants.PublicConstants;
 import com.oner365.controller.BaseController;
 import com.oner365.deploy.DeployServer;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 /**
  * 服务监控
  *
@@ -27,6 +30,7 @@ import com.oner365.deploy.DeployServer;
  */
 @RestController
 @RequestMapping("/monitor/service")
+@Api(tags = "监控 - 服务信息")
 public class ServiceController extends BaseController {
     
     private static final String HOST = "localhost";
@@ -43,6 +47,7 @@ public class ServiceController extends BaseController {
      * @return List<List<Map<String, Object>>>
      */
     @GetMapping("/index")
+    @ApiOperation("首页")
     public List<List<Map<String, Object>>> index() {
         List<List<Map<String, Object>>> serviceList = new ArrayList<>();
         List<Map<String, Object>> serviceInstances = new ArrayList<>();
@@ -65,6 +70,7 @@ public class ServiceController extends BaseController {
      * @return String
      */
     @GetMapping("/refreshConfig")
+    @ApiOperation("动态刷新配置")
     public String refreshConfig() {
         return PublicConstants.SUCCESS;
     }
@@ -75,6 +81,7 @@ public class ServiceController extends BaseController {
      * @return JSONObject
      */
     @PostMapping("/getActuatorEnv")
+    @ApiOperation("配置信息")
     public JSONObject getActuatorEnv(@RequestBody JSONObject paramJson) {
         JSONObject result = new JSONObject();
         JSONArray profiles = new JSONArray();
@@ -91,6 +98,7 @@ public class ServiceController extends BaseController {
      * @return String
      */
     @PostMapping("/uploadService")
+    @ApiOperation("上传服务")
     public String uploadService(@RequestParam("multipartFile") MultipartFile multipartFile,
             String ip, int port, String serviceName) {
         return PublicConstants.SUCCESS;
@@ -102,6 +110,7 @@ public class ServiceController extends BaseController {
      * @return String
      */
     @PostMapping("/resetService")
+    @ApiOperation("重启服务")
     public String resetService(@RequestBody DeployServer deployServer) {
         return PublicConstants.SUCCESS;
     }

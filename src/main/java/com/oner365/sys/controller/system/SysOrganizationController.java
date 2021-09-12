@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Maps;
 import com.oner365.common.auth.AuthUser;
 import com.oner365.common.auth.annotation.CurrentUser;
 import com.oner365.common.constants.PublicConstants;
@@ -25,7 +25,10 @@ import com.oner365.sys.constants.SysConstants;
 import com.oner365.sys.entity.SysOrganization;
 import com.oner365.sys.entity.TreeSelect;
 import com.oner365.sys.service.ISysOrganizationService;
-import com.google.common.collect.Maps;
+import com.oner365.sys.vo.SysOrganizationVo;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * 机构管理
@@ -33,6 +36,7 @@ import com.google.common.collect.Maps;
  */
 @RestController
 @RequestMapping("/system/org")
+@Api(tags = "系统管理 - 机构")
 public class SysOrganizationController extends BaseController {
 
     @Autowired
@@ -41,14 +45,15 @@ public class SysOrganizationController extends BaseController {
     /**
      * 机构信息保存
      *
-     * @param paramJson 机构对象
+     * @param sysOrganizationVo 机构对象
      * @param authUser  登录对象
      * @return Map<String, Object>
      */
     @PutMapping("/save")
-    public Map<String, Object> save(@RequestBody JSONObject paramJson,
+    @ApiOperation("保存")
+    public Map<String, Object> save(@RequestBody SysOrganizationVo sysOrganizationVo,
             @CurrentUser AuthUser authUser) {
-        SysOrganization sysOrganization = JSON.toJavaObject(paramJson, SysOrganization.class);
+        SysOrganization sysOrganization = sysOrganizationVo.toObject();
         Map<String, Object> result = Maps.newHashMap();
         result.put(PublicConstants.CODE, PublicConstants.ERROR_CODE);
         if (sysOrganization != null) {
@@ -68,6 +73,7 @@ public class SysOrganizationController extends BaseController {
      * @return SysOrganization
      */
     @GetMapping("/get/{id}")
+    @ApiOperation("按id查询")
     public SysOrganization get(@PathVariable String id) {
         return sysOrgService.getById(id);
     }
@@ -79,6 +85,7 @@ public class SysOrganizationController extends BaseController {
      * @return Map<String, Object>
      */
     @PostMapping("/isConnection")
+    @ApiOperation("能否连接数据源")
     public Map<String, Object> isConnection(@RequestBody JSONObject paramJson) {
         return sysOrgService.isConnection(paramJson);
     }
@@ -90,6 +97,7 @@ public class SysOrganizationController extends BaseController {
      * @return Map<String, Object>
      */
     @GetMapping("/checkConnection/{id}")
+    @ApiOperation("测试连接数据源")
     public Map<String, Object> checkConnection(@PathVariable String id) {
         return sysOrgService.checkConnection(id);
     }
@@ -97,12 +105,13 @@ public class SysOrganizationController extends BaseController {
     /**
      * 查询列表
      *
-     * @param paramJson 机构对象
+     * @param sysOrganizationVo 机构对象
      * @return List<SysOrganization>
      */
     @PostMapping("/list")
-    public List<SysOrganization> findList(@RequestBody JSONObject paramJson) {
-        SysOrganization sysOrganization = JSON.toJavaObject(paramJson, SysOrganization.class);
+    @ApiOperation("查询列表")
+    public List<SysOrganization> findList(@RequestBody SysOrganizationVo sysOrganizationVo) {
+        SysOrganization sysOrganization = sysOrganizationVo.toObject();
         if (sysOrganization != null) {
             return sysOrgService.selectList(sysOrganization);
         }
@@ -116,6 +125,7 @@ public class SysOrganizationController extends BaseController {
      * @return List<SysOrganization>
      */
     @GetMapping("/findListByParentId")
+    @ApiOperation("父级id查询")
     public List<SysOrganization> findListByParentId(@RequestParam("parentId") String parentId) {
         return sysOrgService.findListByParentId(parentId);
     }
@@ -124,17 +134,16 @@ public class SysOrganizationController extends BaseController {
      * 删除
      *
      * @param ids 编号
-     * @return Map<String, Object>
+     * @return Integer
      */
     @DeleteMapping("/delete")
-    public Map<String, Object> delete(@RequestBody String... ids) {
+    @ApiOperation("删除")
+    public Integer delete(@RequestBody String... ids) {
         int code = 0;
         for (String id : ids) {
             code = sysOrgService.deleteById(id);
         }
-        Map<String, Object> result = Maps.newHashMap();
-        result.put(PublicConstants.CODE, code);
-        return result;
+        return code;
     }
 
     /**
@@ -144,6 +153,7 @@ public class SysOrganizationController extends BaseController {
      * @return Map<String, Object>
      */
     @PostMapping("/checkCode")
+    @ApiOperation("判断编码是否存在")
     public Map<String, Object> checkCode(@RequestBody JSONObject paramJson) {
         String type = paramJson.getString("type");
         String code = paramJson.getString("code");
@@ -158,28 +168,30 @@ public class SysOrganizationController extends BaseController {
     /**
      * 获取菜单下拉树列表
      *
-     * @param paramJson 机构对象
+     * @param sysOrganizationVo 机构对象
      * @param authUser  登录对象
      * @return List<TreeSelect>
      */
     @PostMapping("/treeselect")
-    public List<TreeSelect> treeselect(@RequestBody JSONObject paramJson, @CurrentUser AuthUser authUser) {
-        List<SysOrganization> list = sysOrgService.selectList(JSON.toJavaObject(paramJson, SysOrganization.class));
+    @ApiOperation("获取树型列表")
+    public List<TreeSelect> treeselect(@RequestBody SysOrganizationVo sysOrganizationVo, @CurrentUser AuthUser authUser) {
+        List<SysOrganization> list = sysOrgService.selectList(sysOrganizationVo.toObject());
         return sysOrgService.buildTreeSelect(list);
     }
 
     /**
      * 加载对应角色菜单列表树
      *
-     * @param paramJson 机构对象
+     * @param sysOrganizationVo 机构对象
      * @param userId    用户id
      * @param authUser  登录对象
      * @return Map<String, Object>
      */
     @PostMapping("/userTreeselect/{userId}")
-    public Map<String, Object> userTreeselect(@RequestBody JSONObject paramJson, @PathVariable("userId") String userId,
+    @ApiOperation("获取用户权限")
+    public Map<String, Object> userTreeselect(@RequestBody SysOrganizationVo sysOrganizationVo, @PathVariable("userId") String userId,
             @CurrentUser AuthUser authUser) {
-        SysOrganization sysOrganization = JSON.toJavaObject(paramJson, SysOrganization.class);
+        SysOrganization sysOrganization = sysOrganizationVo.toObject();
 
         List<SysOrganization> list = sysOrgService.selectList(sysOrganization);
         Map<String, Object> result = Maps.newHashMap();
@@ -195,10 +207,11 @@ public class SysOrganizationController extends BaseController {
      * @return Map<String, Object>
      */
     @PostMapping("/changeStatus")
+    @ApiOperation("修改状态")
     public Map<String, Object> changeStatus(@RequestBody JSONObject paramJson) {
         String status = paramJson.getString(SysConstants.STATUS);
         String id = paramJson.getString(SysConstants.ID);
-        
+
         Integer code = sysOrgService.changeStatus(id, status);
         Map<String, Object> result = Maps.newHashMap();
         result.put(PublicConstants.CODE, code);

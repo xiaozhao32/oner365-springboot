@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.base.Strings;
+import com.google.common.collect.Maps;
 import com.oner365.common.ResponseData;
 import com.oner365.common.auth.AuthUser;
 import com.oner365.common.auth.annotation.CurrentUser;
@@ -34,8 +36,9 @@ import com.oner365.sys.service.ISysRoleService;
 import com.oner365.sys.service.ISysUserService;
 import com.oner365.util.DataUtils;
 import com.oner365.util.VerifyCodeUtils;
-import com.google.common.base.Strings;
-import com.google.common.collect.Maps;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * 认证登录接口
@@ -43,6 +46,7 @@ import com.google.common.collect.Maps;
  */
 @RestController
 @RequestMapping("/system/auth")
+@Api(tags = "用户认证")
 public class AuthController extends BaseController {
 
     private static final String CACHE_LOGIN_NAME = "Auth:Login";
@@ -63,6 +67,7 @@ public class AuthController extends BaseController {
      * @return ResponseData
      */
     @PostMapping("/login")
+    @ApiOperation("登录")
     public ResponseData<Map<String, Object>> login(HttpServletRequest request, @RequestBody JSONObject json) {
         // 验证码
         if (!DataUtils.isEmpty(json.getString(SysConstants.UUID))) {
@@ -97,6 +102,7 @@ public class AuthController extends BaseController {
      * @return String
      */
     @PostMapping("/logout")
+    @ApiOperation("退出登录")
     public String logout(@CurrentUser AuthUser authUser) {
         String key = CACHE_LOGIN_NAME + ":" + authUser.getUserName();
         redisCache.deleteObject(key);
@@ -110,6 +116,7 @@ public class AuthController extends BaseController {
      * @return JSONArray
      */
     @GetMapping("/menu/{menuType}")
+    @ApiOperation("获取菜单权限")
     public JSONArray findMenuByRoles(@CurrentUser AuthUser user, @PathVariable String menuType) {
         try {
             if (user != null && !user.getRoleList().isEmpty()) {
@@ -126,6 +133,7 @@ public class AuthController extends BaseController {
      * @return Map<String, Object>
      */
     @GetMapping("/captchaImage")
+    @ApiOperation("获取验证码")
     public Map<String, Object> captchaImage() {
         // 生成随机字串
         String verifyCode = VerifyCodeUtils.generateVerifyCode(4);
@@ -157,6 +165,7 @@ public class AuthController extends BaseController {
      * @return List<Map<String, Object>>
      */
     @GetMapping("/menu/operation/{menuId}")
+    @ApiOperation("获取菜单操作权限")
     public List<Map<String, String>> findMenuOperByRoles(@CurrentUser AuthUser user, @PathVariable String menuId) {
         try {
             if (user != null && !user.getRoleList().isEmpty()) {

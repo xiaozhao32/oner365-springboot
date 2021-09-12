@@ -1,7 +1,5 @@
 package com.oner365.monitor.rabbitmq;
 
-import javax.net.ssl.SSLException;
-
 import org.quartz.SchedulerException;
 import org.springframework.amqp.core.ExchangeTypes;
 import org.springframework.amqp.rabbit.annotation.Exchange;
@@ -27,7 +25,6 @@ public interface IScheduleSendExecuteService {
     /**
      * 更新任务执行状态
      * @param updateTask 任务对象
-     * @throws SSLException SSLException
      * @throws SchedulerException SchedulerException
      * @throws TaskException TaskException
      */
@@ -38,13 +35,12 @@ public interface IScheduleSendExecuteService {
                     key = ScheduleTaskConstants.TASK_UPDATE_STAUTS_QUEUE_KEY
             )
         )
-    void updateTaskExecuteStatus(UpdateTaskExecuteStatusDto updateTask) throws SSLException, SchedulerException, TaskException ;
+    void updateTaskExecuteStatus(UpdateTaskExecuteStatusDto updateTask) throws SchedulerException, TaskException ;
 
 
     /**
      * 保存任务执行日志
      * @param taskLog 任务对象
-     * @throws SSLException SSLException
      */
     @RabbitListener(
             bindings = @QueueBinding(
@@ -53,5 +49,5 @@ public interface IScheduleSendExecuteService {
                     key = ScheduleTaskConstants.SAVE_TASK_LOG_QUEUE_KEY
             )
         )
-    void saveExecuteTaskLog(SysTaskLogDto taskLog)throws SSLException;
+    void saveExecuteTaskLog(SysTaskLogDto taskLog);
 }

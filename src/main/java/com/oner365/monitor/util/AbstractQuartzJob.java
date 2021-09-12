@@ -4,7 +4,6 @@ import java.util.Date;
 
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -27,7 +26,7 @@ public abstract class AbstractQuartzJob implements Job {
     private static final ThreadLocal<Date> THREAD_LOCAL = new ThreadLocal<>();
 
     @Override
-    public void execute(JobExecutionContext context) throws JobExecutionException {
+    public void execute(JobExecutionContext context) {
         SysTask sysTask = new SysTask();
         BeanUtils.copyProperties(context.getMergedJobDataMap().get(ScheduleConstants.TASK_PROPERTIES), sysTask);
         try {

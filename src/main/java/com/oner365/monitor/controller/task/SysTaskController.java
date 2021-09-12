@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Maps;
 import com.oner365.common.auth.AuthUser;
 import com.oner365.common.auth.annotation.CurrentUser;
 import com.oner365.common.constants.PublicConstants;
@@ -24,7 +24,10 @@ import com.oner365.monitor.entity.SysTask;
 import com.oner365.monitor.exception.TaskException;
 import com.oner365.monitor.service.ISysTaskService;
 import com.oner365.monitor.util.CronUtils;
-import com.google.common.collect.Maps;
+import com.oner365.sys.vo.SysTaskVo;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * 调度任务信息操作处理
@@ -33,6 +36,7 @@ import com.google.common.collect.Maps;
  */
 @RestController
 @RequestMapping("/monitor/task")
+@Api(tags = "监控 - 定时任务")
 public class SysTaskController extends BaseController {
 
     @Autowired
@@ -45,6 +49,7 @@ public class SysTaskController extends BaseController {
      * @return Page<SysTask>
      */
     @PostMapping("/list")
+    @ApiOperation("定时任务列表")
     public Page<SysTask> list(@RequestBody JSONObject paramJson) {
         return taskService.pageList(paramJson);
     }
@@ -56,6 +61,7 @@ public class SysTaskController extends BaseController {
      * @return String
      */
     @GetMapping("/export")
+    @ApiOperation("导出")
     public String export(@RequestBody JSONObject paramJson) {
         return PublicConstants.SUCCESS;
     }
@@ -67,6 +73,7 @@ public class SysTaskController extends BaseController {
      * @return SysTask
      */
     @GetMapping("/{id}")
+    @ApiOperation("按id查询信息")
     public SysTask getInfo(@PathVariable String id) {
         return taskService.selectTaskById(id);
     }
@@ -74,16 +81,17 @@ public class SysTaskController extends BaseController {
     /**
      * 新增定时任务
      *
-     * @param paramJson 参数
+     * @param sysTaskVo 参数
      * @param authUser 登录对象
      * @return Map<String, Object>
      * @throws SchedulerException, TaskException 异常
      */
     @PostMapping
-    public Map<String, Object> add(@RequestBody JSONObject paramJson, @CurrentUser AuthUser authUser)
+    @ApiOperation("新增定时任务")
+    public Map<String, Object> add(@RequestBody SysTaskVo sysTaskVo, @CurrentUser AuthUser authUser)
             throws SchedulerException, TaskException {
-        SysTask sysTask = JSON.toJavaObject(paramJson, SysTask.class);
-        
+        SysTask sysTask = sysTaskVo.toObject();
+
         Map<String, Object> result = Maps.newHashMap();
         if (sysTask == null || !CronUtils.isValid(sysTask.getCronExpression())) {
             result.put(PublicConstants.CODE, PublicConstants.ERROR_CODE);
@@ -100,16 +108,17 @@ public class SysTaskController extends BaseController {
     /**
      * 修改定时任务
      *
-     * @param paramJson 参数
+     * @param sysTaskVo 参数
      * @param authUser 登录对象
      * @return Map<String, Object>
      * @throws SchedulerException, TaskException 异常
      */
     @PutMapping
-    public Map<String, Object> edit(@RequestBody JSONObject paramJson, @CurrentUser AuthUser authUser)
+    @ApiOperation("修改定时任务")
+    public Map<String, Object> edit(@RequestBody SysTaskVo sysTaskVo, @CurrentUser AuthUser authUser)
             throws SchedulerException, TaskException {
-        SysTask sysTask = JSON.toJavaObject(paramJson, SysTask.class);
-        
+        SysTask sysTask = sysTaskVo.toObject();
+
         Map<String, Object> result = Maps.newHashMap();
         if (sysTask == null || !CronUtils.isValid(sysTask.getCronExpression())) {
             result.put(PublicConstants.CODE, PublicConstants.ERROR_CODE);
@@ -124,14 +133,15 @@ public class SysTaskController extends BaseController {
     /**
      * 定时任务状态修改
      *
-     * @param paramJson 参数
+     * @param sysTaskVo 参数
      * @return Map<String, Object>
      * @throws SchedulerException, TaskException 异常
      */
     @PutMapping("/changeStatus")
-    public Map<String, Object> changeStatus(@RequestBody JSONObject paramJson) throws SchedulerException, TaskException {
-        SysTask sysTask = JSON.toJavaObject(paramJson, SysTask.class);
-        
+    @ApiOperation("修改状态")
+    public Map<String, Object> changeStatus(@RequestBody SysTaskVo sysTaskVo) throws SchedulerException, TaskException {
+        SysTask sysTask = sysTaskVo.toObject();
+
         Map<String, Object> result = Maps.newHashMap();
         result.put(PublicConstants.CODE, PublicConstants.ERROR_CODE);
         if (sysTask != null) {
@@ -146,13 +156,14 @@ public class SysTaskController extends BaseController {
     /**
      * 定时任务立即执行一次
      *
-     * @param paramJson 参数
+     * @param sysTaskVo 参数
      * @return Map<String, Object>
      * @throws SchedulerException, TaskException 异常
      */
     @PutMapping("/run")
-    public Map<String, Object> run(@RequestBody JSONObject paramJson) throws SchedulerException, TaskException {
-        SysTask sysTask = JSON.toJavaObject(paramJson, SysTask.class);
+    @ApiOperation("立即执行一次")
+    public Map<String, Object> run(@RequestBody SysTaskVo sysTaskVo) throws SchedulerException {
+        SysTask sysTask = sysTaskVo.toObject();
         if (sysTask != null) {
             taskService.run(sysTask);
         }
@@ -169,6 +180,7 @@ public class SysTaskController extends BaseController {
      * @throws SchedulerException, TaskException 异常
      */
     @DeleteMapping("/{ids}")
+    @ApiOperation("删除定时任务")
     public Map<String, Object> remove(@PathVariable String[] ids) throws SchedulerException, TaskException {
         taskService.deleteTaskByIds(ids);
         Map<String, Object> result = Maps.newHashMap();

@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Maps;
 import com.oner365.common.constants.PublicConstants;
 import com.oner365.controller.BaseController;
 import com.oner365.sys.constants.SysConstants;
@@ -25,7 +25,11 @@ import com.oner365.sys.entity.SysDictItem;
 import com.oner365.sys.entity.SysDictItemType;
 import com.oner365.sys.service.ISysDictItemService;
 import com.oner365.sys.service.ISysDictItemTypeService;
-import com.google.common.collect.Maps;
+import com.oner365.sys.vo.SysDictItemTypeVo;
+import com.oner365.sys.vo.SysDictItemVo;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * 字典信息
@@ -33,6 +37,7 @@ import com.google.common.collect.Maps;
  */
 @RestController
 @RequestMapping("/system/dict")
+@Api(tags = "系统管理 - 字典信息")
 public class SysDictItemController extends BaseController {
 
     @Autowired
@@ -44,12 +49,13 @@ public class SysDictItemController extends BaseController {
     /**
      * 字典类别保存
      *
-     * @param paramJson 字典类别对象
+     * @param sysDictItemTypeVo 字典类别对象
      * @return Map<String, Object>
      */
     @PutMapping("/saveDictItemType")
-    public Map<String, Object> saveDictItemType(@RequestBody JSONObject paramJson) {
-        SysDictItemType sysDictItemType = JSON.toJavaObject(paramJson, SysDictItemType.class);
+    @ApiOperation("字典类别保存")
+    public Map<String, Object> saveDictItemType(@RequestBody SysDictItemTypeVo sysDictItemTypeVo) {
+        SysDictItemType sysDictItemType = sysDictItemTypeVo.toObject();
         Map<String, Object> result = Maps.newHashMap();
         result.put(PublicConstants.CODE, PublicConstants.ERROR_CODE);
         if (sysDictItemType != null) {
@@ -67,6 +73,7 @@ public class SysDictItemController extends BaseController {
      * @return Map<String, Object>
      */
     @PostMapping("/checkTypeId")
+    @ApiOperation("判断列表是否存在")
     public Map<String, Object> checkTypeId(@RequestBody JSONObject paramJson) {
         String id = paramJson.getString(SysConstants.ID);
         String code = paramJson.getString(PublicConstants.CODE);
@@ -84,6 +91,7 @@ public class SysDictItemController extends BaseController {
      * @return SysDictItemType
      */
     @GetMapping("/getTypeById/{id}")
+    @ApiOperation("按id查询类别")
     public SysDictItemType getTypeById(@PathVariable String id) {
         return sysDictItemTypeService.getById(id);
     }
@@ -95,6 +103,7 @@ public class SysDictItemController extends BaseController {
      * @return List<SysDictItem>
      */
     @GetMapping("/findTypeInfoById/{typeId}")
+    @ApiOperation("按类别id查询列表")
     public List<SysDictItem> findTypeInfoById(@PathVariable String typeId) {
         JSONObject paramJson = new JSONObject();
         paramJson.put(SysConstants.TYPE_ID, typeId);
@@ -108,6 +117,7 @@ public class SysDictItemController extends BaseController {
      * @return Map<String, Object>
      */
     @PostMapping("/findTypeInfoByCodes")
+    @ApiOperation("按类别编码查询字典列表")
     public Map<String, Object> findTypeInfoByCodes(@RequestBody JSONObject paramJson) {
         JSONArray array = paramJson.getJSONArray("codes");
         Map<String, Object> result = Maps.newHashMap();
@@ -127,6 +137,7 @@ public class SysDictItemController extends BaseController {
      * @return Page<SysDictItemType>
      */
     @PostMapping("/findTypeList")
+    @ApiOperation("获取类别列表")
     public Page<SysDictItemType> findTypeList(@RequestBody JSONObject paramJson) {
         return sysDictItemTypeService.pageList(paramJson);
     }
@@ -138,6 +149,7 @@ public class SysDictItemController extends BaseController {
      * @return Map<String, Object>
      */
     @PostMapping("/editTypeStatus")
+    @ApiOperation("修改类别状态")
     public Map<String, Object> editTypeStatus(@RequestBody JSONObject json) {
         String status = json.getString(SysConstants.STATUS);
         String id = json.getString(SysConstants.ID);
@@ -154,6 +166,7 @@ public class SysDictItemController extends BaseController {
      * @return Map<String, Object>
      */
     @PostMapping("/editItemStatus")
+    @ApiOperation("修改字典状态")
     public Map<String, Object> editItemStatus(@RequestBody JSONObject json) {
         String status = json.getString(SysConstants.STATUS);
         String id = json.getString(SysConstants.ID);
@@ -170,6 +183,7 @@ public class SysDictItemController extends BaseController {
      * @return Page<SysDictItem>
      */
     @PostMapping("/findItemList")
+    @ApiOperation("获取字典列表")
     public Page<SysDictItem> findItemList(@RequestBody JSONObject paramJson) {
         return sysDictItemService.pageList(paramJson);
     }
@@ -177,12 +191,13 @@ public class SysDictItemController extends BaseController {
     /**
      * 保存字典信息
      *
-     * @param paramJson 字典对象
+     * @param sysDictItemVo 字典对象
      * @return Map<String, Object>
      */
     @PutMapping("/saveDictItem")
-    public Map<String, Object> saveDictItem(@RequestBody JSONObject paramJson) {
-        SysDictItem sysDictItem = JSON.toJavaObject(paramJson, SysDictItem.class);
+    @ApiOperation("保存字典")
+    public Map<String, Object> saveDictItem(@RequestBody SysDictItemVo sysDictItemVo) {
+        SysDictItem sysDictItem = sysDictItemVo.toObject();
         Map<String, Object> result = Maps.newHashMap();
         result.put(PublicConstants.CODE, PublicConstants.ERROR_CODE);
         if (sysDictItem != null) {
@@ -201,6 +216,7 @@ public class SysDictItemController extends BaseController {
      * @return SysDictItem
      */
     @GetMapping("/getItemById/{id}")
+    @ApiOperation("按id查询字典")
     public SysDictItem getItemById(@PathVariable String id) {
         return sysDictItemService.getById(id);
     }
@@ -209,34 +225,32 @@ public class SysDictItemController extends BaseController {
      * 删除字典信息
      *
      * @param ids 编号
-     * @return Map<String, Object>
+     * @return Integer
      */
     @DeleteMapping("/deleteItem")
-    public Map<String, Object> deleteItem(@RequestBody String... ids) {
+    @ApiOperation("删除字典")
+    public Integer deleteItem(@RequestBody String... ids) {
         int code = 0;
         for (String id : ids) {
             code = sysDictItemService.deleteById(id);
         }
-        Map<String, Object> result = Maps.newHashMap();
-        result.put(PublicConstants.CODE, code);
-        return result;
+        return code;
     }
 
     /**
      * 删除字典类别
      *
      * @param ids 字典编号
-     * @return Map<String, Object>
+     * @return Integer
      */
     @DeleteMapping("/deleteItemType")
-    public Map<String, Object> deleteItemType(@RequestBody String... ids) {
+    @ApiOperation("删除字典类别")
+    public Integer deleteItemType(@RequestBody String... ids) {
         int code = 0;
         for (String id : ids) {
             code = sysDictItemTypeService.deleteById(id);
         }
-        Map<String, Object> result = Maps.newHashMap();
-        result.put(PublicConstants.CODE, code);
-        return result;
+        return code;
     }
 
     /**
@@ -246,6 +260,7 @@ public class SysDictItemController extends BaseController {
      * @return Map<String, Object>
      */
     @PostMapping("/findListByCodes")
+    @ApiOperation("获取类别列表")
     public Map<String, Object> findListByCode(@RequestBody JSONObject json) {
         List<SysDictItemType> list = sysDictItemTypeService.findListByCodes(json);
         Map<String, Object> result = Maps.newHashMap();
@@ -259,6 +274,7 @@ public class SysDictItemController extends BaseController {
      * @return ResponseEntity<byte[]>
      */
     @PostMapping("/exportItemType")
+    @ApiOperation("导出字典类别")
     public ResponseEntity<byte[]> exportItemType(@RequestBody JSONObject paramJson){
         List<SysDictItemType> list = sysDictItemTypeService.findList(paramJson);
 
@@ -275,6 +291,7 @@ public class SysDictItemController extends BaseController {
      * @return ResponseEntity<byte[]>
      */
     @PostMapping("/exportItem")
+    @ApiOperation("导出字典")
     public ResponseEntity<byte[]> exportItem(@RequestBody JSONObject paramJson){
         List<SysDictItem> list = sysDictItemService.findList(paramJson);
 

@@ -63,9 +63,8 @@ public interface ISysTaskService {
      *
      * @param ids 需要删除的任务ID
      * @throws SchedulerException SchedulerException
-     * @throws TaskException TaskException
      */
-    void deleteTaskByIds(String[] ids) throws SchedulerException,TaskException;
+    void deleteTaskByIds(String[] ids) throws SchedulerException;
 
     /**
      * 任务调度状态修改
@@ -82,9 +81,8 @@ public interface ISysTaskService {
      *
      * @param task 调度信息
      * @throws SchedulerException SchedulerException
-     * @throws TaskException TaskException
      */
-    void run(SysTask task) throws SchedulerException,TaskException;
+    void run(SysTask task) throws SchedulerException;
 
     /**
      * 保存任务

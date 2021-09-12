@@ -40,6 +40,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import ch.ethz.ssh2.SFTPv3DirectoryEntry;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * 文件上传
@@ -47,6 +49,7 @@ import ch.ethz.ssh2.SFTPv3DirectoryEntry;
  */
 @RestController
 @RequestMapping("/files/fdfs")
+@Api(tags = "Fastdfs 文件上传")
 public class FastdfsFileController extends BaseController {
 
     @Value("${fdfs.storage.path}")
@@ -73,6 +76,7 @@ public class FastdfsFileController extends BaseController {
      * @return Page<FastdfsFile>
      */
     @PostMapping("/list")
+    @ApiOperation("查询列表")
     public Page<FastdfsFile> list(@RequestBody JSONObject paramJson) {
         return fastdfsFileService.pageList(paramJson);
     }
@@ -84,6 +88,7 @@ public class FastdfsFileController extends BaseController {
      * @return List<FastdfsFile>
      */
     @GetMapping("/directory")
+    @ApiOperation("获取目录")
     public List<FastdfsFile> directory(@RequestParam("fileDirectory") String fileDirectory) {
         String directory = path;
         if (!DataUtils.isEmpty(fileDirectory)) {
@@ -113,6 +118,7 @@ public class FastdfsFileController extends BaseController {
      * @return Map<String, Object>
      */
     @PostMapping("/uploadMultipartFile")
+    @ApiOperation("文件上传 - MultipartFile")
     public Map<String, Object> uploadMultipartFile(@RequestBody MultipartFile file) {
         Map<String, Object> result = Maps.newHashMap();
         String url = fastdfsClient.uploadFile(file);
@@ -128,6 +134,7 @@ public class FastdfsFileController extends BaseController {
      * @return Map<String, Object>
      */
     @PostMapping("/uploadFile")
+    @ApiOperation("文件上传 - File")
     public Map<String, Object> uploadFile(@RequestBody File file) {
         Map<String, Object> result = Maps.newHashMap();
         String url = fastdfsClient.uploadFile(file);
@@ -144,6 +151,7 @@ public class FastdfsFileController extends BaseController {
      * @param response HttpServletResponse
      */
     @GetMapping("/download")
+    @ApiOperation("文件下载")
     public void download(@RequestParam("fileUrl") String fileUrl, String filename, 
             HttpServletResponse response) {
         byte[] data = fastdfsClient.download(fileUrl);
@@ -175,6 +183,7 @@ public class FastdfsFileController extends BaseController {
      * @return byte[]
      */
     @GetMapping("/downloadFile")
+    @ApiOperation("文件下载")
     public byte[] downloadFile(@RequestParam("fileUrl") String fileUrl) {
         return fastdfsClient.download(fileUrl);
     }
@@ -186,6 +195,7 @@ public class FastdfsFileController extends BaseController {
      * @return String
      */
     @DeleteMapping("/delete")
+    @ApiOperation("删除文件")
     public String delete(@RequestBody String... ids) {
         if (ids != null) {
             for (String id : ids) {
@@ -203,6 +213,7 @@ public class FastdfsFileController extends BaseController {
      * @return FileInfo
      */
     @GetMapping("/getFile")
+    @ApiOperation("获取文件信息")
     public FileInfo getFile(@RequestParam("groupName") String groupName, @RequestParam("path") String path) {
         return fastdfsClient.getFile(groupName, path);
     }

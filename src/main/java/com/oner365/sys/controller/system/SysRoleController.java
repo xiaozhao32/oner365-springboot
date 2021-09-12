@@ -15,15 +15,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Maps;
 import com.oner365.common.constants.PublicConstants;
 import com.oner365.controller.BaseController;
 import com.oner365.sys.constants.SysConstants;
 import com.oner365.sys.entity.SysRole;
 import com.oner365.sys.service.ISysRoleService;
-import com.google.common.collect.Maps;
+import com.oner365.sys.vo.SysRoleVo;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * 角色管理
@@ -31,6 +33,7 @@ import com.google.common.collect.Maps;
  */
 @RestController
 @RequestMapping("/system/role")
+@Api(tags = "系统管理 - 角色")
 public class SysRoleController extends BaseController {
 
     @Autowired
@@ -42,6 +45,7 @@ public class SysRoleController extends BaseController {
      * @return SysRole
      */
     @GetMapping("/get/{id}")
+    @ApiOperation("按id查询")
     public SysRole get(@PathVariable String id) {
         return roleService.getById(id);
     }
@@ -52,6 +56,7 @@ public class SysRoleController extends BaseController {
      * @return Page<SysRole>
      */
     @PostMapping("/list")
+    @ApiOperation("获取列表")
     public Page<SysRole> list(@RequestBody JSONObject paramJson){
         return roleService.pageList(paramJson);
     }
@@ -59,34 +64,30 @@ public class SysRoleController extends BaseController {
     /**
      * 删除
      * @param ids 编号
-     * @return Map<String, Object>
+     * @return Integer
      */
     @DeleteMapping("/delete")
-    public Map<String, Object> delete(@RequestBody String... ids) {
+    @ApiOperation("删除")
+    public Integer delete(@RequestBody String... ids) {
         int code = 0;
         for (String id : ids) {
             code = roleService.deleteById(id);
         }
-        Map<String, Object> result = Maps.newHashMap();
-        result.put(PublicConstants.CODE, code);
-        return result;
+        return code;
     }
 
     /**
      * 修改状态
      *
      * @param paramJson 参数
-     * @return Map<String, Object>
+     * @return Integer
      */
     @PostMapping("/editStatus")
-    public Map<String, Object> editStatus(@RequestBody JSONObject paramJson) {
+    @ApiOperation("修改状态")
+    public Integer editStatus(@RequestBody JSONObject paramJson) {
         String status = paramJson.getString(SysConstants.STATUS);
         String id = paramJson.getString(SysConstants.ID);
-        Integer code = roleService.editStatus(id, status);
-
-        Map<String, Object> result = Maps.newHashMap();
-        result.put(PublicConstants.CODE, code);
-        return result;
+        return roleService.editStatus(id, status);
     }
 
     /**
@@ -95,6 +96,7 @@ public class SysRoleController extends BaseController {
      * @return Map<String, Object>
      */
     @PostMapping("/checkRoleName")
+    @ApiOperation("判断角色名称存在")
     public Map<String, Object> checkRoleName(@RequestBody JSONObject paramJson) {
         String id = paramJson.getString(SysConstants.ID);
         String roleName = paramJson.getString(SysConstants.ROLE_NAME);
@@ -107,18 +109,18 @@ public class SysRoleController extends BaseController {
 
     /**
      * 角色权限保存
-     * @param paramJson 参数
+     * @param sysRoleVo 参数
      * @return Map<String, Object>
      */
     @PutMapping("/save")
-    public Map<String, Object> save(@RequestBody JSONObject paramJson) {
+    @ApiOperation("保存")
+    public Map<String, Object> save(@RequestBody SysRoleVo sysRoleVo) {
         // 保存角色
-        SysRole sysRole = JSON.toJavaObject(paramJson, SysRole.class);
+        SysRole sysRole = sysRoleVo.toObject();
         SysRole entity = roleService.save(sysRole);
 
         // 保存权限
-        JSONArray menuIds = paramJson.getJSONArray(SysConstants.MENU_IDS);
-        int code = roleService.saveAuthority(paramJson.getString(SysConstants.MENU_TYPE), menuIds, entity.getId());
+        int code = roleService.saveAuthority(sysRoleVo.getMenuType(), sysRoleVo.getMenuIds(), entity.getId());
 
         Map<String, Object> result = Maps.newHashMap();
         result.put(PublicConstants.CODE, code);
@@ -132,6 +134,7 @@ public class SysRoleController extends BaseController {
      * @return ResponseEntity<byte[]>
      */
     @PostMapping("/export")
+    @ApiOperation("导出")
     public ResponseEntity<byte[]> export(@RequestBody JSONObject paramJson){
         List<SysRole> list = roleService.findList(paramJson);
 

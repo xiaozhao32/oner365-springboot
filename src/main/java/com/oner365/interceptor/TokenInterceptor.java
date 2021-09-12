@@ -36,7 +36,7 @@ import com.oner365.util.DataUtils;
  *
  */
 public class TokenInterceptor implements HandlerInterceptor {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(TokenInterceptor.class);
 
     /**
@@ -95,7 +95,7 @@ public class TokenInterceptor implements HandlerInterceptor {
         try {
             response.getOutputStream().write(JSON.toJSONString(responseData).getBytes());
         } catch (IOException e) {
-            LOGGER.error("TokenInterceptor setUnauthorizedResponse error: {}", e);
+            LOGGER.error("TokenInterceptor setUnauthorizedResponse error", e);
             throw new ProjectRuntimeException(e);
         }
         return false;

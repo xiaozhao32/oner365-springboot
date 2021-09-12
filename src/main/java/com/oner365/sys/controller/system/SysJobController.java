@@ -15,14 +15,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Maps;
 import com.oner365.common.constants.PublicConstants;
 import com.oner365.controller.BaseController;
 import com.oner365.sys.constants.SysConstants;
 import com.oner365.sys.entity.SysJob;
 import com.oner365.sys.service.ISysJobService;
-import com.google.common.collect.Maps;
+import com.oner365.sys.vo.SysJobVo;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * 用户职位信息
@@ -31,6 +34,7 @@ import com.google.common.collect.Maps;
  */
 @RestController
 @RequestMapping("/system/job")
+@Api(tags = "系统管理 - 用户职位")
 public class SysJobController extends BaseController {
 
     @Autowired
@@ -39,17 +43,17 @@ public class SysJobController extends BaseController {
     /**
      * 用户职位保存
      * 
-     * @param paramJson 职位对象
+     * @param sysJobVo 职位对象
      * @return Map<String, Object>
      */
     @PutMapping("/save")
-    public Map<String, Object> save(@RequestBody JSONObject paramJson) {
-        SysJob sysJob = JSON.toJavaObject(paramJson, SysJob.class);
+    @ApiOperation("保存")
+    public Map<String, Object> save(@RequestBody SysJobVo sysJobVo) {
+        SysJob sysJob = sysJobVo.toObject();
         Map<String, Object> result = Maps.newHashMap();
         result.put(PublicConstants.CODE, PublicConstants.ERROR_CODE);
         if (sysJob != null) {
-            SysJob entity = sysJobService.saveJob(sysJob);
-
+            SysJob entity = sysJobService.save(sysJob);
             result.put(PublicConstants.CODE, PublicConstants.SUCCESS_CODE);
             result.put(PublicConstants.MSG, entity);
         }
@@ -63,6 +67,7 @@ public class SysJobController extends BaseController {
      * @return SysJob
      */
     @GetMapping("/get/{id}")
+    @ApiOperation("按id查询")
     public SysJob get(@PathVariable String id) {
         return sysJobService.getById(id);
     }
@@ -74,6 +79,7 @@ public class SysJobController extends BaseController {
      * @return Page<SysJob>
      */
     @PostMapping("/list")
+    @ApiOperation("获取列表")
     public Page<SysJob> list(@RequestBody JSONObject paramJson) {
         return sysJobService.pageList(paramJson);
     }
@@ -82,34 +88,30 @@ public class SysJobController extends BaseController {
      * 删除用户职位
      * 
      * @param ids 编号
-     * @return Map<String, Object>
+     * @return Integer
      */
     @DeleteMapping("/delete")
-    public Map<String, Object> delete(@RequestBody String... ids) {
+    @ApiOperation("删除")
+    public Integer delete(@RequestBody String... ids) {
         int code = 0;
         for (String id : ids) {
             code = sysJobService.deleteById(id);
         }
-        Map<String, Object> result = Maps.newHashMap();
-        result.put(PublicConstants.CODE, code);
-        return result;
+        return code;
     }
 
     /**
      * 修改用户状态
      *
      * @param json 参数
-     * @return Map<String, Object>
+     * @return Integer
      */
     @PostMapping("/editStatus")
-    public Map<String, Object> editStatus(@RequestBody JSONObject json) {
+    @ApiOperation("修改状态")
+    public Integer editStatus(@RequestBody JSONObject json) {
         String status = json.getString(SysConstants.STATUS);
         String id = json.getString(SysConstants.ID);
-        Integer code = sysJobService.editStatus(id, status);
-
-        Map<String, Object> result = Maps.newHashMap();
-        result.put(PublicConstants.CODE, code);
-        return result;
+        return sysJobService.editStatus(id, status);
     }
 
     /**
@@ -119,6 +121,7 @@ public class SysJobController extends BaseController {
      * @return ResponseEntity<byte[]>
      */
     @PostMapping("/export")
+    @ApiOperation("导出")
     public ResponseEntity<byte[]> export(@RequestBody JSONObject paramJson) {
         List<SysJob> list = sysJobService.findList(paramJson);
 

@@ -14,6 +14,7 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
@@ -25,6 +26,10 @@ import com.oner365.datasource.util.DataSourceUtil;
 import com.oner365.util.DataUtils;
 import com.oner365.util.DateUtil;
 import com.oner365.util.SnowFlakeUtils;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -35,6 +40,7 @@ import com.google.common.collect.Sets;
  */
 @RestController
 @RequestMapping("/api")
+@Api(tags = "API公共接口")
 public class ApiController extends BaseController {
 
     @Autowired
@@ -53,7 +59,8 @@ public class ApiController extends BaseController {
      * @return List<Map<String, String>>
      */
     @GetMapping("/testDataSource")
-    public List<Map<String, String>> testDataSource(Integer orderId, Integer userId) {
+    @ApiOperation("测试分库分表")
+    public List<Map<String, String>> testDataSource(@RequestParam Integer orderId, @RequestParam Integer userId) {
         String sql = "insert into t_order(id, order_id, user_id, status, create_time) " + "values('"
                 + new SnowFlakeUtils(1L, 1L).nextId() + "'," + orderId + "," + userId + ",'1','"+DateUtil.getCurrentTime()+"')";
         List<Map<String, String>> result = new ArrayList<>();
@@ -70,6 +77,7 @@ public class ApiController extends BaseController {
      * @return String
      */
     @GetMapping("/testGuavaCache")
+    @ApiOperation("测试Guava Cache")
     public String testGuavaCache() {
         String key = "a1";
         if (DataUtils.isEmpty(guavaCache.getCache(key))) {
@@ -87,6 +95,7 @@ public class ApiController extends BaseController {
      * @return String
      */
     @GetMapping("/testRedisCache")
+    @ApiOperation("测试Redis Cache")
     public String testRedisCache() {
         String key = "test1";
         JSONObject value = new JSONObject();

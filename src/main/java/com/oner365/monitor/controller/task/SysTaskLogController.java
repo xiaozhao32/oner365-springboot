@@ -13,11 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Maps;
 import com.oner365.common.constants.PublicConstants;
 import com.oner365.controller.BaseController;
 import com.oner365.monitor.entity.SysTaskLog;
 import com.oner365.monitor.service.ISysTaskLogService;
-import com.google.common.collect.Maps;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * 调度日志操作处理
@@ -26,6 +29,7 @@ import com.google.common.collect.Maps;
  */
 @RestController
 @RequestMapping("/monitor/taskLog")
+@Api(tags = "监控 - 定时任务日志")
 public class SysTaskLogController extends BaseController {
     
     @Autowired
@@ -38,6 +42,7 @@ public class SysTaskLogController extends BaseController {
      * @return Page<SysTaskLog>
      */
     @PostMapping("/list")
+    @ApiOperation("获取列表")
     public Page<SysTaskLog> list(@RequestBody JSONObject paramJson) {
         return taskLogService.pageList(paramJson);
     }
@@ -49,6 +54,7 @@ public class SysTaskLogController extends BaseController {
      * @return String
      */
     @GetMapping("/export")
+    @ApiOperation("导出")
     public String export(@RequestBody JSONObject paramJson) {
         return PublicConstants.SUCCESS;
     }
@@ -60,6 +66,7 @@ public class SysTaskLogController extends BaseController {
      * @return SysTaskLog
      */
     @GetMapping("/{id}")
+    @ApiOperation("按id查询")
     public SysTaskLog getInfo(@PathVariable String id) {
         return taskLogService.selectTaskLogById(id);
     }
@@ -71,6 +78,7 @@ public class SysTaskLogController extends BaseController {
      * @return Map<String, Object>
      */
     @DeleteMapping("/{ids}")
+    @ApiOperation("删除任务日志")
     public Map<String, Object> remove(@PathVariable String[] ids) {
         int code = taskLogService.deleteTaskLogByIds(ids);
         Map<String, Object> result = Maps.newHashMap();
@@ -84,6 +92,7 @@ public class SysTaskLogController extends BaseController {
      * @return String
      */
     @DeleteMapping("/clean")
+    @ApiOperation("清除任务日志")
     public String clean() {
         taskLogService.cleanTaskLog();
         return PublicConstants.SUCCESS;

@@ -12,6 +12,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 import com.alibaba.fastjson.JSONObject;
 import com.oner365.controller.BaseController;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import reactor.core.publisher.Mono;
 
 /**
@@ -22,6 +24,7 @@ import reactor.core.publisher.Mono;
  */
 @RestController
 @RequestMapping("/monitor/rabbitmq")
+@Api(tags = "监控 - Rabbitmq")
 public class RabbitmqController extends BaseController {
     
     @Value("${spring.rabbitmq.host}")
@@ -29,6 +32,7 @@ public class RabbitmqController extends BaseController {
     private static final String AUTH = "Basic YWRtaW46YWRtaW4xMjM=";
     
     @GetMapping("/index")
+    @ApiOperation("首页")
     public JSONObject index() {
         String url = "http://" + host + ":15672";
         

@@ -21,7 +21,7 @@
 3.  启动服务
 4.  Swagger地址
 
-      http://localhost:8704/swagger-ui/index.html
+      http://localhost:8704/doc.html
 
 #### 参与贡献
 

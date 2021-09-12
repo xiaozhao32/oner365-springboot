@@ -19,6 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.oner365.common.constants.PublicConstants;
 import com.oner365.controller.BaseController;
 import com.oner365.util.DataUtils;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 import com.google.common.collect.Lists;
 
 import redis.clients.jedis.Jedis;
@@ -30,6 +34,7 @@ import redis.clients.jedis.Jedis;
  */
 @RestController
 @RequestMapping("/monitor/cache")
+@Api(tags = "监控 - 缓存")
 public class CacheController extends BaseController {
 
     @Value("${spring.redis.host}")
@@ -51,6 +56,7 @@ public class CacheController extends BaseController {
      * @return Map<String, Object>
      */
     @GetMapping("/index")
+    @ApiOperation("缓存信息")
     public Map<String, Object> index() {
         Properties info = (Properties) redisTemplate.execute((RedisCallback<Object>) RedisServerCommands::info);
         Properties commandStats = (Properties) redisTemplate
@@ -78,6 +84,7 @@ public class CacheController extends BaseController {
      * @return List<Map<String, Object>>
      */
     @GetMapping("/cacheList")
+    @ApiOperation("缓存列表")
     public List<Map<String, Object>> cacheList() {
         Jedis jedis = new Jedis(host, port);
 
@@ -114,6 +121,7 @@ public class CacheController extends BaseController {
      * @return String
      */
     @GetMapping("/clean")
+    @ApiOperation("清除缓存")
     public String clean(int index) {
         Jedis jedis = new Jedis(host, port);
 

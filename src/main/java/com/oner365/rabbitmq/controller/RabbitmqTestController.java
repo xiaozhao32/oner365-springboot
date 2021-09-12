@@ -10,6 +10,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.oner365.controller.BaseController;
 import com.oner365.rabbitmq.constants.RabbitmqConstants;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 /**
  * rabbitmq controller
  * 
@@ -18,12 +21,14 @@ import com.oner365.rabbitmq.constants.RabbitmqConstants;
  */
 @RestController
 @RequestMapping("/rabbitmq")
+@Api(tags = "Rabbitmq 测试")
 public class RabbitmqTestController extends BaseController {
     
     @Autowired
     private RabbitTemplate rabbitTemplate;
     
     @GetMapping("/send")
+    @ApiOperation("测试发送")
     public JSONObject send(String data) {
         JSONObject json = new JSONObject();
         json.put("data", data);

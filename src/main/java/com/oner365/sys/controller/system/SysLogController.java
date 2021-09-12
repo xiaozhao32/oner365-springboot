@@ -16,14 +16,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Maps;
 import com.oner365.common.constants.PublicConstants;
 import com.oner365.controller.BaseController;
 import com.oner365.sys.entity.SysLog;
 import com.oner365.sys.service.ISysLogService;
+import com.oner365.sys.vo.SysLogVo;
 import com.oner365.util.DateUtil;
-import com.google.common.collect.Maps;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * 系统日志控制器
@@ -31,6 +34,7 @@ import com.google.common.collect.Maps;
  */
 @RestController
 @RequestMapping("/system/log")
+@Api(tags = "系统观察 - 日志")
 public class SysLogController extends BaseController {
 
     @Autowired
@@ -38,17 +42,17 @@ public class SysLogController extends BaseController {
 
     /**
      * 保存
-     * @param paramJson 菜单类型对象
+     * @param sysLogVo 菜单类型对象
      * @return Map<String, Object>
      */
     @PutMapping("/save")
-    public Map<String, Object> save(@RequestBody JSONObject paramJson){
-        SysLog sysLog = JSON.toJavaObject(paramJson, SysLog.class);
+    @ApiOperation("保存")
+    public Map<String, Object> save(@RequestBody SysLogVo sysLogVo){
+        SysLog sysLog = sysLogVo.toObject();
         Map<String, Object> result = Maps.newHashMap();
         result.put(PublicConstants.CODE, PublicConstants.ERROR_CODE);
         if (sysLog != null) {
             logService.save(sysLog);
-
             result.put(PublicConstants.CODE, PublicConstants.SUCCESS_CODE);
             result.put(PublicConstants.MSG, sysLog);
         }
@@ -61,6 +65,7 @@ public class SysLogController extends BaseController {
      * @return SysLog
      */
     @GetMapping("/get/{id}")
+    @ApiOperation("按id查询")
     public SysLog get(@PathVariable String id) {
         return logService.getById(id);
     }
@@ -71,6 +76,7 @@ public class SysLogController extends BaseController {
      * @return Page<SysLog>
      */
     @PostMapping("/list")
+    @ApiOperation("获取列表")
     public Page<SysLog> list(@RequestBody JSONObject paramJson){
         return logService.pageList(paramJson);
     }
@@ -78,30 +84,27 @@ public class SysLogController extends BaseController {
     /**
      * 删除
      * @param ids 编号
-     * @return Map<String, Object>
+     * @return Integer
      */
     @DeleteMapping("/delete")
-    public Map<String, Object> delete(@RequestBody String... ids) {
+    @ApiOperation("删除")
+    public Integer delete(@RequestBody String... ids) {
         int code = 0;
         for (String id : ids) {
             code = logService.deleteById(id);
         }
-        Map<String, Object> result = Maps.newHashMap();
-        result.put(PublicConstants.CODE, code);
-        return result;
+        return code;
     }
 
     /**
      * 按日期删除日志
      * @param date 日期
-     * @return Map<String, Object>
+     * @return Integer
      */
     @DeleteMapping("/deleteLog")
-    public Map<String, Object> deleteLog(@RequestParam("date") String date) {
-        int code = logService.deleteLog(DateUtil.stringToDate(date, DateUtil.FULL_DATE_FORMAT));
-        Map<String, Object> result = Maps.newHashMap();
-        result.put(PublicConstants.CODE, code);
-        return result;
+    @ApiOperation("删除日志")
+    public Integer deleteLog(@RequestParam("date") String date) {
+        return logService.deleteLog(DateUtil.stringToDate(date, DateUtil.FULL_DATE_FORMAT));
     }
 
     /**
@@ -110,6 +113,7 @@ public class SysLogController extends BaseController {
      * @return ResponseEntity<byte[]>
      */
     @PostMapping("/export")
+    @ApiOperation("导出")
     public ResponseEntity<byte[]> exportItem(@RequestBody JSONObject paramJson){
         List<SysLog> list = logService.findList(paramJson);
 

@@ -1,7 +1,5 @@
 package com.oner365.api.rabbitmq;
 
-import javax.net.ssl.SSLException;
-
 import org.springframework.amqp.core.ExchangeTypes;
 import org.springframework.amqp.rabbit.annotation.Exchange;
 import org.springframework.amqp.rabbit.annotation.Queue;
@@ -24,7 +22,6 @@ public interface IScheduleTaskService {
     /**
      * 定时任务监听
      * @param invokeParamDto 参数对象
-     * @throws SSLException SSLException
      */
     @RabbitListener(
             bindings = @QueueBinding(
@@ -33,5 +30,5 @@ public interface IScheduleTaskService {
                     key = ScheduleTaskConstants.SCHEDULETASK_QUEUE_KEY
             )
         )
-    void scheduleTask(InvokeParamDto invokeParamDto) throws SSLException;
+    void scheduleTask(InvokeParamDto invokeParamDto);
 }

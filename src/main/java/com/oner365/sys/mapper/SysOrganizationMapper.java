@@ -3,11 +3,13 @@ package com.oner365.sys.mapper;
 import java.util.List;
 
 import com.oner365.sys.entity.SysOrganization;
+import org.springframework.stereotype.Repository;
 
 /**
  * 机构接口
  * @author zhaoyong
  */
+@Repository
 public interface SysOrganizationMapper {
 
     /**

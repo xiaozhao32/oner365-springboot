@@ -114,8 +114,8 @@ public class SysOrganizationServiceImpl implements ISysOrganizationService {
             return null;
         }
 
-        String driverName = null;
-        String url = null;
+        String driverName;
+        String url;
         if (DataSourceConstants.DB_TYPE_MYSQL.equals(json.getString(DataSourceConstants.DS_TYPE))) {
             driverName = DataSourceConstants.DRIVER_NAME_MYSQL;
             url = "jdbc:mysql://" + json.getString("ip") + ":" + json.getIntValue("port") + PublicConstants.DELIMITER
@@ -147,13 +147,13 @@ public class SysOrganizationServiceImpl implements ISysOrganizationService {
 
         DataSourceConfig dataSourceConfig = org.getDataSourceConfig();
         if (dataSourceConfig != null) {
-            String driverName = null;
-            String url = null;
+            String driverName;
+            String url;
             if (DataSourceConstants.DB_TYPE_MYSQL.equals(dataSourceConfig.getDbType())) {
                 driverName = DataSourceConstants.DRIVER_NAME_MYSQL;
                 url = "jdbc:mysql://" + dataSourceConfig.getIp() + ":" + dataSourceConfig.getPort() + PublicConstants.DELIMITER
                         + dataSourceConfig.getDbName();
-            } else if (DataSourceConstants.DB_TYPE_ORACLE.equals(dataSourceConfig.getDbType())) {
+            } else {
                 driverName = DataSourceConstants.DRIVER_NAME_ORACLE;
                 url = "jdbc:oracle:thin:@" + dataSourceConfig.getIp() + ":" + dataSourceConfig.getPort() + ":"
                         + dataSourceConfig.getDbName();
@@ -232,13 +232,13 @@ public class SysOrganizationServiceImpl implements ISysOrganizationService {
      * 得到子节点列表
      */
     private List<SysOrganization> getChildList(List<SysOrganization> list, SysOrganization t) {
-        List<SysOrganization> tlist = new ArrayList<>();
+        List<SysOrganization> result = new ArrayList<>();
         for (SysOrganization n : list) {
             if (n.getParentId().equals(t.getId())) {
-                tlist.add(n);
+                result.add(n);
             }
         }
-        return tlist;
+        return result;
     }
 
     /**

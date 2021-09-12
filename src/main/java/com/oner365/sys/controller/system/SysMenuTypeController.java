@@ -14,14 +14,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Maps;
 import com.oner365.common.constants.PublicConstants;
 import com.oner365.controller.BaseController;
 import com.oner365.sys.constants.SysConstants;
 import com.oner365.sys.entity.SysMenuType;
 import com.oner365.sys.service.ISysMenuTypeService;
-import com.google.common.collect.Maps;
+import com.oner365.sys.vo.SysMenuTypeVo;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * 菜单类型管理
@@ -31,6 +34,7 @@ import com.google.common.collect.Maps;
  */
 @RestController
 @RequestMapping("/system/menuType")
+@Api(tags = "系统管理 - 菜单类型")
 public class SysMenuTypeController extends BaseController {
 
     @Autowired
@@ -39,12 +43,13 @@ public class SysMenuTypeController extends BaseController {
     /**
      * 保存
      * 
-     * @param paramJson 菜单类型对象
+     * @param sysMenuTypeVo 菜单类型对象
      * @return Map<String, Object>
      */
     @PutMapping("/save")
-    public Map<String, Object> save(@RequestBody JSONObject paramJson) {
-        SysMenuType sysMenuType = JSON.toJavaObject(paramJson, SysMenuType.class);
+    @ApiOperation("保存")
+    public Map<String, Object> save(@RequestBody SysMenuTypeVo sysMenuTypeVo) {
+        SysMenuType sysMenuType = sysMenuTypeVo.toObject();
         Map<String, Object> result = Maps.newHashMap();
         result.put(PublicConstants.CODE, PublicConstants.ERROR_CODE);
         if (sysMenuType != null) {
@@ -63,6 +68,7 @@ public class SysMenuTypeController extends BaseController {
      * @return SysMenuType
      */
     @GetMapping("/get/{id}")
+    @ApiOperation("按id查询")
     public SysMenuType get(@PathVariable String id) {
         return menuTypeService.getById(id);
     }
@@ -74,6 +80,7 @@ public class SysMenuTypeController extends BaseController {
      * @return Page<SysMenuType>
      */
     @PostMapping("/list")
+    @ApiOperation("获取分页列表")
     public Page<SysMenuType> list(@RequestBody JSONObject paramJson) {
         return menuTypeService.pageList(paramJson);
     }
@@ -84,6 +91,7 @@ public class SysMenuTypeController extends BaseController {
      * @return List<SysMenuType>
      */
     @GetMapping("/findAll")
+    @ApiOperation("获取全部有效类型")
     public List<SysMenuType> findAll() {
         JSONObject paramJson = new JSONObject();
         paramJson.put(SysConstants.STATUS, PublicConstants.STATUS_YES);
@@ -94,17 +102,14 @@ public class SysMenuTypeController extends BaseController {
      * 修改状态
      * 
      * @param data 参数
-     * @return Map<String, Object>
+     * @return Integer
      */
     @PostMapping("/editStatusById")
-    public Map<String, Object> editStatusById(@RequestBody JSONObject data) {
+    @ApiOperation("修改状态")
+    public Integer editStatusById(@RequestBody JSONObject data) {
         String status = data.getString(SysConstants.STATUS);
         String id = data.getString(SysConstants.ID);
-        int code = menuTypeService.editStatusById(id, status);
-
-        Map<String, Object> result = Maps.newHashMap();
-        result.put(PublicConstants.CODE, code);
-        return result;
+        return menuTypeService.editStatusById(id, status);
     }
 
     /**
@@ -114,6 +119,7 @@ public class SysMenuTypeController extends BaseController {
      * @return Map<String, Object>
      */
     @PostMapping("/checkCode")
+    @ApiOperation("判断是否存在")
     public Map<String, Object> checkCode(@RequestBody JSONObject data) {
         String id = data.getString(SysConstants.ID);
         String code = data.getString(PublicConstants.CODE);
@@ -128,16 +134,15 @@ public class SysMenuTypeController extends BaseController {
      * 删除
      * 
      * @param ids 编号
-     * @return Map<String, Object>
+     * @return Integer
      */
     @DeleteMapping("/delete")
-    public Map<String, Object> delete(@RequestBody String... ids) {
+    @ApiOperation("删除")
+    public Integer delete(@RequestBody String... ids) {
         int code = 0;
         for (String id : ids) {
             code = menuTypeService.deleteById(id);
         }
-        Map<String, Object> result = Maps.newHashMap();
-        result.put(PublicConstants.CODE, code);
-        return result;
+        return code;
     }
 }

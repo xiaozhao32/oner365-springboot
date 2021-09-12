@@ -13,6 +13,10 @@ import com.oner365.common.constants.PublicConstants;
 import com.oner365.controller.BaseController;
 import com.oner365.sys.entity.SysMessage;
 import com.oner365.sys.service.ISysMessageService;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 import com.google.common.collect.Maps;
 
 /**
@@ -21,6 +25,7 @@ import com.google.common.collect.Maps;
  */
 @RestController
 @RequestMapping("/system/message")
+@Api(tags = "系统管理 - 消息")
 public class SysMessageController extends BaseController {
 
     @Autowired
@@ -32,6 +37,7 @@ public class SysMessageController extends BaseController {
      * @return Map<String, Object>
      */
     @GetMapping("/refresh")
+    @ApiOperation("刷新结果")
     public Map<String, Object> refresh(@RequestParam("messageType") String messageType) {
         Map<String, Object> result = Maps.newHashMap();
         result.put(PublicConstants.CODE, Boolean.FALSE);

@@ -11,15 +11,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Maps;
 import com.oner365.common.constants.PublicConstants;
 import com.oner365.controller.BaseController;
 import com.oner365.sys.entity.DataSourceConfig;
 import com.oner365.sys.service.IDataSourceConfigService;
-import com.google.common.collect.Maps;
+import com.oner365.sys.vo.DataSourceConfigVo;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * 数据源
@@ -28,6 +32,7 @@ import com.google.common.collect.Maps;
  */
 @RestController
 @RequestMapping("/system/datasource")
+@Api(tags = "数据源信息")
 public class DataSourceConfigController extends BaseController {
 
     @Autowired
@@ -39,6 +44,7 @@ public class DataSourceConfigController extends BaseController {
      * @return Page<DataSourceConfig>
      */
     @PostMapping("/list")
+    @ApiOperation("列表")
     public Page<DataSourceConfig> findList(@RequestBody JSONObject json) {
         return service.pageList(json);
     }
@@ -49,6 +55,7 @@ public class DataSourceConfigController extends BaseController {
      * @return DataSourceConfig
      */
     @GetMapping("/get/{id}")
+    @ApiOperation("按id查询")
     public DataSourceConfig get(@PathVariable String id) {
         return service.getById(id);
     }
@@ -59,18 +66,20 @@ public class DataSourceConfigController extends BaseController {
      * @return DataSourceConfig
      */
     @GetMapping("/getConnectName")
-    public DataSourceConfig getConnectName(String connectName) {
+    @ApiOperation("按连接名称查询")
+    public DataSourceConfig getConnectName(@RequestParam String connectName) {
         return service.getConnectName(connectName);
     }
 
     /**
      * 保存
-     * @param paramJson 数据源对象
+     * @param dataSourceConfigVo 数据源对象
      * @return Map<String, Object>
      */
     @PutMapping("/save")
-    public Map<String, Object> save(@RequestBody JSONObject paramJson) {
-        DataSourceConfig dataSourceConfig = JSON.toJavaObject(paramJson, DataSourceConfig.class);
+    @ApiOperation("保存")
+    public Map<String, Object> save(@RequestBody DataSourceConfigVo dataSourceConfigVo) {
+        DataSourceConfig dataSourceConfig = dataSourceConfigVo.toObject();
         Map<String, Object> result = Maps.newHashMap();
         result.put(PublicConstants.CODE, PublicConstants.ERROR_CODE);
         if (dataSourceConfig != null) {
@@ -85,16 +94,15 @@ public class DataSourceConfigController extends BaseController {
     /**
      * 删除
      * @param ids 编号
-     * @return Map<String, Object>
+     * @return Integer
      */
     @DeleteMapping("/delete")
-    public Map<String, Object> delete(@RequestBody String... ids) {
+    @ApiOperation("删除")
+    public Integer delete(@RequestBody String... ids) {
         int code = 0;
         for (String id : ids) {
             code = service.deleteById(id);
         }
-        Map<String, Object> result = Maps.newHashMap();
-        result.put(PublicConstants.CODE, code);
-        return result;
+        return code;
     }
 }
