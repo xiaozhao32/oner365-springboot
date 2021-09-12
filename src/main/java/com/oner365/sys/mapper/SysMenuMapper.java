@@ -5,12 +5,14 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.oner365.sys.entity.SysMenu;
+import org.springframework.stereotype.Repository;
 
 /**
  * 菜单表 数据层
  *
  * @author zhaoyong
  */
+@Repository
 public interface SysMenuMapper {
     /**
      * 查询系统菜单列表
