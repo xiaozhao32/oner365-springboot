@@ -181,7 +181,7 @@ public class SysTaskController extends BaseController {
      */
     @DeleteMapping("/{ids}")
     @ApiOperation("删除定时任务")
-    public Map<String, Object> remove(@PathVariable String[] ids) throws SchedulerException, TaskException {
+    public Map<String, Object> remove(@PathVariable String[] ids) throws SchedulerException {
         taskService.deleteTaskByIds(ids);
         Map<String, Object> result = Maps.newHashMap();
         result.put(PublicConstants.CODE, PublicConstants.SUCCESS_CODE);

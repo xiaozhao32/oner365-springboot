@@ -92,7 +92,8 @@ public class DataUtils {
      * @return boolean
      */
     public static boolean judge(String id, Object obj) {
-        synchronized (obj) {
+        Object object = obj;
+        synchronized (object) {
             // 重复请求判断
             if (CACHE_MAP.containsKey(id)) {
                 // 重复请求
