@@ -41,15 +41,40 @@ public class SwaggerConfig implements WebMvcConfigurer {
         registry.addResourceHandler("doc.html").addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
+    
+    @Bean
+    public Docket systemApi() {
+    	return buildApi("System(系统管理)", "com.oner365.sys");
+    }
+    
+    @Bean
+    public Docket monitorApi() {
+    	return buildApi("Monitor(监控中心)", "com.oner365.monitor");
+    }
 
     @Bean
-    public Docket createRestApi() {
-        return new Docket(DocumentationType.OAS_30).pathMapping(PublicConstants.DELIMITER)
-                .apiInfo(apiInfo()).select()
-                .apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.any()).build()
-                .securitySchemes(securitySchemes())
-                .securityContexts(securityContexts());
+    public Docket elasticsearchApi() {
+    	return buildApi("Elasticsearch(索引查询)", "com.oner365.elasticsearch");
+    }
+    
+    @Bean
+    public Docket filesApi() {
+    	return buildApi("Files(文件中心)", "com.oner365.files");
+    }
+    
+    @Bean
+    public Docket rabbitmqApi() {
+    	return buildApi("Rabbitmq(消息队列)", "com.oner365.rabbitmq");
+    }
+    
+    private Docket buildApi(String groupName, String packageName) {
+    	 return new Docket(DocumentationType.OAS_30).pathMapping(PublicConstants.DELIMITER)
+         		.groupName(groupName)
+                 .apiInfo(apiInfo()).select()
+                 .apis(RequestHandlerSelectors.basePackage(packageName))
+                 .paths(PathSelectors.any()).build()
+                 .securitySchemes(securitySchemes())
+                 .securityContexts(securityContexts());
     }
 
     private ApiInfo apiInfo() {
