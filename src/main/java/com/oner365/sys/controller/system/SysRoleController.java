@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
@@ -79,14 +80,13 @@ public class SysRoleController extends BaseController {
     /**
      * 修改状态
      *
-     * @param paramJson 参数
+     * @param id     主键
+     * @param status 状态
      * @return Integer
      */
-    @PostMapping("/editStatus")
+    @PostMapping("/editStatus/{id}")
     @ApiOperation("修改状态")
-    public Integer editStatus(@RequestBody JSONObject paramJson) {
-        String status = paramJson.getString(SysConstants.STATUS);
-        String id = paramJson.getString(SysConstants.ID);
+    public Integer editStatus(@PathVariable String id, @RequestParam("status") String status) {
         return roleService.editStatus(id, status);
     }
 

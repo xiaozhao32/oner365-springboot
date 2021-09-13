@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONArray;
@@ -145,35 +146,27 @@ public class SysDictItemController extends BaseController {
     /**
      * 修改状态
      *
-     * @param json 参数
-     * @return Map<String, Object>
+     * @param id     主键
+     * @param status 状态
+     * @return Integer
      */
-    @PostMapping("/editTypeStatus")
+    @PostMapping("/editTypeStatus/{id}")
     @ApiOperation("修改类别状态")
-    public Map<String, Object> editTypeStatus(@RequestBody JSONObject json) {
-        String status = json.getString(SysConstants.STATUS);
-        String id = json.getString(SysConstants.ID);
-        Integer code = sysDictItemTypeService.editStatus(id, status);
-        Map<String, Object> result = Maps.newHashMap();
-        result.put(PublicConstants.CODE, code);
-        return result;
+    public Integer editTypeStatus(@PathVariable String id, @RequestParam("status") String status) {
+        return sysDictItemTypeService.editStatus(id, status);
     }
 
     /**
      * 修改状态
      *
-     * @param json 参数
-     * @return Map<String, Object>
+     * @param id     主键
+     * @param status 状态
+     * @return Integer
      */
-    @PostMapping("/editItemStatus")
+    @PostMapping("/editItemStatus/{id}")
     @ApiOperation("修改字典状态")
-    public Map<String, Object> editItemStatus(@RequestBody JSONObject json) {
-        String status = json.getString(SysConstants.STATUS);
-        String id = json.getString(SysConstants.ID);
-        Integer code = sysDictItemService.editStatus(id, status);
-        Map<String, Object> result = Maps.newHashMap();
-        result.put(PublicConstants.CODE, code);
-        return result;
+    public Integer editItemStatus(@PathVariable String id, @RequestParam("status") String status) {
+        return sysDictItemService.editStatus(id, status);
     }
 
     /**

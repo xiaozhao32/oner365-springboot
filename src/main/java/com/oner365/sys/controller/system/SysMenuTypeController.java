@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
@@ -101,14 +102,13 @@ public class SysMenuTypeController extends BaseController {
     /**
      * 修改状态
      * 
-     * @param data 参数
+     * @param id     主键
+     * @param status 状态
      * @return Integer
      */
-    @PostMapping("/editStatusById")
+    @PostMapping("/editStatusById/{id}")
     @ApiOperation("修改状态")
-    public Integer editStatusById(@RequestBody JSONObject data) {
-        String status = data.getString(SysConstants.STATUS);
-        String id = data.getString(SysConstants.ID);
+    public Integer editStatusById(@PathVariable String id, @RequestParam("status") String status) {
         return menuTypeService.editStatusById(id, status);
     }
 

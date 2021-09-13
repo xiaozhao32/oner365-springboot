@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
 import com.oner365.common.constants.PublicConstants;
 import com.oner365.controller.BaseController;
-import com.oner365.sys.constants.SysConstants;
 import com.oner365.sys.entity.SysJob;
 import com.oner365.sys.service.ISysJobService;
 import com.oner365.sys.vo.SysJobVo;
@@ -101,16 +101,15 @@ public class SysJobController extends BaseController {
     }
 
     /**
-     * 修改用户状态
+     * 修改职位状态
      *
-     * @param json 参数
+     * @param id 主键
+     * @param status 状态
      * @return Integer
      */
-    @PostMapping("/editStatus")
+    @PostMapping("/editStatus/{id}")
     @ApiOperation("修改状态")
-    public Integer editStatus(@RequestBody JSONObject json) {
-        String status = json.getString(SysConstants.STATUS);
-        String id = json.getString(SysConstants.ID);
+    public Integer editStatus(@PathVariable String id, @RequestParam("status") String status) {
         return sysJobService.editStatus(id, status);
     }
 

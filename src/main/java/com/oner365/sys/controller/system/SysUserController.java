@@ -244,15 +244,14 @@ public class SysUserController extends BaseController {
     /**
      * 修改用户状态
      *
-     * @param json 参数
+     * @param id     主键
+     * @param status 状态
      * @return Integer
      */
-    @PostMapping("/editStatus")
+    @PostMapping("/editStatus/{id}")
     @ApiOperation("修改状态")
-    public Integer editStatus(@RequestBody JSONObject json) {
-        String status = json.getString(SysConstants.STATUS);
-        String userId = json.getString(SysConstants.USER_ID);
-        return sysUserService.editStatus(userId, status);
+    public Integer editStatus(@PathVariable String id, @RequestParam("status") String status) {
+        return sysUserService.editStatus(id, status);
     }
 
     /**

@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
 import com.oner365.common.constants.PublicConstants;
+import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
 import com.oner365.elasticsearch.entity.SampleGene;
 import com.oner365.elasticsearch.service.ISampleGeneElasticsearchService;
@@ -110,13 +110,13 @@ public class SampleGeneController extends BaseController {
     /**
      * 列表
      *
-     * @param paramJson 查询条件参数
+     * @param data 查询条件参数
      * @return Page<SampleGene>
      */
     @PostMapping("/list")
     @ApiOperation("获取列表")
-    public Page<SampleGene> list(@RequestBody JSONObject paramJson) {
-        return this.service.findList(paramJson);
+    public Page<SampleGene> list(@RequestBody QueryCriteriaBean data) {
+        return this.service.findList(data);
     }
 
 }
