@@ -1,6 +1,7 @@
 package com.oner365.files.service.impl;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,24 +12,18 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.oner365.common.cache.annotation.RedisCacheAble;
 import com.oner365.common.cache.annotation.RedisCachePut;
 import com.oner365.common.constants.PublicConstants;
 import com.oner365.common.exception.ProjectRuntimeException;
-import com.oner365.common.query.Criteria;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.common.query.QueryUtils;
-import com.oner365.common.query.Restrictions;
 import com.oner365.files.dao.IFastdfsFileDao;
 import com.oner365.files.entity.FastdfsFile;
 import com.oner365.files.service.IFastdfsFileService;
-import com.oner365.sys.constants.SysConstants;
 
 /**
  * fastdfs工具实现类
@@ -47,28 +42,28 @@ public class FastdfsFileServiceImpl implements IFastdfsFileService {
 
     @Override
     @Cacheable(value = CACHE_NAME, keyGenerator = PublicConstants.KEY_GENERATOR)
-    public Page<FastdfsFile> pageList(JSONObject paramJson) {
+    public Page<FastdfsFile> pageList(QueryCriteriaBean data) {
         try {
-            QueryCriteriaBean data = JSON.toJavaObject(paramJson, QueryCriteriaBean.class);
             Pageable pageable = QueryUtils.buildPageRequest(data);
-            return dao.findAll(getCriteria(paramJson), pageable);
+            return dao.findAll(QueryUtils.buildCriteria(data), pageable);
         } catch (Exception e) {
             LOGGER.error("Error pageList: ", e);
         }
         return null;
     }
 
-    private Criteria<FastdfsFile> getCriteria(JSONObject paramJson) {
-        Criteria<FastdfsFile> criteria = new Criteria<>();
-        criteria.add(Restrictions.eq("displayName", paramJson.getString("displayName")));
-        return criteria;
-    }
-
     @Override
     @Cacheable(value = CACHE_NAME, keyGenerator = PublicConstants.KEY_GENERATOR)
-    public List<FastdfsFile> findList(JSONObject paramJson) {
-        Criteria<FastdfsFile> criteria = getCriteria(paramJson);
-        return dao.findAll(criteria, Sort.by(SysConstants.CREATE_TIME));
+    public List<FastdfsFile> findList(QueryCriteriaBean data) {
+        try {
+            if (data.getOrder() == null) {
+                return dao.findAll(QueryUtils.buildCriteria(data));
+            }
+            return dao.findAll(QueryUtils.buildCriteria(data), QueryUtils.buildSortRequest(data.getOrder()));
+        } catch (Exception e) {
+            LOGGER.error("Error findList: ", e);
+        }
+        return new ArrayList<>();
     }
 
     @Override

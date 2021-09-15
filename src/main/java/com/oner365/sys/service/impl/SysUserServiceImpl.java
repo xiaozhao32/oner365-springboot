@@ -1,6 +1,7 @@
 package com.oner365.sys.service.impl;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -55,6 +56,7 @@ import com.oner365.util.RequestUtils;
 
 /**
  * 系统用户接口实现类
+ * 
  * @author zhaoyong
  */
 @Service
@@ -142,11 +144,10 @@ public class SysUserServiceImpl implements ISysUserService {
 
     @Override
     @Cacheable(value = CACHE_NAME, keyGenerator = PublicConstants.KEY_GENERATOR)
-    public Page<SysUser> pageList(JSONObject paramJson) {
+    public Page<SysUser> pageList(QueryCriteriaBean data) {
         try {
-            QueryCriteriaBean data = JSON.toJavaObject(paramJson, QueryCriteriaBean.class);
             Pageable pageable = QueryUtils.buildPageRequest(data);
-            Page<SysUser> page = userDao.findAll(getCriteria(paramJson), pageable);
+            Page<SysUser> page = userDao.findAll(QueryUtils.buildCriteria(data), pageable);
             page.getContent().forEach(this::setName);
             return page;
         } catch (Exception e) {
@@ -154,24 +155,16 @@ public class SysUserServiceImpl implements ISysUserService {
         }
         return null;
     }
-    
+
     @Override
     @Cacheable(value = CACHE_NAME, keyGenerator = PublicConstants.KEY_GENERATOR)
-    public List<SysUser> findList(JSONObject paramJson) {
-        Criteria<SysUser> criteria = getCriteria(paramJson);
-        criteria.add(Restrictions.eq(SysConstants.STATUS, PublicConstants.STATUS_YES));
-        return userDao.findAll(getCriteria(paramJson));
-    }
-    
-    private Criteria<SysUser> getCriteria(JSONObject paramJson) {
-        Criteria<SysUser> criteria = new Criteria<>();
-        criteria.add(Restrictions.like(SysConstants.USER_NAME, paramJson.getString(SysConstants.USER_NAME)));
-        criteria.add(Restrictions.like(SysConstants.REAL_NAME, paramJson.getString(SysConstants.REAL_NAME)));
-        if (paramJson.get(SysConstants.BEGIN_TIME) != null && paramJson.get(SysConstants.END_TIME) != null) {
-            criteria.add(Restrictions.between(SysConstants.CREATE_TIME,
-                paramJson.getString(SysConstants.BEGIN_TIME) + "|" + paramJson.getString(SysConstants.END_TIME)));
+    public List<SysUser> findList(QueryCriteriaBean data) {
+        try {
+            return userDao.findAll(QueryUtils.buildCriteria(data));
+        } catch (Exception e) {
+            LOGGER.error("Error findList:", e);
         }
-        return criteria;
+        return new ArrayList<>();
     }
 
     @Override
@@ -198,19 +191,22 @@ public class SysUserServiceImpl implements ISysUserService {
         Optional<SysUser> optional = userDao.findOne(criteria);
         return optional.orElse(null);
     }
-    
+
     private void setName(SysUser entity) {
         List<String> roleList = userRoleDao.findUserRoleByUserId(entity.getId());
         entity.setRoles(roleList);
-        entity.setRoleNameList(roleList.stream().map(s -> sysRoleService.getById(s).getRoleName()).collect(Collectors.toList()));
+        entity.setRoleNameList(
+                roleList.stream().map(s -> sysRoleService.getById(s).getRoleName()).collect(Collectors.toList()));
 
         List<String> jobList = userJobDao.findUserJobByUserId(entity.getId());
         entity.setJobs(jobList);
-        entity.setJobNameList(jobList.stream().map(s -> sysJobService.getById(s).getJobName()).collect(Collectors.toList()));
+        entity.setJobNameList(
+                jobList.stream().map(s -> sysJobService.getById(s).getJobName()).collect(Collectors.toList()));
 
         List<String> orgList = userOrgDao.findUserOrgByUserId(entity.getId());
         entity.setOrgs(orgList);
-        entity.setOrgNameList(orgList.stream().map(s -> sysOrganizationService.getById(s).getOrgName()).collect(Collectors.toList()));
+        entity.setOrgNameList(
+                orgList.stream().map(s -> sysOrganizationService.getById(s).getOrgName()).collect(Collectors.toList()));
     }
 
     @Override

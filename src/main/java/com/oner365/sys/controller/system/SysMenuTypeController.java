@@ -1,5 +1,6 @@
 package com.oner365.sys.controller.system;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
 import com.oner365.common.constants.PublicConstants;
+import com.oner365.common.query.AttributeBean;
+import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
 import com.oner365.sys.constants.SysConstants;
 import com.oner365.sys.entity.SysMenuType;
@@ -77,13 +80,13 @@ public class SysMenuTypeController extends BaseController {
     /**
      * 列表
      * 
-     * @param paramJson 参数
+     * @param data 参数
      * @return Page<SysMenuType>
      */
     @PostMapping("/list")
     @ApiOperation("获取分页列表")
-    public Page<SysMenuType> list(@RequestBody JSONObject paramJson) {
-        return menuTypeService.pageList(paramJson);
+    public Page<SysMenuType> list(@RequestBody QueryCriteriaBean data) {
+        return menuTypeService.pageList(data);
     }
 
     /**
@@ -94,9 +97,12 @@ public class SysMenuTypeController extends BaseController {
     @GetMapping("/findAll")
     @ApiOperation("获取全部有效类型")
     public List<SysMenuType> findAll() {
-        JSONObject paramJson = new JSONObject();
-        paramJson.put(SysConstants.STATUS, PublicConstants.STATUS_YES);
-        return menuTypeService.findList(paramJson);
+        QueryCriteriaBean data = new QueryCriteriaBean();
+        List<AttributeBean> whereList = new ArrayList<>();
+        AttributeBean attribute = new AttributeBean(SysConstants.STATUS, PublicConstants.STATUS_YES);
+        whereList.add(attribute);
+        data.setWhereList(whereList);
+        return menuTypeService.findList(data);
     }
 
     /**

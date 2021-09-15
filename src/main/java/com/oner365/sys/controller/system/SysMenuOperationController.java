@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
 import com.oner365.common.constants.PublicConstants;
+import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
 import com.oner365.sys.constants.SysConstants;
 import com.oner365.sys.entity.SysMenuOperation;
@@ -27,6 +28,7 @@ import io.swagger.annotations.ApiOperation;
 
 /**
  * 菜单操作权限
+ * 
  * @author zhaoyong
  *
  */
@@ -40,12 +42,13 @@ public class SysMenuOperationController extends BaseController {
 
     /**
      * 保存
+     * 
      * @param sysMenuOperationVo 操作对象
      * @return Map<String, Object>
      */
     @PutMapping("/save")
     @ApiOperation("保存")
-    public Map<String, Object> save(@RequestBody SysMenuOperationVo sysMenuOperationVo){
+    public Map<String, Object> save(@RequestBody SysMenuOperationVo sysMenuOperationVo) {
         SysMenuOperation sysMenuOperation = sysMenuOperationVo.toObject();
         Map<String, Object> result = Maps.newHashMap();
         result.put(PublicConstants.CODE, PublicConstants.ERROR_CODE);
@@ -60,6 +63,7 @@ public class SysMenuOperationController extends BaseController {
 
     /**
      * 获取信息
+     * 
      * @param id 编号
      * @return SysMenuOperation
      */
@@ -71,17 +75,19 @@ public class SysMenuOperationController extends BaseController {
 
     /**
      * 列表
-     * @param paramJson 参数
+     * 
+     * @param data 查询参数
      * @return Page<SysMenuOperation>
      */
     @PostMapping("/list")
     @ApiOperation("获取列表")
-    public Page<SysMenuOperation> findList(@RequestBody JSONObject paramJson){
-        return menuOperationService.pageList(paramJson);
+    public Page<SysMenuOperation> findList(@RequestBody QueryCriteriaBean data) {
+        return menuOperationService.pageList(data);
     }
 
     /**
      * 删除
+     * 
      * @param ids 编号
      * @return Integer
      */
@@ -97,6 +103,7 @@ public class SysMenuOperationController extends BaseController {
 
     /**
      * 判断是否存在
+     * 
      * @param paramJson 参数
      * @return Map<String, Object>
      */
@@ -105,8 +112,8 @@ public class SysMenuOperationController extends BaseController {
     public Map<String, Object> checkType(@RequestBody JSONObject paramJson) {
         String id = paramJson.getString(SysConstants.ID);
         String type = paramJson.getString(SysConstants.CODE);
-        
-        int code = menuOperationService.checkType(id,type);
+
+        int code = menuOperationService.checkType(id, type);
         Map<String, Object> result = Maps.newHashMap();
         result.put(PublicConstants.CODE, code);
         return result;

@@ -1,6 +1,7 @@
 package com.oner365.sys.controller.system;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +27,8 @@ import com.google.common.collect.Maps;
 import com.oner365.common.auth.AuthUser;
 import com.oner365.common.auth.annotation.CurrentUser;
 import com.oner365.common.constants.PublicConstants;
+import com.oner365.common.query.AttributeBean;
+import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
 import com.oner365.files.client.FastdfsClient;
 import com.oner365.sys.constants.SysConstants;
@@ -63,13 +66,13 @@ public class SysUserController extends BaseController {
     /**
      * 用户列表
      *
-     * @param paramJson 参数
+     * @param data 查询参数
      * @return Page<SysUser>
      */
     @PostMapping("/list")
     @ApiOperation("用户列表")
-    public Page<SysUser> findUserList(@RequestBody JSONObject paramJson) {
-        return sysUserService.pageList(paramJson);
+    public Page<SysUser> pageList(@RequestBody QueryCriteriaBean data) {
+        return sysUserService.pageList(data);
     }
 
     /**
@@ -104,8 +107,13 @@ public class SysUserController extends BaseController {
         Map<String, Object> result = Maps.newHashMap();
         result.put(PublicConstants.MSG, sysUser);
 
-        result.put("roleList", sysRoleService.findList(new JSONObject()));
-        result.put("jobList", sysJobService.findList(new JSONObject()));
+        QueryCriteriaBean data = new QueryCriteriaBean();
+        List<AttributeBean> whereList = new ArrayList<>();
+        AttributeBean attribute = new AttributeBean(SysConstants.STATUS, PublicConstants.STATUS_YES);
+        whereList.add(attribute);
+        data.setWhereList(whereList);
+        result.put("roleList", sysRoleService.findList(data));
+        result.put("jobList", sysJobService.findList(data));
         return result;
     }
 
@@ -257,13 +265,13 @@ public class SysUserController extends BaseController {
     /**
      * 导出Excel
      * 
-     * @param paramJson 参数
+     * @param data 参数
      * @return ResponseEntity<byte[]>
      */
     @PostMapping("/export")
     @ApiOperation("导出")
-    public ResponseEntity<byte[]> export(@RequestBody JSONObject paramJson) {
-        List<SysUser> list = sysUserService.findList(paramJson);
+    public ResponseEntity<byte[]> export(@RequestBody QueryCriteriaBean data) {
+        List<SysUser> list = sysUserService.findList(data);
 
         String[] titleKeys = new String[] { "编号", "用户标识", "用户名称", "姓名", "性别", "邮箱", "电话", "备注", "状态", "创建时间", "最后登录时间",
                 "最后登录ip" };

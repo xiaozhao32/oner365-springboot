@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.sys.entity.SysJob;
 import com.oner365.sys.service.ISysJobService;
 import com.oner365.test.service.BaseServiceTest;
@@ -29,16 +29,16 @@ public class SysJobServiceTest extends BaseServiceTest {
 
     @RepeatedTest(value = 2)
     public void findList() {
-        JSONObject paramJson = new JSONObject();
-        List<SysJob> list = service.findList(paramJson);
+        QueryCriteriaBean paramData = new QueryCriteriaBean();
+        List<SysJob> list = service.findList(paramData);
         LOGGER.info("findList:{}", list.size());
         Assertions.assertNotEquals(0, list.size());
     }
 
     @Test
     public void pageList() {
-        JSONObject paramJson = new JSONObject();
-        Page<SysJob> list = service.pageList(paramJson);
+        QueryCriteriaBean paramData = new QueryCriteriaBean();
+        Page<SysJob> list = service.pageList(paramData);
         LOGGER.info("pageList:{}", list.getSize());
         Assertions.assertNotEquals(0, list.getSize());
     }

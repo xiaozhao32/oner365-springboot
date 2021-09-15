@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
 import com.oner365.common.constants.PublicConstants;
+import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
 import com.oner365.sys.entity.SysJob;
 import com.oner365.sys.service.ISysJobService;
@@ -75,13 +75,13 @@ public class SysJobController extends BaseController {
     /**
      * 用户职位列表
      * 
-     * @param paramJson 参数
+     * @param data 查询参数
      * @return Page<SysJob>
      */
     @PostMapping("/list")
     @ApiOperation("获取列表")
-    public Page<SysJob> list(@RequestBody JSONObject paramJson) {
-        return sysJobService.pageList(paramJson);
+    public Page<SysJob> list(@RequestBody QueryCriteriaBean data) {
+        return sysJobService.pageList(data);
     }
 
     /**
@@ -103,7 +103,7 @@ public class SysJobController extends BaseController {
     /**
      * 修改职位状态
      *
-     * @param id 主键
+     * @param id     主键
      * @param status 状态
      * @return Integer
      */
@@ -116,13 +116,13 @@ public class SysJobController extends BaseController {
     /**
      * 导出Excel
      * 
-     * @param paramJson 参数
+     * @param data 查询参数
      * @return ResponseEntity<byte[]>
      */
     @PostMapping("/export")
     @ApiOperation("导出")
-    public ResponseEntity<byte[]> export(@RequestBody JSONObject paramJson) {
-        List<SysJob> list = sysJobService.findList(paramJson);
+    public ResponseEntity<byte[]> export(@RequestBody QueryCriteriaBean data) {
+        List<SysJob> list = sysJobService.findList(data);
 
         String[] titleKeys = new String[] { "编号", "职位名称", "职位描述", "排序", "状态", "创建时间", "更新时间" };
         String[] columnNames = { "id", "jobName", "jobInfo", "jobOrder", "status", "createTime", "updateTime" };

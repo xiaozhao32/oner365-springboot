@@ -1,7 +1,5 @@
 package com.oner365.monitor.controller.task;
 
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,9 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.Maps;
 import com.oner365.common.constants.PublicConstants;
+import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
 import com.oner365.monitor.entity.SysTaskLog;
 import com.oner365.monitor.service.ISysTaskLogService;
@@ -38,24 +35,24 @@ public class SysTaskLogController extends BaseController {
     /**
      * 查询定时任务调度日志列表
      * 
-     * @param paramJson 查询参数
+     * @param data 查询参数
      * @return Page<SysTaskLog>
      */
     @PostMapping("/list")
     @ApiOperation("获取列表")
-    public Page<SysTaskLog> list(@RequestBody JSONObject paramJson) {
-        return taskLogService.pageList(paramJson);
+    public Page<SysTaskLog> list(@RequestBody QueryCriteriaBean data) {
+        return taskLogService.pageList(data);
     }
 
     /**
      * 导出定时任务调度日志列表
      * 
-     * @param paramJson 查询参数
+     * @param data 查询参数
      * @return String
      */
     @GetMapping("/export")
     @ApiOperation("导出")
-    public String export(@RequestBody JSONObject paramJson) {
+    public String export(@RequestBody QueryCriteriaBean data) {
         return PublicConstants.SUCCESS;
     }
 
@@ -75,15 +72,12 @@ public class SysTaskLogController extends BaseController {
      * 删除定时任务调度日志
      * 
      * @param ids 主键
-     * @return Map<String, Object>
+     * @return Integer
      */
     @DeleteMapping("/{ids}")
     @ApiOperation("删除任务日志")
-    public Map<String, Object> remove(@PathVariable String[] ids) {
-        int code = taskLogService.deleteTaskLogByIds(ids);
-        Map<String, Object> result = Maps.newHashMap();
-        result.put(PublicConstants.CODE, code);
-        return result;
+    public Integer remove(@PathVariable String[] ids) {
+        return taskLogService.deleteTaskLogByIds(ids);
     }
 
     /**

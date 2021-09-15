@@ -18,14 +18,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Strings;
 import com.oner365.common.exception.ProjectRuntimeException;
-import com.oner365.common.query.Criteria;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.common.query.QueryUtils;
-import com.oner365.common.query.Restrictions;
 import com.oner365.monitor.constants.ScheduleConstants;
 import com.oner365.monitor.dao.ISysTaskDao;
 import com.oner365.monitor.entity.SysTask;
@@ -70,19 +66,14 @@ public class SysTaskServiceImpl implements ISysTaskService {
     /**
      * 获取quartz调度器的计划任务列表
      *
-     * @param paramJson 调度信息
+     * @param data 查询参数
      * @return Page
      */
     @Override
-    public Page<SysTask> pageList(JSONObject paramJson) {
+    public Page<SysTask> pageList(QueryCriteriaBean data) {
         try {
-            QueryCriteriaBean data = JSON.toJavaObject(paramJson, QueryCriteriaBean.class);
             Pageable pageable = QueryUtils.buildPageRequest(data);
-            Criteria<SysTask> criteria = new Criteria<>();
-            criteria.add(Restrictions.like("taskName", paramJson.getString("taskName")));
-            criteria.add(Restrictions.eq("taskGroup", paramJson.getString("taskGroup")));
-            criteria.add(Restrictions.eq("status", paramJson.getString("status")));
-            return jpaDao.findAll(criteria, pageable);
+            return jpaDao.findAll(QueryUtils.buildCriteria(data), pageable);
         } catch (Exception e) {
             LOGGER.error("Error pageList: ", e);
         }

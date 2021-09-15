@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
 import com.oner365.common.constants.PublicConstants;
+import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
 import com.oner365.sys.entity.DataSourceConfig;
 import com.oner365.sys.service.IDataSourceConfigService;
@@ -40,13 +40,13 @@ public class DataSourceConfigController extends BaseController {
 
     /**
      * 列表
-     * @param json 参数
+     * @param data 查询参数
      * @return Page<DataSourceConfig>
      */
     @PostMapping("/list")
     @ApiOperation("列表")
-    public Page<DataSourceConfig> findList(@RequestBody JSONObject json) {
-        return service.pageList(json);
+    public Page<DataSourceConfig> findList(@RequestBody QueryCriteriaBean data) {
+        return service.pageList(data);
     }
 
     /**

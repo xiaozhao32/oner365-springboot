@@ -1,5 +1,6 @@
 package com.oner365.sys.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -13,8 +14,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.oner365.common.exception.ProjectRuntimeException;
 import com.oner365.common.query.Criteria;
 import com.oner365.common.query.QueryCriteriaBean;
@@ -39,11 +38,10 @@ public class SysLogServiceImpl implements ISysLogService {
     private ISysLogDao dao;
 
     @Override
-    public Page<SysLog> pageList(JSONObject paramJson) {
+    public Page<SysLog> pageList(QueryCriteriaBean data) {
         try {
-            QueryCriteriaBean data = JSON.toJavaObject(paramJson, QueryCriteriaBean.class);
             Pageable pageable = QueryUtils.buildPageRequest(data);
-            return dao.findAll(getCriteria(paramJson), pageable);
+            return dao.findAll(QueryUtils.buildCriteria(data), pageable);
         } catch (Exception e) {
             LOGGER.error("Error pageList: ", e);
         }
@@ -51,16 +49,13 @@ public class SysLogServiceImpl implements ISysLogService {
     }
 
     @Override
-    public List<SysLog> findList(JSONObject paramJson) {
-        return dao.findAll(getCriteria(paramJson));
-    }
-
-    private Criteria<SysLog> getCriteria(JSONObject paramJson) {
-        Criteria<SysLog> criteria = new Criteria<>();
-        criteria.add(Restrictions.like("methodName", paramJson.getString("methodName")));
-        criteria.add(Restrictions.like("operationName", paramJson.getString("operationName")));
-        criteria.add(Restrictions.like("operationIp", paramJson.getString("operationIp")));
-        return criteria;
+    public List<SysLog> findList(QueryCriteriaBean data) {
+        try {
+            return dao.findAll(QueryUtils.buildCriteria(data));
+        } catch (Exception e) {
+            LOGGER.error("Error findList: ", e);
+        }
+        return new ArrayList<>();   
     }
 
     @Override

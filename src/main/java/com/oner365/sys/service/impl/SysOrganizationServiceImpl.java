@@ -15,7 +15,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import com.oner365.common.cache.annotation.RedisCacheAble;
@@ -109,27 +108,17 @@ public class SysOrganizationServiceImpl implements ISysOrganizationService {
     }
 
     @Override
-    public Map<String, Object> isConnection(JSONObject json) {
-        if (json == null) {
-            return null;
-        }
-
+    public boolean isConnection(String dsType, String ip, int port, String dbName, String userName, String pwd) {
         String driverName;
         String url;
-        if (DataSourceConstants.DB_TYPE_MYSQL.equals(json.getString(DataSourceConstants.DS_TYPE))) {
+        if (DataSourceConstants.DB_TYPE_MYSQL.equals(dsType)) {
             driverName = DataSourceConstants.DRIVER_NAME_MYSQL;
-            url = "jdbc:mysql://" + json.getString("ip") + ":" + json.getIntValue("port") + PublicConstants.DELIMITER
-                    + json.getString("dbName");
+            url = "jdbc:mysql://" + ip + ":" + port + PublicConstants.DELIMITER + dbName;
         } else {
             driverName = DataSourceConstants.DRIVER_NAME_ORACLE;
-            url = "jdbc:oracle:thin:@" + json.getString("ip") + ":" + json.getIntValue("port") + ":"
-                    + json.getString("dbName");
+            url = "jdbc:oracle:thin:@" + ip + ":" + port + ":" + dbName;
         }
-        boolean isConnection = DataSourceUtil.isConnection(driverName, url, json.getString(SysConstants.USER_NAME),
-                json.getString(SysConstants.PASS));
-        Map<String, Object> result = Maps.newHashMap();
-        result.put(SysConstants.STATUS, isConnection);
-        return result;
+        return DataSourceUtil.isConnection(driverName, url, userName, pwd);
     }
 
     @Override

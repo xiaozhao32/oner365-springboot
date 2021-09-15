@@ -3,7 +3,6 @@ package com.oner365.sys.service;
 import java.util.List;
 import java.util.Map;
 
-import com.alibaba.fastjson.JSONObject;
 import com.oner365.sys.entity.SysOrganization;
 import com.oner365.sys.entity.TreeSelect;
 
@@ -50,10 +49,15 @@ public interface ISysOrganizationService {
     /**
      * 直接测试数据源是否连接
      * 
-     * @param paramJson 参数
-     * @return Map
+     * @param dstype
+     * @param ip
+     * @param port
+     * @param dbname
+     * @param username
+     * @param password
+     * @return boolean
      */
-    Map<String, Object> isConnection(JSONObject paramJson);
+    boolean isConnection(String dstype, String ip, int port, String dbname, String username, String password);
 
     /**
      * 判断保存后数据源是否连接

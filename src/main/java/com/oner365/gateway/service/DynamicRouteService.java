@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.springframework.data.domain.Page;
 
-import com.alibaba.fastjson.JSONObject;
+import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.gateway.entity.GatewayRoute;
 
 /**
@@ -24,10 +24,10 @@ public interface DynamicRouteService {
     /**
      * 分页查询路由列表
      * 
-     * @param paramJson 路由对象
+     * @param data 查询参数
      * @return Page
      */
-    Page<GatewayRoute> pageList(JSONObject paramJson);
+    Page<GatewayRoute> pageList(QueryCriteriaBean data);
 
     /**
      * 添加路由

@@ -27,17 +27,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.alibaba.fastjson.JSONObject;
+import com.github.tobato.fastdfs.domain.fdfs.FileInfo;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.oner365.common.constants.PublicConstants;
+import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
 import com.oner365.deploy.utils.DeployUtils;
 import com.oner365.files.client.FastdfsClient;
 import com.oner365.files.entity.FastdfsFile;
 import com.oner365.files.service.IFastdfsFileService;
 import com.oner365.util.DataUtils;
-import com.github.tobato.fastdfs.domain.fdfs.FileInfo;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 import ch.ethz.ssh2.SFTPv3DirectoryEntry;
 import io.swagger.annotations.Api;
@@ -72,13 +72,13 @@ public class FastdfsFileController extends BaseController {
     /**
      * 查询列表
      *
-     * @param paramJson 查询参数
+     * @param data 查询参数
      * @return Page<FastdfsFile>
      */
     @PostMapping("/list")
     @ApiOperation("查询列表")
-    public Page<FastdfsFile> list(@RequestBody JSONObject paramJson) {
-        return fastdfsFileService.pageList(paramJson);
+    public Page<FastdfsFile> list(@RequestBody QueryCriteriaBean data) {
+        return fastdfsFileService.pageList(data);
     }
     
     /**

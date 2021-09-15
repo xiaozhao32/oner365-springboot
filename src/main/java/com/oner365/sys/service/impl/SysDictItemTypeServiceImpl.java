@@ -1,5 +1,6 @@
 package com.oner365.sys.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,7 +12,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,10 +23,9 @@ import com.oner365.common.cache.annotation.RedisCacheAble;
 import com.oner365.common.cache.annotation.RedisCachePut;
 import com.oner365.common.constants.PublicConstants;
 import com.oner365.common.exception.ProjectRuntimeException;
-import com.oner365.common.query.Criteria;
+import com.oner365.common.query.AttributeBean;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.common.query.QueryUtils;
-import com.oner365.common.query.Restrictions;
 import com.oner365.sys.constants.SysConstants;
 import com.oner365.sys.dao.ISysDictItemTypeDao;
 import com.oner365.sys.entity.SysDictItem;
@@ -82,11 +81,10 @@ public class SysDictItemTypeServiceImpl implements ISysDictItemTypeService {
 
     @Override
     @Cacheable(value = CACHE_NAME, keyGenerator = PublicConstants.KEY_GENERATOR)
-    public Page<SysDictItemType> pageList(JSONObject paramJson) {
+    public Page<SysDictItemType> pageList(QueryCriteriaBean data) {
         try {
-            QueryCriteriaBean data = JSON.toJavaObject(paramJson, QueryCriteriaBean.class);
             Pageable pageable = QueryUtils.buildPageRequest(data);
-            return dao.findAll(getCriteria(paramJson), pageable);
+            return dao.findAll(QueryUtils.buildCriteria(data), pageable);
         } catch (Exception e) {
             LOGGER.error("Error pageList: ", e);
         }
@@ -95,18 +93,16 @@ public class SysDictItemTypeServiceImpl implements ISysDictItemTypeService {
 
     @Override
     @Cacheable(value = CACHE_NAME, keyGenerator = PublicConstants.KEY_GENERATOR)
-    public List<SysDictItemType> findList(JSONObject paramJson) {
-        Criteria<SysDictItemType> criteria = getCriteria(paramJson);
-        criteria.add(Restrictions.eq(SysConstants.STATUS, PublicConstants.STATUS_YES));
-        return dao.findAll(criteria, Sort.by(SysConstants.TYPE_ORDER));
-    }
-
-    private Criteria<SysDictItemType> getCriteria(JSONObject paramJson) {
-        Criteria<SysDictItemType> criteria = new Criteria<>();
-        criteria.add(Restrictions.like(SysConstants.TYPE_NAME, paramJson.getString(SysConstants.TYPE_NAME)));
-        criteria.add(Restrictions.like(SysConstants.TYPE_CODE, paramJson.getString(SysConstants.TYPE_CODE)));
-        criteria.add(Restrictions.eq(SysConstants.STATUS, paramJson.getString(SysConstants.STATUS)));
-        return criteria;
+    public List<SysDictItemType> findList(QueryCriteriaBean data) {
+        try {
+            if (data.getOrder() == null) {
+                return dao.findAll(QueryUtils.buildCriteria(data));
+            }
+            return dao.findAll(QueryUtils.buildCriteria(data), QueryUtils.buildSortRequest(data.getOrder()));
+        } catch (Exception e) {
+            LOGGER.error("Error findList: ", e);
+        }
+        return new ArrayList<>();
     }
 
     @Override
@@ -126,9 +122,12 @@ public class SysDictItemTypeServiceImpl implements ISysDictItemTypeService {
             @CacheEvict(value = CACHE_ITEM_NAME, allEntries = true)
     })
     public int deleteById(String id) {
-        JSONObject paramJson = new JSONObject();
-        paramJson.put(SysConstants.TYPE_ID, id);
-        List<SysDictItem> dictItemList = sysDictItemService.findList(paramJson);
+        QueryCriteriaBean data = new QueryCriteriaBean();
+        List<AttributeBean> whereList = new ArrayList<>();
+        AttributeBean attribute = new AttributeBean(SysConstants.TYPE_ID, id);
+        whereList.add(attribute);
+        data.setWhereList(whereList);
+        List<SysDictItem> dictItemList = sysDictItemService.findList(data);
         dictItemList.forEach(dictItem -> sysDictItemService.deleteById(dictItem.getId()));
         dao.deleteById(id);
         return 1;

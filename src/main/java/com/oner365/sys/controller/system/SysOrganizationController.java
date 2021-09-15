@@ -21,7 +21,6 @@ import com.oner365.common.auth.AuthUser;
 import com.oner365.common.auth.annotation.CurrentUser;
 import com.oner365.common.constants.PublicConstants;
 import com.oner365.controller.BaseController;
-import com.oner365.sys.constants.SysConstants;
 import com.oner365.sys.entity.SysOrganization;
 import com.oner365.sys.entity.TreeSelect;
 import com.oner365.sys.service.ISysOrganizationService;
@@ -81,13 +80,14 @@ public class SysOrganizationController extends BaseController {
     /**
      * 直接测试数据源是否连接
      *
-     * @param paramJson 参数
-     * @return Map<String, Object>
+     * @param dstype
+     * @return boolean
      */
-    @PostMapping("/isConnection")
+    @PostMapping("/isConnection/{dstype}")
     @ApiOperation("能否连接数据源")
-    public Map<String, Object> isConnection(@RequestBody JSONObject paramJson) {
-        return sysOrgService.isConnection(paramJson);
+    public boolean isConnection(@PathVariable String dstype, @RequestParam String ip, @RequestParam int port,
+            @RequestParam String dbname, @RequestParam String username, @RequestParam String password) {
+        return sysOrgService.isConnection(dstype, ip, port, dbname, username, password);
     }
 
     /**
@@ -203,19 +203,14 @@ public class SysOrganizationController extends BaseController {
     /**
      * 修改状态
      *
-     * @param paramJson 参数
-     * @return Map<String, Object>
+     * @param id     主键
+     * @param status 状态
+     * @return Integer
      */
-    @PostMapping("/changeStatus")
+    @PostMapping("/changeStatus/{id}")
     @ApiOperation("修改状态")
-    public Map<String, Object> changeStatus(@RequestBody JSONObject paramJson) {
-        String status = paramJson.getString(SysConstants.STATUS);
-        String id = paramJson.getString(SysConstants.ID);
-
-        Integer code = sysOrgService.changeStatus(id, status);
-        Map<String, Object> result = Maps.newHashMap();
-        result.put(PublicConstants.CODE, code);
-        return result;
+    public Integer changeStatus(@PathVariable String id, @RequestParam("status") String status) {
+        return sysOrgService.changeStatus(id, status);
     }
 
 }

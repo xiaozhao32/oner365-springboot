@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
+import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
 import com.oner365.gateway.constants.GatewayConstants;
 import com.oner365.gateway.entity.GatewayRoute;
@@ -41,13 +41,13 @@ public class DynamicRouteController extends BaseController {
     /**
      * 路由列表
      *
-     * @param paramJson 查询参数
+     * @param data 查询参数
      * @return Page<GatewayRoute>
      */
     @PostMapping("/list")
     @ApiOperation("获取列表")
-    public Page<GatewayRoute> list(@RequestBody JSONObject paramJson) {
-        return dynamicRouteService.pageList(paramJson);
+    public Page<GatewayRoute> list(@RequestBody QueryCriteriaBean data) {
+        return dynamicRouteService.pageList(data);
     }
 
     /**

@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
 import com.oner365.common.auth.AuthUser;
 import com.oner365.common.auth.annotation.CurrentUser;
 import com.oner365.common.constants.PublicConstants;
+import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
 import com.oner365.monitor.entity.SysTask;
 import com.oner365.monitor.exception.TaskException;
@@ -45,24 +45,24 @@ public class SysTaskController extends BaseController {
     /**
      * 查询定时任务列表
      *
-     * @param paramJson 查询参数
+     * @param data 查询参数
      * @return Page<SysTask>
      */
     @PostMapping("/list")
     @ApiOperation("定时任务列表")
-    public Page<SysTask> list(@RequestBody JSONObject paramJson) {
-        return taskService.pageList(paramJson);
+    public Page<SysTask> list(@RequestBody QueryCriteriaBean data) {
+        return taskService.pageList(data);
     }
 
     /**
      * 导出定时任务列表
      *
-     * @param paramJson 查询参数
+     * @param data 查询参数
      * @return String
      */
     @GetMapping("/export")
     @ApiOperation("导出")
-    public String export(@RequestBody JSONObject paramJson) {
+    public String export(@RequestBody QueryCriteriaBean data) {
         return PublicConstants.SUCCESS;
     }
 
