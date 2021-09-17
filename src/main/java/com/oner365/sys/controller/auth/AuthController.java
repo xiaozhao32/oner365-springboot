@@ -31,6 +31,7 @@ import com.oner365.common.constants.ErrorInfo;
 import com.oner365.common.constants.PublicConstants;
 import com.oner365.controller.BaseController;
 import com.oner365.sys.constants.SysConstants;
+import com.oner365.sys.dto.LoginUserDto;
 import com.oner365.sys.service.ISysRoleService;
 import com.oner365.sys.service.ISysUserService;
 import com.oner365.sys.vo.LoginUserVo;
@@ -68,7 +69,7 @@ public class AuthController extends BaseController {
      */
     @PostMapping("/login")
     @ApiOperation("登录")
-    public ResponseData<Map<String, Object>> login(HttpServletRequest request, @RequestBody LoginUserVo loginUserVo) {
+    public ResponseData<LoginUserDto> login(HttpServletRequest request, @RequestBody LoginUserVo loginUserVo) {
         // 验证码
         if (!DataUtils.isEmpty(loginUserVo.getUuid())) {
             String verifyKey = SysConstants.CAPTCHA_IMAGE + ":" + loginUserVo.getUuid();
@@ -79,6 +80,7 @@ public class AuthController extends BaseController {
             }
         }
         
+        // 验证参数
         String userName = loginUserVo.getUserName();
         if (Strings.isNullOrEmpty(userName)) {
             return ResponseData.error(ErrorCodes.ERR_USER_NAME_NOT_NULL, ErrorInfo.ERR_USER_NAME_NOT_NULL);
@@ -87,10 +89,14 @@ public class AuthController extends BaseController {
         if (Strings.isNullOrEmpty(password)) {
             return ResponseData.error(ErrorCodes.ERR_PASSWORD_NOT_NULL, ErrorInfo.ERR_PASS_NOT_NULL);
         }
+        // ip地址
         String ip = DataUtils.getIpAddress(request);
         LOGGER.info("ip: {}", ip);
 
-        Map<String, Object> result = sysUserService.login(userName, password);
+        // 登录
+        LoginUserDto result = sysUserService.login(userName, password);
+        
+        // 返回结果
         if (result != null) {
             return ResponseData.success(result);
         }
