@@ -11,7 +11,6 @@ public class SysConstants extends PublicConstants {
     public static final String ID = "id";
     public static final String USER_ID = "userId";
     public static final String ROLE_ID = "roleId";
-    public static final String MENU_IDS = "menuIds";
     
     public static final String STATUS = "status";
     public static final String CODE = "code";
@@ -48,6 +47,7 @@ public class SysConstants extends PublicConstants {
     public static final String ITEM_CODE = "itemCode";
     public static final String ITEM_ORDER = "itemOrder";
     public static final String CAPTCHA_IMAGE = "CaptchaImage";
+    public static final String OPERATION_TYPE = "operationType";
     
     public static final String ROLES = "roles";
     public static final String JOBS = "jobs";

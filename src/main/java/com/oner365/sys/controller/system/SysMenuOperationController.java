@@ -107,13 +107,13 @@ public class SysMenuOperationController extends BaseController {
      * @param paramJson 参数
      * @return Map<String, Object>
      */
-    @PostMapping("/checkType")
+    @PostMapping("/checkCode")
     @ApiOperation("判断是否存在")
-    public Map<String, Object> checkType(@RequestBody JSONObject paramJson) {
+    public Map<String, Object> checkCode(@RequestBody JSONObject paramJson) {
         String id = paramJson.getString(SysConstants.ID);
         String type = paramJson.getString(SysConstants.CODE);
 
-        int code = menuOperationService.checkType(id, type);
+        long code = menuOperationService.checkCode(id, type);
         Map<String, Object> result = Maps.newHashMap();
         result.put(PublicConstants.CODE, code);
         return result;

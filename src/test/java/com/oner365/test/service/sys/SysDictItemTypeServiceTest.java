@@ -1,5 +1,6 @@
 package com.oner365.test.service.sys;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
@@ -10,8 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.sys.entity.SysDictItemType;
 import com.oner365.sys.service.ISysDictItemTypeService;
@@ -39,12 +38,8 @@ public class SysDictItemTypeServiceTest extends BaseServiceTest {
 
     @Test
     public void findListByCodes() {
-        JSONObject paramJson = new JSONObject();
-        JSONArray paramArray = new JSONArray();
-        paramArray.add("sys_task_group");
-        paramArray.add("sys_task_status");
-        paramJson.put("codes", paramArray);
-        List<SysDictItemType> list = service.findListByCodes(paramJson);
+        String[] codes = new String[]{"sys_task_group", "sys_task_status"};
+        List<SysDictItemType> list = service.findListByCodes(Arrays.asList(codes));
         LOGGER.info("findListByCodes:{}", list.size());
         Assertions.assertNotEquals(0, list.size());
     }
