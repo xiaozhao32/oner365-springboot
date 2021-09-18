@@ -1,13 +1,13 @@
 package com.oner365.sys.service;
 
 import java.util.List;
-import java.util.Map;
 
 import com.oner365.sys.entity.SysOrganization;
 import com.oner365.sys.entity.TreeSelect;
 
 /**
  * 机构接口
+ * 
  * @author zhaoyong
  */
 public interface ISysOrganizationService {
@@ -49,12 +49,12 @@ public interface ISysOrganizationService {
     /**
      * 直接测试数据源是否连接
      * 
-     * @param dstype
-     * @param ip
-     * @param port
-     * @param dbname
-     * @param username
-     * @param password
+     * @param dstype   数据源类型
+     * @param ip       ip地址
+     * @param port     端口
+     * @param dbname   数据源名称
+     * @param username 账号
+     * @param password 密码
      * @return boolean
      */
     boolean isConnection(String dstype, String ip, int port, String dbname, String username, String password);
@@ -65,7 +65,7 @@ public interface ISysOrganizationService {
      * @param id 编号
      * @return Map
      */
-    Map<String, Object> checkConnection(String id);
+    boolean checkConnection(String id);
 
     /**
      * 按父级id查询

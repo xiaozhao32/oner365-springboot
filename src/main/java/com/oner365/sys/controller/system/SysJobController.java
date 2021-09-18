@@ -1,7 +1,6 @@
 package com.oner365.sys.controller.system;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.common.collect.Maps;
-import com.oner365.common.constants.PublicConstants;
+import com.oner365.common.ResponseResult;
+import com.oner365.common.constants.ErrorInfo;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
 import com.oner365.sys.entity.SysJob;
@@ -44,20 +43,16 @@ public class SysJobController extends BaseController {
      * 用户职位保存
      * 
      * @param sysJobVo 职位对象
-     * @return Map<String, Object>
+     * @return ResponseResult<SysJob>
      */
     @PutMapping("/save")
     @ApiOperation("保存")
-    public Map<String, Object> save(@RequestBody SysJobVo sysJobVo) {
-        SysJob sysJob = sysJobVo.toObject();
-        Map<String, Object> result = Maps.newHashMap();
-        result.put(PublicConstants.CODE, PublicConstants.ERROR_CODE);
-        if (sysJob != null) {
-            SysJob entity = sysJobService.save(sysJob);
-            result.put(PublicConstants.CODE, PublicConstants.SUCCESS_CODE);
-            result.put(PublicConstants.MSG, entity);
+    public ResponseResult<SysJob> save(@RequestBody SysJobVo sysJobVo) {
+        if (sysJobVo != null) {
+            SysJob entity = sysJobService.save(sysJobVo.toObject());
+            return ResponseResult.success(entity);
         }
-        return result;
+        return ResponseResult.error(ErrorInfo.ERR_SAVE_ERROR);
     }
 
     /**

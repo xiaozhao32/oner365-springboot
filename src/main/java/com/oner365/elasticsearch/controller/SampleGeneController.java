@@ -1,7 +1,5 @@
 package com.oner365.elasticsearch.controller;
 
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,14 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
-import com.google.common.collect.Maps;
+import com.oner365.common.ResponseResult;
+import com.oner365.common.constants.ErrorInfo;
 import com.oner365.common.constants.PublicConstants;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
 import com.oner365.elasticsearch.entity.SampleGene;
 import com.oner365.elasticsearch.service.ISampleGeneElasticsearchService;
-import com.oner365.gateway.constants.GatewayConstants;
-import com.oner365.sys.vo.SampleGeneVo;
+import com.oner365.elasticsearch.vo.SampleGeneVo;
 import com.oner365.util.DataUtils;
 import com.oner365.util.GeneTransFormUtils;
 
@@ -46,31 +44,27 @@ public class SampleGeneController extends BaseController {
      * 保存
      *
      * @param sampleGeneVo 基因对象
-     * @return Map<String, Object>
+     * @return ResponseResult<SampleGene>
      */
     @PutMapping("/save")
     @ApiOperation("保存")
-    public Map<String, Object> save(@RequestBody SampleGeneVo sampleGeneVo) {
+    public ResponseResult<SampleGene> save(@RequestBody SampleGeneVo sampleGeneVo) {
+        if (sampleGeneVo == null) {
+            return ResponseResult.error("基因对象为空!");
+        }
         SampleGene sampleGene = sampleGeneVo.toObject();
-        
-        Map<String, Object> result = Maps.newHashMap();
-        result.put(GatewayConstants.CODE, PublicConstants.ERROR_CODE);
-        
-        if (sampleGene == null) {
-            result.put(PublicConstants.MSG, "基因对象为空!");
-            return result;
+        if (sampleGene != null) {
+            if (!sampleGene.getGeneList().isEmpty()) {
+                // 基因型格式转换
+                String jsonArray = JSON.toJSONString(sampleGene.getGeneList());
+                sampleGene.setGeneInfo(GeneTransFormUtils.geneFormatString(jsonArray));
+                String s = GeneTransFormUtils.geneTrimString(sampleGene.getGeneInfo().toJSONString());
+                sampleGene.setMatchJson(JSON.parseObject(s));
+            }
+            SampleGene entity = service.save(sampleGene);
+            return ResponseResult.success(entity);
         }
-        if (!sampleGene.getGeneList().isEmpty()) {
-            // 基因型格式转换
-            String jsonArray = JSON.toJSONString(sampleGene.getGeneList());
-            sampleGene.setGeneInfo(GeneTransFormUtils.geneFormatString(jsonArray));
-            String s = GeneTransFormUtils.geneTrimString(sampleGene.getGeneInfo().toJSONString());
-            sampleGene.setMatchJson(JSON.parseObject(s));
-        }
-        SampleGene entity = service.save(sampleGene);
-        result.put(PublicConstants.CODE, PublicConstants.SUCCESS_CODE);
-        result.put(PublicConstants.MSG, entity);
-        return result;
+        return ResponseResult.error(ErrorInfo.ERR_SAVE_ERROR);
     }
 
     /**
@@ -94,16 +88,15 @@ public class SampleGeneController extends BaseController {
      * 删除
      *
      * @param ids 编号
-     * @return Map<String, Object>
+     * @return Integer
      */
     @DeleteMapping("/delete")
     @ApiOperation("删除")
-    public Map<String, Object> delete(@RequestBody String... ids) {
+    public Integer delete(@RequestBody String... ids) {
+        Integer result = PublicConstants.SUCCESS_CODE;
         for (String id : ids) {
             service.deleteById(id);
         }
-        Map<String, Object> result = Maps.newHashMap();
-        result.put(PublicConstants.CODE, PublicConstants.SUCCESS_CODE);
         return result;
     }
 

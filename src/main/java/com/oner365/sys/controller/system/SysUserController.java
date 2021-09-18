@@ -22,10 +22,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
+import com.oner365.common.ResponseData;
+import com.oner365.common.ResponseResult;
 import com.oner365.common.auth.AuthUser;
 import com.oner365.common.auth.annotation.CurrentUser;
+import com.oner365.common.constants.ErrorInfo;
 import com.oner365.common.constants.PublicConstants;
 import com.oner365.common.query.AttributeBean;
 import com.oner365.common.query.QueryCriteriaBean;
@@ -36,7 +38,10 @@ import com.oner365.sys.entity.SysUser;
 import com.oner365.sys.service.ISysJobService;
 import com.oner365.sys.service.ISysRoleService;
 import com.oner365.sys.service.ISysUserService;
+import com.oner365.sys.vo.ModifyPasswordVo;
+import com.oner365.sys.vo.ResetPasswordVo;
 import com.oner365.sys.vo.SysUserVo;
+import com.oner365.sys.vo.check.CheckUserNameVo;
 import com.oner365.util.DataUtils;
 
 import io.swagger.annotations.Api;
@@ -79,18 +84,20 @@ public class SysUserController extends BaseController {
      * 用户保存
      *
      * @param sysUserVo 用户对象
-     * @return Map<String, Object>
+     * @return ResponseResult<SysUser>
      */
     @PutMapping("/save")
     @ApiOperation("保存")
-    public Map<String, Object> save(@RequestBody SysUserVo sysUserVo, HttpServletRequest request) {
-        SysUser sysUser = sysUserVo.toObject();
-        sysUser.setLastIp(DataUtils.getIpAddress(request));
-        SysUser entity = sysUserService.saveUser(sysUser);
-        Map<String, Object> result = Maps.newHashMap();
-        result.put(PublicConstants.CODE, PublicConstants.SUCCESS_CODE);
-        result.put(PublicConstants.MSG, entity);
-        return result;
+    public ResponseResult<SysUser> save(@RequestBody SysUserVo sysUserVo, HttpServletRequest request) {
+        if (sysUserVo != null) {
+            SysUser sysUser = sysUserVo.toObject();
+            if (sysUser != null) {
+            sysUser.setLastIp(DataUtils.getIpAddress(request));
+            SysUser entity = sysUserService.saveUser(sysUser);
+                return ResponseResult.success(entity);
+            }
+        }
+        return ResponseResult.error(ErrorInfo.ERR_SAVE_ERROR);
     }
 
     /**
@@ -101,7 +108,7 @@ public class SysUserController extends BaseController {
      */
     @GetMapping("/get/{id}")
     @ApiOperation("按id查询")
-    public Map<String, Object> get(@PathVariable String id) {
+    public ResponseData<Map<String, Object>> get(@PathVariable String id) {
         SysUser sysUser = sysUserService.getById(id);
 
         Map<String, Object> result = Maps.newHashMap();
@@ -114,7 +121,8 @@ public class SysUserController extends BaseController {
         data.setWhereList(whereList);
         result.put("roleList", sysRoleService.findList(data));
         result.put("jobList", sysJobService.findList(data));
-        return result;
+        
+        return ResponseData.success(result);
     }
 
     /**
@@ -192,61 +200,54 @@ public class SysUserController extends BaseController {
     /**
      * 判断用户是否存在
      *
-     * @param json 参数
-     * @return Map<String, Object>
+     * @param checkUserNameVo 查询参数
+     * @return Long
      */
     @PostMapping("/checkUserName")
     @ApiOperation("判断存在")
-    public Map<String, Object> checkUserName(@RequestBody JSONObject json) {
-        String userName = json.getString(SysConstants.USER_NAME);
-        String userId = json.getString(SysConstants.ID);
-        long code = sysUserService.checkUserName(userId, userName);
-
-        Map<String, Object> result = Maps.newHashMap();
-        result.put(PublicConstants.CODE, code);
-        return result;
+    public Long checkUserName(@RequestBody CheckUserNameVo checkUserNameVo) {
+        if (checkUserNameVo != null) {
+            return sysUserService.checkUserName(checkUserNameVo.getId(), checkUserNameVo.getUserName());
+        }
+        return Long.valueOf(PublicConstants.ERROR_CODE);
     }
 
     /**
      * 修改密码
      *
-     * @param json 参数
-     * @return Map<String, Object>
+     * @param resetPasswordVo 查询参数
+     * @return Integer
      */
     @PostMapping("/resetPassword")
     @ApiOperation("重置密码")
-    public Map<String, Object> resetPassword(@RequestBody JSONObject json) {
-        String userId = json.getString(SysConstants.USER_ID);
-        String password = json.getString(SysConstants.P);
-        Integer code = sysUserService.editPassword(userId, password);
-
-        Map<String, Object> result = Maps.newHashMap();
-        result.put(PublicConstants.CODE, code);
-        return result;
+    public Integer resetPassword(@RequestBody ResetPasswordVo resetPasswordVo) {
+        if (resetPasswordVo != null) {
+            return sysUserService.editPassword(resetPasswordVo.getUserId(), resetPasswordVo.getPassword());
+        }
+        return PublicConstants.ERROR_CODE;
     }
 
     /**
      * 修改密码
      *
-     * @param authUser 登录对象
-     * @param json     参数
-     * @return Map<String, Object>
+     * @param authUser         登录对象
+     * @param modifyPasswordVo 请求参数
+     * @return Integer
      */
     @PostMapping("/editPassword")
     @ApiOperation("修改密码")
-    public Map<String, Object> editPassword(@CurrentUser AuthUser authUser, @RequestBody JSONObject json) {
-        String oldPassword = DigestUtils.md5Hex(json.getString("oldPassword")).toUpperCase();
-        String password = json.getString(SysConstants.P);
-        SysUser sysUser = sysUserService.getById(authUser.getId());
-        
-        Map<String, Object> result = Maps.newHashMap();
-        if (!oldPassword.equals(sysUser.getPassword())) {
-            result.put(PublicConstants.CODE, PublicConstants.ERROR_CODE);
-            return result;
+    public ResponseResult<Integer> editPassword(@CurrentUser AuthUser authUser, @RequestBody ModifyPasswordVo modifyPasswordVo) {
+        if (modifyPasswordVo != null) {
+            String oldPassword = DigestUtils.md5Hex(modifyPasswordVo.getOldPassword()).toUpperCase();
+            SysUser sysUser = sysUserService.getById(authUser.getId());
+
+            if (!oldPassword.equals(sysUser.getPassword())) {
+                return ResponseResult.error(ErrorInfo.ERR_PASS_ERROR);
+            }
+            int result = sysUserService.editPassword(authUser.getId(), modifyPasswordVo.getPassword());
+            return ResponseResult.success(result);
         }
-        Integer code = sysUserService.editPassword(authUser.getId(), password);
-        result.put(PublicConstants.CODE, code);
-        return result;
+        return ResponseResult.error(ErrorInfo.ERR_PARAM);
     }
 
     /**

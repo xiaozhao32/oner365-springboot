@@ -15,16 +15,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
+import com.oner365.common.ResponseResult;
 import com.oner365.common.auth.AuthUser;
 import com.oner365.common.auth.annotation.CurrentUser;
+import com.oner365.common.constants.ErrorInfo;
 import com.oner365.common.constants.PublicConstants;
 import com.oner365.controller.BaseController;
 import com.oner365.sys.entity.SysOrganization;
 import com.oner365.sys.entity.TreeSelect;
 import com.oner365.sys.service.ISysOrganizationService;
 import com.oner365.sys.vo.SysOrganizationVo;
+import com.oner365.sys.vo.check.CheckOrgCodeVo;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -46,23 +48,21 @@ public class SysOrganizationController extends BaseController {
      *
      * @param sysOrganizationVo 机构对象
      * @param authUser  登录对象
-     * @return Map<String, Object>
+     * @return ResponseResult<SysOrganization>
      */
     @PutMapping("/save")
     @ApiOperation("保存")
-    public Map<String, Object> save(@RequestBody SysOrganizationVo sysOrganizationVo,
+    public ResponseResult<SysOrganization> save(@RequestBody SysOrganizationVo sysOrganizationVo,
             @CurrentUser AuthUser authUser) {
-        SysOrganization sysOrganization = sysOrganizationVo.toObject();
-        Map<String, Object> result = Maps.newHashMap();
-        result.put(PublicConstants.CODE, PublicConstants.ERROR_CODE);
-        if (sysOrganization != null) {
-            sysOrganization.setCreateUser(authUser.getId());
-            SysOrganization entity = sysOrgService.save(sysOrganization);
-
-            result.put(PublicConstants.CODE, PublicConstants.SUCCESS_CODE);
-            result.put(PublicConstants.MSG, entity);
+        if (sysOrganizationVo != null) {
+            SysOrganization sysOrganization = sysOrganizationVo.toObject();
+            if (sysOrganization != null) {
+                sysOrganization.setCreateUser(authUser.getId());
+                SysOrganization entity = sysOrgService.save(sysOrganization);
+                return ResponseResult.success(entity);
+            }
         }
-        return result;
+        return ResponseResult.error(ErrorInfo.ERR_SAVE_ERROR);
     }
 
     /**
@@ -80,7 +80,12 @@ public class SysOrganizationController extends BaseController {
     /**
      * 直接测试数据源是否连接
      *
-     * @param dstype
+     * @param dstype   数据源类型
+     * @param ip       ip地址
+     * @param port     端口
+     * @param dbname   数据源名称
+     * @param username 账号
+     * @param password 密码
      * @return boolean
      */
     @PostMapping("/isConnection/{dstype}")
@@ -94,11 +99,11 @@ public class SysOrganizationController extends BaseController {
      * 判断保存后数据源是否连接
      *
      * @param id 编号
-     * @return Map<String, Object>
+     * @return boolean
      */
     @GetMapping("/checkConnection/{id}")
     @ApiOperation("测试连接数据源")
-    public Map<String, Object> checkConnection(@PathVariable String id) {
+    public boolean checkConnection(@PathVariable String id) {
         return sysOrgService.checkConnection(id);
     }
 
@@ -149,20 +154,16 @@ public class SysOrganizationController extends BaseController {
     /**
      * 判断机构编号是否存在
      *
-     * @param paramJson 参数
-     * @return Map<String, Object>
+     * @param checkOrgCodeVo 查询参数
+     * @return Long
      */
     @PostMapping("/checkCode")
     @ApiOperation("判断编码是否存在")
-    public Map<String, Object> checkCode(@RequestBody JSONObject paramJson) {
-        String type = paramJson.getString("type");
-        String code = paramJson.getString("code");
-        String orgId = paramJson.getString("orgId");
-        long check = sysOrgService.checkCode(orgId, code, type);
-
-        Map<String, Object> result = Maps.newHashMap();
-        result.put(PublicConstants.CODE, check);
-        return result;
+    public Long checkCode(@RequestBody CheckOrgCodeVo checkOrgCodeVo) {
+        if (checkOrgCodeVo != null) {
+            return sysOrgService.checkCode(checkOrgCodeVo.getId(), checkOrgCodeVo.getCode(), checkOrgCodeVo.getType());
+        }
+        return Long.valueOf(PublicConstants.ERROR_CODE);
     }
 
     /**

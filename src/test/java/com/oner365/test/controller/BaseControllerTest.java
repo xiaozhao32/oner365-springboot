@@ -27,7 +27,7 @@ import reactor.core.publisher.Mono;
  */
 public class BaseControllerTest extends BaseTest {
 
-    protected static final String URL = "http://localhost:8080";
+    protected static final String URL = "http://localhost:8704";
 
     protected WebClient client;
 

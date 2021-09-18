@@ -3,7 +3,6 @@ package com.oner365.sys.service.impl;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.Maps;
 import com.oner365.common.cache.annotation.RedisCacheAble;
 import com.oner365.common.cache.annotation.RedisCachePut;
 import com.oner365.common.constants.PublicConstants;
@@ -87,24 +85,18 @@ public class SysOrganizationServiceImpl implements ISysOrganizationService {
     }
 
     @Override
-    public Map<String, Object> checkConnection(String id) {
+    public boolean checkConnection(String id) {
         try {
-            Map<String, Object> result = Maps.newHashMap();
-
             SysOrganization org = getById(id);
             DataSourceConfig config = org.getDataSourceConfig();
             if (config != null) {
-                boolean isConnection = DataSourceUtil.isConnection(config.getDriverName(), config.getUrl(),
+                return DataSourceUtil.isConnection(config.getDriverName(), config.getUrl(),
                         config.getUserName(), config.getPassword());
-                result.put(SysConstants.STATUS, isConnection);
-            } else {
-                result.put(SysConstants.STATUS, false);
             }
-            return result;
         } catch (Exception e) {
             LOGGER.error("Error checkConnection:", e);
         }
-        return null;
+        return false;
     }
 
     @Override
