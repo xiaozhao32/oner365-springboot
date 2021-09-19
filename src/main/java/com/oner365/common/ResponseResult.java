@@ -4,6 +4,10 @@ import java.io.Serializable;
 
 import com.oner365.common.constants.PublicConstants;
 
+/**
+ * 统一返回格式
+ * @author zhaoyong
+ */
 public class ResponseResult<T> implements Serializable {
 
     private static final long serialVersionUID = 1L;
