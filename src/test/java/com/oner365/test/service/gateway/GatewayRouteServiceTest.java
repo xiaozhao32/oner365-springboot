@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.gateway.entity.GatewayRoute;
 import com.oner365.gateway.service.DynamicRouteService;
 import com.oner365.test.service.BaseServiceTest;
@@ -36,8 +36,8 @@ public class GatewayRouteServiceTest extends BaseServiceTest {
 
     @Test
     public void pageList() {
-        JSONObject paramJson = new JSONObject();
-        Page<GatewayRoute> list = service.pageList(paramJson);
+        QueryCriteriaBean paramData = new QueryCriteriaBean();
+        Page<GatewayRoute> list = service.pageList(paramData);
         LOGGER.info("pageList:{}", list.getSize());
         Assertions.assertNotEquals(0, list.getSize());
     }

@@ -1,11 +1,8 @@
 package com.oner365.test.service.sys;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.oner365.sys.entity.SysDictItemType;
-import com.oner365.sys.service.ISysDictItemTypeService;
-import com.oner365.test.service.BaseServiceTest;
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
@@ -13,7 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 
-import java.util.List;
+import com.alibaba.fastjson.JSON;
+import com.oner365.common.query.QueryCriteriaBean;
+import com.oner365.sys.entity.SysDictItemType;
+import com.oner365.sys.service.ISysDictItemTypeService;
+import com.oner365.test.service.BaseServiceTest;
 
 /**
  * Test SysDictItemTypeService
@@ -29,28 +30,24 @@ public class SysDictItemTypeServiceTest extends BaseServiceTest {
 
     @RepeatedTest(value = 2)
     public void findList() {
-        JSONObject paramJson = new JSONObject();
-        List<SysDictItemType> list = service.findList(paramJson);
+        QueryCriteriaBean paramData = new QueryCriteriaBean();
+        List<SysDictItemType> list = service.findList(paramData);
         LOGGER.info("findList:{}", list.size());
         Assertions.assertNotEquals(0, list.size());
     }
 
     @Test
     public void findListByCodes() {
-        JSONObject paramJson = new JSONObject();
-        JSONArray paramArray = new JSONArray();
-        paramArray.add("sys_task_group");
-        paramArray.add("sys_task_status");
-        paramJson.put("codes", paramArray);
-        List<SysDictItemType> list = service.findListByCodes(paramJson);
+        String[] codes = new String[]{"sys_task_group", "sys_task_status"};
+        List<SysDictItemType> list = service.findListByCodes(Arrays.asList(codes));
         LOGGER.info("findListByCodes:{}", list.size());
         Assertions.assertNotEquals(0, list.size());
     }
 
     @Test
     public void pageList() {
-        JSONObject paramJson = new JSONObject();
-        Page<SysDictItemType> list = service.pageList(paramJson);
+        QueryCriteriaBean paramData = new QueryCriteriaBean();
+        Page<SysDictItemType> list = service.pageList(paramData);
         LOGGER.info("pageList:{}", list.getSize());
         Assertions.assertNotEquals(0, list.getSize());
     }

@@ -3,12 +3,14 @@ package com.oner365.common.config;
 import java.util.Collections;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.oner365.common.config.properties.ProjectProperties;
 import com.oner365.common.constants.PublicConstants;
 
 import io.swagger.models.auth.In;
@@ -35,6 +37,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @Configuration
 public class SwaggerConfig implements WebMvcConfigurer {
+    
+    @Autowired
+    private ProjectProperties projectProperties;
     
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -79,10 +84,10 @@ public class SwaggerConfig implements WebMvcConfigurer {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Oner365 Springboot")
-                .description("springboot | swagger")
-                .contact(new Contact("oner365", "https://www.oner365.com", "service@oner365.com"))
-                .version("1.0.0")
+                .title(projectProperties.getName())
+                .description(projectProperties.getDescription())
+                .contact(new Contact(projectProperties.getName(), projectProperties.getUrl(), projectProperties.getEmail()))
+                .version(projectProperties.getVersion())
                 .build();
     }
 

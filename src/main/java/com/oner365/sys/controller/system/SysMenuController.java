@@ -12,13 +12,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
+import com.oner365.common.ResponseResult;
 import com.oner365.common.auth.AuthUser;
 import com.oner365.common.auth.annotation.CurrentUser;
-import com.oner365.common.constants.PublicConstants;
+import com.oner365.common.constants.ErrorInfo;
 import com.oner365.controller.BaseController;
 import com.oner365.sys.constants.SysConstants;
 import com.oner365.sys.entity.SysMenu;
@@ -50,21 +51,16 @@ public class SysMenuController extends BaseController {
      * 保存菜单
      *
      * @param sysMenuVo 菜单对象
-     * @return Map<String, Object>
+     * @return ResponseResult<SysMenu>
      */
     @PutMapping("/save")
     @ApiOperation("保存")
-    public Map<String, Object> save(@RequestBody SysMenuVo sysMenuVo) {
-        SysMenu sysMenu = sysMenuVo.toObject();
-        Map<String, Object> result = Maps.newHashMap();
-        result.put(PublicConstants.CODE, PublicConstants.ERROR_CODE);
-        if (sysMenu != null) {
-            SysMenu entity = menuService.save(sysMenu);
-
-            result.put(PublicConstants.CODE, PublicConstants.SUCCESS_CODE);
-            result.put(PublicConstants.MSG, entity);
+    public ResponseResult<SysMenu> save(@RequestBody SysMenuVo sysMenuVo) {
+        if (sysMenuVo != null) {
+            SysMenu entity = menuService.save(sysMenuVo.toObject());
+            return ResponseResult.success(entity);
         }
-        return result;
+        return ResponseResult.error(ErrorInfo.ERR_SAVE_ERROR);
     }
 
     /**
@@ -80,7 +76,7 @@ public class SysMenuController extends BaseController {
         result.put("sysMenu", menuService.getById(id));
         List<String> menuOperList = operationService.selectByMenuId(id);
         result.put("menuOperList", menuOperList);
-        List<SysMenuOperation> operationList = operationService.findAll();
+        List<SysMenuOperation> operationList = operationService.findList();
         result.put("operationList", operationList);
         return result;
 
@@ -120,14 +116,13 @@ public class SysMenuController extends BaseController {
     /**
      * 修改菜单状态
      *
-     * @param paramJson 参数
+     * @param id 主键
+     * @param status 状态
      * @return Integer
      */
-    @PostMapping("/editStatusById")
+    @PostMapping("/editStatusById/{id}")
     @ApiOperation("修改状态")
-    public Integer editStatusById(@RequestBody JSONObject paramJson) {
-        String status = paramJson.getString(SysConstants.STATUS);
-        String id = paramJson.getString(SysConstants.ID);
+    public Integer editStatusById(@PathVariable String id, @RequestParam("status") String status) {
         return menuService.editStatusById(id, status);
     }
 

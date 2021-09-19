@@ -13,8 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.oner365.common.cache.annotation.RedisCacheAble;
 import com.oner365.common.cache.annotation.RedisCachePut;
 import com.oner365.common.constants.PublicConstants;
@@ -46,12 +44,8 @@ public class DataSourceConfigServiceImpl implements IDataSourceConfigService {
 
     @Override
     @Cacheable(value = CACHE_NAME, keyGenerator = PublicConstants.KEY_GENERATOR)
-    public Page<DataSourceConfig> pageList(JSONObject paramJson) {
+    public Page<DataSourceConfig> pageList(QueryCriteriaBean data) {
         try {
-            QueryCriteriaBean data = JSON.toJavaObject(paramJson, QueryCriteriaBean.class);
-            if (paramJson.isEmpty()) {
-                data.setPageSize(Integer.MAX_VALUE);
-            }
             Pageable pageable = QueryUtils.buildPageRequest(data);
             Criteria<DataSourceConfig> criteria = QueryUtils.buildCriteria(data);
             return dao.findAll(criteria, pageable);

@@ -1,7 +1,6 @@
 package com.oner365.sys.controller.system;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,13 +12,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.Maps;
-import com.oner365.common.constants.PublicConstants;
+import com.oner365.common.ResponseResult;
+import com.oner365.common.constants.ErrorInfo;
+import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
-import com.oner365.sys.constants.SysConstants;
 import com.oner365.sys.entity.SysJob;
 import com.oner365.sys.service.ISysJobService;
 import com.oner365.sys.vo.SysJobVo;
@@ -44,20 +43,16 @@ public class SysJobController extends BaseController {
      * 用户职位保存
      * 
      * @param sysJobVo 职位对象
-     * @return Map<String, Object>
+     * @return ResponseResult<SysJob>
      */
     @PutMapping("/save")
     @ApiOperation("保存")
-    public Map<String, Object> save(@RequestBody SysJobVo sysJobVo) {
-        SysJob sysJob = sysJobVo.toObject();
-        Map<String, Object> result = Maps.newHashMap();
-        result.put(PublicConstants.CODE, PublicConstants.ERROR_CODE);
-        if (sysJob != null) {
-            SysJob entity = sysJobService.save(sysJob);
-            result.put(PublicConstants.CODE, PublicConstants.SUCCESS_CODE);
-            result.put(PublicConstants.MSG, entity);
+    public ResponseResult<SysJob> save(@RequestBody SysJobVo sysJobVo) {
+        if (sysJobVo != null) {
+            SysJob entity = sysJobService.save(sysJobVo.toObject());
+            return ResponseResult.success(entity);
         }
-        return result;
+        return ResponseResult.error(ErrorInfo.ERR_SAVE_ERROR);
     }
 
     /**
@@ -75,13 +70,13 @@ public class SysJobController extends BaseController {
     /**
      * 用户职位列表
      * 
-     * @param paramJson 参数
+     * @param data 查询参数
      * @return Page<SysJob>
      */
     @PostMapping("/list")
     @ApiOperation("获取列表")
-    public Page<SysJob> list(@RequestBody JSONObject paramJson) {
-        return sysJobService.pageList(paramJson);
+    public Page<SysJob> list(@RequestBody QueryCriteriaBean data) {
+        return sysJobService.pageList(data);
     }
 
     /**
@@ -101,29 +96,28 @@ public class SysJobController extends BaseController {
     }
 
     /**
-     * 修改用户状态
+     * 修改职位状态
      *
-     * @param json 参数
+     * @param id     主键
+     * @param status 状态
      * @return Integer
      */
-    @PostMapping("/editStatus")
+    @PostMapping("/editStatus/{id}")
     @ApiOperation("修改状态")
-    public Integer editStatus(@RequestBody JSONObject json) {
-        String status = json.getString(SysConstants.STATUS);
-        String id = json.getString(SysConstants.ID);
+    public Integer editStatus(@PathVariable String id, @RequestParam("status") String status) {
         return sysJobService.editStatus(id, status);
     }
 
     /**
      * 导出Excel
      * 
-     * @param paramJson 参数
+     * @param data 查询参数
      * @return ResponseEntity<byte[]>
      */
     @PostMapping("/export")
     @ApiOperation("导出")
-    public ResponseEntity<byte[]> export(@RequestBody JSONObject paramJson) {
-        List<SysJob> list = sysJobService.findList(paramJson);
+    public ResponseEntity<byte[]> export(@RequestBody QueryCriteriaBean data) {
+        List<SysJob> list = sysJobService.findList(data);
 
         String[] titleKeys = new String[] { "编号", "职位名称", "职位描述", "排序", "状态", "创建时间", "更新时间" };
         String[] columnNames = { "id", "jobName", "jobInfo", "jobOrder", "status", "createTime", "updateTime" };

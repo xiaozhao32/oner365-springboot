@@ -1,5 +1,6 @@
 package com.oner365.sys.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,12 +12,10 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import com.google.common.base.Strings;
 import com.oner365.common.cache.annotation.RedisCacheAble;
 import com.oner365.common.cache.annotation.RedisCachePut;
 import com.oner365.common.constants.PublicConstants;
@@ -29,6 +28,7 @@ import com.oner365.sys.constants.SysConstants;
 import com.oner365.sys.dao.ISysDictItemDao;
 import com.oner365.sys.entity.SysDictItem;
 import com.oner365.sys.service.ISysDictItemService;
+import com.oner365.util.DataUtils;
 
 /**
  * 字典接口实现类
@@ -71,11 +71,10 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
 
     @Override
     @Cacheable(value = CACHE_NAME, keyGenerator = PublicConstants.KEY_GENERATOR)
-    public Page<SysDictItem> pageList(JSONObject paramJson) {
+    public Page<SysDictItem> pageList(QueryCriteriaBean data) {
         try {
-            QueryCriteriaBean data = JSON.toJavaObject(paramJson, QueryCriteriaBean.class);
             Pageable pageable = QueryUtils.buildPageRequest(data);
-            return dao.findAll(getCriteria(paramJson), pageable);
+            return dao.findAll(QueryUtils.buildCriteria(data), pageable);
         } catch (Exception e) {
             LOGGER.error("Error pageList: ", e);
         }
@@ -84,19 +83,32 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
 
     @Override
     @Cacheable(value = CACHE_NAME, keyGenerator = PublicConstants.KEY_GENERATOR)
-    public List<SysDictItem> findList(JSONObject paramJson) {
-        Criteria<SysDictItem> criteria = getCriteria(paramJson);
-        criteria.add(Restrictions.eq(SysConstants.STATUS, PublicConstants.STATUS_YES));
-        return dao.findAll(criteria, Sort.by(SysConstants.ITEM_ORDER));
+    public List<SysDictItem> findList(QueryCriteriaBean data) {
+        try {
+            if (data.getOrder() == null) {
+                return dao.findAll(QueryUtils.buildCriteria(data));
+            }
+            return dao.findAll(QueryUtils.buildCriteria(data), QueryUtils.buildSortRequest(data.getOrder()));
+        } catch (Exception e) {
+            LOGGER.error("Error findList: ", e);
+        }
+        return new ArrayList<>();
     }
-
-    private Criteria<SysDictItem> getCriteria(JSONObject paramJson) {
-        Criteria<SysDictItem> criteria = new Criteria<>();
-        criteria.add(Restrictions.eq(SysConstants.TYPE_ID, paramJson.getString(SysConstants.TYPE_ID)));
-        criteria.add(Restrictions.like(SysConstants.ITEM_NAME, paramJson.getString(SysConstants.ITEM_NAME)));
-        criteria.add(Restrictions.like(SysConstants.ITEM_CODE, paramJson.getString(SysConstants.ITEM_CODE)));
-        criteria.add(Restrictions.eq(SysConstants.STATUS, paramJson.getString(SysConstants.STATUS)));
-        return criteria;
+    
+    @Override
+    public long checkCode(String id, String typeId, String code) {
+        try {
+            Criteria<SysDictItem> criteria = new Criteria<>();
+            criteria.add(Restrictions.eq(SysConstants.ITEM_CODE, DataUtils.trimToNull(code)));
+            criteria.add(Restrictions.eq(SysConstants.TYPE_ID, DataUtils.trimToNull(typeId)));
+            if (!Strings.isNullOrEmpty(id)) {
+                criteria.add(Restrictions.ne(SysConstants.ID, id));
+            }
+            return dao.count(criteria);
+        } catch (Exception e) {
+            LOGGER.error("Error checkCode:", e);
+        }
+        return 0L;
     }
 
     @Override
@@ -118,9 +130,12 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
     })
     public Integer editStatus(String id, String status) {
         SysDictItem entity = this.getById(id);
-        entity.setStatus(status);
-        this.save(entity);
-        return 1;
+        if (entity != null && entity.getId() != null) {
+            entity.setStatus(status);
+            this.save(entity);
+            return 1;
+        }
+        return 0;
     }
 
 }

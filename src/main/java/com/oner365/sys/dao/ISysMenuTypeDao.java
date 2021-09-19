@@ -13,15 +13,6 @@ import com.oner365.sys.entity.SysMenuType;
 public interface ISysMenuTypeDao extends JpaRepository<SysMenuType, String>,JpaSpecificationExecutor<SysMenuType>{
 
     /**
-     * 按类型查询数量
-     * @param id 主键
-     * @param typeCode 类型编号
-     * @return int
-     */
-    @Query(value = "select count(id) as countRow from nt_sys_menu_type where id<>?1 and type_code=?2",nativeQuery = true)
-    int countTypeById(String id, String typeCode);
-
-    /**
      * 按类型编号查询
      * @param typeCode 类型编号
      * @return SysMenuType

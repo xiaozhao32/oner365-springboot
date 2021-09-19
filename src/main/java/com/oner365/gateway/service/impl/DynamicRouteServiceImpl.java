@@ -12,12 +12,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.oner365.common.query.Criteria;
+import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.common.query.QueryUtils;
-import com.oner365.common.query.Restrictions;
 import com.oner365.gateway.constants.GatewayConstants;
 import com.oner365.gateway.dao.IGatewayRouteDao;
 import com.oner365.gateway.entity.GatewayFilter;
@@ -25,9 +24,6 @@ import com.oner365.gateway.entity.GatewayPredicate;
 import com.oner365.gateway.entity.GatewayRoute;
 import com.oner365.gateway.rabbitmq.ISyncRouteMqService;
 import com.oner365.gateway.service.DynamicRouteService;
-import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 /**
  * 动态路由服务实现类
@@ -52,17 +48,12 @@ public class DynamicRouteServiceImpl implements DynamicRouteService {
     }
     
     @Override
-    public Page<GatewayRoute> pageList(JSONObject paramJson) {
+    public Page<GatewayRoute> pageList(QueryCriteriaBean data) {
         try {
-            QueryCriteriaBean data = JSON.toJavaObject(paramJson, QueryCriteriaBean.class);
             Pageable pageable = QueryUtils.buildPageRequest(data);
-            
-            Criteria<GatewayRoute> criteria = new Criteria<>();
-            criteria.add(Restrictions.like("id", paramJson.getString("id")));
-            criteria.add(Restrictions.eq("status", paramJson.getString("status")));
-            return gatewayRouteDao.findAll(criteria, pageable);
+            return gatewayRouteDao.findAll(QueryUtils.buildCriteria(data), pageable);
         } catch (Exception e) {
-            LOGGER.error("Error findList: ", e);
+            LOGGER.error("Error pageList: ", e);
         }
         return null;
     }

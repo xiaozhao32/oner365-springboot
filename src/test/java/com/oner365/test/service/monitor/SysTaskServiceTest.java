@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.monitor.entity.SysTask;
 import com.oner365.monitor.service.ISysTaskService;
 import com.oner365.test.service.BaseServiceTest;
@@ -29,16 +29,16 @@ public class SysTaskServiceTest extends BaseServiceTest {
 
     @RepeatedTest(value = 2)
     public void pageList() {
-        JSONObject paramJson = new JSONObject();
-        Page<SysTask> list = service.pageList(paramJson);
+        QueryCriteriaBean paramData = new QueryCriteriaBean();
+        Page<SysTask> list = service.pageList(paramData);
         LOGGER.info("pageList:{}", list.getSize());
         Assertions.assertNotEquals(0, list.getSize());
     }
 
     @Test
     public void selectTaskById() {
-        JSONObject paramJson = new JSONObject();
-        Page<SysTask> list = service.pageList(paramJson);
+        QueryCriteriaBean paramData = new QueryCriteriaBean();
+        Page<SysTask> list = service.pageList(paramData);
         if (!DataUtils.isEmpty(list) && !list.getContent().isEmpty()) {
             SysTask entity = service.selectTaskById(list.getContent().get(0).getId());
             LOGGER.info("selectTaskById:{}", JSON.toJSONString(entity));

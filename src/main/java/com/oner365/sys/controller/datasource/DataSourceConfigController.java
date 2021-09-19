@@ -1,7 +1,5 @@
 package com.oner365.sys.controller.datasource;
 
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,9 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.Maps;
+import com.oner365.common.ResponseResult;
+import com.oner365.common.constants.ErrorInfo;
 import com.oner365.common.constants.PublicConstants;
+import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
 import com.oner365.sys.entity.DataSourceConfig;
 import com.oner365.sys.service.IDataSourceConfigService;
@@ -40,13 +39,13 @@ public class DataSourceConfigController extends BaseController {
 
     /**
      * 列表
-     * @param json 参数
+     * @param data 查询参数
      * @return Page<DataSourceConfig>
      */
     @PostMapping("/list")
     @ApiOperation("列表")
-    public Page<DataSourceConfig> findList(@RequestBody JSONObject json) {
-        return service.pageList(json);
+    public Page<DataSourceConfig> findList(@RequestBody QueryCriteriaBean data) {
+        return service.pageList(data);
     }
 
     /**
@@ -74,21 +73,16 @@ public class DataSourceConfigController extends BaseController {
     /**
      * 保存
      * @param dataSourceConfigVo 数据源对象
-     * @return Map<String, Object>
+     * @return ResponseResult<DataSourceConfig>
      */
     @PutMapping("/save")
     @ApiOperation("保存")
-    public Map<String, Object> save(@RequestBody DataSourceConfigVo dataSourceConfigVo) {
-        DataSourceConfig dataSourceConfig = dataSourceConfigVo.toObject();
-        Map<String, Object> result = Maps.newHashMap();
-        result.put(PublicConstants.CODE, PublicConstants.ERROR_CODE);
-        if (dataSourceConfig != null) {
-            DataSourceConfig entity = service.save(dataSourceConfig);
-            
-            result.put(PublicConstants.CODE, PublicConstants.SUCCESS_CODE);
-            result.put(PublicConstants.MSG, entity);
+    public ResponseResult<DataSourceConfig> save(@RequestBody DataSourceConfigVo dataSourceConfigVo) {
+        if (dataSourceConfigVo != null) {
+            DataSourceConfig entity = service.save(dataSourceConfigVo.toObject());
+            return ResponseResult.success(entity);
         }
-        return result;
+        return ResponseResult.error(ErrorInfo.ERR_SAVE_ERROR);
     }
 
     /**
@@ -99,7 +93,7 @@ public class DataSourceConfigController extends BaseController {
     @DeleteMapping("/delete")
     @ApiOperation("删除")
     public Integer delete(@RequestBody String... ids) {
-        int code = 0;
+        int code = PublicConstants.ERROR_CODE;
         for (String id : ids) {
             code = service.deleteById(id);
         }

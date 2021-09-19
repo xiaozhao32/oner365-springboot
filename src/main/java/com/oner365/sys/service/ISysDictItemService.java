@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 
-import com.alibaba.fastjson.JSONObject;
+import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.sys.entity.SysDictItem;
 
 /**
@@ -29,18 +29,27 @@ public interface ISysDictItemService {
 
     /**
      * 查询分页列表
-     * @param paramJson 查询条件
+     * @param data 查询参数
      * @return Page
      */
-    Page<SysDictItem> pageList(JSONObject paramJson);
+    Page<SysDictItem> pageList(QueryCriteriaBean data);
 
     /**
      * 查询列表
      * 
-     * @param paramJson 参数
+     * @param data 查询参数
      * @return List
      */
-    List<SysDictItem> findList(JSONObject paramJson);
+    List<SysDictItem> findList(QueryCriteriaBean data);
+    
+    /**
+     * 检测code是否存在
+     * @param id 主键
+     * @param typeId 字典类别id
+     * @param code 编号
+     * @return long
+     */
+    long checkCode(String id, String typeId, String code);
 
     /**
      * 删除

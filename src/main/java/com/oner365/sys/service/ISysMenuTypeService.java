@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 
-import com.alibaba.fastjson.JSONObject;
+import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.sys.entity.SysMenuType;
 
 /**
@@ -16,18 +16,18 @@ public interface ISysMenuTypeService {
     /**
      * 查询列表
      *
-     * @param paramJson 参数
+     * @param data 查询参数
      * @return Page
      */
-    Page<SysMenuType> pageList(JSONObject paramJson);
+    Page<SysMenuType> pageList(QueryCriteriaBean data);
 
     /**
      * 查询全部
      *
-     * @param paramJson 查询对象
+     * @param data 查询参数
      * @return List
      */
-    List<SysMenuType> findList(JSONObject paramJson);
+    List<SysMenuType> findList(QueryCriteriaBean data);
 
     /**
      * 查询详情
@@ -59,9 +59,9 @@ public interface ISysMenuTypeService {
      *
      * @param id   编号
      * @param code 编号
-     * @return int
+     * @return long
      */
-    int checkCode(String id, String code);
+    long checkCode(String id, String code);
 
     /**
      * 按菜单类型查询

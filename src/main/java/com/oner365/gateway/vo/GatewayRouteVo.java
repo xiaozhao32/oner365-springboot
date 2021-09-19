@@ -1,4 +1,4 @@
-package com.oner365.sys.vo;
+package com.oner365.gateway.vo;
 
 import java.io.Serializable;
 import java.util.List;

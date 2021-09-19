@@ -1,5 +1,7 @@
 package com.oner365.sys.controller.system;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -13,12 +15,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
+import com.oner365.common.ResponseResult;
+import com.oner365.common.constants.ErrorInfo;
 import com.oner365.common.constants.PublicConstants;
+import com.oner365.common.query.AttributeBean;
+import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
 import com.oner365.sys.constants.SysConstants;
 import com.oner365.sys.entity.SysDictItem;
@@ -27,12 +32,15 @@ import com.oner365.sys.service.ISysDictItemService;
 import com.oner365.sys.service.ISysDictItemTypeService;
 import com.oner365.sys.vo.SysDictItemTypeVo;
 import com.oner365.sys.vo.SysDictItemVo;
+import com.oner365.sys.vo.check.CheckCodeVo;
+import com.oner365.sys.vo.check.CheckTypeCodeVo;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 /**
  * 字典信息
+ * 
  * @author zhaoyong
  */
 @RestController
@@ -50,38 +58,46 @@ public class SysDictItemController extends BaseController {
      * 字典类别保存
      *
      * @param sysDictItemTypeVo 字典类别对象
-     * @return Map<String, Object>
+     * @return ResponseResult<SysDictItemType>
      */
     @PutMapping("/saveDictItemType")
     @ApiOperation("字典类别保存")
-    public Map<String, Object> saveDictItemType(@RequestBody SysDictItemTypeVo sysDictItemTypeVo) {
-        SysDictItemType sysDictItemType = sysDictItemTypeVo.toObject();
-        Map<String, Object> result = Maps.newHashMap();
-        result.put(PublicConstants.CODE, PublicConstants.ERROR_CODE);
-        if (sysDictItemType != null) {
-            SysDictItemType entity = sysDictItemTypeService.save(sysDictItemType);
-            result.put(PublicConstants.CODE, PublicConstants.SUCCESS_CODE);
-            result.put(PublicConstants.MSG, entity);
+    public ResponseResult<SysDictItemType> saveDictItemType(@RequestBody SysDictItemTypeVo sysDictItemTypeVo) {
+        if (sysDictItemTypeVo != null) {
+            SysDictItemType entity = sysDictItemTypeService.save(sysDictItemTypeVo.toObject());
+            return ResponseResult.success(entity);
         }
-        return result;
+        return ResponseResult.error(ErrorInfo.ERR_SAVE_ERROR);
     }
 
     /**
      * 判断类别id 是否存在
      *
-     * @param paramJson 参数
-     * @return Map<String, Object>
+     * @param checkCodeVo 查询参数
+     * @return Long
      */
-    @PostMapping("/checkTypeId")
-    @ApiOperation("判断列表是否存在")
-    public Map<String, Object> checkTypeId(@RequestBody JSONObject paramJson) {
-        String id = paramJson.getString(SysConstants.ID);
-        String code = paramJson.getString(PublicConstants.CODE);
-        
-        int check = sysDictItemTypeService.checkTypeId(id, code);
-        Map<String, Object> result = Maps.newHashMap();
-        result.put(PublicConstants.CODE, check);
-        return result;
+    @PostMapping("/checkTypeCode")
+    @ApiOperation("判断字典类别是否存在")
+    public Long checkTypeCode(@RequestBody CheckCodeVo checkCodeVo) {
+        if (checkCodeVo != null) {
+            return sysDictItemTypeService.checkCode(checkCodeVo.getId(), checkCodeVo.getCode());
+        }
+        return Long.valueOf(PublicConstants.ERROR_CODE);
+    }
+    
+    /**
+     * 判断类别id 是否存在
+     *
+     * @param checkTypeCodeVo 查询参数
+     * @return Long
+     */
+    @PostMapping("/checkCode")
+    @ApiOperation("判断字典是否存在")
+    public Long checkCode(@RequestBody CheckTypeCodeVo checkTypeCodeVo) {
+        if (checkTypeCodeVo != null) {
+            return sysDictItemService.checkCode(checkTypeCodeVo.getId(), checkTypeCodeVo.getTypeId(), checkTypeCodeVo.getCode());
+        }
+        return Long.valueOf(PublicConstants.ERROR_CODE);
     }
 
     /**
@@ -105,108 +121,100 @@ public class SysDictItemController extends BaseController {
     @GetMapping("/findTypeInfoById/{typeId}")
     @ApiOperation("按类别id查询列表")
     public List<SysDictItem> findTypeInfoById(@PathVariable String typeId) {
-        JSONObject paramJson = new JSONObject();
-        paramJson.put(SysConstants.TYPE_ID, typeId);
-        return sysDictItemService.findList(paramJson);
+        QueryCriteriaBean data = new QueryCriteriaBean();
+        List<AttributeBean> whereList = new ArrayList<>();
+        AttributeBean attribute = new AttributeBean(SysConstants.TYPE_ID, typeId);
+        whereList.add(attribute);
+        data.setWhereList(whereList);
+        return sysDictItemService.findList(data);
     }
 
     /**
      * 获取类别字典信息
      *
-     * @param paramJson 字典参数
+     * @param typeIds 字典参数
      * @return Map<String, Object>
      */
-    @PostMapping("/findTypeInfoByCodes")
+    @PostMapping("/findItemByTypeIds")
     @ApiOperation("按类别编码查询字典列表")
-    public Map<String, Object> findTypeInfoByCodes(@RequestBody JSONObject paramJson) {
-        JSONArray array = paramJson.getJSONArray("codes");
+    public Map<String, Object> findItemByTypeIds(@RequestBody String... typeIds) {
         Map<String, Object> result = Maps.newHashMap();
-        array.forEach(obj -> {
-            JSONObject json = new JSONObject();
-            json.put(SysConstants.TYPE_ID, obj);
-            List<SysDictItem> itemList = sysDictItemService.findList(json);
-            result.put((String)obj, itemList);
-        });
+        for (String typeId : typeIds) {
+            QueryCriteriaBean data = new QueryCriteriaBean();
+            List<AttributeBean> whereList = new ArrayList<>();
+            AttributeBean attribute = new AttributeBean(SysConstants.TYPE_ID, typeId);
+            whereList.add(attribute);
+            data.setWhereList(whereList);
+            List<SysDictItem> itemList = sysDictItemService.findList(data);
+            result.put(typeId, itemList);
+        }
         return result;
     }
 
     /**
      * 获取类别列表
      *
-     * @param paramJson 参数
+     * @param data 查询参数
      * @return Page<SysDictItemType>
      */
     @PostMapping("/findTypeList")
     @ApiOperation("获取类别列表")
-    public Page<SysDictItemType> findTypeList(@RequestBody JSONObject paramJson) {
-        return sysDictItemTypeService.pageList(paramJson);
+    public Page<SysDictItemType> findTypeList(@RequestBody QueryCriteriaBean data) {
+        return sysDictItemTypeService.pageList(data);
     }
 
     /**
      * 修改状态
      *
-     * @param json 参数
-     * @return Map<String, Object>
+     * @param id     主键
+     * @param status 状态
+     * @return Integer
      */
-    @PostMapping("/editTypeStatus")
+    @PostMapping("/editTypeStatus/{id}")
     @ApiOperation("修改类别状态")
-    public Map<String, Object> editTypeStatus(@RequestBody JSONObject json) {
-        String status = json.getString(SysConstants.STATUS);
-        String id = json.getString(SysConstants.ID);
-        Integer code = sysDictItemTypeService.editStatus(id, status);
-        Map<String, Object> result = Maps.newHashMap();
-        result.put(PublicConstants.CODE, code);
-        return result;
+    public Integer editTypeStatus(@PathVariable String id, @RequestParam("status") String status) {
+        return sysDictItemTypeService.editStatus(id, status);
     }
 
     /**
      * 修改状态
      *
-     * @param json 参数
-     * @return Map<String, Object>
+     * @param id     主键
+     * @param status 状态
+     * @return Integer
      */
-    @PostMapping("/editItemStatus")
+    @PostMapping("/editItemStatus/{id}")
     @ApiOperation("修改字典状态")
-    public Map<String, Object> editItemStatus(@RequestBody JSONObject json) {
-        String status = json.getString(SysConstants.STATUS);
-        String id = json.getString(SysConstants.ID);
-        Integer code = sysDictItemService.editStatus(id, status);
-        Map<String, Object> result = Maps.newHashMap();
-        result.put(PublicConstants.CODE, code);
-        return result;
+    public Integer editItemStatus(@PathVariable String id, @RequestParam("status") String status) {
+        return sysDictItemService.editStatus(id, status);
     }
 
     /**
      * 获取字典列表
      *
-     * @param paramJson 参数
+     * @param data 查询参数
      * @return Page<SysDictItem>
      */
     @PostMapping("/findItemList")
     @ApiOperation("获取字典列表")
-    public Page<SysDictItem> findItemList(@RequestBody JSONObject paramJson) {
-        return sysDictItemService.pageList(paramJson);
+    public Page<SysDictItem> findItemList(@RequestBody QueryCriteriaBean data) {
+        return sysDictItemService.pageList(data);
     }
 
     /**
      * 保存字典信息
      *
      * @param sysDictItemVo 字典对象
-     * @return Map<String, Object>
+     * @return ResponseResult<SysDictItem>
      */
     @PutMapping("/saveDictItem")
     @ApiOperation("保存字典")
-    public Map<String, Object> saveDictItem(@RequestBody SysDictItemVo sysDictItemVo) {
-        SysDictItem sysDictItem = sysDictItemVo.toObject();
-        Map<String, Object> result = Maps.newHashMap();
-        result.put(PublicConstants.CODE, PublicConstants.ERROR_CODE);
-        if (sysDictItem != null) {
-            SysDictItem entity = sysDictItemService.save(sysDictItem);
-
-            result.put(PublicConstants.CODE, PublicConstants.SUCCESS_CODE);
-            result.put(PublicConstants.MSG, entity);
+    public ResponseResult<SysDictItem> saveDictItem(@RequestBody SysDictItemVo sysDictItemVo) {
+        if (sysDictItemVo != null) {
+            SysDictItem entity = sysDictItemService.save(sysDictItemVo.toObject());
+            return ResponseResult.success(entity);
         }
-        return result;
+        return ResponseResult.error(ErrorInfo.ERR_SAVE_ERROR);
     }
 
     /**
@@ -256,30 +264,28 @@ public class SysDictItemController extends BaseController {
     /**
      * 获取类别列表
      *
-     * @param json 参数
-     * @return Map<String, Object>
+     * @param codes 参数
+     * @return List<SysDictItemType>
      */
     @PostMapping("/findListByCodes")
     @ApiOperation("获取类别列表")
-    public Map<String, Object> findListByCode(@RequestBody JSONObject json) {
-        List<SysDictItemType> list = sysDictItemTypeService.findListByCodes(json);
-        Map<String, Object> result = Maps.newHashMap();
-        result.put(PublicConstants.PARAM_LIST, list);
-        return result;
+    public List<SysDictItemType> findListByCode(@RequestBody String... codes) {
+        return sysDictItemTypeService.findListByCodes(Arrays.asList(codes));
     }
 
     /**
      * 导出字典类型Excel
-     * @param paramJson 参数
+     * 
+     * @param data 参数
      * @return ResponseEntity<byte[]>
      */
     @PostMapping("/exportItemType")
     @ApiOperation("导出字典类别")
-    public ResponseEntity<byte[]> exportItemType(@RequestBody JSONObject paramJson){
-        List<SysDictItemType> list = sysDictItemTypeService.findList(paramJson);
+    public ResponseEntity<byte[]> exportItemType(@RequestBody QueryCriteriaBean data) {
+        List<SysDictItemType> list = sysDictItemTypeService.findList(data);
 
-        String[] titleKeys = new String[]{"编号","类型名称","类型标识","描述","排序","状态"};
-        String[] columnNames = {"id","typeName","typeCode","typeDes","typeOrder","status"};
+        String[] titleKeys = new String[] { "编号", "类型名称", "类型标识", "描述", "排序", "状态" };
+        String[] columnNames = { "id", "typeName", "typeCode", "typeDes", "typeOrder", "status" };
 
         String fileName = SysDictItemType.class.getSimpleName() + System.currentTimeMillis();
         return exportExcel(fileName, titleKeys, columnNames, list);
@@ -287,16 +293,17 @@ public class SysDictItemController extends BaseController {
 
     /**
      * 导出字典Excel
-     * @param paramJson 参数
+     * 
+     * @param data 查询参数
      * @return ResponseEntity<byte[]>
      */
     @PostMapping("/exportItem")
     @ApiOperation("导出字典")
-    public ResponseEntity<byte[]> exportItem(@RequestBody JSONObject paramJson){
-        List<SysDictItem> list = sysDictItemService.findList(paramJson);
+    public ResponseEntity<byte[]> exportItem(@RequestBody QueryCriteriaBean data) {
+        List<SysDictItem> list = sysDictItemService.findList(data);
 
-        String[] titleKeys = new String[]{"编号","类型标识","字典名称","字典标识","排序","状态"};
-        String[] columnNames = {"id","typeId","itemName","itemCode","itemOrder","status"};
+        String[] titleKeys = new String[] { "编号", "类型标识", "字典名称", "字典标识", "排序", "状态" };
+        String[] columnNames = { "id", "typeId", "itemName", "itemCode", "itemOrder", "status" };
 
         String fileName = SysDictItem.class.getSimpleName() + System.currentTimeMillis();
         return exportExcel(fileName, titleKeys, columnNames, list);

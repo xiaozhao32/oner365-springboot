@@ -1,7 +1,6 @@
 package com.oner365.sys.controller.system;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.Maps;
-import com.oner365.common.constants.PublicConstants;
+import com.oner365.common.ResponseResult;
+import com.oner365.common.constants.ErrorInfo;
+import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
 import com.oner365.sys.entity.SysLog;
 import com.oner365.sys.service.ISysLogService;
@@ -30,6 +29,7 @@ import io.swagger.annotations.ApiOperation;
 
 /**
  * 系统日志控制器
+ * 
  * @author zhaoyong
  */
 @RestController
@@ -42,25 +42,23 @@ public class SysLogController extends BaseController {
 
     /**
      * 保存
+     * 
      * @param sysLogVo 菜单类型对象
-     * @return Map<String, Object>
+     * @return ResponseResult<SysLog>
      */
     @PutMapping("/save")
     @ApiOperation("保存")
-    public Map<String, Object> save(@RequestBody SysLogVo sysLogVo){
-        SysLog sysLog = sysLogVo.toObject();
-        Map<String, Object> result = Maps.newHashMap();
-        result.put(PublicConstants.CODE, PublicConstants.ERROR_CODE);
-        if (sysLog != null) {
-            logService.save(sysLog);
-            result.put(PublicConstants.CODE, PublicConstants.SUCCESS_CODE);
-            result.put(PublicConstants.MSG, sysLog);
+    public ResponseResult<SysLog> save(@RequestBody SysLogVo sysLogVo) {
+        if (sysLogVo != null) {
+            SysLog entity = logService.save(sysLogVo.toObject());
+            return ResponseResult.success(entity);
         }
-        return result;
+        return ResponseResult.error(ErrorInfo.ERR_SAVE_ERROR);
     }
 
     /**
      * 获取信息
+     * 
      * @param id 编号
      * @return SysLog
      */
@@ -72,17 +70,19 @@ public class SysLogController extends BaseController {
 
     /**
      * 列表
-     * @param paramJson 参数
+     * 
+     * @param data 查询参数
      * @return Page<SysLog>
      */
     @PostMapping("/list")
     @ApiOperation("获取列表")
-    public Page<SysLog> list(@RequestBody JSONObject paramJson){
-        return logService.pageList(paramJson);
+    public Page<SysLog> list(@RequestBody QueryCriteriaBean data) {
+        return logService.pageList(data);
     }
 
     /**
      * 删除
+     * 
      * @param ids 编号
      * @return Integer
      */
@@ -98,6 +98,7 @@ public class SysLogController extends BaseController {
 
     /**
      * 按日期删除日志
+     * 
      * @param date 日期
      * @return Integer
      */
@@ -109,16 +110,18 @@ public class SysLogController extends BaseController {
 
     /**
      * 导出日志
-     * @param paramJson 参数
+     * 
+     * @param data 查询参数
      * @return ResponseEntity<byte[]>
      */
     @PostMapping("/export")
     @ApiOperation("导出")
-    public ResponseEntity<byte[]> exportItem(@RequestBody JSONObject paramJson){
-        List<SysLog> list = logService.findList(paramJson);
+    public ResponseEntity<byte[]> exportItem(@RequestBody QueryCriteriaBean data) {
+        List<SysLog> list = logService.findList(data);
 
-        String[] titleKeys = new String[]{"编号","请求IP","请求方法","服务名称","请求地址","请求内容","创建时间"};
-        String[] columnNames = {"id","operationIp","methodName","operationName","operationPath","operationContext","createTime"};
+        String[] titleKeys = new String[] { "编号", "请求IP", "请求方法", "服务名称", "请求地址", "请求内容", "创建时间" };
+        String[] columnNames = { "id", "operationIp", "methodName", "operationName", "operationPath",
+                "operationContext", "createTime" };
 
         String fileName = SysLog.class.getSimpleName() + System.currentTimeMillis();
         return exportExcel(fileName, titleKeys, columnNames, list);

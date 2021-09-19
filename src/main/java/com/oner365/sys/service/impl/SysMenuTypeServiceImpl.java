@@ -1,6 +1,7 @@
 package com.oner365.sys.service.impl;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,8 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Strings;
 import com.oner365.common.cache.annotation.RedisCacheAble;
 import com.oner365.common.cache.annotation.RedisCachePut;
@@ -30,6 +29,7 @@ import com.oner365.sys.constants.SysConstants;
 import com.oner365.sys.dao.ISysMenuTypeDao;
 import com.oner365.sys.entity.SysMenuType;
 import com.oner365.sys.service.ISysMenuTypeService;
+import com.oner365.util.DataUtils;
 
 /**
  * SysMenuType Service
@@ -45,19 +45,14 @@ public class SysMenuTypeServiceImpl implements ISysMenuTypeService {
     private static final String CACHE_MENU_NAME = "SysMenu";
 
     @Autowired
-    private ISysMenuTypeDao menuTypeDao;
+    private ISysMenuTypeDao dao;
 
     @Override
     @Cacheable(value = CACHE_NAME, keyGenerator = PublicConstants.KEY_GENERATOR)
-    public Page<SysMenuType> pageList(JSONObject paramJson) {
+    public Page<SysMenuType> pageList(QueryCriteriaBean data) {
         try {
-            QueryCriteriaBean data = JSON.toJavaObject(paramJson, QueryCriteriaBean.class);
             Pageable pageable = QueryUtils.buildPageRequest(data);
-            Criteria<SysMenuType> criteria = new Criteria<>();
-            criteria.add(Restrictions.eq(SysConstants.TYPE_CODE, paramJson.getString(SysConstants.TYPE_CODE)));
-            criteria.add(Restrictions.like(SysConstants.TYPE_NAME, paramJson.getString(SysConstants.TYPE_NAME)));
-            criteria.add(Restrictions.eq(SysConstants.STATUS, paramJson.getString(SysConstants.STATUS)));
-            return menuTypeDao.findAll(criteria, pageable);
+            return dao.findAll(QueryUtils.buildCriteria(data), pageable);
         } catch (Exception e) {
             LOGGER.error("Error pageList: ", e);
         }
@@ -66,17 +61,20 @@ public class SysMenuTypeServiceImpl implements ISysMenuTypeService {
 
     @Override
     @Cacheable(value = CACHE_NAME, keyGenerator = PublicConstants.KEY_GENERATOR)
-    public List<SysMenuType> findList(JSONObject paramJson) {
-        Criteria<SysMenuType> criteria = new Criteria<>();
-        criteria.add(Restrictions.eq(SysConstants.STATUS, paramJson.getString(SysConstants.STATUS)));
-        return menuTypeDao.findAll(criteria);
+    public List<SysMenuType> findList(QueryCriteriaBean data) {
+        try {
+            return dao.findAll(QueryUtils.buildCriteria(data));
+        } catch (Exception e) {
+            LOGGER.error("Error findList: ", e);
+        }
+        return new ArrayList<>();
     }
 
     @Override
     @RedisCacheAble(value = CACHE_NAME, key = PublicConstants.KEY_ID)
     public SysMenuType getById(String id) {
         try {
-            Optional<SysMenuType> optional = menuTypeDao.findById(id);
+            Optional<SysMenuType> optional = dao.findById(id);
             return optional.orElse(null);
         } catch (Exception e) {
             LOGGER.error("Error getById: ", e);
@@ -98,7 +96,7 @@ public class SysMenuTypeServiceImpl implements ISysMenuTypeService {
         } else {
             menuType.setUpdateTime(new Timestamp(System.currentTimeMillis()));
         }
-        return menuTypeDao.save(menuType);
+        return dao.save(menuType);
     }
 
     @Override
@@ -109,25 +107,33 @@ public class SysMenuTypeServiceImpl implements ISysMenuTypeService {
     })
     public int editStatusById(String id, String status) {
         SysMenuType entity = getById(id);
-        entity.setStatus(status);
-        save(entity);
-        return 1;
-    }
-
-    @Override
-    public int checkCode(String id, String code) {
-        try {
-            return menuTypeDao.countTypeById(id, code);
-        } catch (Exception e) {
-            LOGGER.error("Error checkCode: ", e);
+        if (entity != null && entity.getId() != null) {
+            entity.setStatus(status);
+            save(entity);
+            return 1;
         }
         return 0;
     }
 
     @Override
+    public long checkCode(String id, String code) {
+        try {
+            Criteria<SysMenuType> criteria = new Criteria<>();
+            criteria.add(Restrictions.eq(SysConstants.TYPE_CODE, DataUtils.trimToNull(code)));
+            if (!Strings.isNullOrEmpty(id)) {
+                criteria.add(Restrictions.ne(SysConstants.ID, id));
+            }
+            return dao.count(criteria);
+        } catch (Exception e) {
+            LOGGER.error("Error checkCode:", e);
+        }
+        return 0L;
+    }
+
+    @Override
     @Cacheable(value = CACHE_NAME, keyGenerator = PublicConstants.KEY_GENERATOR)
     public SysMenuType getMenuTypeByTypeCode(String menuType) {
-        return menuTypeDao.getMenuTypeByTypeCode(menuType);
+        return dao.getMenuTypeByTypeCode(menuType);
     }
 
     @Override
@@ -137,7 +143,7 @@ public class SysMenuTypeServiceImpl implements ISysMenuTypeService {
             @CacheEvict(value = CACHE_MENU_NAME, allEntries = true)
     })
     public int deleteById(String id) {
-        menuTypeDao.deleteById(id);
+        dao.deleteById(id);
         return 1;
     }
 

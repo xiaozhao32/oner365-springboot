@@ -32,9 +32,9 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/monitor/service")
 @Api(tags = "监控 - 服务信息")
 public class ServiceController extends BaseController {
-    
+
     private static final String HOST = "localhost";
-    
+
     @Value("${spring.application.name}")
     private String serviceId;
     @Value("${server.port}")
@@ -44,6 +44,7 @@ public class ServiceController extends BaseController {
 
     /**
      * 基本信息
+     * 
      * @return List<List<Map<String, Object>>>
      */
     @GetMapping("/index")
@@ -51,7 +52,7 @@ public class ServiceController extends BaseController {
     public List<List<Map<String, Object>>> index() {
         List<List<Map<String, Object>>> serviceList = new ArrayList<>();
         List<Map<String, Object>> serviceInstances = new ArrayList<>();
-        
+
         // 获取服务中的实例列表
         Map<String, Object> map = new HashMap<>(10);
         map.put("serviceId", serviceId);
@@ -67,6 +68,7 @@ public class ServiceController extends BaseController {
 
     /**
      * 动态刷新配置
+     * 
      * @return String
      */
     @GetMapping("/refreshConfig")
@@ -77,17 +79,17 @@ public class ServiceController extends BaseController {
 
     /**
      * 获取信息
-     * @param paramJson 属性
+     * 
      * @return JSONObject
      */
     @PostMapping("/getActuatorEnv")
     @ApiOperation("配置信息")
-    public JSONObject getActuatorEnv(@RequestBody JSONObject paramJson) {
+    public JSONObject getActuatorEnv() {
         JSONObject result = new JSONObject();
         JSONArray profiles = new JSONArray();
         profiles.add(scheme);
         result.put("activeProfiles", profiles);
-         result.put("propertySources", null);
+        result.put("propertySources", null);
         return result;
     }
 
@@ -99,13 +101,14 @@ public class ServiceController extends BaseController {
      */
     @PostMapping("/uploadService")
     @ApiOperation("上传服务")
-    public String uploadService(@RequestParam("multipartFile") MultipartFile multipartFile,
-            String ip, int port, String serviceName) {
+    public String uploadService(@RequestParam("multipartFile") MultipartFile multipartFile, String ip, int port,
+            String serviceName) {
         return PublicConstants.SUCCESS;
     }
 
     /**
      * 重启服务
+     * 
      * @param deployServer 对象
      * @return String
      */

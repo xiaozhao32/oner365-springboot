@@ -1,15 +1,16 @@
 package com.oner365.sys.service;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.data.domain.Page;
 
-import com.alibaba.fastjson.JSONObject;
+import com.oner365.common.query.QueryCriteriaBean;
+import com.oner365.sys.dto.LoginUserDto;
 import com.oner365.sys.entity.SysUser;
 
 /**
  * 用户接口
+ * 
  * @author zhaoyong
  */
 public interface ISysUserService {
@@ -19,24 +20,25 @@ public interface ISysUserService {
      *
      * @param userName 账号
      * @param password 密码
-     * @return Map
+     * @return LoginUserDto
      */
-    Map<String, Object> login(String userName, String password);
+    LoginUserDto login(String userName, String password);
 
     /**
      * 查询分页列表
      *
-     * @param paramJson 参数
-     * @return Page
+     * @param data 查询参数
+     * @return Page<SysUser>
      */
-    Page<SysUser> pageList(JSONObject paramJson);
-    
+    Page<SysUser> pageList(QueryCriteriaBean data);
+
     /**
      * 查询列表
-     * @param paramJson 参数
-     * @return List
+     * 
+     * @param data 查询参数
+     * @return List<SysUser>
      */
-    List<SysUser> findList(JSONObject paramJson);
+    List<SysUser> findList(QueryCriteriaBean data);
 
     /**
      * 根据编号查询详情

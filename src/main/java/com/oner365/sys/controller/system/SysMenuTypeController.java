@@ -1,7 +1,7 @@
 package com.oner365.sys.controller.system;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,16 +12,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.Maps;
+import com.oner365.common.ResponseResult;
+import com.oner365.common.constants.ErrorInfo;
 import com.oner365.common.constants.PublicConstants;
+import com.oner365.common.query.AttributeBean;
+import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
 import com.oner365.sys.constants.SysConstants;
 import com.oner365.sys.entity.SysMenuType;
 import com.oner365.sys.service.ISysMenuTypeService;
 import com.oner365.sys.vo.SysMenuTypeVo;
+import com.oner365.sys.vo.check.CheckCodeVo;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -44,21 +48,16 @@ public class SysMenuTypeController extends BaseController {
      * 保存
      * 
      * @param sysMenuTypeVo 菜单类型对象
-     * @return Map<String, Object>
+     * @return ResponseResult<SysMenuType>
      */
     @PutMapping("/save")
     @ApiOperation("保存")
-    public Map<String, Object> save(@RequestBody SysMenuTypeVo sysMenuTypeVo) {
-        SysMenuType sysMenuType = sysMenuTypeVo.toObject();
-        Map<String, Object> result = Maps.newHashMap();
-        result.put(PublicConstants.CODE, PublicConstants.ERROR_CODE);
-        if (sysMenuType != null) {
-            SysMenuType entity = menuTypeService.save(sysMenuType);
-
-            result.put(PublicConstants.CODE, PublicConstants.SUCCESS_CODE);
-            result.put(PublicConstants.MSG, entity);
+    public ResponseResult<SysMenuType> save(@RequestBody SysMenuTypeVo sysMenuTypeVo) {
+        if (sysMenuTypeVo != null) {
+            SysMenuType entity = menuTypeService.save(sysMenuTypeVo.toObject());
+            return ResponseResult.success(entity);
         }
-        return result;
+        return ResponseResult.error(ErrorInfo.ERR_SAVE_ERROR);
     }
 
     /**
@@ -76,13 +75,13 @@ public class SysMenuTypeController extends BaseController {
     /**
      * 列表
      * 
-     * @param paramJson 参数
+     * @param data 参数
      * @return Page<SysMenuType>
      */
     @PostMapping("/list")
     @ApiOperation("获取分页列表")
-    public Page<SysMenuType> list(@RequestBody JSONObject paramJson) {
-        return menuTypeService.pageList(paramJson);
+    public Page<SysMenuType> list(@RequestBody QueryCriteriaBean data) {
+        return menuTypeService.pageList(data);
     }
 
     /**
@@ -93,41 +92,40 @@ public class SysMenuTypeController extends BaseController {
     @GetMapping("/findAll")
     @ApiOperation("获取全部有效类型")
     public List<SysMenuType> findAll() {
-        JSONObject paramJson = new JSONObject();
-        paramJson.put(SysConstants.STATUS, PublicConstants.STATUS_YES);
-        return menuTypeService.findList(paramJson);
+        QueryCriteriaBean data = new QueryCriteriaBean();
+        List<AttributeBean> whereList = new ArrayList<>();
+        AttributeBean attribute = new AttributeBean(SysConstants.STATUS, PublicConstants.STATUS_YES);
+        whereList.add(attribute);
+        data.setWhereList(whereList);
+        return menuTypeService.findList(data);
     }
 
     /**
      * 修改状态
      * 
-     * @param data 参数
+     * @param id     主键
+     * @param status 状态
      * @return Integer
      */
-    @PostMapping("/editStatusById")
+    @PostMapping("/editStatusById/{id}")
     @ApiOperation("修改状态")
-    public Integer editStatusById(@RequestBody JSONObject data) {
-        String status = data.getString(SysConstants.STATUS);
-        String id = data.getString(SysConstants.ID);
+    public Integer editStatusById(@PathVariable String id, @RequestParam("status") String status) {
         return menuTypeService.editStatusById(id, status);
     }
 
     /**
      * 判断是否存在
      * 
-     * @param data 参数
-     * @return Map<String, Object>
+     * @param checkCodeVo 查询参数
+     * @return Long
      */
     @PostMapping("/checkCode")
     @ApiOperation("判断是否存在")
-    public Map<String, Object> checkCode(@RequestBody JSONObject data) {
-        String id = data.getString(SysConstants.ID);
-        String code = data.getString(PublicConstants.CODE);
-        int check = menuTypeService.checkCode(id, code);
-
-        Map<String, Object> result = Maps.newHashMap();
-        result.put(PublicConstants.CODE, check);
-        return result;
+    public Long checkCode(@RequestBody CheckCodeVo checkCodeVo) {
+        if (checkCodeVo != null) {
+            return menuTypeService.checkCode(checkCodeVo.getId(), checkCodeVo.getCode());
+        }
+        return Long.valueOf(PublicConstants.ERROR_CODE);
     }
 
     /**
