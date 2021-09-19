@@ -65,5 +65,30 @@
     "name": "ignore.whites",
     "type": "java.util.List",
     "description": "A description for 'ignore.whites'."
+  },
+  {
+    "name": "project.name",
+    "type": "java.lang.String",
+    "description": "A description for 'project.name'."
+  },
+  {
+    "name": "project.version",
+    "type": "java.lang.String",
+    "description": "A description for 'project.version'."
+  },
+  {
+    "name": "project.url",
+    "type": "java.lang.String",
+    "description": "A description for 'project.url'."
+  },
+  {
+    "name": "project.email",
+    "type": "java.lang.String",
+    "description": "A description for 'project.email'."
+  },
+  {
+    "name": "project.description",
+    "type": "java.lang.String",
+    "description": "A description for 'project.description'."
   }
 ]}
