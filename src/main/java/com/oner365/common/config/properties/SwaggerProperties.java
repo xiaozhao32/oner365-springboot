@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Configuration;
  * @author zhaoyong
  */
 @Configuration
-@ConfigurationProperties(prefix = "project")
-public class ProjectProperties {
+@ConfigurationProperties(prefix = "swagger")
+public class SwaggerProperties {
     
     /** 名称 */
     private String name;
@@ -26,7 +26,7 @@ public class ProjectProperties {
     /**
      * 构造方法
      */
-    public ProjectProperties() {
+    public SwaggerProperties() {
         super();
     }
 

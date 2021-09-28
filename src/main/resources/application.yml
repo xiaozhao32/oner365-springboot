@@ -168,7 +168,7 @@ druid:
   mysql:
     use-ping-method: false
 
-project:
+swagger:
   name: ${spring.application.name}
   version: 1.0
   url: https://www.oner365.com

@@ -90,5 +90,30 @@
     "name": "project.description",
     "type": "java.lang.String",
     "description": "A description for 'project.description'."
+  },
+  {
+    "name": "swagger.name",
+    "type": "java.lang.String",
+    "description": "A description for 'swagger.name'"
+  },
+  {
+    "name": "swagger.version",
+    "type": "java.lang.String",
+    "description": "A description for 'swagger.version'"
+  },
+  {
+    "name": "swagger.url",
+    "type": "java.lang.String",
+    "description": "A description for 'swagger.url'"
+  },
+  {
+    "name": "swagger.email",
+    "type": "java.lang.String",
+    "description": "A description for 'swagger.email'"
+  },
+  {
+    "name": "swagger.description",
+    "type": "java.lang.String",
+    "description": "A description for 'swagger.description'"
   }
 ]}

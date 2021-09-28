@@ -10,7 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.oner365.common.config.properties.ProjectProperties;
+import com.oner365.common.config.properties.SwaggerProperties;
 import com.oner365.common.constants.PublicConstants;
 
 import io.swagger.models.auth.In;
@@ -39,7 +39,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class SwaggerConfig implements WebMvcConfigurer {
     
     @Autowired
-    private ProjectProperties projectProperties;
+    private SwaggerProperties properties;
     
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -84,10 +84,10 @@ public class SwaggerConfig implements WebMvcConfigurer {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title(projectProperties.getName())
-                .description(projectProperties.getDescription())
-                .contact(new Contact(projectProperties.getName(), projectProperties.getUrl(), projectProperties.getEmail()))
-                .version(projectProperties.getVersion())
+                .title(properties.getName())
+                .description(properties.getDescription())
+                .contact(new Contact(properties.getName(), properties.getUrl(), properties.getEmail()))
+                .version(properties.getVersion())
                 .build();
     }
 
