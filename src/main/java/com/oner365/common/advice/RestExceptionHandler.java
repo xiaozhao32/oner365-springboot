@@ -29,7 +29,7 @@ public class RestExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseData<String> exception(Exception e) {
-        LOGGER.error("[请求异常] 异常信息:{}, 堆栈:{}", e.getMessage(), e);
+        LOGGER.error("[请求异常] 异常信息:{}", e.getMessage(), e);
         return ResponseData.error(PublicConstants.ERROR_CODE, e.getMessage());
     }
 }

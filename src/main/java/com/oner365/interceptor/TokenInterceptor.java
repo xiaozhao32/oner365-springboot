@@ -1,6 +1,5 @@
 package com.oner365.interceptor;
 
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -94,7 +93,7 @@ public class TokenInterceptor implements HandlerInterceptor {
         // 写出
         try {
             response.getOutputStream().write(JSON.toJSONString(responseData).getBytes());
-        } catch (IOException e) {
+        } catch (Exception e) {
             LOGGER.error("TokenInterceptor setUnauthorizedResponse error", e);
             throw new ProjectRuntimeException(e);
         }
