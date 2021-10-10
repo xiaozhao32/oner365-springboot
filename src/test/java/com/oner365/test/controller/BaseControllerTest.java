@@ -2,7 +2,6 @@ package com.oner365.test.controller;
 
 import java.util.Map;
 
-import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.client.reactive.ClientHttpConnector;
@@ -25,7 +24,7 @@ import reactor.core.publisher.Mono;
  * @author zhaoyong
  *
  */
-public class BaseControllerTest extends BaseTest {
+public abstract class BaseControllerTest extends BaseTest {
 
     protected static final String URL = "http://localhost:8704";
 
@@ -33,11 +32,6 @@ public class BaseControllerTest extends BaseTest {
 
     protected String token;
     
-    @Test
-    public void test() {
-        
-    }
-
     public BaseControllerTest() {
         ClientHttpConnector httpConnector = new ReactorClientHttpConnector();
         client = WebClient.builder().clientConnector(httpConnector).baseUrl(URL).build();

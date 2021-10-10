@@ -1,7 +1,5 @@
 package com.oner365.test.util;
 
-import org.junit.jupiter.api.Test;
-
 import com.oner365.test.BaseTest;
 
 /**
@@ -10,10 +8,6 @@ import com.oner365.test.BaseTest;
  * @author zhaoyong
  *
  */
-public class BaseUtilsTest extends BaseTest {
+public abstract class BaseUtilsTest extends BaseTest {
 
-    @Test
-    public void baseUtilsTest() {
-        
-    }
 }

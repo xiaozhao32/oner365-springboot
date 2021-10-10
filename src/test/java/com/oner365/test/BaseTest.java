@@ -1,6 +1,5 @@
 package com.oner365.test;
 
-import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,12 +9,8 @@ import org.slf4j.LoggerFactory;
  * @author zhaoyong
  *
  */
-public class BaseTest {
+public abstract class BaseTest {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(BaseTest.class);
 
-    @Test
-    public void baseTest() {
-        
-    }
 }

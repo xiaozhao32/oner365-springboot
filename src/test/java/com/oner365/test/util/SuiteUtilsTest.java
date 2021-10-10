@@ -1,5 +1,6 @@
 package com.oner365.test.util;
 
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.platform.suite.api.SelectPackages;
@@ -17,6 +18,6 @@ public class SuiteUtilsTest {
 
     @Test
     public void test() {
-        
+    	Assert.assertEquals("SuiteUtilsTest", SuiteUtilsTest.class.getSimpleName());
     }
 }

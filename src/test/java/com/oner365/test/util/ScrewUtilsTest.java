@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.sql.DataSource;
 
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,6 +41,7 @@ public class ScrewUtilsTest extends BaseUtilsTest {
 
     @Test
     public void screwUtilsTest() {
+    	Assert.assertEquals("ScrewUtilsTest", ScrewUtilsTest.class.getSimpleName());
         documentGeneration();
     }
 

@@ -1,6 +1,5 @@
 package com.oner365.test.service;
 
-import org.junit.jupiter.api.Test;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,10 +14,6 @@ import com.oner365.test.BaseTest;
  */
 @Rollback
 @Transactional(rollbackFor = ProjectRuntimeException.class)
-public class BaseServiceTest extends BaseTest {
+public abstract class BaseServiceTest extends BaseTest {
 
-    @Test
-    public void test() {
-        
-    }
 }
