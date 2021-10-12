@@ -6,12 +6,12 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
- * 检测编码
+ * 检测角色编码
  * 
  * @author zhaoyong
  *
  */
-@ApiModel(value = "检测编码")
+@ApiModel(value = "检测角色编码")
 public class CheckRoleNameVo implements Serializable {
 
     /**
