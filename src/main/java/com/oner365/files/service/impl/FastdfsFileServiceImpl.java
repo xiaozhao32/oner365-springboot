@@ -92,7 +92,7 @@ public class FastdfsFileServiceImpl implements IFastdfsFileService {
     @CacheEvict(value = CACHE_NAME, allEntries = true)
     public int deleteById(String id) {
         dao.deleteById(id);
-        return 1;
+        return PublicConstants.SUCCESS_CODE;
     }
 
 }

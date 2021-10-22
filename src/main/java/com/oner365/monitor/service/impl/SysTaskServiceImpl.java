@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.base.Strings;
+import com.oner365.common.constants.PublicConstants;
 import com.oner365.common.exception.ProjectRuntimeException;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.common.query.QueryUtils;
@@ -45,7 +46,6 @@ public class SysTaskServiceImpl implements ISysTaskService {
 
     @Autowired
     private ISysTaskDao jpaDao;
-
 
     /**
      * 项目启动时，初始化定时器 主要是防止手动修改数据库导致未同步到定时任务处理（注：不能手动修改数据库ID和任务组名，否则会导致脏数据）
@@ -106,7 +106,7 @@ public class SysTaskServiceImpl implements ISysTaskService {
         task.setStatus(ScheduleConstants.Status.PAUSE.getValue());
         save(task);
         scheduler.pauseJob(ScheduleUtils.getJobKey(taskId, taskGroup));
-        return 1;
+        return PublicConstants.SUCCESS_CODE;
     }
 
     /**
@@ -116,13 +116,13 @@ public class SysTaskServiceImpl implements ISysTaskService {
      */
     @Override
     @Transactional(rollbackFor = ProjectRuntimeException.class)
-    public int resumeTask(SysTask task) throws SchedulerException,TaskException {
+    public int resumeTask(SysTask task) throws SchedulerException, TaskException {
         String taskId = task.getId();
         String taskGroup = task.getTaskGroup();
         task.setStatus(ScheduleConstants.Status.NORMAL.getValue());
         save(task);
         scheduler.resumeJob(ScheduleUtils.getJobKey(taskId, taskGroup));
-        return 1;
+        return PublicConstants.SUCCESS_CODE;
     }
 
     /**
@@ -137,7 +137,7 @@ public class SysTaskServiceImpl implements ISysTaskService {
         String taskGroup = task.getTaskGroup();
         jpaDao.deleteById(id);
         scheduler.deleteJob(ScheduleUtils.getJobKey(id, taskGroup));
-        return 1;
+        return PublicConstants.SUCCESS_CODE;
     }
 
     /**
@@ -200,7 +200,7 @@ public class SysTaskServiceImpl implements ISysTaskService {
     @Transactional(rollbackFor = ProjectRuntimeException.class)
     public int save(SysTask task) throws SchedulerException, TaskException {
         boolean isAdd = Strings.isNullOrEmpty(task.getId());
-        if(isAdd && Strings.isNullOrEmpty(task.getStatus())){
+        if (isAdd && Strings.isNullOrEmpty(task.getStatus())) {
             task.setStatus(ScheduleConstants.Status.PAUSE.getValue());
             task.setCreateTime(new Date());
         }
@@ -208,7 +208,7 @@ public class SysTaskServiceImpl implements ISysTaskService {
         if (isAdd) {
             ScheduleUtils.createScheduleJob(scheduler, task);
         }
-        return 1;
+        return PublicConstants.SUCCESS_CODE;
     }
 
     /**
@@ -222,7 +222,7 @@ public class SysTaskServiceImpl implements ISysTaskService {
         SysTask properties = selectTaskById(task.getId());
         save(task);
         updateSchedulerTask(task, properties.getTaskGroup());
-        return 1;
+        return PublicConstants.SUCCESS_CODE;
     }
 
     /**

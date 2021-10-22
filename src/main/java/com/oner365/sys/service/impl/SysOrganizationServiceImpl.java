@@ -67,7 +67,7 @@ public class SysOrganizationServiceImpl implements ISysOrganizationService {
     @CacheEvict(value = CACHE_NAME, allEntries = true)
     public int deleteById(String id) {
         orgDao.deleteById(id);
-        return 1;
+        return PublicConstants.SUCCESS_CODE;
     }
 
     @Override
@@ -82,7 +82,7 @@ public class SysOrganizationServiceImpl implements ISysOrganizationService {
         } catch (Exception e) {
             LOGGER.error("Error checkCode:", e);
         }
-        return 0L;
+        return PublicConstants.NOT_EXISTS;
     }
 
     @Override
@@ -247,7 +247,7 @@ public class SysOrganizationServiceImpl implements ISysOrganizationService {
         SysOrganization entity = this.getById(id);
         entity.setStatus(status);
         this.save(entity);
-        return 1;
+        return PublicConstants.SUCCESS_CODE;
     }
 
 }

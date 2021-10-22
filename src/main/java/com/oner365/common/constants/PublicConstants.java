@@ -32,6 +32,10 @@ public class PublicConstants {
     public static final int SUCCESS_CODE = 1;
     /** 错误编码 */
     public static final int ERROR_CODE = 0;
+    /** 存在 */
+    public static final long EXISTS = 1L;
+    /** 不存在 */
+    public static final long NOT_EXISTS = 0L;
     /** 成功编码 */
     public static final String SUCCESS = "success";
     /** 错误编码 */

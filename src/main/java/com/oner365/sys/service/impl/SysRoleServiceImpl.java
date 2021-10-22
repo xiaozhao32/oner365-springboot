@@ -135,7 +135,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
         roleMenuDao.deleteRoleMenuByRoleId(id);
         // 删除角色
         roleDao.deleteById(id);
-        return 1;
+        return PublicConstants.SUCCESS_CODE;
     }
 
     @Override
@@ -150,7 +150,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
         } catch (Exception e) {
             LOGGER.error("Error checkRoleName:", e);
         }
-        return 0L;
+        return PublicConstants.NOT_EXISTS;
     }
 
     @Override
@@ -167,7 +167,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
             roleMenu.setId(roleId + menuType + menuId.toString());
             roleMenuDao.save(roleMenu);
         });
-        return 1;
+        return PublicConstants.SUCCESS_CODE;
     }
 
     @Override
@@ -274,9 +274,9 @@ public class SysRoleServiceImpl implements ISysRoleService {
         if (entity != null && entity.getId() != null) {
             entity.setStatus(status);
             this.save(entity);
-            return 1;
+            return PublicConstants.SUCCESS_CODE;
         }
-        return 0;
+        return PublicConstants.ERROR_CODE;
     }
 
 }

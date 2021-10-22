@@ -107,7 +107,7 @@ public class SysMenuOperationServiceImpl implements ISysMenuOperationService {
         // 删除操作与角色关联
         // 删除操作
         menuOperationDao.deleteById(id);
-        return 1;
+        return PublicConstants.SUCCESS_CODE;
     }
 
     @Override
@@ -128,7 +128,7 @@ public class SysMenuOperationServiceImpl implements ISysMenuOperationService {
         } catch (Exception e) {
             LOGGER.error("Error checkCode:", e);
         }
-        return 0L;
+        return PublicConstants.NOT_EXISTS;
     }
 
 }

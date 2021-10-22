@@ -282,7 +282,7 @@ public class SysUserServiceImpl implements ISysUserService {
         userOrgDao.deleteUserOrgByUserId(id);
         userRoleDao.deleteUserRoleByUserId(id);
         userDao.deleteById(id);
-        return 1;
+        return PublicConstants.SUCCESS_CODE;
     }
 
     @Override
@@ -297,7 +297,7 @@ public class SysUserServiceImpl implements ISysUserService {
         } catch (Exception e) {
             LOGGER.error("Error checkUserName:", e);
         }
-        return 0L;
+        return PublicConstants.NOT_EXISTS;
     }
 
     @Override
@@ -308,9 +308,9 @@ public class SysUserServiceImpl implements ISysUserService {
         if (optional.isPresent()) {
             optional.get().setPassword(DigestUtils.md5Hex(p).toUpperCase());
             userDao.save(optional.get());
-            return 1;
+            return PublicConstants.SUCCESS_CODE;
         }
-        return 0;
+        return PublicConstants.ERROR_CODE;
     }
 
     @Override
@@ -321,9 +321,9 @@ public class SysUserServiceImpl implements ISysUserService {
         if (optional.isPresent()) {
             optional.get().setStatus(status);
             userDao.save(optional.get());
-            return 1;
+            return PublicConstants.SUCCESS_CODE;
         }
-        return 0;
+        return PublicConstants.ERROR_CODE;
     }
 
     @Override

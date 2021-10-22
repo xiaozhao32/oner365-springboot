@@ -110,9 +110,9 @@ public class SysMenuServiceImpl implements ISysMenuService {
         if (entity != null && entity.getId() != null) {
             entity.setStatus(status);
             menuDao.save(entity);
-            return 1;
+            return PublicConstants.SUCCESS_CODE;
         }
-        return 0;
+        return PublicConstants.ERROR_CODE;
     }
 
     @Override
@@ -236,7 +236,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
     public int deleteById(String id) {
         roleMenuDao.deleteByMenuId(id);
         menuDao.deleteById(id);
-        return 1;
+        return PublicConstants.SUCCESS_CODE;
     }
 
 }

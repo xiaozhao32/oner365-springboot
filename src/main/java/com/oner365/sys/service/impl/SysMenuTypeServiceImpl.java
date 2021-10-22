@@ -111,9 +111,9 @@ public class SysMenuTypeServiceImpl implements ISysMenuTypeService {
         if (entity != null && entity.getId() != null) {
             entity.setStatus(status);
             save(entity);
-            return 1;
+            return PublicConstants.SUCCESS_CODE;
         }
-        return 0;
+        return PublicConstants.ERROR_CODE;
     }
 
     @Override
@@ -128,7 +128,7 @@ public class SysMenuTypeServiceImpl implements ISysMenuTypeService {
         } catch (Exception e) {
             LOGGER.error("Error checkCode:", e);
         }
-        return 0L;
+        return PublicConstants.NOT_EXISTS;
     }
 
     @Override
@@ -145,7 +145,7 @@ public class SysMenuTypeServiceImpl implements ISysMenuTypeService {
     })
     public int deleteById(String id) {
         dao.deleteById(id);
-        return 1;
+        return PublicConstants.SUCCESS_CODE;
     }
 
 }
