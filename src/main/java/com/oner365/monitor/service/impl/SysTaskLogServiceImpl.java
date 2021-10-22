@@ -11,7 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.google.common.base.Strings;
-import com.oner365.common.constants.PublicConstants;
+import com.oner365.common.enums.StatusEnum;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.common.query.QueryUtils;
 import com.oner365.monitor.dao.ISysTaskLogDao;
@@ -114,10 +114,10 @@ public class SysTaskLogServiceImpl implements ISysTaskLogService {
     public String deleteTaskLogByCreateTime(String time) {
         try{
             dao.deleteTaskLogByCreateTime(time);
-            return PublicConstants.STATUS_YES;
+            return StatusEnum.YES.getOrdinal();
         }catch(Exception e){
             LOGGER.error("Error deleteTaskLogByCreateTime: ", e);
-            return PublicConstants.STATUS_NO;
+            return StatusEnum.NO.getOrdinal();
         }
         
     }

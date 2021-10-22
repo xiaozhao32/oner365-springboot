@@ -18,6 +18,7 @@ import com.google.common.base.Strings;
 import com.oner365.common.cache.annotation.RedisCacheAble;
 import com.oner365.common.cache.annotation.RedisCachePut;
 import com.oner365.common.constants.PublicConstants;
+import com.oner365.common.enums.StatusEnum;
 import com.oner365.common.exception.ProjectRuntimeException;
 import com.oner365.common.query.Criteria;
 import com.oner365.common.query.Restrictions;
@@ -120,7 +121,7 @@ public class SysOrganizationServiceImpl implements ISysOrganizationService {
     public SysOrganization save(SysOrganization org) {
         if (Strings.isNullOrEmpty(org.getId())) {
             org.setId(org.getOrgCode());
-            org.setStatus(PublicConstants.STATUS_YES);
+            org.setStatus(StatusEnum.YES.getOrdinal());
             org.setCreateTime(new Timestamp(System.currentTimeMillis()));
         }
 

@@ -24,6 +24,7 @@ import com.google.common.base.Strings;
 import com.oner365.common.cache.annotation.RedisCacheAble;
 import com.oner365.common.cache.annotation.RedisCachePut;
 import com.oner365.common.constants.PublicConstants;
+import com.oner365.common.enums.StatusEnum;
 import com.oner365.common.exception.ProjectRuntimeException;
 import com.oner365.common.query.Criteria;
 import com.oner365.common.query.QueryCriteriaBean;
@@ -111,7 +112,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
             @CacheEvict(value = CACHE_MENU_NAME, allEntries = true) })
     public SysRole save(SysRole role) {
         if (Strings.isNullOrEmpty(role.getId())) {
-            role.setStatus(PublicConstants.STATUS_YES);
+            role.setStatus(StatusEnum.YES.getOrdinal());
             role.setCreateTime(new Timestamp(System.currentTimeMillis()));
         }
         if (Strings.isNullOrEmpty(role.getRoleCode())) {

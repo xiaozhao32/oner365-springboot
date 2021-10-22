@@ -29,6 +29,7 @@ import com.oner365.common.auth.AuthUser;
 import com.oner365.common.auth.annotation.CurrentUser;
 import com.oner365.common.constants.ErrorInfo;
 import com.oner365.common.constants.PublicConstants;
+import com.oner365.common.enums.StatusEnum;
 import com.oner365.common.query.AttributeBean;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
@@ -116,7 +117,7 @@ public class SysUserController extends BaseController {
 
         QueryCriteriaBean data = new QueryCriteriaBean();
         List<AttributeBean> whereList = new ArrayList<>();
-        AttributeBean attribute = new AttributeBean(SysConstants.STATUS, PublicConstants.STATUS_YES);
+        AttributeBean attribute = new AttributeBean(SysConstants.STATUS, StatusEnum.YES.getOrdinal());
         whereList.add(attribute);
         data.setWhereList(whereList);
         result.put("roleList", sysRoleService.findList(data));

@@ -28,6 +28,7 @@ import com.oner365.common.cache.RedisCache;
 import com.oner365.common.cache.annotation.RedisCacheAble;
 import com.oner365.common.cache.annotation.RedisCachePut;
 import com.oner365.common.constants.PublicConstants;
+import com.oner365.common.enums.StatusEnum;
 import com.oner365.common.exception.ProjectRuntimeException;
 import com.oner365.common.jwt.JwtUtils;
 import com.oner365.common.query.Criteria;
@@ -188,7 +189,7 @@ public class SysUserServiceImpl implements ISysUserService {
         Criteria<SysUser> criteria = new Criteria<>();
         criteria.add(Restrictions.eq(SysConstants.USER_NAME, userName));
         criteria.add(Restrictions.eq(SysConstants.PASS, password));
-        criteria.add(Restrictions.eq(SysConstants.STATUS, PublicConstants.STATUS_YES));
+        criteria.add(Restrictions.eq(SysConstants.STATUS, StatusEnum.YES.getOrdinal()));
         Optional<SysUser> optional = userDao.findOne(criteria);
         return optional.orElse(null);
     }
@@ -215,7 +216,7 @@ public class SysUserServiceImpl implements ISysUserService {
     public SysUser saveUser(SysUser entity) {
         try {
             Timestamp time = new Timestamp(System.currentTimeMillis());
-            entity.setActiveStatus(PublicConstants.STATUS_YES);
+            entity.setActiveStatus(StatusEnum.YES.getOrdinal());
             entity.setCreateTime(time);
             entity.setLastTime(time);
 
@@ -242,7 +243,7 @@ public class SysUserServiceImpl implements ISysUserService {
                 sysUserJob.setSysJob(sysJob);
                 sysUserJob.setSysUser(entity);
                 sysUserJob.setPositionOrder(1);
-                sysUserJob.setStatus(PublicConstants.STATUS_YES);
+                sysUserJob.setStatus(StatusEnum.YES.getOrdinal());
                 sysUserJob.setCreateTime(time);
                 sysUserJob.setUpdateTime(time);
                 userJobDao.save(sysUserJob);
@@ -256,7 +257,7 @@ public class SysUserServiceImpl implements ISysUserService {
                 sysUserOrg.setSysOrganization(sysOrg);
                 sysUserOrg.setSysUser(entity);
                 sysUserOrg.setPositionOrder(1);
-                sysUserOrg.setStatus(PublicConstants.STATUS_YES);
+                sysUserOrg.setStatus(StatusEnum.YES.getOrdinal());
                 sysUserOrg.setCreateTime(time);
                 sysUserOrg.setUpdateTime(time);
                 userOrgDao.save(sysUserOrg);

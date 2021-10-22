@@ -75,11 +75,11 @@ public class SwaggerConfig implements WebMvcConfigurer {
     private Docket buildApi(String groupName, String packageName) {
     	 return new Docket(DocumentationType.OAS_30).pathMapping(PublicConstants.DELIMITER)
          		.groupName(groupName)
-                 .apiInfo(apiInfo()).select()
-                 .apis(RequestHandlerSelectors.basePackage(packageName))
-                 .paths(PathSelectors.any()).build()
-                 .securitySchemes(securitySchemes())
-                 .securityContexts(securityContexts());
+                .apiInfo(apiInfo()).select()
+                .apis(RequestHandlerSelectors.basePackage(packageName))
+                .paths(PathSelectors.any()).build()
+                .securitySchemes(securitySchemes())
+                .securityContexts(securityContexts());
     }
 
     private ApiInfo apiInfo() {

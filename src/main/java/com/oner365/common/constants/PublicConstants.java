@@ -9,10 +9,6 @@ public class PublicConstants {
     /** 公共名称 */
     public static final String NAME = "oner365";
 
-    /** 状态码 */
-    public static final String STATUS_YES = "1";
-    public static final String STATUS_NO = "0";
-
     /** 创建线程数 */
     public static final int THREAD_NUMBER = 10;
 

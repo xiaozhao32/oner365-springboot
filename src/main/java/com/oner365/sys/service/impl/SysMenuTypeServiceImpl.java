@@ -20,6 +20,7 @@ import com.google.common.base.Strings;
 import com.oner365.common.cache.annotation.RedisCacheAble;
 import com.oner365.common.cache.annotation.RedisCachePut;
 import com.oner365.common.constants.PublicConstants;
+import com.oner365.common.enums.StatusEnum;
 import com.oner365.common.exception.ProjectRuntimeException;
 import com.oner365.common.query.Criteria;
 import com.oner365.common.query.QueryCriteriaBean;
@@ -91,7 +92,7 @@ public class SysMenuTypeServiceImpl implements ISysMenuTypeService {
     })
     public SysMenuType save(SysMenuType menuType) {
         if (Strings.isNullOrEmpty(menuType.getId())) {
-            menuType.setStatus(PublicConstants.STATUS_YES);
+            menuType.setStatus(StatusEnum.YES.getOrdinal());
             menuType.setCreateTime(new Timestamp(System.currentTimeMillis()));
         } else {
             menuType.setUpdateTime(new Timestamp(System.currentTimeMillis()));
