@@ -22,20 +22,20 @@ import com.oner365.test.service.BaseServiceTest;
  *
  */
 @SpringBootTest
-public class GatewayRouteServiceTest extends BaseServiceTest {
+class GatewayRouteServiceTest extends BaseServiceTest {
 
     @Autowired
     private DynamicRouteService service;
 
     @RepeatedTest(value = 2)
-    public void findList() {
+    void findList() {
         List<GatewayRoute> list = service.findList();
         LOGGER.info("findList:{}", list.size());
         Assertions.assertNotEquals(0, list.size());
     }
 
     @Test
-    public void pageList() {
+    void pageList() {
         QueryCriteriaBean paramData = new QueryCriteriaBean();
         Page<GatewayRoute> list = service.pageList(paramData);
         LOGGER.info("pageList:{}", list.getSize());
@@ -43,7 +43,7 @@ public class GatewayRouteServiceTest extends BaseServiceTest {
     }
 
     @Test
-    public void getById() {
+    void getById() {
         List<GatewayRoute> list = service.findList();
         if (!list.isEmpty()) {
             GatewayRoute entity = service.getById(list.get(0).getId());

@@ -16,12 +16,12 @@ import com.oner365.test.controller.BaseControllerTest;
  *
  */
 @SpringBootTest
-public class SysMenuOperationControllerTest extends BaseControllerTest {
+class SysMenuOperationControllerTest extends BaseControllerTest {
 
     private static final String PATH = "/system/menuOperation";
 
     @Test
-    public void get() {
+    void get() {
         String url = PATH + "/get/1";
         Object result = get(url);
         LOGGER.info("get:[{}] -> {}", url, result);
@@ -29,7 +29,7 @@ public class SysMenuOperationControllerTest extends BaseControllerTest {
     }
 
     @RepeatedTest(2)
-    public void list() {
+    void list() {
         String url = PATH + "/list";
         JSONObject paramJson = new JSONObject();
         paramJson.put("menuTypeId", "1");

@@ -32,7 +32,7 @@ public abstract class BaseControllerTest extends BaseTest {
 
     protected String token;
     
-    public BaseControllerTest() {
+    protected BaseControllerTest() {
         ClientHttpConnector httpConnector = new ReactorClientHttpConnector();
         client = WebClient.builder().clientConnector(httpConnector).baseUrl(URL).build();
         token = getToken();

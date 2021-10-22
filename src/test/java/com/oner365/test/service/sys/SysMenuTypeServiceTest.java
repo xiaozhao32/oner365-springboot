@@ -22,13 +22,13 @@ import com.oner365.test.service.BaseServiceTest;
  *
  */
 @SpringBootTest
-public class SysMenuTypeServiceTest extends BaseServiceTest {
+class SysMenuTypeServiceTest extends BaseServiceTest {
 
     @Autowired
     private ISysMenuTypeService service;
 
     @RepeatedTest(value = 2)
-    public void findList() {
+    void findList() {
         QueryCriteriaBean paramData = new QueryCriteriaBean();
         List<SysMenuType> list = service.findList(paramData);
         LOGGER.info("findList:{}", list.size());
@@ -36,7 +36,7 @@ public class SysMenuTypeServiceTest extends BaseServiceTest {
     }
 
     @Test
-    public void pageList() {
+    void pageList() {
         QueryCriteriaBean paramData = new QueryCriteriaBean();
         Page<SysMenuType> list = service.pageList(paramData);
         LOGGER.info("pageList:{}", list.getSize());
@@ -44,7 +44,7 @@ public class SysMenuTypeServiceTest extends BaseServiceTest {
     }
 
     @Test
-    public void getById() {
+    void getById() {
         String id = "1";
         SysMenuType entity = service.getById(id);
         LOGGER.info("getById:{}", JSON.toJSONString(entity));
@@ -52,7 +52,7 @@ public class SysMenuTypeServiceTest extends BaseServiceTest {
     }
 
     @Test
-    public void getMenuTypeByTypeCode() {
+    void getMenuTypeByTypeCode() {
         String code = "nt_sys";
         SysMenuType entity = service.getMenuTypeByTypeCode(code);
         LOGGER.info("getMenuTypeByTypeCode:{}", JSON.toJSONString(entity));

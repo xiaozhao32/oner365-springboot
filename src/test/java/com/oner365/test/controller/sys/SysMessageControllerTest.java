@@ -13,12 +13,12 @@ import com.oner365.test.controller.BaseControllerTest;
  *
  */
 @SpringBootTest
-public class SysMessageControllerTest extends BaseControllerTest {
+class SysMessageControllerTest extends BaseControllerTest {
 
     private static final String PATH = "/system/message";
 
     @Test
-    public void refresh() {
+    void refresh() {
         String url = PATH + "/refresh?messageType=test";
         Object result = get(url);
         LOGGER.info("refresh:[{}] -> {}", url, result);

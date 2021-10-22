@@ -22,13 +22,13 @@ import com.oner365.test.service.BaseServiceTest;
  *
  */
 @SpringBootTest
-public class SysDictItemServiceTest extends BaseServiceTest {
+class SysDictItemServiceTest extends BaseServiceTest {
 
     @Autowired
     private ISysDictItemService service;
 
     @RepeatedTest(value = 2)
-    public void findList() {
+    void findList() {
         QueryCriteriaBean paramData = new QueryCriteriaBean();
         List<SysDictItem> list = service.findList(paramData);
         LOGGER.info("findList:{}", list.size());
@@ -36,7 +36,7 @@ public class SysDictItemServiceTest extends BaseServiceTest {
     }
 
     @Test
-    public void pageList() {
+    void pageList() {
         QueryCriteriaBean paramData = new QueryCriteriaBean();
         Page<SysDictItem> list = service.pageList(paramData);
         LOGGER.info("pageList:{}", list.getSize());
@@ -44,7 +44,7 @@ public class SysDictItemServiceTest extends BaseServiceTest {
     }
 
     @Test
-    public void getById() {
+    void getById() {
         String id = "1101";
         SysDictItem entity = service.getById(id);
         LOGGER.info("getById:{}", JSON.toJSONString(entity));

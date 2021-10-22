@@ -21,14 +21,14 @@ import com.oner365.util.DataUtils;
  *
  */
 @SpringBootTest
-public class SysTaskServiceTest extends BaseServiceTest {
+class SysTaskServiceTest extends BaseServiceTest {
 
     @Autowired
     private ISysTaskService service;
 
 
     @RepeatedTest(value = 2)
-    public void pageList() {
+    void pageList() {
         QueryCriteriaBean paramData = new QueryCriteriaBean();
         Page<SysTask> list = service.pageList(paramData);
         LOGGER.info("pageList:{}", list.getSize());
@@ -36,7 +36,7 @@ public class SysTaskServiceTest extends BaseServiceTest {
     }
 
     @Test
-    public void selectTaskById() {
+    void selectTaskById() {
         QueryCriteriaBean paramData = new QueryCriteriaBean();
         Page<SysTask> list = service.pageList(paramData);
         if (!DataUtils.isEmpty(list) && !list.getContent().isEmpty()) {

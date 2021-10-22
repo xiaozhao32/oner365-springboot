@@ -10,10 +10,10 @@ import com.oner365.util.Base64Utils;
  *
  * @author zhaoyong
  */
-public class Base64UtilsTest extends BaseUtilsTest {
+class Base64UtilsTest extends BaseUtilsTest {
 
     @Test
-    public void test() {
+    void test() {
         String str = "Abc";
         String encode = Base64Utils.encodeBase64String(str.getBytes());
         String decode = Base64Utils.decodeBase64String(encode);

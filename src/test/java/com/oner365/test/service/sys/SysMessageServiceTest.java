@@ -20,13 +20,13 @@ import com.oner365.test.service.BaseServiceTest;
  *
  */
 @SpringBootTest
-public class SysMessageServiceTest extends BaseServiceTest {
+class SysMessageServiceTest extends BaseServiceTest {
 
     @Autowired
     private ISysMessageService service;
 
     @RepeatedTest(value = 2)
-    public void findList() {
+    void findList() {
         String messageType = "test";
         List<SysMessage> list = service.findList(messageType);
         LOGGER.info("findList:{}", list.size());
@@ -34,7 +34,7 @@ public class SysMessageServiceTest extends BaseServiceTest {
     }
 
     @Test
-    public void getById() {
+    void getById() {
         String messageType = "test";
         List<SysMessage> list = service.findList(messageType);
         if (!list.isEmpty()) {

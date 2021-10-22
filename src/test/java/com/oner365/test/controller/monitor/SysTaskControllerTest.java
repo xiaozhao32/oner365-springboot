@@ -15,12 +15,12 @@ import com.oner365.test.controller.BaseControllerTest;
  *
  */
 @SpringBootTest
-public class SysTaskControllerTest extends BaseControllerTest {
+class SysTaskControllerTest extends BaseControllerTest {
 
     private static final String PATH = "/monitor/task";
 
     @RepeatedTest(2)
-    public void list() {
+    void list() {
         String url = PATH + "/list";
         JSONObject paramJson = new JSONObject();
         Object result = post(url, BodyInserters.fromValue(paramJson));

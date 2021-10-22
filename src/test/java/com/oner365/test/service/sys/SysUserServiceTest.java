@@ -23,13 +23,13 @@ import com.oner365.test.service.BaseServiceTest;
  *
  */
 @SpringBootTest
-public class SysUserServiceTest extends BaseServiceTest {
+class SysUserServiceTest extends BaseServiceTest {
 
     @Autowired
     private ISysUserService service;
 
     @RepeatedTest(value = 2)
-    public void findList() {
+    void findList() {
         QueryCriteriaBean paramData = new QueryCriteriaBean();
         List<SysUser> list = service.findList(paramData);
         LOGGER.info("findList:{}", list.size());
@@ -37,7 +37,7 @@ public class SysUserServiceTest extends BaseServiceTest {
     }
 
     @Test
-    public void pageList() {
+    void pageList() {
         QueryCriteriaBean paramData = new QueryCriteriaBean();
         Page<SysUser> list = service.pageList(paramData);
         LOGGER.info("pageList:{}", list.getSize());
@@ -45,7 +45,7 @@ public class SysUserServiceTest extends BaseServiceTest {
     }
 
     @Test
-    public void getById() {
+    void getById() {
         String id = "1";
         SysUser entity = service.getById(id);
         LOGGER.info("getById:{}", JSON.toJSONString(entity));
@@ -53,7 +53,7 @@ public class SysUserServiceTest extends BaseServiceTest {
     }
 
     @Test
-    public void login() {
+    void login() {
         String userName = "admin";
         String password = "1";
         LoginUserDto entity = service.login(userName, password);

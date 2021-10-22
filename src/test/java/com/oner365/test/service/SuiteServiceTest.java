@@ -21,10 +21,10 @@ import org.junit.runner.RunWith;
     "com.oner365.test.service.monitor", 
     "com.oner365.test.service.sys" 
 })
-public class SuiteServiceTest {
+class SuiteServiceTest {
 
     @Test
-    public void test() {
+    void test() {
     	Assert.assertEquals("SuiteServiceTest", SuiteServiceTest.class.getSimpleName());
     }
 }

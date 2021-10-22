@@ -29,7 +29,7 @@ import cn.smallbun.screw.core.process.ProcessConfig;
  *
  */
 @SpringBootTest
-public class ScrewUtilsTest extends BaseUtilsTest {
+class ScrewUtilsTest extends BaseUtilsTest {
     
     @Value("${spring.application.name}")
     private String applicationName;
@@ -40,7 +40,7 @@ public class ScrewUtilsTest extends BaseUtilsTest {
     private DruidDataSource druidDataSource; 
 
     @Test
-    public void screwUtilsTest() {
+    void screwUtilsTest() {
     	Assert.assertEquals("ScrewUtilsTest", ScrewUtilsTest.class.getSimpleName());
         documentGeneration();
     }

@@ -19,7 +19,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
  * @author zhaoyong
  *
  */
-public class RateLimiterTest {
+class RateLimiterTest {
 
     private static final int CORE_POOL_SIZE = 5;
     private static final int MAXIMUM_POOL_SIZE = 10;
@@ -30,7 +30,7 @@ public class RateLimiterTest {
     private static final int TOKEN_NUMBER = 10;
 
     @Test
-    public void test() {
+    void test() {
     	Assert.assertEquals("RateLimiterTest", RateLimiterTest.class.getSimpleName());
     }
 

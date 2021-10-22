@@ -12,10 +12,10 @@ import com.oner365.util.VerifyCodeUtils;
  * @author zhaoyong
  *
  */
-public class VerifyCodeUtilsTest extends BaseUtilsTest {
+class VerifyCodeUtilsTest extends BaseUtilsTest {
 
     @Test
-    public void test() {
+    void test() {
         String result = VerifyCodeUtils.generateVerifyCode(4);
         assertNotNull(result);
     }

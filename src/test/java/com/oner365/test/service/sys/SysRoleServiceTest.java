@@ -24,13 +24,13 @@ import com.oner365.test.service.BaseServiceTest;
  *
  */
 @SpringBootTest
-public class SysRoleServiceTest extends BaseServiceTest {
+class SysRoleServiceTest extends BaseServiceTest {
 
     @Autowired
     private ISysRoleService service;
 
     @RepeatedTest(value = 2)
-    public void findList() {
+    void findList() {
         QueryCriteriaBean paramData = new QueryCriteriaBean();
         List<SysRole> list = service.findList(paramData);
         LOGGER.info("findList:{}", list.size());
@@ -38,7 +38,7 @@ public class SysRoleServiceTest extends BaseServiceTest {
     }
 
     @Test
-    public void pageList() {
+    void pageList() {
         QueryCriteriaBean paramData = new QueryCriteriaBean();
         Page<SysRole> list = service.pageList(paramData);
         LOGGER.info("pageList:{}", list.getSize());
@@ -46,7 +46,7 @@ public class SysRoleServiceTest extends BaseServiceTest {
     }
 
     @Test
-    public void getById() {
+    void getById() {
         String id = "1";
         SysRole entity = service.getById(id);
         LOGGER.info("getById:{}", JSON.toJSONString(entity));
@@ -54,7 +54,7 @@ public class SysRoleServiceTest extends BaseServiceTest {
     }
 
     @Test
-    public void findMenuByRoles() {
+    void findMenuByRoles() {
         List<String> roles = new ArrayList<>();
         roles.add("1");
         String menuType = "1";
@@ -64,7 +64,7 @@ public class SysRoleServiceTest extends BaseServiceTest {
     }
 
     @Test
-    public void findMenuByRoleId() {
+    void findMenuByRoleId() {
         String menuType = "1";
         String roleId = "1";
         List<String> list = service.findMenuByRoleId(menuType, roleId);
@@ -73,7 +73,7 @@ public class SysRoleServiceTest extends BaseServiceTest {
     }
 
     @Test
-    public void findTreeList() {
+    void findTreeList() {
         String menuType = "1";
         List<Object> list = service.findTreeList(menuType);
         LOGGER.info("findTreeList:{}", list.size());

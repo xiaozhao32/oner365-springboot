@@ -16,18 +16,18 @@ import com.oner365.test.controller.BaseControllerTest;
  *
  */
 @SpringBootTest
-public class AuthControllerTest extends BaseControllerTest {
+class AuthControllerTest extends BaseControllerTest {
 
     private static final String PATH = "/system/auth";
 
     @Test
-    public void authLogin() {
+    void authLogin() {
         LOGGER.info("authLogin:[{}] -> {}", PATH + "/login", token);
         Assertions.assertNotNull(token);
     }
 
     @Test
-    public void captchaImage() {
+    void captchaImage() {
         String url = PATH + "/captchaImage";
         Object result = get(url);
         LOGGER.info("captchaImage:[{}] -> {}", url, result);
@@ -35,18 +35,18 @@ public class AuthControllerTest extends BaseControllerTest {
     }
 
     @RepeatedTest(2)
-    public void findMenuByRoles() {
+    void findMenuByRoles() {
         String url = PATH + "/menu/1";
         ArrayList<?> result = (ArrayList<?>) get(url);
         LOGGER.info("findMenuByRoles:[{}] -> {}", url, result);
-        Assertions.assertTrue(result.size() != 0);
+        Assertions.assertNotEquals(0, result.size());
     }
 
     @RepeatedTest(2)
-    public void findMenuOperByRoles() {
+    void findMenuOperByRoles() {
         String url = PATH + "/menu/operation/101";
         ArrayList<?> result = (ArrayList<?>) get(url);
         LOGGER.info("findMenuOperByRoles:[{}] -> {}", url, result);
-        Assertions.assertTrue(result.size() != 0);
+        Assertions.assertNotEquals(0, result.size());
     }
 }

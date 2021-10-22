@@ -14,12 +14,12 @@ import org.springframework.web.reactive.function.BodyInserters;
  *
  */
 @SpringBootTest
-public class SampleGeneControllerTest extends BaseControllerTest {
+class SampleGeneControllerTest extends BaseControllerTest {
 
     private static final String PATH = "/elasticsearch/sampleGene";
 
     @RepeatedTest(2)
-    public void list() {
+    void list() {
         String url = PATH + "/list";
         JSONObject paramJson = new JSONObject();
         Object result = post(url, BodyInserters.fromValue(paramJson));

@@ -20,13 +20,13 @@ import com.oner365.util.DataUtils;
  * @author zhaoyong
  */
 @SpringBootTest
-public class SysTaskLogServiceTest extends BaseServiceTest {
+class SysTaskLogServiceTest extends BaseServiceTest {
 
     @Autowired
     private ISysTaskLogService service;
 
     @RepeatedTest(value = 2)
-    public void pageList() {
+    void pageList() {
         QueryCriteriaBean paramData = new QueryCriteriaBean();
         Page<SysTaskLog> list = service.pageList(paramData);
         LOGGER.info("pageList:{}", list.getSize());
@@ -34,7 +34,7 @@ public class SysTaskLogServiceTest extends BaseServiceTest {
     }
 
     @Test
-    public void selectTaskLogById() {
+    void selectTaskLogById() {
         QueryCriteriaBean paramData = new QueryCriteriaBean();
         Page<SysTaskLog> list = service.pageList(paramData);
         if (!DataUtils.isEmpty(list) && !list.getContent().isEmpty()) {

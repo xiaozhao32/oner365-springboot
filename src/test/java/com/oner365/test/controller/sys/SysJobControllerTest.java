@@ -20,12 +20,12 @@ import java.util.Map;
  *
  */
 @SpringBootTest
-public class SysJobControllerTest extends BaseControllerTest {
+class SysJobControllerTest extends BaseControllerTest {
 
     private static final String PATH = "/system/job";
 
     @Test
-    public void get() {
+    void get() {
         String url = PATH + "/get/1";
         Object result = get(url);
         LOGGER.info("get:[{}] -> {}", url, result);
@@ -33,7 +33,7 @@ public class SysJobControllerTest extends BaseControllerTest {
     }
 
     @RepeatedTest(2)
-    public void list() {
+    void list() {
         String url = PATH + "/list";
         JSONObject paramJson = new JSONObject();
         Object result = post(url, BodyInserters.fromValue(paramJson));
@@ -43,7 +43,7 @@ public class SysJobControllerTest extends BaseControllerTest {
 
     @Test
     @SuppressWarnings("unchecked")
-    public void save() {
+    void save() {
         String savePath = PATH + "/save";
         SysJob entity = new SysJob();
         entity.setJobName("test");

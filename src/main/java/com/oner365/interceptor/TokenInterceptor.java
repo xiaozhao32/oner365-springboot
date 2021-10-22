@@ -1,5 +1,6 @@
 package com.oner365.interceptor;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -21,7 +22,6 @@ import com.alibaba.fastjson.JSON;
 import com.oner365.common.ResponseData;
 import com.oner365.common.config.properties.IgnoreWhiteProperties;
 import com.oner365.common.constants.PublicConstants;
-import com.oner365.common.exception.ProjectRuntimeException;
 import com.oner365.common.jwt.JwtUtils;
 import com.oner365.gateway.constants.GatewayConstants;
 import com.oner365.log.event.SysLogEvent;
@@ -93,9 +93,8 @@ public class TokenInterceptor implements HandlerInterceptor {
         // 写出
         try {
             response.getOutputStream().write(JSON.toJSONString(responseData).getBytes());
-        } catch (Exception e) {
+        } catch (IOException e) {
             LOGGER.error("TokenInterceptor setUnauthorizedResponse error", e);
-            throw new ProjectRuntimeException(e);
         }
         return false;
     }
@@ -126,8 +125,8 @@ public class TokenInterceptor implements HandlerInterceptor {
             return JwtUtils.validateToken(auth, secret);
         } catch (Exception e) {
             LOGGER.error("TokenInterceptor validateToken error: {}", request.getRequestURI(), e);
-            throw new ProjectRuntimeException(e);
         }
+        return false;
     }
 
     /**

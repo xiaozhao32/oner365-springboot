@@ -18,13 +18,13 @@ import com.oner365.test.service.BaseServiceTest;
  *
  */
 @SpringBootTest
-public class ElasticsearchServiceTest extends BaseServiceTest {
+class ElasticsearchServiceTest extends BaseServiceTest {
 
     @Autowired
     private ISampleGeneElasticsearchService service;
 
     @RepeatedTest(value = 2)
-    public void findList() {
+    void findList() {
         QueryCriteriaBean paramJson = new QueryCriteriaBean();
         Iterable<SampleGene> list = service.findList(paramJson);
         LOGGER.info("findList:{}", Iterables.size(list));

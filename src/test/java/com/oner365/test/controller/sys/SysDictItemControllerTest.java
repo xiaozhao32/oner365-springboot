@@ -16,12 +16,12 @@ import org.springframework.web.reactive.function.BodyInserters;
  *
  */
 @SpringBootTest
-public class SysDictItemControllerTest extends BaseControllerTest {
+class SysDictItemControllerTest extends BaseControllerTest {
 
     private static final String PATH = "/system/dict";
 
     @Test
-    public void getTypeById() {
+    void getTypeById() {
         String url = PATH + "/getTypeById/sys_task_status";
         Object result = get(url);
         LOGGER.info("getTypeById:[{}] -> {}", url, result);
@@ -29,7 +29,7 @@ public class SysDictItemControllerTest extends BaseControllerTest {
     }
 
     @Test
-    public void findTypeInfoById() {
+    void findTypeInfoById() {
         String url = PATH + "/findTypeInfoById/sys_task_status";
         Object result = get(url);
         LOGGER.info("findTypeInfoById:[{}] -> {}", url, result);
@@ -37,7 +37,7 @@ public class SysDictItemControllerTest extends BaseControllerTest {
     }
 
     @RepeatedTest(2)
-    public void findTypeInfoByCodes() {
+    void findTypeInfoByCodes() {
         String url = PATH + "/findTypeInfoByCodes";
         JSONObject paramJson = new JSONObject();
         JSONArray jsonArray = new JSONArray();
@@ -49,7 +49,7 @@ public class SysDictItemControllerTest extends BaseControllerTest {
     }
 
     @RepeatedTest(2)
-    public void findTypeList() {
+    void findTypeList() {
         String url = PATH + "/findTypeList";
         JSONObject paramJson = new JSONObject();
         Object result = post(url, BodyInserters.fromValue(paramJson));
@@ -58,7 +58,7 @@ public class SysDictItemControllerTest extends BaseControllerTest {
     }
 
     @RepeatedTest(2)
-    public void findItemList() {
+    void findItemList() {
         String url = PATH + "/findItemList";
         JSONObject paramJson = new JSONObject();
         Object result = post(url, BodyInserters.fromValue(paramJson));
@@ -67,7 +67,7 @@ public class SysDictItemControllerTest extends BaseControllerTest {
     }
 
     @Test
-    public void getItemById() {
+    void getItemById() {
         String url = PATH + "/getItemById/1101";
         Object result = get(url);
         LOGGER.info("getItemById:[{}] -> {}", url, result);
@@ -75,7 +75,7 @@ public class SysDictItemControllerTest extends BaseControllerTest {
     }
 
     @RepeatedTest(2)
-    public void findListByCodes() {
+    void findListByCodes() {
         String url = PATH + "/findListByCodes";
         JSONObject paramJson = new JSONObject();
         JSONArray jsonArray = new JSONArray();

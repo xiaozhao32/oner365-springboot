@@ -19,13 +19,13 @@ import java.util.List;
  *
  */
 @SpringBootTest
-public class SysOrganizationServiceTest extends BaseServiceTest {
+class SysOrganizationServiceTest extends BaseServiceTest {
 
     @Autowired
     private ISysOrganizationService service;
 
     @Test
-    public void getById() {
+    void getById() {
         String id = "110101";
         SysOrganization entity = service.getById(id);
         LOGGER.info("getById:{}", JSON.toJSONString(entity));
@@ -33,14 +33,14 @@ public class SysOrganizationServiceTest extends BaseServiceTest {
     }
 
     @RepeatedTest(value = 2)
-    public void findListByParentId() {
+    void findListByParentId() {
         List<SysOrganization> list = service.findListByParentId("-1");
         LOGGER.info("findListByParentId:{}", list.size());
         Assertions.assertNotEquals(0, list.size());
     }
 
     @Test
-    public void getByCode() {
+    void getByCode() {
         String code = "110101000000";
         SysOrganization entity = service.getByCode(code);
         LOGGER.info("getByCode:{}", JSON.toJSONString(entity));
@@ -48,7 +48,7 @@ public class SysOrganizationServiceTest extends BaseServiceTest {
     }
 
     @Test
-    public void selectList() {
+    void selectList() {
         SysOrganization sysOrg = new SysOrganization();
         // cache error
         List<SysOrganization> list = service.selectList(sysOrg);
@@ -57,7 +57,7 @@ public class SysOrganizationServiceTest extends BaseServiceTest {
     }
 
     @Test
-    public void selectListByUserId() {
+    void selectListByUserId() {
         String userId = "1";
         List<String> list = service.selectListByUserId(userId);
         LOGGER.info("selectListByUserId:{}", list.size());

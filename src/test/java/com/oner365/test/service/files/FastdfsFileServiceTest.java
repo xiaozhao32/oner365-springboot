@@ -22,13 +22,13 @@ import com.oner365.test.service.BaseServiceTest;
  *
  */
 @SpringBootTest
-public class FastdfsFileServiceTest extends BaseServiceTest {
+class FastdfsFileServiceTest extends BaseServiceTest {
 
     @Autowired
     private IFastdfsFileService service;
 
     @RepeatedTest(value = 2)
-    public void findList() {
+    void findList() {
         QueryCriteriaBean paramData = new QueryCriteriaBean();
         List<FastdfsFile> list = service.findList(paramData);
         LOGGER.info("findList:{}", list.size());
@@ -36,7 +36,7 @@ public class FastdfsFileServiceTest extends BaseServiceTest {
     }
 
     @Test
-    public void pageList() {
+    void pageList() {
         QueryCriteriaBean paramData = new QueryCriteriaBean();
         Page<FastdfsFile> list = service.pageList(paramData);
         LOGGER.info("pageList:{}", list.getSize());
@@ -44,7 +44,7 @@ public class FastdfsFileServiceTest extends BaseServiceTest {
     }
 
     @Test
-    public void getById() {
+    void getById() {
         QueryCriteriaBean paramData = new QueryCriteriaBean();
         List<FastdfsFile> list = service.findList(paramData);
         if (!list.isEmpty()) {

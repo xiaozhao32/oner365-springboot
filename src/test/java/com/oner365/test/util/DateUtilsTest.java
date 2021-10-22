@@ -14,10 +14,10 @@ import com.oner365.util.DateUtil;
  * @author zhaoyong
  *
  */
-public class DateUtilsTest extends BaseUtilsTest {
+class DateUtilsTest extends BaseUtilsTest {
 
     @Test
-    public void test() {
+    void test() {
         List<String> result = DateUtil.getDialectDate("2021-05-10", "2021-05-21");
         assertNotNull(result);
     }

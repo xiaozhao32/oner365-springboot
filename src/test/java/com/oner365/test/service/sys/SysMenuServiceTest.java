@@ -19,13 +19,13 @@ import java.util.List;
  *
  */
 @SpringBootTest
-public class SysMenuServiceTest extends BaseServiceTest {
+class SysMenuServiceTest extends BaseServiceTest {
 
     @Autowired
     private ISysMenuService service;
 
     @Test
-    public void getById() {
+    void getById() {
         String id = "101";
         SysMenu entity = service.getById(id);
         LOGGER.info("getById:{}", JSON.toJSONString(entity));
@@ -33,7 +33,7 @@ public class SysMenuServiceTest extends BaseServiceTest {
     }
 
     @Test
-    public void findMenuByTypeCode() {
+    void findMenuByTypeCode() {
         String typeCode = "nt_sys";
         List<SysMenu> list = service.findMenuByTypeCode(typeCode);
         LOGGER.info("findMenuByTypeCode:{}", list.size());
@@ -41,7 +41,7 @@ public class SysMenuServiceTest extends BaseServiceTest {
     }
 
     @Test
-    public void selectMenuByRoles() {
+    void selectMenuByRoles() {
         List<String> roles = new ArrayList<>();
         roles.add("1");
         List<SysMenu> list = service.selectMenuByRoles(roles, "1", "-1");
@@ -50,21 +50,21 @@ public class SysMenuServiceTest extends BaseServiceTest {
     }
 
     @Test
-    public void findMenu() {
+    void findMenu() {
         List<SysMenu> list = service.findMenu("1", "-1");
         LOGGER.info("findMenu:{}", list.size());
         Assertions.assertNotEquals(0, list.size());
     }
 
     @Test
-    public void selectListByRoleId() {
+    void selectListByRoleId() {
         List<Integer> list = service.selectListByRoleId("1", "1");
         LOGGER.info("selectListByRoleId:{}", list.size());
         Assertions.assertNotEquals(0, list.size());
     }
 
     @Test
-    public void selectList() {
+    void selectList() {
         // cache error
         SysMenu menu = new SysMenu();
         menu.setMenuTypeId("1");
@@ -74,7 +74,7 @@ public class SysMenuServiceTest extends BaseServiceTest {
     }
 
     @Test
-    public void selectListByUserId() {
+    void selectListByUserId() {
         SysMenu menu = new SysMenu();
         menu.setMenuTypeId("1");
         menu.setUserId("1");

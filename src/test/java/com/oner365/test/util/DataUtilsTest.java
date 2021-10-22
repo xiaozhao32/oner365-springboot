@@ -11,10 +11,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author zhaoyong
  *
  */
-public class DataUtilsTest extends BaseUtilsTest {
+class DataUtilsTest extends BaseUtilsTest {
 
     @Test
-    public void test() {
+    void test() {
         assertTrue(DataUtils.isEmpty(null));
     }
 

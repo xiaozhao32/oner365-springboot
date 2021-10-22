@@ -15,12 +15,12 @@ import org.springframework.web.reactive.function.BodyInserters;
  *
  */
 @SpringBootTest
-public class SysLogControllerTest extends BaseControllerTest {
+class SysLogControllerTest extends BaseControllerTest {
 
     private static final String PATH = "/system/log";
 
     @Test
-    public void get() {
+    void get() {
         String url = PATH + "/get/4028b88177d778810177d778c7190000";
         Object result = get(url);
         LOGGER.info("get:[{}] -> {}", url, result);
@@ -28,7 +28,7 @@ public class SysLogControllerTest extends BaseControllerTest {
     }
 
     @RepeatedTest(2)
-    public void list() {
+    void list() {
         String url = PATH + "/list";
         JSONObject paramJson = new JSONObject();
         Object result = post(url, BodyInserters.fromValue(paramJson));

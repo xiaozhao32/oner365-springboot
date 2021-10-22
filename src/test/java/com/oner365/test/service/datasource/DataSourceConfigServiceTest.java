@@ -17,13 +17,13 @@ import com.oner365.test.service.BaseServiceTest;
  * @author zhaoyong
  */
 @SpringBootTest
-public class DataSourceConfigServiceTest extends BaseServiceTest {
+class DataSourceConfigServiceTest extends BaseServiceTest {
 
     @Autowired
     private IDataSourceConfigService service;
 
     @RepeatedTest(value = 2)
-    public void pageList() {
+    void pageList() {
         QueryCriteriaBean paramData = new QueryCriteriaBean();
         Page<DataSourceConfig> list = service.pageList(paramData);
         LOGGER.info("pageList:{}", list.getSize());

@@ -16,12 +16,12 @@ import com.oner365.test.controller.BaseControllerTest;
  *
  */
 @SpringBootTest
-public class SysRoleControllerTest extends BaseControllerTest {
+class SysRoleControllerTest extends BaseControllerTest {
 
     private static final String PATH = "/system/role";
 
     @Test
-    public void get() {
+    void get() {
         String url = PATH + "/get/1";
         Object result = get(url);
         LOGGER.info("get:[{}] -> {}", url, result);
@@ -29,7 +29,7 @@ public class SysRoleControllerTest extends BaseControllerTest {
     }
 
     @RepeatedTest(2)
-    public void list() {
+    void list() {
         String url = PATH + "/list";
         JSONObject paramJson = new JSONObject();
         Object result = post(url, BodyInserters.fromValue(paramJson));

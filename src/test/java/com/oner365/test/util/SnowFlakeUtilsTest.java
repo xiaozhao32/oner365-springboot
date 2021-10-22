@@ -10,11 +10,11 @@ import org.junit.jupiter.api.Test;
  * @author zhaoyong
  *
  */
-public class SnowFlakeUtilsTest extends BaseUtilsTest {
+class SnowFlakeUtilsTest extends BaseUtilsTest {
 
     @Test
-    public void test() {
-        long result = new SnowFlakeUtils(1L, 1L).nextId();
+    void test() {
+        Long result = new SnowFlakeUtils(1L, 1L).nextId();
         Assertions.assertNotNull(result);
     }
 

@@ -11,10 +11,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author zhaoyong
  *
  */
-public class ClassesUtilTest extends BaseUtilsTest {
+class ClassesUtilTest extends BaseUtilsTest {
 
     @Test
-    public void test() {
+    void test() {
         boolean result = ClassesUtil.isPrimitive(String.class);
         assertTrue(result);
     }

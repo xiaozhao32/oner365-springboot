@@ -14,10 +14,10 @@ import org.junit.runner.RunWith;
  */
 @RunWith(JUnitPlatform.class)
 @SelectPackages({ "com.oner365.test.util" })
-public class SuiteUtilsTest {
+class SuiteUtilsTest {
 
     @Test
-    public void test() {
+    void test() {
     	Assert.assertEquals("SuiteUtilsTest", SuiteUtilsTest.class.getSimpleName());
     }
 }

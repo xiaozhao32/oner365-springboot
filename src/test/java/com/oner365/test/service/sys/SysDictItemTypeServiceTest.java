@@ -23,13 +23,13 @@ import com.oner365.test.service.BaseServiceTest;
  *
  */
 @SpringBootTest
-public class SysDictItemTypeServiceTest extends BaseServiceTest {
+class SysDictItemTypeServiceTest extends BaseServiceTest {
 
     @Autowired
     private ISysDictItemTypeService service;
 
     @RepeatedTest(value = 2)
-    public void findList() {
+    void findList() {
         QueryCriteriaBean paramData = new QueryCriteriaBean();
         List<SysDictItemType> list = service.findList(paramData);
         LOGGER.info("findList:{}", list.size());
@@ -37,7 +37,7 @@ public class SysDictItemTypeServiceTest extends BaseServiceTest {
     }
 
     @Test
-    public void findListByCodes() {
+    void findListByCodes() {
         String[] codes = new String[]{"sys_task_group", "sys_task_status"};
         List<SysDictItemType> list = service.findListByCodes(Arrays.asList(codes));
         LOGGER.info("findListByCodes:{}", list.size());
@@ -45,7 +45,7 @@ public class SysDictItemTypeServiceTest extends BaseServiceTest {
     }
 
     @Test
-    public void pageList() {
+    void pageList() {
         QueryCriteriaBean paramData = new QueryCriteriaBean();
         Page<SysDictItemType> list = service.pageList(paramData);
         LOGGER.info("pageList:{}", list.getSize());
@@ -53,7 +53,7 @@ public class SysDictItemTypeServiceTest extends BaseServiceTest {
     }
 
     @Test
-    public void getById() {
+    void getById() {
         String id = "sys_task_group";
         SysDictItemType entity = service.getById(id);
         LOGGER.info("getById:{}", JSON.toJSONString(entity));

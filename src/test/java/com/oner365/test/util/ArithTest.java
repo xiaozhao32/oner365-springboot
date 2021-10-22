@@ -10,16 +10,16 @@ import org.junit.jupiter.api.Test;
  * @author zhaoyong
  *
  */
-public class ArithTest extends BaseUtilsTest {
+class ArithTest extends BaseUtilsTest {
 
     @Test
-    public void add() {
+    void add() {
         double result = Arith.add(1d, 2d);
         Assertions.assertEquals(3d, result);
     }
 
     @Test
-    public void sub() {
+    void sub() {
         double result = Arith.sub(1d, -2d);
         Assertions.assertEquals(3d, result);
     }

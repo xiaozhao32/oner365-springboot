@@ -17,7 +17,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
  * @author zhaoyong
  *
  */
-public class CompletableFutureTest extends BaseUtilsTest {
+class CompletableFutureTest extends BaseUtilsTest {
 
     private static final int CORE_POOL_SIZE = 5;
     private static final int MAXIMUM_POOL_SIZE = 10;
@@ -26,7 +26,7 @@ public class CompletableFutureTest extends BaseUtilsTest {
     private static final String THREAD_NAME_FORMAT = "demo-pool-%d";
 
     @Test
-    public void test() {
+    void test() {
         // 创建线程
         ThreadFactory namedThreadFactory = new ThreadFactoryBuilder().setNameFormat(THREAD_NAME_FORMAT).build();
         ExecutorService executorService = new ThreadPoolExecutor(CORE_POOL_SIZE, MAXIMUM_POOL_SIZE, KEEP_ALIVE_TIME,
