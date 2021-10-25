@@ -1,5 +1,6 @@
 package com.oner365.gateway.controller;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,9 +89,7 @@ public class DynamicRouteController extends BaseController {
     @DeleteMapping("/delete")
     @ApiOperation("删除路由")
     public ResponseResult<String> delete(@RequestBody String... ids) {
-        for (String id : ids) {
-            dynamicRouteService.delete(id);
-        }
+        Arrays.stream(ids).forEach(id -> dynamicRouteService.delete(id));
         return ResponseResult.success(PublicConstants.SUCCESS);
     }
 

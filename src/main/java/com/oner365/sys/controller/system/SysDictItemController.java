@@ -139,7 +139,7 @@ public class SysDictItemController extends BaseController {
     @ApiOperation("按类别编码查询字典列表")
     public Map<String, Object> findItemByTypeIds(@RequestBody String... typeIds) {
         Map<String, Object> result = Maps.newHashMap();
-        for (String typeId : typeIds) {
+        Arrays.stream(typeIds).forEach(typeId -> {
             QueryCriteriaBean data = new QueryCriteriaBean();
             List<AttributeBean> whereList = new ArrayList<>();
             AttributeBean attribute = new AttributeBean(SysConstants.TYPE_ID, typeId);
@@ -147,7 +147,7 @@ public class SysDictItemController extends BaseController {
             data.setWhereList(whereList);
             List<SysDictItem> itemList = sysDictItemService.findList(data);
             result.put(typeId, itemList);
-        }
+        });
         return result;
     }
 

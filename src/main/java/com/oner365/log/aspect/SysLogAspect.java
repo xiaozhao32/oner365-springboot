@@ -68,7 +68,7 @@ public class SysLogAspect {
 
     private String getParams(Object[] paramsArray) {
         StringBuilder params = new StringBuilder();
-        if (paramsArray != null && paramsArray.length > 0) {
+        if (!DataUtils.isEmpty(paramsArray)) {
             for (Object o : paramsArray) {
                 if (!DataUtils.isEmpty(o)) {
                     Object jsonObj = JSON.toJSON(o);
