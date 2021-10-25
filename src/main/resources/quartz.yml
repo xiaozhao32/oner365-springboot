@@ -12,6 +12,10 @@ org:
       
     jobStore:
       class: org.quartz.impl.jdbcjobstore.JobStoreTX
+      
+      # postgres
+      #driverDelegateClass: org.quartz.impl.jdbcjobstore.PostgreSQLDelegate
+      
       isClustered: true
       clusterCheckinInterval: '15000'
       maxMisfiresToHandleAtATime: '1'

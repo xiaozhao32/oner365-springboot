@@ -20,10 +20,18 @@
 			<comments>oner365 Project</comments>
 		</license>
 	</licenses>
+	
 	<organization>
 		<url>http://www.oner365.com</url>
 		<name>oner365</name>
 	</organization>
+	
+	<developers>
+		<developer>
+			<name>zhaoyong</name>
+			<email>xiaozhao32@hotmail.com</email>
+		</developer>
+	</developers>
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -224,6 +232,12 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>8.0.26</version>
+		</dependency>
+		<!-- PostgreSQL -->
+		<dependency>
+		    <groupId>org.postgresql</groupId>
+		    <artifactId>postgresql</artifactId>
+		    <version>42.2.18</version>
 		</dependency>
 
 		<!-- 定时任务 -->
