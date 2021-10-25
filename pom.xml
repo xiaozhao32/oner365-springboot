@@ -37,8 +37,8 @@
 		<java.version>1.8</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		<org.springframework.boot.version>2.5.5</org.springframework.boot.version>
-		<org.springframework.version>5.3.10</org.springframework.version>
+		<org.springframework.boot.version>2.5.6</org.springframework.boot.version>
+		<org.springframework.version>5.3.12</org.springframework.version>
 
 		<org.apache.poi.version>4.1.2</org.apache.poi.version>
 
@@ -47,8 +47,8 @@
 
 		<com.fasterxml.jackson.version>2.12.5</com.fasterxml.jackson.version>
 
-		<io.projectreactor.netty.version>1.0.11</io.projectreactor.netty.version>
-		<io.netty.version>4.1.68.Final</io.netty.version>
+		<io.projectreactor.netty.version>1.0.12</io.projectreactor.netty.version>
+		<io.netty.version>4.1.69.Final</io.netty.version>
 	</properties>
 
 	<dependencies>
@@ -65,14 +65,14 @@
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
-			<version>1.2.76</version>
+			<version>1.2.78</version>
 		</dependency>
 
 		<!-- druid -->
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>druid-spring-boot-starter</artifactId>
-			<version>1.2.6</version>
+			<version>1.2.8</version>
 		</dependency>
 
 		<!-- screw-core -->
@@ -149,7 +149,7 @@
 			<artifactId>httpcore-nio</artifactId>
 			<version>4.4.14</version>
 		</dependency>
-
+		
 		<!-- excel -->
 		<dependency>
 			<groupId>org.apache.poi</groupId>
