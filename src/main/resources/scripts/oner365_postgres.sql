@@ -15,6 +15,132 @@
  Date: 25/10/2021 09:27:22
 */
 
+-- ----------------------------
+-- Table structure for gen_table
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."gen_table";
+CREATE TABLE "public"."gen_table" (
+  "table_id" int8 NOT NULL,
+  "table_name" varchar(200) COLLATE "pg_catalog"."default",
+  "table_comment" varchar(500) COLLATE "pg_catalog"."default",
+  "sub_table_name" varchar(64) COLLATE "pg_catalog"."default",
+  "sub_table_fk_name" varchar(64) COLLATE "pg_catalog"."default",
+  "class_name" varchar(100) COLLATE "pg_catalog"."default",
+  "tpl_category" varchar(200) COLLATE "pg_catalog"."default",
+  "package_name" varchar(100) COLLATE "pg_catalog"."default",
+  "module_name" varchar(30) COLLATE "pg_catalog"."default",
+  "business_name" varchar(30) COLLATE "pg_catalog"."default",
+  "function_name" varchar(50) COLLATE "pg_catalog"."default",
+  "function_author" varchar(50) COLLATE "pg_catalog"."default",
+  "gen_type" char(1) COLLATE "pg_catalog"."default",
+  "gen_path" varchar(200) COLLATE "pg_catalog"."default",
+  "options" varchar(1000) COLLATE "pg_catalog"."default",
+  "create_by" varchar(64) COLLATE "pg_catalog"."default",
+  "create_time" timestamp(6),
+  "update_by" varchar(64) COLLATE "pg_catalog"."default",
+  "update_time" timestamp(6),
+  "remark" varchar(500) COLLATE "pg_catalog"."default"
+)
+;
+ALTER TABLE "public"."gen_table" OWNER TO "postgres";
+COMMENT ON COLUMN "public"."gen_table"."table_id" IS '编号';
+COMMENT ON COLUMN "public"."gen_table"."table_name" IS '表名称';
+COMMENT ON COLUMN "public"."gen_table"."table_comment" IS '表描述';
+COMMENT ON COLUMN "public"."gen_table"."sub_table_name" IS '关联子表的表名';
+COMMENT ON COLUMN "public"."gen_table"."sub_table_fk_name" IS '子表关联的外键名';
+COMMENT ON COLUMN "public"."gen_table"."class_name" IS '实体类名称';
+COMMENT ON COLUMN "public"."gen_table"."tpl_category" IS '使用的模板（crud单表操作 tree树表操作）';
+COMMENT ON COLUMN "public"."gen_table"."package_name" IS '生成包路径';
+COMMENT ON COLUMN "public"."gen_table"."module_name" IS '生成模块名';
+COMMENT ON COLUMN "public"."gen_table"."business_name" IS '生成业务名';
+COMMENT ON COLUMN "public"."gen_table"."function_name" IS '生成功能名';
+COMMENT ON COLUMN "public"."gen_table"."function_author" IS '生成功能作者';
+COMMENT ON COLUMN "public"."gen_table"."gen_type" IS '生成代码方式（0zip压缩包 1自定义路径）';
+COMMENT ON COLUMN "public"."gen_table"."gen_path" IS '生成路径（不填默认项目路径）';
+COMMENT ON COLUMN "public"."gen_table"."options" IS '其它生成选项';
+COMMENT ON COLUMN "public"."gen_table"."create_by" IS '创建者';
+COMMENT ON COLUMN "public"."gen_table"."create_time" IS '创建时间';
+COMMENT ON COLUMN "public"."gen_table"."update_by" IS '更新者';
+COMMENT ON COLUMN "public"."gen_table"."update_time" IS '更新时间';
+COMMENT ON COLUMN "public"."gen_table"."remark" IS '备注';
+COMMENT ON TABLE "public"."gen_table" IS '代码生成业务表';
+
+-- ----------------------------
+-- Records of gen_table
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
+-- Table structure for gen_table_column
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."gen_table_column";
+CREATE TABLE "public"."gen_table_column" (
+  "column_id" int8 NOT NULL,
+  "table_id" varchar(64) COLLATE "pg_catalog"."default",
+  "column_name" varchar(200) COLLATE "pg_catalog"."default",
+  "column_comment" varchar(500) COLLATE "pg_catalog"."default",
+  "column_type" varchar(100) COLLATE "pg_catalog"."default",
+  "java_type" varchar(500) COLLATE "pg_catalog"."default",
+  "java_field" varchar(200) COLLATE "pg_catalog"."default",
+  "is_pk" char(1) COLLATE "pg_catalog"."default",
+  "is_increment" char(1) COLLATE "pg_catalog"."default",
+  "is_required" char(1) COLLATE "pg_catalog"."default",
+  "is_insert" char(1) COLLATE "pg_catalog"."default",
+  "is_edit" char(1) COLLATE "pg_catalog"."default",
+  "is_list" char(1) COLLATE "pg_catalog"."default",
+  "is_query" char(1) COLLATE "pg_catalog"."default",
+  "query_type" varchar(200) COLLATE "pg_catalog"."default",
+  "html_type" varchar(200) COLLATE "pg_catalog"."default",
+  "dict_type" varchar(200) COLLATE "pg_catalog"."default",
+  "sort" int4,
+  "create_by" varchar(64) COLLATE "pg_catalog"."default",
+  "create_time" timestamp(6),
+  "update_by" varchar(64) COLLATE "pg_catalog"."default",
+  "update_time" timestamp(6)
+)
+;
+ALTER TABLE "public"."gen_table_column" OWNER TO "postgres";
+COMMENT ON COLUMN "public"."gen_table_column"."column_id" IS '编号';
+COMMENT ON COLUMN "public"."gen_table_column"."table_id" IS '归属表编号';
+COMMENT ON COLUMN "public"."gen_table_column"."column_name" IS '列名称';
+COMMENT ON COLUMN "public"."gen_table_column"."column_comment" IS '列描述';
+COMMENT ON COLUMN "public"."gen_table_column"."column_type" IS '列类型';
+COMMENT ON COLUMN "public"."gen_table_column"."java_type" IS 'JAVA类型';
+COMMENT ON COLUMN "public"."gen_table_column"."java_field" IS 'JAVA字段名';
+COMMENT ON COLUMN "public"."gen_table_column"."is_pk" IS '是否主键（1是）';
+COMMENT ON COLUMN "public"."gen_table_column"."is_increment" IS '是否自增（1是）';
+COMMENT ON COLUMN "public"."gen_table_column"."is_required" IS '是否必填（1是）';
+COMMENT ON COLUMN "public"."gen_table_column"."is_insert" IS '是否为插入字段（1是）';
+COMMENT ON COLUMN "public"."gen_table_column"."is_edit" IS '是否编辑字段（1是）';
+COMMENT ON COLUMN "public"."gen_table_column"."is_list" IS '是否列表字段（1是）';
+COMMENT ON COLUMN "public"."gen_table_column"."is_query" IS '是否查询字段（1是）';
+COMMENT ON COLUMN "public"."gen_table_column"."query_type" IS '查询方式（等于、不等于、大于、小于、范围）';
+COMMENT ON COLUMN "public"."gen_table_column"."html_type" IS '显示类型（文本框、文本域、下拉框、复选框、单选框、日期控件）';
+COMMENT ON COLUMN "public"."gen_table_column"."dict_type" IS '字典类型';
+COMMENT ON COLUMN "public"."gen_table_column"."sort" IS '排序';
+COMMENT ON COLUMN "public"."gen_table_column"."create_by" IS '创建者';
+COMMENT ON COLUMN "public"."gen_table_column"."create_time" IS '创建时间';
+COMMENT ON COLUMN "public"."gen_table_column"."update_by" IS '更新者';
+COMMENT ON COLUMN "public"."gen_table_column"."update_time" IS '更新时间';
+COMMENT ON TABLE "public"."gen_table_column" IS '代码生成业务表字段';
+
+-- ----------------------------
+-- Records of gen_table_column
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
+-- Primary Key structure for table gen_table
+-- ----------------------------
+ALTER TABLE "public"."gen_table" ADD CONSTRAINT "gen_table_pkey" PRIMARY KEY ("table_id");
+
+-- ----------------------------
+-- Primary Key structure for table gen_table_column
+-- ----------------------------
+ALTER TABLE "public"."gen_table_column" ADD CONSTRAINT "gen_table_column_pkey" PRIMARY KEY ("column_id");
+
 
 -- ----------------------------
 -- Table structure for hibernate_sequence
@@ -106,11 +232,11 @@ COMMENT ON TABLE "public"."nt_gateway_route" IS '路由表';
 -- Records of nt_gateway_route
 -- ----------------------------
 BEGIN;
-INSERT INTO "public"."nt_gateway_route" VALUES ('bazl-dna-files', '[{"name":"StripPrefix","args":{"parts":"1"}}]', '[{"name":"Path","args":{"pattern":"/files/**"}}]', 1, 'lb://bazl-dna-files', '1');
-INSERT INTO "public"."nt_gateway_route" VALUES ('bazl-dna-monitor', '[{"args": {"parts": "1"}, "name": "StripPrefix"}]', '[{"args": {"pattern": "/monitor/**"}, "name": "Path"}]', 1, 'lb://bazl-dna-monitor', '1');
-INSERT INTO "public"."nt_gateway_route" VALUES ('bazl-dna-system', '[{"args": {"parts": "1"}, "name": "StripPrefix"}]', '[{"args": {"pattern": "/system/**"}, "name": "Path"}]', 1, 'lb://bazl-dna-system', '1');
-INSERT INTO "public"."nt_gateway_route" VALUES ('bazl-dna-elasticsearch', '[{"args": {"parts": "1"}, "name": "StripPrefix"}]', '[{"args": {"pattern": "/elasticsearch/**"}, "name": "Path"}]', 1, 'lb://bazl-dna-elasticsearch', '1');
-INSERT INTO "public"."nt_gateway_route" VALUES ('bazl-dna-generator', '[{"args": {"parts": "1"}, "name": "StripPrefix"}]', '[{"args": {"pattern": "/generator/**"}, "name": "Path"}]', 1, 'lb://bazl-dna-generator', '1');
+INSERT INTO "public"."nt_gateway_route" VALUES ('oner365-files', '[{"name":"StripPrefix","args":{"parts":"1"}}]', '[{"name":"Path","args":{"pattern":"/files/**"}}]', 1, 'lb://oner365-files', '1');
+INSERT INTO "public"."nt_gateway_route" VALUES ('oner365-monitor', '[{"args": {"parts": "1"}, "name": "StripPrefix"}]', '[{"args": {"pattern": "/monitor/**"}, "name": "Path"}]', 1, 'lb://oner365-monitor', '1');
+INSERT INTO "public"."nt_gateway_route" VALUES ('oner365-system', '[{"args": {"parts": "1"}, "name": "StripPrefix"}]', '[{"args": {"pattern": "/system/**"}, "name": "Path"}]', 1, 'lb://oner365-system', '1');
+INSERT INTO "public"."nt_gateway_route" VALUES ('oner365-elasticsearch', '[{"args": {"parts": "1"}, "name": "StripPrefix"}]', '[{"args": {"pattern": "/elasticsearch/**"}, "name": "Path"}]', 1, 'lb://oner365-elasticsearch', '1');
+INSERT INTO "public"."nt_gateway_route" VALUES ('oner365-generator', '[{"args": {"parts": "1"}, "name": "StripPrefix"}]', '[{"args": {"pattern": "/generator/**"}, "name": "Path"}]', 1, 'lb://oner365-generator', '1');
 COMMIT;
 
 -- ----------------------------
@@ -273,37 +399,6 @@ COMMENT ON TABLE "public"."nt_sys_log" IS '系统日志表';
 -- Records of nt_sys_log
 -- ----------------------------
 BEGIN;
-INSERT INTO "public"."nt_sys_log" VALUES ('ff8080817ca756b2017ca75794680000', '127.0.0.1', 'POST', 'system', '/system/auth/login', NULL, '2021-10-22 17:31:47.149');
-INSERT INTO "public"."nt_sys_log" VALUES ('ff8080817ca756b2017ca75796240001', '127.0.0.1', 'POST', 'system', '/system/user/list', NULL, '2021-10-22 17:31:47.613');
-INSERT INTO "public"."nt_sys_log" VALUES ('ff8080817ca756b2017ca75796240002', '127.0.0.1', 'POST', 'route', '/route/list', NULL, '2021-10-22 17:31:47.614');
-INSERT INTO "public"."nt_sys_log" VALUES ('ff8080817ca756b2017ca757967c0003', '127.0.0.1', 'POST', 'monitor', '/monitor/task/list', NULL, '2021-10-22 17:31:47.637');
-INSERT INTO "public"."nt_sys_log" VALUES ('ff8080817ca756b2017ca757a9bd0004', '127.0.0.1', 'POST', 'system', '/system/org/list', NULL, '2021-10-22 17:31:52.636');
-INSERT INTO "public"."nt_sys_log" VALUES ('ff8080817ca756b2017ca757afc20005', '127.0.0.1', 'POST', 'system', '/system/role/list', NULL, '2021-10-22 17:31:54.176');
-INSERT INTO "public"."nt_sys_log" VALUES ('ff8080817ca756b2017ca757b5220006', '127.0.0.1', 'POST', 'system', '/system/job/list', NULL, '2021-10-22 17:31:55.554');
-INSERT INTO "public"."nt_sys_log" VALUES ('ff8080817ca756b2017ca757bc010007', '127.0.0.1', 'POST', 'system', '/system/role/list', NULL, '2021-10-22 17:31:57.312');
-INSERT INTO "public"."nt_sys_log" VALUES ('ff8080817ca756b2017ca757c8a00008', '127.0.0.1', 'POST', 'system', '/system/role/editStatus/ff80808172a624c00172a67c70c30007', NULL, '2021-10-22 17:32:00.543');
-INSERT INTO "public"."nt_sys_log" VALUES ('ff8080817ca756b2017ca7581c8d0009', '127.0.0.1', 'POST', 'system', '/system/role/list', NULL, '2021-10-22 17:32:22.028');
-INSERT INTO "public"."nt_sys_log" VALUES ('ff8080817ca756b2017ca7582786000a', '127.0.0.1', 'POST', 'system', '/system/job/list', NULL, '2021-10-22 17:32:24.837');
-INSERT INTO "public"."nt_sys_log" VALUES ('ff8080817ca756b2017ca7582f71000b', '127.0.0.1', 'POST', 'system', '/system/role/list', NULL, '2021-10-22 17:32:26.864');
-INSERT INTO "public"."nt_sys_log" VALUES ('ff8080817ca756b2017ca75837e5000c', '127.0.0.1', 'POST', 'system', '/system/role/editStatus/ff80808172a624c00172a67c70c30007', NULL, '2021-10-22 17:32:29.029');
-INSERT INTO "public"."nt_sys_log" VALUES ('ff8080817ca756b2017ca7585856000d', '127.0.0.1', 'POST', 'system', '/system/dict/findTypeList', NULL, '2021-10-22 17:32:37.332');
-INSERT INTO "public"."nt_sys_log" VALUES ('ff8080817ca756b2017ca7585a84000e', '127.0.0.1', 'POST', 'system', '/system/menu/list', NULL, '2021-10-22 17:32:37.892');
-INSERT INTO "public"."nt_sys_log" VALUES ('ff8080817ca756b2017ca758615f000f', '127.0.0.1', 'POST', 'system', '/system/menuType/list', NULL, '2021-10-22 17:32:39.646');
-INSERT INTO "public"."nt_sys_log" VALUES ('ff8080817ca756b2017ca7587c740010', '127.0.0.1', 'POST', 'system', '/system/menuType/editStatusById/4028e5917365edc4017365efa54d0000', NULL, '2021-10-22 17:32:46.579');
-INSERT INTO "public"."nt_sys_log" VALUES ('ff8080817ca756b2017ca758aa770011', '127.0.0.1', 'POST', 'monitor', '/monitor/task/list', NULL, '2021-10-22 17:32:58.359');
-INSERT INTO "public"."nt_sys_log" VALUES ('ff8080817ca756b2017ca758b5770012', '127.0.0.1', 'POST', 'route', '/route/list', NULL, '2021-10-22 17:33:01.174');
-INSERT INTO "public"."nt_sys_log" VALUES ('ff8080817ca756b2017ca758e4790013', '127.0.0.1', 'POST', 'system', '/system/log/list', NULL, '2021-10-22 17:33:13.209');
-INSERT INTO "public"."nt_sys_log" VALUES ('ff8080817ca756b2017ca758f4890014', '127.0.0.1', 'POST', 'monitor', '/monitor/task/list', NULL, '2021-10-22 17:33:17.32');
-INSERT INTO "public"."nt_sys_log" VALUES ('ff8080817ca756b2017ca75900ec0015', '127.0.0.1', 'PUT', 'monitor', '/monitor/task/run', NULL, '2021-10-22 17:33:20.492');
-INSERT INTO "public"."nt_sys_log" VALUES ('ff8080817ca75a83017ca75ae8480000', '127.0.0.1', 'POST', 'monitor', '/monitor/task/list', NULL, '2021-10-22 17:35:25.224');
-INSERT INTO "public"."nt_sys_log" VALUES ('ff8080817ca75a83017ca75af3b60001', '127.0.0.1', 'PUT', 'monitor', '/monitor/task/run', NULL, '2021-10-22 17:35:28.181');
-INSERT INTO "public"."nt_sys_log" VALUES ('ff8080817ca76a26017ca76b1e5a0000', '127.0.0.1', 'POST', 'monitor', '/monitor/task/list', NULL, '2021-10-22 17:53:07.635');
-INSERT INTO "public"."nt_sys_log" VALUES ('ff8080817ca76a26017ca76b27bd0001', '127.0.0.1', 'PUT', 'monitor', '/monitor/task/run', NULL, '2021-10-22 17:53:10.075');
-INSERT INTO "public"."nt_sys_log" VALUES ('ff8080817ca76f3b017ca76f67a00000', '127.0.0.1', 'POST', 'monitor', '/monitor/task/list', NULL, '2021-10-22 17:57:48.545');
-INSERT INTO "public"."nt_sys_log" VALUES ('ff8080817ca76f3b017ca76f84e50001', '127.0.0.1', 'PUT', 'monitor', '/monitor/task/run', NULL, '2021-10-22 17:57:56.068');
-INSERT INTO "public"."nt_sys_log" VALUES ('ff8080817ca77122017ca771792f0000', '127.0.0.1', 'POST', 'monitor', '/monitor/task/list', NULL, '2021-10-22 18:00:04.109');
-INSERT INTO "public"."nt_sys_log" VALUES ('ff8080817ca77122017ca77184a50001', '127.0.0.1', 'PUT', 'monitor', '/monitor/task/run', NULL, '2021-10-22 18:00:07.076');
-INSERT INTO "public"."nt_sys_log" VALUES ('ff8080817ca77122017ca771f6e80002', '127.0.0.1', 'PUT', 'monitor', '/monitor/task/run', NULL, '2021-10-22 18:00:36.327');
 COMMIT;
 
 -- ----------------------------
@@ -364,6 +459,9 @@ INSERT INTO "public"."nt_sys_menu" VALUES ('2017', '1', '队列监控', '201', '
 INSERT INTO "public"."nt_sys_menu" VALUES ('2018', '1', '文档监控', '201', 'monitor/fastdfs/index', '/fastdfs', 28, '文档监控', 'documentation', '1', '2020-12-25 14:49:33', '2020-12-25 14:50:24', NULL);
 INSERT INTO "public"."nt_sys_menu" VALUES ('301', '1', '日志管理', '-1', 'Layout', '/log', 3, '日志管理', 'log', '1', '2020-11-16 15:36:00', '2020-11-16 15:36:00', NULL);
 INSERT INTO "public"."nt_sys_menu" VALUES ('3011', '1', '服务日志', '301', 'system/log/index', '/syslog', 31, '服务日志', 'druid', '1', '2020-11-16 15:36:00', '2020-11-16 15:36:00', NULL);
+INSERT INTO "public"."nt_sys_menu" VALUES ('401', '1', '生成管理', '-1', 'Layout', '/generator', 4, '生成管理', 'money', '1', '2021-10-26 11:09:27', '2021-10-26 11:10:35', NULL);
+INSERT INTO "public"."nt_sys_menu" VALUES ('4011', '1', '生成框架', '401', 'tool/gen/index', '/generator/gen', 1, '生成框架', 'system', '1', '2021-10-26 11:12:05', '2021-10-26 11:17:07', NULL);
+
 COMMIT;
 
 -- ----------------------------
@@ -415,10 +513,6 @@ COMMENT ON TABLE "public"."nt_sys_menu_type" IS '菜单类型表';
 -- ----------------------------
 BEGIN;
 INSERT INTO "public"."nt_sys_menu_type" VALUES ('1', 'nt_sys', '统一用户认证', '1', '2013-01-01 10:00:00', '2013-01-01 10:00:00');
-INSERT INTO "public"."nt_sys_menu_type" VALUES ('2', 'nt_mix', '混合库', '1', '2013-01-01 10:00:00', '2013-01-01 10:00:00');
-INSERT INTO "public"."nt_sys_menu_type" VALUES ('3', 'nt_database', 'DNA数据库比对管理系统', '1', '2013-01-01 10:00:00', '2013-01-01 10:00:00');
-INSERT INTO "public"."nt_sys_menu_type" VALUES ('4', 'nt_case', '综合受理接案平台', '1', '2020-05-12 09:14:12', '2020-05-12 09:14:42');
-INSERT INTO "public"."nt_sys_menu_type" VALUES ('4028e5917365edc4017365efa54d0000', '222', '22', '0', '2020-07-19 00:00:00', '2021-10-22 17:32:46.583');
 COMMIT;
 
 -- ----------------------------
@@ -550,39 +644,9 @@ COMMENT ON TABLE "public"."nt_sys_organization" IS '机构表';
 -- Records of nt_sys_organization
 -- ----------------------------
 BEGIN;
-INSERT INTO "public"."nt_sys_organization" VALUES ('110101', '北京市公安局东城分局', '110101000000', '13', '-1,2,13', 1, NULL, NULL, NULL, NULL, NULL, NULL, '1', '2020-06-11 17:33:58', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO "public"."nt_sys_organization" VALUES ('110102', '北京市公安局西城分局', '110102000000', '13', '-1,2,13', 2, NULL, NULL, NULL, NULL, NULL, NULL, '1', '2020-06-11 17:33:58', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO "public"."nt_sys_organization" VALUES ('110105', '北京市公安局朝阳分局', '110105000000', '13', '-1,2,13', 3, NULL, NULL, NULL, NULL, NULL, NULL, '1', '2020-06-11 17:33:58', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO "public"."nt_sys_organization" VALUES ('110106', '北京市公安局丰台分局', '110106000000', '13', '-1,2,13', 4, NULL, NULL, NULL, NULL, NULL, NULL, '1', '2020-06-11 17:33:58', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO "public"."nt_sys_organization" VALUES ('110107', '北京市公安局石景山分局', '110107000000', '13', '-1,2,13', 5, NULL, NULL, NULL, NULL, NULL, NULL, '1', '2020-06-11 17:33:58', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO "public"."nt_sys_organization" VALUES ('110108', '北京市公安局海淀分局', '110108000000', '13', '-1,2,13', 6, NULL, NULL, NULL, NULL, NULL, NULL, '1', '2020-06-11 17:33:58', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO "public"."nt_sys_organization" VALUES ('110109', '北京市公安局门头沟分局', '110109000000', '13', '-1,2,13', 7, NULL, NULL, NULL, NULL, NULL, NULL, '1', '2020-06-11 17:33:58', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO "public"."nt_sys_organization" VALUES ('110111', '北京市公安局房山分局', '110111000000', '13', '-1,2,13', 8, NULL, NULL, NULL, NULL, NULL, NULL, '1', '2020-06-11 17:33:58', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO "public"."nt_sys_organization" VALUES ('110112', '北京市公安局通州分局', '110112000000', '13', '-1,2,13', 9, NULL, NULL, NULL, NULL, NULL, NULL, '1', '2020-06-11 17:33:58', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO "public"."nt_sys_organization" VALUES ('110113', '北京市公安局顺义分局', '110113000000', '13', '-1,2,13', 10, NULL, NULL, NULL, NULL, NULL, NULL, '1', '2020-06-11 17:33:58', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO "public"."nt_sys_organization" VALUES ('110114', '北京市公安局昌平分局', '110114000000', '13', '-1,2,13', 11, NULL, NULL, NULL, NULL, NULL, NULL, '1', '2020-06-11 17:33:58', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO "public"."nt_sys_organization" VALUES ('110115', '北京市公安局大兴分局', '110115000000', '13', '-1,2,13', 12, NULL, NULL, NULL, NULL, NULL, NULL, '1', '2020-06-11 17:33:58', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO "public"."nt_sys_organization" VALUES ('110116', '北京市公安局怀柔分局', '110116000000', '13', '-1,2,13', 13, NULL, NULL, NULL, NULL, NULL, NULL, '1', '2020-06-11 17:33:58', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO "public"."nt_sys_organization" VALUES ('110117', '北京市公安局平谷分局', '110117000000', '13', '-1,2,13', 14, NULL, NULL, NULL, NULL, NULL, NULL, '1', '2020-06-11 17:33:58', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO "public"."nt_sys_organization" VALUES ('110228', '北京市公安局密云分局', '110228000000', '13', '-1,2,13', 15, NULL, NULL, NULL, NULL, NULL, NULL, '1', '2020-06-11 17:33:58', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO "public"."nt_sys_organization" VALUES ('110229', '北京市公安局延庆分局', '110229000000', '13', '-1,2,13', 16, NULL, NULL, NULL, NULL, NULL, NULL, '1', '2020-06-11 17:33:58', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO "public"."nt_sys_organization" VALUES ('13', '北京市公安局治安管理总队', '110000200000', '2', '-1,2', 17, NULL, NULL, NULL, NULL, NULL, NULL, '1', '2020-06-11 17:33:58', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO "public"."nt_sys_organization" VALUES ('14', '北京市公安局刑事侦查总队', '110000210000', '2', '-1,2', 18, NULL, NULL, NULL, NULL, NULL, NULL, '1', '2020-06-11 17:33:58', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO "public"."nt_sys_organization" VALUES ('15', '北京市公安局公共交通安全保卫总队', '110084000000', '2', '-1,2', 19, NULL, NULL, NULL, NULL, NULL, NULL, '1', '2020-06-11 17:33:58', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO "public"."nt_sys_organization" VALUES ('16', '北京市公安局内部单位保卫局', '110086000000', '2', '-1,2', 20, NULL, NULL, NULL, NULL, NULL, NULL, '1', '2020-06-11 17:33:58', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO "public"."nt_sys_organization" VALUES ('17', '北京市公安局经济犯罪侦查总队', '110317000000', '2', '-1,2', 21, NULL, NULL, NULL, NULL, NULL, NULL, '1', '2020-06-11 17:33:58', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO "public"."nt_sys_organization" VALUES ('18', '北京市公安局便衣侦查总队', '110318000000', '2', '-1,2', 22, NULL, NULL, NULL, NULL, NULL, NULL, '1', '2020-06-11 17:33:58', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO "public"."nt_sys_organization" VALUES ('19', '北京市公安局禁毒总队', '110319000000', '2', '-1,2', 23, NULL, NULL, NULL, NULL, NULL, NULL, '1', '2020-06-11 17:33:58', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO "public"."nt_sys_organization" VALUES ('2', '北京市公安局', '110000000000', '-1', '-1', 1, NULL, NULL, NULL, NULL, NULL, '1', '1', '2020-06-11 17:33:58', '2020-09-17 21:21:04', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO "public"."nt_sys_organization" VALUES ('20', '北京市公安局公安交通管理局', '110320000000', '2', '-1,2', 24, NULL, NULL, NULL, NULL, NULL, NULL, '1', '2020-06-11 17:33:58', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO "public"."nt_sys_organization" VALUES ('21', '北京海关缉私局', '110000H00500', '2', '-1,2', 25, NULL, NULL, NULL, NULL, NULL, NULL, '1', '2020-06-11 17:33:58', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO "public"."nt_sys_organization" VALUES ('22', '北京市森林公安局', '110000S00500', '2', '-1,2', 26, NULL, NULL, NULL, NULL, NULL, NULL, '1', '2020-06-11 17:33:58', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO "public"."nt_sys_organization" VALUES ('3', '北京市法医中心', '110000000000', '2', '-1,2', 2, NULL, NULL, NULL, NULL, NULL, NULL, '1', '2020-06-12 13:12:49', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO "public"."nt_sys_organization" VALUES ('31', '北京市公安局天安门地区分局', '110091000000', '2', '-1,2', 27, NULL, NULL, NULL, NULL, NULL, NULL, '1', '2020-06-11 17:33:58', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO "public"."nt_sys_organization" VALUES ('32', '北京市公安局北京西站分局', '110092000000', '2', '-1,2', 28, NULL, NULL, NULL, NULL, NULL, NULL, '1', '2020-06-11 17:33:58', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO "public"."nt_sys_organization" VALUES ('33', '北京市公安局经济技术开发区分局', '110095000000', '2', '-1,2', 29, NULL, NULL, NULL, NULL, NULL, NULL, '1', '2020-06-11 17:33:58', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO "public"."nt_sys_organization" VALUES ('34', '北京市公安局清河分局', '110097000000', '2', '-1,2', 30, NULL, NULL, NULL, NULL, NULL, NULL, '1', '2020-06-11 17:33:58', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO "public"."nt_sys_organization" VALUES ('4', '北京市法医中心实验室', '110000000001', '3', '-1,2,3', 1, NULL, NULL, NULL, NULL, NULL, NULL, '1', '2020-06-11 17:33:58', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO "public"."nt_sys_organization" VALUES ('1', '北京市', '100000000000', '-1', '-1', 1, NULL, NULL, NULL, NULL, NULL, NULL, '1', '2020-06-11 17:33:58', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO "public"."nt_sys_organization" VALUES ('110', '北京市', '110000000000', '1', '-1,1', 1, NULL, NULL, NULL, NULL, NULL, NULL, '1', '2020-06-11 17:33:58', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO "public"."nt_sys_organization" VALUES ('110101', '北京市东城区', '110101000000', '-1,1,110', '-1', 1, NULL, NULL, NULL, NULL, NULL, NULL, '1', '2020-06-11 17:33:58', NULL, NULL, NULL, NULL, NULL, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -614,8 +678,8 @@ COMMENT ON TABLE "public"."nt_sys_role" IS '角色表';
 -- ----------------------------
 BEGIN;
 INSERT INTO "public"."nt_sys_role" VALUES ('1', '22222222', '超管', '权限最大用户', '1', '2018-10-10 16:08:02', '2020-12-25 14:49:43');
-INSERT INTO "public"."nt_sys_role" VALUES ('ff80808172a150110172a159d9c40000', '1591844919746', '职员', '普通用户', '1', '2020-06-11 11:08:40', '2020-09-19 12:00:16');
-INSERT INTO "public"."nt_sys_role" VALUES ('ff80808172a624c00172a67c70c30007', '3333', '警员', '一般警员', '0', '2020-06-12 11:04:33', '2021-10-22 17:32:29.032');
+INSERT INTO "public"."nt_sys_role" VALUES ('ff80808172a150110172a159d9c40000', '002', '职员', '普通职员', '1', '2020-06-11 11:08:40', '2021-05-26 10:06:33');
+INSERT INTO "public"."nt_sys_role" VALUES ('ff80808172a624c00172a67c70c30007', '003', '用户', '普通用户', '0', '2020-06-12 11:04:33', '2021-05-26 10:06:23');
 COMMIT;
 
 -- ----------------------------
@@ -658,11 +722,8 @@ INSERT INTO "public"."nt_sys_role_menu" VALUES ('112017', '2017', '1', '1');
 INSERT INTO "public"."nt_sys_role_menu" VALUES ('112018', '2018', '1', '1');
 INSERT INTO "public"."nt_sys_role_menu" VALUES ('11301', '301', '1', '1');
 INSERT INTO "public"."nt_sys_role_menu" VALUES ('113011', '3011', '1', '1');
-INSERT INTO "public"."nt_sys_role_menu" VALUES ('ff80808172a150110172a159d9c400001101', '101', 'ff80808172a150110172a159d9c40000', '1');
-INSERT INTO "public"."nt_sys_role_menu" VALUES ('ff80808172a150110172a159d9c400001201', '201', 'ff80808172a150110172a159d9c40000', '1');
-INSERT INTO "public"."nt_sys_role_menu" VALUES ('ff80808172a150110172a159d9c4000012011', '2011', 'ff80808172a150110172a159d9c40000', '1');
-INSERT INTO "public"."nt_sys_role_menu" VALUES ('ff80808172a150110172a159d9c4000012012', '2012', 'ff80808172a150110172a159d9c40000', '1');
-INSERT INTO "public"."nt_sys_role_menu" VALUES ('ff80808172a150110172a159d9c4000012013', '2013', 'ff80808172a150110172a159d9c40000', '1');
+INSERT INTO "public"."nt_sys_role_menu" VALUES ('11401', '401', '1', '1');
+INSERT INTO "public"."nt_sys_role_menu" VALUES ('114011', '4011', '1', '1');
 COMMIT;
 
 -- ----------------------------
@@ -759,7 +820,7 @@ COMMENT ON TABLE "public"."nt_sys_task" IS '系统任务表';
 -- Records of nt_sys_task
 -- ----------------------------
 BEGIN;
-INSERT INTO "public"."nt_sys_task" VALUES ('8a818b3774bef2910174bef387ec0000', 'DEFAULT', 'test', '1', '{"taskId": "8a818b3774bef2910174bef387ec0000", "taskParam": {}, "concurrent": null, "taskServerName": "bazl-dna-system"}', '0/10 * * * * ?', 'systemTask.taskRun()', '0', '', '1', '0', NULL, 'liutao', NULL);
+INSERT INTO "public"."nt_sys_task" VALUES ('8a818b3774bef2910174bef387ec0000', 'DEFAULT', 'test', '1', '{"taskId": "8a818b3774bef2910174bef387ec0000", "taskParam": {}, "concurrent": null, "taskServerName": "oner365-system"}', '0/10 * * * * ?', 'systemTask.taskRun()', '0', '', '1', '0', NULL, 'liutao', NULL);
 INSERT INTO "public"."nt_sys_task" VALUES ('ff80808175cfe8900175d012ecc00002', 'DEFAULT', '删除3天日志', '1', '{"taskId": null, "taskParam": {}, "concurrent": null, "taskServerName": null}', '0 0 1 * * ?', 'systemTask.taskDeleteLog(3)', '3', NULL, NULL, '0', NULL, 'admin', NULL);
 INSERT INTO "public"."nt_sys_task" VALUES ('ff80808175d015c90175d05958e50001', 'DEFAULT', '111', '1', '{"taskId": null, "taskParam": null, "concurrent": null, "taskServerName": null}', '0 0 1 * * ?', 'systemTask.taskParams(''121'')', '3', NULL, NULL, '0', NULL, 'admin', NULL);
 COMMIT;
@@ -810,9 +871,9 @@ COMMENT ON TABLE "public"."nt_sys_task_log" IS '任务日志表';
 -- Records of nt_sys_task_log
 -- ----------------------------
 BEGIN;
-INSERT INTO "public"."nt_sys_task_log" VALUES ('ff80808175cfe8900175cff033bc0000', 'DEFAULT', 'test', '执行时间：10毫秒', NULL, 'bazl-dna-system', '127.0.0.1', NULL, 'systemTask.taskRun()', NULL, NULL, NULL, '1', '2020-11-16 15:23:47', NULL, NULL);
-INSERT INTO "public"."nt_sys_task_log" VALUES ('ff80808175cfe8900175d007c2f00001', 'DEFAULT', 'test', '执行时间：7毫秒', NULL, 'bazl-dna-system', '127.0.0.1', NULL, 'systemTask.taskRun()', NULL, NULL, NULL, '1', '2020-11-16 15:49:31', NULL, NULL);
-INSERT INTO "public"."nt_sys_task_log" VALUES ('ff80808175d015c90175d019bced0000', 'DEFAULT', 'test', '执行时间：219毫秒', NULL, 'bazl-dna-system', '127.0.0.1', NULL, 'systemTask.taskRun()', NULL, NULL, NULL, '1', '2020-11-16 16:09:09', NULL, NULL);
+INSERT INTO "public"."nt_sys_task_log" VALUES ('ff80808175cfe8900175cff033bc0000', 'DEFAULT', 'test', '执行时间：10毫秒', NULL, 'oner365-system', '127.0.0.1', NULL, 'systemTask.taskRun()', NULL, NULL, NULL, '1', '2020-11-16 15:23:47', NULL, NULL);
+INSERT INTO "public"."nt_sys_task_log" VALUES ('ff80808175cfe8900175d007c2f00001', 'DEFAULT', 'test', '执行时间：7毫秒', NULL, 'oner365-system', '127.0.0.1', NULL, 'systemTask.taskRun()', NULL, NULL, NULL, '1', '2020-11-16 15:49:31', NULL, NULL);
+INSERT INTO "public"."nt_sys_task_log" VALUES ('ff80808175d015c90175d019bced0000', 'DEFAULT', 'test', '执行时间：219毫秒', NULL, 'oner365-system', '127.0.0.1', NULL, 'systemTask.taskRun()', NULL, NULL, NULL, '1', '2020-11-16 16:09:09', NULL, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -869,7 +930,7 @@ COMMENT ON TABLE "public"."nt_sys_user" IS '用户表';
 -- Records of nt_sys_user
 -- ----------------------------
 BEGIN;
-INSERT INTO "public"."nt_sys_user" VALUES ('1', 'admin', 'C4CA4238A0B923820DCC509A6F75849B', '超管', 'http://47.92.219.7/group1/M00/00/04/rBqcll9Qsc-ADt_9AAAk7-agPWw680.jpg', '0', '1', 'admin@qq.com', '110103197707250933', '', '2020-09-04 15:53:30', '13800138000', '', 'beijing', '1', '123', '1', '1', '123456', '2018-10-09 14:19:44');
+INSERT INTO "public"."nt_sys_user" VALUES ('1', 'admin', 'C4CA4238A0B923820DCC509A6F75849B', '超管', 'https://www.oner365.com/group1/M00/00/04/rBqcll9Qsc-ADt_9AAAk7-agPWw680.jpg', '0', '1', 'admin@qq.com', '110103197707250933', '', '2020-09-04 15:53:30', '13800138000', '', 'beijing', '1', '123', '1', '1', '123456', '2018-10-09 14:19:44');
 INSERT INTO "public"."nt_sys_user" VALUES ('2', 'shy', 'C4CA4238A0B923820DCC509A6F75849B', '张3', '', '0', '1', NULL, NULL, NULL, NULL, '13800138000', NULL, NULL, '1', NULL, '0', '1', '123456', '2020-05-12 09:47:07');
 INSERT INTO "public"."nt_sys_user" VALUES ('5', 'ls', 'C4CA4238A0B923820DCC509A6F75849B', '王老师', '', '0', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', NULL, '1', '1', NULL, '2020-05-12 17:05:23');
 COMMIT;
@@ -934,14 +995,7 @@ COMMENT ON TABLE "public"."nt_sys_user_org" IS '用户机构权限表';
 -- Records of nt_sys_user_org
 -- ----------------------------
 BEGIN;
-INSERT INTO "public"."nt_sys_user_org" VALUES ('4028b881745ea0f901745ea77e0f001b', 1, '1', '2020-09-05 22:24:29', NULL, '3', '1');
-INSERT INTO "public"."nt_sys_user_org" VALUES ('4028b881745ea0f901745ea77e14001c', 1, '1', '2020-09-05 22:24:29', NULL, '4', '1');
-INSERT INTO "public"."nt_sys_user_org" VALUES ('4028b881745ea0f901745ea77e19001d', 1, '1', '2020-09-05 22:24:29', NULL, '110101', '1');
-INSERT INTO "public"."nt_sys_user_org" VALUES ('4028b881745ea0f901745ea77e23001e', 1, '1', '2020-09-05 22:24:29', NULL, '110102', '1');
-INSERT INTO "public"."nt_sys_user_org" VALUES ('4028b881745ea0f901745ea77e2a001f', 1, '1', '2020-09-05 22:24:29', NULL, '110105', '1');
-INSERT INTO "public"."nt_sys_user_org" VALUES ('4028b881745ea0f901745ea77e320020', 1, '1', '2020-09-05 22:24:29', NULL, '14', '1');
-INSERT INTO "public"."nt_sys_user_org" VALUES ('4028b881745ea0f901745ea77e3a0021', 1, '1', '2020-09-05 22:24:29', NULL, '15', '1');
-INSERT INTO "public"."nt_sys_user_org" VALUES ('4028b881745ea0f901745ea77e420022', 1, '1', '2020-09-05 22:24:29', NULL, '16', '1');
+INSERT INTO "public"."nt_sys_user_org" VALUES ('ff8080817640f2d4017640f8fcb10001', 1, '1', '2020-12-08 14:10:28', NULL, '110', '1');
 INSERT INTO "public"."nt_sys_user_org" VALUES ('ff8080817640f2d4017640f8fcb10002', 1, '1', '2020-12-08 14:10:28', NULL, '110101', '2');
 COMMIT;
 
@@ -1082,9 +1136,6 @@ ALTER TABLE "public"."qrtz_job_details" OWNER TO "postgres";
 -- Records of qrtz_job_details
 -- ----------------------------
 BEGIN;
-INSERT INTO "public"."qrtz_job_details" VALUES ('ProjectScheduler', 'TASK_CLASS_NAME8a818b3774bef2910174bef387ec0000', 'DEFAULT', NULL, 'com.oner365.monitor.util.QuartzDisallowConcurrentExecution', 'false', 'true', 'false', 'false', E'\\254\\355\\000\\005sr\\000\\025org.quartz.JobDataMap\\237\\260\\203\\350\\277\\251\\260\\313\\002\\000\\000xr\\000&org.quartz.utils.StringKeyDirtyFlagMap\\202\\010\\350\\303\\373\\305](\\002\\000\\001Z\\000\\023allowsTransientDataxr\\000\\035org.quartz.utils.DirtyFlagMap\\023\\346.\\255(v\\012\\316\\002\\000\\002Z\\000\\005dirtyL\\000\\003mapt\\000\\017Ljava/util/Map;xp\\001sr\\000\\021java.util.HashMap\\005\\007\\332\\301\\303\\026`\\321\\003\\000\\002F\\000\\012loadFactorI\\000\\011thresholdxp?@\\000\\000\\000\\000\\000\\014w\\010\\000\\000\\000\\020\\000\\000\\000\\001t\\000\\017TASK_PROPERTIESsr\\000"com.oner365.monitor.entity.SysTask\\000\\000\\000\\000\\000\\000\\000\\001\\002\\000\\016L\\000\\012concurrentt\\000\\022Ljava/lang/String;L\\000\\012createTimet\\000\\020Ljava/util/Date;L\\000\\012createUserq\\000~\\000\\011L\\000\\016cronExpressionq\\000~\\000\\011L\\000\\015executeStatusq\\000~\\000\\011L\\000\\002idq\\000~\\000\\011L\\000\\013invokeParamt\\000(Lcom/oner365/monitor/entity/InvokeParam;L\\000\\014invokeTargetq\\000~\\000\\011L\\000\\015misfirePolicyq\\000~\\000\\011L\\000\\006remarkq\\000~\\000\\011L\\000\\006statusq\\000~\\000\\011L\\000\\011taskGroupq\\000~\\000\\011L\\000\\010taskNameq\\000~\\000\\011L\\000\\012updateTimeq\\000~\\000\\012xpt\\000\\0011pt\\000\\006liutaot\\000\\0160/10 * * * * ?t\\000\\0011t\\000 8a818b3774bef2910174bef387ec0000sr\\000&com.oner365.monitor.entity.InvokeParam\\000\\000\\000\\000\\000\\000\\000\\001\\002\\000\\004L\\000\\012concurrentq\\000~\\000\\011L\\000\\006taskIdq\\000~\\000\\011L\\000\\011taskParamt\\000!Lcom/alibaba/fastjson/JSONObject;L\\000\\016taskServerNameq\\000~\\000\\011xppt\\000 8a818b3774bef2910174bef387ec0000sr\\000\\037com.alibaba.fastjson.JSONObject\\000\\000\\000\\000\\000\\000\\000\\001\\002\\000\\001L\\000\\003mapq\\000~\\000\\003xpsq\\000~\\000\\005?@\\000\\000\\000\\000\\000\\020w\\010\\000\\000\\000\\020\\000\\000\\000\\000xt\\000\\017bazl-dna-systemt\\000\\024systemTask.taskRun()t\\000\\0010t\\000\\000t\\000\\0010t\\000\\007DEFAULTt\\000\\004testpx\\000');
-INSERT INTO "public"."qrtz_job_details" VALUES ('ProjectScheduler', 'TASK_CLASS_NAMEff80808175cfe8900175d012ecc00002', 'DEFAULT', NULL, 'com.oner365.monitor.util.QuartzDisallowConcurrentExecution', 'false', 'true', 'false', 'false', E'\\254\\355\\000\\005sr\\000\\025org.quartz.JobDataMap\\237\\260\\203\\350\\277\\251\\260\\313\\002\\000\\000xr\\000&org.quartz.utils.StringKeyDirtyFlagMap\\202\\010\\350\\303\\373\\305](\\002\\000\\001Z\\000\\023allowsTransientDataxr\\000\\035org.quartz.utils.DirtyFlagMap\\023\\346.\\255(v\\012\\316\\002\\000\\002Z\\000\\005dirtyL\\000\\003mapt\\000\\017Ljava/util/Map;xp\\001sr\\000\\021java.util.HashMap\\005\\007\\332\\301\\303\\026`\\321\\003\\000\\002F\\000\\012loadFactorI\\000\\011thresholdxp?@\\000\\000\\000\\000\\000\\014w\\010\\000\\000\\000\\020\\000\\000\\000\\001t\\000\\017TASK_PROPERTIESsr\\000"com.oner365.monitor.entity.SysTask\\000\\000\\000\\000\\000\\000\\000\\001\\002\\000\\016L\\000\\012concurrentt\\000\\022Ljava/lang/String;L\\000\\012createTimet\\000\\020Ljava/util/Date;L\\000\\012createUserq\\000~\\000\\011L\\000\\016cronExpressionq\\000~\\000\\011L\\000\\015executeStatusq\\000~\\000\\011L\\000\\002idq\\000~\\000\\011L\\000\\013invokeParamt\\000(Lcom/oner365/monitor/entity/InvokeParam;L\\000\\014invokeTargetq\\000~\\000\\011L\\000\\015misfirePolicyq\\000~\\000\\011L\\000\\006remarkq\\000~\\000\\011L\\000\\006statusq\\000~\\000\\011L\\000\\011taskGroupq\\000~\\000\\011L\\000\\010taskNameq\\000~\\000\\011L\\000\\012updateTimeq\\000~\\000\\012xpt\\000\\0011pt\\000\\005admint\\000\\0130 0 1 * * ?pt\\000 ff80808175cfe8900175d012ecc00002sr\\000&com.oner365.monitor.entity.InvokeParam\\000\\000\\000\\000\\000\\000\\000\\001\\002\\000\\004L\\000\\012concurrentq\\000~\\000\\011L\\000\\006taskIdq\\000~\\000\\011L\\000\\011taskParamt\\000!Lcom/alibaba/fastjson/JSONObject;L\\000\\016taskServerNameq\\000~\\000\\011xpppsr\\000\\037com.alibaba.fastjson.JSONObject\\000\\000\\000\\000\\000\\000\\000\\001\\002\\000\\001L\\000\\003mapq\\000~\\000\\003xpsq\\000~\\000\\005?@\\000\\000\\000\\000\\000\\020w\\010\\000\\000\\000\\020\\000\\000\\000\\000xpt\\000\\033systemTask.taskDeleteLog(3)t\\000\\0013pt\\000\\0010t\\000\\007DEFAULTt\\000\\020\\345\\210\\240\\351\\231\\2443\\345\\244\\251\\346\\227\\245\\345\\277\\227px\\000');
-INSERT INTO "public"."qrtz_job_details" VALUES ('ProjectScheduler', 'TASK_CLASS_NAMEff80808175d015c90175d05958e50001', 'DEFAULT', NULL, 'com.oner365.monitor.util.QuartzDisallowConcurrentExecution', 'false', 'true', 'false', 'false', E'\\254\\355\\000\\005sr\\000\\025org.quartz.JobDataMap\\237\\260\\203\\350\\277\\251\\260\\313\\002\\000\\000xr\\000&org.quartz.utils.StringKeyDirtyFlagMap\\202\\010\\350\\303\\373\\305](\\002\\000\\001Z\\000\\023allowsTransientDataxr\\000\\035org.quartz.utils.DirtyFlagMap\\023\\346.\\255(v\\012\\316\\002\\000\\002Z\\000\\005dirtyL\\000\\003mapt\\000\\017Ljava/util/Map;xp\\001sr\\000\\021java.util.HashMap\\005\\007\\332\\301\\303\\026`\\321\\003\\000\\002F\\000\\012loadFactorI\\000\\011thresholdxp?@\\000\\000\\000\\000\\000\\014w\\010\\000\\000\\000\\020\\000\\000\\000\\001t\\000\\017TASK_PROPERTIESsr\\000"com.oner365.monitor.entity.SysTask\\000\\000\\000\\000\\000\\000\\000\\001\\002\\000\\016L\\000\\012concurrentt\\000\\022Ljava/lang/String;L\\000\\012createTimet\\000\\020Ljava/util/Date;L\\000\\012createUserq\\000~\\000\\011L\\000\\016cronExpressionq\\000~\\000\\011L\\000\\015executeStatusq\\000~\\000\\011L\\000\\002idq\\000~\\000\\011L\\000\\013invokeParamt\\000(Lcom/oner365/monitor/entity/InvokeParam;L\\000\\014invokeTargetq\\000~\\000\\011L\\000\\015misfirePolicyq\\000~\\000\\011L\\000\\006remarkq\\000~\\000\\011L\\000\\006statusq\\000~\\000\\011L\\000\\011taskGroupq\\000~\\000\\011L\\000\\010taskNameq\\000~\\000\\011L\\000\\012updateTimeq\\000~\\000\\012xpt\\000\\0011pt\\000\\005admint\\000\\0130 0 1 * * ?pt\\000 ff80808175d015c90175d05958e50001sr\\000&com.oner365.monitor.entity.InvokeParam\\000\\000\\000\\000\\000\\000\\000\\001\\002\\000\\004L\\000\\012concurrentq\\000~\\000\\011L\\000\\006taskIdq\\000~\\000\\011L\\000\\011taskParamt\\000!Lcom/alibaba/fastjson/JSONObject;L\\000\\016taskServerNameq\\000~\\000\\011xpppppt\\000\\034systemTask.taskParams(''121'')t\\000\\0013pt\\000\\0010t\\000\\007DEFAULTt\\000\\003111px\\000');
 COMMIT;
 
 -- ----------------------------
@@ -1221,9 +1272,6 @@ ALTER TABLE "public"."qrtz_triggers" OWNER TO "postgres";
 -- Records of qrtz_triggers
 -- ----------------------------
 BEGIN;
-INSERT INTO "public"."qrtz_triggers" VALUES ('ProjectScheduler', 'TASK_CLASS_NAMEff80808175cfe8900175d012ecc00002', 'DEFAULT', 'TASK_CLASS_NAMEff80808175cfe8900175d012ecc00002', 'DEFAULT', NULL, 1634922000000, -1, 5, 'PAUSED', 'CRON', 1634896785000, 0, NULL, 2, E'\\\\x');
-INSERT INTO "public"."qrtz_triggers" VALUES ('ProjectScheduler', 'TASK_CLASS_NAMEff80808175d015c90175d05958e50001', 'DEFAULT', 'TASK_CLASS_NAMEff80808175d015c90175d05958e50001', 'DEFAULT', NULL, 1634922000000, -1, 5, 'PAUSED', 'CRON', 1634896785000, 0, NULL, 2, E'\\\\x');
-INSERT INTO "public"."qrtz_triggers" VALUES ('ProjectScheduler', 'TASK_CLASS_NAME8a818b3774bef2910174bef387ec0000', 'DEFAULT', 'TASK_CLASS_NAME8a818b3774bef2910174bef387ec0000', 'DEFAULT', NULL, 1634896790000, -1, 5, 'PAUSED', 'CRON', 1634896785000, 0, NULL, 0, E'\\\\x');
 COMMIT;
 
 -- ----------------------------

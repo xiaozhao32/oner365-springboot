@@ -6,26 +6,33 @@ import com.alibaba.fastjson.JSON;
 
 /**
  * SSH服务对象
+ * 
  * @author zhaoyong
  */
 public class SshServer implements Serializable {
-    
+
     private static final long serialVersionUID = 1L;
-    
+
     private String ip;
     private Integer port;
     private String username;
     private String password;
 
     /**
-     * 构建参数 {
-     *         IP, 端口, 帐号, 密码
-     * }
+     * 构造函数
      */
     public SshServer() {
-        
+        super();
     }
-    
+
+    /**
+     * 构建参数 { IP, 端口, 帐号, 密码 }
+     * 
+     * @param ip       ip
+     * @param port     端口
+     * @param username 账号
+     * @param password 密码
+     */
     public SshServer(String ip, Integer port, String username, String password) {
         this.ip = ip;
         this.port = port;
@@ -88,7 +95,7 @@ public class SshServer implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
-    
+
     @Override
     public String toString() {
         return JSON.toJSONString(this);
