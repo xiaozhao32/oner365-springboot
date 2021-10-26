@@ -6,7 +6,11 @@ import org.springframework.data.domain.Page;
 
 import com.oner365.common.query.QueryCriteriaBean;
 import ${packageName}.entity.${ClassName};
-
+#foreach ($column in $columns)
+#if($column.columnName == 'id')
+#set($AttrName=$column.javaType)
+#end
+#end
 /**
  * ${functionName} Service 接口
  * 
@@ -34,7 +38,7 @@ public interface I${ClassName}Service {
      * @param id 编号
      * @return ${ClassName}
      */
-    ${ClassName} getById(String id);
+    ${ClassName} getById($AttrName id);
 
     /**
      * 保存
@@ -48,6 +52,6 @@ public interface I${ClassName}Service {
      * @param id 编号
      * @return int
      */
-    int deleteById(String id);
+    int deleteById($AttrName id);
 
 }

@@ -27,7 +27,11 @@ import ${packageName}.dao.I${ClassName}Dao;
 import ${packageName}.entity.${ClassName};
 import ${packageName}.service.I${ClassName}Service;
 import com.oner365.util.DataUtils;
-
+#foreach ($column in $columns)
+#if($column.columnName == 'id')
+#set($AttrName=$column.javaType)
+#end
+#end
 /**
  * ${functionName} Service 实现类
  * 
@@ -72,7 +76,7 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service {
     
     @Override
     @RedisCacheAble(value = CACHE_NAME, key = PublicConstants.KEY_ID)
-    public ${ClassName} getById(String id) {
+    public ${ClassName} getById($AttrName id) {
         try {
             Optional<${ClassName}> optional = dao.findById(id);
             return optional.orElse(null);
@@ -98,7 +102,7 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service {
     @Override
     @Transactional(rollbackFor = ProjectRuntimeException.class)
     @CacheEvict(value = CACHE_NAME, allEntries = true)
-    public int deleteById(String id) {
+    public int deleteById($AttrName id) {
         dao.deleteById(id);
         return PublicConstants.SUCCESS_CODE;
     }
