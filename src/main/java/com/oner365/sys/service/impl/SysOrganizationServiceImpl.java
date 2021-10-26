@@ -1,6 +1,6 @@
 package com.oner365.sys.service.impl;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -122,10 +122,10 @@ public class SysOrganizationServiceImpl implements ISysOrganizationService {
         if (Strings.isNullOrEmpty(org.getId())) {
             org.setId(org.getOrgCode());
             org.setStatus(StatusEnum.YES.getOrdinal());
-            org.setCreateTime(new Timestamp(System.currentTimeMillis()));
+            org.setCreateTime(LocalDateTime.now());
         }
 
-        org.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+        org.setUpdateTime(LocalDateTime.now());
 
         DataSourceConfig dataSourceConfig = org.getDataSourceConfig();
         if (dataSourceConfig != null) {
@@ -143,8 +143,8 @@ public class SysOrganizationServiceImpl implements ISysOrganizationService {
             dataSourceConfig.setDsType(DataSourceConstants.DS_TYPE_DB);
             dataSourceConfig.setDriverName(driverName);
             dataSourceConfig.setUrl(url);
-            dataSourceConfig.setCreateTime(new Timestamp(System.currentTimeMillis()));
-            dataSourceConfig.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+            dataSourceConfig.setCreateTime(LocalDateTime.now());
+            dataSourceConfig.setUpdateTime(LocalDateTime.now());
             org.setDataSourceConfig(dataSourceConfig);
         }
         org = orgDao.save(org);

@@ -1,7 +1,7 @@
 package com.oner365.sys.vo;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import com.google.common.base.MoreObjects;
 import com.oner365.sys.entity.SysMenuType;
@@ -49,13 +49,13 @@ public class SysMenuTypeVo implements Serializable {
      * 创建时间 create_time
      */
     @ApiModelProperty(value = "创建时间")
-    private Date createTime;
+    private LocalDateTime createTime;
 
     /**
      * 更新时间 update_time
      */
     @ApiModelProperty(value = "更新时间")
-    private Date updateTime;
+    private LocalDateTime updateTime;
 
     /**
      * Constructor
@@ -96,19 +96,19 @@ public class SysMenuTypeVo implements Serializable {
         this.status = status;
     }
 
-    public Date getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 
-    public Date getUpdateTime() {
+    public LocalDateTime getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Date updateTime) {
+    public void setUpdateTime(LocalDateTime updateTime) {
         this.updateTime = updateTime;
     }
     

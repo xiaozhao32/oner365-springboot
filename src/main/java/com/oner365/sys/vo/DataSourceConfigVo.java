@@ -1,7 +1,7 @@
 package com.oner365.sys.vo;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import com.google.common.base.MoreObjects;
 import com.oner365.sys.entity.DataSourceConfig;
@@ -92,13 +92,13 @@ public class DataSourceConfigVo implements Serializable {
      * 创建时间
      */
     @ApiModelProperty(value = "创建时间")
-    private Timestamp createTime;
+    private LocalDateTime createTime;
 
     /**
      * 更新时间
      */
     @ApiModelProperty(value = "更新时间")
-    private Timestamp updateTime;
+    private LocalDateTime updateTime;
 
     /**
      * Constructor
@@ -236,28 +236,28 @@ public class DataSourceConfigVo implements Serializable {
     /**
      * @return the createTime
      */
-    public Timestamp getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
     /**
      * @param createTime the createTime to set
      */
-    public void setCreateTime(Timestamp createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 
     /**
      * @return the updateTime
      */
-    public Timestamp getUpdateTime() {
+    public LocalDateTime getUpdateTime() {
         return updateTime;
     }
 
     /**
      * @param updateTime the updateTime to set
      */
-    public void setUpdateTime(Timestamp updateTime) {
+    public void setUpdateTime(LocalDateTime updateTime) {
         this.updateTime = updateTime;
     }
 

@@ -1,7 +1,7 @@
 package com.oner365.sys.vo;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.google.common.base.MoreObjects;
@@ -98,13 +98,13 @@ public class SysOrganizationVo implements Serializable {
      * 更新时间update_time
      */
     @ApiModelProperty(value = "更新时间")
-    private Timestamp updateTime;
+    private LocalDateTime updateTime;
 
     /**
      * 创建时间 create_time
      */
     @ApiModelProperty(value = "修改时间")
-    private Timestamp createTime;
+    private LocalDateTime createTime;
 
     /**
      * 业务负责人
@@ -308,28 +308,28 @@ public class SysOrganizationVo implements Serializable {
     /**
      * @return the updateTime
      */
-    public Timestamp getUpdateTime() {
+    public LocalDateTime getUpdateTime() {
         return updateTime;
     }
 
     /**
      * @param updateTime the updateTime to set
      */
-    public void setUpdateTime(Timestamp updateTime) {
+    public void setUpdateTime(LocalDateTime updateTime) {
         this.updateTime = updateTime;
     }
 
     /**
      * @return the createTime
      */
-    public Timestamp getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
     /**
      * @param createTime the createTime to set
      */
-    public void setCreateTime(Timestamp createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 

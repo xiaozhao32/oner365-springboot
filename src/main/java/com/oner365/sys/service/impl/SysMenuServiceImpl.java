@@ -1,6 +1,6 @@
 package com.oner365.sys.service.impl;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -81,8 +81,8 @@ public class SysMenuServiceImpl implements ISysMenuService {
     })
     public SysMenu save(SysMenu menu) {
         menu.setStatus(StatusEnum.YES.getOrdinal());
-        menu.setCreateTime(new Timestamp(System.currentTimeMillis()));
-        menu.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+        menu.setCreateTime(LocalDateTime.now());
+        menu.setUpdateTime(LocalDateTime.now());
         menuDao.save(menu);
 
         menuOperDao.deleteByMenuId(menu.getId());

@@ -1,6 +1,6 @@
 package com.oner365.log.aspect;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -56,7 +56,7 @@ public class SysLogAspect {
                 String params = getParams(point.getArgs());
                 entity.setOperationContext(StringUtils.substring(params, 0, 2000));
             }
-            entity.setCreateTime(new Timestamp(System.currentTimeMillis()));
+            entity.setCreateTime(LocalDateTime.now());
             Object obj = point.proceed();
             this.publisher.publishEvent(new SysLogEvent(entity));
             return obj;
