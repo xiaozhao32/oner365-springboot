@@ -23,22 +23,26 @@ public class GenUtils {
             "mediumtext", "longtext" };
 
     /** 数据库时间类型 */
-    protected static final String[] COLUMNTYPE_TIME = { GenConstants.HTML_DATETIME, "time", "date", "timestamp" };
+    protected static final String[] COLUMNTYPE_DATE_TIME = { GenConstants.HTML_DATE_TIME, "time", "timestamp" };
+
+    /** 数据库日期类型 */
+    protected static final String[] COLUMNTYPE_DATE = { GenConstants.HTML_DATE };
 
     /** 数据库数字类型 */
-    protected static final String[] COLUMNTYPE_NUMBER = { "tinyint", "smallint", "mediumint", "int", "number", "integer",
-            "bit", "bigint", "float", "double", "decimal" };
+    protected static final String[] COLUMNTYPE_NUMBER = { "tinyint", "smallint", "mediumint", "int", "number",
+            "integer", "bit", "bigint", "float", "double", "decimal" };
 
     /** 页面不需要编辑字段 */
-    protected static final String[] COLUMNNAME_NOT_EDIT = { "id", GenConstants.PARAM_CREATE_USER, GenConstants.PARAM_CREATE_TIME };
+    protected static final String[] COLUMNNAME_NOT_EDIT = { "id", GenConstants.PARAM_CREATE_USER,
+            GenConstants.PARAM_CREATE_TIME };
 
     /** 页面不需要显示的列表字段 */
-    protected static final String[] COLUMNNAME_NOT_LIST = { "id", GenConstants.PARAM_CREATE_USER, GenConstants.PARAM_CREATE_TIME, "update_user",
-            "update_time" };
+    protected static final String[] COLUMNNAME_NOT_LIST = { "id", GenConstants.PARAM_CREATE_USER,
+            GenConstants.PARAM_CREATE_TIME, "update_user", "update_time" };
 
     /** 页面不需要查询字段 */
-    protected static final String[] COLUMNNAME_NOT_QUERY = { "id", GenConstants.PARAM_CREATE_USER, GenConstants.PARAM_CREATE_TIME, "update_user",
-            "update_time", "remark" };
+    protected static final String[] COLUMNNAME_NOT_QUERY = { "id", GenConstants.PARAM_CREATE_USER,
+            GenConstants.PARAM_CREATE_TIME, "update_user", "update_time", "remark" };
 
     private static final int POS_2 = 2;
     private static final int POS_10 = 10;
@@ -89,9 +93,12 @@ public class GenUtils {
             Integer columnLength = getColumnLength(column.getColumnType());
             String htmlType = columnLength >= 500 ? GenConstants.HTML_TEXTAREA : GenConstants.HTML_INPUT;
             column.setHtmlType(htmlType);
-        } else if (arraysContains(COLUMNTYPE_TIME, dataType)) {
+        } else if (arraysContains(COLUMNTYPE_DATE, dataType)) {
             column.setJavaType(GenConstants.TYPE_DATE);
-            column.setHtmlType(GenConstants.HTML_DATETIME);
+            column.setHtmlType(GenConstants.HTML_DATE);
+        } else if (arraysContains(COLUMNTYPE_DATE_TIME, dataType)) {
+            column.setJavaType(GenConstants.TYPE_DATE_TIME);
+            column.setHtmlType(GenConstants.HTML_DATE_TIME);
         } else if (arraysContains(COLUMNTYPE_NUMBER, dataType)) {
             column.setHtmlType(GenConstants.HTML_INPUT);
 

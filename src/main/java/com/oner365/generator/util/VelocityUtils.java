@@ -212,8 +212,9 @@ public class VelocityUtils {
         Set<String> importList = new HashSet<>();
         for (GenTableColumn column : columns) {
             if (!column.isSuperColumn() && GenConstants.TYPE_DATE.equals(column.getJavaType())) {
-                importList.add("java.util.Date");
-                importList.add("com.fasterxml.jackson.annotation.JsonFormat");
+                importList.add("java.util.LocalDate");
+            } else if (!column.isSuperColumn() && GenConstants.TYPE_DATE_TIME.equals(column.getJavaType())) {
+                importList.add("java.util.LocalDateTime");
             } else if (!column.isSuperColumn() && GenConstants.TYPE_BIG_DECIMAL.equals(column.getJavaType())) {
                 importList.add("java.math.BigDecimal");
             }

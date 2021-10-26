@@ -47,8 +47,11 @@ public class GenConstants {
     public static final String HTML_CHECKBOX = "checkbox";
 
     /** 日期控件 */
-    public static final String HTML_DATETIME = "datetime";
-
+    public static final String HTML_DATE = "date";
+    
+    /** 时间控件 */
+    public static final String HTML_DATE_TIME = "datetime";
+    
     /** 上传控件 */
     public static final String HTML_UPLOAD_IMAGE = "uploadImage";
 
@@ -70,8 +73,11 @@ public class GenConstants {
     /** 高精度计算类型 */
     public static final String TYPE_BIG_DECIMAL = "BigDecimal";
 
+    /** 日期类型 */
+    public static final String TYPE_DATE = "LocalDate";
+    
     /** 时间类型 */
-    public static final String TYPE_DATE = "Date";
+    public static final String TYPE_DATE_TIME = "LocalDateTime";
 
     /** 模糊查询 */
     public static final String QUERY_LIKE = "LIKE";
