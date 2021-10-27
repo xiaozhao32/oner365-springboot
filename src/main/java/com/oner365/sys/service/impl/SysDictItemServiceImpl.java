@@ -19,6 +19,8 @@ import com.google.common.base.Strings;
 import com.oner365.common.cache.annotation.RedisCacheAble;
 import com.oner365.common.cache.annotation.RedisCachePut;
 import com.oner365.common.constants.PublicConstants;
+import com.oner365.common.enums.ExistsEnum;
+import com.oner365.common.enums.ResultEnum;
 import com.oner365.common.exception.ProjectRuntimeException;
 import com.oner365.common.query.Criteria;
 import com.oner365.common.query.QueryCriteriaBean;
@@ -108,7 +110,7 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
         } catch (Exception e) {
             LOGGER.error("Error checkCode:", e);
         }
-        return PublicConstants.NOT_EXISTS;
+        return ExistsEnum.NO.getOrdinal();
     }
 
     @Override
@@ -119,7 +121,7 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
     })
     public int deleteById(String id) {
         dao.deleteById(id);
-        return PublicConstants.SUCCESS_CODE;
+        return ResultEnum.SUCCESS.getOrdinal();
     }
 
     @Override
@@ -133,9 +135,9 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
         if (entity != null && entity.getId() != null) {
             entity.setStatus(status);
             this.save(entity);
-            return PublicConstants.SUCCESS_CODE;
+            return ResultEnum.SUCCESS.getOrdinal();
         }
-        return PublicConstants.ERROR_CODE;
+        return ResultEnum.ERROR.getOrdinal();
     }
 
 }

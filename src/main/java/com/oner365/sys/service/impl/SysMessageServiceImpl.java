@@ -15,6 +15,7 @@ import com.google.common.collect.Lists;
 import com.oner365.common.cache.annotation.RedisCacheAble;
 import com.oner365.common.cache.annotation.RedisCachePut;
 import com.oner365.common.constants.PublicConstants;
+import com.oner365.common.enums.ResultEnum;
 import com.oner365.common.exception.ProjectRuntimeException;
 import com.oner365.sys.dao.ISysMessageDao;
 import com.oner365.sys.entity.SysMessage;
@@ -71,7 +72,7 @@ public class SysMessageServiceImpl implements ISysMessageService {
     @CacheEvict(value = CACHE_NAME, allEntries = true)
     public int deleteById(String id) {
         sysMessageDao.deleteById(id);
-        return PublicConstants.SUCCESS_CODE;
+        return ResultEnum.SUCCESS.getOrdinal();
     }
 
 }

@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.oner365.common.ResponseResult;
 import com.oner365.common.auth.AuthUser;
 import com.oner365.common.auth.annotation.CurrentUser;
-import com.oner365.common.constants.ErrorInfo;
-import com.oner365.common.constants.PublicConstants;
+import com.oner365.common.enums.ErrorInfoEnum;
+import com.oner365.common.enums.ResultEnum;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
 import com.oner365.monitor.entity.SysTask;
@@ -62,7 +62,7 @@ public class SysTaskController extends BaseController {
     @GetMapping("/export")
     @ApiOperation("导出")
     public String export(@RequestBody QueryCriteriaBean data) {
-        return PublicConstants.SUCCESS;
+        return ResultEnum.SUCCESS.getName();
     }
 
     /**
@@ -140,7 +140,7 @@ public class SysTaskController extends BaseController {
                 return ResponseResult.success(code);
             }
         }
-        return ResponseResult.error(ErrorInfo.ERR_SAVE_ERROR);
+        return ResponseResult.error(ErrorInfoEnum.SAVE_ERROR.getName());
     }
 
     /**
@@ -155,7 +155,7 @@ public class SysTaskController extends BaseController {
     public ResponseResult<String> run(@RequestBody SysTaskVo sysTaskVo) throws SchedulerException {
         if (sysTaskVo != null) {
             taskService.run(sysTaskVo.toObject());
-            return ResponseResult.success(PublicConstants.SUCCESS);
+            return ResponseResult.success(ResultEnum.SUCCESS.getName());
         }
         return ResponseResult.error("执行失败");
     }
@@ -171,6 +171,6 @@ public class SysTaskController extends BaseController {
     @ApiOperation("删除定时任务")
     public ResponseResult<String> remove(@PathVariable String[] ids) throws SchedulerException {
         taskService.deleteTaskByIds(ids);
-        return ResponseResult.success(PublicConstants.SUCCESS);
+        return ResponseResult.success(ResultEnum.SUCCESS.getName());
     }
 }

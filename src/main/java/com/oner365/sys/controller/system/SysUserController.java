@@ -27,8 +27,9 @@ import com.oner365.common.ResponseData;
 import com.oner365.common.ResponseResult;
 import com.oner365.common.auth.AuthUser;
 import com.oner365.common.auth.annotation.CurrentUser;
-import com.oner365.common.constants.ErrorInfo;
 import com.oner365.common.constants.PublicConstants;
+import com.oner365.common.enums.ErrorInfoEnum;
+import com.oner365.common.enums.ResultEnum;
 import com.oner365.common.enums.StatusEnum;
 import com.oner365.common.query.AttributeBean;
 import com.oner365.common.query.QueryCriteriaBean;
@@ -98,7 +99,7 @@ public class SysUserController extends BaseController {
                 return ResponseResult.success(entity);
             }
         }
-        return ResponseResult.error(ErrorInfo.ERR_SAVE_ERROR);
+        return ResponseResult.error(ErrorInfoEnum.SAVE_ERROR.getName());
     }
 
     /**
@@ -210,7 +211,7 @@ public class SysUserController extends BaseController {
         if (checkUserNameVo != null) {
             return sysUserService.checkUserName(checkUserNameVo.getId(), checkUserNameVo.getUserName());
         }
-        return Long.valueOf(PublicConstants.ERROR_CODE);
+        return Long.valueOf(ResultEnum.ERROR.getOrdinal());
     }
 
     /**
@@ -225,7 +226,7 @@ public class SysUserController extends BaseController {
         if (resetPasswordVo != null) {
             return sysUserService.editPassword(resetPasswordVo.getUserId(), resetPasswordVo.getPassword());
         }
-        return PublicConstants.ERROR_CODE;
+        return ResultEnum.ERROR.getOrdinal();
     }
 
     /**
@@ -243,12 +244,12 @@ public class SysUserController extends BaseController {
             SysUser sysUser = sysUserService.getById(authUser.getId());
 
             if (!oldPassword.equals(sysUser.getPassword())) {
-                return ResponseResult.error(ErrorInfo.ERR_PASS_ERROR);
+                return ResponseResult.error(ErrorInfoEnum.PASSWORD_ERROR.getName());
             }
             int result = sysUserService.editPassword(authUser.getId(), modifyPasswordVo.getPassword());
             return ResponseResult.success(result);
         }
-        return ResponseResult.error(ErrorInfo.ERR_PARAM);
+        return ResponseResult.error(ErrorInfoEnum.PARAM.getName());
     }
 
     /**

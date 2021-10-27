@@ -30,6 +30,7 @@ import com.github.tobato.fastdfs.domain.fdfs.FileInfo;
 import com.google.common.collect.Lists;
 import com.oner365.common.ResponseResult;
 import com.oner365.common.constants.PublicConstants;
+import com.oner365.common.enums.ResultEnum;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
 import com.oner365.deploy.utils.DeployUtils;
@@ -195,7 +196,7 @@ public class FastdfsFileController extends BaseController {
                 fastdfsClient.deleteFile(id);
             }
         }
-        return PublicConstants.SUCCESS;
+        return ResultEnum.SUCCESS.getName();
     }
 
     /**

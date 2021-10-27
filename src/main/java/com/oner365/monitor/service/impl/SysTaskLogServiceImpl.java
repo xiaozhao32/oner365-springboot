@@ -11,7 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.google.common.base.Strings;
-import com.oner365.common.constants.PublicConstants;
+import com.oner365.common.enums.ResultEnum;
 import com.oner365.common.enums.StatusEnum;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.common.query.QueryUtils;
@@ -86,7 +86,7 @@ public class SysTaskLogServiceImpl implements ISysTaskLogService {
      */
     @Override
     public int deleteTaskLogByIds(String[] ids) {
-        int result = PublicConstants.ERROR_CODE;
+        int result = ResultEnum.ERROR.getOrdinal();
         for (String id : ids) {
             result = deleteTaskLogById(id);
         }
@@ -101,7 +101,7 @@ public class SysTaskLogServiceImpl implements ISysTaskLogService {
     @Override
     public int deleteTaskLogById(String id) {
         dao.deleteById(id);
-        return PublicConstants.SUCCESS_CODE;
+        return ResultEnum.SUCCESS.getOrdinal();
     }
 
     /**

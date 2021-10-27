@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.oner365.common.constants.PublicConstants;
+import com.oner365.common.enums.ResultEnum;
 import com.oner365.controller.BaseController;
 
 import io.swagger.annotations.Api;
@@ -27,6 +27,6 @@ public class DashboardController extends BaseController {
     @GetMapping("/index")
     @ApiOperation("首页")
     public String index() {
-        return PublicConstants.SUCCESS;
+        return ResultEnum.SUCCESS.getName();
     }
 }

@@ -24,6 +24,8 @@ import com.google.common.base.Strings;
 import com.oner365.common.cache.annotation.RedisCacheAble;
 import com.oner365.common.cache.annotation.RedisCachePut;
 import com.oner365.common.constants.PublicConstants;
+import com.oner365.common.enums.ExistsEnum;
+import com.oner365.common.enums.ResultEnum;
 import com.oner365.common.enums.StatusEnum;
 import com.oner365.common.exception.ProjectRuntimeException;
 import com.oner365.common.query.Criteria;
@@ -135,7 +137,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
         roleMenuDao.deleteRoleMenuByRoleId(id);
         // 删除角色
         roleDao.deleteById(id);
-        return PublicConstants.SUCCESS_CODE;
+        return ResultEnum.SUCCESS.getOrdinal();
     }
 
     @Override
@@ -150,7 +152,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
         } catch (Exception e) {
             LOGGER.error("Error checkRoleName:", e);
         }
-        return PublicConstants.NOT_EXISTS;
+        return ExistsEnum.NO.getOrdinal();
     }
 
     @Override
@@ -167,7 +169,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
             roleMenu.setId(roleId + menuType + menuId.toString());
             roleMenuDao.save(roleMenu);
         });
-        return PublicConstants.SUCCESS_CODE;
+        return ResultEnum.SUCCESS.getOrdinal();
     }
 
     @Override
@@ -274,9 +276,9 @@ public class SysRoleServiceImpl implements ISysRoleService {
         if (entity != null && entity.getId() != null) {
             entity.setStatus(status);
             this.save(entity);
-            return PublicConstants.SUCCESS_CODE;
+            return ResultEnum.SUCCESS.getOrdinal();
         }
-        return PublicConstants.ERROR_CODE;
+        return ResultEnum.ERROR.getOrdinal();
     }
 
 }

@@ -20,6 +20,8 @@ import com.google.common.collect.Lists;
 import com.oner365.common.cache.annotation.RedisCacheAble;
 import com.oner365.common.cache.annotation.RedisCachePut;
 import com.oner365.common.constants.PublicConstants;
+import com.oner365.common.enums.ExistsEnum;
+import com.oner365.common.enums.ResultEnum;
 import com.oner365.common.exception.ProjectRuntimeException;
 import com.oner365.common.query.AttributeBean;
 import com.oner365.common.query.Criteria;
@@ -117,7 +119,7 @@ public class SysDictItemTypeServiceImpl implements ISysDictItemTypeService {
         } catch (Exception e) {
             LOGGER.error("Error checkCode:", e);
         }
-        return PublicConstants.NOT_EXISTS;
+        return ExistsEnum.NO.getOrdinal();
     }
 
     @Override
@@ -135,7 +137,7 @@ public class SysDictItemTypeServiceImpl implements ISysDictItemTypeService {
         List<SysDictItem> dictItemList = sysDictItemService.findList(data);
         dictItemList.forEach(dictItem -> sysDictItemService.deleteById(dictItem.getId()));
         dao.deleteById(id);
-        return PublicConstants.SUCCESS_CODE;
+        return ResultEnum.SUCCESS.getOrdinal();
     }
 
     @Override
@@ -159,9 +161,9 @@ public class SysDictItemTypeServiceImpl implements ISysDictItemTypeService {
         if (entity != null && entity.getId() != null) {
             entity.setStatus(status);
             this.save(entity);
-            return PublicConstants.SUCCESS_CODE;
+            return ResultEnum.SUCCESS.getOrdinal();
         }
-        return PublicConstants.ERROR_CODE;
+        return ResultEnum.ERROR.getOrdinal();
     }
 
 }

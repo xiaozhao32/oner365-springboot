@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.oner365.common.ResponseResult;
-import com.oner365.common.constants.ErrorInfo;
-import com.oner365.common.constants.PublicConstants;
+import com.oner365.common.enums.ErrorInfoEnum;
+import com.oner365.common.enums.ResultEnum;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
 import com.oner365.gateway.entity.GatewayRoute;
@@ -65,7 +65,7 @@ public class DynamicRouteController extends BaseController {
             String msg = dynamicRouteService.save(gatewayRoute);
             return ResponseResult.success(msg);
         }
-        return ResponseResult.error(ErrorInfo.ERR_SAVE_ERROR);
+        return ResponseResult.error(ErrorInfoEnum.SAVE_ERROR.getName());
     }
 
     /**
@@ -90,7 +90,7 @@ public class DynamicRouteController extends BaseController {
     @ApiOperation("删除路由")
     public ResponseResult<String> delete(@RequestBody String... ids) {
         Arrays.stream(ids).forEach(id -> dynamicRouteService.delete(id));
-        return ResponseResult.success(PublicConstants.SUCCESS);
+        return ResponseResult.success(ResultEnum.SUCCESS.getName());
     }
 
     /**
@@ -106,7 +106,7 @@ public class DynamicRouteController extends BaseController {
             String msg = dynamicRouteService.update(gatewayRouteVo.toObject());
             return ResponseResult.success(msg);
         }
-        return ResponseResult.error(ErrorInfo.ERR_SAVE_ERROR);
+        return ResponseResult.error(ErrorInfoEnum.UPDATE_ERROR.getName());
     }
 
     /**

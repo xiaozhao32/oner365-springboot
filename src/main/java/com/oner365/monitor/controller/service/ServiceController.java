@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.oner365.common.constants.PublicConstants;
+import com.oner365.common.enums.ResultEnum;
 import com.oner365.controller.BaseController;
 import com.oner365.deploy.DeployServer;
 
@@ -74,7 +74,7 @@ public class ServiceController extends BaseController {
     @GetMapping("/refreshConfig")
     @ApiOperation("动态刷新配置")
     public String refreshConfig() {
-        return PublicConstants.SUCCESS;
+        return ResultEnum.SUCCESS.getName();
     }
 
     /**
@@ -103,7 +103,7 @@ public class ServiceController extends BaseController {
     @ApiOperation("上传服务")
     public String uploadService(@RequestParam("multipartFile") MultipartFile multipartFile, String ip, int port,
             String serviceName) {
-        return PublicConstants.SUCCESS;
+        return ResultEnum.SUCCESS.getName();
     }
 
     /**
@@ -115,7 +115,7 @@ public class ServiceController extends BaseController {
     @PostMapping("/resetService")
     @ApiOperation("重启服务")
     public String resetService(@RequestBody DeployServer deployServer) {
-        return PublicConstants.SUCCESS;
+        return ResultEnum.SUCCESS.getName();
     }
 
 }

@@ -2,7 +2,7 @@ package com.oner365.common;
 
 import java.io.Serializable;
 
-import com.oner365.common.constants.PublicConstants;
+import com.oner365.common.enums.ResultEnum;
 
 /**
  * 统一返回格式
@@ -32,7 +32,7 @@ public class ResponseResult<T> implements Serializable {
      */
     public static <T> ResponseResult<T> success(T result) {
         ResponseResult<T> response = new ResponseResult<>();
-        response.setCode(PublicConstants.SUCCESS_CODE);
+        response.setCode(ResultEnum.SUCCESS.getOrdinal());
         response.setMsg(result);
         return response;
     }
@@ -61,7 +61,7 @@ public class ResponseResult<T> implements Serializable {
     @SuppressWarnings("unchecked")
     public static <T> ResponseResult<T> error(String message) {
         ResponseResult<T> response = new ResponseResult<>();
-        response.setCode(PublicConstants.ERROR_CODE);
+        response.setCode(ResultEnum.ERROR.getOrdinal());
         response.setMsg((T) message);
         return response;
     }

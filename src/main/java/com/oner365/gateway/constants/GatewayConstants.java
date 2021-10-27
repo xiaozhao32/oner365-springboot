@@ -37,11 +37,8 @@ public class GatewayConstants  {
     public static final String STATUS = "status";
     public static final String PATH = "path";
     public static final String METHOD = "method";
-    public static final String MSG = "msg";
     public static final String MESSAGE = "message";
     public static final String RESULT = "result";
-    public static final int SUCCESS_CODE = 1;
-    public static final String SUCCESS = "success";
     
     public static final String ERROR_MESSAGE_401 = "token 验证不正确!";
     public static final String ERROR_MESSAGE_404 = "请求地址不存在，请联系管理员!";

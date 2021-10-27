@@ -59,7 +59,7 @@ public class FileUploadUtils {
 
     private static String extractFilename(MultipartFile file) {
         String extension = DataUtils.getExtension(file.getOriginalFilename());
-        return new SnowFlakeUtils(1, 1).nextId() + "." + extension;
+        return new SnowFlakeUtils(PublicConstants.DATA_CENTER_ID, PublicConstants.MACHINE_ID).nextId() + "." + extension;
     }
 
     private static File getAbsoluteFile(String filePath, String uploadDir, String fileName) {

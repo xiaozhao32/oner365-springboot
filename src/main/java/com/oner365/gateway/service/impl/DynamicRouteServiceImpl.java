@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.oner365.common.enums.ResultEnum;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.common.query.QueryUtils;
 import com.oner365.gateway.constants.GatewayConstants;
@@ -83,7 +84,7 @@ public class DynamicRouteServiceImpl implements DynamicRouteService {
 
         // 页面保存信息
         gatewayRouteDao.save(gatewayRoute);
-        return "success";
+        return ResultEnum.SUCCESS.getName();
     }
 
     @Override

@@ -16,15 +16,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.oner365.common.constants.PublicConstants;
+import com.google.common.collect.Lists;
+import com.oner365.common.enums.ResultEnum;
 import com.oner365.controller.BaseController;
 import com.oner365.util.DataUtils;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-
-import com.google.common.collect.Lists;
-
 import redis.clients.jedis.Jedis;
 
 /**
@@ -141,7 +139,7 @@ public class CacheController extends BaseController {
             jedis.flushDB();
         }
         jedis.close();
-        return PublicConstants.SUCCESS;
+        return ResultEnum.SUCCESS.getName();
 
     }
 
