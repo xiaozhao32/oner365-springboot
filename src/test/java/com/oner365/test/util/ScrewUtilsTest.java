@@ -1,26 +1,23 @@
 package com.oner365.test.util;
 
-import java.util.ArrayList;
-
-import javax.sql.DataSource;
-
-import org.junit.Assert;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
-
-import com.alibaba.druid.pool.DruidDataSource;
-import com.oner365.common.constants.PublicConstants;
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
-
 import cn.smallbun.screw.core.Configuration;
 import cn.smallbun.screw.core.engine.EngineConfig;
 import cn.smallbun.screw.core.engine.EngineFileType;
 import cn.smallbun.screw.core.engine.EngineTemplateType;
 import cn.smallbun.screw.core.execute.DocumentationExecute;
 import cn.smallbun.screw.core.process.ProcessConfig;
+import com.alibaba.druid.pool.DruidDataSource;
+import com.oner365.common.constants.PublicConstants;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import javax.sql.DataSource;
+import java.util.ArrayList;
 
 /**
  * 生成数据库文档 - 测试
@@ -30,18 +27,18 @@ import cn.smallbun.screw.core.process.ProcessConfig;
  */
 @SpringBootTest
 class ScrewUtilsTest extends BaseUtilsTest {
-    
+
     @Value("${spring.application.name}")
     private String applicationName;
     @Value("${file.path}")
     private String filePath;
-    
+
     @Autowired
-    private DruidDataSource druidDataSource; 
+    private DruidDataSource druidDataSource;
 
     @Test
     void screwUtilsTest() {
-    	Assert.assertEquals("ScrewUtilsTest", ScrewUtilsTest.class.getSimpleName());
+    	Assertions.assertEquals("ScrewUtilsTest", ScrewUtilsTest.class.getSimpleName());
         documentGeneration();
     }
 
@@ -59,9 +56,9 @@ class ScrewUtilsTest extends BaseUtilsTest {
         hikariConfig.addDataSourceProperty(PublicConstants.NAME, Boolean.TRUE.toString());
         hikariConfig.setMinimumIdle(druidDataSource.getMinIdle());
         hikariConfig.setMaximumPoolSize(druidDataSource.getMaxActive());
-        
+
         DataSource dataSource = new HikariDataSource(hikariConfig);
-        
+
         // 生成配置
         EngineConfig engineConfig = EngineConfig.builder()
                 // 生成文件路径

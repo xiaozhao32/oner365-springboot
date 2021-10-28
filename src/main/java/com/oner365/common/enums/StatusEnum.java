@@ -6,11 +6,11 @@ import java.util.Optional;
 
 /**
  * 枚举 - 状态
- * 
+ *
  * @author zhaoyong
  */
 public enum StatusEnum implements Serializable {
-    
+
     /** 有效 */
     YES("1", "有效"),
     /** 无效 */
@@ -19,16 +19,16 @@ public enum StatusEnum implements Serializable {
     /**
      * 编码
      */
-    private String code;
+    private final String code;
 
     /**
      * 名称
      */
-    private String name;
+    private final String name;
 
     /**
      * 构造方法
-     * 
+     *
      * @param code  编码
      * @param name 名称
      */
@@ -39,7 +39,7 @@ public enum StatusEnum implements Serializable {
 
     /**
      * get code
-     * 
+     *
      * @return code
      */
     public String getOrdinal() {
@@ -48,7 +48,7 @@ public enum StatusEnum implements Serializable {
 
     /**
      * get name
-     * 
+     *
      * @return name
      */
     public String getName() {
@@ -57,7 +57,7 @@ public enum StatusEnum implements Serializable {
 
     /**
      * 获取枚举
-     * 
+     *
      * @param code 编码
      * @return StatusEnum
      */
@@ -67,5 +67,5 @@ public enum StatusEnum implements Serializable {
                 .findFirst();
         return result.orElse(null);
     }
-    
+
 }

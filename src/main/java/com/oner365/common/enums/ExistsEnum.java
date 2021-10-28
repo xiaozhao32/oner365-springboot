@@ -6,7 +6,7 @@ import java.util.Optional;
 
 /**
  * 枚举 - 存在不存在
- * 
+ *
  * @author zhaoyong
  */
 public enum ExistsEnum implements Serializable {
@@ -19,16 +19,16 @@ public enum ExistsEnum implements Serializable {
     /**
      * 编码
      */
-    private Long code;
+    private final Long code;
 
     /**
      * 名称
      */
-    private String name;
+    private final String name;
 
     /**
      * 构造方法
-     * 
+     *
      * @param code  编码
      * @param name 名称
      */
@@ -39,7 +39,7 @@ public enum ExistsEnum implements Serializable {
 
     /**
      * get code
-     * 
+     *
      * @return code
      */
     public Long getOrdinal() {
@@ -48,7 +48,7 @@ public enum ExistsEnum implements Serializable {
 
     /**
      * get name
-     * 
+     *
      * @return name
      */
     public String getName() {
@@ -57,7 +57,7 @@ public enum ExistsEnum implements Serializable {
 
     /**
      * 获取枚举
-     * 
+     *
      * @param code 编码
      * @return StatusEnum
      */

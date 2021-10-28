@@ -7,7 +7,7 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.tomcat.util.threads.ThreadPoolExecutor;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import com.google.common.util.concurrent.RateLimiter;
@@ -31,7 +31,7 @@ class RateLimiterTest {
 
     @Test
     void test() {
-    	Assert.assertEquals("RateLimiterTest", RateLimiterTest.class.getSimpleName());
+    	Assertions.assertEquals("RateLimiterTest", RateLimiterTest.class.getSimpleName());
     }
 
     public static void main(String[] args) {

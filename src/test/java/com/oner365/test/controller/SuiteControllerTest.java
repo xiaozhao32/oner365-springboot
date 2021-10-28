@@ -1,6 +1,6 @@
 package com.oner365.test.controller;
 
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.platform.suite.api.SelectPackages;
@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 
 /**
  * Junit 单元测试 Controller
- * 
+ *
  * @author zhaoyong
  *
  */
@@ -26,6 +26,6 @@ class SuiteControllerTest {
 
     @Test
     void test() {
-    	Assert.assertEquals("SuiteControllerTest", SuiteControllerTest.class.getSimpleName());
+    	Assertions.assertEquals("SuiteControllerTest", SuiteControllerTest.class.getSimpleName());
     }
 }

@@ -2,6 +2,7 @@ package com.oner365.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -10,9 +11,8 @@ import java.util.Set;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.oner365.common.constants.PublicConstants;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.oner365.common.constants.PublicConstants;
 
 /**
  * 基因型工具类
@@ -148,13 +148,7 @@ public class GeneTransFormUtils {
                 trim++;
             }
         }
-
-        Map<String, Integer> result = Maps.newHashMap();
-        result.put("totalCount", matchJson.keySet().size());
-        result.put("matchCount", m);
-        result.put("diffCount", diff);
-        result.put("trimCount", trim);
-        return result;
+        return getCount(matchJson, m, diff, trim);
     }
 
     /**
@@ -184,11 +178,24 @@ public class GeneTransFormUtils {
                 }
             }
         }
-        Map<String, Integer> result = Maps.newHashMap();
+        return getCount(matchJson, m, diff, trim);
+    }
+    
+    /**
+     * 返回结果
+     *
+     * @param matchJson  比对数据
+     * @param matchCount 比中数
+     * @param diffCount  不同数
+     * @param trimCount  空的数
+     * @return Map<String, Integer>
+     */
+    private static Map<String, Integer> getCount(JSONObject matchJson, int matchCount, int diffCount, int trimCount) {
+        Map<String, Integer> result = new HashMap<>(4);
         result.put("totalCount", matchJson.keySet().size());
-        result.put("matchCount", m);
-        result.put("diffCount", diff);
-        result.put("trimCount", trim);
+        result.put("matchCount", matchCount);
+        result.put("diffCount", diffCount);
+        result.put("trimCount", trimCount);
         return result;
     }
 
