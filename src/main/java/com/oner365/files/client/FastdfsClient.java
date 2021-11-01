@@ -15,26 +15,31 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.oner365.common.constants.PublicConstants;
-import com.oner365.files.entity.FastdfsFile;
-import com.oner365.files.service.IFastdfsFileService;
-import com.oner365.util.DataUtils;
 import com.github.tobato.fastdfs.domain.conn.FdfsWebServer;
 import com.github.tobato.fastdfs.domain.fdfs.FileInfo;
 import com.github.tobato.fastdfs.domain.fdfs.StorePath;
 import com.github.tobato.fastdfs.domain.proto.storage.DownloadByteArray;
 import com.github.tobato.fastdfs.exception.FdfsUnsupportStorePathException;
 import com.github.tobato.fastdfs.service.FastFileStorageClient;
+import com.oner365.common.constants.PublicConstants;
+import com.oner365.common.enums.StorageEnum;
+import com.oner365.files.entity.FastdfsFile;
+import com.oner365.files.service.IFastdfsFileService;
+import com.oner365.files.storage.IFileStorageClient;
+import com.oner365.files.storage.condition.FdfsStorageCondition;
+import com.oner365.util.DataUtils;
 
 /**
  * fastdfs工具类
  * @author zhaoyong
  */
 @Component
-public class FastdfsClient {
+@Conditional(FdfsStorageCondition.class)
+public class FastdfsClient implements IFileStorageClient {
 
     private final Logger logger = LoggerFactory.getLogger(FastdfsClient.class);
 
@@ -57,9 +62,11 @@ public class FastdfsClient {
      * 上传文件
      *
      * @param file 文件对象
+     * 
      * @return 文件访问地址
      */
-    public String uploadFile(MultipartFile file) {
+    @Override
+    public String uploadFile(MultipartFile file, String dictory) {
         try (InputStream in = file.getInputStream()) {
             StorePath storePath = fastFileStorageClient.uploadFile(in, file.getSize(),
                     getExtName(file.getOriginalFilename(), file.getContentType()), null);
@@ -78,7 +85,8 @@ public class FastdfsClient {
      * @param file 文件对象
      * @return 文件访问地址
      */
-    public String uploadFile(File file) {
+    @Override
+    public String uploadFile(File file, String dictory) {
         try (FileInputStream inputStream = new FileInputStream(file)) {
             StorePath storePath = fastFileStorageClient.uploadFile(inputStream, file.length(),
                     getExtName(file.getName(), null), null);
@@ -98,6 +106,7 @@ public class FastdfsClient {
         fastdfsFile.setId(StringUtils.replace(url, fastdfsFile.getFastdfsUrl() + PublicConstants.DELIMITER, ""));
         fastdfsFile.setCreateTime(new Date());
         fastdfsFile.setDirectory(false);
+        fastdfsFile.setFileStorage(getName().getOrdinal());
         fastdfsFile.setFilePath(url);
         fastdfsFile.setFileName(StringUtils.substringAfterLast(url, PublicConstants.DELIMITER));
         fastdfsFile.setDisplayName(fileName);
@@ -153,6 +162,7 @@ public class FastdfsClient {
      * @param fileUrl 文件url
      * @return byte[]
      */
+    @Override
     public byte[] download(String fileUrl) {
         String group = fileUrl.substring(0, fileUrl.indexOf(PublicConstants.DELIMITER));
         String downloadPath = fileUrl.substring(fileUrl.indexOf(PublicConstants.DELIMITER) + 1);
@@ -164,6 +174,7 @@ public class FastdfsClient {
      *
      * @param fileUrl 文件访问地址
      */
+    @Override
     public void deleteFile(String fileUrl) {
         if (DataUtils.isEmpty(fileUrl)) {
             return;
@@ -185,6 +196,11 @@ public class FastdfsClient {
      */
     public FileInfo getFile(String groupName, String path) {
         return fastFileStorageClient.queryFileInfo(groupName, path);
+    }
+
+    @Override
+    public StorageEnum getName() {
+        return StorageEnum.FDFS;
     }
 
 }

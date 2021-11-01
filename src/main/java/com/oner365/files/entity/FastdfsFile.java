@@ -39,6 +39,12 @@ public class FastdfsFile implements Serializable {
      */
     @Column(name = "display_name", nullable = false, length = 64)
     private String displayName;
+    
+    /**
+     * 存储方式
+     */
+    @Column(name = "file_storage", nullable = false)
+    private String fileStorage;
 
     /**
      * 文件路径 file_path
@@ -204,5 +210,19 @@ public class FastdfsFile implements Serializable {
      */
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
+    }
+
+    /**
+     * @return the fileStorage
+     */
+    public String getFileStorage() {
+        return fileStorage;
+    }
+
+    /**
+     * @param fileStorage the fileStorage to set
+     */
+    public void setFileStorage(String fileStorage) {
+        this.fileStorage = fileStorage;
     }
 }

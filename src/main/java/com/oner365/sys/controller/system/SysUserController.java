@@ -34,7 +34,7 @@ import com.oner365.common.enums.StatusEnum;
 import com.oner365.common.query.AttributeBean;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
-import com.oner365.files.client.FastdfsClient;
+import com.oner365.files.storage.IFileStorageClient;
 import com.oner365.sys.constants.SysConstants;
 import com.oner365.sys.entity.SysUser;
 import com.oner365.sys.service.ISysJobService;
@@ -68,7 +68,7 @@ public class SysUserController extends BaseController {
     private ISysJobService sysJobService;
     
     @Autowired
-    private FastdfsClient fastdfsClient;
+    private IFileStorageClient fileStorageClient;
 
     /**
      * 用户列表
@@ -150,7 +150,7 @@ public class SysUserController extends BaseController {
     @ApiOperation("上传头像")
     public String avatar(@CurrentUser AuthUser authUser, @RequestParam("avatarfile") MultipartFile file) {
         if (!file.isEmpty()) {
-            String fileUrl = fastdfsClient.uploadFile(file);
+            String fileUrl = fileStorageClient.uploadFile(file, "avatar");
 
             SysUser sysUser = sysUserService.getById(authUser.getId());
             sysUser.setAvatar(fileUrl);

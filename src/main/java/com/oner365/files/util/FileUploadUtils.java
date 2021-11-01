@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.oner365.common.constants.PublicConstants;
+import com.oner365.common.enums.StorageEnum;
 import com.oner365.files.entity.FastdfsFile;
 import com.oner365.util.DataUtils;
 import com.oner365.util.SnowFlakeUtils;
@@ -38,7 +39,8 @@ public class FileUploadUtils {
      * @param maxLength 文件长度
      * @return FastdfsFile
      */
-    public static FastdfsFile upload(MultipartFile file, String fileWeb, String filePath, String uploadDir, long maxLength) {
+    public static FastdfsFile upload(MultipartFile file, StorageEnum storageEnum,
+            String fileWeb, String filePath, String uploadDir, long maxLength) {
         try {
             long fileNameLength = file.getSize();
             if (fileNameLength > maxLength) {
@@ -50,7 +52,7 @@ public class FileUploadUtils {
             File desc = getAbsoluteFile(filePath, uploadDir, fileName);
             file.transferTo(desc);
             // http url
-            return getPathFileName(file, fileWeb, uploadDir, fileName);
+            return getPathFileName(file, storageEnum, fileWeb, uploadDir, fileName);
         } catch (Exception e) {
             LOGGER.error("upload error:", e);
         }
@@ -63,7 +65,14 @@ public class FileUploadUtils {
     }
 
     private static File getAbsoluteFile(String filePath, String uploadDir, String fileName) {
-        File desc = new File(filePath + File.separator + uploadDir + File.separator + fileName);
+        String upath = StringUtils.EMPTY;
+        if (!DataUtils.isEmpty(uploadDir)) {
+            upath = uploadDir + PublicConstants.DELIMITER;
+        }
+        
+        String absoluteFile = filePath + File.separator + upath + fileName;
+        LOGGER.info("Local upload File path: {}", absoluteFile);
+        File desc = new File(absoluteFile);
 
         if (!desc.exists() && !desc.getParentFile().exists()) {
             desc.getParentFile().mkdirs();
@@ -71,17 +80,23 @@ public class FileUploadUtils {
         return desc;
     }
 
-    private static FastdfsFile getPathFileName(MultipartFile file, String fileWeb, String uploadDir, String fileName) {
-        String fileUrl = fileWeb + PublicConstants.DELIMITER + uploadDir + PublicConstants.DELIMITER + fileName;
+    private static FastdfsFile getPathFileName(MultipartFile file, StorageEnum storageEnum, 
+            String fileWeb, String uploadDir, String fileName) {
+        String upath = StringUtils.EMPTY;
+        if (!DataUtils.isEmpty(uploadDir)) {
+            upath = uploadDir + PublicConstants.DELIMITER;
+        }
+        String fileUrl = fileWeb + PublicConstants.DELIMITER + upath + fileName;
 
         String ss = fileUrl.replace(FILE_HTTP, "");
         String fastUrl = StringUtils.substringBefore(ss, PublicConstants.DELIMITER);
-        String id = ss.replace(fastUrl + PublicConstants.DELIMITER, "");
+        String id = upath + fileName;
         // save file
         FastdfsFile fileEntity = new FastdfsFile();
         fileEntity.setId(id);
         fileEntity.setFileName(fileName);
         fileEntity.setFastdfsUrl(FILE_HTTP + fastUrl);
+        fileEntity.setFileStorage(storageEnum.getOrdinal());
         fileEntity.setFilePath(fileUrl);
         fileEntity.setDisplayName(file.getOriginalFilename());
         fileEntity.setFileSuffix(DataUtils.getExtension(file.getOriginalFilename()));
@@ -98,8 +113,8 @@ public class FileUploadUtils {
      * @return byte[]
      */
     public static byte[] download(String filePath, String fileUrl) {
-        String s = StringUtils.substringAfter(fileUrl, PublicConstants.DELIMITER);
-        String path = filePath + PublicConstants.DELIMITER + s;
+        String path = filePath + PublicConstants.DELIMITER + fileUrl;
+        LOGGER.info("Local download File path: {}", path);
         File file = new File(path);
         try {
             return FileUtil.readAsByteArray(file);

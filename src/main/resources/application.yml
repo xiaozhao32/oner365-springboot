@@ -159,18 +159,25 @@ ignore:
     - /system/file/download
     - /swagger
     - /webjars
-    - /v2
+    - /v3
     - /csrf
     - /doc.html
 
 # 文件上传下载地址
 file:
-  # web访问地址  如不使用fastDfs 访问web路径
-  web: http://localhost/uploads
-  # 上传地址
-  path: /Users/zhaoyong/Downloads
+  # 存储方式为 local 或 fdfs 
+  storage: local
+  # excel后缀
   excel:
     suffix: xlsx
+  # 通用文件下载路径
+  download: /Users/zhaoyong/Downloads
+  # 上传存储到本地
+  local:
+    # 本地配置web访问地址, fdfs使用 fdfs.web-server-url
+    web: http://localhost/uploads
+    # 上传地址
+    upload: /Users/zhaoyong/Downloads
 
 druid:
   mysql:

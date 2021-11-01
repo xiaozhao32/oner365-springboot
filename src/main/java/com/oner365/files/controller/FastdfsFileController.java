@@ -1,6 +1,5 @@
 package com.oner365.files.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -26,17 +25,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.github.tobato.fastdfs.domain.fdfs.FileInfo;
 import com.google.common.collect.Lists;
 import com.oner365.common.ResponseResult;
 import com.oner365.common.constants.PublicConstants;
 import com.oner365.common.enums.ResultEnum;
+import com.oner365.common.enums.StorageEnum;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
 import com.oner365.deploy.utils.DeployUtils;
-import com.oner365.files.client.FastdfsClient;
 import com.oner365.files.entity.FastdfsFile;
 import com.oner365.files.service.IFastdfsFileService;
+import com.oner365.files.storage.IFileStorageClient;
 import com.oner365.util.DataUtils;
 
 import ch.ethz.ssh2.SFTPv3DirectoryEntry;
@@ -64,7 +63,7 @@ public class FastdfsFileController extends BaseController {
     private String password;
     
     @Autowired
-    private FastdfsClient fastdfsClient;
+    private IFileStorageClient fileStorageClient;
     
     @Autowired
     private IFastdfsFileService fastdfsFileService;
@@ -115,12 +114,13 @@ public class FastdfsFileController extends BaseController {
      * 文件上传
      * 
      * @param file MultipartFile
+     * @param dictory 目录
      * @return Map<String, Object>
      */
     @PostMapping("/uploadMultipartFile")
     @ApiOperation("文件上传 - MultipartFile")
-    public ResponseResult<String> uploadMultipartFile(@RequestBody MultipartFile file) {
-        String url = fastdfsClient.uploadFile(file);
+    public ResponseResult<String> uploadMultipartFile(@RequestBody MultipartFile file, String dictory) {
+        String url = fileStorageClient.uploadFile(file, dictory);
         return ResponseResult.success(url);
     }
 
@@ -131,9 +131,9 @@ public class FastdfsFileController extends BaseController {
      * @return Map<String, Object>
      */
     @PostMapping("/uploadFile")
-    @ApiOperation("文件上传 - File")
-    public ResponseResult<String> uploadFile(@RequestBody File file) {
-        String url = fastdfsClient.uploadFile(file);
+    @ApiOperation("文件上传 - 参数")
+    public ResponseResult<String> uploadFile(@RequestParam("file") MultipartFile file, String dictory) {
+        String url = fileStorageClient.uploadFile(file, dictory);
         return ResponseResult.success(url);
     }
 
@@ -145,10 +145,10 @@ public class FastdfsFileController extends BaseController {
      * @param response HttpServletResponse
      */
     @GetMapping("/download")
-    @ApiOperation("文件下载")
+    @ApiOperation("文件下载 - 写出")
     public void download(@RequestParam("fileUrl") String fileUrl, String filename, 
             HttpServletResponse response) {
-        byte[] data = fastdfsClient.download(fileUrl);
+        byte[] data = fileStorageClient.download(fileUrl);
         if (DataUtils.isEmpty(filename)) {
             filename = StringUtils.substringAfterLast(fileUrl, PublicConstants.DELIMITER);
         }
@@ -177,9 +177,9 @@ public class FastdfsFileController extends BaseController {
      * @return byte[]
      */
     @GetMapping("/downloadFile")
-    @ApiOperation("文件下载")
+    @ApiOperation("文件下载 - byte[]流方式")
     public byte[] downloadFile(@RequestParam("fileUrl") String fileUrl) {
-        return fastdfsClient.download(fileUrl);
+        return fileStorageClient.download(fileUrl);
     }
 
     /**
@@ -193,23 +193,22 @@ public class FastdfsFileController extends BaseController {
     public String delete(@RequestBody String... ids) {
         if (ids != null) {
             for (String id : ids) {
-                fastdfsClient.deleteFile(id);
+                fileStorageClient.deleteFile(id);
             }
         }
         return ResultEnum.SUCCESS.getName();
     }
 
     /**
-     * 获取文件
+     * 获取文件存储方式
      * 
-     * @param groupName 组名称
-     * @param path      地址
-     * @return FileInfo
+     * @return String
      */
-    @GetMapping("/getFile")
-    @ApiOperation("获取文件信息")
-    public FileInfo getFile(@RequestParam("groupName") String groupName, @RequestParam("path") String path) {
-        return fastdfsClient.getFile(groupName, path);
+    @GetMapping("/getStorageName")
+    @ApiOperation("获取文件存储方式")
+    public String getStorageName() {
+        StorageEnum result = fileStorageClient.getName();
+        return result.getOrdinal();
     }
 
 }

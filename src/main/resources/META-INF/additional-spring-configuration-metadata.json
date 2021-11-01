@@ -57,11 +57,6 @@
     "description": "druid MySQL warn discard long time none received connection."
   },
   {
-    "name": "file.web",
-    "type": "java.lang.String",
-    "description": "A description for 'file.web'."
-  },
-  {
     "name": "ignore.whites",
     "type": "java.util.List",
     "description": "A description for 'ignore.whites'."
@@ -115,5 +110,26 @@
     "name": "swagger.description",
     "type": "java.lang.String",
     "description": "A description for 'swagger.description'."
+  },
+  {
+    "name": "file.storage",
+    "type": "java.lang.String",
+    "defaultValue": "local",
+    "description": "A description for 'file.storage'."
+  },
+  {
+    "name": "file.download",
+    "type": "java.lang.String",
+    "description": "A description for 'file.download'."
+  },
+  {
+    "name": "file.local.upload",
+    "type": "java.lang.String",
+    "description": "A description for 'file.local.upload'."
+  },
+  {
+    "name": "file.local.web",
+    "type": "java.lang.String",
+    "description": "A description for 'file.local.web'."
   }
 ]}

@@ -318,6 +318,7 @@ CREATE TABLE "public"."nt_sys_fastdfs_file" (
   "create_time" timestamp(6),
   "display_name" varchar(64) COLLATE "pg_catalog"."default" NOT NULL,
   "fastdfs_url" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
+  "file_storage" varchar(8) COLLATE "pg_catalog"."default" NOT NULL,
   "file_name" varchar(64) COLLATE "pg_catalog"."default" NOT NULL,
   "file_path" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
   "file_suffix" varchar(8) COLLATE "pg_catalog"."default" NOT NULL,
