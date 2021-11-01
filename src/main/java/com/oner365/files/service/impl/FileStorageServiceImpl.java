@@ -22,9 +22,9 @@ import com.oner365.common.enums.ResultEnum;
 import com.oner365.common.exception.ProjectRuntimeException;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.common.query.QueryUtils;
-import com.oner365.files.dao.IFastdfsFileDao;
-import com.oner365.files.entity.FastdfsFile;
-import com.oner365.files.service.IFastdfsFileService;
+import com.oner365.files.dao.IFileStorageDao;
+import com.oner365.files.entity.SysFileStorage;
+import com.oner365.files.service.IFileStorageService;
 
 /**
  * fastdfs工具实现类
@@ -32,18 +32,18 @@ import com.oner365.files.service.IFastdfsFileService;
  * @author zhaoyong
  */
 @Service
-public class FastdfsFileServiceImpl implements IFastdfsFileService {
+public class FileStorageServiceImpl implements IFileStorageService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(FastdfsFileServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FileStorageServiceImpl.class);
 
-    private static final String CACHE_NAME = "FastdfsFile";
+    private static final String CACHE_NAME = "FileStorage";
 
     @Autowired
-    private IFastdfsFileDao dao;
+    private IFileStorageDao dao;
 
     @Override
     @Cacheable(value = CACHE_NAME, keyGenerator = PublicConstants.KEY_GENERATOR)
-    public Page<FastdfsFile> pageList(QueryCriteriaBean data) {
+    public Page<SysFileStorage> pageList(QueryCriteriaBean data) {
         try {
             Pageable pageable = QueryUtils.buildPageRequest(data);
             return dao.findAll(QueryUtils.buildCriteria(data), pageable);
@@ -55,7 +55,7 @@ public class FastdfsFileServiceImpl implements IFastdfsFileService {
 
     @Override
     @Cacheable(value = CACHE_NAME, keyGenerator = PublicConstants.KEY_GENERATOR)
-    public List<FastdfsFile> findList(QueryCriteriaBean data) {
+    public List<SysFileStorage> findList(QueryCriteriaBean data) {
         try {
             if (data.getOrder() == null) {
                 return dao.findAll(QueryUtils.buildCriteria(data));
@@ -69,9 +69,9 @@ public class FastdfsFileServiceImpl implements IFastdfsFileService {
 
     @Override
     @RedisCacheAble(value = CACHE_NAME, key = PublicConstants.KEY_ID)
-    public FastdfsFile getById(String id) {
+    public SysFileStorage getById(String id) {
         try {
-            Optional<FastdfsFile> optional = dao.findById(id);
+            Optional<SysFileStorage> optional = dao.findById(id);
             return optional.orElse(null);
         } catch (Exception e) {
             LOGGER.error("Error getById: ", e);
@@ -83,7 +83,7 @@ public class FastdfsFileServiceImpl implements IFastdfsFileService {
     @Transactional(rollbackFor = ProjectRuntimeException.class)
     @RedisCachePut(value = CACHE_NAME, key = PublicConstants.KEY_ID)
     @CacheEvict(value = CACHE_NAME, allEntries = true)
-    public FastdfsFile save(FastdfsFile entity) {
+    public SysFileStorage save(SysFileStorage entity) {
         entity.setCreateTime(new Timestamp(System.currentTimeMillis()));
         return dao.save(entity);
     }
@@ -92,8 +92,13 @@ public class FastdfsFileServiceImpl implements IFastdfsFileService {
     @Transactional(rollbackFor = ProjectRuntimeException.class)
     @CacheEvict(value = CACHE_NAME, allEntries = true)
     public int deleteById(String id) {
-        dao.deleteById(id);
-        return ResultEnum.SUCCESS.getOrdinal();
+        try {
+            dao.deleteById(id);
+            return ResultEnum.SUCCESS.getOrdinal();
+        } catch (Exception e) {
+            LOGGER.error("Error deleteById: ", e);
+        }
+        return ResultEnum.ERROR.getOrdinal();
     }
 
 }

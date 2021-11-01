@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 @Table(name = "nt_sys_fastdfs_file")
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler" })
-public class FastdfsFile implements Serializable {
+public class SysFileStorage implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -82,7 +82,7 @@ public class FastdfsFile implements Serializable {
     @Column(name = "is_directory")
     private boolean isDirectory;
 
-    public FastdfsFile() {
+    public SysFileStorage() {
         super();
     }
 

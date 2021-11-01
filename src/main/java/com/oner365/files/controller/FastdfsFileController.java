@@ -33,8 +33,8 @@ import com.oner365.common.enums.StorageEnum;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
 import com.oner365.deploy.utils.DeployUtils;
-import com.oner365.files.entity.FastdfsFile;
-import com.oner365.files.service.IFastdfsFileService;
+import com.oner365.files.entity.SysFileStorage;
+import com.oner365.files.service.IFileStorageService;
 import com.oner365.files.storage.IFileStorageClient;
 import com.oner365.util.DataUtils;
 
@@ -66,18 +66,18 @@ public class FastdfsFileController extends BaseController {
     private IFileStorageClient fileStorageClient;
     
     @Autowired
-    private IFastdfsFileService fastdfsFileService;
+    private IFileStorageService fileStorageService;
     
     /**
      * 查询列表
      *
      * @param data 查询参数
-     * @return Page<FastdfsFile>
+     * @return Page<SysFileStorage>
      */
     @PostMapping("/list")
     @ApiOperation("查询列表")
-    public Page<FastdfsFile> list(@RequestBody QueryCriteriaBean data) {
-        return fastdfsFileService.pageList(data);
+    public Page<SysFileStorage> list(@RequestBody QueryCriteriaBean data) {
+        return fileStorageService.pageList(data);
     }
     
     /**
@@ -88,15 +88,15 @@ public class FastdfsFileController extends BaseController {
      */
     @GetMapping("/directory")
     @ApiOperation("获取目录")
-    public List<FastdfsFile> directory(@RequestParam("fileDirectory") String fileDirectory) {
+    public List<SysFileStorage> directory(@RequestParam("fileDirectory") String fileDirectory) {
         String directory = path;
         if (!DataUtils.isEmpty(fileDirectory)) {
             directory = path + "/M00/00/" + fileDirectory;
         }
         List<SFTPv3DirectoryEntry> vector = DeployUtils.directoryList(ip, port, user, password, directory);
-        List<FastdfsFile> result = Lists.newArrayList();
+        List<SysFileStorage> result = Lists.newArrayList();
         for (SFTPv3DirectoryEntry entry : vector) {
-            FastdfsFile fastdfsFile = new FastdfsFile();
+            SysFileStorage fastdfsFile = new SysFileStorage();
             fastdfsFile.setId(StringUtils.replace(directory, path, "group1") + PublicConstants.DELIMITER + entry.filename);
             fastdfsFile.setCreateTime(new Date(entry.attributes.mtime * 1000L));
             fastdfsFile.setFileName(entry.filename);

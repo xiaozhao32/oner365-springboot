@@ -21,10 +21,7 @@ public class FdfsStorageCondition implements Condition {
         Environment environment = conditionContext.getEnvironment();
         String type = environment.getProperty(PublicConstants.FILE_STORAGE);
         // fdfs上传
-        if (type != null && type.equals(StorageEnum.FDFS.getOrdinal())) {
-            return true;
-        }
-        return false;
+        return type != null && type.equals(StorageEnum.FDFS.getOrdinal());
     }
 
 }

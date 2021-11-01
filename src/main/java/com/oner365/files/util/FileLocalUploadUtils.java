@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.oner365.common.constants.PublicConstants;
 import com.oner365.common.enums.StorageEnum;
-import com.oner365.files.entity.FastdfsFile;
+import com.oner365.files.entity.SysFileStorage;
 import com.oner365.util.DataUtils;
 import com.oner365.util.SnowFlakeUtils;
 
@@ -20,13 +20,13 @@ import com.oner365.util.SnowFlakeUtils;
  * @author zhaoyong
  *
  */
-public class FileUploadUtils {
+public class FileLocalUploadUtils {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(FileUploadUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FileLocalUploadUtils.class);
 
     private static final String FILE_HTTP = "http://";
     
-    private FileUploadUtils() {
+    private FileLocalUploadUtils() {
     }
 
     /**
@@ -37,9 +37,9 @@ public class FileUploadUtils {
      * @param filePath 文件上传根目录
      * @param uploadDir 上传的文件夹
      * @param maxLength 文件长度
-     * @return FastdfsFile
+     * @return SysFileStorage
      */
-    public static FastdfsFile upload(MultipartFile file, StorageEnum storageEnum,
+    public static SysFileStorage upload(MultipartFile file, StorageEnum storageEnum,
             String fileWeb, String filePath, String uploadDir, long maxLength) {
         try {
             long fileNameLength = file.getSize();
@@ -80,7 +80,7 @@ public class FileUploadUtils {
         return desc;
     }
 
-    private static FastdfsFile getPathFileName(MultipartFile file, StorageEnum storageEnum, 
+    private static SysFileStorage getPathFileName(MultipartFile file, StorageEnum storageEnum, 
             String fileWeb, String uploadDir, String fileName) {
         String upath = StringUtils.EMPTY;
         if (!DataUtils.isEmpty(uploadDir)) {
@@ -92,7 +92,7 @@ public class FileUploadUtils {
         String fastUrl = StringUtils.substringBefore(ss, PublicConstants.DELIMITER);
         String id = upath + fileName;
         // save file
-        FastdfsFile fileEntity = new FastdfsFile();
+        SysFileStorage fileEntity = new SysFileStorage();
         fileEntity.setId(id);
         fileEntity.setFileName(fileName);
         fileEntity.setFastdfsUrl(FILE_HTTP + fastUrl);

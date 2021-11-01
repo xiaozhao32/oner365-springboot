@@ -27,8 +27,8 @@ import com.github.tobato.fastdfs.exception.FdfsUnsupportStorePathException;
 import com.github.tobato.fastdfs.service.FastFileStorageClient;
 import com.oner365.common.constants.PublicConstants;
 import com.oner365.common.enums.StorageEnum;
-import com.oner365.files.entity.FastdfsFile;
-import com.oner365.files.service.IFastdfsFileService;
+import com.oner365.files.entity.SysFileStorage;
+import com.oner365.files.service.IFileStorageService;
 import com.oner365.files.storage.IFileStorageClient;
 import com.oner365.files.storage.condition.FdfsStorageCondition;
 import com.oner365.util.DataUtils;
@@ -56,7 +56,7 @@ public class FastdfsClient implements IFileStorageClient {
     private FdfsWebServer fdfsWebServer;
 
     @Autowired
-    private IFastdfsFileService fastdfsFileService;
+    private IFileStorageService fileStorageService;
 
     /**
      * 上传文件
@@ -101,18 +101,18 @@ public class FastdfsClient implements IFileStorageClient {
 
     private void saveFastdfsFile(String url, String fileName, long fileSize) {
         // save
-        FastdfsFile fastdfsFile = new FastdfsFile();
-        fastdfsFile.setFastdfsUrl("http://" + ip);
-        fastdfsFile.setId(StringUtils.replace(url, fastdfsFile.getFastdfsUrl() + PublicConstants.DELIMITER, ""));
-        fastdfsFile.setCreateTime(new Date());
-        fastdfsFile.setDirectory(false);
-        fastdfsFile.setFileStorage(getName().getOrdinal());
-        fastdfsFile.setFilePath(url);
-        fastdfsFile.setFileName(StringUtils.substringAfterLast(url, PublicConstants.DELIMITER));
-        fastdfsFile.setDisplayName(fileName);
-        fastdfsFile.setFileSuffix(DataUtils.getExtension(fileName));
-        fastdfsFile.setSize(DataUtils.convertFileSize(fileSize));
-        fastdfsFileService.save(fastdfsFile);
+        SysFileStorage entity = new SysFileStorage();
+        entity.setFastdfsUrl("http://" + ip);
+        entity.setId(StringUtils.replace(url, entity.getFastdfsUrl() + PublicConstants.DELIMITER, ""));
+        entity.setCreateTime(new Date());
+        entity.setDirectory(false);
+        entity.setFileStorage(getName().getOrdinal());
+        entity.setFilePath(url);
+        entity.setFileName(StringUtils.substringAfterLast(url, PublicConstants.DELIMITER));
+        entity.setDisplayName(fileName);
+        entity.setFileSuffix(DataUtils.getExtension(fileName));
+        entity.setSize(DataUtils.convertFileSize(fileSize));
+        fileStorageService.save(entity);
     }
 
     /**
@@ -182,7 +182,7 @@ public class FastdfsClient implements IFileStorageClient {
         try {
             StorePath storePath = StorePath.parseFromUrl(fileUrl);
             fastFileStorageClient.deleteFile(storePath.getGroup(), storePath.getPath());
-            fastdfsFileService.deleteById(fileUrl);
+            fileStorageService.deleteById(fileUrl);
         } catch (FdfsUnsupportStorePathException e) {
             logger.error("delete File FdfsUnSupportStorePathException:", e);
         }

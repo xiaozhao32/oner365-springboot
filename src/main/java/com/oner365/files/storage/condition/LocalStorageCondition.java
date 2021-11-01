@@ -21,10 +21,7 @@ public class LocalStorageCondition implements Condition {
         Environment environment = conditionContext.getEnvironment();
         String type = environment.getProperty(PublicConstants.FILE_STORAGE);
         // 本地上传
-        if (type == null || type.equals(StorageEnum.LOCAL.getOrdinal())) {
-            return true;
-        }
-        return false;
+        return type == null || type.equals(StorageEnum.LOCAL.getOrdinal());
     }
 
 }

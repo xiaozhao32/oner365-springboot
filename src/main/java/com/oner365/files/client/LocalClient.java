@@ -11,11 +11,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.oner365.common.enums.StorageEnum;
-import com.oner365.files.entity.FastdfsFile;
-import com.oner365.files.service.IFastdfsFileService;
+import com.oner365.files.entity.SysFileStorage;
+import com.oner365.files.service.IFileStorageService;
 import com.oner365.files.storage.IFileStorageClient;
 import com.oner365.files.storage.condition.LocalStorageCondition;
-import com.oner365.files.util.FileUploadUtils;
+import com.oner365.files.util.FileLocalUploadUtils;
 import com.oner365.util.DataUtils;
 
 /**
@@ -27,7 +27,7 @@ import com.oner365.util.DataUtils;
 @Conditional(LocalStorageCondition.class)
 public class LocalClient implements IFileStorageClient {
 
-    private final Logger logger = LoggerFactory.getLogger(FastdfsClient.class);
+    private final Logger logger = LoggerFactory.getLogger(LocalClient.class);
 
     @Value("${file.local.web:''}")
     private String fileWeb;
@@ -36,14 +36,14 @@ public class LocalClient implements IFileStorageClient {
     private String filePath;
 
     @Autowired
-    private IFastdfsFileService fastdfsFileService;
+    private IFileStorageService fileStorageService;
 
     @Override
     public String uploadFile(MultipartFile file, String dictory) {
         try {
-            FastdfsFile fastdfsFile = FileUploadUtils.upload(file, getName(), fileWeb, filePath, dictory, file.getSize() + 1);
-            fastdfsFileService.save(fastdfsFile);
-            return fastdfsFile.getFilePath();
+            SysFileStorage entity = FileLocalUploadUtils.upload(file, getName(), fileWeb, filePath, dictory, file.getSize() + 1);
+            fileStorageService.save(entity);
+            return entity.getFilePath();
         } catch (Exception e) {
             logger.error("upload MultipartFile IOException:", e);
         }
@@ -54,10 +54,10 @@ public class LocalClient implements IFileStorageClient {
     public String uploadFile(File file, String dictory) {
         try {
             MultipartFile multipartFile = DataUtils.convertMultipartFile(file);
-            FastdfsFile fastdfsFile = FileUploadUtils.upload(multipartFile, getName(), fileWeb, filePath, dictory,
+            SysFileStorage entity = FileLocalUploadUtils.upload(multipartFile, getName(), fileWeb, filePath, dictory,
                     file.length() + 1);
-            fastdfsFileService.save(fastdfsFile);
-            return fastdfsFile.getFilePath();
+            fileStorageService.save(entity);
+            return entity.getFilePath();
         } catch (Exception e) {
             logger.error("upload MultipartFile IOException:", e);
         }
@@ -66,12 +66,12 @@ public class LocalClient implements IFileStorageClient {
 
     @Override
     public byte[] download(String fileUrl) {
-        return FileUploadUtils.download(filePath, fileUrl);
+        return FileLocalUploadUtils.download(filePath, fileUrl);
     }
 
     @Override
     public void deleteFile(String id) {
-        fastdfsFileService.deleteById(id);
+        fileStorageService.deleteById(id);
     }
 
     @Override

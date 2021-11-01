@@ -11,8 +11,8 @@ import org.springframework.data.domain.Page;
 
 import com.alibaba.fastjson.JSON;
 import com.oner365.common.query.QueryCriteriaBean;
-import com.oner365.files.entity.FastdfsFile;
-import com.oner365.files.service.IFastdfsFileService;
+import com.oner365.files.entity.SysFileStorage;
+import com.oner365.files.service.IFileStorageService;
 import com.oner365.test.service.BaseServiceTest;
 
 /**
@@ -25,12 +25,12 @@ import com.oner365.test.service.BaseServiceTest;
 class FastdfsFileServiceTest extends BaseServiceTest {
 
     @Autowired
-    private IFastdfsFileService service;
+    private IFileStorageService service;
 
     @RepeatedTest(value = 2)
     void findList() {
         QueryCriteriaBean paramData = new QueryCriteriaBean();
-        List<FastdfsFile> list = service.findList(paramData);
+        List<SysFileStorage> list = service.findList(paramData);
         LOGGER.info("findList:{}", list.size());
         Assertions.assertNotEquals(0, list.size());
     }
@@ -38,7 +38,7 @@ class FastdfsFileServiceTest extends BaseServiceTest {
     @Test
     void pageList() {
         QueryCriteriaBean paramData = new QueryCriteriaBean();
-        Page<FastdfsFile> list = service.pageList(paramData);
+        Page<SysFileStorage> list = service.pageList(paramData);
         LOGGER.info("pageList:{}", list.getSize());
         Assertions.assertNotEquals(0, list.getSize());
     }
@@ -46,9 +46,9 @@ class FastdfsFileServiceTest extends BaseServiceTest {
     @Test
     void getById() {
         QueryCriteriaBean paramData = new QueryCriteriaBean();
-        List<FastdfsFile> list = service.findList(paramData);
+        List<SysFileStorage> list = service.findList(paramData);
         if (!list.isEmpty()) {
-            FastdfsFile entity = service.getById(list.get(0).getId());
+            SysFileStorage entity = service.getById(list.get(0).getId());
             LOGGER.info("getById:{}", JSON.toJSONString(entity));
             Assertions.assertNotNull(entity);
         }
