@@ -37,6 +37,7 @@ import com.oner365.files.entity.SysFileStorage;
 import com.oner365.files.service.IFileStorageService;
 import com.oner365.files.storage.IFileStorageClient;
 import com.oner365.util.DataUtils;
+import com.oner365.util.DateUtil;
 
 import ch.ethz.ssh2.SFTPv3DirectoryEntry;
 import io.swagger.annotations.Api;
@@ -110,30 +111,39 @@ public class FastdfsFileController extends BaseController {
         return result;
     }
 
-    /**
-     * 文件上传
-     * 
-     * @param file MultipartFile
-     * @param dictory 目录
-     * @return Map<String, Object>
-     */
+	/**
+	 * 文件上传
+	 * 
+	 * @param file    MultipartFile
+	 * @param dictory 目录
+	 * @return Map<String, Object>
+	 */
     @PostMapping("/uploadMultipartFile")
     @ApiOperation("文件上传 - MultipartFile")
     public ResponseResult<String> uploadMultipartFile(@RequestBody MultipartFile file, String dictory) {
-        String url = fileStorageClient.uploadFile(file, dictory);
+    	String targetDictory = null;
+    	if (DataUtils.isEmpty(dictory)) {
+    		targetDictory = DateUtil.getCurrentDate();
+    	}
+        String url = fileStorageClient.uploadFile(file, targetDictory);
         return ResponseResult.success(url);
     }
 
-    /**
-     * 文件上传 File 类型
-     * 
-     * @param file File
-     * @return Map<String, Object>
-     */
+	/**
+	 * 文件上传 File 类型
+	 * 
+	 * @param file    File
+	 * @param dictory 目录
+	 * @return Map<String, Object>
+	 */
     @PostMapping("/uploadFile")
     @ApiOperation("文件上传 - 参数")
     public ResponseResult<String> uploadFile(@RequestParam("file") MultipartFile file, String dictory) {
-        String url = fileStorageClient.uploadFile(file, dictory);
+    	String targetDictory = null;
+    	if (DataUtils.isEmpty(dictory)) {
+    		targetDictory = DateUtil.getCurrentDate();
+    	}
+        String url = fileStorageClient.uploadFile(file, targetDictory);
         return ResponseResult.success(url);
     }
 
