@@ -67,66 +67,19 @@ public class RabbitmqController extends BaseController {
     }
 
     /**
-     * Connection
+     * 获取队列列表
      * 
+     * @param type      类型
      * @param pageIndex 分页页码
      * @param pageSize  分页长度
      * @param name      名称
      * @return JSONObject
      */
-    @GetMapping("/connection/list")
-    @ApiOperation("客户端连接列表")
-    public JSONObject connectionList(@RequestParam("pageIndex") int pageIndex, @RequestParam("pageSize") int pageSize,
-            String name) {
-        String url = getUrl("connections", name, pageIndex, pageSize);
-        return request(url);
-    }
-
-    /**
-     * Channel
-     * 
-     * @param pageIndex 分页页码
-     * @param pageSize  分页长度
-     * @param name      名称
-     * @return JSONObject
-     */
-    @GetMapping("/channel/list")
-    @ApiOperation("客户端通道列表")
-    public JSONObject channelList(@RequestParam("pageIndex") int pageIndex, @RequestParam("pageSize") int pageSize,
-            String name) {
-        String url = getUrl("channels", name, pageIndex, pageSize);
-        return request(url);
-    }
-
-    /**
-     * Exchange
-     * 
-     * @param pageIndex 分页页码
-     * @param pageSize  分页长度
-     * @param name      名称
-     * @return JSONObject
-     */
-    @GetMapping("/exchange/list")
-    @ApiOperation("服务端交换区列表")
-    public JSONObject exchangeList(@RequestParam("pageIndex") int pageIndex, @RequestParam("pageSize") int pageSize,
-            String name) {
-        String url = getUrl("exchanges", name, pageIndex, pageSize);
-        return request(url);
-    }
-
-    /**
-     * Queue
-     * 
-     * @param pageIndex 分页页码
-     * @param pageSize  分页长度
-     * @param name      名称
-     * @return JSONObject
-     */
-    @GetMapping("/queue/list")
-    @ApiOperation("服务端队列列表")
-    public JSONObject queueList(@RequestParam("pageIndex") int pageIndex, @RequestParam("pageSize") int pageSize,
-            String name) {
-        String url = getUrl("queues", name, pageIndex, pageSize);
+    @GetMapping("/list/{type}")
+    @ApiOperation("获取队列列表")
+    public JSONObject list(@PathVariable("type") String type, @RequestParam("pageIndex") int pageIndex,
+            @RequestParam("pageSize") int pageSize, String name) {
+        String url = getUrl(type, name, pageIndex, pageSize);
         return request(url);
     }
     
@@ -138,6 +91,7 @@ public class RabbitmqController extends BaseController {
      * @return JSONObject
      */
     @DeleteMapping("/delete/{type}/{name}")
+    @ApiOperation("删除不同类型的队列")
     public JSONObject delete(@PathVariable("type") String type, @PathVariable("name") String name) {
         try {
             String vhost = "/";
