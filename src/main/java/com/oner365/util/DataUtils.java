@@ -40,7 +40,6 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.CloneFailedException;
-import org.checkerframework.checker.nullness.qual.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -330,12 +329,21 @@ public class DataUtils {
     }
 
     /**
-     * 过滤空字符串
+     * 过滤空字符串 返回 Null
      * @param str 字符串
      * @return String
      */
-    public static String trimToNull(@Nullable String str) {
+    public static String trimToNull(String str) {
         return isEmpty(str) ? null : str.trim();
+    }
+    
+    /**
+     * 过滤空字符串 返回空字符串
+     * @param str 字符串
+     * @return String
+     */
+    public static String trimToEmpty(String str) {
+        return isEmpty(str) ? "" : str.trim();
     }
 
     /**
