@@ -19,6 +19,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
+import com.oner365.common.constants.PublicConstants;
 import com.oner365.controller.BaseController;
 import com.oner365.util.Base64Utils;
 import com.oner365.util.DataUtils;
@@ -41,10 +42,10 @@ public class RabbitmqController extends BaseController {
 
     @Value("${spring.rabbitmq.host}")
     private String host;
-    
+
     @Value("${spring.rabbitmq.username}")
     private String username;
-    
+
     @Value("${spring.rabbitmq.password}")
     private String password;
 
@@ -56,28 +57,9 @@ public class RabbitmqController extends BaseController {
     @GetMapping("/index")
     @ApiOperation("首页")
     public JSONObject index() {
-        String uri = "/api/overview";
-        Mono<JSONObject> mono = getWebClient().get().uri(uri).header(HttpHeaders.AUTHORIZATION, getAuthorization()).retrieve()
-                .bodyToMono(JSONObject.class);
-        return mono.block();
-    }
-    
-    private WebClient getWebClient() {
-        String url = "http://" + host + ":15672";
-        ClientHttpConnector httpConnector = new ReactorClientHttpConnector();
-        return WebClient.builder().clientConnector(httpConnector).baseUrl(url).build();
+        return request("/api/overview");
     }
 
-    private String getUrl(String paramName, String name, int pageIndex, int pageSize) {
-        return "/api/" + paramName + "?page=" + pageIndex + "&page_size=" + pageSize + "&name="
-                + DataUtils.trimToEmpty(name) + "&use_regex=false&pagination=true";
-    }
-    
-    private String getAuthorization() {
-        String auth = username + ":" + password;
-        return "Basic " + Base64Utils.encodeBase64String(auth.getBytes());
-    }
-    
     /**
      * 获取队列列表
      * 
@@ -94,7 +76,7 @@ public class RabbitmqController extends BaseController {
         String url = getUrl(type, name, pageIndex, pageSize);
         return request(url);
     }
-    
+
     /**
      * 删除
      * 
@@ -107,33 +89,45 @@ public class RabbitmqController extends BaseController {
     public JSONObject delete(@PathVariable("type") String type, @PathVariable("name") String name) {
         try {
             String vhost = "/";
-            // TODO 这里 '/' encode无效
-//            String uri = "/api/" + type + "/" + URLEncoder.encode(vhost, Charset.defaultCharset().name()) + "/" + name;
             JSONObject paramJson = new JSONObject();
             paramJson.put("vhost", vhost);
             paramJson.put("mode", "delete");
             paramJson.put("name", name);
-//            Mono<JSONObject> mono = getWebClient().method(HttpMethod.DELETE).uri(uri)
-//                    .header(HttpHeaders.AUTHORIZATION, getAuthorization()).body(BodyInserters.fromValue(paramJson)).retrieve()
-//                    .bodyToMono(JSONObject.class);
-//            
-//            return mono.block();
-            String url = "http://"+host+":15672/api/" + type + "/" + URLEncoder.encode(vhost, Charset.defaultCharset().name()) + "/" + name;
-            Map<String,Object> headers = Maps.newHashMap();
+
+            String url = getHost() + "/api/" + type + PublicConstants.DELIMITER
+                    + URLEncoder.encode(vhost, Charset.defaultCharset().name()) + PublicConstants.DELIMITER + name;
+            Map<String, Object> headers = Maps.newHashMap();
             headers.put(HttpHeaders.AUTHORIZATION, getAuthorization());
             String result = HttpClientUtils.httpDeleteRequest(url, headers, paramJson);
             return JSON.parseObject(result);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("Rabbitmq delete error:", e);
         }
         return null;
     }
     
-    
+    private WebClient getWebClient() {
+        ClientHttpConnector httpConnector = new ReactorClientHttpConnector();
+        return WebClient.builder().clientConnector(httpConnector).baseUrl(getHost()).build();
+    }
+
+    private String getHost() {
+        return "http://" + host + ":15672";
+    }
+
+    private String getUrl(String paramName, String name, int pageIndex, int pageSize) {
+        return "/api/" + paramName + "?page=" + pageIndex + "&page_size=" + pageSize + "&name="
+                + DataUtils.trimToEmpty(name) + "&use_regex=false&pagination=true";
+    }
+
+    private String getAuthorization() {
+        String auth = username + ":" + password;
+        return "Basic " + Base64Utils.encodeBase64String(auth.getBytes());
+    }
 
     private JSONObject request(String uri) {
-        Mono<JSONObject> mono = getWebClient().get().uri(uri).header(HttpHeaders.AUTHORIZATION, getAuthorization()).retrieve()
-                .bodyToMono(JSONObject.class);
+        Mono<JSONObject> mono = getWebClient().get().uri(uri).header(HttpHeaders.AUTHORIZATION, getAuthorization())
+                .retrieve().bodyToMono(JSONObject.class);
         return mono.block();
     }
 }

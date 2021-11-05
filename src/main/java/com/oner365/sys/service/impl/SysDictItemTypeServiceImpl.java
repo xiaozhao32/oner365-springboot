@@ -1,6 +1,7 @@
 package com.oner365.sys.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
 import com.oner365.common.cache.annotation.RedisCacheAble;
 import com.oner365.common.cache.annotation.RedisCachePut;
 import com.oner365.common.constants.PublicConstants;
@@ -147,7 +147,7 @@ public class SysDictItemTypeServiceImpl implements ISysDictItemTypeService {
         } catch (Exception e) {
             LOGGER.error("Error findListByCodes: ", e);
         }
-        return Lists.newArrayList();
+        return Collections.emptyList();
     }
 
     @Override

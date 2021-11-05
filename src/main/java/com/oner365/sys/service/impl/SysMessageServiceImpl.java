@@ -1,5 +1,6 @@
 package com.oner365.sys.service.impl;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,7 +12,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.google.common.collect.Lists;
 import com.oner365.common.cache.annotation.RedisCacheAble;
 import com.oner365.common.cache.annotation.RedisCachePut;
 import com.oner365.common.constants.PublicConstants;
@@ -64,7 +64,7 @@ public class SysMessageServiceImpl implements ISysMessageService {
         } catch (Exception e) {
             LOGGER.error("Error findList: ", e);
         }
-        return Lists.newArrayList();
+        return Collections.emptyList();
     }
 
     @Override

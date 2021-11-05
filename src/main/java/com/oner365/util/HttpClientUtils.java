@@ -54,7 +54,8 @@ import org.apache.http.util.EntityUtils;
 
 /***
  * HttpClient工具类
- *
+ * 
+ * @author liutao
  */
 public class HttpClientUtils {
 	
