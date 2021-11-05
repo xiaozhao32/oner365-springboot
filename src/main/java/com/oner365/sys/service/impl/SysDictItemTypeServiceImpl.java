@@ -104,7 +104,7 @@ public class SysDictItemTypeServiceImpl implements ISysDictItemTypeService {
         } catch (Exception e) {
             LOGGER.error("Error findList: ", e);
         }
-        return new ArrayList<>();
+        return Collections.emptyList();
     }
 
     @Override
