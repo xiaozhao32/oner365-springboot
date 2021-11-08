@@ -50,9 +50,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import com.oner365.common.constants.PublicConstants;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.oner365.common.constants.PublicConstants;
 
 /**
  * 功能：数据工具类
@@ -715,6 +715,9 @@ public class DataUtils {
      * @return MultipartFile
      */
     public static MultipartFile convertMultipartFile(File file) {
+        if (file == null) {
+            return null;
+        }
         FileItemFactory factory = new DiskFileItemFactory(16, null);
         FileItem item = factory.createItem(file.getName(), MediaType.TEXT_PLAIN_VALUE, true, file.getName());
         int bytesRead;
