@@ -150,6 +150,11 @@ logging:
 ACCESS_TOKEN_SECRET: test
 ACCESS_TOKEN_EXPIRY_MIN: 14400
 
+sequence:
+  snowflake:
+    datacenterId: 1
+    workerId: 1
+
 # 白名单
 ignore:
   whites:

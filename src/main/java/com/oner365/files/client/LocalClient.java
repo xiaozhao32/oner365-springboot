@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.oner365.common.enums.StorageEnum;
+import com.oner365.common.sequence.sequence.SnowflakeSequence;
 import com.oner365.files.entity.SysFileStorage;
 import com.oner365.files.service.IFileStorageService;
 import com.oner365.files.storage.IFileStorageClient;
@@ -37,11 +38,15 @@ public class LocalClient implements IFileStorageClient {
 
     @Autowired
     private IFileStorageService fileStorageService;
+    
+    @Autowired
+    private SnowflakeSequence snowflakeSequence;
 
     @Override
     public String uploadFile(MultipartFile file, String dictory) {
         try {
-            SysFileStorage entity = FileLocalUploadUtils.upload(file, getName(), fileWeb, filePath, dictory, file.getSize() + 1);
+            SysFileStorage entity = FileLocalUploadUtils.upload(file, getName(), snowflakeSequence.nextNo(),
+                    fileWeb, filePath, dictory, file.getSize() + 1);
             fileStorageService.save(entity);
             return entity.getFilePath();
         } catch (Exception e) {
@@ -54,8 +59,8 @@ public class LocalClient implements IFileStorageClient {
     public String uploadFile(File file, String dictory) {
         try {
             MultipartFile multipartFile = DataUtils.convertMultipartFile(file);
-            SysFileStorage entity = FileLocalUploadUtils.upload(multipartFile, getName(), fileWeb, filePath, dictory,
-                    file.length() + 1);
+            SysFileStorage entity = FileLocalUploadUtils.upload(multipartFile, getName(), snowflakeSequence.nextNo(),
+                    fileWeb, filePath, dictory, file.length() + 1);
             fileStorageService.save(entity);
             return entity.getFilePath();
         } catch (Exception e) {

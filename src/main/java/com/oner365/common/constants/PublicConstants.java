@@ -36,10 +36,6 @@ public class PublicConstants {
     /** 默认值 */
     public static final String DEFAULT_VALUE = "1";
     
-    /** 雪花算法机器id */
-    public static final long MACHINE_ID = 1L;
-    public static final long DATA_CENTER_ID = 1L;
-
     /** 缓存id */
     public static final String KEY_ID = "#id";
     /** 缓存键名称 */

@@ -18,22 +18,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.oner365.common.cache.GuavaCache;
 import com.oner365.common.cache.RedisCache;
 import com.oner365.common.constants.PublicConstants;
 import com.oner365.common.enums.ResultEnum;
+import com.oner365.common.sequence.sequence.RangeSequence;
+import com.oner365.common.sequence.sequence.SnowflakeSequence;
 import com.oner365.controller.BaseController;
 import com.oner365.datasource.util.DataSourceUtil;
 import com.oner365.util.DataUtils;
 import com.oner365.util.DateUtil;
-import com.oner365.util.SnowFlakeUtils;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
 /**
  * API 接口测试
@@ -52,6 +52,12 @@ public class ApiController extends BaseController {
 
     @Autowired
     private GuavaCache<Object> guavaCache;
+    
+    @Autowired
+    private SnowflakeSequence snowflakeSequence;
+    
+    @Autowired
+    private RangeSequence rangeSequence;
 
     /**
      * 测试分库分表
@@ -63,7 +69,7 @@ public class ApiController extends BaseController {
     @ApiOperation("测试分库分表")
     public List<Map<String, String>> testDataSource(@RequestParam Integer orderId, @RequestParam Integer userId) {
         String sql = "insert into t_order(id, order_id, user_id, status, create_time) " + "values('"
-                + new SnowFlakeUtils(PublicConstants.DATA_CENTER_ID, PublicConstants.MACHINE_ID).nextId() + "',"
+                + snowflakeSequence.nextNo() + "',"
                 + orderId + "," + userId + ",'1','" + DateUtil.getCurrentTime() + "')";
         List<Map<String, String>> result = new ArrayList<>();
         try (Connection con = shardingDataSource.getConnection()) {
@@ -81,6 +87,11 @@ public class ApiController extends BaseController {
     @GetMapping("/testGuavaCache")
     @ApiOperation("测试Guava Cache")
     public String testGuavaCache() {
+        String sequnece1 = snowflakeSequence.nextNo();
+        LOGGER.info("sequence1: {}", sequnece1);
+        String sequnece2 = rangeSequence.nextNo();
+        LOGGER.info("sequence2: {}", sequnece2);
+        
         String key = "a1";
         if (DataUtils.isEmpty(guavaCache.getCache(key))) {
             guavaCache.setCache(key, Optional.of(111));

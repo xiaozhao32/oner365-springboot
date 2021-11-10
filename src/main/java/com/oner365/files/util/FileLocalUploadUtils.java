@@ -13,7 +13,6 @@ import com.oner365.common.constants.PublicConstants;
 import com.oner365.common.enums.StorageEnum;
 import com.oner365.files.entity.SysFileStorage;
 import com.oner365.util.DataUtils;
-import com.oner365.util.SnowFlakeUtils;
 
 /**
  * 本地文件上传
@@ -40,7 +39,7 @@ public class FileLocalUploadUtils {
      * @return SysFileStorage
      */
     public static SysFileStorage upload(MultipartFile file, StorageEnum storageEnum,
-            String fileWeb, String filePath, String uploadDir, long maxLength) {
+            String randomName, String fileWeb, String filePath, String uploadDir, long maxLength) {
         try {
             long fileNameLength = file.getSize();
             if (fileNameLength > maxLength) {
@@ -48,7 +47,7 @@ public class FileLocalUploadUtils {
                 return null;
             }
 
-            String fileName = extractFilename(file);
+            String fileName = extractFilename(file, randomName);
             File desc = getAbsoluteFile(filePath, uploadDir, fileName);
             file.transferTo(desc);
             // http url
@@ -59,9 +58,9 @@ public class FileLocalUploadUtils {
         return null;
     }
 
-    private static String extractFilename(MultipartFile file) {
+    private static String extractFilename(MultipartFile file, String randomName) {
         String extension = DataUtils.getExtension(file.getOriginalFilename());
-        return new SnowFlakeUtils(PublicConstants.DATA_CENTER_ID, PublicConstants.MACHINE_ID).nextId() + "." + extension;
+        return randomName + "." + extension;
     }
 
     private static File getAbsoluteFile(String filePath, String uploadDir, String fileName) {

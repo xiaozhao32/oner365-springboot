@@ -48,6 +48,11 @@ public class SwaggerConfig implements WebMvcConfigurer {
     }
     
     @Bean
+    public Docket testApi() {
+        return buildApi("Api(对外接口)", "com.oner365.api");
+    }
+    
+    @Bean
     public Docket systemApi() {
     	return buildApi("System(系统管理)", "com.oner365.sys");
     }
