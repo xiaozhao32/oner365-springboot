@@ -131,5 +131,15 @@
     "name": "file.local.web",
     "type": "java.lang.String",
     "description": "A description for 'file.local.web'."
+  },
+  {
+    "name": "sequence.snowflake.datacenter-id",
+    "type": "java.lang.String",
+    "description": "A description for 'sequence.snowflake.datacenter-id'."
+  },
+  {
+    "name": "sequence.snowflake.workerId",
+    "type": "java.lang.String",
+    "description": "A description for 'sequence.snowflake.workerId'."
   }
 ]}
