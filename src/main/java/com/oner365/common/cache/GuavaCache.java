@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 import com.google.common.cache.RemovalNotification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
 import com.google.common.base.Strings;
@@ -49,12 +50,12 @@ public class GuavaCache<T> {
             .removalListener(RemovalNotification::getCause)
             .build(new CacheLoader<String, Optional<T>>() {
                 @Override
-                public Optional<T> load(String key) {
+                public Optional<T> load(@NonNull String key) {
                     LOGGER.debug("load: {}", key);
                     return Optional.empty();
                 }
                 @Override
-                public ListenableFuture<Optional<T>> reload(String key, Optional<T> value) {
+                public ListenableFuture<Optional<T>> reload(@NonNull String key, @NonNull Optional<T> value) {
                     LOGGER.debug("reload: {}, value: {}", key, value);
                     return Futures.immediateFuture(load(key));
                 }
