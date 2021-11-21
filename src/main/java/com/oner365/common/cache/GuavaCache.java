@@ -4,18 +4,18 @@ import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
-import com.google.common.cache.RemovalNotification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
-import com.google.common.base.Strings;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.cache.RemovalNotification;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.oner365.util.DataUtils;
 
 /**
  * Guava cache
@@ -74,7 +74,7 @@ public class GuavaCache<T> {
      * @return Optional<T>
      */
     public Optional<T> getCache(String key) {
-      if (Strings.isNullOrEmpty(key)) {
+      if (DataUtils.isEmpty(key)) {
       return Optional.empty();
     }
         try {
@@ -91,7 +91,7 @@ public class GuavaCache<T> {
      * @param value 值
      */
     public void setCache(String key, Optional<T> value) {
-      if (!Strings.isNullOrEmpty(key)) {
+      if (!DataUtils.isEmpty(key)) {
           cache.put(key, value);
       }
     }
@@ -101,7 +101,7 @@ public class GuavaCache<T> {
      * @param key 键
      */
     public void removeCache(String key) {
-      if (!Strings.isNullOrEmpty(key)) {
+      if (!DataUtils.isEmpty(key)) {
           cache.invalidate(key);
       }
     }

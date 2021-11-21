@@ -56,7 +56,7 @@ public class JwtUtils {
     public static String generateToken(String username, int days, String secret) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("sub", username);
-        claims.put("created", new Date());
+        claims.put("created", DateUtil.getDate());
         return Jwts.builder().setClaims(claims).setExpiration(DateUtil.getDateAfter(days))
                 .signWith(SignatureAlgorithm.HS512, secret).compact();
     }
@@ -72,7 +72,7 @@ public class JwtUtils {
     public static String generateToken(String username, Date expired, String secret) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("sub", username);
-        claims.put("created", new Date());
+        claims.put("created", DateUtil.getDate());
         return Jwts.builder().setClaims(claims).setExpiration(expired).signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
     }
@@ -137,7 +137,7 @@ public class JwtUtils {
     private static Boolean isTokenExpired(String token, String secret) {
         final Date expiration = getExpirationDateFromToken(token, secret);
         if (expiration != null) {
-            return expiration.before(new Date());
+            return expiration.before(DateUtil.getDate());
         }
         return Boolean.TRUE;
     }

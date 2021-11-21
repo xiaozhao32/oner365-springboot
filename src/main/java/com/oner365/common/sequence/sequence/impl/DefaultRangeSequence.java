@@ -1,15 +1,14 @@
 package com.oner365.common.sequence.sequence.impl;
 
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 import com.oner365.common.sequence.exception.SeqException;
 import com.oner365.common.sequence.range.BizName;
 import com.oner365.common.sequence.range.SeqRange;
 import com.oner365.common.sequence.range.SeqRangeMgr;
 import com.oner365.common.sequence.sequence.RangeSequence;
 import com.oner365.util.DateUtil;
-
-import java.util.Date;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * sequence default range
@@ -81,7 +80,7 @@ public class DefaultRangeSequence implements RangeSequence {
     @Override
     public String nextNo() throws SeqException {
         return String.format("%s%05d",
-                DateUtil.dateToString(new Date(), DateUtil.DATE_HH + DateUtil.DATE_MM + DateUtil.DATE_SS), nextValue());
+                DateUtil.dateToString(DateUtil.getDate(), DateUtil.DATE_HH + DateUtil.DATE_MM + DateUtil.DATE_SS), nextValue());
     }
 
     @Override
