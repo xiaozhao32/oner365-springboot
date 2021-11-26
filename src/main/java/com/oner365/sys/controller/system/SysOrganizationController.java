@@ -30,6 +30,7 @@ import com.oner365.sys.vo.check.CheckOrgCodeVo;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 机构管理
@@ -53,7 +54,7 @@ public class SysOrganizationController extends BaseController {
     @PutMapping("/save")
     @ApiOperation("保存")
     public ResponseResult<SysOrganization> save(@RequestBody SysOrganizationVo sysOrganizationVo,
-            @CurrentUser AuthUser authUser) {
+    		@ApiIgnore @CurrentUser AuthUser authUser) {
         if (sysOrganizationVo != null) {
             SysOrganization sysOrganization = sysOrganizationVo.toObject();
             if (sysOrganization != null) {
@@ -175,7 +176,7 @@ public class SysOrganizationController extends BaseController {
      */
     @PostMapping("/treeselect")
     @ApiOperation("获取树型列表")
-    public List<TreeSelect> treeselect(@RequestBody SysOrganizationVo sysOrganizationVo, @CurrentUser AuthUser authUser) {
+    public List<TreeSelect> treeselect(@RequestBody SysOrganizationVo sysOrganizationVo, @ApiIgnore @CurrentUser AuthUser authUser) {
         List<SysOrganization> list = sysOrgService.selectList(sysOrganizationVo.toObject());
         return sysOrgService.buildTreeSelect(list);
     }
@@ -191,7 +192,7 @@ public class SysOrganizationController extends BaseController {
     @PostMapping("/userTreeselect/{userId}")
     @ApiOperation("获取用户权限")
     public Map<String, Object> userTreeselect(@RequestBody SysOrganizationVo sysOrganizationVo, @PathVariable("userId") String userId,
-            @CurrentUser AuthUser authUser) {
+    		@ApiIgnore @CurrentUser AuthUser authUser) {
         SysOrganization sysOrganization = sysOrganizationVo.toObject();
 
         List<SysOrganization> list = sysOrgService.selectList(sysOrganization);

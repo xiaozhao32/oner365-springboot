@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.common.collect.Maps;
 import com.oner365.common.auth.AuthUser;
 import com.oner365.common.auth.annotation.CurrentUser;
 import com.oner365.common.constants.PublicConstants;
@@ -30,7 +31,8 @@ import com.oner365.generator.entity.GenTableColumn;
 import com.oner365.generator.service.IGenTableColumnService;
 import com.oner365.generator.service.IGenTableService;
 import com.oner365.util.ConvertString;
-import com.google.common.collect.Maps;
+
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 代码生成 操作处理
@@ -100,7 +102,7 @@ public class GeneratorController extends BaseController {
      * 导入表结构（保存）
      */
     @PostMapping("/importTable")
-    public Map<String, Object> importTableSave(@CurrentUser AuthUser authUser, String tables) {
+    public Map<String, Object> importTableSave(@ApiIgnore @CurrentUser AuthUser authUser, String tables) {
         String operName = authUser == null ? null : authUser.getUserName();
         String[] tableNames = ConvertString.toStrArray(tables);
         // 查询表信息

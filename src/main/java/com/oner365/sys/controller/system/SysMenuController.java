@@ -31,6 +31,7 @@ import com.oner365.sys.vo.SysMenuVo;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 系统菜单
@@ -136,7 +137,7 @@ public class SysMenuController extends BaseController {
     @PostMapping("/treeselect")
     @ApiOperation("获取树型列表")
     public List<TreeSelect> treeselect(@RequestBody SysMenuVo sysMenuVo,
-            @CurrentUser AuthUser authUser) {
+    		@ApiIgnore @CurrentUser AuthUser authUser) {
         SysMenu menu = sysMenuVo.toObject();
         List<SysMenu> menus;
         if (SysConstants.DEFAULT_ROLE.equals(authUser.getIsAdmin())) {
@@ -159,7 +160,7 @@ public class SysMenuController extends BaseController {
     @PostMapping("/roleMenuTreeselect/{roleId}")
     @ApiOperation("获取权限")
     public Map<String, Object> roleMenuTreeselect(@RequestBody SysMenuVo sysMenuVo,
-            @PathVariable("roleId") String roleId, @CurrentUser AuthUser authUser) {
+            @PathVariable("roleId") String roleId, @ApiIgnore @CurrentUser AuthUser authUser) {
         SysMenu menu = sysMenuVo.toObject();
         List<SysMenu> menus;
         if (SysConstants.DEFAULT_ROLE.equals(authUser.getIsAdmin())) {

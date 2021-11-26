@@ -27,6 +27,7 @@ import com.oner365.monitor.vo.SysTaskVo;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 调度任务信息操作处理
@@ -87,7 +88,7 @@ public class SysTaskController extends BaseController {
      */
     @PostMapping
     @ApiOperation("新增定时任务")
-    public ResponseResult<Integer> add(@RequestBody SysTaskVo sysTaskVo, @CurrentUser AuthUser authUser)
+    public ResponseResult<Integer> add(@RequestBody SysTaskVo sysTaskVo, @ApiIgnore @CurrentUser AuthUser authUser)
             throws SchedulerException, TaskException {
         SysTask sysTask = sysTaskVo.toObject();
 
@@ -110,7 +111,7 @@ public class SysTaskController extends BaseController {
      */
     @PutMapping
     @ApiOperation("修改定时任务")
-    public ResponseResult<Integer> edit(@RequestBody SysTaskVo sysTaskVo, @CurrentUser AuthUser authUser)
+    public ResponseResult<Integer> edit(@RequestBody SysTaskVo sysTaskVo, @ApiIgnore @CurrentUser AuthUser authUser)
             throws SchedulerException, TaskException {
         SysTask sysTask = sysTaskVo.toObject();
 

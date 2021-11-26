@@ -135,7 +135,7 @@ public class SysUserController extends BaseController {
      */
     @GetMapping("/profile")
     @ApiOperation("个人信息")
-    public SysUser profile(@CurrentUser AuthUser authUser) {
+    public SysUser profile(@ApiIgnore @CurrentUser AuthUser authUser) {
         return sysUserService.getById(authUser.getId());
     }
 
@@ -148,7 +148,7 @@ public class SysUserController extends BaseController {
      */
     @PostMapping("/avatar")
     @ApiOperation("上传头像")
-    public String avatar(@CurrentUser AuthUser authUser, @RequestParam("avatarfile") MultipartFile file) {
+    public String avatar(@ApiIgnore @CurrentUser AuthUser authUser, @RequestParam("avatarfile") MultipartFile file) {
         if (!file.isEmpty()) {
             String fileUrl = fileStorageClient.uploadFile(file, "avatar");
 
@@ -169,7 +169,7 @@ public class SysUserController extends BaseController {
      */
     @PostMapping("/updateUserProfile")
     @ApiOperation("更新个人信息")
-    public SysUser updateUserProfile(@RequestBody SysUserVo sysUserVo, @CurrentUser AuthUser authUser) {
+    public SysUser updateUserProfile(@RequestBody SysUserVo sysUserVo, @ApiIgnore @CurrentUser AuthUser authUser) {
         SysUser vo = sysUserVo.toObject();
         if (vo != null) {
             SysUser sysUser = sysUserService.getById(authUser.getId());
@@ -238,7 +238,7 @@ public class SysUserController extends BaseController {
      */
     @PostMapping("/editPassword")
     @ApiOperation("修改密码")
-    public ResponseResult<Integer> editPassword(@CurrentUser AuthUser authUser, @RequestBody ModifyPasswordVo modifyPasswordVo) {
+    public ResponseResult<Integer> editPassword(@ApiIgnore @CurrentUser AuthUser authUser, @RequestBody ModifyPasswordVo modifyPasswordVo) {
         if (modifyPasswordVo != null) {
             String oldPassword = DigestUtils.md5Hex(modifyPasswordVo.getOldPassword()).toUpperCase();
             SysUser sysUser = sysUserService.getById(authUser.getId());

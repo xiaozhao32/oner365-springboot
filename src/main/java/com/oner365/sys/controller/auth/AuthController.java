@@ -38,6 +38,7 @@ import com.oner365.util.VerifyCodeUtils;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 认证登录接口
@@ -107,7 +108,7 @@ public class AuthController extends BaseController {
      */
     @PostMapping("/logout")
     @ApiOperation("退出登录")
-    public String logout(@CurrentUser AuthUser authUser) {
+    public String logout(@ApiIgnore @CurrentUser AuthUser authUser) {
         String key = CACHE_LOGIN_NAME + ":" + authUser.getUserName();
         redisCache.deleteObject(key);
         return ResultEnum.SUCCESS.getName();
@@ -121,7 +122,7 @@ public class AuthController extends BaseController {
      */
     @GetMapping("/menu/{menuType}")
     @ApiOperation("获取菜单权限")
-    public JSONArray findMenuByRoles(@CurrentUser AuthUser user, @PathVariable String menuType) {
+    public JSONArray findMenuByRoles(@ApiIgnore @CurrentUser AuthUser user, @PathVariable String menuType) {
         try {
             if (user != null && !user.getRoleList().isEmpty()) {
                 return sysRoleService.findMenuByRoles(user.getRoleList(), menuType);
@@ -170,7 +171,7 @@ public class AuthController extends BaseController {
      */
     @GetMapping("/menu/operation/{menuId}")
     @ApiOperation("获取菜单操作权限")
-    public List<Map<String, String>> findMenuOperByRoles(@CurrentUser AuthUser user, @PathVariable String menuId) {
+    public List<Map<String, String>> findMenuOperByRoles(@ApiIgnore @CurrentUser AuthUser user, @PathVariable String menuId) {
         try {
             if (user != null && !user.getRoleList().isEmpty()) {
                 return sysRoleService.findMenuOperByRoles(user.getRoleList(), menuId);
