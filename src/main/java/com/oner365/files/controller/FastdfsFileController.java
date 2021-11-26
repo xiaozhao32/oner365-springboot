@@ -1,5 +1,6 @@
 package com.oner365.files.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -42,6 +43,7 @@ import com.oner365.util.DateUtil;
 import ch.ethz.ssh2.SFTPv3DirectoryEntry;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 /**
  * 文件上传
@@ -120,7 +122,8 @@ public class FastdfsFileController extends BaseController {
 	 */
     @PostMapping("/uploadMultipartFile")
     @ApiOperation("文件上传 - MultipartFile")
-    public ResponseResult<String> uploadMultipartFile(@RequestBody MultipartFile file, String dictory) {
+    public ResponseResult<String> uploadMultipartFile(@RequestBody MultipartFile file,
+            @ApiParam(name = "dictory", value = "上传目录") @RequestParam(name = "dictory", required = false) String dictory){
     	String targetDictory = null;
     	if (DataUtils.isEmpty(dictory)) {
     		targetDictory = DateUtil.getCurrentDate();
@@ -138,11 +141,13 @@ public class FastdfsFileController extends BaseController {
 	 */
     @PostMapping("/uploadFile")
     @ApiOperation("文件上传 - 参数")
-    public ResponseResult<String> uploadFile(@RequestParam("file") MultipartFile file, String dictory) {
-    	String targetDictory = null;
-    	if (DataUtils.isEmpty(dictory)) {
-    		targetDictory = DateUtil.getCurrentDate();
-    	}
+    public ResponseResult<String> uploadFile(
+            @ApiParam(name = "file", value = "文件") @RequestParam(name = "file", required = true) File file,
+            @ApiParam(name = "dictory", value = "上传目录") @RequestParam(name = "dictory", required = false) String dictory) {
+        String targetDictory = null;
+        if (DataUtils.isEmpty(dictory)) {
+            targetDictory = DateUtil.getCurrentDate();
+        }
         String url = fileStorageClient.uploadFile(file, targetDictory);
         return ResponseResult.success(url);
     }
