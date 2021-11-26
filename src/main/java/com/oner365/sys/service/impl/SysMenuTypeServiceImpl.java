@@ -93,7 +93,7 @@ public class SysMenuTypeServiceImpl implements ISysMenuTypeService {
     })
     public SysMenuType save(SysMenuType menuType) {
         if (DataUtils.isEmpty(menuType.getId())) {
-            menuType.setStatus(StatusEnum.YES.getOrdinal());
+            menuType.setStatus(StatusEnum.YES.getCode());
             menuType.setCreateTime(LocalDateTime.now());
         } else {
             menuType.setUpdateTime(LocalDateTime.now());
@@ -112,9 +112,9 @@ public class SysMenuTypeServiceImpl implements ISysMenuTypeService {
         if (entity != null && entity.getId() != null) {
             entity.setStatus(status);
             save(entity);
-            return ResultEnum.SUCCESS.getOrdinal();
+            return ResultEnum.SUCCESS.getCode();
         }
-        return ResultEnum.ERROR.getOrdinal();
+        return ResultEnum.ERROR.getCode();
     }
 
     @Override
@@ -129,7 +129,7 @@ public class SysMenuTypeServiceImpl implements ISysMenuTypeService {
         } catch (Exception e) {
             LOGGER.error("Error checkCode:", e);
         }
-        return ExistsEnum.NO.getOrdinal();
+        return ExistsEnum.NO.getCode();
     }
 
     @Override
@@ -146,7 +146,7 @@ public class SysMenuTypeServiceImpl implements ISysMenuTypeService {
     })
     public int deleteById(String id) {
         dao.deleteById(id);
-        return ResultEnum.SUCCESS.getOrdinal();
+        return ResultEnum.SUCCESS.getCode();
     }
 
 }

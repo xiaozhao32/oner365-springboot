@@ -41,7 +41,7 @@ public class ScheduleTaskServiceImpl implements IScheduleTaskService {
     }
 
     private void taskExecute(String concurrent, String taskId, JSONObject param) {
-        String status = StatusEnum.YES.getOrdinal();
+        String status = StatusEnum.YES.getCode();
         SysTask sysTask = sysTaskService.selectTaskById(taskId);
         if (sysTask != null) {
             if (ScheduleConstants.SCHEDULE_CONCURRENT.equals(concurrent)) {
@@ -49,7 +49,7 @@ public class ScheduleTaskServiceImpl implements IScheduleTaskService {
                 status = execute(taskId, param, sysTask);
 
             } else {
-                if (!StatusEnum.NO.getOrdinal().equals(sysTask.getExecuteStatus())) {
+                if (!StatusEnum.NO.getCode().equals(sysTask.getExecuteStatus())) {
                     sysTask.getInvokeParam();
                     status = execute(taskId, param, sysTask);
                 }
@@ -62,17 +62,17 @@ public class ScheduleTaskServiceImpl implements IScheduleTaskService {
     private String execute(String taskId, JSONObject param, SysTask sysTask) {
         try {
             LOGGER.info("taskId:{}", taskId);
-            sysTask.setExecuteStatus(StatusEnum.NO.getOrdinal());
+            sysTask.setExecuteStatus(StatusEnum.NO.getCode());
             sysTaskService.save(sysTask);
             int day = param.getInteger("day");
             String time = DateUtil.nextDay(day - 2 * day, DateUtil.FULL_TIME_FORMAT);
             String status = sysTaskLogService.deleteTaskLogByCreateTime(time);
-            sysTask.setExecuteStatus(StatusEnum.YES.getOrdinal());
+            sysTask.setExecuteStatus(StatusEnum.YES.getCode());
             sysTaskService.save(sysTask);
             return status;
         } catch (Exception e) {
             LOGGER.error("update sysTask Exception:", e);
-            return StatusEnum.NO.getOrdinal();
+            return StatusEnum.NO.getCode();
         }
 
     }
@@ -83,7 +83,7 @@ public class ScheduleTaskServiceImpl implements IScheduleTaskService {
         SysTaskLog log = new SysTaskLog();
         log.setExecuteIp(DataUtils.getLocalhost());
         log.setExecuteServerName(ScheduleConstants.SCHEDULE_SERVER_NAME);
-        log.setStatus(StatusEnum.YES.getOrdinal());
+        log.setStatus(StatusEnum.YES.getCode());
         log.setTaskMessage("执行时间：" + (System.currentTimeMillis() - time) + "毫秒");
         log.setTaskGroup(sysTask.getTaskGroup());
         log.setTaskName(sysTask.getTaskName());

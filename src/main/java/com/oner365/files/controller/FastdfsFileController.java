@@ -218,7 +218,7 @@ public class FastdfsFileController extends BaseController {
     @ApiOperation("获取文件存储方式")
     public String getStorageName() {
         StorageEnum result = fileStorageClient.getName();
-        return result.getOrdinal();
+        return result.getCode();
     }
 
 }

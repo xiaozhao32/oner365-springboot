@@ -74,7 +74,7 @@ public class RabbitmqController extends BaseController {
     @ApiOperation("获取队列列表")
     public JSONObject list(@PathVariable("type") RabbitmqTypeEnum type, @RequestParam("pageIndex") int pageIndex,
             @RequestParam("pageSize") int pageSize, String name) {
-        String url = getUrl(type.getOrdinal(), name, pageIndex, pageSize);
+        String url = getUrl(type.getCode(), name, pageIndex, pageSize);
         return request(url);
     }
 

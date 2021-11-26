@@ -95,7 +95,7 @@ public class SysMenuTypeController extends BaseController {
     public List<SysMenuType> findAll() {
         QueryCriteriaBean data = new QueryCriteriaBean();
         List<AttributeBean> whereList = new ArrayList<>();
-        AttributeBean attribute = new AttributeBean(SysConstants.STATUS, StatusEnum.YES.getOrdinal());
+        AttributeBean attribute = new AttributeBean(SysConstants.STATUS, StatusEnum.YES.getCode());
         whereList.add(attribute);
         data.setWhereList(whereList);
         return menuTypeService.findList(data);
@@ -126,7 +126,7 @@ public class SysMenuTypeController extends BaseController {
         if (checkCodeVo != null) {
             return menuTypeService.checkCode(checkCodeVo.getId(), checkCodeVo.getCode());
         }
-        return Long.valueOf(ResultEnum.ERROR.getOrdinal());
+        return Long.valueOf(ResultEnum.ERROR.getCode());
     }
 
     /**

@@ -106,7 +106,7 @@ public class SysRoleController extends BaseController {
         if (checkRoleNameVo != null) {
             return roleService.checkRoleName(checkRoleNameVo.getId(), checkRoleNameVo.getRoleName());
         }
-        return Long.valueOf(ResultEnum.ERROR.getOrdinal());
+        return Long.valueOf(ResultEnum.ERROR.getCode());
     }
 
     /**

@@ -118,7 +118,7 @@ public class SysUserController extends BaseController {
 
         QueryCriteriaBean data = new QueryCriteriaBean();
         List<AttributeBean> whereList = new ArrayList<>();
-        AttributeBean attribute = new AttributeBean(SysConstants.STATUS, StatusEnum.YES.getOrdinal());
+        AttributeBean attribute = new AttributeBean(SysConstants.STATUS, StatusEnum.YES.getCode());
         whereList.add(attribute);
         data.setWhereList(whereList);
         result.put("roleList", sysRoleService.findList(data));
@@ -211,7 +211,7 @@ public class SysUserController extends BaseController {
         if (checkUserNameVo != null) {
             return sysUserService.checkUserName(checkUserNameVo.getId(), checkUserNameVo.getUserName());
         }
-        return Long.valueOf(ResultEnum.ERROR.getOrdinal());
+        return Long.valueOf(ResultEnum.ERROR.getCode());
     }
 
     /**
@@ -226,7 +226,7 @@ public class SysUserController extends BaseController {
         if (resetPasswordVo != null) {
             return sysUserService.editPassword(resetPasswordVo.getUserId(), resetPasswordVo.getPassword());
         }
-        return ResultEnum.ERROR.getOrdinal();
+        return ResultEnum.ERROR.getCode();
     }
 
     /**

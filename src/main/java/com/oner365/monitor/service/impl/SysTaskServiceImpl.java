@@ -106,7 +106,7 @@ public class SysTaskServiceImpl implements ISysTaskService {
         task.setStatus(ScheduleConstants.Status.PAUSE.getValue());
         save(task);
         scheduler.pauseJob(ScheduleUtils.getJobKey(taskId, taskGroup));
-        return ResultEnum.SUCCESS.getOrdinal();
+        return ResultEnum.SUCCESS.getCode();
     }
 
     /**
@@ -122,7 +122,7 @@ public class SysTaskServiceImpl implements ISysTaskService {
         task.setStatus(ScheduleConstants.Status.NORMAL.getValue());
         save(task);
         scheduler.resumeJob(ScheduleUtils.getJobKey(taskId, taskGroup));
-        return ResultEnum.SUCCESS.getOrdinal();
+        return ResultEnum.SUCCESS.getCode();
     }
 
     /**
@@ -137,7 +137,7 @@ public class SysTaskServiceImpl implements ISysTaskService {
         String taskGroup = task.getTaskGroup();
         jpaDao.deleteById(id);
         scheduler.deleteJob(ScheduleUtils.getJobKey(id, taskGroup));
-        return ResultEnum.SUCCESS.getOrdinal();
+        return ResultEnum.SUCCESS.getCode();
     }
 
     /**
@@ -208,7 +208,7 @@ public class SysTaskServiceImpl implements ISysTaskService {
         if (isAdd) {
             ScheduleUtils.createScheduleJob(scheduler, task);
         }
-        return ResultEnum.SUCCESS.getOrdinal();
+        return ResultEnum.SUCCESS.getCode();
     }
 
     /**
@@ -222,7 +222,7 @@ public class SysTaskServiceImpl implements ISysTaskService {
         SysTask properties = selectTaskById(task.getId());
         save(task);
         updateSchedulerTask(task, properties.getTaskGroup());
-        return ResultEnum.SUCCESS.getOrdinal();
+        return ResultEnum.SUCCESS.getCode();
     }
 
     /**

@@ -26,26 +26,47 @@ public class SysDictItem implements Serializable{
      */
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 主键
+     */
     @Id
     @GeneratedValue(generator = "generator")
     @GenericGenerator(name = "generator", strategy = "uuid")
     private String id;
 
+    /**
+     * 类型编号
+     */
     @Column(name = "dict_item_type_id", nullable = false, length = 32)
     private String typeId;
 
+    /**
+     * 字典编码
+     */
     @Column(name = "dict_item_code", nullable = false, length = 32)
     private String itemCode;
 
+    /**
+     * 字典名称
+     */
     @Column(name = "dict_item_name", length = 32)
     private String itemName;
 
+    /**
+     * 字典排序
+     */
     @Column(name = "dict_item_order", length = 10)
     private Integer itemOrder;
 
+    /**
+     * 状态
+     */
     @Column(name = "status", nullable = false, length = 8)
     private String status;
 
+    /**
+     * 父级id
+     */
     @Column(name = "parent_id", length = 64)
     private String parentId;
 

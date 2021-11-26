@@ -93,7 +93,7 @@ public class SampleGeneController extends BaseController {
     @DeleteMapping("/delete")
     @ApiOperation("删除")
     public Integer delete(@RequestBody String... ids) {
-        Integer result = ResultEnum.SUCCESS.getOrdinal();
+        Integer result = ResultEnum.SUCCESS.getCode();
         for (String id : ids) {
             service.deleteById(id);
         }

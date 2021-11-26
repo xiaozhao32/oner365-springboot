@@ -86,7 +86,7 @@ public class SysTaskLogServiceImpl implements ISysTaskLogService {
      */
     @Override
     public int deleteTaskLogByIds(String[] ids) {
-        int result = ResultEnum.ERROR.getOrdinal();
+        int result = ResultEnum.ERROR.getCode();
         for (String id : ids) {
             result = deleteTaskLogById(id);
         }
@@ -101,7 +101,7 @@ public class SysTaskLogServiceImpl implements ISysTaskLogService {
     @Override
     public int deleteTaskLogById(String id) {
         dao.deleteById(id);
-        return ResultEnum.SUCCESS.getOrdinal();
+        return ResultEnum.SUCCESS.getCode();
     }
 
     /**
@@ -116,10 +116,10 @@ public class SysTaskLogServiceImpl implements ISysTaskLogService {
     public String deleteTaskLogByCreateTime(String time) {
         try{
             dao.deleteTaskLogByCreateTime(time);
-            return StatusEnum.YES.getOrdinal();
+            return StatusEnum.YES.getCode();
         }catch(Exception e){
             LOGGER.error("Error deleteTaskLogByCreateTime: ", e);
-            return StatusEnum.NO.getOrdinal();
+            return StatusEnum.NO.getCode();
         }
         
     }

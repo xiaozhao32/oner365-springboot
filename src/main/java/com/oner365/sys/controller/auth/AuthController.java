@@ -98,7 +98,7 @@ public class AuthController extends BaseController {
         if (result != null) {
             return ResponseData.success(result);
         }
-        return new ResponseData<>(ResultEnum.ERROR.getOrdinal(), ErrorInfoEnum.USER_NAME_NOT_NULL.getName());
+        return new ResponseData<>(ResultEnum.ERROR.getCode(), ErrorInfoEnum.USER_NAME_NOT_NULL.getName());
     }
 
     /**

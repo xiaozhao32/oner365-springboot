@@ -11,10 +11,10 @@ import java.util.Optional;
  */
 public enum StatusEnum implements Serializable {
 
-    /** 有效 */
-    YES("1", "有效"),
     /** 无效 */
-    NO("0", "无效");
+    NO("0", "无效"),
+    /** 有效 */
+    YES("1", "有效");
 
     /**
      * 编码
@@ -42,7 +42,7 @@ public enum StatusEnum implements Serializable {
      *
      * @return code
      */
-    public String getOrdinal() {
+    public String getCode() {
         return code;
     }
 
@@ -63,7 +63,7 @@ public enum StatusEnum implements Serializable {
      */
     public static StatusEnum getCode(String code) {
         Optional<StatusEnum> result = Arrays.stream(StatusEnum.values())
-                .filter(e -> e.getOrdinal().equals(code))
+                .filter(e -> e.getCode().equals(code))
                 .findFirst();
         return result.orElse(null);
     }

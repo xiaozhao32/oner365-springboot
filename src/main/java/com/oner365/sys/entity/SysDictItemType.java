@@ -23,21 +23,39 @@ public class SysDictItemType implements Serializable{
      */
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 主键
+     */
     @Id
     private String id;
 
+    /**
+     * 类型名称
+     */
     @Column(name = "dict_item_type_name", length = 32)
     private String typeName;
 
+    /**
+     * 类型编码
+     */
     @Column(name = "dict_type_code", nullable = false, length = 32)
     private String typeCode;
 
+    /**
+     * 类型描述
+     */
     @Column(name = "dict_item_type_des", length = 32)
     private String typeDes;
 
+    /**
+     * 排序
+     */
     @Column(name = "dict_item_type_order", length = 10)
     private Integer typeOrder;
 
+    /**
+     * 状态
+     */
     @Column(name = "status", nullable = false, length = 8)
     private String status;
 

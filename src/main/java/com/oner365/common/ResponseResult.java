@@ -32,7 +32,7 @@ public class ResponseResult<T> implements Serializable {
      */
     public static <T> ResponseResult<T> success(T result) {
         ResponseResult<T> response = new ResponseResult<>();
-        response.setCode(ResultEnum.SUCCESS.getOrdinal());
+        response.setCode(ResultEnum.SUCCESS.getCode());
         response.setMsg(result);
         return response;
     }
@@ -61,7 +61,7 @@ public class ResponseResult<T> implements Serializable {
     @SuppressWarnings("unchecked")
     public static <T> ResponseResult<T> error(String message) {
         ResponseResult<T> response = new ResponseResult<>();
-        response.setCode(ResultEnum.ERROR.getOrdinal());
+        response.setCode(ResultEnum.ERROR.getCode());
         response.setMsg((T) message);
         return response;
     }
