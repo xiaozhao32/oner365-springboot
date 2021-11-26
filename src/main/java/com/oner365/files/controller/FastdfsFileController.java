@@ -1,6 +1,5 @@
 package com.oner365.files.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -23,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -142,7 +142,7 @@ public class FastdfsFileController extends BaseController {
     @PostMapping("/uploadFile")
     @ApiOperation("文件上传 - 参数")
     public ResponseResult<String> uploadFile(
-            @ApiParam(name = "file", value = "文件") @RequestParam(name = "file", required = true) File file,
+            @ApiParam(name = "file", value = "文件") @RequestPart("file") MultipartFile file,
             @ApiParam(name = "dictory", value = "上传目录") @RequestParam(name = "dictory", required = false) String dictory) {
         String targetDictory = null;
         if (DataUtils.isEmpty(dictory)) {
