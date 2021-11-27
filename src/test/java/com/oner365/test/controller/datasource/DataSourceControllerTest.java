@@ -21,7 +21,7 @@ class DataSourceControllerTest extends BaseControllerTest {
 
     @Test
     void get() {
-        String url = PATH + "/get/1";
+        String url = PATH + "/get/4028e591736543e001736547e9950000";
         Object result = get(url);
         LOGGER.info("get:[{}] -> {}", url, result);
         Assertions.assertNotNull(result);

@@ -22,7 +22,7 @@ class SysOrganizationControllerTest extends BaseControllerTest {
 
     @Test
     void get() {
-        String url = PATH + "/get/2";
+        String url = PATH + "/get/1";
         Object result = get(url);
         LOGGER.info("get:[{}] -> {}", url, result);
         Assertions.assertNotNull(result);

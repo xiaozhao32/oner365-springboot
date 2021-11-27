@@ -1,13 +1,13 @@
 package com.oner365.test.controller.sys;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.oner365.test.controller.BaseControllerTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.reactive.function.BodyInserters;
+
+import com.alibaba.fastjson.JSONObject;
+import com.oner365.test.controller.BaseControllerTest;
 
 /**
  * Test DictItemController
@@ -36,17 +36,14 @@ class SysDictItemControllerTest extends BaseControllerTest {
         Assertions.assertNotNull(result);
     }
 
-    @RepeatedTest(2)
-    void findTypeInfoByCodes() {
-        String url = PATH + "/findTypeInfoByCodes";
-        JSONObject paramJson = new JSONObject();
-        JSONArray jsonArray = new JSONArray();
-        jsonArray.add("sys_task_status");
-        paramJson.put("codes", jsonArray);
-        Object result = post(url, BodyInserters.fromValue(paramJson));
-        LOGGER.info("findTypeInfoByCodes:[{}] -> {}", url, result);
-        Assertions.assertNotNull(result);
-    }
+	@RepeatedTest(2)
+	void findItemByTypeIds() {
+		String url = PATH + "/findItemByTypeIds";
+		String[] array = new String[] { "sys_task_status" };
+		Object result = post(url, BodyInserters.fromValue(array));
+		LOGGER.info("findTypeInfoByCodes:[{}] -> {}", url, result);
+		Assertions.assertNotNull(result);
+	}
 
     @RepeatedTest(2)
     void findTypeList() {
@@ -74,15 +71,12 @@ class SysDictItemControllerTest extends BaseControllerTest {
         Assertions.assertNotNull(result);
     }
 
-    @RepeatedTest(2)
-    void findListByCodes() {
-        String url = PATH + "/findListByCodes";
-        JSONObject paramJson = new JSONObject();
-        JSONArray jsonArray = new JSONArray();
-        jsonArray.add("sys_task_status");
-        paramJson.put("codes", jsonArray);
-        Object result = post(url, BodyInserters.fromValue(paramJson));
-        LOGGER.info("findListByCodes:[{}] -> {}", url, result);
-        Assertions.assertNotNull(result);
-    }
+	@RepeatedTest(2)
+	void findListByCodes() {
+		String url = PATH + "/findListByCodes";
+		String[] array = new String[] { "sys_task_status" };
+		Object result = post(url, BodyInserters.fromValue(array));
+		LOGGER.info("findListByCodes:[{}] -> {}", url, result);
+		Assertions.assertNotNull(result);
+	}
 }

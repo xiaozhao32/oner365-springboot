@@ -30,7 +30,7 @@ class ScrewUtilsTest extends BaseUtilsTest {
 
     @Value("${spring.application.name}")
     private String applicationName;
-    @Value("${file.path}")
+    @Value("${file.download}")
     private String filePath;
 
     @Autowired
