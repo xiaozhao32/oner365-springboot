@@ -1,4 +1,4 @@
-package com.oner365.sys.vo;
+package com.oner365.sys.dto;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -15,7 +15,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @author zhaoyong
  */
 @ApiModel(value = "职位信息")
-public class SysJobVo implements Serializable {
+public class SysJobDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -81,7 +81,7 @@ public class SysJobVo implements Serializable {
     /**
      * Generate constructor
      */
-    public SysJobVo() {
+    public SysJobDto() {
         super();
     }
 
@@ -178,7 +178,7 @@ public class SysJobVo implements Serializable {
     public String toString() {
         return MoreObjects.toStringHelper(this).add("id", id).toString();
     }
-
+    
     /**
      * 转换对象
      * 
@@ -198,4 +198,5 @@ public class SysJobVo implements Serializable {
         result.setUpdateTime(this.getUpdateTime());
         return result;
     }
+
 }

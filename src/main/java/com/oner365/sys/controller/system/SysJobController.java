@@ -19,6 +19,7 @@ import com.oner365.common.ResponseResult;
 import com.oner365.common.enums.ErrorInfoEnum;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
+import com.oner365.sys.dto.SysJobDto;
 import com.oner365.sys.entity.SysJob;
 import com.oner365.sys.service.ISysJobService;
 import com.oner365.sys.vo.SysJobVo;
@@ -47,9 +48,9 @@ public class SysJobController extends BaseController {
      */
     @PutMapping("/save")
     @ApiOperation("保存")
-    public ResponseResult<SysJob> save(@RequestBody SysJobVo sysJobVo) {
+    public ResponseResult<SysJobDto> save(@RequestBody SysJobVo sysJobVo) {
         if (sysJobVo != null) {
-            SysJob entity = sysJobService.save(sysJobVo.toObject());
+        	SysJobDto entity = sysJobService.save(sysJobVo.toPO());
             return ResponseResult.success(entity);
         }
         return ResponseResult.error(ErrorInfoEnum.SAVE_ERROR.getName());
@@ -63,7 +64,7 @@ public class SysJobController extends BaseController {
      */
     @GetMapping("/get/{id}")
     @ApiOperation("按id查询")
-    public SysJob get(@PathVariable String id) {
+    public SysJobDto get(@PathVariable String id) {
         return sysJobService.getById(id);
     }
 
@@ -75,7 +76,7 @@ public class SysJobController extends BaseController {
      */
     @PostMapping("/list")
     @ApiOperation("获取列表")
-    public Page<SysJob> list(@RequestBody QueryCriteriaBean data) {
+    public Page<SysJobDto> list(@RequestBody QueryCriteriaBean data) {
         return sysJobService.pageList(data);
     }
 
@@ -117,7 +118,7 @@ public class SysJobController extends BaseController {
     @PostMapping("/export")
     @ApiOperation("导出")
     public ResponseEntity<byte[]> export(@RequestBody QueryCriteriaBean data) {
-        List<SysJob> list = sysJobService.findList(data);
+        List<SysJobDto> list = sysJobService.findList(data);
 
         String[] titleKeys = new String[] { "编号", "职位名称", "职位描述", "排序", "状态", "创建时间", "更新时间" };
         String[] columnNames = { "id", "jobName", "jobInfo", "jobOrder", "status", "createTime", "updateTime" };

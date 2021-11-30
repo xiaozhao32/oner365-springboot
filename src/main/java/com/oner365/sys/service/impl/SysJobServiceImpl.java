@@ -24,6 +24,7 @@ import com.oner365.common.exception.ProjectRuntimeException;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.common.query.QueryUtils;
 import com.oner365.sys.dao.ISysJobDao;
+import com.oner365.sys.dto.SysJobDto;
 import com.oner365.sys.entity.SysJob;
 import com.oner365.sys.service.ISysJobService;
 import com.oner365.util.DataUtils;
@@ -45,10 +46,10 @@ public class SysJobServiceImpl implements ISysJobService {
 
     @Override
     @Cacheable(value = CACHE_NAME, keyGenerator = PublicConstants.KEY_GENERATOR)
-    public Page<SysJob> pageList(QueryCriteriaBean data) {
+    public Page<SysJobDto> pageList(QueryCriteriaBean data) {
         try {
             Pageable pageable = QueryUtils.buildPageRequest(data);
-            return dao.findAll(QueryUtils.buildCriteria(data), pageable);
+            return convertDto(dao.findAll(QueryUtils.buildCriteria(data), pageable));
         } catch (Exception e) {
             LOGGER.error("Error pageList: ", e);
         }
@@ -57,12 +58,12 @@ public class SysJobServiceImpl implements ISysJobService {
 
     @Override
     @Cacheable(value = CACHE_NAME, keyGenerator = PublicConstants.KEY_GENERATOR)
-    public List<SysJob> findList(QueryCriteriaBean data) {
+    public List<SysJobDto> findList(QueryCriteriaBean data) {
         try {
             if (data.getOrder() == null) {
-                return dao.findAll(QueryUtils.buildCriteria(data));
+                return convertDto(dao.findAll(QueryUtils.buildCriteria(data)));
             }
-            return dao.findAll(QueryUtils.buildCriteria(data), QueryUtils.buildSortRequest(data.getOrder()));
+            return convertDto(dao.findAll(QueryUtils.buildCriteria(data), QueryUtils.buildSortRequest(data.getOrder())));
         } catch (Exception e) {
             LOGGER.error("Error findList: ", e);
         }
@@ -71,10 +72,10 @@ public class SysJobServiceImpl implements ISysJobService {
 
     @Override
     @RedisCacheAble(value = CACHE_NAME, key = PublicConstants.KEY_ID)
-    public SysJob getById(String id) {
+    public SysJobDto getById(String id) {
         try {
             Optional<SysJob> optional = dao.findById(id);
-            return optional.orElse(null);
+            return optional.orElse(null).toDTO();
         } catch (Exception e) {
             LOGGER.error("Error getById: ", e);
         }
@@ -85,13 +86,13 @@ public class SysJobServiceImpl implements ISysJobService {
     @Transactional(rollbackFor = ProjectRuntimeException.class)
     @RedisCachePut(value = CACHE_NAME, key = PublicConstants.KEY_ID)
     @CacheEvict(value = CACHE_NAME, allEntries = true)
-    public SysJob save(SysJob job) {
+    public SysJobDto save(SysJob job) {
         if (DataUtils.isEmpty(job.getId())) {
             job.setStatus(StatusEnum.YES.getCode());
             job.setCreateTime(LocalDateTime.now());
         }
         job.setUpdateTime(LocalDateTime.now());
-        return dao.save(job);
+        return dao.save(job).toDTO();
     }
 
     @Override
@@ -106,7 +107,7 @@ public class SysJobServiceImpl implements ISysJobService {
     @Transactional(rollbackFor = ProjectRuntimeException.class)
     @CacheEvict(value = CACHE_NAME, allEntries = true)
     public Integer editStatus(String id, String status) {
-        SysJob entity = this.getById(id);
+    	SysJob entity = dao.findById(id).orElse(null);
         if (entity != null && entity.getId() != null) {
             entity.setStatus(status);
             this.save(entity);

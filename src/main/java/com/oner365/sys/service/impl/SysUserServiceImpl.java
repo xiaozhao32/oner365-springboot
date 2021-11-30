@@ -242,7 +242,7 @@ public class SysUserServiceImpl implements ISysUserService {
             // 删除用户职位关联
             userJobDao.deleteUserJobByUserId(entity.getId());
             for (String id : jobs) {
-                SysJob sysJob = sysJobService.getById(id);
+                SysJob sysJob = sysJobService.getById(id).toPO();
                 SysUserJob sysUserJob = new SysUserJob();
                 sysUserJob.setSysJob(sysJob);
                 sysUserJob.setSysUser(entity);
