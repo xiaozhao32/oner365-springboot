@@ -1,5 +1,6 @@
 package com.oner365.service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,6 +20,9 @@ public interface BaseService {
 	
 	@SuppressWarnings({ "unchecked"})
 	default <T>List<T> convertDto(List<?> list){
+		if(list.isEmpty()){
+			return Collections.emptyList();
+		}
 		return (List<T>) list.stream().map(po -> {
 			return ClassesUtil.invokeMethod(po, METHOD_NAME, new Object(){});
 		}).collect(Collectors.toList());
@@ -26,6 +30,9 @@ public interface BaseService {
 	
 	@SuppressWarnings({"unchecked" })
 	default <T>Page<T> convertDto(Page<?> page){
+		if(page == null){
+			return null;
+		}
 		return new PageImpl<T>((List<T>)convertDto(page.getContent()),page.getPageable(),page.getTotalElements());
 	}
 	

@@ -75,7 +75,9 @@ public class SysJobServiceImpl implements ISysJobService {
     public SysJobDto getById(String id) {
         try {
             Optional<SysJob> optional = dao.findById(id);
-            return optional.orElse(null).toDTO();
+            if(optional.isPresent()){
+            	return optional.orElse(null).toDTO();
+            }
         } catch (Exception e) {
             LOGGER.error("Error getById: ", e);
         }
@@ -92,7 +94,11 @@ public class SysJobServiceImpl implements ISysJobService {
             job.setCreateTime(LocalDateTime.now());
         }
         job.setUpdateTime(LocalDateTime.now());
-        return dao.save(job).toDTO();
+        job = dao.save(job);
+        if(job != null){
+        	return job.toDTO();
+        }
+        return null;
     }
 
     @Override
