@@ -94,11 +94,7 @@ public class SysJobServiceImpl implements ISysJobService {
             job.setCreateTime(LocalDateTime.now());
         }
         job.setUpdateTime(LocalDateTime.now());
-        job = dao.save(job);
-        if(job != null){
-        	return job.toDTO();
-        }
-        return null;
+        return dao.save(job).toDTO();
     }
 
     @Override
@@ -116,7 +112,8 @@ public class SysJobServiceImpl implements ISysJobService {
     	SysJob entity = dao.findById(id).orElse(null);
         if (entity != null && entity.getId() != null) {
             entity.setStatus(status);
-            this.save(entity);
+            entity.setUpdateTime(LocalDateTime.now());
+            dao.save(entity);
             return ResultEnum.SUCCESS.getCode();
         }
         return ResultEnum.ERROR.getCode();

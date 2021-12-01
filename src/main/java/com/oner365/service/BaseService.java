@@ -11,29 +11,40 @@ import com.oner365.util.ClassesUtil;
 
 /**
  * Service 父类
- * @author liutao
  *
+ * @author liutao
  */
 public interface BaseService {
-	
-	public static final String METHOD_NAME = "toDTO";
-	
-	@SuppressWarnings({ "unchecked"})
-	default <T>List<T> convertDto(List<?> list){
-		if(list.isEmpty()){
-			return Collections.emptyList();
-		}
-		return (List<T>) list.stream().map(po -> {
-			return ClassesUtil.invokeMethod(po, METHOD_NAME);
-		}).collect(Collectors.toList());
-	}
-	
-	@SuppressWarnings({"unchecked" })
-	default <T>Page<T> convertDto(Page<?> page){
-		if(page == null){
-			return null;
-		}
-		return new PageImpl<T>((List<T>)convertDto(page.getContent()),page.getPageable(),page.getTotalElements());
-	}
-	
+
+  String METHOD_NAME = "toDTO";
+
+  /**
+   * 转换po对象为dto
+   *
+   * @param list po集合
+   * @return List<T>
+   */
+  @SuppressWarnings({"unchecked"})
+  default <T> List<T> convertDto(List<?> list) {
+    if (list.isEmpty()) {
+      return Collections.emptyList();
+    }
+    return (List<T>) list.stream().map(po -> {
+      return ClassesUtil.invokeMethod(po, METHOD_NAME);
+    }).collect(Collectors.toList());
+  }
+
+  /**
+   * 转换分页对象
+   *
+   * @param page 分页po对象
+   * @return Page<T>
+   */
+  default <T> Page<T> convertDto(Page<?> page) {
+    if (page == null) {
+      return null;
+    }
+    return new PageImpl<>(convertDto(page.getContent()), page.getPageable(), page.getTotalElements());
+  }
+
 }
