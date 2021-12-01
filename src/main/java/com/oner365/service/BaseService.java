@@ -24,7 +24,7 @@ public interface BaseService {
 			return Collections.emptyList();
 		}
 		return (List<T>) list.stream().map(po -> {
-			return ClassesUtil.invokeMethod(po, METHOD_NAME, new Object(){});
+			return ClassesUtil.invokeMethod(po, METHOD_NAME);
 		}).collect(Collectors.toList());
 	}
 	
