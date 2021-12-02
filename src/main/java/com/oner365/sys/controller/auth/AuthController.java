@@ -34,6 +34,7 @@ import com.oner365.sys.service.ISysRoleService;
 import com.oner365.sys.service.ISysUserService;
 import com.oner365.sys.vo.LoginUserVo;
 import com.oner365.util.DataUtils;
+import com.oner365.util.RequestUtils;
 import com.oner365.util.VerifyCodeUtils;
 
 import io.swagger.annotations.Api;
@@ -68,7 +69,7 @@ public class AuthController extends BaseController {
      */
     @PostMapping("/login")
     @ApiOperation("登录")
-    public ResponseData<LoginUserDto> login(HttpServletRequest request, @RequestBody LoginUserVo loginUserVo) {
+    public ResponseData<LoginUserDto> login(@RequestBody LoginUserVo loginUserVo) {
         // 验证码
         if (!DataUtils.isEmpty(loginUserVo.getUuid())) {
             String verifyKey = SysConstants.CAPTCHA_IMAGE + ":" + loginUserVo.getUuid();
@@ -89,7 +90,7 @@ public class AuthController extends BaseController {
             return ResponseData.error(ErrorInfoEnum.PASSWORD_NOT_NULL.getName());
         }
         // ip地址
-        String ip = DataUtils.getIpAddress(request);
+        String ip = DataUtils.getIpAddress(RequestUtils.getHttpRequest());
         LOGGER.info("ip: {}", ip);
 
         // 登录
