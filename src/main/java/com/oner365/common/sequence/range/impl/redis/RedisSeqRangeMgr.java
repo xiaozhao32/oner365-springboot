@@ -1,9 +1,9 @@
 package com.oner365.common.sequence.range.impl.redis;
 
-import com.oner365.common.sequence.exception.SeqException;
 import com.oner365.common.sequence.range.SeqRange;
 import com.oner365.common.sequence.range.SeqRangeMgr;
 import com.oner365.util.DataUtils;
+
 import redis.clients.jedis.Jedis;
 
 /**
@@ -30,10 +30,10 @@ public class RedisSeqRangeMgr implements SeqRangeMgr {
     private volatile boolean keyAlreadyExist;
 
     @Override
-    public SeqRange nextRange(String name) throws SeqException {
+    public SeqRange nextRange(String name) {
         if (!this.keyAlreadyExist) {
             Boolean isExists = this.jedis.exists(getRealKey(name));
-            if (!isExists) {
+            if (Boolean.FALSE.equals(isExists)) {
                 this.jedis.setnx(getRealKey(name), String.valueOf(this.stepStart));
             }
             this.keyAlreadyExist = true;

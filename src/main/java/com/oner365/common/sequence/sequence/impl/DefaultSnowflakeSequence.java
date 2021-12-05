@@ -20,7 +20,7 @@ public class DefaultSnowflakeSequence implements SnowflakeSequence {
     private long lastTimestamp = -1L;
 
     @Override
-    public synchronized long nextValue() throws SeqException {
+    public synchronized long nextValue() {
         long timestamp = timeGen();
         if (timestamp < this.lastTimestamp) {
             throw new SeqException("[DefaultSnowflakeSequence-nextValue] 当前时间小于上次生成序列号时间");
@@ -71,7 +71,7 @@ public class DefaultSnowflakeSequence implements SnowflakeSequence {
     }
 
     @Override
-    public String nextNo() throws SeqException {
+    public String nextNo() {
         return String.valueOf(nextValue());
     }
 

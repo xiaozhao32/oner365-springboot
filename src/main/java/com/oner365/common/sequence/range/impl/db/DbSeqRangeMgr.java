@@ -24,7 +24,7 @@ public class DbSeqRangeMgr implements SeqRangeMgr {
 	private String tableName = "range";
 
 	@Override
-	public SeqRange nextRange(String name) throws SeqException {
+	public SeqRange nextRange(String name) {
 		if (isEmpty(name)) {
 			throw new SecurityException("[DbSeqRangeMgr-nextRange] name is empty.");
 		}
