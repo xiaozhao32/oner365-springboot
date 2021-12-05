@@ -62,11 +62,11 @@ public class FastdfsClient implements IFileStorageClient {
      * 上传文件
      *
      * @param file 文件对象
-     * 
+     *
      * @return 文件访问地址
      */
     @Override
-    public String uploadFile(MultipartFile file, String dictory) {
+    public String uploadFile(MultipartFile file, String directory) {
         try (InputStream in = file.getInputStream()) {
             StorePath storePath = fastFileStorageClient.uploadFile(in, file.getSize(),
                     getExtName(file.getOriginalFilename(), file.getContentType()), null);
@@ -86,7 +86,7 @@ public class FastdfsClient implements IFileStorageClient {
      * @return 文件访问地址
      */
     @Override
-    public String uploadFile(File file, String dictory) {
+    public String uploadFile(File file, String directory) {
         try (FileInputStream inputStream = new FileInputStream(file)) {
             StorePath storePath = fastFileStorageClient.uploadFile(inputStream, file.length(),
                     getExtName(file.getName(), null), null);

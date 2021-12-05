@@ -21,7 +21,7 @@ import com.oner365.util.DataUtils;
 
 /**
  * 本地上传工具类
- * 
+ *
  * @author zhaoyong
  */
 @Component
@@ -38,15 +38,15 @@ public class LocalClient implements IFileStorageClient {
 
     @Autowired
     private IFileStorageService fileStorageService;
-    
+
     @Autowired
     private SnowflakeSequence snowflakeSequence;
 
     @Override
-    public String uploadFile(MultipartFile file, String dictory) {
+    public String uploadFile(MultipartFile file, String directory) {
         try {
             SysFileStorage entity = FileLocalUploadUtils.upload(file, getName(), snowflakeSequence.nextNo(),
-                    fileWeb, filePath, dictory, file.getSize() + 1);
+                    fileWeb, filePath, directory, file.getSize() + 1);
             fileStorageService.save(entity);
             return entity.getFilePath();
         } catch (Exception e) {
@@ -56,11 +56,11 @@ public class LocalClient implements IFileStorageClient {
     }
 
     @Override
-    public String uploadFile(File file, String dictory) {
+    public String uploadFile(File file, String directory) {
         try {
             MultipartFile multipartFile = DataUtils.convertMultipartFile(file);
             SysFileStorage entity = FileLocalUploadUtils.upload(multipartFile, getName(), snowflakeSequence.nextNo(),
-                    fileWeb, filePath, dictory, file.length() + 1);
+                    fileWeb, filePath, directory, file.length() + 1);
             fileStorageService.save(entity);
             return entity.getFilePath();
         } catch (Exception e) {

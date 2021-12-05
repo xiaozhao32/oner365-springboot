@@ -12,9 +12,9 @@ public interface IScheduleExecuteService {
 
     /**
      * 更新任务执行状态
-     * @param updateTaskExecuteSatusDto 对象
+     * @param updateTaskExecuteStatusDto 对象
      */
-    void updateTaskExecuteStatus(UpdateTaskExecuteStatusDto updateTaskExecuteSatusDto);
+    void updateTaskExecuteStatus(UpdateTaskExecuteStatusDto updateTaskExecuteStatusDto);
 
     /**
      * 保存任务执行日志

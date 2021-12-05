@@ -483,22 +483,17 @@ public class ConvertString {
         }
         valueStr = valueStr.trim().toLowerCase();
         switch (valueStr) {
-        case "true":
-            return true;
-        case "false":
-            return false;
-        case "yes":
-            return true;
-        case "ok":
-            return true;
-        case "no":
-            return false;
-        case "1":
-            return true;
-        case "0":
-            return false;
-        default:
-            return defaultValue;
+            case "true":
+            case "yes":
+            case "ok":
+            case "1":
+                return true;
+            case "false":
+            case "no":
+            case "0":
+                return false;
+            default:
+                return defaultValue;
         }
     }
 
@@ -684,7 +679,7 @@ public class ConvertString {
         if (obj instanceof String) {
             return (String) obj;
         } else if (obj instanceof byte[] || obj instanceof Byte[]) {
-            return str((byte[]) obj, charset);
+            return str(obj, charset);
         } else if (obj instanceof ByteBuffer) {
             return str((ByteBuffer) obj, charset);
         }

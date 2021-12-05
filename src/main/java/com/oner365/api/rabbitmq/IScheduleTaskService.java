@@ -25,9 +25,9 @@ public interface IScheduleTaskService {
      */
     @RabbitListener(
             bindings = @QueueBinding(
-                    value = @Queue(value = ScheduleTaskConstants.SCHEDULETASK_QUEUE_NAME, autoDelete = "false"),
-                    exchange = @Exchange(value = ScheduleTaskConstants.SCHEDULETASK_QUEUE_TYPE, type = ExchangeTypes.FANOUT),
-                    key = ScheduleTaskConstants.SCHEDULETASK_QUEUE_KEY
+                    value = @Queue(value = ScheduleTaskConstants.SCHEDULE_TASK_QUEUE_NAME, autoDelete = "false"),
+                    exchange = @Exchange(value = ScheduleTaskConstants.SCHEDULE_TASK_QUEUE_TYPE, type = ExchangeTypes.FANOUT),
+                    key = ScheduleTaskConstants.SCHEDULE_TASK_QUEUE_KEY
             )
         )
     void scheduleTask(InvokeParamDto invokeParamDto);

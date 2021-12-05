@@ -24,6 +24,8 @@ abstract class BaseDbHelper {
 
     private static final String SQL_SELECT_RANGE = "SELECT value FROM #tableName WHERE name=?";
 
+    private static final Long MAX_VALUE = 9223372036754775807L;
+
     static void createTable(DataSource dataSource, String tableName) {
         Connection conn = null;
         Statement stmt = null;
@@ -97,7 +99,7 @@ abstract class BaseDbHelper {
                         + ", please check table sequence" + tableName;
                 throw new SeqException(msg);
             }
-            if (oldValue > 9223372036754775807L) {
+            if (oldValue > MAX_VALUE) {
                 String msg = "Sequence value overflow, value = " + oldValue + ", please check table sequence"
                         + tableName;
                 throw new SeqException(msg);

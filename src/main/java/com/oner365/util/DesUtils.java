@@ -4,6 +4,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.security.SecureRandom;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.crypto.Cipher;
@@ -14,8 +15,6 @@ import javax.crypto.spec.SecretKeySpec;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.common.collect.Maps;
 
 /**
  * DES加密算法工具类
@@ -39,10 +38,14 @@ public class DesUtils {
      * 加密类型
      */
     private static final String ALGORITHM = "AES/GCM/NoPadding";
-    private static final Map<String, Key> KEY_MAP = Maps.newHashMap();
+    private static final ThreadLocal<Map<String, Key>> LOCAL_MAP_KEY = new ThreadLocal<>();
 
     private DesUtils() {
 
+    }
+
+    public static void removeKey() {
+        LOCAL_MAP_KEY.remove();
     }
 
     public static SecretKeySpec getKey(String strKey) {
@@ -52,7 +55,11 @@ public class DesUtils {
             secureRandom.setSeed(strKey.getBytes());
             generator.init(128, secureRandom);
             SecretKey secretKey = generator.generateKey();
-            return new SecretKeySpec(secretKey.getEncoded(), "AES");
+            SecretKeySpec result = new SecretKeySpec(secretKey.getEncoded(), "AES");
+            Map<String, Key> map = new HashMap<>(2);
+            map.put(strKey, result);
+            LOCAL_MAP_KEY.set(map);
+            return result;
         } catch (Exception e) {
             LOGGER.error("初始化密钥出现异常 ", e);
         }
@@ -111,8 +118,8 @@ public class DesUtils {
 
     public static Key getSecretKey(String saltKey) {
         Key secretKey;
-        if (KEY_MAP.get(saltKey) != null) {
-            secretKey = KEY_MAP.get(saltKey);
+        if (LOCAL_MAP_KEY.get() != null) {
+            secretKey = LOCAL_MAP_KEY.get().get(saltKey);
         } else {
             secretKey = getKey(saltKey);
         }

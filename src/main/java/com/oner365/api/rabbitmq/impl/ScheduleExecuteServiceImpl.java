@@ -27,7 +27,7 @@ public class ScheduleExecuteServiceImpl implements IScheduleExecuteService {
     @Override
     public void updateTaskExecuteStatus(UpdateTaskExecuteStatusDto updateTaskExecuteStatusDto) {
         LOGGER.info("MQ updateTaskExecuteStatus push: {}", updateTaskExecuteStatusDto);
-        rabbitTemplate.convertAndSend(ScheduleTaskConstants.TASK_UPDATE_STAUTS_QUEUE_TYPE, ScheduleTaskConstants.TASK_UPDATE_STAUTS_QUEUE_KEY, updateTaskExecuteStatusDto);
+        rabbitTemplate.convertAndSend(ScheduleTaskConstants.TASK_UPDATE_STATUS_QUEUE_TYPE, ScheduleTaskConstants.TASK_UPDATE_STATUS_QUEUE_KEY, updateTaskExecuteStatusDto);
     }
 
 

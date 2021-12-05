@@ -8,7 +8,7 @@ import com.oner365.common.enums.StorageEnum;
 
 /**
  * 文件存储接口
- * 
+ *
  * @author zhaoyong
  */
 public interface IFileStorageClient {
@@ -17,19 +17,19 @@ public interface IFileStorageClient {
      * 上传文件
      *
      * @param file 文件对象
-     * @param dictory 本地上传目录
+     * @param directory 本地上传目录
      * @return 文件访问地址
      */
-    String uploadFile(MultipartFile file, String dictory);
+    String uploadFile(MultipartFile file, String directory);
 
     /**
      * 上传文件
      *
      * @param file 文件对象
-     * @param dictory 本地上传目录
+     * @param directory 本地上传目录
      * @return 文件访问地址
      */
-    String uploadFile(File file, String dictory);
+    String uploadFile(File file, String directory);
 
     /**
      * 下载文件
@@ -48,7 +48,7 @@ public interface IFileStorageClient {
 
     /**
      * 获取文件存储方式
-     * 
+     *
      * @return StorageEnum
      */
     StorageEnum getName();

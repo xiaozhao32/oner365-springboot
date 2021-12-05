@@ -29,7 +29,7 @@ import io.swagger.annotations.ApiOperation;
 
 /**
  * 用户职位信息
- * 
+ *
  * @author zhaoyong
  */
 @RestController
@@ -42,7 +42,7 @@ public class SysJobController extends BaseController {
 
     /**
      * 用户职位保存
-     * 
+     *
      * @param sysJobVo 职位对象
      * @return ResponseResult<SysJob>
      */
@@ -50,7 +50,7 @@ public class SysJobController extends BaseController {
     @ApiOperation("保存")
     public ResponseResult<SysJobDto> save(@RequestBody SysJobVo sysJobVo) {
         if (sysJobVo != null) {
-        	SysJobDto entity = sysJobService.save(sysJobVo.toPO());
+        	SysJobDto entity = sysJobService.save(sysJobVo.toPojo());
             return ResponseResult.success(entity);
         }
         return ResponseResult.error(ErrorInfoEnum.SAVE_ERROR.getName());
@@ -58,7 +58,7 @@ public class SysJobController extends BaseController {
 
     /**
      * 获取用户职位
-     * 
+     *
      * @param id 编号
      * @return SysJob
      */
@@ -70,7 +70,7 @@ public class SysJobController extends BaseController {
 
     /**
      * 用户职位列表
-     * 
+     *
      * @param data 查询参数
      * @return Page<SysJob>
      */
@@ -82,7 +82,7 @@ public class SysJobController extends BaseController {
 
     /**
      * 删除用户职位
-     * 
+     *
      * @param ids 编号
      * @return Integer
      */
@@ -111,7 +111,7 @@ public class SysJobController extends BaseController {
 
     /**
      * 导出Excel
-     * 
+     *
      * @param data 查询参数
      * @return ResponseEntity<byte[]>
      */

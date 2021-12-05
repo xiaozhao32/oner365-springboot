@@ -7,7 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 /**
  * 重置密码对象
- * 
+ *
  * @author zhaoyong
  *
  */
@@ -18,19 +18,19 @@ public class ResetPasswordVo implements Serializable {
      *
      */
     private static final long serialVersionUID = 1L;
-    
+
     /**
      * 账号 userId
      */
     @ApiModelProperty(value = "账号id", required = true)
     private String userId;
-    
+
     /**
      * 密码 password
      */
     @ApiModelProperty(value = "密码", required = true)
     private String password;
-    
+
     /**
      * 构造方法
      */
@@ -50,8 +50,8 @@ public class ResetPasswordVo implements Serializable {
         return password;
     }
 
-    public void setPassword(String ppassword) {
-        this.password = ppassword;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
 }

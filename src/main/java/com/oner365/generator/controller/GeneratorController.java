@@ -169,9 +169,9 @@ public class GeneratorController extends BaseController {
     /**
      * 同步数据库
      */
-    @GetMapping("/synchDb/{tableName}")
-    public Map<String, Object> synchDb(@PathVariable("tableName") String tableName) {
-        genTableService.synchDb(tableName);
+    @GetMapping("/syncDb/{tableName}")
+    public Map<String, Object> syncDb(@PathVariable("tableName") String tableName) {
+        genTableService.syncDb(tableName);
         Map<String, Object> result = Maps.newHashMap();
         result.put(PublicConstants.CODE, ResultEnum.SUCCESS.getCode());
         return result;

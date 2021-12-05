@@ -38,9 +38,8 @@ public interface ISysLogService {
     /**
      * 保存
      * @param sysLog 对象
-     * @return SysLog
      */
-    SysLog save(SysLog sysLog);
+    void save(SysLog sysLog);
 
     /**
      * 删除

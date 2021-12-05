@@ -30,9 +30,9 @@ public interface IScheduleSendExecuteService {
      */
     @RabbitListener(
             bindings = @QueueBinding(
-                    value = @Queue(value = ScheduleTaskConstants.TASK_UPDATE_STAUTS_QUEUE_NAME, autoDelete = "false"),
-                    exchange = @Exchange(value = ScheduleTaskConstants.TASK_UPDATE_STAUTS_QUEUE_TYPE, type = ExchangeTypes.FANOUT),
-                    key = ScheduleTaskConstants.TASK_UPDATE_STAUTS_QUEUE_KEY
+                    value = @Queue(value = ScheduleTaskConstants.TASK_UPDATE_STATUS_QUEUE_NAME, autoDelete = "false"),
+                    exchange = @Exchange(value = ScheduleTaskConstants.TASK_UPDATE_STATUS_QUEUE_TYPE, type = ExchangeTypes.FANOUT),
+                    key = ScheduleTaskConstants.TASK_UPDATE_STATUS_QUEUE_KEY
             )
         )
     void updateTaskExecuteStatus(UpdateTaskExecuteStatusDto updateTask) throws SchedulerException, TaskException ;

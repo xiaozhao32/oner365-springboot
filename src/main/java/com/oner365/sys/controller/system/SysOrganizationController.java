@@ -81,7 +81,7 @@ public class SysOrganizationController extends BaseController {
     /**
      * 直接测试数据源是否连接
      *
-     * @param dstype   数据源类型
+     * @param ds   数据源类型
      * @param ip       ip地址
      * @param port     端口
      * @param dbname   数据源名称
@@ -89,11 +89,11 @@ public class SysOrganizationController extends BaseController {
      * @param password 密码
      * @return boolean
      */
-    @PostMapping("/isConnection/{dstype}")
+    @PostMapping("/isConnection/{ds}")
     @ApiOperation("能否连接数据源")
-    public boolean isConnection(@PathVariable String dstype, @RequestParam String ip, @RequestParam int port,
+    public boolean isConnection(@PathVariable String ds, @RequestParam String ip, @RequestParam int port,
             @RequestParam String dbname, @RequestParam String username, @RequestParam String password) {
-        return sysOrgService.isConnection(dstype, ip, port, dbname, username, password);
+        return sysOrgService.isConnection(ds, ip, port, dbname, username, password);
     }
 
     /**

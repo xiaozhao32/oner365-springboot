@@ -29,7 +29,7 @@ import io.swagger.annotations.ApiOperation;
 
 /**
  * 系统日志控制器
- * 
+ *
  * @author zhaoyong
  */
 @RestController
@@ -42,7 +42,7 @@ public class SysLogController extends BaseController {
 
     /**
      * 保存
-     * 
+     *
      * @param sysLogVo 菜单类型对象
      * @return ResponseResult<SysLog>
      */
@@ -50,15 +50,15 @@ public class SysLogController extends BaseController {
     @ApiOperation("保存")
     public ResponseResult<SysLog> save(@RequestBody SysLogVo sysLogVo) {
         if (sysLogVo != null) {
-            SysLog entity = logService.save(sysLogVo.toObject());
-            return ResponseResult.success(entity);
+            logService.save(sysLogVo.toObject());
+            return ResponseResult.success(sysLogVo.toObject());
         }
         return ResponseResult.error(ErrorInfoEnum.SAVE_ERROR.getName());
     }
 
     /**
      * 获取信息
-     * 
+     *
      * @param id 编号
      * @return SysLog
      */
@@ -70,7 +70,7 @@ public class SysLogController extends BaseController {
 
     /**
      * 列表
-     * 
+     *
      * @param data 查询参数
      * @return Page<SysLog>
      */
@@ -82,7 +82,7 @@ public class SysLogController extends BaseController {
 
     /**
      * 删除
-     * 
+     *
      * @param ids 编号
      * @return Integer
      */
@@ -98,7 +98,7 @@ public class SysLogController extends BaseController {
 
     /**
      * 按日期删除日志
-     * 
+     *
      * @param date 日期
      * @return Integer
      */
@@ -110,7 +110,7 @@ public class SysLogController extends BaseController {
 
     /**
      * 导出日志
-     * 
+     *
      * @param data 查询参数
      * @return ResponseEntity<byte[]>
      */

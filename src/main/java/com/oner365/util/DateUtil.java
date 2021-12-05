@@ -7,13 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.TimeZone;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,8 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+import org.springframework.util.Assert;
 
 /**
  * 功能：时间处理工具类
@@ -474,10 +467,10 @@ public class DateUtil {
         format.setTimeZone(TimeZone.getTimeZone(DATE_TIMEZONE));
         return format.format(getDate());
     }
-    
+
     /**
      * 获取当前时间
-     * 
+     *
      * @return Date
      */
     public static Date getDate() {
@@ -547,8 +540,8 @@ public class DateUtil {
         int result = 0;
         Calendar c1 = Calendar.getInstance();
         Calendar c2 = Calendar.getInstance();
-        c1.setTime(stringToDate(startDate, FULL_DATE_FORMAT));
-        c2.setTime(stringToDate(endDate, FULL_DATE_FORMAT));
+        c1.setTime(Objects.requireNonNull(stringToDate(startDate, FULL_DATE_FORMAT)));
+        c2.setTime(Objects.requireNonNull(stringToDate(endDate, FULL_DATE_FORMAT)));
         while (!c1.after(c2)) {
             result++;
             c1.add(Calendar.MONTH, 1);
@@ -1053,9 +1046,8 @@ public class DateUtil {
      * @return Date
      */
     public static Date getDateStartTime(String date) {
-        Date d = stringToDate(date, FULL_DATE_FORMAT);
         Calendar cal = Calendar.getInstance();
-        cal.setTime(d);
+        cal.setTime(Objects.requireNonNull(stringToDate(date, FULL_DATE_FORMAT)));
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MINUTE, 0);
@@ -1069,9 +1061,8 @@ public class DateUtil {
      * @return Date
      */
     public static Date getDateEndTime(String date) {
-        Date d = stringToDate(date, FULL_DATE_FORMAT);
         Calendar cal = Calendar.getInstance();
-        cal.setTime(d);
+        cal.setTime(Objects.requireNonNull(stringToDate(date, FULL_DATE_FORMAT)));
         cal.set(Calendar.HOUR_OF_DAY, MAX_HOUR);
         cal.set(Calendar.SECOND, MAX_SECOND);
         cal.set(Calendar.MINUTE, MAX_MINUTE);
@@ -1086,6 +1077,8 @@ public class DateUtil {
      */
     public static Date getHourStartTime(String date) {
         Date d = stringToDate(date, FULL_TIME_FORMAT);
+        Assert.notNull(d, "date is not null.");
+
         Calendar cal = Calendar.getInstance();
         cal.setTime(d);
         cal.set(Calendar.SECOND, 0);
@@ -1101,6 +1094,8 @@ public class DateUtil {
      */
     public static Date getHourEndTime(String date) {
         Date d = stringToDate(date, FULL_TIME_FORMAT);
+        Assert.notNull(d, "date is not null.");
+
         Calendar cal = Calendar.getInstance();
         cal.setTime(d);
         cal.set(Calendar.SECOND, MAX_SECOND);
@@ -1115,9 +1110,10 @@ public class DateUtil {
      * @return Date
      */
     public static Date getTenMinuteStartTime(String date) {
-        Date d = stringToDate(date, FULL_TIME_FORMAT);
+        Assert.notNull(date, "date is not null.");
+
         Calendar cal = Calendar.getInstance();
-        cal.setTime(d);
+        cal.setTime(Objects.requireNonNull(stringToDate(date, FULL_DATE_FORMAT)));
         cal.set(Calendar.MINUTE, cal.get(Calendar.MINUTE) / 10 * 10);
         cal.set(Calendar.SECOND, 0);
         return new Date(cal.getTimeInMillis());
@@ -1131,6 +1127,8 @@ public class DateUtil {
      */
     public static Date getTenMinuteEndTime(String date) {
         Date d = stringToDate(date, FULL_TIME_FORMAT);
+        Assert.notNull(d, "date is not null.");
+
         Calendar cal = Calendar.getInstance();
         cal.setTime(d);
         cal.add(Calendar.MINUTE, 10);
@@ -1147,9 +1145,8 @@ public class DateUtil {
      * @return Date
      */
     public static Date getWeekStartTime(String date) {
-        Date d = stringToDate(date, FULL_TIME_FORMAT);
         Calendar cal = Calendar.getInstance();
-        cal.setTime(d);
+        cal.setTime(Objects.requireNonNull(stringToDate(date, FULL_DATE_FORMAT)));
         cal.setFirstDayOfWeek(Calendar.MONDAY);
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.SECOND, 0);
@@ -1166,6 +1163,8 @@ public class DateUtil {
      */
     public static Date getWeekEndTime(String date) {
         Date d = stringToDate(date, FULL_TIME_FORMAT);
+        Assert.notNull(d, "date is not null.");
+
         Calendar cal = Calendar.getInstance();
         cal.setTime(d);
         cal.setFirstDayOfWeek(Calendar.MONDAY);
@@ -1183,9 +1182,8 @@ public class DateUtil {
      * @return Date
      */
     public static Date getMonthStartTime(String date) {
-        Date d = stringToDate(date, FULL_DATE_FORMAT);
         Calendar cal = Calendar.getInstance();
-        cal.setTime(d);
+        cal.setTime(Objects.requireNonNull(stringToDate(date, FULL_DATE_FORMAT)));
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MINUTE, 0);
@@ -1200,9 +1198,8 @@ public class DateUtil {
      * @return Date
      */
     public static Date getMonthEndTime(String date) {
-        Date d = stringToDate(date, FULL_DATE_FORMAT);
         Calendar cal = Calendar.getInstance();
-        cal.setTime(d);
+        cal.setTime(Objects.requireNonNull(stringToDate(date, FULL_DATE_FORMAT)));
         cal.set(Calendar.HOUR_OF_DAY, MAX_HOUR);
         cal.set(Calendar.SECOND, MAX_SECOND);
         cal.set(Calendar.MINUTE, MAX_MINUTE);
@@ -1219,6 +1216,8 @@ public class DateUtil {
      */
     public static Date getYearStartTime(String date) {
         Date d = stringToDate(date, "yyyy");
+        Assert.notNull(d, "date is not null.");
+
         Calendar cal = Calendar.getInstance();
         cal.setTime(d);
         return new Date(cal.getTimeInMillis());
@@ -1232,6 +1231,8 @@ public class DateUtil {
      */
     public static Date getYearEndTime(String date) {
         Date d = stringToDate(date, "yyyy");
+        Assert.notNull(d, "date is not null.");
+
         Calendar cal = Calendar.getInstance();
         cal.setTime(d);
         cal.roll(Calendar.DAY_OF_YEAR, -1);
@@ -1249,6 +1250,8 @@ public class DateUtil {
      */
     public static Date getLastTenMinuteStartTime(String date) {
         Date d = stringToDate(date, FULL_TIME_FORMAT);
+        Assert.notNull(d, "date is not null.");
+
         Calendar cal = Calendar.getInstance();
         cal.setTime(d);
         cal.add(Calendar.MINUTE, -10);
@@ -1265,6 +1268,8 @@ public class DateUtil {
      */
     public static Date getLastTenMinuteEndTime(String date) {
         Date d = stringToDate(date, FULL_TIME_FORMAT);
+        Assert.notNull(d, "date is not null.");
+
         Calendar cal = Calendar.getInstance();
         cal.setTime(d);
         cal.set(Calendar.MINUTE, cal.get(Calendar.MINUTE) / 10 * 10);
@@ -1281,6 +1286,8 @@ public class DateUtil {
      */
     public static Date getLastHourStartTime(String date) {
         Date d = stringToDate(date, FULL_TIME_FORMAT);
+        Assert.notNull(d, "date is not null.");
+
         Calendar cal = Calendar.getInstance();
         cal.setTime(d);
         cal.set(Calendar.HOUR_OF_DAY, cal.get(Calendar.HOUR_OF_DAY) - 1);
@@ -1297,6 +1304,8 @@ public class DateUtil {
      */
     public static Date getLastHourEndTime(String date) {
         Date d = stringToDate(date, FULL_TIME_FORMAT);
+        Assert.notNull(d, "date is not null.");
+
         Calendar cal = Calendar.getInstance();
         cal.setTime(d);
         cal.set(Calendar.HOUR_OF_DAY, cal.get(Calendar.HOUR_OF_DAY) - 1);
@@ -1313,6 +1322,8 @@ public class DateUtil {
      */
     public static Date getLastDateStartTime(String date) {
         Date d = stringToDate(date, FULL_DATE_FORMAT);
+        Assert.notNull(d, "date is not null.");
+
         Calendar cal = Calendar.getInstance();
         cal.setTime(d);
         cal.set(Calendar.DATE, cal.get(Calendar.DATE) - 1);
@@ -1330,6 +1341,8 @@ public class DateUtil {
      */
     public static Date getLastDateEndTime(String date) {
         Date d = stringToDate(date, FULL_DATE_FORMAT);
+        Assert.notNull(d, "date is not null.");
+
         Calendar cal = Calendar.getInstance();
         cal.setTime(d);
         cal.set(Calendar.DATE, cal.get(Calendar.DATE) - 1);
@@ -1346,9 +1359,10 @@ public class DateUtil {
      * @return Date
      */
     public static Date getLastWeekStartTime(String date) {
-        Date d = stringToDate(date, FULL_TIME_FORMAT);
+        Assert.notNull(date, "date is not null.");
+
         Calendar cal = Calendar.getInstance();
-        cal.setTime(d);
+        cal.setTime(Objects.requireNonNull(stringToDate(date, FULL_DATE_FORMAT)));
         cal.setFirstDayOfWeek(Calendar.MONDAY);
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.SECOND, 0);
@@ -1365,9 +1379,10 @@ public class DateUtil {
      * @return Date
      */
     public static Date getLastWeekEndTime(String date) {
-        Date d = stringToDate(date, FULL_TIME_FORMAT);
+        Assert.notNull(date, "date is not null.");
+
         Calendar cal = Calendar.getInstance();
-        cal.setTime(d);
+        cal.setTime(Objects.requireNonNull(stringToDate(date, FULL_DATE_FORMAT)));
         cal.setFirstDayOfWeek(Calendar.MONDAY);
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.SECOND, 0);
@@ -1384,9 +1399,10 @@ public class DateUtil {
      * @return Date
      */
     public static Date getLastMonthStartTime(String date) {
-        Date d = stringToDate(date, FULL_DATE_FORMAT);
+        Assert.notNull(date, "date is not null.");
+
         Calendar cal = Calendar.getInstance();
-        cal.setTime(d);
+        cal.setTime(Objects.requireNonNull(stringToDate(date, FULL_DATE_FORMAT)));
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MINUTE, 0);
@@ -1402,9 +1418,10 @@ public class DateUtil {
      * @return Date
      */
     public static Date getLastMonthEndTime(String date) {
-        Date d = stringToDate(date, FULL_DATE_FORMAT);
+        Assert.notNull(date, "date is not null.");
+
         Calendar cal = Calendar.getInstance();
-        cal.setTime(d);
+        cal.setTime(Objects.requireNonNull(stringToDate(date, FULL_DATE_FORMAT)));
         cal.set(Calendar.HOUR_OF_DAY, MAX_HOUR);
         cal.set(Calendar.SECOND, MAX_SECOND);
         cal.set(Calendar.MINUTE, MAX_MINUTE);
@@ -1422,6 +1439,8 @@ public class DateUtil {
      */
     public static Date getLastYearStartTime(String date) {
         Date d = stringToDate(date, "yyyy");
+        Assert.notNull(d, "date is not null.");
+
         Calendar cal = Calendar.getInstance();
         cal.setTime(d);
         cal.set(Calendar.YEAR, cal.get(Calendar.YEAR) - 1);
@@ -1436,6 +1455,8 @@ public class DateUtil {
      */
     public static Date getLastYearEndTime(String date) {
         Date d = stringToDate(date, "yyyy");
+        Assert.notNull(d, "date is not null.");
+
         Calendar cal = Calendar.getInstance();
         cal.setTime(d);
         cal.set(Calendar.HOUR_OF_DAY, MAX_HOUR);
@@ -1560,9 +1581,9 @@ public class DateUtil {
     public static List<String> getDialectDate(String startDate, String endDate) {
         Calendar c1 = Calendar.getInstance();
         Calendar c2 = Calendar.getInstance();
-        c1.setTime(stringToDate(startDate, FULL_DATE_FORMAT));
-        c2.setTime(stringToDate(endDate, FULL_DATE_FORMAT));
-        List<String> resultList = Lists.newArrayList();
+        c1.setTime(Objects.requireNonNull(stringToDate(startDate, FULL_DATE_FORMAT)));
+        c2.setTime(Objects.requireNonNull(stringToDate(endDate, FULL_DATE_FORMAT)));
+        List<String> resultList = new ArrayList<>();
         while (!c1.after(c2)) {
             resultList.add(dateToString(c1.getTime(), FULL_DATE_FORMAT));
             c1.add(Calendar.DATE, 1);
@@ -1582,12 +1603,12 @@ public class DateUtil {
         final String endString = "end";
         Calendar c1 = Calendar.getInstance();
         Calendar c2 = Calendar.getInstance();
-        c1.setTime(stringToDate(startDate, FULL_DATE_FORMAT));
-        c2.setTime(stringToDate(endDate, FULL_DATE_FORMAT));
+        c1.setTime(Objects.requireNonNull(stringToDate(startDate, FULL_DATE_FORMAT)));
+        c2.setTime(Objects.requireNonNull(stringToDate(endDate, FULL_DATE_FORMAT)));
 
-        List<Map<String, String>> resultList = Lists.newArrayList();
+        List<Map<String, String>> resultList = new ArrayList<>();
         while (c1.compareTo(c2) < 0) {
-            Map<String, String> map = Maps.newHashMap();
+            Map<String, String> map = new HashMap<>(10);
             String date = dateToString(c1.getTime(), FULL_DATE_END_TIME_FORMAT);
             map.put(startString,
                     dateToString(
@@ -1613,7 +1634,7 @@ public class DateUtil {
         lastEndTime
                 .setTime(nextDay(stringToDate(resultList.get(resultList.size() - 1).get("end"), FULL_DATE_FORMAT), 1));
         if (lastEndTime.compareTo(c2) < 0) {
-            Map<String, String> map = Maps.newHashMap();
+            Map<String, String> map = new HashMap<>(10);
             map.put(startString, dateToString(getDateStartTime(dateToString(
                     stringToDate(dateToString(lastEndTime.getTime(), FULL_DATE_END_TIME_FORMAT), FULL_DATE_TIME_FORMAT),
                     FULL_DATE_FORMAT)), FULL_TIME_FORMAT));
@@ -1623,7 +1644,7 @@ public class DateUtil {
                             FULL_DATE_FORMAT)), FULL_TIME_FORMAT));
             resultList.add(map);
         } else if (lastEndTime.compareTo(c2) == 0) {
-            Map<String, String> map = Maps.newHashMap();
+            Map<String, String> map = new HashMap<>(5);
             map.put(startString, dateToString(getDateStartTime(dateToString(
                     stringToDate(dateToString(lastEndTime.getTime(), FULL_DATE_END_TIME_FORMAT), FULL_DATE_TIME_FORMAT),
                     FULL_DATE_FORMAT)), FULL_TIME_FORMAT));

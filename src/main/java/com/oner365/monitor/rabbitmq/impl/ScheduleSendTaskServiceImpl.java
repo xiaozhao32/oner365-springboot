@@ -25,8 +25,8 @@ public class ScheduleSendTaskServiceImpl implements IScheduleSendTaskService {
     @Override
     public void pullTask(InvokeParamDto invokeParamDto) {
         LOGGER.info("MQ push: {}", invokeParamDto);
-        rabbitTemplate.convertAndSend(ScheduleTaskConstants.SCHEDULETASK_QUEUE_TYPE,
-                ScheduleTaskConstants.SCHEDULETASK_QUEUE_KEY, invokeParamDto);
+        rabbitTemplate.convertAndSend(ScheduleTaskConstants.SCHEDULE_TASK_QUEUE_TYPE,
+                ScheduleTaskConstants.SCHEDULE_TASK_QUEUE_KEY, invokeParamDto);
     }
 
 }

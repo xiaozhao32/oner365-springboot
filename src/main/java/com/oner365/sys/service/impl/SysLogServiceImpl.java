@@ -56,7 +56,7 @@ public class SysLogServiceImpl implements ISysLogService {
         } catch (Exception e) {
             LOGGER.error("Error findList: ", e);
         }
-        return Collections.emptyList();   
+        return Collections.emptyList();
     }
 
     @Override
@@ -70,11 +70,11 @@ public class SysLogServiceImpl implements ISysLogService {
         return null;
     }
 
+    @Async
     @Override
     @Transactional(rollbackFor = ProjectRuntimeException.class)
-    @Async
-    public SysLog save(SysLog sysLog) {
-        return dao.save(sysLog);
+    public void save(SysLog sysLog) {
+        dao.save(sysLog);
     }
 
     @Override

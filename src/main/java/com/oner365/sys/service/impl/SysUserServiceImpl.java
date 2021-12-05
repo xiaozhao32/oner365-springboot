@@ -59,7 +59,7 @@ import com.oner365.util.RequestUtils;
 
 /**
  * 系统用户接口实现类
- * 
+ *
  * @author zhaoyong
  */
 @Service
@@ -96,7 +96,7 @@ public class SysUserServiceImpl implements ISysUserService {
 
     @Value("${ACCESS_TOKEN_SECRET}")
     private String accessTokenSecret;
-    
+
     @Value("${ACCESS_TOKEN_EXPIRY_MIN}")
     private int accessTokenExpireTime;
 
@@ -242,7 +242,7 @@ public class SysUserServiceImpl implements ISysUserService {
             // 删除用户职位关联
             userJobDao.deleteUserJobByUserId(entity.getId());
             for (String id : jobs) {
-                SysJob sysJob = sysJobService.getById(id).toPO();
+                SysJob sysJob = sysJobService.getById(id).toPojo();
                 SysUserJob sysUserJob = new SysUserJob();
                 sysUserJob.setSysJob(sysJob);
                 sysUserJob.setSysUser(entity);

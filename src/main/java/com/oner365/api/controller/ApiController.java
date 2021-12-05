@@ -52,10 +52,10 @@ public class ApiController extends BaseController {
 
     @Autowired
     private GuavaCache<Object> guavaCache;
-    
+
     @Autowired
     private SnowflakeSequence snowflakeSequence;
-    
+
     @Autowired
     private RangeSequence rangeSequence;
 
@@ -87,11 +87,11 @@ public class ApiController extends BaseController {
     @GetMapping("/testGuavaCache")
     @ApiOperation("测试Guava Cache")
     public String testGuavaCache() {
-        String sequnece1 = snowflakeSequence.nextNo();
-        LOGGER.info("sequence1: {}", sequnece1);
-        String sequnece2 = rangeSequence.nextNo();
-        LOGGER.info("sequence2: {}", sequnece2);
-        
+        String sequence1 = snowflakeSequence.nextNo();
+        LOGGER.info("sequence1: {}", sequence1);
+        String sequence2 = rangeSequence.nextNo();
+        LOGGER.info("sequence2: {}", sequence2);
+
         String key = "a1";
         if (DataUtils.isEmpty(guavaCache.getCache(key))) {
             guavaCache.setCache(key, Optional.of(111));

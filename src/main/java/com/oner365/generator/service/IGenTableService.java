@@ -93,7 +93,7 @@ public interface IGenTableService {
      *
      * @param tableName 表名称
      */
-    void synchDb(String tableName);
+    void syncDb(String tableName);
 
     /**
      * 批量生成代码（下载方式）

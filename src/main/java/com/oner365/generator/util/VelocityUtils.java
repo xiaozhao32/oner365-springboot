@@ -97,7 +97,7 @@ public class VelocityUtils {
     public static void setTreeVelocityContext(VelocityContext context, GenTable genTable) {
         String options = genTable.getOptions();
         JSONObject paramsObj = JSON.parseObject(options);
-        String treeCode = getTreecode(paramsObj);
+        String treeCode = getTreeCode(paramsObj);
         String treeParentCode = getTreeParentCode(paramsObj);
         String treeName = getTreeName(paramsObj);
 
@@ -252,7 +252,7 @@ public class VelocityUtils {
      * @param paramsObj 生成其他选项
      * @return 树编码
      */
-    public static String getTreecode(JSONObject paramsObj) {
+    public static String getTreeCode(JSONObject paramsObj) {
         if (paramsObj.containsKey(GenConstants.TREE_CODE)) {
             return DataUtils.coderName(paramsObj.getString(GenConstants.TREE_CODE));
         }

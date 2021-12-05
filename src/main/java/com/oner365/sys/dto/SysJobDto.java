@@ -11,7 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 /**
  * 职位信息 SysJob
- * 
+ *
  * @author zhaoyong
  */
 @ApiModel(value = "职位信息")
@@ -178,13 +178,13 @@ public class SysJobDto implements Serializable {
     public String toString() {
         return MoreObjects.toStringHelper(this).add("id", id).toString();
     }
-    
+
     /**
      * 转换对象
-     * 
+     *
      * @return SysJob
      */
-    public SysJob toPO() {
+    public SysJob toPojo() {
         SysJob result = new SysJob();
         result.setCreateTime(this.getCreateTime());
         result.setId(this.getId());

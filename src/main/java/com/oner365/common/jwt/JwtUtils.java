@@ -38,7 +38,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
  * @author zhaoyong
  */
 public class JwtUtils {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtUtils.class);
 
     private JwtUtils() {
@@ -54,7 +54,7 @@ public class JwtUtils {
      * @return String
      */
     public static String generateToken(String username, int days, String secret) {
-        Map<String, Object> claims = new HashMap<>();
+        Map<String, Object> claims = new HashMap<>(2);
         claims.put("sub", username);
         claims.put("created", DateUtil.getDate());
         return Jwts.builder().setClaims(claims).setExpiration(DateUtil.getDateAfter(days))
@@ -70,7 +70,7 @@ public class JwtUtils {
      * @return String
      */
     public static String generateToken(String username, Date expired, String secret) {
-        Map<String, Object> claims = new HashMap<>();
+        Map<String, Object> claims = new HashMap<>(2);
         claims.put("sub", username);
         claims.put("created", DateUtil.getDate());
         return Jwts.builder().setClaims(claims).setExpiration(expired).signWith(SignatureAlgorithm.HS512, secret)
@@ -106,14 +106,14 @@ public class JwtUtils {
         try {
             return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
         } catch (ExpiredJwtException e) {
-            LOGGER.error("token 已过期: {}", token, e.getMessage());
+            LOGGER.error("token: {}, 已过期: {}", token, e.getMessage());
             return e.getClaims();
         }
     }
 
     /**
      * 验证token有效性
-     * 
+     *
      * @param token  令牌
      * @param secret 加密秘钥
      * @return Boolean
@@ -129,7 +129,7 @@ public class JwtUtils {
 
     /**
      * 验证token是否过期
-     * 
+     *
      * @param token  令牌
      * @param secret 加密秘钥
      * @return Boolean

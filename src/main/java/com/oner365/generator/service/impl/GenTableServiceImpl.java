@@ -250,7 +250,7 @@ public class GenTableServiceImpl implements IGenTableService {
      */
     @Override
     @Transactional(rollbackFor = ProjectException.class)
-    public void synchDb(String tableName) {
+    public void syncDb(String tableName) {
         GenTable table = genTableMapper.selectGenTableByName(tableName);
         List<GenTableColumn> tableColumns = table.getColumns();
         List<String> tableColumnNames = tableColumns.stream().map(GenTableColumn::getColumnName)

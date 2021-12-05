@@ -28,7 +28,7 @@ import com.oner365.util.DataUtils;
 public class ImportExcelUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ImportExcelUtils.class);
-    
+
     private static final String POINT = ".";
     private static final String NAN = "NaN";
 
@@ -84,7 +84,7 @@ public class ImportExcelUtils {
         /*
          * 2、获取标题行，默认首行0
          */
-        Row row = sheet.getRow(titleRow == null ? 0 : titleRow);
+        Row row = sheet.getRow(titleRow);
         // 标题总列数
         int colNum = row.getPhysicalNumberOfCells();
         String[] title = new String[colNum];
@@ -108,14 +108,14 @@ public class ImportExcelUtils {
             if (nullCells >= colNum) {
                 continue;
             }
-            
+
             for (int j=0; j<colNum; j++) {
                 Cell cell = row.getCell((short) j);
                 Object val = null;
                 if (cell != null && cell.getCellType() != CellType.BLANK) {
                     val = getCellValue(cell);
                 }
-                Object o = val != null ? val.toString().trim() : val;
+                Object o = val != null ? val.toString().trim() : null;
                 objs.add(o);
             }
             dataList.add(objs);
@@ -137,13 +137,11 @@ public class ImportExcelUtils {
             value = cell.getStringCellValue().trim();
             break;
         case _NONE:
+        case BLANK:
             value = null;
             break;
         case BOOLEAN:
             value = cell.getBooleanCellValue();
-            break;
-        case BLANK:
-            value = null;
             break;
         case NUMERIC:
             if (DateUtil.isCellDateFormatted(cell)) {

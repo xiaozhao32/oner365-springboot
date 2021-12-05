@@ -19,29 +19,29 @@ import com.oner365.util.DataUtils;
 public class GenUtils {
 
     /** 数据库字符串类型 */
-    protected static final String[] COLUMNTYPE_STR = { "char", "varchar", "nvarchar", "varchar2", "tinytext", "text",
+    protected static final String[] COLUMN_TYPE_STR = { "char", "varchar", "nvarchar", "varchar2", "tinytext", "text",
             "mediumtext", "longtext" };
 
     /** 数据库时间类型 */
-    protected static final String[] COLUMNTYPE_DATE_TIME = { GenConstants.HTML_DATE_TIME, "time", "timestamp" };
+    protected static final String[] COLUMN_TYPE_DATE_TIME = { GenConstants.HTML_DATE_TIME, "time", "timestamp" };
 
     /** 数据库日期类型 */
-    protected static final String[] COLUMNTYPE_DATE = { GenConstants.HTML_DATE };
+    protected static final String[] COLUMN_TYPE_DATE = { GenConstants.HTML_DATE };
 
     /** 数据库数字类型 */
-    protected static final String[] COLUMNTYPE_NUMBER = { "tinyint", "smallint", "mediumint", "int", "number",
+    protected static final String[] COLUMN_TYPE_NUMBER = { "tinyint", "smallint", "mediumint", "int", "number",
             "integer", "bit", "bigint", "float", "double", "decimal" };
 
     /** 页面不需要编辑字段 */
-    protected static final String[] COLUMNNAME_NOT_EDIT = { "id", GenConstants.PARAM_CREATE_USER,
+    protected static final String[] COLUMN_NAME_NOT_EDIT = { "id", GenConstants.PARAM_CREATE_USER,
             GenConstants.PARAM_CREATE_TIME };
 
     /** 页面不需要显示的列表字段 */
-    protected static final String[] COLUMNNAME_NOT_LIST = { "id", GenConstants.PARAM_CREATE_USER,
+    protected static final String[] COLUMN_NAME_NOT_LIST = { "id", GenConstants.PARAM_CREATE_USER,
             GenConstants.PARAM_CREATE_TIME, "update_user", "update_time" };
 
     /** 页面不需要查询字段 */
-    protected static final String[] COLUMNNAME_NOT_QUERY = { "id", GenConstants.PARAM_CREATE_USER,
+    protected static final String[] COLUMN_NAME_NOT_QUERY = { "id", GenConstants.PARAM_CREATE_USER,
             GenConstants.PARAM_CREATE_TIME, "update_user", "update_time", "remark" };
 
     private static final int POS_2 = 2;
@@ -87,19 +87,19 @@ public class GenUtils {
         // 设置java字段名
         column.setJavaField(DataUtils.coderName(columnName));
 
-        if (arraysContains(COLUMNTYPE_STR, dataType)) {
+        if (arraysContains(COLUMN_TYPE_STR, dataType)) {
             column.setJavaType(GenConstants.TYPE_STRING);
             // 字符串长度超过500设置为文本域
             Integer columnLength = getColumnLength(column.getColumnType());
             String htmlType = columnLength >= 500 ? GenConstants.HTML_TEXTAREA : GenConstants.HTML_INPUT;
             column.setHtmlType(htmlType);
-        } else if (arraysContains(COLUMNTYPE_DATE, dataType)) {
+        } else if (arraysContains(COLUMN_TYPE_DATE, dataType)) {
             column.setJavaType(GenConstants.TYPE_DATE);
             column.setHtmlType(GenConstants.HTML_DATE);
-        } else if (arraysContains(COLUMNTYPE_DATE_TIME, dataType)) {
+        } else if (arraysContains(COLUMN_TYPE_DATE_TIME, dataType)) {
             column.setJavaType(GenConstants.TYPE_DATE_TIME);
             column.setHtmlType(GenConstants.HTML_DATE_TIME);
-        } else if (arraysContains(COLUMNTYPE_NUMBER, dataType)) {
+        } else if (arraysContains(COLUMN_TYPE_NUMBER, dataType)) {
             column.setHtmlType(GenConstants.HTML_INPUT);
 
             // 如果是浮点型 统一用BigDecimal
@@ -121,15 +121,15 @@ public class GenUtils {
         column.setIsInsert(GenConstants.REQUIRE);
 
         // 编辑字段
-        if (!arraysContains(COLUMNNAME_NOT_EDIT, columnName) && !column.isPk()) {
+        if (!arraysContains(COLUMN_NAME_NOT_EDIT, columnName) && !column.isPk()) {
             column.setIsEdit(GenConstants.REQUIRE);
         }
         // 列表字段
-        if (!arraysContains(COLUMNNAME_NOT_LIST, columnName) && !column.isPk()) {
+        if (!arraysContains(COLUMN_NAME_NOT_LIST, columnName) && !column.isPk()) {
             column.setIsList(GenConstants.REQUIRE);
         }
         // 查询字段
-        if (!arraysContains(COLUMNNAME_NOT_QUERY, columnName) && !column.isPk()) {
+        if (!arraysContains(COLUMN_NAME_NOT_QUERY, columnName) && !column.isPk()) {
             column.setIsQuery(GenConstants.REQUIRE);
         }
 

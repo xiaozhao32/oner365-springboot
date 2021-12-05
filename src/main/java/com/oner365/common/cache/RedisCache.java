@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import com.oner365.common.constants.PublicConstants;
 import com.oner365.util.DataUtils;
+import org.springframework.util.Assert;
 
 /**
  * spring redis 工具类
@@ -59,7 +60,7 @@ public class RedisCache {
      * @param timeout 超时时间
      * @return true=设置成功；false=设置失败
      */
-    public boolean expire(final String key, final long timeout) {
+    public Boolean expire(final String key, final long timeout) {
         return expire(key, timeout, TimeUnit.SECONDS);
     }
 
@@ -71,7 +72,7 @@ public class RedisCache {
      * @param unit    时间单位
      * @return true=设置成功；false=设置失败
      */
-    public boolean expire(final String key, final long timeout, final TimeUnit unit) {
+    public Boolean expire(final String key, final long timeout, final TimeUnit unit) {
         return redisTemplate.expire(key, timeout, unit);
     }
 
@@ -91,7 +92,7 @@ public class RedisCache {
      *
      * @param key 键
      */
-    public boolean deleteObject(final String key) {
+    public Boolean deleteObject(final String key) {
         return redisTemplate.delete(key);
     }
 
@@ -101,7 +102,7 @@ public class RedisCache {
      * @param collection 多个对象
      * @return long
      */
-    public long deleteObject(final Collection<String> collection) {
+    public Long deleteObject(final Collection<String> collection) {
         return redisTemplate.delete(collection);
     }
 
@@ -112,7 +113,7 @@ public class RedisCache {
      * @param dataList 待缓存的List数据
      * @return 缓存的对象
      */
-    public <T> long setCacheList(final String key, final List<T> dataList) {
+    public <T> Long setCacheList(final String key, final List<T> dataList) {
         Long count = redisTemplate.opsForList().rightPushAll(key, dataList);
         return count == null ? 0 : count;
     }
@@ -217,7 +218,7 @@ public class RedisCache {
 
     /**
      * 获取客户端信息
-     * 
+     *
      * @return List
      */
     public List<String> getClientList() {
@@ -231,14 +232,14 @@ public class RedisCache {
      * @param expireTime 过期时间
      * @return boolean
      */
-    public boolean lock(String key, long expireTime) {
+    public Boolean lock(String key, long expireTime) {
         String lock = LOCK_KEY + key;
 
         return (Boolean) redisTemplate.execute((RedisCallback) connection -> {
             long expireAt = System.currentTimeMillis() + expireTime + 1;
-            boolean acquire = connection.setNX(lock.getBytes(), String.valueOf(expireAt).getBytes());
+            Boolean acquire = connection.setNX(lock.getBytes(), String.valueOf(expireAt).getBytes());
 
-            if (acquire) {
+            if (acquire != null && acquire) {
                 return true;
             } else {
                 byte[] value = connection.get(lock.getBytes());
@@ -248,6 +249,7 @@ public class RedisCache {
                         // 重新加锁，防止死锁
                         byte[] oldValue = connection.getSet(lock.getBytes(),
                                 String.valueOf(System.currentTimeMillis() + expireTime + 1).getBytes());
+                        Assert.notNull(oldValue, "oldValue is not null.");
                         return Long.parseLong(new String(oldValue)) < System.currentTimeMillis();
                     }
                 }
