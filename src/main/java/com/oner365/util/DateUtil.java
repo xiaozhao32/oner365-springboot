@@ -7,14 +7,23 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.*;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
+import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.util.Assert;
 
 /**
@@ -1660,5 +1669,33 @@ public class DateUtil {
         }
         return resultList;
     }
+    
+    /**
+     * 判断字符串是否是LocalDateTime格式
+     *
+     * @param timeString 日期字符串
+     * @return isLocalDateTime
+     */
+	public static boolean isLocalDateTime(String timeString) {
+		boolean isLocalDateTime = true;
+		DateTimeFormatter df = DateTimeFormatter.ofPattern(FULL_TIME_FORMAT);
+		try {
+			LocalDateTime.parse(timeString,df);
+		} catch (Exception e) {
+			isLocalDateTime = false;
+		}
+		return isLocalDateTime;
+	}
+	
+	/**
+     * 字符串转LocalDateTime
+     *
+     * @param timeString 日期字符串
+     * @return LocalDateTime
+     */
+	public static LocalDateTime toLocalDateTime(String timeString) {
+		DateTimeFormatter df = DateTimeFormatter.ofPattern(FULL_TIME_FORMAT);
+		return LocalDateTime.parse(timeString,df);
+	}
 
 }
