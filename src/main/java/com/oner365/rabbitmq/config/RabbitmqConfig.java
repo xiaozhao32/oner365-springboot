@@ -1,4 +1,4 @@
-package com.oner365.common.rabbitmq.config;
+package com.oner365.rabbitmq.config;
 
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
