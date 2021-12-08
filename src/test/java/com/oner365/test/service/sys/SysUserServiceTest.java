@@ -12,7 +12,7 @@ import org.springframework.data.domain.Page;
 import com.alibaba.fastjson.JSON;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.sys.dto.LoginUserDto;
-import com.oner365.sys.entity.SysUser;
+import com.oner365.sys.dto.SysUserDto;
 import com.oner365.sys.service.ISysUserService;
 import com.oner365.test.service.BaseServiceTest;
 
@@ -25,40 +25,40 @@ import com.oner365.test.service.BaseServiceTest;
 @SpringBootTest
 class SysUserServiceTest extends BaseServiceTest {
 
-    @Autowired
-    private ISysUserService service;
+  @Autowired
+  private ISysUserService service;
 
-    @RepeatedTest(value = 2)
-    void findList() {
-        QueryCriteriaBean paramData = new QueryCriteriaBean();
-        List<SysUser> list = service.findList(paramData);
-        LOGGER.info("findList:{}", list.size());
-        Assertions.assertNotEquals(0, list.size());
-    }
+  @RepeatedTest(value = 2)
+  void findList() {
+    QueryCriteriaBean paramData = new QueryCriteriaBean();
+    List<SysUserDto> list = service.findList(paramData);
+    LOGGER.info("findList:{}", list.size());
+    Assertions.assertNotEquals(0, list.size());
+  }
 
-    @Test
-    void pageList() {
-        QueryCriteriaBean paramData = new QueryCriteriaBean();
-        Page<SysUser> list = service.pageList(paramData);
-        LOGGER.info("pageList:{}", list.getSize());
-        Assertions.assertNotEquals(0, list.getSize());
-    }
+  @Test
+  void pageList() {
+    QueryCriteriaBean paramData = new QueryCriteriaBean();
+    Page<SysUserDto> list = service.pageList(paramData);
+    LOGGER.info("pageList:{}", list.getSize());
+    Assertions.assertNotEquals(0, list.getSize());
+  }
 
-    @Test
-    void getById() {
-        String id = "1";
-        SysUser entity = service.getById(id);
-        LOGGER.info("getById:{}", JSON.toJSONString(entity));
-        Assertions.assertNotNull(entity);
-    }
+  @Test
+  void getById() {
+    String id = "1";
+    SysUserDto entity = service.getById(id);
+    LOGGER.info("getById:{}", JSON.toJSONString(entity));
+    Assertions.assertNotNull(entity);
+  }
 
-    @Test
-    void login() {
-        String userName = "admin";
-        String password = "1";
-        LoginUserDto entity = service.login(userName, password);
-        LOGGER.info("login:{}", entity);
-        Assertions.assertNotNull(entity);
-    }
+  @Test
+  void login() {
+    String userName = "admin";
+    String password = "1";
+    LoginUserDto entity = service.login(userName, password);
+    LOGGER.info("login:{}", entity);
+    Assertions.assertNotNull(entity);
+  }
 
 }

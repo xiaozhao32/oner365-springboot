@@ -1,6 +1,6 @@
 package com.oner365.log.event;
 
-import com.oner365.sys.entity.SysLog;
+import com.oner365.sys.vo.SysLogVo;
 
 /**
  * SysLog Event
@@ -10,14 +10,14 @@ import com.oner365.sys.entity.SysLog;
  */
 public class SysLogEvent {
 
-    private final SysLog sysLog;
+    private final SysLogVo sysLog;
 
     /**
      * Constructor
      *
      * @param sysLog SysLog
      */
-    public SysLogEvent(SysLog sysLog) {
+    public SysLogEvent(SysLogVo sysLog) {
         super();
         this.sysLog = sysLog;
     }
@@ -25,7 +25,7 @@ public class SysLogEvent {
     /**
      * @return the sysLog
      */
-    public SysLog getSysLog() {
+    public SysLogVo getSysLog() {
         return sysLog;
     }
 }

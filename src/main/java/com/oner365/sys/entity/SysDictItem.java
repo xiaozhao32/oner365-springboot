@@ -11,6 +11,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.oner365.sys.dto.SysDictItemDto;
 
 /**
  * 字典对象
@@ -131,6 +132,22 @@ public class SysDictItem implements Serializable{
 
     public void setParentId(String parentId) {
         this.parentId = parentId;
+    }
+    
+    /**
+     * toDto
+     * @return SysDictItemDto
+     */
+    public SysDictItemDto toDto() {
+      SysDictItemDto result = new SysDictItemDto();
+      result.setId(this.getId());
+      result.setItemCode(this.getItemCode());
+      result.setItemName(this.getItemName());
+      result.setItemOrder(this.getItemOrder());
+      result.setParentId(this.getParentId());
+      result.setStatus(this.getStatus());
+      result.setTypeId(this.getTypeId());
+      return result;
     }
 
 }

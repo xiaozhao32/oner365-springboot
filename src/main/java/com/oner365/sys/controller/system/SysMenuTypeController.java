@@ -23,7 +23,7 @@ import com.oner365.common.query.AttributeBean;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
 import com.oner365.sys.constants.SysConstants;
-import com.oner365.sys.entity.SysMenuType;
+import com.oner365.sys.dto.SysMenuTypeDto;
 import com.oner365.sys.service.ISysMenuTypeService;
 import com.oner365.sys.vo.SysMenuTypeVo;
 import com.oner365.sys.vo.check.CheckCodeVo;
@@ -42,106 +42,106 @@ import io.swagger.annotations.ApiOperation;
 @Api(tags = "系统管理 - 菜单类型")
 public class SysMenuTypeController extends BaseController {
 
-    @Autowired
-    private ISysMenuTypeService menuTypeService;
+  @Autowired
+  private ISysMenuTypeService menuTypeService;
 
-    /**
-     * 保存
-     * 
-     * @param sysMenuTypeVo 菜单类型对象
-     * @return ResponseResult<SysMenuType>
-     */
-    @PutMapping("/save")
-    @ApiOperation("保存")
-    public ResponseResult<SysMenuType> save(@RequestBody SysMenuTypeVo sysMenuTypeVo) {
-        if (sysMenuTypeVo != null) {
-            SysMenuType entity = menuTypeService.save(sysMenuTypeVo.toObject());
-            return ResponseResult.success(entity);
-        }
-        return ResponseResult.error(ErrorInfoEnum.SAVE_ERROR.getName());
+  /**
+   * 保存
+   * 
+   * @param sysMenuTypeVo 菜单类型对象
+   * @return ResponseResult<SysMenuTypeDto>
+   */
+  @PutMapping("/save")
+  @ApiOperation("保存")
+  public ResponseResult<SysMenuTypeDto> save(@RequestBody SysMenuTypeVo sysMenuTypeVo) {
+    if (sysMenuTypeVo != null) {
+      SysMenuTypeDto entity = menuTypeService.save(sysMenuTypeVo);
+      return ResponseResult.success(entity);
     }
+    return ResponseResult.error(ErrorInfoEnum.SAVE_ERROR.getName());
+  }
 
-    /**
-     * 获取信息
-     * 
-     * @param id 编号
-     * @return SysMenuType
-     */
-    @GetMapping("/get/{id}")
-    @ApiOperation("按id查询")
-    public SysMenuType get(@PathVariable String id) {
-        return menuTypeService.getById(id);
-    }
+  /**
+   * 获取信息
+   * 
+   * @param id 编号
+   * @return SysMenuTypeDto
+   */
+  @GetMapping("/get/{id}")
+  @ApiOperation("按id查询")
+  public SysMenuTypeDto get(@PathVariable String id) {
+    return menuTypeService.getById(id);
+  }
 
-    /**
-     * 列表
-     * 
-     * @param data 参数
-     * @return Page<SysMenuType>
-     */
-    @PostMapping("/list")
-    @ApiOperation("获取分页列表")
-    public Page<SysMenuType> list(@RequestBody QueryCriteriaBean data) {
-        return menuTypeService.pageList(data);
-    }
+  /**
+   * 列表
+   * 
+   * @param data 参数
+   * @return Page<SysMenuTypeDto>
+   */
+  @PostMapping("/list")
+  @ApiOperation("获取分页列表")
+  public Page<SysMenuTypeDto> list(@RequestBody QueryCriteriaBean data) {
+    return menuTypeService.pageList(data);
+  }
 
-    /**
-     * 列表
-     * 
-     * @return List<SysMenuType>
-     */
-    @GetMapping("/findAll")
-    @ApiOperation("获取全部有效类型")
-    public List<SysMenuType> findAll() {
-        QueryCriteriaBean data = new QueryCriteriaBean();
-        List<AttributeBean> whereList = new ArrayList<>();
-        AttributeBean attribute = new AttributeBean(SysConstants.STATUS, StatusEnum.YES.getCode());
-        whereList.add(attribute);
-        data.setWhereList(whereList);
-        return menuTypeService.findList(data);
-    }
+  /**
+   * 列表
+   * 
+   * @return List<SysMenuTypeDto>
+   */
+  @GetMapping("/findAll")
+  @ApiOperation("获取全部有效类型")
+  public List<SysMenuTypeDto> findAll() {
+    QueryCriteriaBean data = new QueryCriteriaBean();
+    List<AttributeBean> whereList = new ArrayList<>();
+    AttributeBean attribute = new AttributeBean(SysConstants.STATUS, StatusEnum.YES.getCode());
+    whereList.add(attribute);
+    data.setWhereList(whereList);
+    return menuTypeService.findList(data);
+  }
 
-    /**
-     * 修改状态
-     * 
-     * @param id     主键
-     * @param status 状态
-     * @return Integer
-     */
-    @PostMapping("/editStatusById/{id}")
-    @ApiOperation("修改状态")
-    public Integer editStatusById(@PathVariable String id, @RequestParam("status") String status) {
-        return menuTypeService.editStatusById(id, status);
-    }
+  /**
+   * 修改状态
+   * 
+   * @param id     主键
+   * @param status 状态
+   * @return Integer
+   */
+  @PostMapping("/editStatusById/{id}")
+  @ApiOperation("修改状态")
+  public Integer editStatusById(@PathVariable String id, @RequestParam("status") String status) {
+    return menuTypeService.editStatusById(id, status);
+  }
 
-    /**
-     * 判断是否存在
-     * 
-     * @param checkCodeVo 查询参数
-     * @return Long
-     */
-    @PostMapping("/checkCode")
-    @ApiOperation("判断是否存在")
-    public Long checkCode(@RequestBody CheckCodeVo checkCodeVo) {
-        if (checkCodeVo != null) {
-            return menuTypeService.checkCode(checkCodeVo.getId(), checkCodeVo.getCode());
-        }
-        return Long.valueOf(ResultEnum.ERROR.getCode());
+  /**
+   * 判断是否存在
+   * 
+   * @param checkCodeVo 查询参数
+   * @return Long
+   */
+  @PostMapping("/checkCode")
+  @ApiOperation("判断是否存在")
+  public Long checkCode(@RequestBody CheckCodeVo checkCodeVo) {
+    if (checkCodeVo != null) {
+      return menuTypeService.checkCode(checkCodeVo.getId(), checkCodeVo.getCode());
     }
+    return Long.valueOf(ResultEnum.ERROR.getCode());
+  }
 
-    /**
-     * 删除
-     * 
-     * @param ids 编号
-     * @return Integer
-     */
-    @DeleteMapping("/delete")
-    @ApiOperation("删除")
-    public Integer delete(@RequestBody String... ids) {
-        int code = 0;
-        for (String id : ids) {
-            code = menuTypeService.deleteById(id);
-        }
-        return code;
+  /**
+   * 删除
+   * 
+   * @param ids 编号
+   * @return Integer
+   */
+  @DeleteMapping("/delete")
+  @ApiOperation("删除")
+  public Integer delete(@RequestBody String... ids) {
+    int code = 0;
+    for (String id : ids) {
+      code = menuTypeService.deleteById(id);
     }
+    return code;
+  }
 }

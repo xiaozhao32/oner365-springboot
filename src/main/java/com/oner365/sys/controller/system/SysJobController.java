@@ -50,7 +50,7 @@ public class SysJobController extends BaseController {
     @ApiOperation("保存")
     public ResponseResult<SysJobDto> save(@RequestBody SysJobVo sysJobVo) {
         if (sysJobVo != null) {
-        	SysJobDto entity = sysJobService.save(sysJobVo.toPojo());
+        	SysJobDto entity = sysJobService.save(sysJobVo);
             return ResponseResult.success(entity);
         }
         return ResponseResult.error(ErrorInfoEnum.SAVE_ERROR.getName());

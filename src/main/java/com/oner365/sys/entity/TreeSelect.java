@@ -4,8 +4,10 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.oner365.util.DataUtils;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.oner365.sys.dto.SysMenuDto;
+import com.oner365.sys.dto.SysOrganizationDto;
+import com.oner365.util.DataUtils;
 
 /**
  * Treeselect树结构实体类
@@ -29,7 +31,7 @@ public class TreeSelect implements Serializable {
 
     }
     
-    public TreeSelect(SysOrganization organization) {
+    public TreeSelect(SysOrganizationDto organization) {
         this.id = organization.getId();
         this.label = organization.getOrgName();
         if (!DataUtils.isEmpty(organization.getChildren())) {
@@ -37,7 +39,7 @@ public class TreeSelect implements Serializable {
         }
     }
 
-    public TreeSelect(SysMenu menu) {
+    public TreeSelect(SysMenuDto menu) {
         this.id = menu.getId();
         this.label = menu.getMenuName();
         if (!DataUtils.isEmpty(menu.getChildren())) {

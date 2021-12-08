@@ -1,4 +1,4 @@
-package com.oner365.sys.vo;
+package com.oner365.sys.dto;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -9,11 +9,11 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
- * 操作对象
+ * 菜单类型对象
  * @author zhaoyong
  */
-@ApiModel(value = "菜单操作")
-public class SysMenuOperationVo implements Serializable {
+@ApiModel(value = "菜单类型")
+public class SysMenuTypeDto implements Serializable {
 
     /**
      *
@@ -21,27 +21,27 @@ public class SysMenuOperationVo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 编号 id
+     * 主键
      */
     @ApiModelProperty(value = "主键")
     private String id;
 
     /**
-     * 操作名称
+     * 类型名称
      */
-    @ApiModelProperty(value = "操作名称", required = true)
-    private String operationName;
+    @ApiModelProperty(value = "类型名称", required = true)
+    private String typeName;
 
     /**
-     * 操作类型
+     * 类型编码
      */
-    @ApiModelProperty(value = "操作类型")
-    private String operationType;
+    @ApiModelProperty(value = "类型编码", required = true)
+    private String typeCode;
 
     /**
-     * 状态 status
+     * 状态
      */
-    @ApiModelProperty(value = "状态")
+    @ApiModelProperty(value = "状态", required = true)
     private String status;
 
     /**
@@ -59,7 +59,7 @@ public class SysMenuOperationVo implements Serializable {
     /**
      * Constructor
      */
-    public SysMenuOperationVo() {
+    public SysMenuTypeDto() {
         super();
     }
 
@@ -71,20 +71,20 @@ public class SysMenuOperationVo implements Serializable {
         this.id = id;
     }
 
-    public String getOperationName() {
-        return operationName;
+    public String getTypeName() {
+        return typeName;
     }
 
-    public void setOperationName(String operationName) {
-        this.operationName = operationName;
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
     }
 
-    public String getOperationType() {
-        return operationType;
+    public String getTypeCode() {
+        return typeCode;
     }
 
-    public void setOperationType(String operationType) {
-        this.operationType = operationType;
+    public void setTypeCode(String typeCode) {
+        this.typeCode = typeCode;
     }
 
     public String getStatus() {

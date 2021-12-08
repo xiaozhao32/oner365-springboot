@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import com.google.common.base.MoreObjects;
-import com.oner365.sys.entity.SysJob;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -177,26 +176,6 @@ public class SysJobDto implements Serializable {
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this).add("id", id).toString();
-    }
-
-    /**
-     * 转换对象
-     *
-     * @return SysJob
-     */
-    public SysJob toPojo() {
-        SysJob result = new SysJob();
-        result.setCreateTime(this.getCreateTime());
-        result.setId(this.getId());
-        result.setJobInfo(this.getJobInfo());
-        result.setJobLogo(this.getJobLogo());
-        result.setJobLogoUrl(this.getJobLogoUrl());
-        result.setJobName(this.getJobName());
-        result.setJobOrder(this.getJobOrder());
-        result.setParentId(this.getParentId());
-        result.setStatus(this.getStatus());
-        result.setUpdateTime(this.getUpdateTime());
-        return result;
     }
 
 }

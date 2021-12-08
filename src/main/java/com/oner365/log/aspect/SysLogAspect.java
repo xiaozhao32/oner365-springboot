@@ -14,7 +14,7 @@ import org.springframework.http.HttpMethod;
 import com.alibaba.fastjson.JSON;
 import com.oner365.log.event.SysLogEvent;
 import com.oner365.log.util.SysLogUtils;
-import com.oner365.sys.entity.SysLog;
+import com.oner365.sys.vo.SysLogVo;
 import com.oner365.util.DataUtils;
 
 /**
@@ -50,7 +50,7 @@ public class SysLogAspect {
             String className = point.getTarget().getClass().getName();
             String methodName = point.getSignature().getName();
             LOGGER.debug("[Class]:{},[Method]:{}", className, methodName);
-            SysLog entity = SysLogUtils.getSysLog();
+            SysLogVo entity = SysLogUtils.getSysLog();
             entity.setOperationName(sysLog.value());
             if (HttpMethod.PUT.name().equals(methodName) || HttpMethod.POST.name().equals(methodName)) {
                 String params = getParams(point.getArgs());

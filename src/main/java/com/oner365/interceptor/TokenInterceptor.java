@@ -26,7 +26,7 @@ import com.oner365.common.constants.PublicConstants;
 import com.oner365.common.jwt.JwtUtils;
 import com.oner365.gateway.constants.GatewayConstants;
 import com.oner365.log.event.SysLogEvent;
-import com.oner365.sys.entity.SysLog;
+import com.oner365.sys.vo.SysLogVo;
 import com.oner365.util.DataUtils;
 
 /**
@@ -147,7 +147,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 		String methodName = request.getMethod();
 		// 除get请求一律保存日志
 		if (!HttpMethod.GET.matches(methodName)) {
-			SysLog sysLog = new SysLog();
+		  SysLogVo sysLog = new SysLogVo();
 			sysLog.setCreateTime(LocalDateTime.now());
 			sysLog.setMethodName(methodName);
 			sysLog.setOperationIp(ip);

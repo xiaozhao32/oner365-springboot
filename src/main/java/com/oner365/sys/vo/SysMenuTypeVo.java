@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import com.google.common.base.MoreObjects;
-import com.oner365.sys.entity.SysMenuType;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -118,22 +117,6 @@ public class SysMenuTypeVo implements Serializable {
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this).add("id", id).toString();
-    }
-
-    /**
-     * 转换对象
-     * 
-     * @return SysMenuType
-     */
-    public SysMenuType toObject() {
-        SysMenuType result = new SysMenuType();
-        result.setId(this.getId());
-        result.setCreateTime(this.getCreateTime());
-        result.setStatus(this.getStatus());
-        result.setTypeCode(this.getTypeCode());
-        result.setTypeName(this.getTypeName());
-        result.setUpdateTime(this.getUpdateTime());
-        return result;
     }
 
 }

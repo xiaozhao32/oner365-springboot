@@ -1,4 +1,4 @@
-package com.oner365.sys.vo;
+package com.oner365.sys.dto;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -15,7 +15,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @author liutao
  */
 @ApiModel(value = "角色信息")
-public class SysRoleVo implements Serializable {
+public class SysRoleDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -76,7 +76,7 @@ public class SysRoleVo implements Serializable {
     /**
      * Generate constructor
      */
-    public SysRoleVo() {
+    public SysRoleDto() {
         super();
     }
 

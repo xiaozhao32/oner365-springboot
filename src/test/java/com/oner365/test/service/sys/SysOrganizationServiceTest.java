@@ -1,16 +1,18 @@
 package com.oner365.test.service.sys;
 
-import com.alibaba.fastjson.JSON;
-import com.oner365.sys.entity.SysOrganization;
-import com.oner365.sys.service.ISysOrganizationService;
-import com.oner365.test.service.BaseServiceTest;
+import java.util.List;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.List;
+import com.alibaba.fastjson.JSON;
+import com.oner365.sys.dto.SysOrganizationDto;
+import com.oner365.sys.service.ISysOrganizationService;
+import com.oner365.sys.vo.SysOrganizationVo;
+import com.oner365.test.service.BaseServiceTest;
 
 /**
  * Test SysOrganizationService
@@ -21,47 +23,47 @@ import java.util.List;
 @SpringBootTest
 class SysOrganizationServiceTest extends BaseServiceTest {
 
-    @Autowired
-    private ISysOrganizationService service;
+  @Autowired
+  private ISysOrganizationService service;
 
-    @Test
-    void getById() {
-        String id = "110101";
-        SysOrganization entity = service.getById(id);
-        LOGGER.info("getById:{}", JSON.toJSONString(entity));
-        Assertions.assertNotNull(entity);
-    }
+  @Test
+  void getById() {
+    String id = "110101";
+    SysOrganizationDto entity = service.getById(id);
+    LOGGER.info("getById:{}", JSON.toJSONString(entity));
+    Assertions.assertNotNull(entity);
+  }
 
-    @RepeatedTest(value = 2)
-    void findListByParentId() {
-        List<SysOrganization> list = service.findListByParentId("-1");
-        LOGGER.info("findListByParentId:{}", list.size());
-        Assertions.assertNotEquals(0, list.size());
-    }
+  @RepeatedTest(value = 2)
+  void findListByParentId() {
+    List<SysOrganizationDto> list = service.findListByParentId("-1");
+    LOGGER.info("findListByParentId:{}", list.size());
+    Assertions.assertNotEquals(0, list.size());
+  }
 
-    @Test
-    void getByCode() {
-        String code = "110101000000";
-        SysOrganization entity = service.getByCode(code);
-        LOGGER.info("getByCode:{}", JSON.toJSONString(entity));
-        Assertions.assertNotNull(entity);
-    }
+  @Test
+  void getByCode() {
+    String code = "110101000000";
+    SysOrganizationDto entity = service.getByCode(code);
+    LOGGER.info("getByCode:{}", JSON.toJSONString(entity));
+    Assertions.assertNotNull(entity);
+  }
 
-    @Test
-    void selectList() {
-        SysOrganization sysOrg = new SysOrganization();
-        // cache error
-        List<SysOrganization> list = service.selectList(sysOrg);
-        LOGGER.info("selectList:{}", list.size());
-        Assertions.assertNotEquals(0, list.size());
-    }
+  @Test
+  void selectList() {
+    SysOrganizationVo sysOrg = new SysOrganizationVo();
+    // cache error
+    List<SysOrganizationDto> list = service.selectList(sysOrg);
+    LOGGER.info("selectList:{}", list.size());
+    Assertions.assertNotEquals(0, list.size());
+  }
 
-    @Test
-    void selectListByUserId() {
-        String userId = "1";
-        List<String> list = service.selectListByUserId(userId);
-        LOGGER.info("selectListByUserId:{}", list.size());
-        Assertions.assertNotEquals(0, list.size());
-    }
+  @Test
+  void selectListByUserId() {
+    String userId = "1";
+    List<String> list = service.selectListByUserId(userId);
+    LOGGER.info("selectListByUserId:{}", list.size());
+    Assertions.assertNotEquals(0, list.size());
+  }
 
 }

@@ -22,8 +22,8 @@ import com.oner365.common.auth.annotation.CurrentUser;
 import com.oner365.common.enums.ErrorInfoEnum;
 import com.oner365.controller.BaseController;
 import com.oner365.sys.constants.SysConstants;
-import com.oner365.sys.entity.SysMenu;
-import com.oner365.sys.entity.SysMenuOperation;
+import com.oner365.sys.dto.SysMenuDto;
+import com.oner365.sys.dto.SysMenuOperationDto;
 import com.oner365.sys.entity.TreeSelect;
 import com.oner365.sys.service.ISysMenuOperationService;
 import com.oner365.sys.service.ISysMenuService;
@@ -35,6 +35,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 系统菜单
+ * 
  * @author zhaoyong
  */
 @RestController
@@ -42,137 +43,134 @@ import springfox.documentation.annotations.ApiIgnore;
 @Api(tags = "系统管理 - 菜单")
 public class SysMenuController extends BaseController {
 
-    @Autowired
-    public ISysMenuService menuService;
+  @Autowired
+  public ISysMenuService menuService;
 
-    @Autowired
-    public ISysMenuOperationService operationService;
+  @Autowired
+  public ISysMenuOperationService operationService;
 
-    /**
-     * 保存菜单
-     *
-     * @param sysMenuVo 菜单对象
-     * @return ResponseResult<SysMenu>
-     */
-    @PutMapping("/save")
-    @ApiOperation("保存")
-    public ResponseResult<SysMenu> save(@RequestBody SysMenuVo sysMenuVo) {
-        if (sysMenuVo != null) {
-            SysMenu entity = menuService.save(sysMenuVo.toObject());
-            return ResponseResult.success(entity);
-        }
-        return ResponseResult.error(ErrorInfoEnum.SAVE_ERROR.getName());
+  /**
+   * 保存菜单
+   *
+   * @param sysMenuVo 菜单对象
+   * @return ResponseResult<SysMenuDto>
+   */
+  @PutMapping("/save")
+  @ApiOperation("保存")
+  public ResponseResult<SysMenuDto> save(@RequestBody SysMenuVo sysMenuVo) {
+    if (sysMenuVo != null) {
+      SysMenuDto entity = menuService.save(sysMenuVo);
+      return ResponseResult.success(entity);
     }
+    return ResponseResult.error(ErrorInfoEnum.SAVE_ERROR.getName());
+  }
 
-    /**
-     * 获取菜单
-     *
-     * @param id 编号
-     * @return Map<String, Object>
-     */
-    @GetMapping("/get/{id}")
-    @ApiOperation("按id查询")
-    public Map<String, Object> get(@PathVariable String id) {
-        Map<String, Object> result = Maps.newHashMap();
-        result.put("sysMenu", menuService.getById(id));
-        List<String> menuOperList = operationService.selectByMenuId(id);
-        result.put("menuOperList", menuOperList);
-        List<SysMenuOperation> operationList = operationService.findList();
-        result.put("operationList", operationList);
-        return result;
+  /**
+   * 获取菜单
+   *
+   * @param id 编号
+   * @return Map<String, Object>
+   */
+  @GetMapping("/get/{id}")
+  @ApiOperation("按id查询")
+  public Map<String, Object> get(@PathVariable String id) {
+    Map<String, Object> result = Maps.newHashMap();
+    result.put("sysMenu", menuService.getById(id));
+    List<String> menuOperList = operationService.selectByMenuId(id);
+    result.put("menuOperList", menuOperList);
+    List<SysMenuOperationDto> operationList = operationService.findList();
+    result.put("operationList", operationList);
+    return result;
 
+  }
+
+  /**
+   * 菜单列表
+   *
+   * @param sysMenuVo 菜单对象
+   * @return List<SysMenuDto>
+   */
+  @PostMapping("/list")
+  @ApiOperation("获取列表")
+  public List<SysMenuDto> list(@RequestBody SysMenuVo sysMenuVo) {
+    if (sysMenuVo != null) {
+      return menuService.selectList(sysMenuVo);
     }
+    return Collections.emptyList();
+  }
 
-    /**
-     * 菜单列表
-     *
-     * @param sysMenuVo 菜单对象
-     * @return List<SysMenu>
-     */
-    @PostMapping("/list")
-    @ApiOperation("获取列表")
-    public List<SysMenu> list(@RequestBody SysMenuVo sysMenuVo) {
-        SysMenu sysMenu = sysMenuVo.toObject();
-        if (sysMenu != null) {
-            return menuService.selectList(sysMenu);
-        }
-        return Collections.emptyList();
+  /**
+   * 删除
+   * 
+   * @param ids 编号
+   * @return Integer
+   */
+  @DeleteMapping("/delete")
+  @ApiOperation("删除")
+  public Integer delete(@RequestBody String... ids) {
+    int code = 0;
+    for (String id : ids) {
+      code = menuService.deleteById(id);
     }
+    return code;
+  }
 
-    /**
-     * 删除
-     * @param ids 编号
-     * @return Integer
-     */
-    @DeleteMapping("/delete")
-    @ApiOperation("删除")
-    public Integer delete(@RequestBody String... ids) {
-        int code = 0;
-        for (String id : ids) {
-            code = menuService.deleteById(id);
-        }
-        return code;
-    }
+  /**
+   * 修改菜单状态
+   *
+   * @param id     主键
+   * @param status 状态
+   * @return Integer
+   */
+  @PostMapping("/editStatusById/{id}")
+  @ApiOperation("修改状态")
+  public Integer editStatusById(@PathVariable String id, @RequestParam("status") String status) {
+    return menuService.editStatusById(id, status);
+  }
 
-    /**
-     * 修改菜单状态
-     *
-     * @param id 主键
-     * @param status 状态
-     * @return Integer
-     */
-    @PostMapping("/editStatusById/{id}")
-    @ApiOperation("修改状态")
-    public Integer editStatusById(@PathVariable String id, @RequestParam("status") String status) {
-        return menuService.editStatusById(id, status);
+  /**
+   * 获取菜单下拉树列表
+   *
+   * @param authUser  登录对象
+   * @param sysMenuVo 菜单对象
+   * @return List<TreeSelect>
+   */
+  @PostMapping("/treeselect")
+  @ApiOperation("获取树型列表")
+  public List<TreeSelect> treeselect(@RequestBody SysMenuVo sysMenuVo, @ApiIgnore @CurrentUser AuthUser authUser) {
+    List<SysMenuDto> menus;
+    if (SysConstants.DEFAULT_ROLE.equals(authUser.getIsAdmin())) {
+      menus = menuService.selectList(sysMenuVo);
+    } else {
+      sysMenuVo.setUserId(authUser.getId());
+      menus = menuService.selectListByUserId(sysMenuVo);
     }
+    return menuService.buildTreeSelect(menus);
+  }
 
-    /**
-     * 获取菜单下拉树列表
-     *
-     * @param authUser 登录对象
-     * @param sysMenuVo 菜单对象
-     * @return List<TreeSelect>
-     */
-    @PostMapping("/treeselect")
-    @ApiOperation("获取树型列表")
-    public List<TreeSelect> treeselect(@RequestBody SysMenuVo sysMenuVo,
-    		@ApiIgnore @CurrentUser AuthUser authUser) {
-        SysMenu menu = sysMenuVo.toObject();
-        List<SysMenu> menus;
-        if (SysConstants.DEFAULT_ROLE.equals(authUser.getIsAdmin())) {
-            menus = menuService.selectList(menu);
-        } else {
-            menu.setUserId(authUser.getId());
-            menus = menuService.selectListByUserId(menu);
-        }
-        return menuService.buildTreeSelect(menus);
+  /**
+   * 加载对应角色菜单列表树
+   *
+   * @param authUser  登录对象
+   * @param sysMenuVo 菜单对象
+   * @param roleId    String
+   * @return Map<String, Object>
+   */
+  @PostMapping("/roleMenuTreeselect/{roleId}")
+  @ApiOperation("获取权限")
+  public Map<String, Object> roleMenuTreeselect(@RequestBody SysMenuVo sysMenuVo, @PathVariable("roleId") String roleId,
+      @ApiIgnore @CurrentUser AuthUser authUser) {
+    List<SysMenuDto> menus;
+    if (SysConstants.DEFAULT_ROLE.equals(authUser.getIsAdmin())) {
+      menus = menuService.selectList(sysMenuVo);
+    } else {
+      sysMenuVo.setUserId(authUser.getId());
+      menus = menuService.selectListByUserId(sysMenuVo);
     }
-
-    /**
-     * 加载对应角色菜单列表树
-     *
-     * @param authUser 登录对象
-     * @param sysMenuVo 菜单对象
-     * @param roleId String
-     * @return Map<String, Object>
-     */
-    @PostMapping("/roleMenuTreeselect/{roleId}")
-    @ApiOperation("获取权限")
-    public Map<String, Object> roleMenuTreeselect(@RequestBody SysMenuVo sysMenuVo,
-            @PathVariable("roleId") String roleId, @ApiIgnore @CurrentUser AuthUser authUser) {
-        SysMenu menu = sysMenuVo.toObject();
-        List<SysMenu> menus;
-        if (SysConstants.DEFAULT_ROLE.equals(authUser.getIsAdmin())) {
-            menus = menuService.selectList(menu);
-        } else {
-            menu.setUserId(authUser.getId());
-            menus = menuService.selectListByUserId(menu);
-        }
-        Map<String, Object> result = Maps.newHashMap();
-        result.put("checkedKeys", menuService.selectListByRoleId(roleId, menu.getMenuTypeId()));
-        result.put("menus", menuService.buildTreeSelect(menus));
-        return result;
-    }
+    Map<String, Object> result = Maps.newHashMap();
+    result.put("checkedKeys", menuService.selectListByRoleId(roleId, sysMenuVo.getMenuTypeId()));
+    result.put("menus", menuService.buildTreeSelect(menus));
+    return result;
+  }
 
 }

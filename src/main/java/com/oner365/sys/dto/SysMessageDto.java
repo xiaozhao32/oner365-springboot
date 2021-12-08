@@ -1,4 +1,4 @@
-package com.oner365.sys.vo;
+package com.oner365.sys.dto;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -13,7 +13,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @author zhaoyong
  */
 @ApiModel(value = "系统消息")
-public class SysMessageVo implements Serializable {
+public class SysMessageDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -86,7 +86,7 @@ public class SysMessageVo implements Serializable {
     /**
      * Constructor
      */
-    public SysMessageVo() {
+    public SysMessageDto() {
         super();
     }
 

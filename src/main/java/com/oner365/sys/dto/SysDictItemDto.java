@@ -1,4 +1,4 @@
-package com.oner365.sys.vo;
+package com.oner365.sys.dto;
 
 import java.io.Serializable;
 
@@ -13,7 +13,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @author zhaoyong
  */
 @ApiModel(value = "字典")
-public class SysDictItemVo implements Serializable {
+public class SysDictItemDto implements Serializable {
 
     /**
      *
@@ -65,7 +65,7 @@ public class SysDictItemVo implements Serializable {
     /**
      * Constructor
      */
-    public SysDictItemVo() {
+    public SysDictItemDto() {
         super();
     }
 

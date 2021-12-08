@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 
 import com.oner365.common.query.QueryCriteriaBean;
-import com.oner365.sys.entity.DataSourceConfig;
+import com.oner365.sys.dto.DataSourceConfigDto;
 import com.oner365.sys.service.IDataSourceConfigService;
 import com.oner365.test.service.BaseServiceTest;
 
@@ -25,7 +25,7 @@ class DataSourceConfigServiceTest extends BaseServiceTest {
     @RepeatedTest(value = 2)
     void pageList() {
         QueryCriteriaBean paramData = new QueryCriteriaBean();
-        Page<DataSourceConfig> list = service.pageList(paramData);
+        Page<DataSourceConfigDto> list = service.pageList(paramData);
         LOGGER.info("pageList:{}", list.getSize());
         Assertions.assertNotEquals(0, list.getSize());
     }

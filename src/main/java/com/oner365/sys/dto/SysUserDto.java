@@ -1,4 +1,4 @@
-package com.oner365.sys.vo;
+package com.oner365.sys.dto;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -16,7 +16,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @author zhaoyong
  */
 @ApiModel(value = "用户信息")
-public class SysUserVo implements Serializable {
+public class SysUserDto implements Serializable {
 
     /**
      *
@@ -150,7 +150,7 @@ public class SysUserVo implements Serializable {
     private List<String> orgs = Lists.newArrayList();
     private List<String> orgNameList = Lists.newArrayList();
 
-    public SysUserVo() {
+    public SysUserDto() {
         super();
     }
 

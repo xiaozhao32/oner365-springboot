@@ -19,7 +19,7 @@ import com.oner365.common.ResponseResult;
 import com.oner365.common.enums.ErrorInfoEnum;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
-import com.oner365.sys.entity.SysLog;
+import com.oner365.sys.dto.SysLogDto;
 import com.oner365.sys.service.ISysLogService;
 import com.oner365.sys.vo.SysLogVo;
 import com.oner365.util.DateUtil;
@@ -37,94 +37,94 @@ import io.swagger.annotations.ApiOperation;
 @Api(tags = "系统观察 - 日志")
 public class SysLogController extends BaseController {
 
-    @Autowired
-    private ISysLogService logService;
+  @Autowired
+  private ISysLogService logService;
 
-    /**
-     * 保存
-     *
-     * @param sysLogVo 菜单类型对象
-     * @return ResponseResult<SysLog>
-     */
-    @PutMapping("/save")
-    @ApiOperation("保存")
-    public ResponseResult<SysLog> save(@RequestBody SysLogVo sysLogVo) {
-        if (sysLogVo != null) {
-            logService.save(sysLogVo.toObject());
-            return ResponseResult.success(sysLogVo.toObject());
-        }
-        return ResponseResult.error(ErrorInfoEnum.SAVE_ERROR.getName());
+  /**
+   * 保存
+   *
+   * @param sysLogVo 菜单类型对象
+   * @return ResponseResult<SysLogDto>
+   */
+  @PutMapping("/save")
+  @ApiOperation("保存")
+  public ResponseResult<SysLogDto> save(@RequestBody SysLogVo sysLogVo) {
+    if (sysLogVo != null) {
+      SysLogDto entity = logService.save(sysLogVo);
+      return ResponseResult.success(entity);
     }
+    return ResponseResult.error(ErrorInfoEnum.SAVE_ERROR.getName());
+  }
 
-    /**
-     * 获取信息
-     *
-     * @param id 编号
-     * @return SysLog
-     */
-    @GetMapping("/get/{id}")
-    @ApiOperation("按id查询")
-    public SysLog get(@PathVariable String id) {
-        return logService.getById(id);
+  /**
+   * 获取信息
+   *
+   * @param id 编号
+   * @return SysLog
+   */
+  @GetMapping("/get/{id}")
+  @ApiOperation("按id查询")
+  public SysLogDto get(@PathVariable String id) {
+    return logService.getById(id);
+  }
+
+  /**
+   * 列表
+   *
+   * @param data 查询参数
+   * @return Page<SysLog>
+   */
+  @PostMapping("/list")
+  @ApiOperation("获取列表")
+  public Page<SysLogDto> list(@RequestBody QueryCriteriaBean data) {
+    return logService.pageList(data);
+  }
+
+  /**
+   * 删除
+   *
+   * @param ids 编号
+   * @return Integer
+   */
+  @DeleteMapping("/delete")
+  @ApiOperation("删除")
+  public Integer delete(@RequestBody String... ids) {
+    int code = 0;
+    for (String id : ids) {
+      code = logService.deleteById(id);
     }
+    return code;
+  }
 
-    /**
-     * 列表
-     *
-     * @param data 查询参数
-     * @return Page<SysLog>
-     */
-    @PostMapping("/list")
-    @ApiOperation("获取列表")
-    public Page<SysLog> list(@RequestBody QueryCriteriaBean data) {
-        return logService.pageList(data);
-    }
+  /**
+   * 按日期删除日志
+   *
+   * @param date 日期
+   * @return Integer
+   */
+  @DeleteMapping("/deleteLog")
+  @ApiOperation("删除日志")
+  public Integer deleteLog(@RequestParam("date") String date) {
+    return logService.deleteLog(DateUtil.stringToDate(date, DateUtil.FULL_DATE_FORMAT));
+  }
 
-    /**
-     * 删除
-     *
-     * @param ids 编号
-     * @return Integer
-     */
-    @DeleteMapping("/delete")
-    @ApiOperation("删除")
-    public Integer delete(@RequestBody String... ids) {
-        int code = 0;
-        for (String id : ids) {
-            code = logService.deleteById(id);
-        }
-        return code;
-    }
+  /**
+   * 导出日志
+   *
+   * @param data 查询参数
+   * @return ResponseEntity<byte[]>
+   */
+  @PostMapping("/export")
+  @ApiOperation("导出")
+  public ResponseEntity<byte[]> exportItem(@RequestBody QueryCriteriaBean data) {
+    List<SysLogDto> list = logService.findList(data);
 
-    /**
-     * 按日期删除日志
-     *
-     * @param date 日期
-     * @return Integer
-     */
-    @DeleteMapping("/deleteLog")
-    @ApiOperation("删除日志")
-    public Integer deleteLog(@RequestParam("date") String date) {
-        return logService.deleteLog(DateUtil.stringToDate(date, DateUtil.FULL_DATE_FORMAT));
-    }
+    String[] titleKeys = new String[] { "编号", "请求IP", "请求方法", "服务名称", "请求地址", "请求内容", "创建时间" };
+    String[] columnNames = { "id", "operationIp", "methodName", "operationName", "operationPath", "operationContext",
+        "createTime" };
 
-    /**
-     * 导出日志
-     *
-     * @param data 查询参数
-     * @return ResponseEntity<byte[]>
-     */
-    @PostMapping("/export")
-    @ApiOperation("导出")
-    public ResponseEntity<byte[]> exportItem(@RequestBody QueryCriteriaBean data) {
-        List<SysLog> list = logService.findList(data);
-
-        String[] titleKeys = new String[] { "编号", "请求IP", "请求方法", "服务名称", "请求地址", "请求内容", "创建时间" };
-        String[] columnNames = { "id", "operationIp", "methodName", "operationName", "operationPath",
-                "operationContext", "createTime" };
-
-        String fileName = SysLog.class.getSimpleName() + System.currentTimeMillis();
-        return exportExcel(fileName, titleKeys, columnNames, list);
-    }
+    String fileName = SysLogDto.class.getSimpleName() + System.currentTimeMillis();
+    return exportExcel(fileName, titleKeys, columnNames, list);
+  }
 
 }

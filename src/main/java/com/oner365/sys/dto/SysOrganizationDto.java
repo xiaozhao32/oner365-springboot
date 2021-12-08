@@ -1,4 +1,4 @@
-package com.oner365.sys.vo;
+package com.oner365.sys.dto;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.Lists;
-import com.oner365.sys.entity.SysOrganization;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -18,7 +17,7 @@ import io.swagger.annotations.ApiModelProperty;
  *
  */
 @ApiModel(value = "机构")
-public class SysOrganizationVo implements Serializable {
+public class SysOrganizationDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -140,14 +139,14 @@ public class SysOrganizationVo implements Serializable {
      * 数据源
      */
     @ApiModelProperty(value = "数据源")
-    private DataSourceConfigVo dataSourceConfigVo;
+    private DataSourceConfigDto dataSourceConfigDto;
     
-    private List<SysOrganization> children = Lists.newArrayList();
+    private List<SysOrganizationDto> children = Lists.newArrayList();
 
     /**
      * Generate constructor
      */
-    public SysOrganizationVo() {
+    public SysOrganizationDto() {
         super();
     }
 
@@ -417,12 +416,12 @@ public class SysOrganizationVo implements Serializable {
         this.ancestors = ancestors;
     }
 
-    public DataSourceConfigVo getDataSourceConfigVo() {
-        return dataSourceConfigVo;
+    public DataSourceConfigDto getDataSourceConfigDto() {
+        return dataSourceConfigDto;
     }
 
-    public void setDataSourceConfigVo(DataSourceConfigVo dataSourceConfigVo) {
-        this.dataSourceConfigVo = dataSourceConfigVo;
+    public void setDataSourceConfigDto(DataSourceConfigDto dataSourceConfigDto) {
+        this.dataSourceConfigDto = dataSourceConfigDto;
     }
     
     /**
@@ -433,11 +432,11 @@ public class SysOrganizationVo implements Serializable {
         return MoreObjects.toStringHelper(this).add("id", id).toString();
     }
 
-    public List<SysOrganization> getChildren() {
+    public List<SysOrganizationDto> getChildren() {
         return children;
     }
 
-    public void setChildren(List<SysOrganization> children) {
+    public void setChildren(List<SysOrganizationDto> children) {
         this.children = children;
     }
 

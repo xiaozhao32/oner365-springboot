@@ -16,7 +16,20 @@ import com.oner365.util.ClassesUtil;
  */
 public interface BaseService {
 
-  String METHOD_NAME = "toDTO";
+  String METHOD_NAME = "toDto";
+
+  /**
+   * 转换po对象为dto
+   *
+   * @param po 对象
+   * @return T
+   */
+  default <T, E> T convertDto(E po) {
+    if (po == null) {
+      return null;
+    }
+    return ClassesUtil.invokeMethod(po, METHOD_NAME);
+  }
 
   /**
    * 转换po对象为dto
@@ -24,8 +37,8 @@ public interface BaseService {
    * @param list po集合
    * @return List<T>
    */
-  @SuppressWarnings({"unchecked"})
-  default <T> List<T> convertDto(List<?> list) {
+  @SuppressWarnings({ "unchecked" })
+  default <T, E> List<T> convertDto(List<E> list) {
     if (list.isEmpty()) {
       return Collections.emptyList();
     }
@@ -38,7 +51,7 @@ public interface BaseService {
    * @param page 分页po对象
    * @return Page<T>
    */
-  default <T> Page<T> convertDto(Page<?> page) {
+  default <T, E> Page<T> convertDto(Page<E> page) {
     if (page == null) {
       return null;
     }

@@ -29,8 +29,10 @@ import com.oner365.common.query.QueryUtils;
 import com.oner365.common.query.Restrictions;
 import com.oner365.sys.constants.SysConstants;
 import com.oner365.sys.dao.ISysMenuTypeDao;
+import com.oner365.sys.dto.SysMenuTypeDto;
 import com.oner365.sys.entity.SysMenuType;
 import com.oner365.sys.service.ISysMenuTypeService;
+import com.oner365.sys.vo.SysMenuTypeVo;
 import com.oner365.util.DataUtils;
 
 /**
@@ -41,112 +43,126 @@ import com.oner365.util.DataUtils;
 @Service
 public class SysMenuTypeServiceImpl implements ISysMenuTypeService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SysMenuTypeServiceImpl.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(SysMenuTypeServiceImpl.class);
 
-    private static final String CACHE_NAME = "SysMenuType";
-    private static final String CACHE_MENU_NAME = "SysMenu";
+  private static final String CACHE_NAME = "SysMenuType";
+  private static final String CACHE_MENU_NAME = "SysMenu";
 
-    @Autowired
-    private ISysMenuTypeDao dao;
+  @Autowired
+  private ISysMenuTypeDao dao;
 
-    @Override
-    @Cacheable(value = CACHE_NAME, keyGenerator = PublicConstants.KEY_GENERATOR)
-    public Page<SysMenuType> pageList(QueryCriteriaBean data) {
-        try {
-            Pageable pageable = QueryUtils.buildPageRequest(data);
-            return dao.findAll(QueryUtils.buildCriteria(data), pageable);
-        } catch (Exception e) {
-            LOGGER.error("Error pageList: ", e);
-        }
-        return null;
+  @Override
+  @Cacheable(value = CACHE_NAME, keyGenerator = PublicConstants.KEY_GENERATOR)
+  public Page<SysMenuTypeDto> pageList(QueryCriteriaBean data) {
+    try {
+      Pageable pageable = QueryUtils.buildPageRequest(data);
+      return convertDto(dao.findAll(QueryUtils.buildCriteria(data), pageable));
+    } catch (Exception e) {
+      LOGGER.error("Error pageList: ", e);
     }
+    return null;
+  }
 
-    @Override
-    @Cacheable(value = CACHE_NAME, keyGenerator = PublicConstants.KEY_GENERATOR)
-    public List<SysMenuType> findList(QueryCriteriaBean data) {
-        try {
-            return dao.findAll(QueryUtils.buildCriteria(data));
-        } catch (Exception e) {
-            LOGGER.error("Error findList: ", e);
-        }
-        return Collections.emptyList();
+  @Override
+  @Cacheable(value = CACHE_NAME, keyGenerator = PublicConstants.KEY_GENERATOR)
+  public List<SysMenuTypeDto> findList(QueryCriteriaBean data) {
+    try {
+      return convertDto(dao.findAll(QueryUtils.buildCriteria(data)));
+    } catch (Exception e) {
+      LOGGER.error("Error findList: ", e);
     }
+    return Collections.emptyList();
+  }
 
-    @Override
-    @RedisCacheAble(value = CACHE_NAME, key = PublicConstants.KEY_ID)
-    public SysMenuType getById(String id) {
-        try {
-            Optional<SysMenuType> optional = dao.findById(id);
-            return optional.orElse(null);
-        } catch (Exception e) {
-            LOGGER.error("Error getById: ", e);
-        }
-        return null;
+  @Override
+  @RedisCacheAble(value = CACHE_NAME, key = PublicConstants.KEY_ID)
+  public SysMenuTypeDto getById(String id) {
+    try {
+      Optional<SysMenuType> optional = dao.findById(id);
+      return convertDto(optional.orElse(null));
+    } catch (Exception e) {
+      LOGGER.error("Error getById: ", e);
     }
+    return null;
+  }
 
-    @Override
-    @Transactional(rollbackFor = ProjectRuntimeException.class)
-    @RedisCachePut(value = CACHE_NAME, key = PublicConstants.KEY_ID)
-    @Caching(evict = {
-            @CacheEvict(value = CACHE_NAME, allEntries = true),
-            @CacheEvict(value = CACHE_MENU_NAME, allEntries = true)
-    })
-    public SysMenuType save(SysMenuType menuType) {
-        if (DataUtils.isEmpty(menuType.getId())) {
-            menuType.setStatus(StatusEnum.YES.getCode());
-            menuType.setCreateTime(LocalDateTime.now());
-        } else {
-            menuType.setUpdateTime(LocalDateTime.now());
-        }
-        return dao.save(menuType);
+  @Override
+  @Transactional(rollbackFor = ProjectRuntimeException.class)
+  @RedisCachePut(value = CACHE_NAME, key = PublicConstants.KEY_ID)
+  @Caching(evict = { 
+      @CacheEvict(value = CACHE_NAME, allEntries = true),
+      @CacheEvict(value = CACHE_MENU_NAME, allEntries = true) })
+  public SysMenuTypeDto save(SysMenuTypeVo vo) {
+    SysMenuType entity = toPojo(vo);
+    if (DataUtils.isEmpty(entity.getId())) {
+      entity.setStatus(StatusEnum.YES.getCode());
+      entity.setCreateTime(LocalDateTime.now());
+    } else {
+      entity.setUpdateTime(LocalDateTime.now());
     }
+    return convertDto(dao.save(entity));
+  }
+  
+  /**
+   * 转换对象
+   * 
+   * @return SysMenuType
+   */
+  public SysMenuType toPojo(SysMenuTypeVo vo) {
+      SysMenuType result = new SysMenuType();
+      result.setId(vo.getId());
+      result.setCreateTime(vo.getCreateTime());
+      result.setStatus(vo.getStatus());
+      result.setTypeCode(vo.getTypeCode());
+      result.setTypeName(vo.getTypeName());
+      result.setUpdateTime(vo.getUpdateTime());
+      return result;
+  }
 
-    @Override
-    @Transactional(rollbackFor = ProjectRuntimeException.class)
-    @Caching(evict = {
-            @CacheEvict(value = CACHE_NAME, allEntries = true),
-            @CacheEvict(value = CACHE_MENU_NAME, allEntries = true)
-    })
-    public int editStatusById(String id, String status) {
-        SysMenuType entity = getById(id);
-        if (entity != null && entity.getId() != null) {
-            entity.setStatus(status);
-            save(entity);
-            return ResultEnum.SUCCESS.getCode();
-        }
-        return ResultEnum.ERROR.getCode();
+  @Override
+  @Transactional(rollbackFor = ProjectRuntimeException.class)
+  @Caching(evict = { 
+      @CacheEvict(value = CACHE_NAME, allEntries = true),
+      @CacheEvict(value = CACHE_MENU_NAME, allEntries = true) })
+  public int editStatusById(String id, String status) {
+    SysMenuType entity = dao.getById(id);
+    if (entity != null && entity.getId() != null) {
+      entity.setStatus(status);
+      dao.save(entity);
+      return ResultEnum.SUCCESS.getCode();
     }
+    return ResultEnum.ERROR.getCode();
+  }
 
-    @Override
-    public long checkCode(String id, String code) {
-        try {
-            Criteria<SysMenuType> criteria = new Criteria<>();
-            criteria.add(Restrictions.eq(SysConstants.TYPE_CODE, DataUtils.trimToNull(code)));
-            if (!DataUtils.isEmpty(id)) {
-                criteria.add(Restrictions.ne(SysConstants.ID, id));
-            }
-            return dao.count(criteria);
-        } catch (Exception e) {
-            LOGGER.error("Error checkCode:", e);
-        }
-        return ExistsEnum.NO.getCode();
+  @Override
+  public long checkCode(String id, String code) {
+    try {
+      Criteria<SysMenuType> criteria = new Criteria<>();
+      criteria.add(Restrictions.eq(SysConstants.TYPE_CODE, DataUtils.trimToNull(code)));
+      if (!DataUtils.isEmpty(id)) {
+        criteria.add(Restrictions.ne(SysConstants.ID, id));
+      }
+      return dao.count(criteria);
+    } catch (Exception e) {
+      LOGGER.error("Error checkCode:", e);
     }
+    return ExistsEnum.NO.getCode();
+  }
 
-    @Override
-    @Cacheable(value = CACHE_NAME, keyGenerator = PublicConstants.KEY_GENERATOR)
-    public SysMenuType getMenuTypeByTypeCode(String menuType) {
-        return dao.getMenuTypeByTypeCode(menuType);
-    }
+  @Override
+  @Cacheable(value = CACHE_NAME, keyGenerator = PublicConstants.KEY_GENERATOR)
+  public SysMenuTypeDto getMenuTypeByTypeCode(String menuType) {
+    return convertDto(dao.getMenuTypeByTypeCode(menuType));
+  }
 
-    @Override
-    @Transactional(rollbackFor = ProjectRuntimeException.class)
-    @Caching(evict = {
-            @CacheEvict(value = CACHE_NAME, allEntries = true),
-            @CacheEvict(value = CACHE_MENU_NAME, allEntries = true)
-    })
-    public int deleteById(String id) {
-        dao.deleteById(id);
-        return ResultEnum.SUCCESS.getCode();
-    }
+  @Override
+  @Transactional(rollbackFor = ProjectRuntimeException.class)
+  @Caching(evict = { 
+      @CacheEvict(value = CACHE_NAME, allEntries = true),
+      @CacheEvict(value = CACHE_MENU_NAME, allEntries = true) })
+  public int deleteById(String id) {
+    dao.deleteById(id);
+    return ResultEnum.SUCCESS.getCode();
+  }
 
 }

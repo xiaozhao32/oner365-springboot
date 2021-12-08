@@ -1,9 +1,10 @@
-package com.oner365.sys.vo;
+package com.oner365.sys.dto;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import com.google.common.base.MoreObjects;
+import com.oner365.sys.entity.DataSourceConfig;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -14,7 +15,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @author zhaoyong
  */
 @ApiModel(value = "数据源配置")
-public class DataSourceConfigVo implements Serializable {
+public class DataSourceConfigDto implements Serializable {
 
     /**
      * 
@@ -102,7 +103,7 @@ public class DataSourceConfigVo implements Serializable {
     /**
      * Constructor
      */
-    public DataSourceConfigVo() {
+    public DataSourceConfigDto() {
         super();
     }
 
@@ -294,6 +295,29 @@ public class DataSourceConfigVo implements Serializable {
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this).add("id", id).toString();
+    }
+
+    /**
+     * 转换对象
+     * 
+     * @return DataSourceConfig
+     */
+    public DataSourceConfig toPojo() {
+        DataSourceConfig result = new DataSourceConfig();
+        result.setId(this.getId());
+        result.setConnectName(this.getConnectName());
+        result.setCreateTime(this.getCreateTime());
+        result.setDbName(this.getDbName());
+        result.setDbType(this.getDbType());
+        result.setDriverName(this.getDriverName());
+        result.setDsType(this.getDsType());
+        result.setIp(this.getIp());
+        result.setPassword(this.getPassword());
+        result.setPort(this.getPort());
+        result.setUpdateTime(this.getUpdateTime());
+        result.setUrl(this.getUrl());
+        result.setUserName(this.getUserName());
+        return result;
     }
 
 }

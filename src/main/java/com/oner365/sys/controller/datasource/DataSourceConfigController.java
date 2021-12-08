@@ -17,7 +17,7 @@ import com.oner365.common.enums.ErrorInfoEnum;
 import com.oner365.common.enums.ResultEnum;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
-import com.oner365.sys.entity.DataSourceConfig;
+import com.oner365.sys.dto.DataSourceConfigDto;
 import com.oner365.sys.service.IDataSourceConfigService;
 import com.oner365.sys.vo.DataSourceConfigVo;
 
@@ -26,6 +26,7 @@ import io.swagger.annotations.ApiOperation;
 
 /**
  * 数据源
+ * 
  * @author zhaoyong
  *
  */
@@ -34,69 +35,74 @@ import io.swagger.annotations.ApiOperation;
 @Api(tags = "数据源信息")
 public class DataSourceConfigController extends BaseController {
 
-    @Autowired
-    private IDataSourceConfigService service;
+  @Autowired
+  private IDataSourceConfigService service;
 
-    /**
-     * 列表
-     * @param data 查询参数
-     * @return Page<DataSourceConfig>
-     */
-    @PostMapping("/list")
-    @ApiOperation("列表")
-    public Page<DataSourceConfig> findList(@RequestBody QueryCriteriaBean data) {
-        return service.pageList(data);
-    }
+  /**
+   * 列表
+   * 
+   * @param data 查询参数
+   * @return Page<DataSourceConfigDto>
+   */
+  @PostMapping("/list")
+  @ApiOperation("列表")
+  public Page<DataSourceConfigDto> list(@RequestBody QueryCriteriaBean data) {
+    return service.pageList(data);
+  }
 
-    /**
-     * 按id获取信息
-     * @param id 编号
-     * @return DataSourceConfig
-     */
-    @GetMapping("/get/{id}")
-    @ApiOperation("按id查询")
-    public DataSourceConfig get(@PathVariable String id) {
-        return service.getById(id);
-    }
+  /**
+   * 按id获取信息
+   * 
+   * @param id 编号
+   * @return DataSourceConfigDto
+   */
+  @GetMapping("/get/{id}")
+  @ApiOperation("按id查询")
+  public DataSourceConfigDto get(@PathVariable String id) {
+    return service.getById(id);
+  }
 
-    /**
-     * 按 connectName 获取信息
-     * @param connectName 连接名称
-     * @return DataSourceConfig
-     */
-    @GetMapping("/getConnectName")
-    @ApiOperation("按连接名称查询")
-    public DataSourceConfig getConnectName(@RequestParam String connectName) {
-        return service.getConnectName(connectName);
-    }
+  /**
+   * 按 connectName 获取信息
+   * 
+   * @param connectName 连接名称
+   * @return DataSourceConfigDto
+   */
+  @GetMapping("/getConnectName")
+  @ApiOperation("按连接名称查询")
+  public DataSourceConfigDto getConnectName(@RequestParam String connectName) {
+    return service.getConnectName(connectName);
+  }
 
-    /**
-     * 保存
-     * @param dataSourceConfigVo 数据源对象
-     * @return ResponseResult<DataSourceConfig>
-     */
-    @PutMapping("/save")
-    @ApiOperation("保存")
-    public ResponseResult<DataSourceConfig> save(@RequestBody DataSourceConfigVo dataSourceConfigVo) {
-        if (dataSourceConfigVo != null) {
-            DataSourceConfig entity = service.save(dataSourceConfigVo.toObject());
-            return ResponseResult.success(entity);
-        }
-        return ResponseResult.error(ErrorInfoEnum.SAVE_ERROR.getName());
+  /**
+   * 保存
+   * 
+   * @param dataSourceConfigVo 数据源对象
+   * @return ResponseResult<DataSourceConfigDto>
+   */
+  @PutMapping("/save")
+  @ApiOperation("保存")
+  public ResponseResult<DataSourceConfigDto> save(@RequestBody DataSourceConfigVo dataSourceConfigVo) {
+    if (dataSourceConfigVo != null) {
+      DataSourceConfigDto entity = service.save(dataSourceConfigVo);
+      return ResponseResult.success(entity);
     }
+    return ResponseResult.error(ErrorInfoEnum.SAVE_ERROR.getName());
+  }
 
-    /**
-     * 删除
-     * @param ids 编号
-     * @return Integer
-     */
-    @DeleteMapping("/delete")
-    @ApiOperation("删除")
-    public Integer delete(@RequestBody String... ids) {
-        int code = ResultEnum.ERROR.getCode();
-        for (String id : ids) {
-            code = service.deleteById(id);
-        }
-        return code;
+  /**
+   * 删除
+   * 
+   * @param ids 编号
+   * @return Integer
+   */
+  @DeleteMapping("/delete")
+  @ApiOperation("删除")
+  public Integer delete(@RequestBody String... ids) {
+    int code = ResultEnum.ERROR.getCode();
+    for (String id : ids) {
+      code = service.deleteById(id);
     }
+    return code;
+  }
 }

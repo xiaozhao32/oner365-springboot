@@ -1,4 +1,4 @@
-package com.oner365.sys.vo;
+package com.oner365.sys.dto;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -13,7 +13,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @author zhaoyong
  */
 @ApiModel(value = "菜单操作")
-public class SysMenuOperationVo implements Serializable {
+public class SysMenuOperationDto implements Serializable {
 
     /**
      *
@@ -59,7 +59,7 @@ public class SysMenuOperationVo implements Serializable {
     /**
      * Constructor
      */
-    public SysMenuOperationVo() {
+    public SysMenuOperationDto() {
         super();
     }
 
