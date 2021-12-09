@@ -23,7 +23,7 @@ import com.oner365.common.enums.ErrorInfoEnum;
 import com.oner365.common.enums.ResultEnum;
 import com.oner365.controller.BaseController;
 import com.oner365.sys.dto.SysOrganizationDto;
-import com.oner365.sys.entity.TreeSelect;
+import com.oner365.sys.dto.TreeSelect;
 import com.oner365.sys.service.ISysOrganizationService;
 import com.oner365.sys.vo.SysOrganizationVo;
 import com.oner365.sys.vo.check.CheckOrgCodeVo;

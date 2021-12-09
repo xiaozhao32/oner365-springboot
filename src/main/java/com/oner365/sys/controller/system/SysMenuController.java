@@ -24,7 +24,7 @@ import com.oner365.controller.BaseController;
 import com.oner365.sys.constants.SysConstants;
 import com.oner365.sys.dto.SysMenuDto;
 import com.oner365.sys.dto.SysMenuOperationDto;
-import com.oner365.sys.entity.TreeSelect;
+import com.oner365.sys.dto.TreeSelect;
 import com.oner365.sys.service.ISysMenuOperationService;
 import com.oner365.sys.service.ISysMenuService;
 import com.oner365.sys.vo.SysMenuVo;

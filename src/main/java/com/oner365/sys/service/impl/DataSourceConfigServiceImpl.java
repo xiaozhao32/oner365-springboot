@@ -107,28 +107,28 @@ public class DataSourceConfigServiceImpl implements IDataSourceConfigService {
     entity.setUpdateTime(LocalDateTime.now());
     return convertDto(dao.save(entity));
   }
-  
+
   /**
    * 转换对象
    * 
    * @return DataSourceConfig
    */
   private DataSourceConfig toPojo(DataSourceConfigVo vo) {
-      DataSourceConfig result = new DataSourceConfig();
-      result.setId(vo.getId());
-      result.setConnectName(vo.getConnectName());
-      result.setCreateTime(vo.getCreateTime());
-      result.setDbName(vo.getDbName());
-      result.setDbType(vo.getDbType());
-      result.setDriverName(vo.getDriverName());
-      result.setDsType(vo.getDsType());
-      result.setIp(vo.getIp());
-      result.setPassword(vo.getPassword());
-      result.setPort(vo.getPort());
-      result.setUpdateTime(vo.getUpdateTime());
-      result.setUrl(vo.getUrl());
-      result.setUserName(vo.getUserName());
-      return result;
+    DataSourceConfig result = new DataSourceConfig();
+    result.setId(vo.getId());
+    result.setConnectName(vo.getConnectName());
+    result.setCreateTime(vo.getCreateTime());
+    result.setDbName(vo.getDbName());
+    result.setDbType(vo.getDbType());
+    result.setDriverName(vo.getDriverName());
+    result.setDsType(vo.getDsType());
+    result.setIp(vo.getIp());
+    result.setPassword(vo.getPassword());
+    result.setPort(vo.getPort());
+    result.setUpdateTime(vo.getUpdateTime());
+    result.setUrl(vo.getUrl());
+    result.setUserName(vo.getUserName());
+    return result;
   }
 
   @Override

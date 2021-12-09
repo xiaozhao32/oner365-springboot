@@ -1,12 +1,10 @@
-package com.oner365.sys.entity;
+package com.oner365.sys.dto;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.oner365.sys.dto.SysMenuDto;
-import com.oner365.sys.dto.SysOrganizationDto;
 import com.oner365.util.DataUtils;
 
 /**

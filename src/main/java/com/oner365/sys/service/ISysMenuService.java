@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.oner365.service.BaseService;
 import com.oner365.sys.dto.SysMenuDto;
-import com.oner365.sys.entity.TreeSelect;
+import com.oner365.sys.dto.TreeSelect;
 import com.oner365.sys.vo.SysMenuVo;
 
 /**
