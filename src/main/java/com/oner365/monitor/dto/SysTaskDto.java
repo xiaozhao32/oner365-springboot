@@ -1,128 +1,112 @@
-package com.oner365.monitor.entity;
+package com.oner365.monitor.dto;
 
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.google.common.base.MoreObjects;
 import com.oner365.monitor.constants.ScheduleConstants;
-import com.oner365.monitor.dto.SysTaskDto;
+import com.oner365.monitor.entity.InvokeParam;
 import com.oner365.monitor.util.CronUtils;
 import com.oner365.util.DataUtils;
-import com.vladmihalcea.hibernate.type.json.JsonStringType;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * 定时任务调度表 nt_sys_task
  *
  * @author liutao
  */
-@Entity
-@Table(name = "nt_sys_task")
-@TypeDef(name = "json", typeClass = JsonStringType.class)
-@JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler" })
-public class SysTask implements Serializable {
+@ApiModel(value = "定时任务")
+public class SysTaskDto implements Serializable {
   private static final long serialVersionUID = 1L;
 
   /**
    * 任务ID
    */
-  @Id
-  @GeneratedValue(generator = "generator")
-  @GenericGenerator(name = "generator", strategy = "uuid")
+  @ApiModelProperty(value = "主键")
   private String id;
 
   /**
    * 任务名称
    */
-  @Column(name = "task_name", nullable = false, length = 64)
+  @ApiModelProperty(value = "任务名称", required = true)
   private String taskName;
 
   /**
    * 任务组名
    */
-  @Column(name = "task_group", nullable = false, length = 64)
+  @ApiModelProperty(value = "任务组", required = true)
   private String taskGroup;
 
   /**
    * 调用目标字符串
    */
-  @Column(name = "invoke_target", nullable = false, length = 500)
+  @ApiModelProperty(value = "调用目标", required = true)
   private String invokeTarget;
 
   /**
    * 调用目标参数
    */
-  @Type(type = "json")
-  @Column(name = "invoke_param", columnDefinition = "json")
+  @ApiModelProperty(value = "目标参数")
   private InvokeParam invokeParam;
 
   /**
    * cron执行表达式
    */
-  @Column(name = "cron_expression")
+  @ApiModelProperty(value = "执行表达式")
   private String cronExpression;
 
   /**
    * cron计划策略
    */
-  @Column(name = "misfire_policy", length = 20)
+  @ApiModelProperty(value = "计划策略")
   private String misfirePolicy = ScheduleConstants.MISFIRE_DEFAULT;
 
   /**
    * 是否并发执行（0允许 1禁止）
    */
-  @Column(name = "concurrent", length = 1)
+  @ApiModelProperty(value = "是否并发执行（0允许 1禁止）")
   private String concurrent;
 
   /**
    * 任务状态（0正常 1暂停）
    */
-  @Column(name = "status", length = 1)
+  @ApiModelProperty(value = "任务状态（0正常 1暂停）")
   private String status;
 
   /**
    * 执行任务状态（0正在执行 1执行完成）
    */
-  @Column(name = "execute_status", length = 1)
+  @ApiModelProperty(value = "执行任务状态（0正在执行 1执行完成）")
   private String executeStatus;
 
   /**
    * 备注
    */
-  @Column(name = "remark", length = 500)
+  @ApiModelProperty(value = "备注")
   private String remark;
 
   /**
    * 创建人
    */
-  @Column(name = "create_user", length = 32)
+  @ApiModelProperty(value = "创建人")
   private String createUser;
 
   /**
    * 创建时间
    */
-  @Column(name = "create_time", updatable = false)
+  @ApiModelProperty(value = "创建时间")
   private Date createTime;
 
   /**
    * 更新时间
    */
-  @Column(name = "update_time", insertable = false)
+  @ApiModelProperty(value = "更新时间")
   private Date updateTime;
 
-  public SysTask() {
+  public SysTaskDto() {
     super();
   }
 
@@ -134,8 +118,6 @@ public class SysTask implements Serializable {
     this.id = id;
   }
 
-  @NotBlank(message = "任务名称不能为空")
-  @Size(max = 64, message = "任务名称不能超过64个字符")
   public String getTaskName() {
     return taskName;
   }
@@ -152,8 +134,6 @@ public class SysTask implements Serializable {
     this.taskGroup = taskGroup;
   }
 
-  @NotBlank(message = "调用目标字符串不能为空")
-  @Size(max = 1000, message = "调用目标字符串长度不能超过500个字符")
   public String getInvokeTarget() {
     return invokeTarget;
   }
@@ -162,8 +142,6 @@ public class SysTask implements Serializable {
     this.invokeTarget = invokeTarget;
   }
 
-  @NotBlank(message = "Cron执行表达式不能为空")
-  @Size(max = 255, message = "Cron执行表达式不能超过255个字符")
   public String getCronExpression() {
     return cronExpression;
   }
@@ -253,27 +231,11 @@ public class SysTask implements Serializable {
   }
 
   /**
-   * 转换对象
-   * 
-   * @return SysTaskDto
+   * toString Method
    */
-  public SysTaskDto toDto() {
-    SysTaskDto result = new SysTaskDto();
-    result.setId(this.getId());
-    result.setConcurrent(this.getConcurrent());
-    result.setCreateTime(this.getCreateTime());
-    result.setCreateUser(this.getCreateUser());
-    result.setCronExpression(this.getCronExpression());
-    result.setExecuteStatus(this.getExecuteStatus());
-    result.setInvokeParam(this.getInvokeParam());
-    result.setInvokeTarget(this.getInvokeTarget());
-    result.setMisfirePolicy(this.getMisfirePolicy());
-    result.setRemark(this.getRemark());
-    result.setStatus(this.getStatus());
-    result.setTaskGroup(this.getTaskGroup());
-    result.setTaskName(this.getTaskName());
-    result.setUpdateTime(this.getUpdateTime());
-    return result;
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this).add("id", id).toString();
   }
 
 }

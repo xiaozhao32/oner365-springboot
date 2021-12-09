@@ -14,9 +14,11 @@ import com.oner365.common.enums.StatusEnum;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.common.query.QueryUtils;
 import com.oner365.monitor.dao.ISysTaskLogDao;
+import com.oner365.monitor.dto.SysTaskLogDto;
 import com.oner365.monitor.entity.SysTaskLog;
 import com.oner365.monitor.mapper.SysTaskLogMapper;
 import com.oner365.monitor.service.ISysTaskLogService;
+import com.oner365.monitor.vo.SysTaskLogVo;
 import com.oner365.util.DataUtils;
 import com.oner365.util.DateUtil;
 
@@ -28,99 +30,120 @@ import com.oner365.util.DateUtil;
 @Service
 public class SysTaskLogServiceImpl implements ISysTaskLogService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SysTaskLogServiceImpl.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(SysTaskLogServiceImpl.class);
 
-    @Autowired
-    private ISysTaskLogDao dao;
+  @Autowired
+  private ISysTaskLogDao dao;
 
-    @Autowired
-    private SysTaskLogMapper taskLogMapper;
+  @Autowired
+  private SysTaskLogMapper taskLogMapper;
 
-    /**
-     * 获取quartz调度器日志的计划任务
-     *
-     * @param data 查询参数
-     * @return 调度任务日志集合
-     */
-    @Override
-    public Page<SysTaskLog> pageList(QueryCriteriaBean data) {
-        try {
-            Pageable pageable = QueryUtils.buildPageRequest(data);
-            return dao.findAll(QueryUtils.buildCriteria(data), pageable);
-        } catch (Exception e) {
-            LOGGER.error("Error pageList: ", e);
-        }
-        return null;
+  /**
+   * 获取quartz调度器日志的计划任务
+   *
+   * @param data 查询参数
+   * @return 调度任务日志集合
+   */
+  @Override
+  public Page<SysTaskLogDto> pageList(QueryCriteriaBean data) {
+    try {
+      Pageable pageable = QueryUtils.buildPageRequest(data);
+      return convertDto(dao.findAll(QueryUtils.buildCriteria(data), pageable));
+    } catch (Exception e) {
+      LOGGER.error("Error pageList: ", e);
+    }
+    return null;
+  }
+
+  /**
+   * 通过调度任务日志ID查询调度信息
+   *
+   * @param id 调度任务日志ID
+   * @return 调度任务日志对象信息
+   */
+  @Override
+  public SysTaskLogDto selectTaskLogById(String id) {
+    Optional<SysTaskLog> optional = dao.findById(id);
+    return convertDto(optional.orElse(null));
+  }
+
+  /**
+   * 新增任务日志
+   *
+   * @param taskLog 调度日志信息
+   */
+  @Override
+  public void addTaskLog(SysTaskLogVo taskLog) {
+    if (DataUtils.isEmpty(taskLog.getId())) {
+      taskLog.setCreateTime(DateUtil.getDate());
+    }
+    SysTaskLog entity = toPojo(taskLog);
+    dao.save(entity);
+  }
+  
+  private SysTaskLog toPojo(SysTaskLogVo vo) {
+    SysTaskLog result = new SysTaskLog();
+    result.setCreateTime(vo.getCreateTime());
+    result.setCreateUser(vo.getCreateUser());
+    result.setExceptionInfo(vo.getExceptionInfo());
+    result.setExecuteIp(vo.getExecuteIp());
+    result.setExecuteServerName(vo.getExecuteServerName());
+    result.setId(vo.getId());
+    result.setInvokeTarget(vo.getInvokeTarget());
+    result.setRemark(vo.getRemark());
+    result.setStartTime(vo.getStartTime());
+    result.setStatus(vo.getStatus());
+    result.setStopTime(vo.getStopTime());
+    result.setTaskGroup(vo.getTaskGroup());
+    result.setTaskMessage(vo.getTaskMessage());
+    result.setTaskName(vo.getTaskName());
+    result.setUpdateTime(vo.getUpdateTime());
+    return result;
+  }
+
+  /**
+   * 批量删除调度日志信息
+   *
+   * @param ids 需要删除的数据ID
+   * @return 结果
+   */
+  @Override
+  public int deleteTaskLogByIds(String[] ids) {
+    int result = ResultEnum.ERROR.getCode();
+    for (String id : ids) {
+      result = deleteTaskLogById(id);
+    }
+    return result;
+  }
+
+  /**
+   * 删除任务日志
+   *
+   * @param id 调度日志ID
+   */
+  @Override
+  public int deleteTaskLogById(String id) {
+    dao.deleteById(id);
+    return ResultEnum.SUCCESS.getCode();
+  }
+
+  /**
+   * 清空任务日志
+   */
+  @Override
+  public void cleanTaskLog() {
+    taskLogMapper.cleanTaskLog();
+  }
+
+  @Override
+  public String deleteTaskLogByCreateTime(String time) {
+    try {
+      dao.deleteTaskLogByCreateTime(time);
+      return StatusEnum.YES.getCode();
+    } catch (Exception e) {
+      LOGGER.error("Error deleteTaskLogByCreateTime: ", e);
+      return StatusEnum.NO.getCode();
     }
 
-    /**
-     * 通过调度任务日志ID查询调度信息
-     *
-     * @param id 调度任务日志ID
-     * @return 调度任务日志对象信息
-     */
-    @Override
-    public SysTaskLog selectTaskLogById(String id) {
-        Optional<SysTaskLog> optional = dao.findById(id);
-        return optional.orElse(null);
-    }
-
-    /**
-     * 新增任务日志
-     *
-     * @param taskLog 调度日志信息
-     */
-    @Override
-    public void addTaskLog(SysTaskLog taskLog) {
-        if(DataUtils.isEmpty(taskLog.getId())){
-            taskLog.setCreateTime(DateUtil.getDate());
-        }
-        dao.save(taskLog);
-    }
-
-    /**
-     * 批量删除调度日志信息
-     *
-     * @param ids 需要删除的数据ID
-     * @return 结果
-     */
-    @Override
-    public int deleteTaskLogByIds(String[] ids) {
-        int result = ResultEnum.ERROR.getCode();
-        for (String id : ids) {
-            result = deleteTaskLogById(id);
-        }
-        return result;
-    }
-
-    /**
-     * 删除任务日志
-     *
-     * @param id 调度日志ID
-     */
-    @Override
-    public int deleteTaskLogById(String id) {
-        dao.deleteById(id);
-        return ResultEnum.SUCCESS.getCode();
-    }
-
-    /**
-     * 清空任务日志
-     */
-    @Override
-    public void cleanTaskLog() {
-        taskLogMapper.cleanTaskLog();
-    }
-    
-    @Override
-    public String deleteTaskLogByCreateTime(String time) {
-        try{
-            dao.deleteTaskLogByCreateTime(time);
-            return StatusEnum.YES.getCode();
-        }catch(Exception e){
-            LOGGER.error("Error deleteTaskLogByCreateTime: ", e);
-            return StatusEnum.NO.getCode();
-        }
-        
-    }
+  }
 }

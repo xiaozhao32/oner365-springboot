@@ -6,7 +6,6 @@ import java.util.List;
 import com.google.common.base.MoreObjects;
 import com.oner365.gateway.entity.GatewayFilter;
 import com.oner365.gateway.entity.GatewayPredicate;
-import com.oner365.gateway.entity.GatewayRoute;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -131,23 +130,6 @@ public class GatewayRouteVo implements Serializable {
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this).add("id", id).toString();
-    }
-
-    /**
-     * 转换对象
-     * 
-     * @return GatewayRoute
-     */
-    public GatewayRoute toObject() {
-        GatewayRoute result = new GatewayRoute();
-        result.setId(this.getId());
-        result.setFilters(this.getFilters());
-        result.setPattern(this.getPattern());
-        result.setPredicates(this.getPredicates());
-        result.setRouteOrder(this.getRouteOrder());
-        result.setStatus(this.getStatus());
-        result.setUri(this.getUri());
-        return result;
     }
 
 }

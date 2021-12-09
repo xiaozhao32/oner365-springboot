@@ -11,7 +11,7 @@ import org.springframework.data.domain.Page;
 
 import com.alibaba.fastjson.JSON;
 import com.oner365.common.query.QueryCriteriaBean;
-import com.oner365.gateway.entity.GatewayRoute;
+import com.oner365.gateway.dto.GatewayRouteDto;
 import com.oner365.gateway.service.DynamicRouteService;
 import com.oner365.test.service.BaseServiceTest;
 
@@ -24,32 +24,32 @@ import com.oner365.test.service.BaseServiceTest;
 @SpringBootTest
 class GatewayRouteServiceTest extends BaseServiceTest {
 
-    @Autowired
-    private DynamicRouteService service;
+  @Autowired
+  private DynamicRouteService service;
 
-    @RepeatedTest(value = 2)
-    void findList() {
-        List<GatewayRoute> list = service.findList();
-        LOGGER.info("findList:{}", list.size());
-        Assertions.assertNotEquals(0, list.size());
-    }
+  @RepeatedTest(value = 2)
+  void findList() {
+    List<GatewayRouteDto> list = service.findList();
+    LOGGER.info("findList:{}", list.size());
+    Assertions.assertNotEquals(0, list.size());
+  }
 
-    @Test
-    void pageList() {
-        QueryCriteriaBean paramData = new QueryCriteriaBean();
-        Page<GatewayRoute> list = service.pageList(paramData);
-        LOGGER.info("pageList:{}", list.getSize());
-        Assertions.assertNotEquals(0, list.getSize());
-    }
+  @Test
+  void pageList() {
+    QueryCriteriaBean paramData = new QueryCriteriaBean();
+    Page<GatewayRouteDto> list = service.pageList(paramData);
+    LOGGER.info("pageList:{}", list.getSize());
+    Assertions.assertNotEquals(0, list.getSize());
+  }
 
-    @Test
-    void getById() {
-        List<GatewayRoute> list = service.findList();
-        if (!list.isEmpty()) {
-            GatewayRoute entity = service.getById(list.get(0).getId());
-            LOGGER.info("getById:{}", JSON.toJSONString(entity));
-            Assertions.assertNotNull(entity);
-        }
+  @Test
+  void getById() {
+    List<GatewayRouteDto> list = service.findList();
+    if (!list.isEmpty()) {
+      GatewayRouteDto entity = service.getById(list.get(0).getId());
+      LOGGER.info("getById:{}", JSON.toJSONString(entity));
+      Assertions.assertNotNull(entity);
     }
+  }
 
 }

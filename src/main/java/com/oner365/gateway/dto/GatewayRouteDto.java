@@ -1,31 +1,22 @@
-package com.oner365.gateway.entity;
+package com.oner365.gateway.dto;
 
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import com.google.common.base.MoreObjects;
+import com.oner365.gateway.entity.GatewayFilter;
+import com.oner365.gateway.entity.GatewayPredicate;
 
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.oner365.gateway.dto.GatewayRouteDto;
-import com.vladmihalcea.hibernate.type.json.JsonStringType;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * Gateway的路由定义模型
  * 
  * @author zhaoyong
  */
-@Entity
-@Table(name = "nt_gateway_route")
-@TypeDef(name = "json", typeClass = JsonStringType.class)
-@JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler", "transportOrders" })
-public class GatewayRoute implements Serializable {
+@ApiModel(value = "路由信息")
+public class GatewayRouteDto implements Serializable {
 
   /**
    *
@@ -35,48 +26,46 @@ public class GatewayRoute implements Serializable {
   /**
    * 路由的Id
    */
-  @Id
+  @ApiModelProperty(value = "主键")
   private String id;
 
   /**
    * 路由断言集合配置
    */
-  @Type(type = "json")
-  @Column(name = "predicates")
+  @ApiModelProperty(value = "断言集合")
   private List<GatewayPredicate> predicates;
 
   /**
    * 路由过滤器集合配置
    */
-  @Type(type = "json")
-  @Column(name = "filters")
+  @ApiModelProperty(value = "过滤器集合")
   private List<GatewayFilter> filters;
 
   /**
    * 路由规则转发的目标uri
    */
-  @Column(name = "uri", nullable = false)
+  @ApiModelProperty(value = "转发地址", required = true)
   private String uri;
 
   /**
    * 路由执行的顺序
    */
-  @Column(name = "route_order", nullable = false, length = 11)
+  @ApiModelProperty(value = "执行顺序", required = true)
   private Integer routeOrder = 0;
 
   /**
    * 路由状态 0：可用 1：不可用
    */
-  @Column(name = "status", nullable = false, length = 8)
+  @ApiModelProperty(value = "路由状态", required = true)
   private String status;
 
   /**
    * 界面使用的谓词
    */
-  @Transient
+  @ApiModelProperty(value = "表达式")
   private String pattern;
 
-  public GatewayRoute() {
+  public GatewayRouteDto() {
     super();
   }
 
@@ -137,20 +126,11 @@ public class GatewayRoute implements Serializable {
   }
 
   /**
-   * 转换对象
-   * 
-   * @return GatewayRouteDto
+   * toString Method
    */
-  public GatewayRouteDto toDto() {
-    GatewayRouteDto result = new GatewayRouteDto();
-    result.setId(this.getId());
-    result.setFilters(this.getFilters());
-    result.setPattern(this.getPattern());
-    result.setPredicates(this.getPredicates());
-    result.setRouteOrder(this.getRouteOrder());
-    result.setStatus(this.getStatus());
-    result.setUri(this.getUri());
-    return result;
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this).add("id", id).toString();
   }
 
 }

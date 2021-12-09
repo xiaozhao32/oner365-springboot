@@ -1,4 +1,4 @@
-package com.oner365.elasticsearch.vo;
+package com.oner365.elasticsearch.dto;
 
 import java.io.Serializable;
 
@@ -15,7 +15,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @author zhaoyong
  */
 @ApiModel(value = "基因信息")
-public class SampleGeneVo implements Serializable {
+public class SampleGeneDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

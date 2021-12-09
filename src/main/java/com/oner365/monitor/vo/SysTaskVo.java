@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.google.common.base.MoreObjects;
 import com.oner365.monitor.constants.ScheduleConstants;
 import com.oner365.monitor.entity.InvokeParam;
-import com.oner365.monitor.entity.SysTask;
 import com.oner365.monitor.util.CronUtils;
 import com.oner365.util.DataUtils;
 
@@ -238,30 +237,6 @@ public class SysTaskVo implements Serializable {
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this).add("id", id).toString();
-    }
-
-    /**
-     * 转换对象
-     * 
-     * @return SysTask
-     */
-    public SysTask toObject() {
-        SysTask result = new SysTask();
-        result.setId(this.getId());
-        result.setConcurrent(this.getConcurrent());
-        result.setCreateTime(this.getCreateTime());
-        result.setCreateUser(this.getCreateUser());
-        result.setCronExpression(this.getCronExpression());
-        result.setExecuteStatus(this.getExecuteStatus());
-        result.setInvokeParam(this.getInvokeParam());
-        result.setInvokeTarget(this.getInvokeTarget());
-        result.setMisfirePolicy(this.getMisfirePolicy());
-        result.setRemark(this.getRemark());
-        result.setStatus(this.getStatus());
-        result.setTaskGroup(this.getTaskGroup());
-        result.setTaskName(this.getTaskName());
-        result.setUpdateTime(this.getUpdateTime());
-        return result;
     }
 
 }

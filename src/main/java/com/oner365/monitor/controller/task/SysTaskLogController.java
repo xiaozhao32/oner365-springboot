@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.oner365.common.enums.ResultEnum;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
-import com.oner365.monitor.entity.SysTaskLog;
+import com.oner365.monitor.dto.SysTaskLogDto;
 import com.oner365.monitor.service.ISysTaskLogService;
 
 import io.swagger.annotations.Api;
@@ -36,11 +36,11 @@ public class SysTaskLogController extends BaseController {
      * 查询定时任务调度日志列表
      * 
      * @param data 查询参数
-     * @return Page<SysTaskLog>
+     * @return Page<SysTaskLogDto>
      */
     @PostMapping("/list")
     @ApiOperation("获取列表")
-    public Page<SysTaskLog> list(@RequestBody QueryCriteriaBean data) {
+    public Page<SysTaskLogDto> list(@RequestBody QueryCriteriaBean data) {
         return taskLogService.pageList(data);
     }
 
@@ -60,11 +60,11 @@ public class SysTaskLogController extends BaseController {
      * 根据调度编号获取详细信息
      * 
      * @param id 主键
-     * @return SysTaskLog
+     * @return SysTaskLogDto
      */
     @GetMapping("/{id}")
     @ApiOperation("按id查询")
-    public SysTaskLog getInfo(@PathVariable String id) {
+    public SysTaskLogDto getInfo(@PathVariable String id) {
         return taskLogService.selectTaskLogById(id);
     }
 

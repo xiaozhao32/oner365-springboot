@@ -19,7 +19,7 @@ import com.oner365.common.enums.ErrorInfoEnum;
 import com.oner365.common.enums.ResultEnum;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
-import com.oner365.monitor.entity.SysTask;
+import com.oner365.monitor.dto.SysTaskDto;
 import com.oner365.monitor.exception.TaskException;
 import com.oner365.monitor.service.ISysTaskService;
 import com.oner365.monitor.util.CronUtils;
@@ -39,139 +39,131 @@ import springfox.documentation.annotations.ApiIgnore;
 @Api(tags = "监控 - 定时任务")
 public class SysTaskController extends BaseController {
 
-    @Autowired
-    private ISysTaskService taskService;
+  @Autowired
+  private ISysTaskService taskService;
 
-    /**
-     * 查询定时任务列表
-     *
-     * @param data 查询参数
-     * @return Page<SysTask>
-     */
-    @PostMapping("/list")
-    @ApiOperation("定时任务列表")
-    public Page<SysTask> list(@RequestBody QueryCriteriaBean data) {
-        return taskService.pageList(data);
+  /**
+   * 查询定时任务列表
+   *
+   * @param data 查询参数
+   * @return Page<SysTaskDto>
+   */
+  @PostMapping("/list")
+  @ApiOperation("定时任务列表")
+  public Page<SysTaskDto> list(@RequestBody QueryCriteriaBean data) {
+    return taskService.pageList(data);
+  }
+
+  /**
+   * 导出定时任务列表
+   *
+   * @param data 查询参数
+   * @return String
+   */
+  @GetMapping("/export")
+  @ApiOperation("导出")
+  public String export(@RequestBody QueryCriteriaBean data) {
+    return ResultEnum.SUCCESS.getName();
+  }
+
+  /**
+   * 获取定时任务详细信息
+   *
+   * @param id 主键
+   * @return SysTask
+   */
+  @GetMapping("/{id}")
+  @ApiOperation("按id查询信息")
+  public SysTaskDto getInfo(@PathVariable String id) {
+    return taskService.selectTaskById(id);
+  }
+
+  /**
+   * 新增定时任务
+   *
+   * @param sysTaskVo 参数
+   * @param authUser  登录对象
+   * @return ResponseResult<Integer>
+   * @throws SchedulerException, TaskException 异常
+   */
+  @PostMapping
+  @ApiOperation("新增定时任务")
+  public ResponseResult<Integer> add(@RequestBody SysTaskVo sysTaskVo, @ApiIgnore @CurrentUser AuthUser authUser)
+      throws SchedulerException, TaskException {
+    if (sysTaskVo == null || !CronUtils.isValid(sysTaskVo.getCronExpression())) {
+      return ResponseResult.error("cron表达式不正确");
     }
+    sysTaskVo.setCreateUser(authUser.getUserName());
 
-    /**
-     * 导出定时任务列表
-     *
-     * @param data 查询参数
-     * @return String
-     */
-    @GetMapping("/export")
-    @ApiOperation("导出")
-    public String export(@RequestBody QueryCriteriaBean data) {
-        return ResultEnum.SUCCESS.getName();
+    int code = taskService.save(sysTaskVo);
+    return ResponseResult.success(code);
+  }
+
+  /**
+   * 修改定时任务
+   *
+   * @param sysTaskVo 参数
+   * @param authUser  登录对象
+   * @return ResponseResult<Integer>
+   * @throws SchedulerException, TaskException 异常
+   */
+  @PutMapping
+  @ApiOperation("修改定时任务")
+  public ResponseResult<Integer> edit(@RequestBody SysTaskVo sysTaskVo, @ApiIgnore @CurrentUser AuthUser authUser)
+      throws SchedulerException, TaskException {
+    if (sysTaskVo == null || !CronUtils.isValid(sysTaskVo.getCronExpression())) {
+      return ResponseResult.error("cron表达式不正确");
     }
+    int code = taskService.updateTask(sysTaskVo);
+    return ResponseResult.success(code);
+  }
 
-    /**
-     * 获取定时任务详细信息
-     *
-     * @param id 主键
-     * @return SysTask
-     */
-    @GetMapping("/{id}")
-    @ApiOperation("按id查询信息")
-    public SysTask getInfo(@PathVariable String id) {
-        return taskService.selectTaskById(id);
+  /**
+   * 定时任务状态修改
+   *
+   * @param sysTaskVo 参数
+   * @return ResponseResult<Integer>
+   * @throws SchedulerException, TaskException 异常
+   */
+  @PutMapping("/changeStatus")
+  @ApiOperation("修改状态")
+  public ResponseResult<Integer> changeStatus(@RequestBody SysTaskVo sysTaskVo)
+      throws SchedulerException, TaskException {
+    if (sysTaskVo != null) {
+      int code = taskService.changeStatus(sysTaskVo);
+      return ResponseResult.success(code);
     }
+    return ResponseResult.error(ErrorInfoEnum.SAVE_ERROR.getName());
+  }
 
-    /**
-     * 新增定时任务
-     *
-     * @param sysTaskVo 参数
-     * @param authUser 登录对象
-     * @return ResponseResult<Integer>
-     * @throws SchedulerException, TaskException 异常
-     */
-    @PostMapping
-    @ApiOperation("新增定时任务")
-    public ResponseResult<Integer> add(@RequestBody SysTaskVo sysTaskVo, @ApiIgnore @CurrentUser AuthUser authUser)
-            throws SchedulerException, TaskException {
-        SysTask sysTask = sysTaskVo.toObject();
-
-        if (sysTask == null || !CronUtils.isValid(sysTask.getCronExpression())) {
-            return ResponseResult.error("cron表达式不正确");
-        }
-        sysTask.setCreateUser(authUser.getUserName());
-
-        int code = taskService.save(sysTask);
-        return ResponseResult.success(code);
+  /**
+   * 定时任务立即执行一次
+   *
+   * @param sysTaskVo 参数
+   * @return ResponseResult<String>
+   * @throws SchedulerException 异常
+   */
+  @PutMapping("/run")
+  @ApiOperation("立即执行一次")
+  public ResponseResult<String> run(@RequestBody SysTaskVo sysTaskVo) throws SchedulerException {
+    if (sysTaskVo != null) {
+      taskService.run(sysTaskVo);
+      return ResponseResult.success(ResultEnum.SUCCESS.getName());
     }
+    return ResponseResult.error("执行失败");
+  }
 
-    /**
-     * 修改定时任务
-     *
-     * @param sysTaskVo 参数
-     * @param authUser 登录对象
-     * @return ResponseResult<Integer>
-     * @throws SchedulerException, TaskException 异常
-     */
-    @PutMapping
-    @ApiOperation("修改定时任务")
-    public ResponseResult<Integer> edit(@RequestBody SysTaskVo sysTaskVo, @ApiIgnore @CurrentUser AuthUser authUser)
-            throws SchedulerException, TaskException {
-        SysTask sysTask = sysTaskVo.toObject();
-
-        if (sysTask == null || !CronUtils.isValid(sysTask.getCronExpression())) {
-            return ResponseResult.error("cron表达式不正确");
-        }
-        int code = taskService.updateTask(sysTask);
-        return ResponseResult.success(code);
-    }
-
-    /**
-     * 定时任务状态修改
-     *
-     * @param sysTaskVo 参数
-     * @return ResponseResult<Integer>
-     * @throws SchedulerException, TaskException 异常
-     */
-    @PutMapping("/changeStatus")
-    @ApiOperation("修改状态")
-    public ResponseResult<Integer> changeStatus(@RequestBody SysTaskVo sysTaskVo) throws SchedulerException, TaskException {
-        if (sysTaskVo != null) {
-            SysTask sysTask = sysTaskVo.toObject();
-            if (sysTask != null) {
-                SysTask newJob = taskService.selectTaskById(sysTask.getId());
-                newJob.setStatus(sysTask.getStatus());
-                int code = taskService.changeStatus(newJob);
-                return ResponseResult.success(code);
-            }
-        }
-        return ResponseResult.error(ErrorInfoEnum.SAVE_ERROR.getName());
-    }
-
-    /**
-     * 定时任务立即执行一次
-     *
-     * @param sysTaskVo 参数
-     * @return ResponseResult<String>
-     * @throws SchedulerException 异常
-     */
-    @PutMapping("/run")
-    @ApiOperation("立即执行一次")
-    public ResponseResult<String> run(@RequestBody SysTaskVo sysTaskVo) throws SchedulerException {
-        if (sysTaskVo != null) {
-            taskService.run(sysTaskVo.toObject());
-            return ResponseResult.success(ResultEnum.SUCCESS.getName());
-        }
-        return ResponseResult.error("执行失败");
-    }
-
-    /**
-     * 删除定时任务
-     *
-     * @param ids 主键
-     * @return ResponseResult<String>
-     * @throws SchedulerException 异常
-     */
-    @DeleteMapping("/{ids}")
-    @ApiOperation("删除定时任务")
-    public ResponseResult<String> remove(@PathVariable String[] ids) throws SchedulerException {
-        taskService.deleteTaskByIds(ids);
-        return ResponseResult.success(ResultEnum.SUCCESS.getName());
-    }
+  /**
+   * 删除定时任务
+   *
+   * @param ids 主键
+   * @return ResponseResult<String>
+   * @throws SchedulerException 异常
+   */
+  @DeleteMapping("/{ids}")
+  @ApiOperation("删除定时任务")
+  public ResponseResult<String> remove(@PathVariable String[] ids) throws SchedulerException {
+    taskService.deleteTaskByIds(ids);
+    return ResponseResult.success(ResultEnum.SUCCESS.getName());
+  }
 }
