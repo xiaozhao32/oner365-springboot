@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSON;
 import com.oner365.common.enums.ResultEnum;
 import com.oner365.common.exception.ProjectRuntimeException;
 import com.oner365.common.query.QueryCriteriaBean;
@@ -187,10 +188,10 @@ public class SysTaskServiceImpl implements ISysTaskService {
   public void run(SysTaskVo task) throws SchedulerException {
     String id = task.getId();
     String taskGroup = task.getTaskGroup();
-    SysTask properties = dao.getById(task.getId());
+    SysTask sysTask = dao.getById(task.getId());
     // 参数
     JobDataMap dataMap = new JobDataMap();
-    dataMap.put(ScheduleConstants.TASK_PROPERTIES, properties);
+    dataMap.put(ScheduleConstants.TASK_PROPERTIES, JSON.toJSONString(convertDto(sysTask)));
     scheduler.triggerJob(ScheduleUtils.getJobKey(id, taskGroup), dataMap);
   }
 
@@ -214,7 +215,7 @@ public class SysTaskServiceImpl implements ISysTaskService {
     }
     return ResultEnum.SUCCESS.getCode();
   }
-  
+
   /**
    * 转换对象
    * 
@@ -238,7 +239,6 @@ public class SysTaskServiceImpl implements ISysTaskService {
     result.setUpdateTime(vo.getUpdateTime());
     return result;
   }
-
 
   /**
    * 更新任务的时间表达式
