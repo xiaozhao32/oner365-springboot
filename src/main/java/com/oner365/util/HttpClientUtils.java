@@ -48,7 +48,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.util.EntityUtils;
-import org.apache.logging.log4j.util.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpMethod;
@@ -465,7 +464,7 @@ public class HttpClientUtils {
 		} catch (IOException e) {
 			LOGGER.error("IOException", e);
 		}
-		return Strings.EMPTY;
+		return "";
 	}
 
 	/**
@@ -489,7 +488,7 @@ public class HttpClientUtils {
 		} catch (IOException e) {
 			LOGGER.error("IOException", e);
 		}
-		return Strings.EMPTY;
+		return "";
 	}
 
 	public static String httpsGetRequest(String url, Map<String, Object> headers) {
