@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.common.enums.ResultEnum;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
@@ -25,70 +26,76 @@ import io.swagger.annotations.ApiOperation;
  * @author zhaoyong
  */
 @RestController
-@RequestMapping("/monitor/taskLog")
 @Api(tags = "监控 - 定时任务日志")
+@RequestMapping("/monitor/taskLog")
 public class SysTaskLogController extends BaseController {
-    
-    @Autowired
-    private ISysTaskLogService taskLogService;
 
-    /**
-     * 查询定时任务调度日志列表
-     * 
-     * @param data 查询参数
-     * @return Page<SysTaskLogDto>
-     */
-    @PostMapping("/list")
-    @ApiOperation("获取列表")
-    public Page<SysTaskLogDto> list(@RequestBody QueryCriteriaBean data) {
-        return taskLogService.pageList(data);
-    }
+  @Autowired
+  private ISysTaskLogService taskLogService;
 
-    /**
-     * 导出定时任务调度日志列表
-     * 
-     * @param data 查询参数
-     * @return String
-     */
-    @GetMapping("/export")
-    @ApiOperation("导出")
-    public String export(@RequestBody QueryCriteriaBean data) {
-        return ResultEnum.SUCCESS.getName();
-    }
+  /**
+   * 查询定时任务调度日志列表
+   * 
+   * @param data 查询参数
+   * @return Page<SysTaskLogDto>
+   */
+  @ApiOperation("1.获取列表")
+  @ApiOperationSupport(order = 1)
+  @PostMapping("/list")
+  public Page<SysTaskLogDto> list(@RequestBody QueryCriteriaBean data) {
+    return taskLogService.pageList(data);
+  }
 
-    /**
-     * 根据调度编号获取详细信息
-     * 
-     * @param id 主键
-     * @return SysTaskLogDto
-     */
-    @GetMapping("/{id}")
-    @ApiOperation("按id查询")
-    public SysTaskLogDto getInfo(@PathVariable String id) {
-        return taskLogService.selectTaskLogById(id);
-    }
+  /**
+   * 根据调度编号获取详细信息
+   * 
+   * @param id 主键
+   * @return SysTaskLogDto
+   */
+  @ApiOperation("2.按id查询")
+  @ApiOperationSupport(order = 2)
+  @GetMapping("/{id}")
+  public SysTaskLogDto getInfo(@PathVariable String id) {
+    return taskLogService.selectTaskLogById(id);
+  }
 
-    /**
-     * 删除定时任务调度日志
-     * 
-     * @param ids 主键
-     * @return Integer
-     */
-    @DeleteMapping("/{ids}")
-    @ApiOperation("删除任务日志")
-    public Integer remove(@PathVariable String[] ids) {
-        return taskLogService.deleteTaskLogByIds(ids);
-    }
+  /**
+   * 清空定时任务调度日志
+   * 
+   * @return String
+   */
+  @ApiOperation("3.清除任务日志")
+  @ApiOperationSupport(order = 3)
+  @DeleteMapping("/clean")
+  public String clean() {
+    taskLogService.cleanTaskLog();
+    return ResultEnum.SUCCESS.getName();
+  }
 
-    /**
-     * 清空定时任务调度日志
-     * 
-     * @return String
-     */
-    @DeleteMapping("/clean")
-    @ApiOperation("清除任务日志")
-    public String clean() {
-        taskLogService.cleanTaskLog();
-        return ResultEnum.SUCCESS.getName();
-    }
+  /**
+   * 删除定时任务调度日志
+   * 
+   * @param ids 主键
+   * @return Integer
+   */
+  @ApiOperation("4.删除任务日志")
+  @ApiOperationSupport(order = 4)
+  @DeleteMapping("/{ids}")
+  public Integer remove(@PathVariable String[] ids) {
+    return taskLogService.deleteTaskLogByIds(ids);
+  }
+
+  /**
+   * 导出定时任务调度日志列表
+   * 
+   * @param data 查询参数
+   * @return String
+   */
+  @ApiOperation("5.导出")
+  @ApiOperationSupport(order = 5)
+  @GetMapping("/export")
+  public String export(@RequestBody QueryCriteriaBean data) {
+    return ResultEnum.SUCCESS.getName();
+  }
+
 }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.common.ResponseResult;
 import com.oner365.controller.BaseController;
 import com.oner365.sys.dto.SysMessageDto;
@@ -21,8 +22,8 @@ import io.swagger.annotations.ApiOperation;
  * @author zhaoyong
  */
 @RestController
-@RequestMapping("/system/message")
 @Api(tags = "系统管理 - 消息")
+@RequestMapping("/system/message")
 public class SysMessageController extends BaseController {
 
     @Autowired
@@ -33,8 +34,9 @@ public class SysMessageController extends BaseController {
      * @param messageType 消息类型
      * @return ResponseResult<Boolean>
      */
+    @ApiOperation("1.刷新结果")
+    @ApiOperationSupport(order = 1)
     @GetMapping("/refresh")
-    @ApiOperation("刷新结果")
     public ResponseResult<Boolean> refresh(@RequestParam("messageType") String messageType) {
         List<SysMessageDto> list = sysMessageService.findList(messageType);
         if (!list.isEmpty()) {

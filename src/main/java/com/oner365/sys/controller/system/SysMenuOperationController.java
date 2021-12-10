@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.common.ResponseResult;
 import com.oner365.common.enums.ErrorInfoEnum;
 import com.oner365.common.enums.ResultEnum;
@@ -31,12 +32,54 @@ import io.swagger.annotations.ApiOperation;
  *
  */
 @RestController
-@RequestMapping("/system/menuOperation")
 @Api(tags = "系统管理 - 菜单操作权限")
+@RequestMapping("/system/menuOperation")
 public class SysMenuOperationController extends BaseController {
 
   @Autowired
   private ISysMenuOperationService menuOperationService;
+
+  /**
+   * 列表
+   * 
+   * @param data 查询参数
+   * @return Page<SysMenuOperationDto>
+   */
+  @ApiOperation("1.获取列表")
+  @ApiOperationSupport(order = 1)
+  @PostMapping("/list")
+  public Page<SysMenuOperationDto> findList(@RequestBody QueryCriteriaBean data) {
+    return menuOperationService.pageList(data);
+  }
+
+  /**
+   * 获取信息
+   * 
+   * @param id 编号
+   * @return SysMenuOperationDto
+   */
+  @ApiOperation("2.按id查询")
+  @ApiOperationSupport(order = 2)
+  @GetMapping("/get/{id}")
+  public SysMenuOperationDto getById(@PathVariable String id) {
+    return menuOperationService.getById(id);
+  }
+
+  /**
+   * 判断是否存在
+   * 
+   * @param checkCodeVo 查询参数
+   * @return Long
+   */
+  @ApiOperation("3.判断是否存在")
+  @ApiOperationSupport(order = 3)
+  @PostMapping("/checkCode")
+  public Long checkCode(@RequestBody CheckCodeVo checkCodeVo) {
+    if (checkCodeVo != null) {
+      return menuOperationService.checkCode(checkCodeVo.getId(), checkCodeVo.getCode());
+    }
+    return Long.valueOf(ResultEnum.ERROR.getCode());
+  }
 
   /**
    * 保存
@@ -44,8 +87,9 @@ public class SysMenuOperationController extends BaseController {
    * @param sysMenuOperationVo 操作对象
    * @return ResponseResult<SysMenuOperationDto>
    */
+  @ApiOperation("4.保存")
+  @ApiOperationSupport(order = 4)
   @PutMapping("/save")
-  @ApiOperation("保存")
   public ResponseResult<SysMenuOperationDto> save(@RequestBody SysMenuOperationVo sysMenuOperationVo) {
     if (sysMenuOperationVo != null) {
       SysMenuOperationDto entity = menuOperationService.save(sysMenuOperationVo);
@@ -55,37 +99,14 @@ public class SysMenuOperationController extends BaseController {
   }
 
   /**
-   * 获取信息
-   * 
-   * @param id 编号
-   * @return SysMenuOperationDto
-   */
-  @GetMapping("/get/{id}")
-  @ApiOperation("按id查询")
-  public SysMenuOperationDto getById(@PathVariable String id) {
-    return menuOperationService.getById(id);
-  }
-
-  /**
-   * 列表
-   * 
-   * @param data 查询参数
-   * @return Page<SysMenuOperationDto>
-   */
-  @PostMapping("/list")
-  @ApiOperation("获取列表")
-  public Page<SysMenuOperationDto> findList(@RequestBody QueryCriteriaBean data) {
-    return menuOperationService.pageList(data);
-  }
-
-  /**
    * 删除
    * 
    * @param ids 编号
    * @return Integer
    */
+  @ApiOperation("5.删除")
+  @ApiOperationSupport(order = 5)
   @DeleteMapping("/delete")
-  @ApiOperation("删除")
   public Integer delete(@RequestBody String... ids) {
     int code = 0;
     for (String id : ids) {
@@ -94,18 +115,4 @@ public class SysMenuOperationController extends BaseController {
     return code;
   }
 
-  /**
-   * 判断是否存在
-   * 
-   * @param checkCodeVo 查询参数
-   * @return Long
-   */
-  @PostMapping("/checkCode")
-  @ApiOperation("判断是否存在")
-  public Long checkCode(@RequestBody CheckCodeVo checkCodeVo) {
-    if (checkCodeVo != null) {
-      return menuOperationService.checkCode(checkCodeVo.getId(), checkCodeVo.getCode());
-    }
-    return Long.valueOf(ResultEnum.ERROR.getCode());
-  }
 }

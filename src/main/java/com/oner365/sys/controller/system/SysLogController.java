@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.common.ResponseResult;
 import com.oner365.common.enums.ErrorInfoEnum;
 import com.oner365.common.query.QueryCriteriaBean;
@@ -41,13 +42,40 @@ public class SysLogController extends BaseController {
   private ISysLogService logService;
 
   /**
+   * 列表
+   *
+   * @param data 查询参数
+   * @return Page<SysLog>
+   */
+  @ApiOperation("1.获取列表")
+  @ApiOperationSupport(order = 1)
+  @PostMapping("/list")
+  public Page<SysLogDto> list(@RequestBody QueryCriteriaBean data) {
+    return logService.pageList(data);
+  }
+
+  /**
+   * 获取信息
+   *
+   * @param id 编号
+   * @return SysLog
+   */
+  @ApiOperation("2.按id查询")
+  @ApiOperationSupport(order = 2)
+  @GetMapping("/get/{id}")
+  public SysLogDto get(@PathVariable String id) {
+    return logService.getById(id);
+  }
+
+  /**
    * 保存
    *
    * @param sysLogVo 菜单类型对象
    * @return ResponseResult<SysLogDto>
    */
+  @ApiOperation("3.保存")
+  @ApiOperationSupport(order = 3)
   @PutMapping("/save")
-  @ApiOperation("保存")
   public ResponseResult<SysLogDto> save(@RequestBody SysLogVo sysLogVo) {
     if (sysLogVo != null) {
       SysLogDto entity = logService.save(sysLogVo);
@@ -57,37 +85,14 @@ public class SysLogController extends BaseController {
   }
 
   /**
-   * 获取信息
-   *
-   * @param id 编号
-   * @return SysLog
-   */
-  @GetMapping("/get/{id}")
-  @ApiOperation("按id查询")
-  public SysLogDto get(@PathVariable String id) {
-    return logService.getById(id);
-  }
-
-  /**
-   * 列表
-   *
-   * @param data 查询参数
-   * @return Page<SysLog>
-   */
-  @PostMapping("/list")
-  @ApiOperation("获取列表")
-  public Page<SysLogDto> list(@RequestBody QueryCriteriaBean data) {
-    return logService.pageList(data);
-  }
-
-  /**
    * 删除
    *
    * @param ids 编号
    * @return Integer
    */
+  @ApiOperation("4.删除")
+  @ApiOperationSupport(order = 4)
   @DeleteMapping("/delete")
-  @ApiOperation("删除")
   public Integer delete(@RequestBody String... ids) {
     int code = 0;
     for (String id : ids) {
@@ -102,8 +107,9 @@ public class SysLogController extends BaseController {
    * @param date 日期
    * @return Integer
    */
+  @ApiOperation("5.删除日志")
+  @ApiOperationSupport(order = 5)
   @DeleteMapping("/deleteLog")
-  @ApiOperation("删除日志")
   public Integer deleteLog(@RequestParam("date") String date) {
     return logService.deleteLog(DateUtil.stringToDate(date, DateUtil.FULL_DATE_FORMAT));
   }
@@ -114,8 +120,9 @@ public class SysLogController extends BaseController {
    * @param data 查询参数
    * @return ResponseEntity<byte[]>
    */
+  @ApiOperation("6.导出")
+  @ApiOperationSupport(order = 6)
   @PostMapping("/export")
-  @ApiOperation("导出")
   public ResponseEntity<byte[]> exportItem(@RequestBody QueryCriteriaBean data) {
     List<SysLogDto> list = logService.findList(data);
 

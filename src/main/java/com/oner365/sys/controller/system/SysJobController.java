@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.common.ResponseResult;
 import com.oner365.common.enums.ErrorInfoEnum;
 import com.oner365.common.query.QueryCriteriaBean;
@@ -33,98 +34,104 @@ import io.swagger.annotations.ApiOperation;
  * @author zhaoyong
  */
 @RestController
-@RequestMapping("/system/job")
 @Api(tags = "系统管理 - 用户职位")
+@RequestMapping("/system/job")
 public class SysJobController extends BaseController {
 
-    @Autowired
-    private ISysJobService sysJobService;
+  @Autowired
+  private ISysJobService sysJobService;
 
-    /**
-     * 用户职位保存
-     *
-     * @param sysJobVo 职位对象
-     * @return ResponseResult<SysJob>
-     */
-    @PutMapping("/save")
-    @ApiOperation("保存")
-    public ResponseResult<SysJobDto> save(@RequestBody SysJobVo sysJobVo) {
-        if (sysJobVo != null) {
-        	SysJobDto entity = sysJobService.save(sysJobVo);
-            return ResponseResult.success(entity);
-        }
-        return ResponseResult.error(ErrorInfoEnum.SAVE_ERROR.getName());
+  /**
+   * 用户职位列表
+   *
+   * @param data 查询参数
+   * @return Page<SysJob>
+   */
+  @ApiOperation("1.获取列表")
+  @ApiOperationSupport(order = 1)
+  @PostMapping("/list")
+  public Page<SysJobDto> list(@RequestBody QueryCriteriaBean data) {
+    return sysJobService.pageList(data);
+  }
+
+  /**
+   * 获取用户职位
+   *
+   * @param id 编号
+   * @return SysJob
+   */
+  @ApiOperation("2.按id查询")
+  @ApiOperationSupport(order = 2)
+  @GetMapping("/get/{id}")
+  public SysJobDto get(@PathVariable String id) {
+    return sysJobService.getById(id);
+  }
+  
+  /**
+   * 修改职位状态
+   *
+   * @param id     主键
+   * @param status 状态
+   * @return Integer
+   */
+  @ApiOperation("3.修改状态")
+  @ApiOperationSupport(order = 3)
+  @PostMapping("/editStatus/{id}")
+  public Integer editStatus(@PathVariable String id, @RequestParam("status") String status) {
+    return sysJobService.editStatus(id, status);
+  }
+
+  /**
+   * 用户职位保存
+   *
+   * @param sysJobVo 职位对象
+   * @return ResponseResult<SysJob>
+   */
+  @ApiOperation("4.保存")
+  @ApiOperationSupport(order = 4)
+  @PutMapping("/save")
+  public ResponseResult<SysJobDto> save(@RequestBody SysJobVo sysJobVo) {
+    if (sysJobVo != null) {
+      SysJobDto entity = sysJobService.save(sysJobVo);
+      return ResponseResult.success(entity);
     }
+    return ResponseResult.error(ErrorInfoEnum.SAVE_ERROR.getName());
+  }
 
-    /**
-     * 获取用户职位
-     *
-     * @param id 编号
-     * @return SysJob
-     */
-    @GetMapping("/get/{id}")
-    @ApiOperation("按id查询")
-    public SysJobDto get(@PathVariable String id) {
-        return sysJobService.getById(id);
+  /**
+   * 删除用户职位
+   *
+   * @param ids 编号
+   * @return Integer
+   */
+  @ApiOperation("5.删除")
+  @ApiOperationSupport(order = 5)
+  @DeleteMapping("/delete")
+  public Integer delete(@RequestBody String... ids) {
+    int code = 0;
+    for (String id : ids) {
+      code = sysJobService.deleteById(id);
     }
+    return code;
+  }
 
-    /**
-     * 用户职位列表
-     *
-     * @param data 查询参数
-     * @return Page<SysJob>
-     */
-    @PostMapping("/list")
-    @ApiOperation("获取列表")
-    public Page<SysJobDto> list(@RequestBody QueryCriteriaBean data) {
-        return sysJobService.pageList(data);
-    }
+  /**
+   * 导出Excel
+   *
+   * @param data 查询参数
+   * @return ResponseEntity<byte[]>
+   */
+  @ApiOperation("6.导出")
+  @ApiOperationSupport(order = 6)
+  @PostMapping("/export")
+  public ResponseEntity<byte[]> export(@RequestBody QueryCriteriaBean data) {
+    List<SysJobDto> list = sysJobService.findList(data);
 
-    /**
-     * 删除用户职位
-     *
-     * @param ids 编号
-     * @return Integer
-     */
-    @DeleteMapping("/delete")
-    @ApiOperation("删除")
-    public Integer delete(@RequestBody String... ids) {
-        int code = 0;
-        for (String id : ids) {
-            code = sysJobService.deleteById(id);
-        }
-        return code;
-    }
+    String[] titleKeys = new String[] { "编号", "职位名称", "职位描述", "排序", "状态", "创建时间", "更新时间" };
+    String[] columnNames = { "id", "jobName", "jobInfo", "jobOrder", "status", "createTime", "updateTime" };
 
-    /**
-     * 修改职位状态
-     *
-     * @param id     主键
-     * @param status 状态
-     * @return Integer
-     */
-    @PostMapping("/editStatus/{id}")
-    @ApiOperation("修改状态")
-    public Integer editStatus(@PathVariable String id, @RequestParam("status") String status) {
-        return sysJobService.editStatus(id, status);
-    }
-
-    /**
-     * 导出Excel
-     *
-     * @param data 查询参数
-     * @return ResponseEntity<byte[]>
-     */
-    @PostMapping("/export")
-    @ApiOperation("导出")
-    public ResponseEntity<byte[]> export(@RequestBody QueryCriteriaBean data) {
-        List<SysJobDto> list = sysJobService.findList(data);
-
-        String[] titleKeys = new String[] { "编号", "职位名称", "职位描述", "排序", "状态", "创建时间", "更新时间" };
-        String[] columnNames = { "id", "jobName", "jobInfo", "jobOrder", "status", "createTime", "updateTime" };
-
-        String fileName = SysJob.class.getSimpleName() + System.currentTimeMillis();
-        return exportExcel(fileName, titleKeys, columnNames, list);
-    }
+    String fileName = SysJob.class.getSimpleName() + System.currentTimeMillis();
+    return exportExcel(fileName, titleKeys, columnNames, list);
+  }
 
 }

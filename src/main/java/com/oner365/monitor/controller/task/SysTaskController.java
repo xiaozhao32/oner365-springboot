@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.common.ResponseResult;
 import com.oner365.common.auth.AuthUser;
 import com.oner365.common.auth.annotation.CurrentUser;
@@ -35,8 +36,8 @@ import springfox.documentation.annotations.ApiIgnore;
  * @author zhaoyong
  */
 @RestController
-@RequestMapping("/monitor/task")
 @Api(tags = "监控 - 定时任务")
+@RequestMapping("/monitor/task")
 public class SysTaskController extends BaseController {
 
   @Autowired
@@ -48,32 +49,22 @@ public class SysTaskController extends BaseController {
    * @param data 查询参数
    * @return Page<SysTaskDto>
    */
+  @ApiOperation("1.列表")
+  @ApiOperationSupport(order = 1)
   @PostMapping("/list")
-  @ApiOperation("定时任务列表")
   public Page<SysTaskDto> list(@RequestBody QueryCriteriaBean data) {
     return taskService.pageList(data);
   }
-
-  /**
-   * 导出定时任务列表
-   *
-   * @param data 查询参数
-   * @return String
-   */
-  @GetMapping("/export")
-  @ApiOperation("导出")
-  public String export(@RequestBody QueryCriteriaBean data) {
-    return ResultEnum.SUCCESS.getName();
-  }
-
+  
   /**
    * 获取定时任务详细信息
    *
    * @param id 主键
    * @return SysTask
    */
+  @ApiOperation("2.按id查询")
+  @ApiOperationSupport(order = 2)
   @GetMapping("/{id}")
-  @ApiOperation("按id查询信息")
   public SysTaskDto getInfo(@PathVariable String id) {
     return taskService.selectTaskById(id);
   }
@@ -86,8 +77,9 @@ public class SysTaskController extends BaseController {
    * @return ResponseResult<Integer>
    * @throws SchedulerException, TaskException 异常
    */
+  @ApiOperation("3.新增定时任务")
+  @ApiOperationSupport(order = 3)
   @PostMapping
-  @ApiOperation("新增定时任务")
   public ResponseResult<Integer> add(@RequestBody SysTaskVo sysTaskVo, @ApiIgnore @CurrentUser AuthUser authUser)
       throws SchedulerException, TaskException {
     if (sysTaskVo == null || !CronUtils.isValid(sysTaskVo.getCronExpression())) {
@@ -107,8 +99,9 @@ public class SysTaskController extends BaseController {
    * @return ResponseResult<Integer>
    * @throws SchedulerException, TaskException 异常
    */
+  @ApiOperation("4.修改定时任务")
+  @ApiOperationSupport(order = 4)
   @PutMapping
-  @ApiOperation("修改定时任务")
   public ResponseResult<Integer> edit(@RequestBody SysTaskVo sysTaskVo, @ApiIgnore @CurrentUser AuthUser authUser)
       throws SchedulerException, TaskException {
     if (sysTaskVo == null || !CronUtils.isValid(sysTaskVo.getCronExpression())) {
@@ -125,8 +118,9 @@ public class SysTaskController extends BaseController {
    * @return ResponseResult<Integer>
    * @throws SchedulerException, TaskException 异常
    */
+  @ApiOperation("5.修改状态")
+  @ApiOperationSupport(order = 5)
   @PutMapping("/changeStatus")
-  @ApiOperation("修改状态")
   public ResponseResult<Integer> changeStatus(@RequestBody SysTaskVo sysTaskVo)
       throws SchedulerException, TaskException {
     if (sysTaskVo != null) {
@@ -143,8 +137,9 @@ public class SysTaskController extends BaseController {
    * @return ResponseResult<String>
    * @throws SchedulerException 异常
    */
+  @ApiOperation("6.立即执行一次")
+  @ApiOperationSupport(order = 6)
   @PutMapping("/run")
-  @ApiOperation("立即执行一次")
   public ResponseResult<String> run(@RequestBody SysTaskVo sysTaskVo) throws SchedulerException {
     if (sysTaskVo != null) {
       taskService.run(sysTaskVo);
@@ -160,10 +155,24 @@ public class SysTaskController extends BaseController {
    * @return ResponseResult<String>
    * @throws SchedulerException 异常
    */
+  @ApiOperation("7.删除定时任务")
+  @ApiOperationSupport(order = 7)
   @DeleteMapping("/{ids}")
-  @ApiOperation("删除定时任务")
   public ResponseResult<String> remove(@PathVariable String[] ids) throws SchedulerException {
     taskService.deleteTaskByIds(ids);
     return ResponseResult.success(ResultEnum.SUCCESS.getName());
+  }
+  
+  /**
+   * 导出定时任务列表
+   *
+   * @param data 查询参数
+   * @return String
+   */
+  @ApiOperation("8.导出")
+  @ApiOperationSupport(order = 8)
+  @GetMapping("/export")
+  public String export(@RequestBody QueryCriteriaBean data) {
+    return ResultEnum.SUCCESS.getName();
   }
 }

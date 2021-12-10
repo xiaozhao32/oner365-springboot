@@ -21,6 +21,7 @@ import com.oner365.controller.BaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
@@ -31,53 +32,54 @@ import com.google.common.collect.Maps;
  *
  */
 @RestController
-@RequestMapping("/elasticsearch/info")
-@SuppressWarnings({ "deprecation", "resource" })
 @Api(tags = "Elasticsearch 信息")
+@SuppressWarnings({ "deprecation", "resource" })
+@RequestMapping("/elasticsearch/info")
 public class ElasticsearchInfoController extends BaseController {
 
-    @Value("${spring.elasticsearch.rest.uris}")
-    private String uris;
+  @Value("${spring.elasticsearch.rest.uris}")
+  private String uris;
 
-    /**
-     * Elasticsearch 信息
-     *
-     * @return Map<String, Object>
-     */
-    @GetMapping("/index")
-    @ApiOperation("首页信息")
-    public Map<String, Object> index() {
-        String hostname = StringUtils.substringBefore(uris, ":");
-        int port = 9300;
-        // 指定集群
-        Settings settings = Settings.builder().build();
-        // 创建客户端
-        Map<String, Object> result = Maps.newHashMap();
-        try (final TransportClient client = new PreBuiltTransportClient(settings)
-                .addTransportAddress(new TransportAddress(InetAddress.getByName(hostname), port))) {
-            ClusterHealthResponse response = client.admin().cluster().prepareHealth().get();
+  /**
+   * Elasticsearch 信息
+   *
+   * @return Map<String, Object>
+   */
+  @ApiOperation("1.首页")
+  @ApiOperationSupport(order = 1)
+  @GetMapping("/index")
+  public Map<String, Object> index() {
+    String hostname = StringUtils.substringBefore(uris, ":");
+    int port = 9300;
+    // 指定集群
+    Settings settings = Settings.builder().build();
+    // 创建客户端
+    Map<String, Object> result = Maps.newHashMap();
+    try (final TransportClient client = new PreBuiltTransportClient(settings)
+        .addTransportAddress(new TransportAddress(InetAddress.getByName(hostname), port))) {
+      ClusterHealthResponse response = client.admin().cluster().prepareHealth().get();
 
-            result.put("hostname", hostname);
-            result.put("port", port);
-            result.put("clusterName", response.getClusterName());
-            result.put("numberOfDataNodes", response.getNumberOfDataNodes());
-            result.put("activeShards", response.getActiveShards());
-            result.put("status", response.getStatus().name());
-            result.put("taskMaxWaitingTime", response.getTaskMaxWaitingTime());
-            // 索引信息
-            List<Map<String, Object>> clusterList = Lists.newArrayList();
-            response.getIndices().values().forEach(health -> {
-                Map<String, Object> map = Maps.newHashMap();
-                map.put("index", health.getIndex());
-                map.put("numberOfShards", health.getNumberOfShards());
-                map.put("numberOfReplicas", health.getNumberOfReplicas());
-                map.put("status", health.getStatus().toString());
-                clusterList.add(map);
-            });
-            result.put("clusterList", clusterList);
-        } catch (UnknownHostException e) {
-            LOGGER.error("index error:", e);
-        }
-        return result;
+      result.put("hostname", hostname);
+      result.put("port", port);
+      result.put("clusterName", response.getClusterName());
+      result.put("numberOfDataNodes", response.getNumberOfDataNodes());
+      result.put("activeShards", response.getActiveShards());
+      result.put("status", response.getStatus().name());
+      result.put("taskMaxWaitingTime", response.getTaskMaxWaitingTime());
+      // 索引信息
+      List<Map<String, Object>> clusterList = Lists.newArrayList();
+      response.getIndices().values().forEach(health -> {
+        Map<String, Object> map = Maps.newHashMap();
+        map.put("index", health.getIndex());
+        map.put("numberOfShards", health.getNumberOfShards());
+        map.put("numberOfReplicas", health.getNumberOfReplicas());
+        map.put("status", health.getStatus().toString());
+        clusterList.add(map);
+      });
+      result.put("clusterList", clusterList);
+    } catch (UnknownHostException e) {
+      LOGGER.error("index error:", e);
     }
+    return result;
+  }
 }

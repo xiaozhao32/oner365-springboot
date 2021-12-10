@@ -150,6 +150,7 @@ logging:
 ACCESS_TOKEN_SECRET: test
 ACCESS_TOKEN_EXPIRY_MIN: 14400
 
+# 雪花算法生成id
 sequence:
   snowflake:
     datacenterId: 1
@@ -184,15 +185,21 @@ file:
     # 上传地址
     upload: /Users/zhaoyong/Downloads
 
+# druid
 druid:
   mysql:
     use-ping-method: false
 
+# swagger
 swagger:
   name: ${spring.application.name}
   version: 1.0
   url: https://www.oner365.com
   email: service@oner365.com
   description: Oner365 project
+ 
+# knife4j 
+knife4j:  enable: true
+  
 
 
