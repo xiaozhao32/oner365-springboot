@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.oner365.common.constants.PublicConstants;
 import com.oner365.common.enums.StorageEnum;
-import com.oner365.files.entity.SysFileStorage;
+import com.oner365.files.vo.SysFileStorageVo;
 import com.oner365.util.DataUtils;
 
 /**
@@ -38,7 +38,7 @@ public class FileLocalUploadUtils {
      * @param maxLength 文件长度
      * @return SysFileStorage
      */
-    public static SysFileStorage upload(MultipartFile file, StorageEnum storageEnum,
+    public static SysFileStorageVo upload(MultipartFile file, StorageEnum storageEnum,
             String randomName, String fileWeb, String filePath, String uploadDir, long maxLength) {
         try {
             long fileNameLength = file.getSize();
@@ -79,7 +79,7 @@ public class FileLocalUploadUtils {
         return desc;
     }
 
-    private static SysFileStorage getPathFileName(MultipartFile file, StorageEnum storageEnum, 
+    private static SysFileStorageVo getPathFileName(MultipartFile file, StorageEnum storageEnum, 
             String fileWeb, String uploadDir, String fileName) {
         String upath = StringUtils.EMPTY;
         if (!DataUtils.isEmpty(uploadDir)) {
@@ -91,7 +91,7 @@ public class FileLocalUploadUtils {
         String fastUrl = StringUtils.substringBefore(ss, PublicConstants.DELIMITER);
         String id = upath + fileName;
         // save file
-        SysFileStorage fileEntity = new SysFileStorage();
+        SysFileStorageVo fileEntity = new SysFileStorageVo();
         fileEntity.setId(id);
         fileEntity.setFileName(fileName);
         fileEntity.setFastdfsUrl(FILE_HTTP + fastUrl);

@@ -35,7 +35,7 @@ import com.oner365.common.enums.StorageEnum;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
 import com.oner365.deploy.utils.DeployUtils;
-import com.oner365.files.entity.SysFileStorage;
+import com.oner365.files.dto.SysFileStorageDto;
 import com.oner365.files.service.IFileStorageService;
 import com.oner365.files.storage.IFileStorageClient;
 import com.oner365.util.DataUtils;
@@ -77,12 +77,12 @@ public class FastdfsFileController extends BaseController {
    * 查询列表
    *
    * @param data 查询参数
-   * @return Page<SysFileStorage>
+   * @return Page<SysFileStorageDto>
    */
   @ApiOperation("1.查询列表")
   @ApiOperationSupport(order = 1)
   @PostMapping("/list")
-  public Page<SysFileStorage> list(@RequestBody QueryCriteriaBean data) {
+  public Page<SysFileStorageDto> list(@RequestBody QueryCriteriaBean data) {
     return fileStorageService.pageList(data);
   }
 
@@ -95,15 +95,15 @@ public class FastdfsFileController extends BaseController {
   @ApiOperation("2.获取目录")
   @ApiOperationSupport(order = 2)
   @GetMapping("/directory")
-  public List<SysFileStorage> directory(@RequestParam("fileDirectory") String fileDirectory) {
+  public List<SysFileStorageDto> directory(@RequestParam("fileDirectory") String fileDirectory) {
     String directory = path;
     if (!DataUtils.isEmpty(fileDirectory)) {
       directory = path + "/M00/00/" + fileDirectory;
     }
     List<SFTPv3DirectoryEntry> vector = DeployUtils.directoryList(ip, port, user, password, directory);
-    List<SysFileStorage> result = Lists.newArrayList();
+    List<SysFileStorageDto> result = Lists.newArrayList();
     for (SFTPv3DirectoryEntry entry : vector) {
-      SysFileStorage fastdfsFile = new SysFileStorage();
+      SysFileStorageDto fastdfsFile = new SysFileStorageDto();
       fastdfsFile.setId(StringUtils.replace(directory, path, "group1") + PublicConstants.DELIMITER + entry.filename);
       fastdfsFile.setCreateTime(new Date(entry.attributes.mtime * 1000L));
       fastdfsFile.setFileName(entry.filename);

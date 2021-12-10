@@ -5,13 +5,15 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 
 import com.oner365.common.query.QueryCriteriaBean;
-import com.oner365.files.entity.SysFileStorage;
+import com.oner365.files.dto.SysFileStorageDto;
+import com.oner365.files.vo.SysFileStorageVo;
+import com.oner365.service.BaseService;
 
 /**
  * 文件接口
  * @author zhaoyong
  */
-public interface IFileStorageService {
+public interface IFileStorageService extends BaseService {
 
     /**
      * 查询文件列表
@@ -19,7 +21,7 @@ public interface IFileStorageService {
      * @param data 参数
      * @return Page
      */
-    Page<SysFileStorage> pageList(QueryCriteriaBean data);
+    Page<SysFileStorageDto> pageList(QueryCriteriaBean data);
 
     /**
      * 查询列表
@@ -27,7 +29,7 @@ public interface IFileStorageService {
      * @param data 参数
      * @return List
      */
-    List<SysFileStorage> findList(QueryCriteriaBean data);
+    List<SysFileStorageDto> findList(QueryCriteriaBean data);
 
     /**
      * 查询文件详情
@@ -35,7 +37,7 @@ public interface IFileStorageService {
      * @param id 编号
      * @return SysFileStorage
      */
-    SysFileStorage getById(String id);
+    SysFileStorageDto getById(String id);
 
     /**
      * 保存文件
@@ -43,7 +45,7 @@ public interface IFileStorageService {
      * @param entity 文件对象
      * @return SysFileStorage
      */
-    SysFileStorage save(SysFileStorage entity);
+    SysFileStorageDto save(SysFileStorageVo entity);
 
     /**
      * 删除文件

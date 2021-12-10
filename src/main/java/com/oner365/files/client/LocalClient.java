@@ -12,11 +12,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.oner365.common.enums.StorageEnum;
 import com.oner365.common.sequence.sequence.SnowflakeSequence;
-import com.oner365.files.entity.SysFileStorage;
 import com.oner365.files.service.IFileStorageService;
 import com.oner365.files.storage.IFileStorageClient;
 import com.oner365.files.storage.condition.LocalStorageCondition;
 import com.oner365.files.util.FileLocalUploadUtils;
+import com.oner365.files.vo.SysFileStorageVo;
 import com.oner365.util.DataUtils;
 
 /**
@@ -45,7 +45,7 @@ public class LocalClient implements IFileStorageClient {
     @Override
     public String uploadFile(MultipartFile file, String directory) {
         try {
-            SysFileStorage entity = FileLocalUploadUtils.upload(file, getName(), snowflakeSequence.nextNo(),
+            SysFileStorageVo entity = FileLocalUploadUtils.upload(file, getName(), snowflakeSequence.nextNo(),
                     fileWeb, filePath, directory, file.getSize() + 1);
             fileStorageService.save(entity);
             return entity.getFilePath();
@@ -59,7 +59,7 @@ public class LocalClient implements IFileStorageClient {
     public String uploadFile(File file, String directory) {
         try {
             MultipartFile multipartFile = DataUtils.convertMultipartFile(file);
-            SysFileStorage entity = FileLocalUploadUtils.upload(multipartFile, getName(), snowflakeSequence.nextNo(),
+            SysFileStorageVo entity = FileLocalUploadUtils.upload(multipartFile, getName(), snowflakeSequence.nextNo(),
                     fileWeb, filePath, directory, file.length() + 1);
             fileStorageService.save(entity);
             return entity.getFilePath();
