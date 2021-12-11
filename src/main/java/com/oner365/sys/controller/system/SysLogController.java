@@ -105,7 +105,7 @@ public class SysLogController extends BaseController {
 	/**
 	 * 按日期删除日志
 	 *
-	 * @param date 日期
+	 * @param days 天数
 	 * @return Integer
 	 */
 	@ApiOperation("5.删除日志")
