@@ -93,11 +93,13 @@ public class SysOrganizationServiceImpl implements ISysOrganizationService {
   @Override
   public boolean checkConnection(String id) {
     try {
-      SysOrganization org = dao.getById(id);
-      DataSourceConfig config = org.getDataSourceConfig();
-      if (config != null) {
-        return DataSourceUtil.isConnection(config.getDriverName(), config.getUrl(), config.getUserName(),
-            config.getPassword());
+      Optional<SysOrganization> optional = dao.findById(id);
+      if (optional.isPresent()) {
+        DataSourceConfig config = optional.get().getDataSourceConfig();
+        if (config != null) {
+          return DataSourceUtil.isConnection(config.getDriverName(), config.getUrl(), config.getUserName(),
+              config.getPassword());
+        }
       }
     } catch (Exception e) {
       LOGGER.error("Error checkConnection:", e);
@@ -305,10 +307,14 @@ public class SysOrganizationServiceImpl implements ISysOrganizationService {
   @Transactional(rollbackFor = ProjectRuntimeException.class)
   @CacheEvict(value = CACHE_NAME, allEntries = true)
   public Integer changeStatus(String id, String status) {
-    SysOrganization entity = dao.getById(id);
-    entity.setStatus(status);
-    dao.save(entity);
-    return ResultEnum.SUCCESS.getCode();
+    Optional<SysOrganization> optional = dao.findById(id);
+    if (optional.isPresent()) {
+      SysOrganization entity = optional.get();
+      entity.setStatus(status);
+      dao.save(entity);
+      return ResultEnum.SUCCESS.getCode();
+    }
+    return ResultEnum.ERROR.getCode();
   }
 
 }

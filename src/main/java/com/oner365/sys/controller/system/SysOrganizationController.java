@@ -1,6 +1,7 @@
 package com.oner365.sys.controller.system;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
-import com.google.common.collect.Maps;
 import com.oner365.common.ResponseResult;
 import com.oner365.common.auth.AuthUser;
 import com.oner365.common.auth.annotation.CurrentUser;
@@ -166,7 +166,7 @@ public class SysOrganizationController extends BaseController {
   public Map<String, Object> userTreeselect(@RequestBody SysOrganizationVo sysOrganizationVo,
       @PathVariable("userId") String userId, @ApiIgnore @CurrentUser AuthUser authUser) {
     List<SysOrganizationDto> list = sysOrgService.selectList(sysOrganizationVo);
-    Map<String, Object> result = Maps.newHashMap();
+    Map<String, Object> result = new HashMap<>();
     result.put("checkedKeys", sysOrgService.selectListByUserId(userId));
     result.put("orgList", sysOrgService.buildTreeSelect(list));
     return result;

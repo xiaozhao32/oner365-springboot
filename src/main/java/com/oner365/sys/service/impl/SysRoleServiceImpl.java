@@ -293,8 +293,9 @@ public class SysRoleServiceImpl implements ISysRoleService {
       @CacheEvict(value = CACHE_NAME, allEntries = true),
       @CacheEvict(value = CACHE_MENU_NAME, allEntries = true) })
   public Integer editStatus(String id, String status) {
-    SysRole entity = roleDao.getById(id);
-    if (entity != null && entity.getId() != null) {
+    Optional<SysRole> optional = roleDao.findById(id);
+    if (optional.isPresent()) {
+      SysRole entity = optional.get();
       entity.setStatus(status);
       roleDao.save(entity);
       return ResultEnum.SUCCESS.getCode();

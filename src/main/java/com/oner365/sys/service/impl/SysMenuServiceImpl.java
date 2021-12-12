@@ -136,8 +136,9 @@ public class SysMenuServiceImpl implements ISysMenuService {
       @CacheEvict(value = CACHE_NAME, allEntries = true),
       @CacheEvict(value = CACHE_ROLE_NAME, allEntries = true) })
   public int editStatusById(String id, String status) {
-    SysMenu entity = menuDao.getById(id);
-    if (entity != null && entity.getId() != null) {
+    Optional<SysMenu> optional = menuDao.findById(id);
+    if (optional.isPresent()) {
+      SysMenu entity = optional.get();
       entity.setStatus(status);
       menuDao.save(entity);
       return ResultEnum.SUCCESS.getCode();

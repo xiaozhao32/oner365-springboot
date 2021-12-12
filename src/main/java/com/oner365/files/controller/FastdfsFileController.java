@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -27,7 +28,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
-import com.google.common.collect.Lists;
 import com.oner365.common.ResponseResult;
 import com.oner365.common.constants.PublicConstants;
 import com.oner365.common.enums.ResultEnum;
@@ -101,7 +101,7 @@ public class FastdfsFileController extends BaseController {
       directory = path + "/M00/00/" + fileDirectory;
     }
     List<SFTPv3DirectoryEntry> vector = DeployUtils.directoryList(ip, port, user, password, directory);
-    List<SysFileStorageDto> result = Lists.newArrayList();
+    List<SysFileStorageDto> result = new ArrayList<>();
     for (SFTPv3DirectoryEntry entry : vector) {
       SysFileStorageDto fastdfsFile = new SysFileStorageDto();
       fastdfsFile.setId(StringUtils.replace(directory, path, "group1") + PublicConstants.DELIMITER + entry.filename);

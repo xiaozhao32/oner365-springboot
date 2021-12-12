@@ -70,7 +70,7 @@ public class SampleGeneElasticsearchServiceImpl implements ISampleGeneElasticsea
 
   @Override
   public Iterable<SampleGeneDto> saveAll(List<SampleGeneVo> voList) {
-    List<SampleGene> list = voList.stream().map(e -> toPojo(e)).collect(Collectors.toList());
+    List<SampleGene> list = voList.stream().map(this::toPojo).collect(Collectors.toList());
     return convertDto(dao.saveAll(list));
   }
 

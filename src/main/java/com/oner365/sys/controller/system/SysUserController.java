@@ -1,6 +1,7 @@
 package com.oner365.sys.controller.system;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
-import com.google.common.collect.Maps;
 import com.oner365.common.ResponseData;
 import com.oner365.common.ResponseResult;
 import com.oner365.common.auth.AuthUser;
@@ -96,7 +96,7 @@ public class SysUserController extends BaseController {
   public ResponseData<Map<String, Object>> get(@PathVariable String id) {
     SysUserDto sysUser = sysUserService.getById(id);
 
-    Map<String, Object> result = Maps.newHashMap();
+    Map<String, Object> result = new HashMap<>();
     result.put(PublicConstants.MSG, sysUser);
 
     QueryCriteriaBean data = new QueryCriteriaBean();

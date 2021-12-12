@@ -172,8 +172,9 @@ public class SysDictItemTypeServiceImpl implements ISysDictItemTypeService {
       @CacheEvict(value = CACHE_NAME, allEntries = true),
       @CacheEvict(value = CACHE_ITEM_NAME, allEntries = true) })
   public Integer editStatus(String id, String status) {
-    SysDictItemType entity = dao.getById(id);
-    if (entity != null && entity.getId() != null) {
+    Optional<SysDictItemType> optional = dao.findById(id);
+    if (optional.isPresent()) {
+      SysDictItemType entity = optional.get();
       entity.setStatus(status);
       dao.save(entity);
       return ResultEnum.SUCCESS.getCode();

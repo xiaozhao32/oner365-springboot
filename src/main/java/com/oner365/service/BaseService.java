@@ -42,7 +42,7 @@ public interface BaseService {
     if (list.isEmpty()) {
       return Collections.emptyList();
     }
-    return (List<T>) list.stream().map(po -> convertDto(po)).collect(Collectors.toList());
+    return (List<T>) list.stream().map(this::convertDto).collect(Collectors.toList());
   }
 
   /**

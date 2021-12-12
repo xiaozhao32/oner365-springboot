@@ -2,6 +2,8 @@ package com.oner365.api.controller;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -19,9 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import com.oner365.common.cache.GuavaCache;
 import com.oner365.common.cache.RedisCache;
 import com.oner365.common.constants.PublicConstants;
@@ -126,18 +125,18 @@ public class ApiController extends BaseController {
     LOGGER.info("test1:{}", json);
 
     String key2 = "test2";
-    List<Map<String, Object>> dataList = Lists.newArrayList();
-    Map<String, Object> m1 = Maps.newHashMap();
+    List<Map<String, Object>> dataList = new ArrayList<>();
+    Map<String, Object> m1 = new HashMap<>();
     m1.put("a1", "a11");
     m1.put("a2", "a22");
     m1.put("a3", "a33");
     dataList.add(m1);
-    Map<String, Object> m2 = Maps.newHashMap();
+    Map<String, Object> m2 = new HashMap<>();
     m2.put("b1", "b11");
     m2.put("b2", "b22");
     m2.put("b3", "b33");
     dataList.add(m2);
-    Map<String, Object> m3 = Maps.newHashMap();
+    Map<String, Object> m3 = new HashMap<>();
     m3.put("c1", "c11");
     m3.put("c2", "c22");
     m3.put("c3", "c33");
@@ -149,7 +148,7 @@ public class ApiController extends BaseController {
     LOGGER.info("test2:{}", list);
 
     String key3 = "test3";
-    Map<String, Object> dataMap = Maps.newHashMap();
+    Map<String, Object> dataMap = new HashMap<>();
     dataMap.put("ddd", dataList);
     redisCache.setCacheMap(key3, dataMap);
     redisCache.expire(key3, PublicConstants.EXPIRE_TIME);
@@ -157,7 +156,7 @@ public class ApiController extends BaseController {
     LOGGER.info("test3:{}", map);
 
     String key4 = "test4";
-    Set<String> dataSet = Sets.newHashSet();
+    Set<String> dataSet = new HashSet<>();
     dataSet.add("aaa");
     dataSet.add("bbb");
     redisCache.setCacheSet(key4, dataSet);

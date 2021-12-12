@@ -2,6 +2,7 @@ package com.oner365.sys.controller.system;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
-import com.google.common.collect.Maps;
 import com.oner365.common.ResponseResult;
 import com.oner365.common.enums.ErrorInfoEnum;
 import com.oner365.common.enums.ResultEnum;
@@ -138,7 +138,7 @@ public class SysDictItemController extends BaseController {
   @ApiOperationSupport(order = 6)
   @PostMapping("/findItemByTypeIds")
   public Map<String, Object> findItemByTypeIds(@RequestBody String... typeIds) {
-    Map<String, Object> result = Maps.newHashMap();
+    Map<String, Object> result = new HashMap<>();
     Arrays.stream(typeIds).forEach(typeId -> {
       QueryCriteriaBean data = new QueryCriteriaBean();
       List<AttributeBean> whereList = new ArrayList<>();

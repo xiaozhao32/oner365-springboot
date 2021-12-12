@@ -136,8 +136,9 @@ public class SysTaskServiceImpl implements ISysTaskService {
   @Override
   @Transactional(rollbackFor = ProjectRuntimeException.class)
   public int deleteTask(String id) throws SchedulerException {
-    SysTask task = dao.getById(id);
-    if (task != null) {
+    Optional<SysTask> optional = dao.findById(id);
+    if (optional.isPresent()) {
+      SysTask task = optional.get();
       String taskGroup = task.getTaskGroup();
       dao.deleteById(id);
       scheduler.deleteJob(ScheduleUtils.getJobKey(id, taskGroup));
@@ -188,11 +189,15 @@ public class SysTaskServiceImpl implements ISysTaskService {
   public void run(SysTaskVo task) throws SchedulerException {
     String id = task.getId();
     String taskGroup = task.getTaskGroup();
-    SysTask sysTask = dao.getById(task.getId());
-    // 参数
-    JobDataMap dataMap = new JobDataMap();
-    dataMap.put(ScheduleConstants.TASK_PROPERTIES, JSON.toJSONString(convertDto(sysTask)));
-    scheduler.triggerJob(ScheduleUtils.getJobKey(id, taskGroup), dataMap);
+    Optional<SysTask> optional = dao.findById(task.getId());
+    if (optional.isPresent()) {
+      // 参数
+      SysTask sysTask = optional.get();
+      sysTask.setTaskGroup(taskGroup);
+      JobDataMap dataMap = new JobDataMap();
+      dataMap.put(ScheduleConstants.TASK_PROPERTIES, JSON.toJSONString(convertDto(sysTask)));
+      scheduler.triggerJob(ScheduleUtils.getJobKey(id, taskGroup), dataMap);
+    }
   }
 
   /**
@@ -248,9 +253,12 @@ public class SysTaskServiceImpl implements ISysTaskService {
   @Override
   @Transactional(rollbackFor = ProjectRuntimeException.class)
   public int updateTask(SysTaskVo task) throws SchedulerException, TaskException {
-    SysTask properties = dao.getById(task.getId());
-    save(task);
-    updateSchedulerTask(task, properties.getTaskGroup());
+    Optional<SysTask> optional = dao.findById(task.getId());
+    if (optional.isPresent()) {
+      SysTask entity = optional.get();
+      save(task);
+      updateSchedulerTask(task, entity.getTaskGroup());
+    }
     return ResultEnum.SUCCESS.getCode();
   }
 

@@ -8,18 +8,18 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.common.enums.ResultEnum;
 import com.oner365.controller.BaseController;
-import com.oner365.deploy.DeployServer;
+import com.oner365.deploy.entity.DeployEntity;
+import com.oner365.deploy.entity.ServerEntity;
+import com.oner365.deploy.utils.DeployMethod;
+import com.oner365.deploy.utils.DeployUtils;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -106,8 +106,15 @@ public class ServiceController extends BaseController {
   @ApiOperation("4.上传服务")
   @ApiOperationSupport(order = 4)
   @PostMapping("/uploadService")
-  public String uploadService(@RequestParam("multipartFile") MultipartFile multipartFile, String ip, int port,
-      String serviceName) {
+  public String uploadService() {
+    DeployEntity deploy = DeployUtils.getDeployEntity();
+    ServerEntity server = DeployUtils.getServerEntity();
+    LOGGER.info("Deploy project: {}", server);
+    LOGGER.info("Server: {}", server);
+    // 部署服务器开关
+    if (server.getIsDeploy()) {
+      DeployMethod.deployServer(deploy, server);
+    }
     return ResultEnum.SUCCESS.getName();
   }
 
@@ -120,7 +127,7 @@ public class ServiceController extends BaseController {
   @ApiOperation("5.重启服务")
   @ApiOperationSupport(order = 5)
   @PostMapping("/resetService")
-  public String resetService(@RequestBody DeployServer deployServer) {
+  public String resetService() {
     return ResultEnum.SUCCESS.getName();
   }
 
