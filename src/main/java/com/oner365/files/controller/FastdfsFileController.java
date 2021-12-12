@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,6 +34,7 @@ import com.oner365.common.enums.StorageEnum;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
 import com.oner365.deploy.utils.DeployUtils;
+import com.oner365.files.config.properties.FileFdfsProperties;
 import com.oner365.files.dto.SysFileStorageDto;
 import com.oner365.files.service.IFileStorageService;
 import com.oner365.files.storage.IFileStorageClient;
@@ -56,16 +56,8 @@ import io.swagger.annotations.ApiParam;
 @RequestMapping("/files/fdfs")
 public class FastdfsFileController extends BaseController {
 
-  @Value("${fdfs.storage.path}")
-  private String path;
-  @Value("${fdfs.ip}")
-  private String ip;
-  @Value("${fdfs.port}")
-  private int port;
-  @Value("${fdfs.user}")
-  private String user;
-  @Value("${fdfs.password}")
-  private String password;
+  @Autowired
+  private FileFdfsProperties fileFdfsProperties;
 
   @Autowired
   private IFileStorageClient fileStorageClient;
@@ -96,21 +88,22 @@ public class FastdfsFileController extends BaseController {
   @ApiOperationSupport(order = 2)
   @GetMapping("/directory")
   public List<SysFileStorageDto> directory(@RequestParam("fileDirectory") String fileDirectory) {
-    String directory = path;
+    String directory = fileFdfsProperties.getPath();
     if (!DataUtils.isEmpty(fileDirectory)) {
-      directory = path + "/M00/00/" + fileDirectory;
+      directory = fileFdfsProperties.getPath() + "/M00/00/" + fileDirectory;
     }
-    List<SFTPv3DirectoryEntry> vector = DeployUtils.directoryList(ip, port, user, password, directory);
+    List<SFTPv3DirectoryEntry> vector = DeployUtils.directoryList(fileFdfsProperties.getIp(), fileFdfsProperties.getPort(), 
+        fileFdfsProperties.getUser(), fileFdfsProperties.getPassword(), directory);
     List<SysFileStorageDto> result = new ArrayList<>();
     for (SFTPv3DirectoryEntry entry : vector) {
       SysFileStorageDto fastdfsFile = new SysFileStorageDto();
-      fastdfsFile.setId(StringUtils.replace(directory, path, "group1") + PublicConstants.DELIMITER + entry.filename);
+      fastdfsFile.setId(StringUtils.replace(directory, fileFdfsProperties.getPath(), "group1") + PublicConstants.DELIMITER + entry.filename);
       fastdfsFile.setCreateTime(new Date(entry.attributes.mtime * 1000L));
       fastdfsFile.setFileName(entry.filename);
       fastdfsFile.setDirectory(entry.attributes.isDirectory());
       fastdfsFile.setFileSuffix(DataUtils.getExtension(entry.filename));
       fastdfsFile.setFilePath(directory);
-      fastdfsFile.setFastdfsUrl("http://" + ip);
+      fastdfsFile.setFastdfsUrl("http://" + fileFdfsProperties.getIp());
       fastdfsFile.setSize(DataUtils.convertFileSize(entry.attributes.size));
       result.add(fastdfsFile);
     }

@@ -236,6 +236,12 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<!-- minio -->
+		<dependency>
+		    <groupId>io.minio</groupId>
+		    <artifactId>minio</artifactId>
+		    <version>8.3.4</version>
+		</dependency>
 
 		<!-- MYSQL -->
 		<dependency>
