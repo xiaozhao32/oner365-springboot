@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.common.ResponseResult;
 import com.oner365.common.enums.ErrorInfoEnum;
+import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
 import com.oner365.sys.dto.SysLogDto;
@@ -46,12 +46,12 @@ public class SysLogController extends BaseController {
 	 * 列表
 	 *
 	 * @param data 查询参数
-	 * @return Page<SysLog>
+	 * @return PageInfo<SysLog>
 	 */
 	@ApiOperation("1.获取列表")
 	@ApiOperationSupport(order = 1)
 	@PostMapping("/list")
-	public Page<SysLogDto> list(@RequestBody QueryCriteriaBean data) {
+	public PageInfo<SysLogDto> list(@RequestBody QueryCriteriaBean data) {
 		return logService.pageList(data);
 	}
 

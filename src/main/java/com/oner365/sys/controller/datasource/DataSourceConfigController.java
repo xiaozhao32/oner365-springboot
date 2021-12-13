@@ -1,7 +1,6 @@
 package com.oner365.sys.controller.datasource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +15,7 @@ import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.common.ResponseResult;
 import com.oner365.common.enums.ErrorInfoEnum;
 import com.oner365.common.enums.ResultEnum;
+import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
 import com.oner365.sys.dto.DataSourceConfigDto;
@@ -43,12 +43,12 @@ public class DataSourceConfigController extends BaseController {
    * 列表
    * 
    * @param data 查询参数
-   * @return Page<DataSourceConfigDto>
+   * @return PageInfo<DataSourceConfigDto>
    */
   @ApiOperation("1.列表")
   @ApiOperationSupport(order = 1)
   @PostMapping("/list")
-  public Page<DataSourceConfigDto> list(@RequestBody QueryCriteriaBean data) {
+  public PageInfo<DataSourceConfigDto> list(@RequestBody QueryCriteriaBean data) {
     return service.pageList(data);
   }
 

@@ -138,7 +138,7 @@ ignore:
 # Logger
 logging:
   file:
-    path: d:/downloads
+    path: /Users/zhaoyong/Downloads/logs
   level:
     web: warn
     org:
@@ -153,14 +153,14 @@ file:
   excel:
     suffix: xlsx
   # 通用文件下载路径
-  download: d:/downloads
+  download: /Users/zhaoyong/Downloads
   
 # 上传存储到本地
 local:
   # 本地配置web访问地址, fdfs使用 fdfs.web-server-url
   web: http://localhost/uploads
     # 上传地址
-  upload: d:/downloads
+  upload: /Users/zhaoyong/Downloads
   
 # FastDFS
 fdfs:

@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +28,7 @@ import com.oner365.common.constants.PublicConstants;
 import com.oner365.common.enums.ErrorInfoEnum;
 import com.oner365.common.enums.ResultEnum;
 import com.oner365.common.enums.StatusEnum;
+import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.AttributeBean;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
@@ -75,12 +75,12 @@ public class SysUserController extends BaseController {
    * 用户列表
    *
    * @param data 查询参数
-   * @return Page<SysUserDto>
+   * @return PageInfo<SysUserDto>
    */
   @ApiOperation("1.用户列表")
   @ApiOperationSupport(order = 1)
   @PostMapping("/list")
-  public Page<SysUserDto> pageList(@RequestBody QueryCriteriaBean data) {
+  public PageInfo<SysUserDto> pageList(@RequestBody QueryCriteriaBean data) {
     return sysUserService.pageList(data);
   }
 

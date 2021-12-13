@@ -3,7 +3,6 @@ package com.oner365.sys.controller.system;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,10 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.common.ResponseResult;
 import com.oner365.common.enums.ErrorInfoEnum;
+import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
 import com.oner365.sys.dto.SysJobDto;
-import com.oner365.sys.entity.SysJob;
 import com.oner365.sys.service.ISysJobService;
 import com.oner365.sys.vo.SysJobVo;
 
@@ -50,7 +49,7 @@ public class SysJobController extends BaseController {
   @ApiOperation("1.获取列表")
   @ApiOperationSupport(order = 1)
   @PostMapping("/list")
-  public Page<SysJobDto> list(@RequestBody QueryCriteriaBean data) {
+  public PageInfo<SysJobDto> list(@RequestBody QueryCriteriaBean data) {
     return sysJobService.pageList(data);
   }
 
@@ -66,7 +65,7 @@ public class SysJobController extends BaseController {
   public SysJobDto get(@PathVariable String id) {
     return sysJobService.getById(id);
   }
-  
+
   /**
    * 修改职位状态
    *
@@ -130,7 +129,7 @@ public class SysJobController extends BaseController {
     String[] titleKeys = new String[] { "编号", "职位名称", "职位描述", "排序", "状态", "创建时间", "更新时间" };
     String[] columnNames = { "id", "jobName", "jobInfo", "jobOrder", "status", "createTime", "updateTime" };
 
-    String fileName = SysJob.class.getSimpleName() + System.currentTimeMillis();
+    String fileName = SysJobDto.class.getSimpleName() + System.currentTimeMillis();
     return exportExcel(fileName, titleKeys, columnNames, list);
   }
 

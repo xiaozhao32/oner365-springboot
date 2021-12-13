@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +19,7 @@ import com.oner365.common.ResponseResult;
 import com.oner365.common.enums.ErrorInfoEnum;
 import com.oner365.common.enums.ResultEnum;
 import com.oner365.common.enums.StatusEnum;
+import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.AttributeBean;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
@@ -50,12 +50,12 @@ public class SysMenuTypeController extends BaseController {
    * 列表
    * 
    * @param data 参数
-   * @return Page<SysMenuTypeDto>
+   * @return PageInfo<SysMenuTypeDto>
    */
   @ApiOperation("1.获取分页列表")
   @ApiOperationSupport(order = 1)
   @PostMapping("/list")
-  public Page<SysMenuTypeDto> list(@RequestBody QueryCriteriaBean data) {
+  public PageInfo<SysMenuTypeDto> list(@RequestBody QueryCriteriaBean data) {
     return menuTypeService.pageList(data);
   }
 

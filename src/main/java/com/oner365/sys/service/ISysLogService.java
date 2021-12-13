@@ -3,8 +3,7 @@ package com.oner365.sys.service;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.springframework.data.domain.Page;
-
+import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.service.BaseService;
 import com.oner365.sys.dto.SysLogDto;
@@ -21,9 +20,9 @@ public interface ISysLogService extends BaseService {
    * 查询分页列表
    * 
    * @param data 查询参数
-   * @return Page
+   * @return PageInfo
    */
-  Page<SysLogDto> pageList(QueryCriteriaBean data);
+  PageInfo<SysLogDto> pageList(QueryCriteriaBean data);
 
   /**
    * 查询列表

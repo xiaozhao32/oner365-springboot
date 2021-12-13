@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +22,7 @@ import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.common.ResponseResult;
 import com.oner365.common.enums.ErrorInfoEnum;
 import com.oner365.common.enums.ResultEnum;
+import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.AttributeBean;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
@@ -59,12 +59,12 @@ public class SysDictItemController extends BaseController {
    * 获取类别列表
    *
    * @param data 查询参数
-   * @return Page<SysDictItemTypeDto>
+   * @return PageInfo<SysDictItemTypeDto>
    */
   @ApiOperation("1.获取类别列表")
   @ApiOperationSupport(order = 1)
   @PostMapping("/findTypeList")
-  public Page<SysDictItemTypeDto> findTypeList(@RequestBody QueryCriteriaBean data) {
+  public PageInfo<SysDictItemTypeDto> findTypeList(@RequestBody QueryCriteriaBean data) {
     return sysDictItemTypeService.pageList(data);
   }
 
@@ -222,12 +222,12 @@ public class SysDictItemController extends BaseController {
    * 获取字典列表
    *
    * @param data 查询参数
-   * @return Page<SysDictItemDto>
+   * @return PageInfo<SysDictItemDto>
    */
   @ApiOperation("11.获取字典列表")
   @ApiOperationSupport(order = 11)
   @PostMapping("/findItemList")
-  public Page<SysDictItemDto> findItemList(@RequestBody QueryCriteriaBean data) {
+  public PageInfo<SysDictItemDto> findItemList(@RequestBody QueryCriteriaBean data) {
     return sysDictItemService.pageList(data);
   }
   

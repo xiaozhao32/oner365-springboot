@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +30,7 @@ import com.oner365.common.ResponseResult;
 import com.oner365.common.constants.PublicConstants;
 import com.oner365.common.enums.ResultEnum;
 import com.oner365.common.enums.StorageEnum;
+import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
 import com.oner365.deploy.utils.DeployUtils;
@@ -69,12 +69,12 @@ public class FastdfsFileController extends BaseController {
    * 查询列表
    *
    * @param data 查询参数
-   * @return Page<SysFileStorageDto>
+   * @return PageInfo<SysFileStorageDto>
    */
   @ApiOperation("1.查询列表")
   @ApiOperationSupport(order = 1)
   @PostMapping("/list")
-  public Page<SysFileStorageDto> list(@RequestBody QueryCriteriaBean data) {
+  public PageInfo<SysFileStorageDto> list(@RequestBody QueryCriteriaBean data) {
     return fileStorageService.pageList(data);
   }
 
