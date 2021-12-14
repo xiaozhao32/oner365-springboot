@@ -52,9 +52,9 @@ import io.swagger.annotations.ApiParam;
  * @author zhaoyong
  */
 @RestController
-@Api(tags = "Fastdfs 文件上传")
+@Api(tags = "文件上传")
 @RequestMapping("/files/fdfs")
-public class FastdfsFileController extends BaseController {
+public class FileStorageController extends BaseController {
 
   @Autowired
   private FileFdfsProperties fileFdfsProperties;
@@ -79,12 +79,12 @@ public class FastdfsFileController extends BaseController {
   }
 
   /**
-   * 获取目录
+   * 获取fdfs目录 - fdfs专用
    * 
    * @param fileDirectory 目录
    * @return List<FastdfsFile>
    */
-  @ApiOperation("2.获取目录")
+  @ApiOperation("2.获取目录 - fdfs专用")
   @ApiOperationSupport(order = 2)
   @GetMapping("/directory")
   public List<SysFileStorageDto> directory(@RequestParam("fileDirectory") String fileDirectory) {
@@ -111,35 +111,15 @@ public class FastdfsFileController extends BaseController {
   }
 
   /**
-   * 文件上传
-   * 
-   * @param file    MultipartFile
-   * @param dictory 目录
-   * @return Map<String, Object>
-   */
-  @ApiOperation("3.文件上传 - MultipartFile")
-  @ApiOperationSupport(order = 3)
-  @PostMapping("/uploadMultipartFile")
-  public ResponseResult<String> uploadMultipartFile(@RequestBody MultipartFile file,
-      @ApiParam(name = "dictory", value = "上传目录") @RequestParam(name = "dictory", required = false) String dictory) {
-    String targetDictory = null;
-    if (DataUtils.isEmpty(dictory)) {
-      targetDictory = DateUtil.getCurrentDate();
-    }
-    String url = fileStorageClient.uploadFile(file, targetDictory);
-    return ResponseResult.success(url);
-  }
-
-  /**
    * 文件上传 File 类型
    * 
    * @param file    File
    * @param dictory 目录
    * @return Map<String, Object>
    */
-  @ApiOperation("4.文件上传 - 参数")
-  @ApiOperationSupport(order = 4)
-  @PostMapping("/uploadFile")
+  @ApiOperation("3.文件上传")
+  @ApiOperationSupport(order = 3)
+  @PostMapping("/uploadMultipartFile")
   public ResponseResult<String> uploadFile(
       @ApiParam(name = "file", value = "文件") @RequestPart("file") MultipartFile file,
       @ApiParam(name = "dictory", value = "上传目录") @RequestParam(name = "dictory", required = false) String dictory) {
@@ -158,8 +138,8 @@ public class FastdfsFileController extends BaseController {
    * @param filename 文件名称
    * @param response HttpServletResponse
    */
-  @ApiOperation("5.文件下载 - 写出")
-  @ApiOperationSupport(order = 5)
+  @ApiOperation("4.文件下载 - 写出")
+  @ApiOperationSupport(order = 4)
   @GetMapping("/download")
   public void download(@RequestParam("fileUrl") String fileUrl, String filename, HttpServletResponse response) {
     byte[] data = fileStorageClient.download(fileUrl);
@@ -190,8 +170,8 @@ public class FastdfsFileController extends BaseController {
    * @param fileUrl url 开头从组名开始
    * @return byte[]
    */
-  @ApiOperation("6.文件下载 - byte[]流方式")
-  @ApiOperationSupport(order = 6)
+  @ApiOperation("5.文件下载 - byte[]流方式")
+  @ApiOperationSupport(order = 5)
   @GetMapping("/downloadFile")
   public byte[] downloadFile(@RequestParam("fileUrl") String fileUrl) {
     return fileStorageClient.download(fileUrl);
@@ -203,8 +183,8 @@ public class FastdfsFileController extends BaseController {
    * @param ids 文件id
    * @return String
    */
-  @ApiOperation("7.删除文件")
-  @ApiOperationSupport(order = 7)
+  @ApiOperation("6.删除文件")
+  @ApiOperationSupport(order = 6)
   @DeleteMapping("/delete")
   public String delete(@RequestBody String... ids) {
     if (ids != null) {
@@ -220,8 +200,8 @@ public class FastdfsFileController extends BaseController {
    * 
    * @return String
    */
-  @ApiOperation("8.获取文件存储方式")
-  @ApiOperationSupport(order = 8)
+  @ApiOperation("7.获取文件存储方式")
+  @ApiOperationSupport(order = 7)
   @GetMapping("/getStorageName")
   public String getStorageName() {
     StorageEnum result = fileStorageClient.getName();
