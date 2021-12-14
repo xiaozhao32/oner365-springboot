@@ -151,12 +151,14 @@ public class HttpClientUtils {
 		while ((line = bufferReader.readLine()) != null) {
 			sb.append(line);
 		}
+		bufferReader.close();
 		return sb.toString();
 	}
 
 	private static SSLContext getSslContext()
 			throws NoSuchAlgorithmException, KeyManagementException, NoSuchProviderException {
-		SSLContext sslContext = SSLContext.getInstance("SSL", "SunJSSE");
+//		SSLContext sslContext = SSLContext.getInstance("SSL", "SunJSSE");
+		SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
 		sslContext.init(null, new TrustManager[] { new MyX509TrustManager() }, new java.security.SecureRandom());
 		return sslContext;
 	}
