@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.base.MoreObjects;
-import com.oner365.sys.entity.SysOrganization;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -142,7 +141,7 @@ public class SysOrganizationVo implements Serializable {
     @ApiModelProperty(value = "数据源")
     private DataSourceConfigVo dataSourceConfigVo;
     
-    private List<SysOrganization> children = new ArrayList<>();
+    private List<SysOrganizationVo> children = new ArrayList<>();
 
     /**
      * Generate constructor
@@ -433,11 +432,11 @@ public class SysOrganizationVo implements Serializable {
         return MoreObjects.toStringHelper(this).add("id", id).toString();
     }
 
-    public List<SysOrganization> getChildren() {
+    public List<SysOrganizationVo> getChildren() {
         return children;
     }
 
-    public void setChildren(List<SysOrganization> children) {
+    public void setChildren(List<SysOrganizationVo> children) {
         this.children = children;
     }
 

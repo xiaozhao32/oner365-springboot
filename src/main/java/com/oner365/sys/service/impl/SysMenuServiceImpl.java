@@ -78,14 +78,14 @@ public class SysMenuServiceImpl implements ISysMenuService {
   @Override
   @Transactional(rollbackFor = ProjectRuntimeException.class)
   @RedisCachePut(value = CACHE_NAME, key = PublicConstants.KEY_ID)
-  @Caching(evict = { 
+  @Caching(evict = {
       @CacheEvict(value = CACHE_NAME, allEntries = true),
       @CacheEvict(value = CACHE_ROLE_NAME, allEntries = true) })
   public SysMenuDto save(SysMenuVo vo) {
     vo.setStatus(StatusEnum.YES.getCode());
     vo.setCreateTime(LocalDateTime.now());
     vo.setUpdateTime(LocalDateTime.now());
-    
+
     SysMenu menu = toPojo(vo);
     menuDao.save(menu);
 
@@ -102,10 +102,10 @@ public class SysMenuServiceImpl implements ISysMenuService {
     }
     return convertDto(menu);
   }
-  
+
   /**
    * 转换对象
-   * 
+   *
    * @return SysMenu
    */
   private SysMenu toPojo(SysMenuVo vo) {
@@ -123,8 +123,8 @@ public class SysMenuServiceImpl implements ISysMenuService {
       result.setPath(vo.getPath());
       result.setStatus(vo.getStatus());
       result.setUpdateTime(vo.getUpdateTime());
-      
-      result.setChildren(vo.getChildren());
+
+      result.setChildren(vo.getChildren().stream().map(this::toPojo).collect(Collectors.toList()));
       result.setUserId(vo.getUserId());
       result.setOperIds(vo.getOperIds());
       return result;
@@ -132,7 +132,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
 
   @Override
   @Transactional(rollbackFor = ProjectRuntimeException.class)
-  @Caching(evict = { 
+  @Caching(evict = {
       @CacheEvict(value = CACHE_NAME, allEntries = true),
       @CacheEvict(value = CACHE_ROLE_NAME, allEntries = true) })
   public int editStatusById(String id, String status) {
@@ -260,7 +260,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
 
   @Override
   @Transactional(rollbackFor = ProjectRuntimeException.class)
-  @Caching(evict = { 
+  @Caching(evict = {
       @CacheEvict(value = CACHE_NAME, allEntries = true),
       @CacheEvict(value = CACHE_ROLE_NAME, allEntries = true) })
   public int deleteById(String id) {
