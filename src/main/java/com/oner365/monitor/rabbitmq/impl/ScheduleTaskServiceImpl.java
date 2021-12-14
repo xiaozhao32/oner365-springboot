@@ -99,15 +99,15 @@ public class ScheduleTaskServiceImpl implements IScheduleTaskService {
   private void executeLog(SysTaskDto sysTask, String status) {
     LOGGER.info("saveTaskLog status:{}", status);
     long time = System.currentTimeMillis();
-    SysTaskLogVo log = new SysTaskLogVo();
-    log.setExecuteIp(DataUtils.getLocalhost());
-    log.setExecuteServerName(ScheduleConstants.SCHEDULE_SERVER_NAME);
-    log.setStatus(StatusEnum.YES.getCode());
-    log.setTaskMessage("执行时间：" + (System.currentTimeMillis() - time) + "毫秒");
-    log.setTaskGroup(sysTask.getTaskGroup());
-    log.setTaskName(sysTask.getTaskName());
-    log.setInvokeTarget(sysTask.getInvokeTarget());
-    sysTaskLogService.addTaskLog(log);
+    SysTaskLogVo taskLog = new SysTaskLogVo();
+    taskLog.setExecuteIp(DataUtils.getLocalhost());
+    taskLog.setExecuteServerName(ScheduleConstants.SCHEDULE_SERVER_NAME);
+    taskLog.setStatus(StatusEnum.YES.getCode());
+    taskLog.setTaskMessage("执行时间：" + (System.currentTimeMillis() - time) + "毫秒");
+    taskLog.setTaskGroup(sysTask.getTaskGroup());
+    taskLog.setTaskName(sysTask.getTaskName());
+    taskLog.setInvokeTarget(sysTask.getInvokeTarget());
+    sysTaskLogService.addTaskLog(taskLog);
   }
 
 }
