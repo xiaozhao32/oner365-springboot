@@ -31,7 +31,7 @@ class HttpClientUtilsTest extends BaseUtilsTest {
 
     @Test
     void test() throws ClientProtocolException, IOException {
-        String hostname = "localhost";
+        String hostname = "192.168.33.43";
         System.out.println(new String(Base64Utils.encodeBase64("admin:admin123".getBytes())));
         HttpHost target = new HttpHost(hostname, 15672, "http");
         CredentialsProvider credsProvider = new BasicCredentialsProvider();
