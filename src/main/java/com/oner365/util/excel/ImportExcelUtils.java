@@ -119,10 +119,10 @@ public class ImportExcelUtils {
       for (int j = 0; j < colNum; j++) {
         Cell cell = row.getCell((short) j);
         Object val = null;
-        if (cell != null && cell.getCellType() != CellType.BLANK) {
+        if (cell != null) {
           val = getCellValue(cell);
         }
-        Object o = val != null ? val.toString().trim() : null;
+        Object o = val != null ? val.toString().trim() : "";
         objs.add(o);
       }
       dataList.add(objs);
@@ -143,7 +143,7 @@ public class ImportExcelUtils {
       break;
     case _NONE:
     case BLANK:
-      value = null;
+      value = "";
       break;
     case BOOLEAN:
       value = cell.getBooleanCellValue();
