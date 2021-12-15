@@ -43,10 +43,10 @@ public class ImportExcelUtils {
    * @return Workbook
    * @throws IOException 异常
    */
-  public static Workbook getWorkbook(InputStream is, String extension, String fileSuffix) throws IOException {
+  public static Workbook getWorkbook(InputStream is, String extension) throws IOException {
     // 创建工作表
     Workbook workbook;
-    if (extension.contains(fileSuffix)) {
+    if (extension.contains("xlsx")) {
       workbook = new XSSFWorkbook(is);
     } else {
       workbook = new HSSFWorkbook(is);
@@ -63,9 +63,8 @@ public class ImportExcelUtils {
    * @param extension excel后缀
    * @return ExcelData
    */
-  public static ExcelData readExcel(InputStream is, Integer sheetAt, Integer titleRow, String extension,
-      String fileSuffix) {
-    try (Workbook workbook = getWorkbook(is, extension, fileSuffix)) {
+  public static ExcelData readExcel(InputStream is, Integer sheetAt, Integer titleRow, String extension) {
+    try (Workbook workbook = getWorkbook(is, extension)) {
       return readExcel(workbook, sheetAt, titleRow);
     } catch (IOException e) {
       LOGGER.error("Error readXlsExcelData: ", e);
