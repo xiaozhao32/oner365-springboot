@@ -10,8 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +19,7 @@ import com.oner365.common.constants.PublicConstants;
 import com.oner365.common.enums.ResultEnum;
 import com.oner365.common.enums.StatusEnum;
 import com.oner365.common.exception.ProjectRuntimeException;
+import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.common.query.QueryUtils;
 import com.oner365.sys.dao.ISysJobDao;
@@ -47,10 +46,9 @@ public class SysJobServiceImpl implements ISysJobService {
 
   @Override
   @Cacheable(value = CACHE_NAME, keyGenerator = PublicConstants.KEY_GENERATOR)
-  public Page<SysJobDto> pageList(QueryCriteriaBean data) {
+  public PageInfo<SysJobDto> pageList(QueryCriteriaBean data) {
     try {
-      Pageable pageable = QueryUtils.buildPageRequest(data);
-      return convertDto(dao.findAll(QueryUtils.buildCriteria(data), pageable));
+      return convertDto(dao.findAll(QueryUtils.buildCriteria(data), QueryUtils.buildPageRequest(data)));
     } catch (Exception e) {
       LOGGER.error("Error pageList: ", e);
     }

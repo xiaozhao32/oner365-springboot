@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +19,7 @@ import com.oner365.common.constants.PublicConstants;
 import com.oner365.common.enums.ExistsEnum;
 import com.oner365.common.enums.ResultEnum;
 import com.oner365.common.exception.ProjectRuntimeException;
+import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.Criteria;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.common.query.QueryUtils;
@@ -86,10 +85,9 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
 
   @Override
   @Cacheable(value = CACHE_NAME, keyGenerator = PublicConstants.KEY_GENERATOR)
-  public Page<SysDictItemDto> pageList(QueryCriteriaBean data) {
+  public PageInfo<SysDictItemDto> pageList(QueryCriteriaBean data) {
     try {
-      Pageable pageable = QueryUtils.buildPageRequest(data);
-      return convertDto(dao.findAll(QueryUtils.buildCriteria(data), pageable));
+      return convertDto(dao.findAll(QueryUtils.buildCriteria(data), QueryUtils.buildPageRequest(data)));
     } catch (Exception e) {
       LOGGER.error("Error pageList: ", e);
     }
@@ -142,8 +140,9 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
       @CacheEvict(value = CACHE_NAME, allEntries = true),
       @CacheEvict(value = CACHE_TYPE_NAME, allEntries = true) })
   public Integer editStatus(String id, String status) {
-    SysDictItem entity = dao.getById(id);
-    if (entity != null && entity.getId() != null) {
+    Optional<SysDictItem> optional = dao.findById(id);
+    if (optional.isPresent()) {
+      SysDictItem entity = optional.get();
       entity.setStatus(status);
       dao.save(entity);
       return ResultEnum.SUCCESS.getCode();

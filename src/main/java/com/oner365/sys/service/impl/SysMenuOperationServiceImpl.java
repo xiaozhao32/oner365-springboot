@@ -10,8 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +20,7 @@ import com.oner365.common.enums.ExistsEnum;
 import com.oner365.common.enums.ResultEnum;
 import com.oner365.common.enums.StatusEnum;
 import com.oner365.common.exception.ProjectRuntimeException;
+import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.Criteria;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.common.query.QueryUtils;
@@ -55,10 +54,9 @@ public class SysMenuOperationServiceImpl implements ISysMenuOperationService {
 
   @Override
   @Cacheable(value = CACHE_NAME, keyGenerator = PublicConstants.KEY_GENERATOR)
-  public Page<SysMenuOperationDto> pageList(QueryCriteriaBean data) {
+  public PageInfo<SysMenuOperationDto> pageList(QueryCriteriaBean data) {
     try {
-      Pageable pageable = QueryUtils.buildPageRequest(data);
-      return convertDto(menuOperationDao.findAll(QueryUtils.buildCriteria(data), pageable));
+      return convertDto(menuOperationDao.findAll(QueryUtils.buildCriteria(data), QueryUtils.buildPageRequest(data)));
     } catch (Exception e) {
       LOGGER.error("Error pageList: ", e);
     }

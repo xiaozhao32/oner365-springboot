@@ -2,6 +2,7 @@ package com.oner365.sys.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,12 +13,11 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.google.common.collect.Lists;
 import com.oner365.sys.dto.SysMenuDto;
 
 /**
  * 菜单对象
- * 
+ *
  * @author zhaoyong
  */
 @Entity
@@ -110,7 +110,7 @@ public class SysMenu implements Serializable {
 
   /** 子菜单 */
   @Transient
-  private List<SysMenu> children = Lists.newArrayList();
+  private List<SysMenu> children = new ArrayList<>();
 
   @Transient
   private String userId;
@@ -351,7 +351,7 @@ public class SysMenu implements Serializable {
 
   /**
    * 转换对象
-   * 
+   *
    * @return SysMenuDto
    */
   public SysMenuDto toDto() {
@@ -370,7 +370,7 @@ public class SysMenu implements Serializable {
     result.setStatus(this.getStatus());
     result.setUpdateTime(this.getUpdateTime());
 
-    result.setChildren(this.getChildren().stream().map(e -> e.toDto()).collect(Collectors.toList()));
+    result.setChildren(this.getChildren().stream().map(SysMenu::toDto).collect(Collectors.toList()));
     result.setUserId(this.getUserId());
     result.setOperIds(this.getOperIds());
     return result;

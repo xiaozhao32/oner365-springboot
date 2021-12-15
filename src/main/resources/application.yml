@@ -107,6 +107,61 @@ spring:
         queue-capacity: 100
         keep-alive: 90
 
+# mybatis
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.oner365.**.entity
+
+# Access Token
+ACCESS_TOKEN_SECRET: test
+ACCESS_TOKEN_EXPIRY_MIN: 14400
+
+# 雪花算法生成id
+sequence:
+  snowflake:
+    datacenterId: 1
+    workerId: 1
+
+# 白名单
+ignore:
+  whites:
+    - /api
+    - /system/auth/login
+    - /system/auth/captchaImage
+    - /system/file/download
+    - /swagger
+    - /webjars
+    - /v3
+    - /csrf
+    - /doc.html
+    
+# Logger
+logging:
+  file:
+    path: /Users/zhaoyong/Downloads/logs
+  level:
+    web: warn
+    org:
+      springframework: error
+      elasticsearch: error
+
+# 文件上传下载地址
+file:
+  # 存储方式为 local fdfs minio 
+  storage: local
+  # excel后缀
+  excel:
+    suffix: xlsx
+  # 通用文件下载路径
+  download: /Users/zhaoyong/Downloads
+  
+# 上传存储到本地
+local:
+  # 本地配置web访问地址, fdfs使用 fdfs.web-server-url
+  web: http://localhost/uploads
+    # 上传地址
+  upload: /Users/zhaoyong/Downloads
+  
 # FastDFS
 fdfs:
   connect-timeout: 60
@@ -130,69 +185,29 @@ fdfs:
     max-total-per-key: 50
     #连接耗尽时等待获取连接的最大毫秒数
     max-wait-millis: 5000
+  
+# file minio     
+minio:
+  username: root
+  password: e8818da9cc9
+  url: http://192.168.101.23:9003
+  bucket: ${spring.application.name}
 
-# mybatis
-mybatis:
-  mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: com.oner365.**.entity
-
-# Logger
-logging:
-  file:
-    path: /Users/zhaoyong/Downloads
-  level:
-    web: warn
-    org:
-      springframework: error
-      elasticsearch: error
-
-# Access Token
-ACCESS_TOKEN_SECRET: test
-ACCESS_TOKEN_EXPIRY_MIN: 14400
-
-sequence:
-  snowflake:
-    datacenterId: 1
-    workerId: 1
-
-# 白名单
-ignore:
-  whites:
-    - /api
-    - /system/auth/login
-    - /system/auth/captchaImage
-    - /system/file/download
-    - /swagger
-    - /webjars
-    - /v3
-    - /csrf
-    - /doc.html
-
-# 文件上传下载地址
-file:
-  # 存储方式为 local 或 fdfs 
-  storage: local
-  # excel后缀
-  excel:
-    suffix: xlsx
-  # 通用文件下载路径
-  download: /Users/zhaoyong/Downloads
-  # 上传存储到本地
-  local:
-    # 本地配置web访问地址, fdfs使用 fdfs.web-server-url
-    web: http://localhost/uploads
-    # 上传地址
-    upload: /Users/zhaoyong/Downloads
-
+# druid
 druid:
   mysql:
     use-ping-method: false
 
+# swagger
 swagger:
   name: ${spring.application.name}
   version: 1.0
   url: https://www.oner365.com
   email: service@oner365.com
   description: Oner365 project
+ 
+# knife4j 
+knife4j:  enable: true
+  
 
 

@@ -5,7 +5,7 @@ import org.junit.jupiter.api.RepeatedTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.google.common.collect.Iterables;
+import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.elasticsearch.dto.SampleGeneDto;
 import com.oner365.elasticsearch.service.ISampleGeneElasticsearchService;
@@ -26,9 +26,9 @@ class ElasticsearchServiceTest extends BaseServiceTest {
     @RepeatedTest(value = 2)
     void findList() {
         QueryCriteriaBean paramJson = new QueryCriteriaBean();
-        Iterable<SampleGeneDto> list = service.findList(paramJson);
-        LOGGER.info("findList:{}", Iterables.size(list));
-        Assertions.assertNotEquals(0, Iterables.size(list));
+        PageInfo<SampleGeneDto> list = service.findList(paramJson);
+        LOGGER.info("findList:{}", list.getSize());
+        Assertions.assertNotEquals(0, list.getSize());
     }
 
 }

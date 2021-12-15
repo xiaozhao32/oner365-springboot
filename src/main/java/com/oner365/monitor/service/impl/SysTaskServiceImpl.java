@@ -12,13 +12,13 @@ import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSON;
 import com.oner365.common.enums.ResultEnum;
 import com.oner365.common.exception.ProjectRuntimeException;
+import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.common.query.QueryUtils;
 import com.oner365.monitor.constants.ScheduleConstants;
@@ -72,10 +72,9 @@ public class SysTaskServiceImpl implements ISysTaskService {
    * @return Page
    */
   @Override
-  public Page<SysTaskDto> pageList(QueryCriteriaBean data) {
+  public PageInfo<SysTaskDto> pageList(QueryCriteriaBean data) {
     try {
-      Pageable pageable = QueryUtils.buildPageRequest(data);
-      return convertDto(dao.findAll(QueryUtils.buildCriteria(data), pageable));
+      return convertDto(dao.findAll(QueryUtils.buildCriteria(data), QueryUtils.buildPageRequest(data)));
     } catch (Exception e) {
       LOGGER.error("Error pageList: ", e);
     }
@@ -135,8 +134,9 @@ public class SysTaskServiceImpl implements ISysTaskService {
   @Override
   @Transactional(rollbackFor = ProjectRuntimeException.class)
   public int deleteTask(String id) throws SchedulerException {
-    SysTask task = dao.getById(id);
-    if (task != null) {
+    Optional<SysTask> optional = dao.findById(id);
+    if (optional.isPresent()) {
+      SysTask task = optional.get();
       String taskGroup = task.getTaskGroup();
       dao.deleteById(id);
       scheduler.deleteJob(ScheduleUtils.getJobKey(id, taskGroup));
@@ -187,11 +187,15 @@ public class SysTaskServiceImpl implements ISysTaskService {
   public void run(SysTaskVo task) throws SchedulerException {
     String id = task.getId();
     String taskGroup = task.getTaskGroup();
-    SysTask properties = dao.getById(task.getId());
-    // 参数
-    JobDataMap dataMap = new JobDataMap();
-    dataMap.put(ScheduleConstants.TASK_PROPERTIES, properties);
-    scheduler.triggerJob(ScheduleUtils.getJobKey(id, taskGroup), dataMap);
+    Optional<SysTask> optional = dao.findById(task.getId());
+    if (optional.isPresent()) {
+      // 参数
+      SysTask sysTask = optional.get();
+      sysTask.setTaskGroup(taskGroup);
+      JobDataMap dataMap = new JobDataMap();
+      dataMap.put(ScheduleConstants.TASK_PROPERTIES, JSON.toJSONString(convertDto(sysTask)));
+      scheduler.triggerJob(ScheduleUtils.getJobKey(id, taskGroup), dataMap);
+    }
   }
 
   /**
@@ -214,7 +218,7 @@ public class SysTaskServiceImpl implements ISysTaskService {
     }
     return ResultEnum.SUCCESS.getCode();
   }
-  
+
   /**
    * 转换对象
    * 
@@ -239,7 +243,6 @@ public class SysTaskServiceImpl implements ISysTaskService {
     return result;
   }
 
-
   /**
    * 更新任务的时间表达式
    *
@@ -248,9 +251,12 @@ public class SysTaskServiceImpl implements ISysTaskService {
   @Override
   @Transactional(rollbackFor = ProjectRuntimeException.class)
   public int updateTask(SysTaskVo task) throws SchedulerException, TaskException {
-    SysTask properties = dao.getById(task.getId());
-    save(task);
-    updateSchedulerTask(task, properties.getTaskGroup());
+    Optional<SysTask> optional = dao.findById(task.getId());
+    if (optional.isPresent()) {
+      SysTask entity = optional.get();
+      save(task);
+      updateSchedulerTask(task, entity.getTaskGroup());
+    }
     return ResultEnum.SUCCESS.getCode();
   }
 

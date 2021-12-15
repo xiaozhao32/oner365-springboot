@@ -85,6 +85,14 @@ public abstract class BaseControllerTest extends BaseTest {
                 .retrieve().bodyToMono(ResponseData.class);
         return mono.block().getResult();
     }
+    
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    protected <T> T post(String url, BodyInserter<?, ? super ClientHttpRequest> bodyInserters, Class<T> clazz) {
+        Mono<ResponseData> mono = client.post().uri(url).header(HttpHeaders.AUTHORIZATION, token).body(bodyInserters)
+                .retrieve().bodyToMono(ResponseData.class);
+        T result = (T) mono.block().getResult();
+        return result;
+    }
 
     /**
      * PUT request

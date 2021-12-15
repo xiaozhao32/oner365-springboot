@@ -6,10 +6,10 @@ import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 
+import com.alibaba.fastjson.JSON;
 import com.oner365.monitor.constants.ScheduleConstants;
-import com.oner365.monitor.entity.SysTask;
+import com.oner365.monitor.dto.SysTaskDto;
 import com.oner365.util.DateUtil;
 
 /**
@@ -28,8 +28,8 @@ public abstract class AbstractQuartzJob implements Job {
 
     @Override
     public void execute(JobExecutionContext context) {
-        SysTask sysTask = new SysTask();
-        BeanUtils.copyProperties(context.getMergedJobDataMap().get(ScheduleConstants.TASK_PROPERTIES), sysTask);
+        Object object = context.getMergedJobDataMap().get(ScheduleConstants.TASK_PROPERTIES);
+        SysTaskDto sysTask = JSON.toJavaObject(JSON.parseObject(object.toString()), SysTaskDto.class);
         try {
             before(context, sysTask);
             doExecute(context, sysTask);
@@ -45,7 +45,7 @@ public abstract class AbstractQuartzJob implements Job {
      * @param context 工作执行上下文对象
      * @param sysTask  系统计划任务
      */
-    protected void before(JobExecutionContext context, SysTask sysTask) {
+    protected void before(JobExecutionContext context, SysTaskDto sysTask) {
         THREAD_LOCAL.set(DateUtil.getDate());
     }
 
@@ -55,7 +55,7 @@ public abstract class AbstractQuartzJob implements Job {
      * @param context        工作执行上下文对象
      * @param sysTask 系统计划任务
      */
-    protected void after(JobExecutionContext context, SysTask sysTask) {
+    protected void after(JobExecutionContext context, SysTaskDto sysTask) {
         THREAD_LOCAL.remove();
     }
 
@@ -65,5 +65,5 @@ public abstract class AbstractQuartzJob implements Job {
      * @param context 工作执行上下文对象
      * @param sysTask  系统计划任务
      */
-    protected abstract void doExecute(JobExecutionContext context, SysTask sysTask);
+    protected abstract void doExecute(JobExecutionContext context, SysTaskDto sysTask);
 }

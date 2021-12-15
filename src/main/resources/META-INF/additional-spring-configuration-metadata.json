@@ -141,5 +141,35 @@
     "name": "sequence.snowflake.workerId",
     "type": "java.lang.String",
     "description": "A description for 'sequence.snowflake.workerId'."
+  },
+  {
+    "name": "minio.username",
+    "type": "java.lang.String",
+    "description": "A description for 'minio.username'."
+  },
+  {
+    "name": "minio.password",
+    "type": "java.lang.String",
+    "description": "A description for 'minio.password'."
+  },
+  {
+    "name": "minio.url",
+    "type": "java.lang.String",
+    "description": "A description for 'minio.url'."
+  },
+  {
+    "name": "minio.bucket",
+    "type": "java.lang.String",
+    "description": "A description for 'minio.bucket'."
+  },
+  {
+    "name": "local.web",
+    "type": "java.lang.String",
+    "description": "A description for 'local.web'."
+  },
+  {
+    "name": "local.upload",
+    "type": "java.lang.String",
+    "description": "A description for 'local.upload'."
   }
 ]}

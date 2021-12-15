@@ -17,6 +17,7 @@ import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import com.oner365.util.Base64Utils;
@@ -31,8 +32,8 @@ class HttpClientUtilsTest extends BaseUtilsTest {
 
     @Test
     void test() throws ClientProtocolException, IOException {
-        String hostname = "192.168.33.43";
-        System.out.println(new String(Base64Utils.encodeBase64("admin:admin123".getBytes())));
+        String hostname = "localhost";
+        LOGGER.info("base64:{}", new String(Base64Utils.encodeBase64("admin:admin123".getBytes())));
         HttpHost target = new HttpHost(hostname, 15672, "http");
         CredentialsProvider credsProvider = new BasicCredentialsProvider();
         credsProvider.setCredentials(
@@ -45,9 +46,11 @@ class HttpClientUtilsTest extends BaseUtilsTest {
         BasicScheme basicAuth = new BasicScheme();
         authCache.put(target, basicAuth);
         HttpClientContext localContext = HttpClientContext.create();
+        
+        Assertions.assertNotNull(localContext);
         localContext.setAuthCache(authCache);
         CloseableHttpResponse response = httpclient.execute(target, httpget, localContext);
-        System.out.println(EntityUtils.toString(response.getEntity()));
+        LOGGER.info("result:{}", EntityUtils.toString(response.getEntity()));
 //        
 //        String url = "http://" + hostname + ":15672/api/queues///oner365.saveTaskLogTask";
 //        System.out.println(URLEncoder.encode(url,Charset.defaultCharset().name()));

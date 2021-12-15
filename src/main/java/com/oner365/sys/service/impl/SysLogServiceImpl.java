@@ -1,21 +1,20 @@
 package com.oner365.sys.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.oner365.common.enums.ResultEnum;
 import com.oner365.common.exception.ProjectRuntimeException;
+import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.Criteria;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.common.query.QueryUtils;
@@ -41,10 +40,9 @@ public class SysLogServiceImpl implements ISysLogService {
   private ISysLogDao dao;
 
   @Override
-  public Page<SysLogDto> pageList(QueryCriteriaBean data) {
+  public PageInfo<SysLogDto> pageList(QueryCriteriaBean data) {
     try {
-      Pageable pageable = QueryUtils.buildPageRequest(data);
-      return convertDto(dao.findAll(QueryUtils.buildCriteria(data), pageable));
+      return convertDto(dao.findAll(QueryUtils.buildCriteria(data), QueryUtils.buildPageRequest(data)));
     } catch (Exception e) {
       LOGGER.error("Error pageList: ", e);
     }
@@ -106,9 +104,9 @@ public class SysLogServiceImpl implements ISysLogService {
 
   @Override
   @Transactional(rollbackFor = ProjectRuntimeException.class)
-  public int deleteLog(Date date) {
+  public int deleteLog(LocalDateTime dateTime) {
     Criteria<SysLog> criteria = new Criteria<>();
-    criteria.add(Restrictions.lte(SysConstants.CREATE_TIME, date));
+    criteria.add(Restrictions.lte(SysConstants.CREATE_TIME, dateTime));
     List<SysLog> list = dao.findAll(criteria);
     dao.deleteAll(list);
     return ResultEnum.SUCCESS.getCode();

@@ -3,8 +3,7 @@ package com.oner365.gateway.service;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.data.domain.Page;
-
+import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.gateway.dto.GatewayRouteDto;
 import com.oner365.gateway.vo.GatewayRouteVo;
@@ -28,9 +27,9 @@ public interface DynamicRouteService extends BaseService {
    * 分页查询路由列表
    * 
    * @param data 查询参数
-   * @return Page
+   * @return PageInfo
    */
-  Page<GatewayRouteDto> pageList(QueryCriteriaBean data);
+  PageInfo<GatewayRouteDto> pageList(QueryCriteriaBean data);
 
   /**
    * 添加路由

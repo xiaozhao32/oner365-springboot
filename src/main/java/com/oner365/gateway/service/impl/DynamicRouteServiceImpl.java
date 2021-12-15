@@ -1,5 +1,7 @@
 package com.oner365.gateway.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -8,13 +10,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.oner365.common.enums.ResultEnum;
+import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.common.query.QueryUtils;
 import com.oner365.gateway.constants.GatewayConstants;
@@ -44,7 +43,7 @@ public class DynamicRouteServiceImpl implements DynamicRouteService {
   @Autowired
   private ISyncRouteMqService syncRouteMqService;
 
-  protected static Map<String, String> predicateMap = Maps.newHashMap();
+  protected static Map<String, String> predicateMap = new HashMap<>();
 
   @Override
   public List<GatewayRouteDto> findList() {
@@ -52,10 +51,9 @@ public class DynamicRouteServiceImpl implements DynamicRouteService {
   }
 
   @Override
-  public Page<GatewayRouteDto> pageList(QueryCriteriaBean data) {
+  public PageInfo<GatewayRouteDto> pageList(QueryCriteriaBean data) {
     try {
-      Pageable pageable = QueryUtils.buildPageRequest(data);
-      return convertDto(gatewayRouteDao.findAll(QueryUtils.buildCriteria(data), pageable));
+      return convertDto(gatewayRouteDao.findAll(QueryUtils.buildCriteria(data), QueryUtils.buildPageRequest(data)));
     } catch (Exception e) {
       LOGGER.error("Error pageList: ", e);
     }
@@ -66,20 +64,20 @@ public class DynamicRouteServiceImpl implements DynamicRouteService {
   public String save(GatewayRouteVo gatewayRoute) {
 
     // Filter
-    List<GatewayFilter> filters = Lists.newArrayList();
+    List<GatewayFilter> filters = new ArrayList<>();
     GatewayFilter gatewayFilter = new GatewayFilter();
     gatewayFilter.setName("StripPrefix");
-    Map<String, String> argsFilter = Maps.newHashMap();
+    Map<String, String> argsFilter = new HashMap<>();
     argsFilter.put("parts", "1");
     gatewayFilter.setArgs(argsFilter);
     filters.add(gatewayFilter);
     gatewayRoute.setFilters(filters);
 
     // Predicates
-    List<GatewayPredicate> predicates = Lists.newArrayList();
+    List<GatewayPredicate> predicates = new ArrayList<>();
     GatewayPredicate gatewayPredicate = new GatewayPredicate();
     gatewayPredicate.setName("Path");
-    Map<String, String> args = Maps.newHashMap();
+    Map<String, String> args = new HashMap<>();
     args.put("pattern", gatewayRoute.getPattern());
     gatewayPredicate.setArgs(args);
     predicates.add(gatewayPredicate);

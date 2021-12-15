@@ -2,11 +2,8 @@ package com.oner365.sys.vo;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
-
-import com.google.common.base.MoreObjects;
-import com.google.common.collect.Lists;
-import com.oner365.sys.entity.SysMenu;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -101,7 +98,7 @@ public class SysMenuVo implements Serializable {
     @ApiModelProperty(value = "图标")
     private String icon;
     
-    private List<SysMenu> children = Lists.newArrayList();
+    private List<SysMenuVo> children = new ArrayList<>();
     private String userId;
     private List<String> operIds;
 
@@ -294,19 +291,11 @@ public class SysMenuVo implements Serializable {
         this.menuTypeId = menuTypeId;
     }
     
-    /**
-     * toString Method
-     */
-    @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this).add("id", id).toString();
-    }
-
-    public List<SysMenu> getChildren() {
+    public List<SysMenuVo> getChildren() {
         return children;
     }
 
-    public void setChildren(List<SysMenu> children) {
+    public void setChildren(List<SysMenuVo> children) {
         this.children = children;
     }
 

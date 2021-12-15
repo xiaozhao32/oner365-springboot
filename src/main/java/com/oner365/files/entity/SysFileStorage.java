@@ -9,9 +9,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.oner365.files.dto.SysFileStorageDto;
 
 /**
  * 文件对象
+ * 
  * @author zhaoyong
  *
  */
@@ -20,209 +22,229 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler" })
 public class SysFileStorage implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    /**
-     * 主键 id
-     */
-    @Id
-    private String id;
+  /**
+   * 主键 id
+   */
+  @Id
+  private String id;
 
-    /**
-     * 文件名称 file_name
-     */
-    @Column(name = "file_name", nullable = false, length = 64)
-    private String fileName;
+  /**
+   * 文件名称 file_name
+   */
+  @Column(name = "file_name", nullable = false, length = 64)
+  private String fileName;
 
-    /**
-     * 显示名称 display_name
-     */
-    @Column(name = "display_name", nullable = false, length = 64)
-    private String displayName;
-    
-    /**
-     * 存储方式
-     */
-    @Column(name = "file_storage", nullable = false)
-    private String fileStorage;
+  /**
+   * 显示名称 display_name
+   */
+  @Column(name = "display_name", nullable = false, length = 64)
+  private String displayName;
 
-    /**
-     * 文件路径 file_path
-     */
-    @Column(name = "file_path", nullable = false)
-    private String filePath;
+  /**
+   * 存储方式
+   */
+  @Column(name = "file_storage", nullable = false)
+  private String fileStorage;
 
-    /**
-     * 文件地址 fastdfs_url
-     */
-    @Column(name = "fastdfs_url", nullable = false)
-    private String fastdfsUrl;
+  /**
+   * 文件路径 file_path
+   */
+  @Column(name = "file_path", nullable = false)
+  private String filePath;
 
-    /**
-     * 文件后缀 file_suffix
-     */
-    @Column(name = "file_suffix", nullable = false, length = 8)
-    private String fileSuffix;
+  /**
+   * 文件地址 fastdfs_url
+   */
+  @Column(name = "fastdfs_url", nullable = false)
+  private String fastdfsUrl;
 
-    /**
-     * 文件大小 file_size
-     */
-    @Column(name = "file_size", nullable = false, length = 64)
-    private String size;
+  /**
+   * 文件后缀 file_suffix
+   */
+  @Column(name = "file_suffix", nullable = false, length = 8)
+  private String fileSuffix;
 
-    /**
-     * 创建时间 create_time
-     */
-    @Column(name = "create_time")
-    private Date createTime;
+  /**
+   * 文件大小 file_size
+   */
+  @Column(name = "file_size", nullable = false, length = 64)
+  private String size;
 
-    /**
-     * 是否目录 is_directory
-     */
-    @Column(name = "is_directory")
-    private boolean isDirectory;
+  /**
+   * 创建时间 create_time
+   */
+  @Column(name = "create_time")
+  private Date createTime;
 
-    public SysFileStorage() {
-        super();
-    }
+  /**
+   * 是否目录 is_directory
+   */
+  @Column(name = "is_directory")
+  private boolean isDirectory;
 
-    /**
-     * @return the id
-     */
-    public String getId() {
-        return id;
-    }
+  public SysFileStorage() {
+    super();
+  }
 
-    /**
-     * @param id the id to set
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
+  /**
+   * @return the id
+   */
+  public String getId() {
+    return id;
+  }
 
-    /**
-     * @return the fileName
-     */
-    public String getFileName() {
-        return fileName;
-    }
+  /**
+   * @param id the id to set
+   */
+  public void setId(String id) {
+    this.id = id;
+  }
 
-    /**
-     * @param fileName the fileName to set
-     */
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
+  /**
+   * @return the fileName
+   */
+  public String getFileName() {
+    return fileName;
+  }
 
-    /**
-     * @return the filePath
-     */
-    public String getFilePath() {
-        return filePath;
-    }
+  /**
+   * @param fileName the fileName to set
+   */
+  public void setFileName(String fileName) {
+    this.fileName = fileName;
+  }
 
-    /**
-     * @param filePath the filePath to set
-     */
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
-    }
+  /**
+   * @return the filePath
+   */
+  public String getFilePath() {
+    return filePath;
+  }
 
-    /**
-     * @return the fileSuffix
-     */
-    public String getFileSuffix() {
-        return fileSuffix;
-    }
+  /**
+   * @param filePath the filePath to set
+   */
+  public void setFilePath(String filePath) {
+    this.filePath = filePath;
+  }
 
-    /**
-     * @param fileSuffix the fileSuffix to set
-     */
-    public void setFileSuffix(String fileSuffix) {
-        this.fileSuffix = fileSuffix;
-    }
+  /**
+   * @return the fileSuffix
+   */
+  public String getFileSuffix() {
+    return fileSuffix;
+  }
 
-    /**
-     * @return the size
-     */
-    public String getSize() {
-        return size;
-    }
+  /**
+   * @param fileSuffix the fileSuffix to set
+   */
+  public void setFileSuffix(String fileSuffix) {
+    this.fileSuffix = fileSuffix;
+  }
 
-    /**
-     * @param size the size to set
-     */
-    public void setSize(String size) {
-        this.size = size;
-    }
+  /**
+   * @return the size
+   */
+  public String getSize() {
+    return size;
+  }
 
-    /**
-     * @return the createTime
-     */
-    public Date getCreateTime() {
-        return createTime;
-    }
+  /**
+   * @param size the size to set
+   */
+  public void setSize(String size) {
+    this.size = size;
+  }
 
-    /**
-     * @param createTime the createTime to set
-     */
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
+  /**
+   * @return the createTime
+   */
+  public Date getCreateTime() {
+    return createTime;
+  }
 
-    /**
-     * @return the fastdfsUrl
-     */
-    public String getFastdfsUrl() {
-        return fastdfsUrl;
-    }
+  /**
+   * @param createTime the createTime to set
+   */
+  public void setCreateTime(Date createTime) {
+    this.createTime = createTime;
+  }
 
-    /**
-     * @param fastdfsUrl the fastdfsUrl to set
-     */
-    public void setFastdfsUrl(String fastdfsUrl) {
-        this.fastdfsUrl = fastdfsUrl;
-    }
+  /**
+   * @return the fastdfsUrl
+   */
+  public String getFastdfsUrl() {
+    return fastdfsUrl;
+  }
 
-    /**
-     * @return the isDirectory
-     */
-    public boolean isDirectory() {
-        return isDirectory;
-    }
+  /**
+   * @param fastdfsUrl the fastdfsUrl to set
+   */
+  public void setFastdfsUrl(String fastdfsUrl) {
+    this.fastdfsUrl = fastdfsUrl;
+  }
 
-    /**
-     * @param isDirectory the isDirectory to set
-     */
-    public void setDirectory(boolean isDirectory) {
-        this.isDirectory = isDirectory;
-    }
+  /**
+   * @return the isDirectory
+   */
+  public boolean isDirectory() {
+    return isDirectory;
+  }
 
-    /**
-     * @return the displayName
-     */
-    public String getDisplayName() {
-        return displayName;
-    }
+  /**
+   * @param isDirectory the isDirectory to set
+   */
+  public void setDirectory(boolean isDirectory) {
+    this.isDirectory = isDirectory;
+  }
 
-    /**
-     * @param displayName the displayName to set
-     */
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
+  /**
+   * @return the displayName
+   */
+  public String getDisplayName() {
+    return displayName;
+  }
 
-    /**
-     * @return the fileStorage
-     */
-    public String getFileStorage() {
-        return fileStorage;
-    }
+  /**
+   * @param displayName the displayName to set
+   */
+  public void setDisplayName(String displayName) {
+    this.displayName = displayName;
+  }
 
-    /**
-     * @param fileStorage the fileStorage to set
-     */
-    public void setFileStorage(String fileStorage) {
-        this.fileStorage = fileStorage;
-    }
+  /**
+   * @return the fileStorage
+   */
+  public String getFileStorage() {
+    return fileStorage;
+  }
+
+  /**
+   * @param fileStorage the fileStorage to set
+   */
+  public void setFileStorage(String fileStorage) {
+    this.fileStorage = fileStorage;
+  }
+
+  /**
+   * DTO对象
+   * 
+   * @return SysFileStorageDto
+   */
+  public SysFileStorageDto toDto() {
+    SysFileStorageDto result = new SysFileStorageDto();
+    result.setCreateTime(this.getCreateTime());
+    result.setDirectory(this.isDirectory());
+    result.setDisplayName(this.getDisplayName());
+    result.setFastdfsUrl(this.getFastdfsUrl());
+    result.setFileName(this.getFileName());
+    result.setFilePath(this.getFilePath());
+    result.setFileStorage(this.getFileStorage());
+    result.setFileSuffix(this.getFileSuffix());
+    result.setId(this.getId());
+    result.setSize(this.getSize());
+    return result;
+  }
 }

@@ -7,9 +7,9 @@ import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
 
 import com.alibaba.fastjson.JSON;
+import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.gateway.dto.GatewayRouteDto;
 import com.oner365.gateway.service.DynamicRouteService;
@@ -37,7 +37,7 @@ class GatewayRouteServiceTest extends BaseServiceTest {
   @Test
   void pageList() {
     QueryCriteriaBean paramData = new QueryCriteriaBean();
-    Page<GatewayRouteDto> list = service.pageList(paramData);
+    PageInfo<GatewayRouteDto> list = service.pageList(paramData);
     LOGGER.info("pageList:{}", list.getSize());
     Assertions.assertNotEquals(0, list.getSize());
   }

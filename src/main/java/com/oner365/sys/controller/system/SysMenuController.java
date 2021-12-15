@@ -1,6 +1,7 @@
 package com.oner365.sys.controller.system;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.common.collect.Maps;
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.common.ResponseResult;
 import com.oner365.common.auth.AuthUser;
 import com.oner365.common.auth.annotation.CurrentUser;
@@ -39,8 +40,8 @@ import springfox.documentation.annotations.ApiIgnore;
  * @author zhaoyong
  */
 @RestController
-@RequestMapping("/system/menu")
 @Api(tags = "系统管理 - 菜单")
+@RequestMapping("/system/menu")
 public class SysMenuController extends BaseController {
 
   @Autowired
@@ -50,48 +51,14 @@ public class SysMenuController extends BaseController {
   public ISysMenuOperationService operationService;
 
   /**
-   * 保存菜单
-   *
-   * @param sysMenuVo 菜单对象
-   * @return ResponseResult<SysMenuDto>
-   */
-  @PutMapping("/save")
-  @ApiOperation("保存")
-  public ResponseResult<SysMenuDto> save(@RequestBody SysMenuVo sysMenuVo) {
-    if (sysMenuVo != null) {
-      SysMenuDto entity = menuService.save(sysMenuVo);
-      return ResponseResult.success(entity);
-    }
-    return ResponseResult.error(ErrorInfoEnum.SAVE_ERROR.getName());
-  }
-
-  /**
-   * 获取菜单
-   *
-   * @param id 编号
-   * @return Map<String, Object>
-   */
-  @GetMapping("/get/{id}")
-  @ApiOperation("按id查询")
-  public Map<String, Object> get(@PathVariable String id) {
-    Map<String, Object> result = Maps.newHashMap();
-    result.put("sysMenu", menuService.getById(id));
-    List<String> menuOperList = operationService.selectByMenuId(id);
-    result.put("menuOperList", menuOperList);
-    List<SysMenuOperationDto> operationList = operationService.findList();
-    result.put("operationList", operationList);
-    return result;
-
-  }
-
-  /**
    * 菜单列表
    *
    * @param sysMenuVo 菜单对象
    * @return List<SysMenuDto>
    */
+  @ApiOperation("1.获取列表")
+  @ApiOperationSupport(order = 1)
   @PostMapping("/list")
-  @ApiOperation("获取列表")
   public List<SysMenuDto> list(@RequestBody SysMenuVo sysMenuVo) {
     if (sysMenuVo != null) {
       return menuService.selectList(sysMenuVo);
@@ -100,21 +67,24 @@ public class SysMenuController extends BaseController {
   }
 
   /**
-   * 删除
-   * 
-   * @param ids 编号
-   * @return Integer
+   * 获取菜单
+   *
+   * @param id 编号
+   * @return Map<String, Object>
    */
-  @DeleteMapping("/delete")
-  @ApiOperation("删除")
-  public Integer delete(@RequestBody String... ids) {
-    int code = 0;
-    for (String id : ids) {
-      code = menuService.deleteById(id);
-    }
-    return code;
+  @ApiOperation("2.按id查询")
+  @ApiOperationSupport(order = 2)
+  @GetMapping("/get/{id}")
+  public Map<String, Object> get(@PathVariable String id) {
+    Map<String, Object> result = new HashMap<>();
+    result.put("sysMenu", menuService.getById(id));
+    List<String> menuOperList = operationService.selectByMenuId(id);
+    result.put("menuOperList", menuOperList);
+    List<SysMenuOperationDto> operationList = operationService.findList();
+    result.put("operationList", operationList);
+    return result;
   }
-
+  
   /**
    * 修改菜单状态
    *
@@ -122,8 +92,9 @@ public class SysMenuController extends BaseController {
    * @param status 状态
    * @return Integer
    */
+  @ApiOperation("3.修改状态")
+  @ApiOperationSupport(order = 3)
   @PostMapping("/editStatusById/{id}")
-  @ApiOperation("修改状态")
   public Integer editStatusById(@PathVariable String id, @RequestParam("status") String status) {
     return menuService.editStatusById(id, status);
   }
@@ -135,8 +106,9 @@ public class SysMenuController extends BaseController {
    * @param sysMenuVo 菜单对象
    * @return List<TreeSelect>
    */
+  @ApiOperation("4.获取树型列表")
+  @ApiOperationSupport(order = 4)
   @PostMapping("/treeselect")
-  @ApiOperation("获取树型列表")
   public List<TreeSelect> treeselect(@RequestBody SysMenuVo sysMenuVo, @ApiIgnore @CurrentUser AuthUser authUser) {
     List<SysMenuDto> menus;
     if (SysConstants.DEFAULT_ROLE.equals(authUser.getIsAdmin())) {
@@ -156,8 +128,9 @@ public class SysMenuController extends BaseController {
    * @param roleId    String
    * @return Map<String, Object>
    */
+  @ApiOperation("5.获取权限")
+  @ApiOperationSupport(order = 5)
   @PostMapping("/roleMenuTreeselect/{roleId}")
-  @ApiOperation("获取权限")
   public Map<String, Object> roleMenuTreeselect(@RequestBody SysMenuVo sysMenuVo, @PathVariable("roleId") String roleId,
       @ApiIgnore @CurrentUser AuthUser authUser) {
     List<SysMenuDto> menus;
@@ -167,10 +140,44 @@ public class SysMenuController extends BaseController {
       sysMenuVo.setUserId(authUser.getId());
       menus = menuService.selectListByUserId(sysMenuVo);
     }
-    Map<String, Object> result = Maps.newHashMap();
+    Map<String, Object> result = new HashMap<>();
     result.put("checkedKeys", menuService.selectListByRoleId(roleId, sysMenuVo.getMenuTypeId()));
     result.put("menus", menuService.buildTreeSelect(menus));
     return result;
+  }
+
+  /**
+   * 保存菜单
+   *
+   * @param sysMenuVo 菜单对象
+   * @return ResponseResult<SysMenuDto>
+   */
+  @ApiOperation("6.保存")
+  @ApiOperationSupport(order = 6)
+  @PutMapping("/save")
+  public ResponseResult<SysMenuDto> save(@RequestBody SysMenuVo sysMenuVo) {
+    if (sysMenuVo != null) {
+      SysMenuDto entity = menuService.save(sysMenuVo);
+      return ResponseResult.success(entity);
+    }
+    return ResponseResult.error(ErrorInfoEnum.SAVE_ERROR.getName());
+  }
+
+  /**
+   * 删除
+   * 
+   * @param ids 编号
+   * @return Integer
+   */
+  @ApiOperation("7.删除")
+  @ApiOperationSupport(order = 7)
+  @DeleteMapping("/delete")
+  public Integer delete(@RequestBody String... ids) {
+    int code = 0;
+    for (String id : ids) {
+      code = menuService.deleteById(id);
+    }
+    return code;
   }
 
 }

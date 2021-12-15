@@ -2,6 +2,7 @@ package com.oner365.sys.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,7 +20,6 @@ import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.google.common.collect.Lists;
 import com.oner365.sys.dto.SysOrganizationDto;
 
 /**
@@ -160,7 +160,7 @@ public class SysOrganization implements Serializable {
 
   /** 子菜单 */
   @Transient
-  private List<SysOrganization> children = Lists.newArrayList();
+  private List<SysOrganization> children = new ArrayList<>();
 
   /**
    * Generate constructor
@@ -486,7 +486,7 @@ public class SysOrganization implements Serializable {
     result.setTechnicalName(this.getTechnicalName());
     result.setTechnicalPhone(this.getTechnicalPhone());
     result.setUpdateTime(this.getUpdateTime());
-    result.setChildren(this.getChildren().stream().map(e -> e.toDto()).collect(Collectors.toList()));
+    result.setChildren(this.getChildren().stream().map(SysOrganization::toDto).collect(Collectors.toList()));
     return result;
   }
 

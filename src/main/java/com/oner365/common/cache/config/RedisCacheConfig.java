@@ -2,7 +2,6 @@ package com.oner365.common.cache.config;
 
 import java.time.Duration;
 
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -103,7 +102,7 @@ public class RedisCacheConfig extends CachingConfigurerSupport {
                 // 参数值
                 for (Object object : params) {
                     if (DataUtils.isEmpty(object)) {
-                        strBuilder.append(Strings.EMPTY);
+                        strBuilder.append("");
                     } else if (ClassesUtil.isPrimitive(object.getClass())) {
                         strBuilder.append(object);
                     } else {

@@ -2,8 +2,7 @@ package com.oner365.sys.service;
 
 import java.util.List;
 
-import org.springframework.data.domain.Page;
-
+import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.service.BaseService;
 import com.oner365.sys.dto.SysMenuOperationDto;
@@ -20,9 +19,9 @@ public interface ISysMenuOperationService extends BaseService {
    * 查询列表
    * 
    * @param data 查询参数
-   * @return Page
+   * @return PageInfo
    */
-  Page<SysMenuOperationDto> pageList(QueryCriteriaBean data);
+  PageInfo<SysMenuOperationDto> pageList(QueryCriteriaBean data);
 
   /**
    * 查询列表

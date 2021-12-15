@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,10 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.common.ResponseResult;
 import com.oner365.common.enums.ErrorInfoEnum;
 import com.oner365.common.enums.ResultEnum;
 import com.oner365.common.enums.StatusEnum;
+import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.AttributeBean;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
@@ -38,50 +39,23 @@ import io.swagger.annotations.ApiOperation;
  *
  */
 @RestController
-@RequestMapping("/system/menuType")
 @Api(tags = "系统管理 - 菜单类型")
+@RequestMapping("/system/menuType")
 public class SysMenuTypeController extends BaseController {
 
   @Autowired
   private ISysMenuTypeService menuTypeService;
 
   /**
-   * 保存
-   * 
-   * @param sysMenuTypeVo 菜单类型对象
-   * @return ResponseResult<SysMenuTypeDto>
-   */
-  @PutMapping("/save")
-  @ApiOperation("保存")
-  public ResponseResult<SysMenuTypeDto> save(@RequestBody SysMenuTypeVo sysMenuTypeVo) {
-    if (sysMenuTypeVo != null) {
-      SysMenuTypeDto entity = menuTypeService.save(sysMenuTypeVo);
-      return ResponseResult.success(entity);
-    }
-    return ResponseResult.error(ErrorInfoEnum.SAVE_ERROR.getName());
-  }
-
-  /**
-   * 获取信息
-   * 
-   * @param id 编号
-   * @return SysMenuTypeDto
-   */
-  @GetMapping("/get/{id}")
-  @ApiOperation("按id查询")
-  public SysMenuTypeDto get(@PathVariable String id) {
-    return menuTypeService.getById(id);
-  }
-
-  /**
    * 列表
    * 
    * @param data 参数
-   * @return Page<SysMenuTypeDto>
+   * @return PageInfo<SysMenuTypeDto>
    */
+  @ApiOperation("1.获取分页列表")
+  @ApiOperationSupport(order = 1)
   @PostMapping("/list")
-  @ApiOperation("获取分页列表")
-  public Page<SysMenuTypeDto> list(@RequestBody QueryCriteriaBean data) {
+  public PageInfo<SysMenuTypeDto> list(@RequestBody QueryCriteriaBean data) {
     return menuTypeService.pageList(data);
   }
 
@@ -90,8 +64,9 @@ public class SysMenuTypeController extends BaseController {
    * 
    * @return List<SysMenuTypeDto>
    */
+  @ApiOperation("2.获取全部有效类型")
+  @ApiOperationSupport(order = 2)
   @GetMapping("/findAll")
-  @ApiOperation("获取全部有效类型")
   public List<SysMenuTypeDto> findAll() {
     QueryCriteriaBean data = new QueryCriteriaBean();
     List<AttributeBean> whereList = new ArrayList<>();
@@ -102,14 +77,28 @@ public class SysMenuTypeController extends BaseController {
   }
 
   /**
+   * 获取信息
+   * 
+   * @param id 编号
+   * @return SysMenuTypeDto
+   */
+  @ApiOperation("3.按id查询")
+  @ApiOperationSupport(order = 3)
+  @GetMapping("/get/{id}")
+  public SysMenuTypeDto get(@PathVariable String id) {
+    return menuTypeService.getById(id);
+  }
+
+  /**
    * 修改状态
    * 
    * @param id     主键
    * @param status 状态
    * @return Integer
    */
+  @ApiOperation("4.修改状态")
+  @ApiOperationSupport(order = 4)
   @PostMapping("/editStatusById/{id}")
-  @ApiOperation("修改状态")
   public Integer editStatusById(@PathVariable String id, @RequestParam("status") String status) {
     return menuTypeService.editStatusById(id, status);
   }
@@ -120,8 +109,9 @@ public class SysMenuTypeController extends BaseController {
    * @param checkCodeVo 查询参数
    * @return Long
    */
+  @ApiOperation("5.判断是否存在")
+  @ApiOperationSupport(order = 5)
   @PostMapping("/checkCode")
-  @ApiOperation("判断是否存在")
   public Long checkCode(@RequestBody CheckCodeVo checkCodeVo) {
     if (checkCodeVo != null) {
       return menuTypeService.checkCode(checkCodeVo.getId(), checkCodeVo.getCode());
@@ -130,13 +120,31 @@ public class SysMenuTypeController extends BaseController {
   }
 
   /**
+   * 保存
+   * 
+   * @param sysMenuTypeVo 菜单类型对象
+   * @return ResponseResult<SysMenuTypeDto>
+   */
+  @ApiOperation("6.保存")
+  @ApiOperationSupport(order = 6)
+  @PutMapping("/save")
+  public ResponseResult<SysMenuTypeDto> save(@RequestBody SysMenuTypeVo sysMenuTypeVo) {
+    if (sysMenuTypeVo != null) {
+      SysMenuTypeDto entity = menuTypeService.save(sysMenuTypeVo);
+      return ResponseResult.success(entity);
+    }
+    return ResponseResult.error(ErrorInfoEnum.SAVE_ERROR.getName());
+  }
+
+  /**
    * 删除
    * 
    * @param ids 编号
    * @return Integer
    */
+  @ApiOperation("7.删除")
+  @ApiOperationSupport(order = 7)
   @DeleteMapping("/delete")
-  @ApiOperation("删除")
   public Integer delete(@RequestBody String... ids) {
     int code = 0;
     for (String id : ids) {

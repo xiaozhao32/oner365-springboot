@@ -2,11 +2,11 @@ package com.oner365.sys.controller.system;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,10 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.common.collect.Maps;
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.common.ResponseResult;
 import com.oner365.common.enums.ErrorInfoEnum;
 import com.oner365.common.enums.ResultEnum;
+import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.AttributeBean;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
@@ -44,8 +45,8 @@ import io.swagger.annotations.ApiOperation;
  * @author zhaoyong
  */
 @RestController
-@RequestMapping("/system/dict")
 @Api(tags = "系统管理 - 字典信息")
+@RequestMapping("/system/dict")
 public class SysDictItemController extends BaseController {
 
   @Autowired
@@ -55,72 +56,69 @@ public class SysDictItemController extends BaseController {
   private ISysDictItemService sysDictItemService;
 
   /**
-   * 字典类别保存
+   * 获取类别列表
    *
-   * @param sysDictItemTypeVo 字典类别对象
-   * @return ResponseResult<SysDictItemTypeDto>
+   * @param data 查询参数
+   * @return PageInfo<SysDictItemTypeDto>
    */
-  @PutMapping("/saveDictItemType")
-  @ApiOperation("字典类别保存")
-  public ResponseResult<SysDictItemTypeDto> saveDictItemType(@RequestBody SysDictItemTypeVo sysDictItemTypeVo) {
-    if (sysDictItemTypeVo != null) {
-      SysDictItemTypeDto entity = sysDictItemTypeService.save(sysDictItemTypeVo);
-      return ResponseResult.success(entity);
-    }
-    return ResponseResult.error(ErrorInfoEnum.SAVE_ERROR.getName());
+  @ApiOperation("1.获取类别列表")
+  @ApiOperationSupport(order = 1)
+  @PostMapping("/findTypeList")
+  public PageInfo<SysDictItemTypeDto> findTypeList(@RequestBody QueryCriteriaBean data) {
+    return sysDictItemTypeService.pageList(data);
   }
 
   /**
-   * 判断类别id 是否存在
+   * 获取类别列表
    *
-   * @param checkCodeVo 查询参数
-   * @return Long
+   * @param codes 参数
+   * @return List<SysDictItemType>
    */
-  @PostMapping("/checkTypeCode")
-  @ApiOperation("判断字典类别是否存在")
-  public Long checkTypeCode(@RequestBody CheckCodeVo checkCodeVo) {
-    if (checkCodeVo != null) {
-      return sysDictItemTypeService.checkCode(checkCodeVo.getId(), checkCodeVo.getCode());
-    }
-    return Long.valueOf(ResultEnum.ERROR.getCode());
+  @ApiOperation("2.获取类别列表")
+  @ApiOperationSupport(order = 2)
+  @PostMapping("/findListByCodes")
+  public List<SysDictItemTypeDto> findListByCode(@RequestBody String... codes) {
+    return sysDictItemTypeService.findListByCodes(Arrays.asList(codes));
   }
-
-  /**
-   * 判断类别id 是否存在
-   *
-   * @param checkTypeCodeVo 查询参数
-   * @return Long
-   */
-  @PostMapping("/checkCode")
-  @ApiOperation("判断字典是否存在")
-  public Long checkCode(@RequestBody CheckTypeCodeVo checkTypeCodeVo) {
-    if (checkTypeCodeVo != null) {
-      return sysDictItemService.checkCode(checkTypeCodeVo.getId(), checkTypeCodeVo.getTypeId(),
-          checkTypeCodeVo.getCode());
-    }
-    return Long.valueOf(ResultEnum.ERROR.getCode());
-  }
-
+  
   /**
    * 获取类别
    *
    * @param id 编号
    * @return SysDictItemTypeDto
    */
+  @ApiOperation("3.按id查询类别")
+  @ApiOperationSupport(order = 3)
   @GetMapping("/getTypeById/{id}")
-  @ApiOperation("按id查询类别")
   public SysDictItemTypeDto getTypeById(@PathVariable String id) {
     return sysDictItemTypeService.getById(id);
   }
-
+  
+  /**
+   * 判断类别id 类别是否存在
+   *
+   * @param checkCodeVo 查询参数
+   * @return Long
+   */
+  @ApiOperation("4.判断字典类别是否存在")
+  @ApiOperationSupport(order = 4)
+  @PostMapping("/checkTypeCode")
+  public Long checkTypeCode(@RequestBody CheckCodeVo checkCodeVo) {
+    if (checkCodeVo != null) {
+      return sysDictItemTypeService.checkCode(checkCodeVo.getId(), checkCodeVo.getCode());
+    }
+    return Long.valueOf(ResultEnum.ERROR.getCode());
+  }
+  
   /**
    * 获取类别中字典列表
    *
    * @param typeId 类型id
    * @return List<SysDictItemDto>
    */
+  @ApiOperation("5.按类别id查询列表")
+  @ApiOperationSupport(order = 5)
   @GetMapping("/findTypeInfoById/{typeId}")
-  @ApiOperation("按类别id查询列表")
   public List<SysDictItemDto> findTypeInfoById(@PathVariable String typeId) {
     QueryCriteriaBean data = new QueryCriteriaBean();
     List<AttributeBean> whereList = new ArrayList<>();
@@ -136,10 +134,11 @@ public class SysDictItemController extends BaseController {
    * @param typeIds 字典参数
    * @return Map<String, Object>
    */
+  @ApiOperation("6.按类别编码查询字典列表")
+  @ApiOperationSupport(order = 6)
   @PostMapping("/findItemByTypeIds")
-  @ApiOperation("按类别编码查询字典列表")
   public Map<String, Object> findItemByTypeIds(@RequestBody String... typeIds) {
-    Map<String, Object> result = Maps.newHashMap();
+    Map<String, Object> result = new HashMap<>();
     Arrays.stream(typeIds).forEach(typeId -> {
       QueryCriteriaBean data = new QueryCriteriaBean();
       List<AttributeBean> whereList = new ArrayList<>();
@@ -151,19 +150,7 @@ public class SysDictItemController extends BaseController {
     });
     return result;
   }
-
-  /**
-   * 获取类别列表
-   *
-   * @param data 查询参数
-   * @return Page<SysDictItemTypeDto>
-   */
-  @PostMapping("/findTypeList")
-  @ApiOperation("获取类别列表")
-  public Page<SysDictItemTypeDto> findTypeList(@RequestBody QueryCriteriaBean data) {
-    return sysDictItemTypeService.pageList(data);
-  }
-
+  
   /**
    * 修改状态
    *
@@ -171,89 +158,39 @@ public class SysDictItemController extends BaseController {
    * @param status 状态
    * @return Integer
    */
+  @ApiOperation("7.修改类别状态")
+  @ApiOperationSupport(order = 7)
   @PostMapping("/editTypeStatus/{id}")
-  @ApiOperation("修改类别状态")
   public Integer editTypeStatus(@PathVariable String id, @RequestParam("status") String status) {
     return sysDictItemTypeService.editStatus(id, status);
   }
-
+  
   /**
-   * 修改状态
+   * 字典类别保存
    *
-   * @param id     主键
-   * @param status 状态
-   * @return Integer
+   * @param sysDictItemTypeVo 字典类别对象
+   * @return ResponseResult<SysDictItemTypeDto>
    */
-  @PostMapping("/editItemStatus/{id}")
-  @ApiOperation("修改字典状态")
-  public Integer editItemStatus(@PathVariable String id, @RequestParam("status") String status) {
-    return sysDictItemService.editStatus(id, status);
-  }
-
-  /**
-   * 获取字典列表
-   *
-   * @param data 查询参数
-   * @return Page<SysDictItemDto>
-   */
-  @PostMapping("/findItemList")
-  @ApiOperation("获取字典列表")
-  public Page<SysDictItemDto> findItemList(@RequestBody QueryCriteriaBean data) {
-    return sysDictItemService.pageList(data);
-  }
-
-  /**
-   * 保存字典信息
-   *
-   * @param sysDictItemVo 字典对象
-   * @return ResponseResult<SysDictItemDto>
-   */
-  @PutMapping("/saveDictItem")
-  @ApiOperation("保存字典")
-  public ResponseResult<SysDictItemDto> saveDictItem(@RequestBody SysDictItemVo sysDictItemVo) {
-    if (sysDictItemVo != null) {
-      SysDictItemDto entity = sysDictItemService.save(sysDictItemVo);
+  @ApiOperation("8.字典类别保存")
+  @ApiOperationSupport(order = 8)
+  @PutMapping("/saveDictItemType")
+  public ResponseResult<SysDictItemTypeDto> saveDictItemType(@RequestBody SysDictItemTypeVo sysDictItemTypeVo) {
+    if (sysDictItemTypeVo != null) {
+      SysDictItemTypeDto entity = sysDictItemTypeService.save(sysDictItemTypeVo);
       return ResponseResult.success(entity);
     }
     return ResponseResult.error(ErrorInfoEnum.SAVE_ERROR.getName());
   }
-
-  /**
-   * 获取字典信息
-   *
-   * @param id 字典编号
-   * @return SysDictItemDto
-   */
-  @GetMapping("/getItemById/{id}")
-  @ApiOperation("按id查询字典")
-  public SysDictItemDto getItemById(@PathVariable String id) {
-    return sysDictItemService.getById(id);
-  }
-
-  /**
-   * 删除字典信息
-   *
-   * @param ids 编号
-   * @return Integer
-   */
-  @DeleteMapping("/deleteItem")
-  @ApiOperation("删除字典")
-  public Integer deleteItem(@RequestBody String... ids) {
-    int code = 0;
-    for (String id : ids) {
-      code = sysDictItemService.deleteById(id);
-    }
-    return code;
-  }
-
+  
   /**
    * 删除字典类别
    *
    * @param ids 字典编号
    * @return Integer
    */
+  @ApiOperation("9.删除字典类别")
+  @ApiOperationSupport(order = 9)
   @DeleteMapping("/deleteItemType")
-  @ApiOperation("删除字典类别")
   public Integer deleteItemType(@RequestBody String... ids) {
     int code = 0;
     for (String id : ids) {
@@ -261,27 +198,16 @@ public class SysDictItemController extends BaseController {
     }
     return code;
   }
-
-  /**
-   * 获取类别列表
-   *
-   * @param codes 参数
-   * @return List<SysDictItemType>
-   */
-  @PostMapping("/findListByCodes")
-  @ApiOperation("获取类别列表")
-  public List<SysDictItemTypeDto> findListByCode(@RequestBody String... codes) {
-    return sysDictItemTypeService.findListByCodes(Arrays.asList(codes));
-  }
-
+  
   /**
    * 导出字典类型Excel
    * 
    * @param data 参数
    * @return ResponseEntity<byte[]>
    */
+  @ApiOperation("10.导出字典类别")
+  @ApiOperationSupport(order = 10)
   @PostMapping("/exportItemType")
-  @ApiOperation("导出字典类别")
   public ResponseEntity<byte[]> exportItemType(@RequestBody QueryCriteriaBean data) {
     List<SysDictItemTypeDto> list = sysDictItemTypeService.findList(data);
 
@@ -293,13 +219,105 @@ public class SysDictItemController extends BaseController {
   }
 
   /**
+   * 获取字典列表
+   *
+   * @param data 查询参数
+   * @return PageInfo<SysDictItemDto>
+   */
+  @ApiOperation("11.获取字典列表")
+  @ApiOperationSupport(order = 11)
+  @PostMapping("/findItemList")
+  public PageInfo<SysDictItemDto> findItemList(@RequestBody QueryCriteriaBean data) {
+    return sysDictItemService.pageList(data);
+  }
+  
+  /**
+   * 获取字典信息
+   *
+   * @param id 字典编号
+   * @return SysDictItemDto
+   */
+  @ApiOperation("12.按id查询字典")
+  @ApiOperationSupport(order = 12)
+  @GetMapping("/getItemById/{id}")
+  public SysDictItemDto getItemById(@PathVariable String id) {
+    return sysDictItemService.getById(id);
+  }
+  
+  /**
+   * 判断类别id 字典是否存在
+   *
+   * @param checkTypeCodeVo 查询参数
+   * @return Long
+   */
+  @ApiOperation("13.判断字典是否存在")
+  @ApiOperationSupport(order = 13)
+  @PostMapping("/checkCode")
+  public Long checkCode(@RequestBody CheckTypeCodeVo checkTypeCodeVo) {
+    if (checkTypeCodeVo != null) {
+      return sysDictItemService.checkCode(checkTypeCodeVo.getId(), checkTypeCodeVo.getTypeId(),
+          checkTypeCodeVo.getCode());
+    }
+    return Long.valueOf(ResultEnum.ERROR.getCode());
+  }
+
+  /**
+   * 修改状态
+   *
+   * @param id     主键
+   * @param status 状态
+   * @return Integer
+   */
+  @ApiOperation("14.修改字典状态")
+  @ApiOperationSupport(order = 14)
+  @PostMapping("/editItemStatus/{id}")
+  public Integer editItemStatus(@PathVariable String id, @RequestParam("status") String status) {
+    return sysDictItemService.editStatus(id, status);
+  }
+
+  /**
+   * 保存字典信息
+   *
+   * @param sysDictItemVo 字典对象
+   * @return ResponseResult<SysDictItemDto>
+   */
+  @ApiOperation("15.保存字典")
+  @ApiOperationSupport(order = 15)
+  @PutMapping("/saveDictItem")
+  public ResponseResult<SysDictItemDto> saveDictItem(@RequestBody SysDictItemVo sysDictItemVo) {
+    if (sysDictItemVo != null) {
+      SysDictItemDto entity = sysDictItemService.save(sysDictItemVo);
+      return ResponseResult.success(entity);
+    }
+    return ResponseResult.error(ErrorInfoEnum.SAVE_ERROR.getName());
+  }
+
+  /**
+   * 删除字典信息
+   *
+   * @param ids 编号
+   * @return Integer
+   */
+  @ApiOperation("16.删除字典")
+  @ApiOperationSupport(order = 16)
+  @DeleteMapping("/deleteItem")
+  public Integer deleteItem(@RequestBody String... ids) {
+    int code = 0;
+    for (String id : ids) {
+      code = sysDictItemService.deleteById(id);
+    }
+    return code;
+  }
+
+  /**
    * 导出字典Excel
    * 
    * @param data 查询参数
    * @return ResponseEntity<byte[]>
    */
+  @ApiOperation("17.导出字典")
+  @ApiOperationSupport(order = 17)
   @PostMapping("/exportItem")
-  @ApiOperation("导出字典")
   public ResponseEntity<byte[]> exportItem(@RequestBody QueryCriteriaBean data) {
     List<SysDictItemDto> list = sysDictItemService.findList(data);
 

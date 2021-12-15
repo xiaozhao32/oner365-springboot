@@ -3,9 +3,8 @@ package com.oner365.sys.service;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.data.domain.Page;
-
 import com.alibaba.fastjson.JSONArray;
+import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.service.BaseService;
 import com.oner365.sys.dto.SysRoleDto;
@@ -22,9 +21,9 @@ public interface ISysRoleService extends BaseService {
    * 查询列表
    * 
    * @param data 查询参数
-   * @return Page<SysRoleDto>
+   * @return PageInfo<SysRoleDto>
    */
-  Page<SysRoleDto> pageList(QueryCriteriaBean data);
+  PageInfo<SysRoleDto> pageList(QueryCriteriaBean data);
 
   /**
    * 查询所有角色
