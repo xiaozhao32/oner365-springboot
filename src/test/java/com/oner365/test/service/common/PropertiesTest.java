@@ -1,5 +1,6 @@
 package com.oner365.test.service.common;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,16 +30,19 @@ class PropertiesTest extends BaseServiceTest {
   
   @Test
   void fileLocalPropertiesTest() {
+    Assertions.assertNotNull(fileLocalProperties);
     LOGGER.info("Local properties:{}", JSON.toJSONString(fileLocalProperties));
   }
   
   @Test
   void fileFdfsPropertiesTest() {
+    Assertions.assertNotNull(fileFdfsProperties);
     LOGGER.info("Fdfs properties:{}", JSON.toJSONString(fileFdfsProperties));
   }
   
   @Test
   void fileMinioPropertiesTest() {
+    Assertions.assertNotNull(fileMinioProperties);
     LOGGER.info("Minio properties:{}", JSON.toJSONString(fileMinioProperties));
   }
 }

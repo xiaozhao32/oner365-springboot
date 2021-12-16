@@ -8,7 +8,7 @@ import com.oner365.common.enums.ResultEnum;
  * 统一返回格式
  * @author zhaoyong
  */
-public class ResponseResult<T> implements Serializable {
+public class ResponseResult<T extends Serializable> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -30,7 +30,7 @@ public class ResponseResult<T> implements Serializable {
      * @param result 结果
      * @return ResponseResult
      */
-    public static <T> ResponseResult<T> success(T result) {
+    public static <T extends Serializable> ResponseResult<T> success(T result) {
         ResponseResult<T> response = new ResponseResult<>();
         response.setCode(ResultEnum.SUCCESS.getCode());
         response.setMsg(result);
@@ -45,7 +45,7 @@ public class ResponseResult<T> implements Serializable {
      * @return ResponseResult
      */
     @SuppressWarnings("unchecked")
-    public static <T> ResponseResult<T> error(int code, String message) {
+    public static <T extends Serializable> ResponseResult<T> error(int code, String message) {
         ResponseResult<T> response = new ResponseResult<>();
         response.setCode(code);
         response.setMsg((T) message);
@@ -59,7 +59,7 @@ public class ResponseResult<T> implements Serializable {
      * @return ResponseResult
      */
     @SuppressWarnings("unchecked")
-    public static <T> ResponseResult<T> error(String message) {
+    public static <T extends Serializable> ResponseResult<T> error(String message) {
         ResponseResult<T> response = new ResponseResult<>();
         response.setCode(ResultEnum.ERROR.getCode());
         response.setMsg((T) message);

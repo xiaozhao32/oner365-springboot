@@ -111,7 +111,7 @@ public class FileMinioClient implements IFileStorageClient {
       LOGGER.error("download File Error:", e);
     }
 
-    return null;
+    return new byte[0];
   }
 
   @Override

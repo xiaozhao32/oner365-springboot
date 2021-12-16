@@ -1,11 +1,13 @@
 package com.oner365.service;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 
+import com.oner365.common.constants.PublicConstants;
 import com.oner365.common.page.PageInfo;
 import com.oner365.util.ClassesUtil;
 
@@ -16,19 +18,17 @@ import com.oner365.util.ClassesUtil;
  */
 public interface BaseService {
 
-  String METHOD_NAME = "toDto";
-
   /**
    * 转换po对象为dto
    *
    * @param po 对象
    * @return T
    */
-  default <T, E> T convertDto(E po) {
+  default <T extends Serializable, E> T convertDto(E po) {
     if (po == null) {
       return null;
     }
-    return ClassesUtil.invokeMethod(po, METHOD_NAME);
+    return ClassesUtil.invokeMethod(po, PublicConstants.INVOKE_METHOD_DTO_NAME);
   }
 
   /**
@@ -38,7 +38,7 @@ public interface BaseService {
    * @return List<T>
    */
   @SuppressWarnings({ "unchecked" })
-  default <T, E> List<T> convertDto(List<E> list) {
+  default <T extends Serializable, E> List<T> convertDto(List<E> list) {
     if (list.isEmpty()) {
       return Collections.emptyList();
     }
@@ -51,11 +51,11 @@ public interface BaseService {
    * @param page 分页po对象
    * @return PageInfo<T>
    */
-  default <T, E> PageInfo<T> convertDto(Page<E> page) {
+  default <T extends Serializable, E> PageInfo<T> convertDto(Page<E> page) {
     if (page == null) {
       return null;
     }
-    return new PageInfo<T>(convertDto(page.getContent()), page.getNumber() + 1, page.getSize(), page.getTotalElements());
+    return new PageInfo<>(convertDto(page.getContent()), page.getNumber() + 1, page.getSize(), page.getTotalElements());
   }
 
 }

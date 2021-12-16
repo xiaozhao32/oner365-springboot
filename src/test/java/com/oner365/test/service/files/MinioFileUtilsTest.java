@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.apache.http.entity.ContentType;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import com.oner365.test.service.BaseServiceTest;
@@ -37,7 +38,7 @@ class MinioFileUtilsTest extends BaseServiceTest {
     String bucketName = "oner365";
     
     MinioClient minioClient = MinioClient.builder().endpoint(url).credentials(userName, password).build();
-
+    Assertions.assertNotNull(minioClient);
     // 创建文件夹
     BucketExistsArgs bucket = (BucketExistsArgs) BucketExistsArgs.builder().bucket(bucketName).build();
     if (minioClient.bucketExists(bucket)) {

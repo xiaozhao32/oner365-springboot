@@ -9,7 +9,7 @@ import com.oner365.common.enums.ResultEnum;
  *
  * @author zhaoyong
  */
-public class ResponseData<T> implements Serializable {
+public class ResponseData<T extends Serializable> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -82,7 +82,7 @@ public class ResponseData<T> implements Serializable {
      * @param result 结果
      * @return ResponseData
      */
-    public static <T> ResponseData<T> success(T result) {
+    public static <T extends Serializable> ResponseData<T> success(T result) {
         ResponseData<T> response = new ResponseData<>();
         response.setResult(result);
         response.setCode(ResultEnum.SUCCESS.getCode());
@@ -96,7 +96,7 @@ public class ResponseData<T> implements Serializable {
      * @param message 消息
      * @return ResponseData
      */
-    public static <T> ResponseData<T> error(String message) {
+    public static <T extends Serializable> ResponseData<T> error(String message) {
         ResponseData<T> response = new ResponseData<>();
         response.setCode(ResultEnum.ERROR.getCode());
         response.setMessage(message);
@@ -110,7 +110,7 @@ public class ResponseData<T> implements Serializable {
      * @param message 消息
      * @return ResponseData
      */
-    public static <T> ResponseData<T> error(int code, String message) {
+    public static <T extends Serializable> ResponseData<T> error(int code, String message) {
         ResponseData<T> response = new ResponseData<>();
         response.setCode(code);
         response.setMessage(message);

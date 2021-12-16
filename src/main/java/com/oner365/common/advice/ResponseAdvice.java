@@ -3,6 +3,9 @@ package com.oner365.common.advice;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oner365.common.ResponseData;
+
+import java.io.Serializable;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +26,7 @@ import springfox.documentation.spring.web.plugins.Docket;
  * @author zhaoyong
  */
 @ControllerAdvice(basePackages = "com.oner365")
-public class ResponseAdvice implements ResponseBodyAdvice<Object> {
+public class ResponseAdvice implements ResponseBodyAdvice<Serializable> {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ResponseAdvice.class);
 
@@ -37,7 +40,7 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
 	}
 
 	@Override
-	public Object beforeBodyWrite(@Nullable Object body, @NonNull MethodParameter returnType,
+	public Serializable beforeBodyWrite(@Nullable Serializable body, @NonNull MethodParameter returnType,
 			@NonNull MediaType selectedContentType,
 			@NonNull Class<? extends HttpMessageConverter<?>> selectedConverterType, @NonNull ServerHttpRequest request,
 			@NonNull ServerHttpResponse response) {

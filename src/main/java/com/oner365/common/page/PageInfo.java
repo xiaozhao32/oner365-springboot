@@ -11,7 +11,7 @@ import com.oner365.common.constants.PublicConstants;
  * 
  * @author zhaoyong
  */
-public class PageInfo<T> implements Serializable {
+public class PageInfo<T extends Serializable> implements Serializable {
 
   private static final long serialVersionUID = 1L;
 

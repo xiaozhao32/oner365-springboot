@@ -1,5 +1,6 @@
 package com.oner365.test.service.deploy;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import com.oner365.deploy.entity.DeployEntity;
@@ -24,6 +25,7 @@ class DeployTest extends BaseServiceTest {
   @Test
   public void deployNativeTest() {
     DeployEntity entity = DeployUtils.getDeployEntity();
+    Assertions.assertNotNull(entity);
     LOGGER.info("Deploy project: {}", entity);
     // 部署目录
     DeployMethod.deployNative(entity);
@@ -36,6 +38,7 @@ class DeployTest extends BaseServiceTest {
   public void deployServerTest() {
     DeployEntity deploy = DeployUtils.getDeployEntity();
     ServerEntity server = DeployUtils.getServerEntity();
+    Assertions.assertNotNull(server);
     LOGGER.info("Deploy project: {}", server);
     LOGGER.info("Server: {}", server);
     // 部署服务器开关

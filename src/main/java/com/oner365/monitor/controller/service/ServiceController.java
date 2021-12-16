@@ -112,7 +112,7 @@ public class ServiceController extends BaseController {
     LOGGER.info("Deploy project: {}", server);
     LOGGER.info("Server: {}", server);
     // 部署服务器开关
-    if (server.getIsDeploy()) {
+    if (Boolean.TRUE.equals(server.getIsDeploy())) {
       DeployMethod.deployServer(deploy, server);
     }
     return ResultEnum.SUCCESS.getName();
