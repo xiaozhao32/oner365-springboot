@@ -72,12 +72,4 @@ class SysRoleServiceTest extends BaseServiceTest {
     Assertions.assertNotEquals(0, list.size());
   }
 
-  @Test
-  void findTreeList() {
-    String menuType = "1";
-    List<Object> list = service.findTreeList(menuType);
-    LOGGER.info("findTreeList:{}", list.size());
-    Assertions.assertNotEquals(0, list.size());
-  }
-
 }

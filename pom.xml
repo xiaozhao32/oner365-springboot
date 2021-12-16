@@ -37,7 +37,7 @@
 		<java.version>1.8</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		<org.springframework.boot.version>2.5.6</org.springframework.boot.version>
+		<org.springframework.boot.version>2.5.7</org.springframework.boot.version>
 		<org.springframework.version>5.3.12</org.springframework.version>
 
 		<org.apache.poi.version>4.1.2</org.apache.poi.version>
@@ -141,12 +141,12 @@
 		<dependency>
 		    <groupId>org.apache.logging.log4j</groupId>
 		    <artifactId>log4j-api</artifactId>
-		    <version>2.15.0</version>
+		    <version>2.16.0</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.apache.logging.log4j</groupId>
 		    <artifactId>log4j-to-slf4j</artifactId>
-		    <version>2.15.0</version>
+		    <version>2.16.0</version>
 		</dependency>
 
 		<dependency>
