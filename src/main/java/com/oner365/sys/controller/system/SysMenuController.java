@@ -36,7 +36,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 系统菜单
- * 
+ *
  * @author zhaoyong
  */
 @RestController
@@ -76,7 +76,7 @@ public class SysMenuController extends BaseController {
   @ApiOperationSupport(order = 2)
   @GetMapping("/get/{id}")
   public Map<String, Object> get(@PathVariable String id) {
-    Map<String, Object> result = new HashMap<>();
+    Map<String, Object> result = new HashMap<>(3);
     result.put("sysMenu", menuService.getById(id));
     List<String> menuOperList = operationService.selectByMenuId(id);
     result.put("menuOperList", menuOperList);
@@ -84,7 +84,7 @@ public class SysMenuController extends BaseController {
     result.put("operationList", operationList);
     return result;
   }
-  
+
   /**
    * 修改菜单状态
    *
@@ -140,7 +140,7 @@ public class SysMenuController extends BaseController {
       sysMenuVo.setUserId(authUser.getId());
       menus = menuService.selectListByUserId(sysMenuVo);
     }
-    Map<String, Object> result = new HashMap<>();
+    Map<String, Object> result = new HashMap<>(2);
     result.put("checkedKeys", menuService.selectListByRoleId(roleId, sysMenuVo.getMenuTypeId()));
     result.put("menus", menuService.buildTreeSelect(menus));
     return result;
@@ -165,7 +165,7 @@ public class SysMenuController extends BaseController {
 
   /**
    * 删除
-   * 
+   *
    * @param ids 编号
    * @return Integer
    */

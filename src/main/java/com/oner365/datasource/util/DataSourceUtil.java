@@ -231,7 +231,7 @@ public class DataSourceUtil {
             }
 
         } catch (Exception e) {
-            Map<String, String> map = new HashMap<>();
+            Map<String, String> map = new HashMap<>(1);
             map.put("Error:", e.getMessage());
             resultList.add(map);
             LOGGER.error("execute error:", e);
@@ -256,7 +256,7 @@ public class DataSourceUtil {
         con.commit();
 
         // 返回结果
-        Map<String, String> map = new HashMap<>();
+        Map<String, String> map = new HashMap<>(1);
         map.put("result", String.valueOf(result));
         resultList.add(map);
     }
@@ -274,7 +274,7 @@ public class DataSourceUtil {
             ResultSetMetaData md = rs.getMetaData();
             int column = md.getColumnCount();
             while (rs.next()) {
-                Map<String, String> map = new HashMap<>();
+                Map<String, String> map = new HashMap<>(10);
                 for (int i = 1; i <= column; i++) {
                     map.put(md.getColumnName(i).toLowerCase(), rs.getString(i));
                 }

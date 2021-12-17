@@ -53,7 +53,7 @@ public class ElasticsearchInfoController extends BaseController {
     // 指定集群
     Settings settings = Settings.builder().build();
     // 创建客户端
-    Map<String, Object> result = new HashMap<>();
+    Map<String, Object> result = new HashMap<>(10);
     try (final TransportClient client = new PreBuiltTransportClient(settings)
         .addTransportAddress(new TransportAddress(InetAddress.getByName(hostname), port))) {
       ClusterHealthResponse response = client.admin().cluster().prepareHealth().get();
@@ -68,7 +68,7 @@ public class ElasticsearchInfoController extends BaseController {
       // 索引信息
       List<Map<String, Object>> clusterList = new ArrayList<>();
       response.getIndices().values().forEach(health -> {
-        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>(10);
         map.put("index", health.getIndex());
         map.put("numberOfShards", health.getNumberOfShards());
         map.put("numberOfReplicas", health.getNumberOfReplicas());

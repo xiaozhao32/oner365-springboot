@@ -1,5 +1,7 @@
 package com.oner365.monitor.entity.server;
 
+import java.io.Serializable;
+
 import com.oner365.common.constants.PublicConstants;
 import com.oner365.util.Arith;
 
@@ -8,47 +10,53 @@ import com.oner365.util.Arith;
  * 
  * @author zhaoyong
  */
-public class Mem {
-    /**
-     * 内存总量
-     */
-    private double total;
+public class Mem implements Serializable {
 
-    /**
-     * 已用内存
-     */
-    private double used;
+  /**
+  * 
+  */
+  private static final long serialVersionUID = 1L;
+  
+  /**
+   * 内存总量
+   */
+  private double total;
 
-    /**
-     * 剩余内存
-     */
-    private double free;
+  /**
+   * 已用内存
+   */
+  private double used;
 
-    public double getTotal() {
-        return Arith.div(total, (PublicConstants.BYTE_SIZE * PublicConstants.BYTE_SIZE * PublicConstants.BYTE_SIZE), 2);
-    }
+  /**
+   * 剩余内存
+   */
+  private double free;
 
-    public void setTotal(long total) {
-        this.total = total;
-    }
+  public double getTotal() {
+    return Arith.div(total, (PublicConstants.BYTE_SIZE * PublicConstants.BYTE_SIZE * PublicConstants.BYTE_SIZE), 2);
+  }
 
-    public double getUsed() {
-        return Arith.div(used, (PublicConstants.BYTE_SIZE * PublicConstants.BYTE_SIZE * PublicConstants.BYTE_SIZE), 2);
-    }
+  public void setTotal(long total) {
+    this.total = total;
+  }
 
-    public void setUsed(long used) {
-        this.used = used;
-    }
+  public double getUsed() {
+    return Arith.div(used, (PublicConstants.BYTE_SIZE * PublicConstants.BYTE_SIZE * PublicConstants.BYTE_SIZE), 2);
+  }
 
-    public double getFree() {
-        return Arith.div(free, (PublicConstants.BYTE_SIZE * PublicConstants.BYTE_SIZE * PublicConstants.BYTE_SIZE), 2);
-    }
+  public void setUsed(long used) {
+    this.used = used;
+  }
 
-    public void setFree(long free) {
-        this.free = free;
-    }
+  public double getFree() {
+    return Arith.div(free, (PublicConstants.BYTE_SIZE * PublicConstants.BYTE_SIZE * PublicConstants.BYTE_SIZE), 2);
+  }
 
-    public double getUsage() {
-        return Arith.mul(Arith.div(used, total, 4), 100);
-    }
+  public void setFree(long free) {
+    this.free = free;
+  }
+
+  public double getUsage() {
+    return Arith.mul(Arith.div(used, total, 4), 100);
+  }
 }

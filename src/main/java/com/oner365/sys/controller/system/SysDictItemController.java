@@ -41,7 +41,7 @@ import io.swagger.annotations.ApiOperation;
 
 /**
  * 字典信息
- * 
+ *
  * @author zhaoyong
  */
 @RestController
@@ -80,7 +80,7 @@ public class SysDictItemController extends BaseController {
   public List<SysDictItemTypeDto> findListByCode(@RequestBody String... codes) {
     return sysDictItemTypeService.findListByCodes(Arrays.asList(codes));
   }
-  
+
   /**
    * 获取类别
    *
@@ -93,7 +93,7 @@ public class SysDictItemController extends BaseController {
   public SysDictItemTypeDto getTypeById(@PathVariable String id) {
     return sysDictItemTypeService.getById(id);
   }
-  
+
   /**
    * 判断类别id 类别是否存在
    *
@@ -109,7 +109,7 @@ public class SysDictItemController extends BaseController {
     }
     return Long.valueOf(ResultEnum.ERROR.getCode());
   }
-  
+
   /**
    * 获取类别中字典列表
    *
@@ -138,7 +138,7 @@ public class SysDictItemController extends BaseController {
   @ApiOperationSupport(order = 6)
   @PostMapping("/findItemByTypeIds")
   public Map<String, Object> findItemByTypeIds(@RequestBody String... typeIds) {
-    Map<String, Object> result = new HashMap<>();
+    Map<String, Object> result = new HashMap<>(10);
     Arrays.stream(typeIds).forEach(typeId -> {
       QueryCriteriaBean data = new QueryCriteriaBean();
       List<AttributeBean> whereList = new ArrayList<>();
@@ -150,7 +150,7 @@ public class SysDictItemController extends BaseController {
     });
     return result;
   }
-  
+
   /**
    * 修改状态
    *
@@ -164,7 +164,7 @@ public class SysDictItemController extends BaseController {
   public Integer editTypeStatus(@PathVariable String id, @RequestParam("status") String status) {
     return sysDictItemTypeService.editStatus(id, status);
   }
-  
+
   /**
    * 字典类别保存
    *
@@ -181,7 +181,7 @@ public class SysDictItemController extends BaseController {
     }
     return ResponseResult.error(ErrorInfoEnum.SAVE_ERROR.getName());
   }
-  
+
   /**
    * 删除字典类别
    *
@@ -198,10 +198,10 @@ public class SysDictItemController extends BaseController {
     }
     return code;
   }
-  
+
   /**
    * 导出字典类型Excel
-   * 
+   *
    * @param data 参数
    * @return ResponseEntity<byte[]>
    */
@@ -230,7 +230,7 @@ public class SysDictItemController extends BaseController {
   public PageInfo<SysDictItemDto> findItemList(@RequestBody QueryCriteriaBean data) {
     return sysDictItemService.pageList(data);
   }
-  
+
   /**
    * 获取字典信息
    *
@@ -243,7 +243,7 @@ public class SysDictItemController extends BaseController {
   public SysDictItemDto getItemById(@PathVariable String id) {
     return sysDictItemService.getById(id);
   }
-  
+
   /**
    * 判断类别id 字典是否存在
    *
@@ -311,7 +311,7 @@ public class SysDictItemController extends BaseController {
 
   /**
    * 导出字典Excel
-   * 
+   *
    * @param data 查询参数
    * @return ResponseEntity<byte[]>
    */

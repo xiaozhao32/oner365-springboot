@@ -19,7 +19,7 @@ import ch.ethz.ssh2.Connection;
 
 /**
  * 部署工具类
- * 
+ *
  * @author zhaoyong
  */
 public class DeployMethod {
@@ -35,7 +35,7 @@ public class DeployMethod {
 
   /**
    * 停止服务
-   * 
+   *
    * @param con          连接对象
    * @param targetServer 目标服务
    */
@@ -55,7 +55,7 @@ public class DeployMethod {
 
   /**
    * 启动tomcat服务
-   * 
+   *
    * @param con          连接对象
    * @param targetServer 目标服务
    */
@@ -86,7 +86,7 @@ public class DeployMethod {
 
   /**
    * 执行命令
-   * 
+   *
    * @param con      连接对象
    * @param commands 命令
    */
@@ -102,11 +102,8 @@ public class DeployMethod {
 
   /**
    * 打包部署到指定 目录中
-   * 
-   * @param projectNames 项目名称
-   * @param targetRoot   目标目录
-   * @param version      版本
-   * @param suffix       后缀
+   *
+   * @param deployEntity 部署对象
    */
   public static void deployNative(DeployEntity deployEntity) {
     for (String projectName : deployEntity.getProjects()) {
@@ -146,7 +143,7 @@ public class DeployMethod {
 
   /**
    * 部署到所有服务器
-   * 
+   *
    * @param deployEntity 部署对象
    * @param serverEntity 服务器对象
    */
@@ -174,7 +171,7 @@ public class DeployMethod {
 
   /**
    * 部署到单台服务器
-   * 
+   *
    * @param con          连接对象
    * @param server       服务器对象
    * @param deployEntity 部署对象

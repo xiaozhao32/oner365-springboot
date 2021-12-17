@@ -43,7 +43,7 @@ import ch.ethz.ssh2.StreamGobbler;
 
 /**
  * 安装部署工具类
- * 
+ *
  * @author zhaoyong
  *
  */
@@ -65,7 +65,7 @@ public class DeployUtils {
 
   /**
    * 获取部署Native对象
-   * 
+   *
    * @return DeployEntity
    */
   public static DeployEntity getDeployEntity() {
@@ -87,8 +87,8 @@ public class DeployUtils {
 
   /**
    * 获取部署Server对象
-   * 
-   * @return
+   *
+   * @return ServerEntity
    */
   public static ServerEntity getServerEntity() {
     Properties properties = getProperties();
@@ -121,7 +121,7 @@ public class DeployUtils {
 
   /**
    * 创建连接
-   * 
+   *
    * @param ip   ip
    * @param port 端口
    * @return Connection 连接对象
@@ -140,7 +140,7 @@ public class DeployUtils {
 
   /**
    * 获取Session
-   * 
+   *
    * @param con 连接对象
    * @return Session Session对象
    */
@@ -164,7 +164,7 @@ public class DeployUtils {
 
   /**
    * 关闭连接
-   * 
+   *
    * @param con        连接对象
    * @param session    Session对象
    * @param sftpClient sftpClient
@@ -185,7 +185,7 @@ public class DeployUtils {
 
   /**
    * 验证帐号
-   * 
+   *
    * @param con      连接对象
    * @param user     账号
    * @param password 密码
@@ -238,7 +238,7 @@ public class DeployUtils {
 
   /**
    * 执行命令
-   * 
+   *
    * @param commands 命令
    * @return List<String>
    */
@@ -256,7 +256,7 @@ public class DeployUtils {
 
   /**
    * 执行命令
-   * 
+   *
    * @param command 命令
    * @return String
    */
@@ -283,7 +283,7 @@ public class DeployUtils {
 
   /**
    * 非阻塞 执行命令
-   * 
+   *
    * @param commands 命令
    */
   public static void execExecuteCommand(List<String> commands) {
@@ -298,7 +298,7 @@ public class DeployUtils {
 
   /**
    * 非阻塞 执行命令
-   * 
+   *
    * @param command 命令
    */
   public static void execExecuteCommand(String command) {
@@ -466,7 +466,7 @@ public class DeployUtils {
 
   /**
    * 替换内容
-   * 
+   *
    * @param items 替换内容
    * @param s     内容
    */

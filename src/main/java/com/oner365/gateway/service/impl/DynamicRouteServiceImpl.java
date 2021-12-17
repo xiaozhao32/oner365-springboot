@@ -29,7 +29,7 @@ import com.oner365.util.DataUtils;
 
 /**
  * 动态路由服务实现类
- * 
+ *
  * @author zhaoyong
  */
 @Service
@@ -67,7 +67,7 @@ public class DynamicRouteServiceImpl implements DynamicRouteService {
     List<GatewayFilter> filters = new ArrayList<>();
     GatewayFilter gatewayFilter = new GatewayFilter();
     gatewayFilter.setName("StripPrefix");
-    Map<String, String> argsFilter = new HashMap<>();
+    Map<String, String> argsFilter = new HashMap<>(10);
     argsFilter.put("parts", "1");
     gatewayFilter.setArgs(argsFilter);
     filters.add(gatewayFilter);
@@ -77,7 +77,7 @@ public class DynamicRouteServiceImpl implements DynamicRouteService {
     List<GatewayPredicate> predicates = new ArrayList<>();
     GatewayPredicate gatewayPredicate = new GatewayPredicate();
     gatewayPredicate.setName("Path");
-    Map<String, String> args = new HashMap<>();
+    Map<String, String> args = new HashMap<>(10);
     args.put("pattern", gatewayRoute.getPattern());
     gatewayPredicate.setArgs(args);
     predicates.add(gatewayPredicate);
@@ -139,7 +139,7 @@ public class DynamicRouteServiceImpl implements DynamicRouteService {
     }
     return null;
   }
-  
+
   private GatewayRoute findById(String id) {
     Optional<GatewayRoute> optional = gatewayRouteDao.findById(id);
     if (optional.isPresent()) {

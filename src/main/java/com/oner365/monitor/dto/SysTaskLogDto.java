@@ -19,6 +19,11 @@ public class SysTaskLogDto implements Serializable {
    * ID
    */
   private String id;
+  
+  /**
+   * 任务id
+   */
+  private String taskId;
 
   /**
    * 任务名称
@@ -212,6 +217,14 @@ public class SysTaskLogDto implements Serializable {
 
   public void setExecuteServerName(String executeServerName) {
     this.executeServerName = executeServerName;
+  }
+
+  public String getTaskId() {
+    return taskId;
+  }
+
+  public void setTaskId(String taskId) {
+    this.taskId = taskId;
   }
 
 }

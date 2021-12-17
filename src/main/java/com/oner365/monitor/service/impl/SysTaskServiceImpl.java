@@ -24,11 +24,13 @@ import com.oner365.common.query.QueryUtils;
 import com.oner365.monitor.constants.ScheduleConstants;
 import com.oner365.monitor.dao.ISysTaskDao;
 import com.oner365.monitor.dto.SysTaskDto;
+import com.oner365.monitor.entity.InvokeParam;
 import com.oner365.monitor.entity.SysTask;
 import com.oner365.monitor.exception.TaskException;
 import com.oner365.monitor.service.ISysTaskService;
 import com.oner365.monitor.util.CronUtils;
 import com.oner365.monitor.util.ScheduleUtils;
+import com.oner365.monitor.vo.InvokeParamVo;
 import com.oner365.monitor.vo.SysTaskVo;
 import com.oner365.util.DataUtils;
 import com.oner365.util.DateUtil;
@@ -129,7 +131,7 @@ public class SysTaskServiceImpl implements ISysTaskService {
   /**
    * 删除任务后，所对应的trigger也将被删除
    *
-   * @param task 调度信息
+   * @param id 任务id
    */
   @Override
   @Transactional(rollbackFor = ProjectRuntimeException.class)
@@ -221,7 +223,7 @@ public class SysTaskServiceImpl implements ISysTaskService {
 
   /**
    * 转换对象
-   * 
+   *
    * @return SysTaskDto
    */
   private SysTask toPojo(SysTaskVo vo) {
@@ -232,7 +234,7 @@ public class SysTaskServiceImpl implements ISysTaskService {
     result.setCreateUser(vo.getCreateUser());
     result.setCronExpression(vo.getCronExpression());
     result.setExecuteStatus(vo.getExecuteStatus());
-    result.setInvokeParam(vo.getInvokeParam());
+    result.setInvokeParam(toPojo(vo.getInvokeParamVo()));
     result.setInvokeTarget(vo.getInvokeTarget());
     result.setMisfirePolicy(vo.getMisfirePolicy());
     result.setRemark(vo.getRemark());
@@ -240,6 +242,15 @@ public class SysTaskServiceImpl implements ISysTaskService {
     result.setTaskGroup(vo.getTaskGroup());
     result.setTaskName(vo.getTaskName());
     result.setUpdateTime(vo.getUpdateTime());
+    return result;
+  }
+  
+  private InvokeParam toPojo(InvokeParamVo vo) {
+    InvokeParam result = new InvokeParam();
+    result.setConcurrent(vo.getConcurrent());
+    result.setTaskId(vo.getTaskId());
+    result.setTaskParam(vo.getTaskParam());
+    result.setTaskServerName(vo.getTaskServerName());
     return result;
   }
 

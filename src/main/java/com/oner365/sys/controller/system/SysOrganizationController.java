@@ -35,7 +35,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 机构管理
- * 
+ *
  * @author zhaoyong
  */
 @RestController
@@ -140,14 +140,12 @@ public class SysOrganizationController extends BaseController {
    * 获取菜单下拉树列表
    *
    * @param sysOrganizationVo 机构对象
-   * @param authUser          登录对象
    * @return List<TreeSelect>
    */
   @ApiOperation("7.获取树型列表")
   @ApiOperationSupport(order = 7)
   @PostMapping("/treeselect")
-  public List<TreeSelect> treeselect(@RequestBody SysOrganizationVo sysOrganizationVo,
-      @ApiIgnore @CurrentUser AuthUser authUser) {
+  public List<TreeSelect> treeselect(@RequestBody SysOrganizationVo sysOrganizationVo) {
     List<SysOrganizationDto> list = sysOrgService.selectList(sysOrganizationVo);
     return sysOrgService.buildTreeSelect(list);
   }
@@ -157,16 +155,15 @@ public class SysOrganizationController extends BaseController {
    *
    * @param sysOrganizationVo 机构对象
    * @param userId            用户id
-   * @param authUser          登录对象
    * @return Map<String, Object>
    */
   @ApiOperation("8.获取用户权限")
   @ApiOperationSupport(order = 8)
   @PostMapping("/userTreeselect/{userId}")
   public Map<String, Object> userTreeselect(@RequestBody SysOrganizationVo sysOrganizationVo,
-      @PathVariable("userId") String userId, @ApiIgnore @CurrentUser AuthUser authUser) {
+      @PathVariable("userId") String userId) {
     List<SysOrganizationDto> list = sysOrgService.selectList(sysOrganizationVo);
-    Map<String, Object> result = new HashMap<>();
+    Map<String, Object> result = new HashMap<>(2);
     result.put("checkedKeys", sysOrgService.selectListByUserId(userId));
     result.put("orgList", sysOrgService.buildTreeSelect(list));
     return result;

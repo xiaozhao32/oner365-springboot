@@ -55,7 +55,7 @@ import com.oner365.common.constants.PublicConstants;
 
 /**
  * 功能：数据工具类
- * 
+ *
  * @author liutao
  */
 public class DataUtils {
@@ -115,12 +115,12 @@ public class DataUtils {
     List<Map<String, Object>> list = new ArrayList<>();
     try {
       Field[] fields = clazz.getDeclaredFields();
-      
+
       for (Field value : fields) {
         Field field = clazz.getDeclaredField(value.getName());
         Column column = field.getAnnotation(Column.class);
         Method[] methods = Column.class.getDeclaredMethods();
-        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>(10);
         map.put(Field.class.getSimpleName().toLowerCase(), field.getName());
         if (column != null) {
           for (Method method : methods) {
@@ -200,7 +200,7 @@ public class DataUtils {
 
   /**
    * 拷贝目录
-   * 
+   *
    * @param filePath   源文件目录
    * @param targetPath 目标文件路径
    */
@@ -218,7 +218,7 @@ public class DataUtils {
 
   /**
    * 拷贝文件
-   * 
+   *
    * @param filePath   源文件目录
    * @param targetPath 目标文件路径
    */
@@ -328,7 +328,7 @@ public class DataUtils {
 
   /**
    * 过滤空字符串 返回 Null
-   * 
+   *
    * @param str 字符串
    * @return String
    */
@@ -338,7 +338,7 @@ public class DataUtils {
 
   /**
    * 过滤空字符串 返回空字符串
-   * 
+   *
    * @param str 字符串
    * @return String
    */
@@ -371,7 +371,7 @@ public class DataUtils {
 
   /**
    * 转换字节
-   * 
+   *
    * @param size 大小
    * @return long
    */
@@ -438,7 +438,7 @@ public class DataUtils {
 
     return builder.toString();
   }
-  
+
   /**
    * 去除下划线 返回首字母大写字符串
    *

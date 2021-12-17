@@ -265,7 +265,7 @@ public class SysTask implements Serializable {
     result.setCreateUser(this.getCreateUser());
     result.setCronExpression(this.getCronExpression());
     result.setExecuteStatus(this.getExecuteStatus());
-    result.setInvokeParam(this.getInvokeParam());
+    result.setInvokeParamDto(this.getInvokeParam().toDto());
     result.setInvokeTarget(this.getInvokeTarget());
     result.setMisfirePolicy(this.getMisfirePolicy());
     result.setRemark(this.getRemark());

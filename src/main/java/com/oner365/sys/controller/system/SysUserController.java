@@ -49,7 +49,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 用户管理
- * 
+ *
  * @author zhaoyong
  */
 @RestController
@@ -86,7 +86,7 @@ public class SysUserController extends BaseController {
    * 获取信息
    *
    * @param id 编号
-   * @return Map<String, Object>
+   * @return ResponseData<SysUserInfoVo>
    */
   @ApiOperation("2.按id查询")
   @ApiOperationSupport(order = 2)
@@ -110,9 +110,9 @@ public class SysUserController extends BaseController {
 
   /**
    * 个人信息
-   * 
+   *
    * @param authUser 登录对象
-   * @return SysUser
+   * @return SysUserDto
    */
   @ApiOperation("3.个人信息")
   @ApiOperationSupport(order = 3)
@@ -123,7 +123,7 @@ public class SysUserController extends BaseController {
 
   /**
    * 上传图片
-   * 
+   *
    * @param authUser 登录对象
    * @param file     文件
    * @return String
@@ -134,15 +134,15 @@ public class SysUserController extends BaseController {
   public String avatar(@ApiIgnore @CurrentUser AuthUser authUser, @RequestParam("avatarfile") MultipartFile file) {
     if (!file.isEmpty()) {
       String fileUrl = fileStorageClient.uploadFile(file, "avatar");
-      sysUserService.updateAvatar(authUser.getId(), fileUrl);
-      return fileUrl;
+      SysUserDto sysUserDto =sysUserService.updateAvatar(authUser.getId(), fileUrl);
+      return sysUserDto.getAvatar();
     }
     return "";
   }
 
   /**
    * 更新个人信息
-   * 
+   *
    * @param sysUserVo 对象
    * @param authUser  登录对象
    * @return ResponseData
@@ -266,7 +266,7 @@ public class SysUserController extends BaseController {
 
   /**
    * 导出Excel
-   * 
+   *
    * @param data 参数
    * @return ResponseEntity<byte[]>
    */

@@ -37,7 +37,7 @@ import io.swagger.annotations.ApiOperation;
 
 /**
  * API 接口测试
- * 
+ *
  * @author zhaoyong
  */
 @RestController
@@ -62,7 +62,7 @@ public class ApiController extends BaseController {
 
   /**
    * 测试分库分表
-   * 
+   *
    * @param orderId 订单id
    * @param userId  用户id
    * @return List<Map<String, String>>
@@ -84,7 +84,7 @@ public class ApiController extends BaseController {
 
   /**
    * 测试guava cache
-   * 
+   *
    * @return String
    */
   @ApiOperation("2.测试Guava Cache")
@@ -109,7 +109,7 @@ public class ApiController extends BaseController {
 
   /**
    * 测试redis
-   * 
+   *
    * @return String
    */
   @ApiOperation("3.测试Redis Cache")
@@ -126,17 +126,17 @@ public class ApiController extends BaseController {
 
     String key2 = "test2";
     List<Map<String, Object>> dataList = new ArrayList<>();
-    Map<String, Object> m1 = new HashMap<>();
+    Map<String, Object> m1 = new HashMap<>(3);
     m1.put("a1", "a11");
     m1.put("a2", "a22");
     m1.put("a3", "a33");
     dataList.add(m1);
-    Map<String, Object> m2 = new HashMap<>();
+    Map<String, Object> m2 = new HashMap<>(3);
     m2.put("b1", "b11");
     m2.put("b2", "b22");
     m2.put("b3", "b33");
     dataList.add(m2);
-    Map<String, Object> m3 = new HashMap<>();
+    Map<String, Object> m3 = new HashMap<>(3);
     m3.put("c1", "c11");
     m3.put("c2", "c22");
     m3.put("c3", "c33");
@@ -148,7 +148,7 @@ public class ApiController extends BaseController {
     LOGGER.info("test2:{}", list);
 
     String key3 = "test3";
-    Map<String, Object> dataMap = new HashMap<>();
+    Map<String, Object> dataMap = new HashMap<>(3);
     dataMap.put("ddd", dataList);
     redisCache.setCacheMap(key3, dataMap);
     redisCache.expire(key3, PublicConstants.EXPIRE_TIME);

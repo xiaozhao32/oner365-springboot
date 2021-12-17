@@ -1,5 +1,6 @@
 package com.oner365.monitor.entity;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
@@ -27,168 +28,170 @@ import oshi.util.Util;
  *
  * @author zhaoyong
  */
-public class Server {
+public class Server implements Serializable {
 
-    private static final int WAIT_SECOND = 1000;
+  private static final long serialVersionUID = 1L;
 
-    /**
-     * CPU相关信息
-     */
-    private Cpu cpu = new Cpu();
+  private static final int WAIT_SECOND = 1000;
 
-    /**
-     * 內存相关信息
-     */
-    private Mem mem = new Mem();
+  /**
+   * CPU相关信息
+   */
+  private Cpu cpu = new Cpu();
 
-    /**
-     * JVM相关信息
-     */
-    private Jvm jvm = new Jvm();
+  /**
+   * 內存相关信息
+   */
+  private Mem mem = new Mem();
 
-    /**
-     * 服务器相关信息
-     */
-    private Sys sys = new Sys();
+  /**
+   * JVM相关信息
+   */
+  private Jvm jvm = new Jvm();
 
-    /**
-     * 磁盘相关信息
-     */
-    private List<SysFile> sysFiles = new LinkedList<>();
+  /**
+   * 服务器相关信息
+   */
+  private Sys sys = new Sys();
 
-    public Cpu getCpu() {
-        return cpu;
-    }
+  /**
+   * 磁盘相关信息
+   */
+  private List<SysFile> sysFiles = new LinkedList<>();
 
-    public void setCpu(Cpu cpu) {
-        this.cpu = cpu;
-    }
+  public Cpu getCpu() {
+    return cpu;
+  }
 
-    public Mem getMem() {
-        return mem;
-    }
+  public void setCpu(Cpu cpu) {
+    this.cpu = cpu;
+  }
 
-    public void setMem(Mem mem) {
-        this.mem = mem;
-    }
+  public Mem getMem() {
+    return mem;
+  }
 
-    public Jvm getJvm() {
-        return jvm;
-    }
+  public void setMem(Mem mem) {
+    this.mem = mem;
+  }
 
-    public void setJvm(Jvm jvm) {
-        this.jvm = jvm;
-    }
+  public Jvm getJvm() {
+    return jvm;
+  }
 
-    public Sys getSys() {
-        return sys;
-    }
+  public void setJvm(Jvm jvm) {
+    this.jvm = jvm;
+  }
 
-    public void setSys(Sys sys) {
-        this.sys = sys;
-    }
+  public Sys getSys() {
+    return sys;
+  }
 
-    public List<SysFile> getSysFiles() {
-        return sysFiles;
-    }
+  public void setSys(Sys sys) {
+    this.sys = sys;
+  }
 
-    public void setSysFiles(List<SysFile> sysFiles) {
-        this.sysFiles = sysFiles;
-    }
+  public List<SysFile> getSysFiles() {
+    return sysFiles;
+  }
 
-    public void copyTo() {
-        SystemInfo si = new SystemInfo();
-        HardwareAbstractionLayer hal = si.getHardware();
+  public void setSysFiles(List<SysFile> sysFiles) {
+    this.sysFiles = sysFiles;
+  }
 
-        setCpuInfo(hal.getProcessor());
+  public void copyTo() {
+    SystemInfo si = new SystemInfo();
+    HardwareAbstractionLayer hal = si.getHardware();
 
-        setMemInfo(hal.getMemory());
+    setCpuInfo(hal.getProcessor());
 
-        setSysInfo();
+    setMemInfo(hal.getMemory());
 
-        setJvmInfo();
+    setSysInfo();
 
-        setSysFiles(si.getOperatingSystem());
-    }
+    setJvmInfo();
 
-    /**
-     * 设置CPU信息
-     */
-    private void setCpuInfo(CentralProcessor processor) {
-        // CPU信息
-        long[] prevTicks = processor.getSystemCpuLoadTicks();
-        Util.sleep(WAIT_SECOND);
-        long[] ticks = processor.getSystemCpuLoadTicks();
-        long nice = ticks[TickType.NICE.getIndex()] - prevTicks[TickType.NICE.getIndex()];
-        long irq = ticks[TickType.IRQ.getIndex()] - prevTicks[TickType.IRQ.getIndex()];
-        long softIrq = ticks[TickType.SOFTIRQ.getIndex()] - prevTicks[TickType.SOFTIRQ.getIndex()];
-        long steal = ticks[TickType.STEAL.getIndex()] - prevTicks[TickType.STEAL.getIndex()];
-        long cSys = ticks[TickType.SYSTEM.getIndex()] - prevTicks[TickType.SYSTEM.getIndex()];
-        long user = ticks[TickType.USER.getIndex()] - prevTicks[TickType.USER.getIndex()];
-        long ioWait = ticks[TickType.IOWAIT.getIndex()] - prevTicks[TickType.IOWAIT.getIndex()];
-        long idle = ticks[TickType.IDLE.getIndex()] - prevTicks[TickType.IDLE.getIndex()];
-        long totalCpu = user + nice + cSys + idle + ioWait + irq + softIrq + steal;
-        cpu.setCpuNum(processor.getLogicalProcessorCount());
-        cpu.setTotal(totalCpu);
-        cpu.setSys(cSys);
-        cpu.setUsed(user);
-        cpu.setWait(ioWait);
-        cpu.setFree(idle);
-    }
+    setSysFiles(si.getOperatingSystem());
+  }
 
-    /**
-     * 设置内存信息
-     */
-    private void setMemInfo(GlobalMemory memory) {
-        mem.setTotal(memory.getTotal());
-        mem.setUsed(memory.getTotal() - memory.getAvailable());
-        mem.setFree(memory.getAvailable());
-    }
+  /**
+   * 设置CPU信息
+   */
+  private void setCpuInfo(CentralProcessor processor) {
+    // CPU信息
+    long[] prevTicks = processor.getSystemCpuLoadTicks();
+    Util.sleep(WAIT_SECOND);
+    long[] ticks = processor.getSystemCpuLoadTicks();
+    long nice = ticks[TickType.NICE.getIndex()] - prevTicks[TickType.NICE.getIndex()];
+    long irq = ticks[TickType.IRQ.getIndex()] - prevTicks[TickType.IRQ.getIndex()];
+    long softIrq = ticks[TickType.SOFTIRQ.getIndex()] - prevTicks[TickType.SOFTIRQ.getIndex()];
+    long steal = ticks[TickType.STEAL.getIndex()] - prevTicks[TickType.STEAL.getIndex()];
+    long cSys = ticks[TickType.SYSTEM.getIndex()] - prevTicks[TickType.SYSTEM.getIndex()];
+    long user = ticks[TickType.USER.getIndex()] - prevTicks[TickType.USER.getIndex()];
+    long ioWait = ticks[TickType.IOWAIT.getIndex()] - prevTicks[TickType.IOWAIT.getIndex()];
+    long idle = ticks[TickType.IDLE.getIndex()] - prevTicks[TickType.IDLE.getIndex()];
+    long totalCpu = user + nice + cSys + idle + ioWait + irq + softIrq + steal;
+    cpu.setCpuNum(processor.getLogicalProcessorCount());
+    cpu.setTotal(totalCpu);
+    cpu.setSys(cSys);
+    cpu.setUsed(user);
+    cpu.setWait(ioWait);
+    cpu.setFree(idle);
+  }
 
-    /**
-     * 设置服务器信息
-     */
-    private void setSysInfo() {
-        Properties props = System.getProperties();
-        sys.setComputerName(DataUtils.getHostName());
-        sys.setComputerIp(DataUtils.getLocalhost());
-        sys.setOsName(props.getProperty("os.name"));
-        sys.setOsArch(props.getProperty("os.arch"));
-        sys.setUserDir(props.getProperty("user.dir"));
-    }
+  /**
+   * 设置内存信息
+   */
+  private void setMemInfo(GlobalMemory memory) {
+    mem.setTotal(memory.getTotal());
+    mem.setUsed(memory.getTotal() - memory.getAvailable());
+    mem.setFree(memory.getAvailable());
+  }
 
-    /**
-     * 设置Java虚拟机
-     */
-    private void setJvmInfo() {
-        Properties props = System.getProperties();
-        jvm.setTotal(Runtime.getRuntime().totalMemory());
-        jvm.setMax(Runtime.getRuntime().maxMemory());
-        jvm.setFree(Runtime.getRuntime().freeMemory());
-        jvm.setVersion(props.getProperty("java.version"));
-        jvm.setHome(props.getProperty("java.home"));
-    }
+  /**
+   * 设置服务器信息
+   */
+  private void setSysInfo() {
+    Properties props = System.getProperties();
+    sys.setComputerName(DataUtils.getHostName());
+    sys.setComputerIp(DataUtils.getLocalhost());
+    sys.setOsName(props.getProperty("os.name"));
+    sys.setOsArch(props.getProperty("os.arch"));
+    sys.setUserDir(props.getProperty("user.dir"));
+  }
 
-    /**
-     * 设置磁盘信息
-     */
-    private void setSysFiles(OperatingSystem os) {
-        FileSystem fileSystem = os.getFileSystem();
-        List<OSFileStore> list = fileSystem.getFileStores();
-        list.forEach(fs -> {
-            long free = fs.getUsableSpace();
-            long total = fs.getTotalSpace();
-            long used = total - free;
-            SysFile sysFile = new SysFile();
-            sysFile.setDirName(fs.getMount());
-            sysFile.setSysTypeName(fs.getType());
-            sysFile.setTypeName(fs.getName());
-            sysFile.setTotal(DataUtils.convertFileSize(total));
-            sysFile.setFree(DataUtils.convertFileSize(free));
-            sysFile.setUsed(DataUtils.convertFileSize(used));
-            sysFile.setUsage(Arith.mul(Arith.div(used, total, 4), 100));
-            sysFiles.add(sysFile);
-        });
-    }
+  /**
+   * 设置Java虚拟机
+   */
+  private void setJvmInfo() {
+    Properties props = System.getProperties();
+    jvm.setTotal(Runtime.getRuntime().totalMemory());
+    jvm.setMax(Runtime.getRuntime().maxMemory());
+    jvm.setFree(Runtime.getRuntime().freeMemory());
+    jvm.setVersion(props.getProperty("java.version"));
+    jvm.setHome(props.getProperty("java.home"));
+  }
+
+  /**
+   * 设置磁盘信息
+   */
+  private void setSysFiles(OperatingSystem os) {
+    FileSystem fileSystem = os.getFileSystem();
+    List<OSFileStore> list = fileSystem.getFileStores();
+    list.forEach(fs -> {
+      long free = fs.getUsableSpace();
+      long total = fs.getTotalSpace();
+      long used = total - free;
+      SysFile sysFile = new SysFile();
+      sysFile.setDirName(fs.getMount());
+      sysFile.setSysTypeName(fs.getType());
+      sysFile.setTypeName(fs.getName());
+      sysFile.setTotal(DataUtils.convertFileSize(total));
+      sysFile.setFree(DataUtils.convertFileSize(free));
+      sysFile.setUsed(DataUtils.convertFileSize(used));
+      sysFile.setUsage(Arith.mul(Arith.div(used, total, 4), 100));
+      sysFiles.add(sysFile);
+    });
+  }
 
 }

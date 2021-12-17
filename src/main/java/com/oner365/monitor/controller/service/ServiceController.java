@@ -45,7 +45,7 @@ public class ServiceController extends BaseController {
 
   /**
    * 基本信息
-   * 
+   *
    * @return List<List<Map<String, Object>>>
    */
   @ApiOperation("1.首页")
@@ -70,7 +70,7 @@ public class ServiceController extends BaseController {
 
   /**
    * 动态刷新配置
-   * 
+   *
    * @return String
    */
   @ApiOperation("2.动态刷新配置")
@@ -82,7 +82,7 @@ public class ServiceController extends BaseController {
 
   /**
    * 获取信息
-   * 
+   *
    * @return JSONObject
    */
   @ApiOperation("3.配置信息")
@@ -100,7 +100,6 @@ public class ServiceController extends BaseController {
   /**
    * 上传服务
    *
-   * @param multipartFile 文件
    * @return String
    */
   @ApiOperation("4.上传服务")
@@ -120,8 +119,7 @@ public class ServiceController extends BaseController {
 
   /**
    * 重启服务
-   * 
-   * @param deployServer 对象
+   *
    * @return String
    */
   @ApiOperation("5.重启服务")

@@ -33,7 +33,7 @@ import reactor.core.publisher.Mono;
 
 /**
  * Rabbit MQ监控
- * 
+ *
  * @author zhaoyong
  *
  */
@@ -53,7 +53,7 @@ public class RabbitmqController extends BaseController {
 
   /**
    * 首页
-   * 
+   *
    * @return JSONObject
    */
   @ApiOperation("1.首页")
@@ -65,7 +65,7 @@ public class RabbitmqController extends BaseController {
 
   /**
    * 获取队列列表
-   * 
+   *
    * @param type      类型
    * @param pageIndex 分页页码
    * @param pageSize  分页长度
@@ -83,7 +83,7 @@ public class RabbitmqController extends BaseController {
 
   /**
    * 删除
-   * 
+   *
    * @param type 删除类型
    * @param name 名称
    * @return JSONObject
@@ -101,7 +101,7 @@ public class RabbitmqController extends BaseController {
 
       String url = getHost() + "/api/" + type + PublicConstants.DELIMITER
           + URLEncoder.encode(vhost, Charset.defaultCharset().name()) + PublicConstants.DELIMITER + name;
-      Map<String, Object> headers = new HashMap<>();
+      Map<String, Object> headers = new HashMap<>(2);
       headers.put(HttpHeaders.AUTHORIZATION, getAuthorization());
       String result = HttpClientUtils.httpDeleteRequest(url, headers, paramJson);
       return JSON.parseObject(result);

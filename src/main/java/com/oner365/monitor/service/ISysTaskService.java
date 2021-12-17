@@ -54,7 +54,7 @@ public interface ISysTaskService extends BaseService {
   /**
    * 删除任务后，所对应的trigger也将被删除
    *
-   * @param task 调度信息
+   * @param id 调度信息
    * @return 结果
    * @throws SchedulerException SchedulerException
    */

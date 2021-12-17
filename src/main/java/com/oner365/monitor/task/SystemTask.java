@@ -8,8 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
-import com.oner365.api.rabbitmq.dto.InvokeParamDto;
-import com.oner365.monitor.entity.InvokeParam;
+import com.oner365.monitor.dto.InvokeParamDto;
 import com.oner365.monitor.rabbitmq.IScheduleSendTaskService;
 import com.oner365.sys.service.ISysLogService;
 import com.oner365.util.DateUtil;
@@ -48,7 +47,7 @@ public class SystemTask {
     	LOGGER.info("delete log days:{}, isSuccess:{}", days, isSuccess);
     }
     
-    public void taskRun(InvokeParam param) {
+    public void taskRun(InvokeParamDto param) {
         LOGGER.info("param: {}",param);
         scheduleTaskService.pullTask(JSON.toJavaObject(JSON.parseObject(JSON.toJSONString(param)),InvokeParamDto.class));
     }

@@ -3,9 +3,7 @@ package com.oner365.sys.controller.auth;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSONArray;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.common.ResponseData;
 import com.oner365.common.auth.AuthUser;
@@ -28,7 +25,10 @@ import com.oner365.common.enums.ErrorInfoEnum;
 import com.oner365.common.enums.ResultEnum;
 import com.oner365.controller.BaseController;
 import com.oner365.sys.constants.SysConstants;
+import com.oner365.sys.dto.CaptchaImageDto;
 import com.oner365.sys.dto.LoginUserDto;
+import com.oner365.sys.dto.SysMenuOperDto;
+import com.oner365.sys.dto.SysMenuTreeDto;
 import com.oner365.sys.service.ISysRoleService;
 import com.oner365.sys.service.ISysUserService;
 import com.oner365.sys.vo.LoginUserVo;
@@ -42,7 +42,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 认证登录接口
- * 
+ *
  * @author zhaoyong
  */
 @RestController
@@ -106,13 +106,13 @@ public class AuthController extends BaseController {
 
   /**
    * 获取验证码
-   * 
-   * @return Map<String, Object>
+   *
+   * @return CaptchaImageDto
    */
   @ApiOperation("2.获取验证码")
   @ApiOperationSupport(order = 2)
   @GetMapping("/captchaImage")
-  public Map<String, Object> captchaImage() {
+  public CaptchaImageDto captchaImage() {
     // 生成随机字串
     String verifyCode = VerifyCodeUtils.generateVerifyCode(4);
     // 唯一标识
@@ -120,15 +120,15 @@ public class AuthController extends BaseController {
     String verifyKey = SysConstants.CAPTCHA_IMAGE + ":" + uuid;
     redisCache.setCacheObject(verifyKey, verifyCode, 3, TimeUnit.MINUTES);
 
-    Map<String, Object> result = new HashMap<>();
+    CaptchaImageDto result = new CaptchaImageDto();
     try (ByteArrayOutputStream stream = new ByteArrayOutputStream()) {
       // 生成图片
       int w = 111;
       int h = 36;
       VerifyCodeUtils.outputImage(w, h, stream, verifyCode);
 
-      result.put(SysConstants.UUID, uuid);
-      result.put("img", Base64Utils.encodeToString(stream.toByteArray()));
+      result.setUuid(uuid);
+      result.setImg(Base64Utils.encodeToString(stream.toByteArray()));
     } catch (IOException e) {
       LOGGER.error("Error captchaImage: ", e);
     }
@@ -145,7 +145,7 @@ public class AuthController extends BaseController {
   @ApiOperation("3.获取菜单权限")
   @ApiOperationSupport(order = 3)
   @GetMapping("/menu/{menuType}")
-  public JSONArray findMenuByRoles(@ApiIgnore @CurrentUser AuthUser user, @PathVariable String menuType) {
+  public List<SysMenuTreeDto> findMenuByRoles(@ApiIgnore @CurrentUser AuthUser user, @PathVariable String menuType) {
     try {
       if (user != null && !user.getRoleList().isEmpty()) {
         return sysRoleService.findMenuByRoles(user.getRoleList(), menuType);
@@ -153,7 +153,7 @@ public class AuthController extends BaseController {
     } catch (Exception e) {
       LOGGER.error("Error findMenuByRoles: ", e);
     }
-    return new JSONArray();
+    return Collections.emptyList();
   }
 
   /**
@@ -165,7 +165,7 @@ public class AuthController extends BaseController {
   @ApiOperation("4.获取菜单操作权限")
   @ApiOperationSupport(order = 4)
   @GetMapping("/menu/operation/{menuId}")
-  public List<Map<String, String>> findMenuOperByRoles(@ApiIgnore @CurrentUser AuthUser user,
+  public List<SysMenuOperDto> findMenuOperByRoles(@ApiIgnore @CurrentUser AuthUser user,
       @PathVariable String menuId) {
     try {
       if (user != null && !user.getRoleList().isEmpty()) {
@@ -179,7 +179,7 @@ public class AuthController extends BaseController {
 
   /**
    * 退出登录
-   * 
+   *
    * @return String
    */
   @ApiOperation("5.退出登录")

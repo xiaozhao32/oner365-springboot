@@ -61,7 +61,7 @@ public class GeneratorController extends BaseController {
   @PostMapping("/list")
   public Map<String, Object> genList(@RequestBody GenTable genTable) {
     List<GenTable> list = genTableService.selectGenTableList(genTable);
-    Map<String, Object> result = new HashMap<>();
+    Map<String, Object> result = new HashMap<>(2);
     result.put(PublicConstants.PARAM_LIST, list);
     result.put(PublicConstants.PARAM_COUNT, list.size());
     return result;
@@ -75,7 +75,7 @@ public class GeneratorController extends BaseController {
   @PostMapping("/db/list")
   public Map<String, Object> dataList(@RequestBody GenTable genTable) {
     List<GenTable> list = genTableService.selectDbTableList(genTable);
-    Map<String, Object> result = new HashMap<>();
+    Map<String, Object> result = new HashMap<>(2);
     result.put(PublicConstants.PARAM_LIST, list);
     result.put(PublicConstants.PARAM_COUNT, list.size());
     return result;
@@ -89,7 +89,7 @@ public class GeneratorController extends BaseController {
   @GetMapping(value = "/column/{tableId}")
   public Map<String, Object> columnList(@PathVariable Long tableId) {
     List<GenTableColumn> list = genTableColumnService.selectGenTableColumnListByTableId(tableId);
-    Map<String, Object> result = new HashMap<>();
+    Map<String, Object> result = new HashMap<>(2);
     result.put(PublicConstants.PARAM_LIST, list);
     result.put(PublicConstants.PARAM_COUNT, list.size());
     return result;
@@ -104,7 +104,7 @@ public class GeneratorController extends BaseController {
   public Map<String, Object> getInfo(@PathVariable Long tableId) {
     GenTable table = genTableService.selectGenTableById(tableId);
     List<GenTableColumn> list = genTableColumnService.selectGenTableColumnListByTableId(tableId);
-    Map<String, Object> result = new HashMap<>();
+    Map<String, Object> result = new HashMap<>(2);
     result.put(PublicConstants.MSG, table);
     result.put(PublicConstants.PARAM_LIST, list);
     return result;
@@ -120,11 +120,11 @@ public class GeneratorController extends BaseController {
     genTableService.validateEdit(genTable);
     genTableService.updateGenTable(genTable);
 
-    Map<String, Object> result = new HashMap<>();
+    Map<String, Object> result = new HashMap<>(2);
     result.put(PublicConstants.CODE, ResultEnum.SUCCESS.getCode());
     return result;
   }
-  
+
   /**
    * 预览代码
    */
@@ -154,7 +154,7 @@ public class GeneratorController extends BaseController {
   @GetMapping("/genCode/{tableName}")
   public Map<String, Object> genCode(@PathVariable("tableName") String tableName) {
     genTableService.generatorCode(tableName);
-    Map<String, Object> result = new HashMap<>();
+    Map<String, Object> result = new HashMap<>(2);
     result.put(PublicConstants.CODE, ResultEnum.SUCCESS.getCode());
     return result;
   }
@@ -167,7 +167,7 @@ public class GeneratorController extends BaseController {
   @GetMapping("/syncDb/{tableName}")
   public Map<String, Object> syncDb(@PathVariable("tableName") String tableName) {
     genTableService.syncDb(tableName);
-    Map<String, Object> result = new HashMap<>();
+    Map<String, Object> result = new HashMap<>(2);
     result.put(PublicConstants.CODE, ResultEnum.SUCCESS.getCode());
     return result;
   }
@@ -192,11 +192,11 @@ public class GeneratorController extends BaseController {
   @DeleteMapping("/{tableIds}")
   public Map<String, Object> remove(@PathVariable Long[] tableIds) {
     genTableService.deleteGenTableByIds(tableIds);
-    Map<String, Object> result = new HashMap<>();
+    Map<String, Object> result = new HashMap<>(2);
     result.put(PublicConstants.CODE, ResultEnum.SUCCESS.getCode());
     return result;
   }
-  
+
   /**
    * 导入表结构（保存）
    */
@@ -210,7 +210,7 @@ public class GeneratorController extends BaseController {
     List<GenTable> tableList = genTableService.selectDbTableListByNames(tableNames);
     genTableService.importGenTable(tableList, operName);
 
-    Map<String, Object> result = new HashMap<>();
+    Map<String, Object> result = new HashMap<>(2);
     result.put(PublicConstants.CODE, ResultEnum.SUCCESS.getCode());
     return result;
   }

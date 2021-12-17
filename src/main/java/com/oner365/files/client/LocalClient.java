@@ -2,6 +2,7 @@ package com.oner365.files.client;
 
 import java.io.File;
 
+import com.oner365.files.dto.SysFileStorageDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,8 +45,10 @@ public class LocalClient implements IFileStorageClient {
     try {
       SysFileStorageVo entity = FileLocalUploadUtils.upload(file, getName(), snowflakeSequence.nextNo(),
           fileLocalProperties.getWeb(), fileLocalProperties.getUpload(), directory, file.getSize() + 1);
-      fileStorageService.save(entity);
-      return entity.getFilePath();
+      SysFileStorageDto sysFileStorageDto = fileStorageService.save(entity);
+      if (sysFileStorageDto != null) {
+        return sysFileStorageDto.getFilePath();
+      }
     } catch (Exception e) {
       logger.error("upload MultipartFile IOException:", e);
     }
@@ -58,8 +61,10 @@ public class LocalClient implements IFileStorageClient {
       MultipartFile multipartFile = DataUtils.convertMultipartFile(file);
       SysFileStorageVo entity = FileLocalUploadUtils.upload(multipartFile, getName(), snowflakeSequence.nextNo(),
           fileLocalProperties.getWeb(), fileLocalProperties.getUpload(), directory, file.length() + 1);
-      fileStorageService.save(entity);
-      return entity.getFilePath();
+      SysFileStorageDto sysFileStorageDto = fileStorageService.save(entity);
+      if (sysFileStorageDto != null) {
+        return sysFileStorageDto.getFilePath();
+      }
     } catch (Exception e) {
       logger.error("upload MultipartFile IOException:", e);
     }

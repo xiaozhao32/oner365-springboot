@@ -1,6 +1,7 @@
 package com.oner365.test.controller;
 
 import java.util.Map;
+import java.util.Objects;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -20,7 +21,7 @@ import reactor.core.publisher.Mono;
 
 /**
  * Base Controller
- * 
+ *
  * @author zhaoyong
  *
  */
@@ -31,7 +32,7 @@ public abstract class BaseControllerTest extends BaseTest {
     protected WebClient client;
 
     protected String token;
-    
+
     protected BaseControllerTest() {
         ClientHttpConnector httpConnector = new ReactorClientHttpConnector();
         client = WebClient.builder().clientConnector(httpConnector).baseUrl(URL).build();
@@ -40,7 +41,7 @@ public abstract class BaseControllerTest extends BaseTest {
 
     /**
      * Request Header Authorization
-     * 
+     *
      * @return String token
      */
     @SuppressWarnings("rawtypes")
@@ -55,13 +56,13 @@ public abstract class BaseControllerTest extends BaseTest {
                 .bodyToMono(ResponseData.class);
 
         @SuppressWarnings("unchecked")
-        Map<String, Object> result = (Map<String, Object>) mono.block().getResult();
+        Map<String, Object> result = (Map<String, Object>) Objects.requireNonNull(mono.block()).getResult();
         return result.get(RequestUtils.ACCESS_TOKEN).toString();
     }
 
     /**
      * GET request
-     * 
+     *
      * @param url 请求地址
      * @return Object ResponseData result
      */
@@ -69,12 +70,12 @@ public abstract class BaseControllerTest extends BaseTest {
     protected Object get(String url) {
         Mono<ResponseData> mono = client.get().uri(url).header(HttpHeaders.AUTHORIZATION, token).retrieve()
                 .bodyToMono(ResponseData.class);
-        return mono.block().getResult();
+        return Objects.requireNonNull(mono.block()).getResult();
     }
 
     /**
      * POST request
-     * 
+     *
      * @param url           请求地址
      * @param bodyInserters 请求Body
      * @return Object ResponseData result
@@ -83,20 +84,19 @@ public abstract class BaseControllerTest extends BaseTest {
     protected Object post(String url, BodyInserter<?, ? super ClientHttpRequest> bodyInserters) {
         Mono<ResponseData> mono = client.post().uri(url).header(HttpHeaders.AUTHORIZATION, token).body(bodyInserters)
                 .retrieve().bodyToMono(ResponseData.class);
-        return mono.block().getResult();
+        return Objects.requireNonNull(mono.block()).getResult();
     }
-    
+
     @SuppressWarnings({ "rawtypes", "unchecked" })
     protected <T> T post(String url, BodyInserter<?, ? super ClientHttpRequest> bodyInserters, Class<T> clazz) {
         Mono<ResponseData> mono = client.post().uri(url).header(HttpHeaders.AUTHORIZATION, token).body(bodyInserters)
                 .retrieve().bodyToMono(ResponseData.class);
-        T result = (T) mono.block().getResult();
-        return result;
+        return (T) Objects.requireNonNull(mono.block()).getResult();
     }
 
     /**
      * PUT request
-     * 
+     *
      * @param url           请求地址
      * @param bodyInserters 请求Body
      * @return Object ResponseData result
@@ -105,12 +105,12 @@ public abstract class BaseControllerTest extends BaseTest {
     protected Object put(String url, BodyInserter<?, ? super ClientHttpRequest> bodyInserters) {
         Mono<ResponseData> mono = client.put().uri(url).header(HttpHeaders.AUTHORIZATION, token).body(bodyInserters)
                 .retrieve().bodyToMono(ResponseData.class);
-        return mono.block().getResult();
+        return Objects.requireNonNull(mono.block()).getResult();
     }
 
     /**
      * DELETE request
-     * 
+     *
      * @param url           请求地址
      * @param bodyInserters 请求Body
      * @return Object ResponseData result
@@ -119,6 +119,6 @@ public abstract class BaseControllerTest extends BaseTest {
     protected Object delete(String url, BodyInserter<?, ? super ClientHttpRequest> bodyInserters) {
         Mono<ResponseData> mono = client.method(HttpMethod.DELETE).uri(url).header(HttpHeaders.AUTHORIZATION, token)
                 .body(bodyInserters).retrieve().bodyToMono(ResponseData.class);
-        return mono.block().getResult();
+        return Objects.requireNonNull(mono.block()).getResult();
     }
 }

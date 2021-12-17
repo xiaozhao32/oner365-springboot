@@ -37,12 +37,11 @@ public interface BaseService {
    * @param list po集合
    * @return List<T>
    */
-  @SuppressWarnings({ "unchecked" })
   default <T extends Serializable, E> List<T> convertDto(List<E> list) {
     if (list.isEmpty()) {
       return Collections.emptyList();
     }
-    return (List<T>) list.stream().map(this::convertDto).collect(Collectors.toList());
+    return list.stream().<T>map(this::convertDto).collect(Collectors.toList());
   }
 
   /**

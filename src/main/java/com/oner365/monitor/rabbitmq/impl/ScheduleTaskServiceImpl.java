@@ -7,12 +7,13 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.oner365.api.rabbitmq.IScheduleTaskService;
-import com.oner365.api.rabbitmq.dto.InvokeParamDto;
 import com.oner365.common.enums.StatusEnum;
 import com.oner365.monitor.constants.ScheduleConstants;
+import com.oner365.monitor.dto.InvokeParamDto;
 import com.oner365.monitor.dto.SysTaskDto;
 import com.oner365.monitor.service.ISysTaskLogService;
 import com.oner365.monitor.service.ISysTaskService;
+import com.oner365.monitor.vo.InvokeParamVo;
 import com.oner365.monitor.vo.SysTaskLogVo;
 import com.oner365.monitor.vo.SysTaskVo;
 import com.oner365.util.DataUtils;
@@ -51,7 +52,7 @@ public class ScheduleTaskServiceImpl implements IScheduleTaskService {
 
       } else {
         if (!StatusEnum.NO.getCode().equals(sysTask.getExecuteStatus())) {
-          sysTask.getInvokeParam();
+          sysTask.getInvokeParamDto();
           status = execute(taskId, param, sysTask);
         }
         LOGGER.info("taskExecute  concurrent : {}", concurrent);
@@ -76,7 +77,7 @@ public class ScheduleTaskServiceImpl implements IScheduleTaskService {
       return StatusEnum.NO.getCode();
     }
   }
-  
+
   private SysTaskVo toVo(SysTaskDto dto) {
     SysTaskVo result = new SysTaskVo();
     result.setId(dto.getId());
@@ -85,7 +86,7 @@ public class ScheduleTaskServiceImpl implements IScheduleTaskService {
     result.setCreateUser(dto.getCreateUser());
     result.setCronExpression(dto.getCronExpression());
     result.setExecuteStatus(dto.getExecuteStatus());
-    result.setInvokeParam(dto.getInvokeParam());
+    result.setInvokeParamVo(toPojo(dto.getInvokeParamDto()));
     result.setInvokeTarget(dto.getInvokeTarget());
     result.setMisfirePolicy(dto.getMisfirePolicy());
     result.setRemark(dto.getRemark());
@@ -93,6 +94,15 @@ public class ScheduleTaskServiceImpl implements IScheduleTaskService {
     result.setTaskGroup(dto.getTaskGroup());
     result.setTaskName(dto.getTaskName());
     result.setUpdateTime(dto.getUpdateTime());
+    return result;
+  }
+
+  private InvokeParamVo toPojo(InvokeParamDto vo) {
+    InvokeParamVo result = new InvokeParamVo();
+    result.setConcurrent(vo.getConcurrent());
+    result.setTaskId(vo.getTaskId());
+    result.setTaskParam(vo.getTaskParam());
+    result.setTaskServerName(vo.getTaskServerName());
     return result;
   }
 

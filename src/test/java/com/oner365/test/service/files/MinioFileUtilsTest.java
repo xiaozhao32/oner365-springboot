@@ -36,11 +36,11 @@ class MinioFileUtilsTest extends BaseServiceTest {
     String password = "e8818da9cc9";
     // 上传根目录
     String bucketName = "oner365";
-    
+
     MinioClient minioClient = MinioClient.builder().endpoint(url).credentials(userName, password).build();
     Assertions.assertNotNull(minioClient);
     // 创建文件夹
-    BucketExistsArgs bucket = (BucketExistsArgs) BucketExistsArgs.builder().bucket(bucketName).build();
+    BucketExistsArgs bucket = BucketExistsArgs.builder().bucket(bucketName).build();
     if (minioClient.bucketExists(bucket)) {
       LOGGER.info("bucket exists:{}", bucketName);
     } else {
@@ -62,16 +62,16 @@ class MinioFileUtilsTest extends BaseServiceTest {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    
+
     // 获取文件
     GetObjectResponse objectResponse = minioClient.getObject(GetObjectArgs.builder().bucket(bucketName).object(path).build());
     LOGGER.info("file get: {}", objectResponse);
     objectResponse.close();
-    
+
     // 下载文件
     String downloadPath = "d:/11111.jpg"; // 重新命名
     minioClient.downloadObject(DownloadObjectArgs.builder().bucket(bucketName).object(path).filename(downloadPath).build());
-    
+
     // 删除文件
     minioClient.removeObject(RemoveObjectArgs.builder().bucket(bucketName).object(path).build());
   }

@@ -49,6 +49,10 @@ public class SysConstants extends PublicConstants {
     public static final String CAPTCHA_IMAGE = "CaptchaImage";
     public static final String OPERATION_TYPE = "operationType";
     
+    public static final String OPER_ID = "operId";
+    public static final String OPER_NAME = "operName";
+    public static final String OPER_TYPE = "openType";
+    
     public static final String ROLES = "roles";
     public static final String JOBS = "jobs";
     public static final String ORGS = "orgs";

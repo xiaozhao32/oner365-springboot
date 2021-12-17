@@ -10,9 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.QueryCriteriaBean;
+import com.oner365.sys.dto.SysMenuTreeDto;
 import com.oner365.sys.dto.SysRoleDto;
 import com.oner365.sys.service.ISysRoleService;
 import com.oner365.test.service.BaseServiceTest;
@@ -58,7 +58,7 @@ class SysRoleServiceTest extends BaseServiceTest {
     List<String> roles = new ArrayList<>();
     roles.add("1");
     String menuType = "1";
-    JSONArray list = service.findMenuByRoles(roles, menuType);
+    List<SysMenuTreeDto> list = service.findMenuByRoles(roles, menuType);
     LOGGER.info("findMenuByRoles:{}", list.size());
     Assertions.assertNotEquals(0, list.size());
   }

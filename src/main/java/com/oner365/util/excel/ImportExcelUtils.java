@@ -31,13 +31,15 @@ public class ImportExcelUtils {
 
   private static final String POINT = ".";
   private static final String NAN = "NaN";
+  private static final String PREFIX_XLSX = "xlsx";
+  private static final String STRING_DATE = "DATE";
 
   private ImportExcelUtils() {
   }
 
   /**
    * 获取Excel
-   * 
+   *
    * @param is        输入流
    * @param extension 扩展名
    * @return Workbook
@@ -46,7 +48,7 @@ public class ImportExcelUtils {
   public static Workbook getWorkbook(InputStream is, String extension) throws IOException {
     // 创建工作表
     Workbook workbook;
-    if (extension.contains("xlsx")) {
+    if (extension.contains(PREFIX_XLSX)) {
       workbook = new XSSFWorkbook(is);
     } else {
       workbook = new HSSFWorkbook(is);
@@ -113,9 +115,7 @@ public class ImportExcelUtils {
     List<Object> objs = new ArrayList<>(colNum);
     Row row = sheet.getRow(i);
     int nullCells = checkNullCells(row);
-    if (nullCells >= colNum) {
-      // continue
-    } else {
+    if (nullCells < colNum) {
       for (int j = 0; j < colNum; j++) {
         Cell cell = row.getCell((short) j);
         Object val = null;
@@ -162,7 +162,7 @@ public class ImportExcelUtils {
     case FORMULA:
       // 读公式计算值
       value = cell.getCellFormula();
-      if (!DataUtils.isEmpty(value) && value.toString().toUpperCase().contains("DATE")) {
+      if (!DataUtils.isEmpty(value) && value.toString().toUpperCase().contains(STRING_DATE)) {
         Date date = cell.getDateCellValue();
         value = com.oner365.util.DateUtil.dateToString(date, com.oner365.util.DateUtil.FULL_TIME_FORMAT);
       } else {
