@@ -73,24 +73,7 @@ public class AesUtils {
      * @return String
      */
     public static String getEncryptString(String str) {
-        try {
-            byte[] iv = new byte[LENGTH_12];
-            SecureRandom secureRandom = new SecureRandom();
-            secureRandom.nextBytes(iv);
-            byte[] contentBytes = str.getBytes(StandardCharsets.UTF_8);
-            Cipher cipher = Cipher.getInstance(ALGORITHM);
-            GCMParameterSpec params = new GCMParameterSpec(128, iv);
-            cipher.init(Cipher.ENCRYPT_MODE, getSecretKey(KEY_STR), params);
-            byte[] encryptData = cipher.doFinal(contentBytes);
-            assert encryptData.length == contentBytes.length + LENGTH_16;
-            byte[] message = new byte[LENGTH_12 + contentBytes.length + LENGTH_16];
-            System.arraycopy(iv, 0, message, 0, LENGTH_12);
-            System.arraycopy(encryptData, 0, message, LENGTH_12, encryptData.length);
-            return Base64.getEncoder().encodeToString(message);
-        } catch (Exception e) {
-            LOGGER.error("getEncryptString error:", e);
-        }
-        return null;
+        return getEncryptString(str, KEY_STR);
     }
 
     /**
@@ -100,20 +83,7 @@ public class AesUtils {
      * @return String
      */
     public static String getDecryptString(String str) {
-        try {
-            byte[] content = Base64.getDecoder().decode(str);
-            if (content.length < LENGTH_12 + LENGTH_16) {
-                throw new IllegalArgumentException();
-            }
-            GCMParameterSpec params = new GCMParameterSpec(128, content, 0, LENGTH_12);
-            Cipher cipher = Cipher.getInstance(ALGORITHM);
-            cipher.init(Cipher.DECRYPT_MODE, getSecretKey(KEY_STR), params);
-            byte[] decryptData = cipher.doFinal(content, LENGTH_12, content.length - LENGTH_12);
-            return new String(decryptData, StandardCharsets.UTF_8);
-        } catch (Exception e) {
-            LOGGER.error("getDecryptString error:", e);
-        }
-        return null;
+        return getDecryptString(str, KEY_STR);
     }
 
     public static Key getSecretKey(String saltKey) {
