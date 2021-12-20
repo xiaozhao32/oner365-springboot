@@ -154,7 +154,9 @@ public class SysOrganizationServiceImpl implements ISysOrganizationService {
       dataSourceConfigVo.setUpdateTime(LocalDateTime.now());
       vo.setDataSourceConfigVo(dataSourceConfigVo);
     }
-    SysOrganization entity = dao.save(convert(vo, SysOrganization.class));
+    SysOrganization po = convert(vo, SysOrganization.class);
+    po.setDataSourceConfig(convert(vo.getDataSourceConfigVo(), DataSourceConfig.class));
+    SysOrganization entity = dao.save(po);
     return convert(entity, SysOrganizationDto.class);
   }
 
