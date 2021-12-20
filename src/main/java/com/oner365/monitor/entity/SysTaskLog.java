@@ -12,7 +12,6 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.oner365.monitor.dto.SysTaskLogDto;
 
 /**
  * 定时任务调度日志表 nt_sys_task_log
@@ -241,23 +240,4 @@ public class SysTaskLog implements Serializable {
     this.executeServerName = executeServerName;
   }
 
-  public SysTaskLogDto toDto() {
-    SysTaskLogDto result = new SysTaskLogDto();
-    result.setCreateTime(this.getCreateTime());
-    result.setCreateUser(this.getCreateUser());
-    result.setExceptionInfo(this.getExceptionInfo());
-    result.setExecuteIp(this.getExecuteIp());
-    result.setExecuteServerName(this.getExecuteServerName());
-    result.setId(this.getId());
-    result.setInvokeTarget(this.getInvokeTarget());
-    result.setRemark(this.getRemark());
-    result.setStartTime(this.getStartTime());
-    result.setStatus(this.getStatus());
-    result.setStopTime(this.getStopTime());
-    result.setTaskGroup(this.getTaskGroup());
-    result.setTaskMessage(this.getTaskMessage());
-    result.setTaskName(this.getTaskName());
-    result.setUpdateTime(this.getUpdateTime());
-    return result;
-  }
 }

@@ -10,7 +10,6 @@ import org.springframework.data.elasticsearch.annotations.Setting;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.oner365.elasticsearch.dto.SampleGeneDto;
 
 /**
  * SampleGene
@@ -160,23 +159,6 @@ public class SampleGene implements Serializable {
    */
   public void setGeneList(JSONArray geneList) {
     this.geneList = geneList;
-  }
-
-  /**
-   * 转换对象
-   * 
-   * @return SampleGeneDto
-   */
-  public SampleGeneDto toDto() {
-    SampleGeneDto result = new SampleGeneDto();
-    result.setId(this.getId());
-    result.setGeneInfo(this.getGeneInfo());
-    result.setGeneList(this.getGeneList());
-    result.setGeneType(this.getGeneType());
-    result.setInitServerNo(this.getInitServerNo());
-    result.setMatchJson(this.getMatchJson());
-    result.setPersonCode(this.getPersonCode());
-    return result;
   }
 
 }

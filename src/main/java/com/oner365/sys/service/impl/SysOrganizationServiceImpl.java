@@ -60,7 +60,7 @@ public class SysOrganizationServiceImpl implements ISysOrganizationService {
   public SysOrganizationDto getById(String id) {
     try {
       Optional<SysOrganization> optional = dao.findById(id);
-      return convertDto(optional.orElse(null));
+      return convert(optional.orElse(null), SysOrganizationDto.class);
     } catch (Exception e) {
       LOGGER.error("Error getById: ", e);
     }
@@ -126,92 +126,36 @@ public class SysOrganizationServiceImpl implements ISysOrganizationService {
   @RedisCachePut(value = CACHE_NAME, key = PublicConstants.KEY_ID)
   @CacheEvict(value = CACHE_NAME, allEntries = true)
   public SysOrganizationDto save(SysOrganizationVo vo) {
-    SysOrganization org = toPojo(vo);
-    if (DataUtils.isEmpty(org.getId())) {
-      org.setId(org.getOrgCode());
-      org.setStatus(StatusEnum.YES.getCode());
-      org.setCreateTime(LocalDateTime.now());
+    if (DataUtils.isEmpty(vo.getId())) {
+      vo.setId(vo.getOrgCode());
+      vo.setStatus(StatusEnum.YES.getCode());
+      vo.setCreateTime(LocalDateTime.now());
     }
 
-    org.setUpdateTime(LocalDateTime.now());
+    vo.setUpdateTime(LocalDateTime.now());
 
-    DataSourceConfig dataSourceConfig = org.getDataSourceConfig();
-    if (dataSourceConfig != null) {
+    DataSourceConfigVo dataSourceConfigVo = vo.getDataSourceConfigVo();
+    if (dataSourceConfigVo != null) {
       String driverName;
       String url;
-      if (DataSourceConstants.DB_TYPE_MYSQL.equals(dataSourceConfig.getDbType())) {
+      if (DataSourceConstants.DB_TYPE_MYSQL.equals(dataSourceConfigVo.getDbType())) {
         driverName = DataSourceConstants.DRIVER_NAME_MYSQL;
-        url = "jdbc:mysql://" + dataSourceConfig.getIp() + ":" + dataSourceConfig.getPort() + PublicConstants.DELIMITER
-            + dataSourceConfig.getDbName();
+        url = "jdbc:mysql://" + dataSourceConfigVo.getIp() + ":" + dataSourceConfigVo.getPort() + PublicConstants.DELIMITER
+            + dataSourceConfigVo.getDbName();
       } else {
         driverName = DataSourceConstants.DRIVER_NAME_ORACLE;
-        url = "jdbc:oracle:thin:@" + dataSourceConfig.getIp() + ":" + dataSourceConfig.getPort() + ":"
-            + dataSourceConfig.getDbName();
+        url = "jdbc:oracle:thin:@" + dataSourceConfigVo.getIp() + ":" + dataSourceConfigVo.getPort() + ":"
+            + dataSourceConfigVo.getDbName();
       }
-      dataSourceConfig.setDsType(DataSourceConstants.DS_TYPE_DB);
-      dataSourceConfig.setDriverName(driverName);
-      dataSourceConfig.setUrl(url);
-      dataSourceConfig.setCreateTime(LocalDateTime.now());
-      dataSourceConfig.setUpdateTime(LocalDateTime.now());
-      org.setDataSourceConfig(dataSourceConfig);
+      dataSourceConfigVo.setDsType(DataSourceConstants.DS_TYPE_DB);
+      dataSourceConfigVo.setDriverName(driverName);
+      dataSourceConfigVo.setUrl(url);
+      dataSourceConfigVo.setCreateTime(LocalDateTime.now());
+      dataSourceConfigVo.setUpdateTime(LocalDateTime.now());
+      vo.setDataSourceConfigVo(dataSourceConfigVo);
     }
-    return convertDto(dao.save(org));
-  }
-
-  /**
-   * 转换对象
-   * 
-   * @return SysOrganization
-   */
-  private SysOrganization toPojo(SysOrganizationVo vo) {
-    SysOrganization result = new SysOrganization();
-    result.setId(vo.getId());
-    result.setAncestors(vo.getAncestors());
-    result.setBusinessName(vo.getBusinessName());
-    result.setBusinessPhone(vo.getBusinessPhone());
-    result.setCreateTime(vo.getCreateTime());
-    result.setCreateUser(vo.getCreateUser());
-    if (vo.getDataSourceConfigVo() != null) {
-      result.setDataSourceConfig(toPojo(vo.getDataSourceConfigVo()));
-    }
-    result.setOrgAreaCode(vo.getOrgAreaCode());
-    result.setOrgCode(vo.getOrgCode());
-    result.setOrgCreditCode(vo.getOrgCreditCode());
-    result.setOrgLogo(vo.getOrgLogo());
-    result.setOrgLogoUrl(vo.getOrgLogoUrl());
-    result.setOrgName(vo.getOrgName());
-    result.setOrgOrder(vo.getOrgOrder());
-    result.setOrgType(vo.getOrgType());
-    result.setParentId(vo.getParentId());
-    result.setStatus(vo.getStatus());
-    result.setTechnicalName(vo.getTechnicalName());
-    result.setTechnicalPhone(vo.getTechnicalPhone());
-    result.setUpdateTime(vo.getUpdateTime());
-    result.setChildren(vo.getChildren().stream().map(this::toPojo).collect(Collectors.toList()));
-    return result;
-  }
-  
-  /**
-   * 转换对象
-   * 
-   * @return DataSourceConfig
-   */
-  private DataSourceConfig toPojo(DataSourceConfigVo vo) {
-      DataSourceConfig result = new DataSourceConfig();
-      result.setId(vo.getId());
-      result.setConnectName(vo.getConnectName());
-      result.setCreateTime(vo.getCreateTime());
-      result.setDbName(vo.getDbName());
-      result.setDbType(vo.getDbType());
-      result.setDriverName(vo.getDriverName());
-      result.setDsType(vo.getDsType());
-      result.setIp(vo.getIp());
-      result.setPassword(vo.getPassword());
-      result.setPort(vo.getPort());
-      result.setUpdateTime(vo.getUpdateTime());
-      result.setUrl(vo.getUrl());
-      result.setUserName(vo.getUserName());
-      return result;
+    SysOrganization entity = dao.save(convert(vo, SysOrganization.class));
+    return convert(entity, SysOrganizationDto.class);
   }
 
   @Override
@@ -219,13 +163,13 @@ public class SysOrganizationServiceImpl implements ISysOrganizationService {
   public List<SysOrganizationDto> findListByParentId(String parentId) {
     Criteria<SysOrganization> criteria = new Criteria<>();
     criteria.add(Restrictions.eq("parentId", parentId));
-    return convertDto(dao.findAll(criteria));
+    return convert(dao.findAll(criteria), SysOrganizationDto.class);
   }
 
   @Override
   @Cacheable(value = CACHE_NAME, keyGenerator = PublicConstants.KEY_GENERATOR)
   public SysOrganizationDto getByCode(String orgCode) {
-    return convertDto(dao.getByCode(orgCode));
+    return convert(dao.getByCode(orgCode), SysOrganizationDto.class);
   }
 
   @Override
@@ -294,8 +238,9 @@ public class SysOrganizationServiceImpl implements ISysOrganizationService {
   }
 
   @Override
-  public List<SysOrganizationDto> selectList(SysOrganizationVo sysOrg) {
-    return convertDto(organizationMapper.selectList(toPojo(sysOrg)));
+  public List<SysOrganizationDto> selectList(SysOrganizationVo vo) {
+    List<SysOrganization> list = organizationMapper.selectList(convert(vo, SysOrganization.class));
+    return convert(list, SysOrganizationDto.class);
   }
 
   @Override

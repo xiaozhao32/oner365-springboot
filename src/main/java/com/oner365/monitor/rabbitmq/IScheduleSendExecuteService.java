@@ -12,6 +12,7 @@ import com.oner365.api.constants.ScheduleTaskConstants;
 import com.oner365.api.rabbitmq.dto.UpdateTaskExecuteStatusDto;
 import com.oner365.monitor.dto.SysTaskLogDto;
 import com.oner365.monitor.exception.TaskException;
+import com.oner365.service.BaseService;
 
 /**
  * 定时任务队列
@@ -20,7 +21,7 @@ import com.oner365.monitor.exception.TaskException;
  *
  */
 @Component
-public interface IScheduleSendExecuteService {
+public interface IScheduleSendExecuteService extends BaseService {
 
   /**
    * 更新任务执行状态

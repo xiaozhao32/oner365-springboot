@@ -11,143 +11,127 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.oner365.sys.dto.SysDictItemDto;
 
 /**
  * 字典对象
+ * 
  * @author zhaoyong
  */
 @Entity
 @Table(name = "nt_sys_dict_item")
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler" })
-public class SysDictItem implements Serializable{
+public class SysDictItem implements Serializable {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1L;
+  /**
+   *
+   */
+  private static final long serialVersionUID = 1L;
 
-    /**
-     * 主键
-     */
-    @Id
-    @GeneratedValue(generator = "generator")
-    @GenericGenerator(name = "generator", strategy = "uuid")
-    private String id;
+  /**
+   * 主键
+   */
+  @Id
+  @GeneratedValue(generator = "generator")
+  @GenericGenerator(name = "generator", strategy = "uuid")
+  private String id;
 
-    /**
-     * 类型编号
-     */
-    @Column(name = "dict_item_type_id", nullable = false, length = 32)
-    private String typeId;
+  /**
+   * 类型编号
+   */
+  @Column(name = "dict_item_type_id", nullable = false, length = 32)
+  private String typeId;
 
-    /**
-     * 字典编码
-     */
-    @Column(name = "dict_item_code", nullable = false, length = 32)
-    private String itemCode;
+  /**
+   * 字典编码
+   */
+  @Column(name = "dict_item_code", nullable = false, length = 32)
+  private String itemCode;
 
-    /**
-     * 字典名称
-     */
-    @Column(name = "dict_item_name", length = 32)
-    private String itemName;
+  /**
+   * 字典名称
+   */
+  @Column(name = "dict_item_name", length = 32)
+  private String itemName;
 
-    /**
-     * 字典排序
-     */
-    @Column(name = "dict_item_order", length = 10)
-    private Integer itemOrder;
+  /**
+   * 字典排序
+   */
+  @Column(name = "dict_item_order", length = 10)
+  private Integer itemOrder;
 
-    /**
-     * 状态
-     */
-    @Column(name = "status", nullable = false, length = 8)
-    private String status;
+  /**
+   * 状态
+   */
+  @Column(name = "status", nullable = false, length = 8)
+  private String status;
 
-    /**
-     * 父级id
-     */
-    @Column(name = "parent_id", length = 64)
-    private String parentId;
+  /**
+   * 父级id
+   */
+  @Column(name = "parent_id", length = 64)
+  private String parentId;
 
-    /**
-     * Constructor
-     */
-    public SysDictItem(){
-        super();
-    }
+  /**
+   * Constructor
+   */
+  public SysDictItem() {
+    super();
+  }
 
-    public String getId() {
-        return id;
-    }
+  public String getId() {
+    return id;
+  }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+  public void setId(String id) {
+    this.id = id;
+  }
 
-    public String getTypeId() {
-        return typeId;
-    }
+  public String getTypeId() {
+    return typeId;
+  }
 
-    public void setTypeId(String typeId) {
-        this.typeId = typeId;
-    }
+  public void setTypeId(String typeId) {
+    this.typeId = typeId;
+  }
 
-    public String getItemName() {
-        return itemName;
-    }
+  public String getItemName() {
+    return itemName;
+  }
 
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
-    }
+  public void setItemName(String itemName) {
+    this.itemName = itemName;
+  }
 
-    public Integer getItemOrder() {
-        return itemOrder;
-    }
+  public Integer getItemOrder() {
+    return itemOrder;
+  }
 
-    public void setItemOrder(Integer itemOrder) {
-        this.itemOrder = itemOrder;
-    }
+  public void setItemOrder(Integer itemOrder) {
+    this.itemOrder = itemOrder;
+  }
 
-    public String getStatus() {
-        return status;
-    }
+  public String getStatus() {
+    return status;
+  }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+  public void setStatus(String status) {
+    this.status = status;
+  }
 
-    public String getItemCode() {
-        return itemCode;
-    }
+  public String getItemCode() {
+    return itemCode;
+  }
 
-    public void setItemCode(String itemCode) {
-        this.itemCode = itemCode;
-    }
+  public void setItemCode(String itemCode) {
+    this.itemCode = itemCode;
+  }
 
-    public String getParentId() {
-        return parentId;
-    }
+  public String getParentId() {
+    return parentId;
+  }
 
-    public void setParentId(String parentId) {
-        this.parentId = parentId;
-    }
-    
-    /**
-     * toDto
-     * @return SysDictItemDto
-     */
-    public SysDictItemDto toDto() {
-      SysDictItemDto result = new SysDictItemDto();
-      result.setId(this.getId());
-      result.setItemCode(this.getItemCode());
-      result.setItemName(this.getItemName());
-      result.setItemOrder(this.getItemOrder());
-      result.setParentId(this.getParentId());
-      result.setStatus(this.getStatus());
-      result.setTypeId(this.getTypeId());
-      return result;
-    }
+  public void setParentId(String parentId) {
+    this.parentId = parentId;
+  }
 
 }

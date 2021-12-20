@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.oner365.api.constants.ScheduleTaskConstants;
 import com.oner365.monitor.dto.InvokeParamDto;
+import com.oner365.service.BaseService;
 
 /**
  * 定时任务监听
@@ -17,7 +18,7 @@ import com.oner365.monitor.dto.InvokeParamDto;
  *
  */
 @Component
-public interface IScheduleTaskService {
+public interface IScheduleTaskService extends BaseService {
 
   /**
    * 定时任务监听

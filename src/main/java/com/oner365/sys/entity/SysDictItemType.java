@@ -8,7 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.oner365.sys.dto.SysDictItemTypeDto;
 
 /**
  * 字典类型对象
@@ -114,22 +113,6 @@ public class SysDictItemType implements Serializable {
 
   public void setTypeCode(String typeCode) {
     this.typeCode = typeCode;
-  }
-
-  /**
-   * 转换对象
-   * 
-   * @return SysDictItemTypeDto
-   */
-  public SysDictItemTypeDto toDto() {
-    SysDictItemTypeDto result = new SysDictItemTypeDto();
-    result.setId(this.getId());
-    result.setStatus(this.getStatus());
-    result.setTypeCode(this.getTypeCode());
-    result.setTypeDes(this.getTypeDes());
-    result.setTypeName(this.getTypeName());
-    result.setTypeOrder(this.getTypeOrder());
-    return result;
   }
 
 }

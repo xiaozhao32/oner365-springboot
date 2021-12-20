@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import com.oner365.common.enums.ResultEnum;
@@ -47,13 +48,14 @@ public class DynamicRouteServiceImpl implements DynamicRouteService {
 
   @Override
   public List<GatewayRouteDto> findList() {
-    return convertDto(gatewayRouteDao.findAll());
+    return convert(gatewayRouteDao.findAll(), GatewayRouteDto.class);
   }
 
   @Override
   public PageInfo<GatewayRouteDto> pageList(QueryCriteriaBean data) {
     try {
-      return convertDto(gatewayRouteDao.findAll(QueryUtils.buildCriteria(data), QueryUtils.buildPageRequest(data)));
+      Page<GatewayRoute> page = gatewayRouteDao.findAll(QueryUtils.buildCriteria(data), QueryUtils.buildPageRequest(data));
+      return convert(page, GatewayRouteDto.class);
     } catch (Exception e) {
       LOGGER.error("Error pageList: ", e);
     }
@@ -84,21 +86,8 @@ public class DynamicRouteServiceImpl implements DynamicRouteService {
     gatewayRoute.setPredicates(predicates);
 
     // 页面保存信息
-    GatewayRoute entity = toPojo(gatewayRoute);
-    gatewayRouteDao.save(entity);
+    gatewayRouteDao.save(convert(gatewayRoute, GatewayRoute.class));
     return ResultEnum.SUCCESS.getName();
-  }
-
-  private GatewayRoute toPojo(GatewayRouteVo vo) {
-    GatewayRoute result = new GatewayRoute();
-    result.setId(vo.getId());
-    result.setFilters(vo.getFilters());
-    result.setPattern(vo.getPattern());
-    result.setPredicates(vo.getPredicates());
-    result.setRouteOrder(vo.getRouteOrder());
-    result.setStatus(vo.getStatus());
-    result.setUri(vo.getUri());
-    return result;
   }
 
   @Override
@@ -154,7 +143,7 @@ public class DynamicRouteServiceImpl implements DynamicRouteService {
 
   @Override
   public GatewayRouteDto getById(String id) {
-    return convertDto(findById(id));
+    return convert(findById(id), GatewayRouteDto.class);
   }
 
   @Override

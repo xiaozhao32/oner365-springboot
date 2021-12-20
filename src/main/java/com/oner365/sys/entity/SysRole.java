@@ -13,7 +13,6 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.oner365.sys.dto.SysRoleDto;
 
 /**
  * 基础权限--角色表nt_sys_role
@@ -148,20 +147,4 @@ public class SysRole implements Serializable {
     return new ToStringBuilder(this).append("id", getId()).toString();
   }
 
-  /**
-   * 转换对象
-   * 
-   * @return SysRoleDto
-   */
-  public SysRoleDto toDto() {
-    SysRoleDto result = new SysRoleDto();
-    result.setId(this.getId());
-    result.setCreateTime(this.getCreateTime());
-    result.setRoleCode(this.getRoleCode());
-    result.setRoleDes(this.getRoleDes());
-    result.setRoleName(this.getRoleName());
-    result.setStatus(this.getStatus());
-    result.setUpdateTime(this.getUpdateTime());
-    return result;
-  }
 }

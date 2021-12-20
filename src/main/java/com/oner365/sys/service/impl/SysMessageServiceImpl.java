@@ -43,29 +43,8 @@ public class SysMessageServiceImpl implements ISysMessageService {
   @RedisCachePut(value = CACHE_NAME, key = PublicConstants.KEY_ID)
   @CacheEvict(value = CACHE_NAME, allEntries = true)
   public SysMessageDto save(SysMessageVo vo) {
-    SysMessage entity = toPojo(vo);
-    return convertDto(sysMessageDao.save(entity));
-  }
-
-  /**
-   * 转换对象
-   * 
-   * @return SysMessage
-   */
-  private SysMessage toPojo(SysMessageVo vo) {
-    SysMessage result = new SysMessage();
-    result.setId(vo.getId());
-    result.setContext(vo.getContext());
-    result.setCreateTime(vo.getCreateTime());
-    result.setMessageName(vo.getMessageName());
-    result.setMessageType(vo.getMessageType());
-    result.setQueueKey(vo.getQueueKey());
-    result.setQueueType(vo.getQueueType());
-    result.setReceiveUser(vo.getReceiveUser());
-    result.setSendUser(vo.getSendUser());
-    result.setTypeId(vo.getTypeId());
-    result.setUpdateTime(vo.getUpdateTime());
-    return result;
+    SysMessage entity = sysMessageDao.save(convert(vo, SysMessage.class));
+    return convert(entity, SysMessageDto.class);
   }
 
   @Override
@@ -73,7 +52,7 @@ public class SysMessageServiceImpl implements ISysMessageService {
   public SysMessageDto getById(String id) {
     try {
       Optional<SysMessage> optional = sysMessageDao.findById(id);
-      return convertDto(optional.orElse(null));
+      return convert(optional.orElse(null), SysMessageDto.class);
     } catch (Exception e) {
       LOGGER.error("Error getById:", e);
     }
@@ -84,7 +63,7 @@ public class SysMessageServiceImpl implements ISysMessageService {
   @Cacheable(value = CACHE_NAME, key = "#messageType")
   public List<SysMessageDto> findList(String messageType) {
     try {
-      return convertDto(sysMessageDao.findList(messageType));
+      return convert(sysMessageDao.findList(messageType), SysMessageDto.class);
     } catch (Exception e) {
       LOGGER.error("Error findList: ", e);
     }

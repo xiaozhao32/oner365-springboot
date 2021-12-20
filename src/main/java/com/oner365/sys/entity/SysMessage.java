@@ -12,7 +12,6 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.oner365.sys.dto.SysMessageDto;
 
 /**
  * 消息对象
@@ -253,27 +252,6 @@ public class SysMessage implements Serializable {
    */
   public void setUpdateTime(LocalDateTime updateTime) {
     this.updateTime = updateTime;
-  }
-
-  /**
-   * 转换对象
-   * 
-   * @return SysMessageDto
-   */
-  public SysMessageDto toDto() {
-    SysMessageDto result = new SysMessageDto();
-    result.setId(this.getId());
-    result.setContext(this.getContext());
-    result.setCreateTime(this.getCreateTime());
-    result.setMessageName(this.getMessageName());
-    result.setMessageType(this.getMessageType());
-    result.setQueueKey(this.getQueueKey());
-    result.setQueueType(this.getQueueType());
-    result.setReceiveUser(this.getReceiveUser());
-    result.setSendUser(this.getSendUser());
-    result.setTypeId(this.getTypeId());
-    result.setUpdateTime(this.getUpdateTime());
-    return result;
   }
 
 }
