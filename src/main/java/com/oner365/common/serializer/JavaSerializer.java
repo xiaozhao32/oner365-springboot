@@ -20,10 +20,10 @@ public class JavaSerializer<T> implements RedisSerializer<T> {
     }
 
     @Override
-    public byte[] serialize(T obj) {
+    public byte[] serialize(Object object) {
         try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
                 ObjectOutputStream oos = new ObjectOutputStream(bos)) {
-            oos.writeObject(obj);
+            oos.writeObject(object);
             return bos.toByteArray();
         } catch (IOException e) {
             throw new CacheException(e);

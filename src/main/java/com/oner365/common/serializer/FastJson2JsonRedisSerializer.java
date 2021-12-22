@@ -32,11 +32,11 @@ public class FastJson2JsonRedisSerializer<T> implements RedisSerializer<T> {
     }
 
     @Override
-    public byte[] serialize(T t) {
-        if (t == null) {
+    public byte[] serialize(Object object) {
+        if (object == null) {
             return new byte[0];
         }
-        return JSON.toJSONString(t, SerializerFeature.WriteClassName).getBytes(DEFAULT_CHARSET);
+        return JSON.toJSONString(object, SerializerFeature.WriteClassName).getBytes(DEFAULT_CHARSET);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class FastJson2JsonRedisSerializer<T> implements RedisSerializer<T> {
         }
         String str = new String(bytes, DEFAULT_CHARSET);
 
-        return JSON.parseObject(str, clazz);
+        return (T)JSON.parseObject(str, clazz);
     }
 
     protected JavaType getJavaType(Class<?> clazz) {

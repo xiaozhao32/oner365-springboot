@@ -22,12 +22,12 @@ public class StringJackson2JsonSerializer<T> implements RedisSerializer<T> {
     }
 
     @Override
-    public byte[] serialize(Object t) {
-        if (t == null) {
+    public byte[] serialize(Object object) {
+        if (object == null) {
             return new byte[0];
         }
         try {
-            return this.objectMapper.writeValueAsBytes(JSON.toJSON(t));
+            return this.objectMapper.writeValueAsBytes(JSON.toJSON(object));
         } catch (Exception ex) {
             throw new SerializationException("Could not write JSON: " + ex.getMessage(), ex);
         }

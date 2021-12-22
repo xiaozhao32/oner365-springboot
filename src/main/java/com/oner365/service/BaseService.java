@@ -5,9 +5,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 
+import com.alibaba.fastjson.JSON;
 import com.oner365.common.page.PageInfo;
 
 /**
@@ -29,9 +29,7 @@ public interface BaseService {
       return null;
     }
     try {
-      T target = clazz.newInstance();
-      BeanUtils.copyProperties(source, target);
-      return target;
+      return JSON.parseObject(JSON.toJSONString(source), clazz);
     } catch (Exception e) {
       throw new RuntimeException("转换异常", e);
     }
