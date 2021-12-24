@@ -10,11 +10,8 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
@@ -216,13 +213,7 @@ public class DataSourceUtil {
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             // 判断是否是执行语句
-            boolean isExecute = false;
-            for (String s : key) {
-                if (StringUtils.startsWith(sql, s)) {
-                    isExecute = true;
-                    break;
-                }
-            }
+            boolean isExecute = Arrays.stream(key).anyMatch(s -> StringUtils.startsWith(sql, s));
 
             if (isExecute) {
                 execute(con, ps, resultList);
@@ -341,7 +332,7 @@ public class DataSourceUtil {
         if (table == null) {
             return StringUtils.EMPTY;
         }
-        Method[] getters = ClassesUtil.getGetters(clazz);
+        List<Method> getters = ClassesUtil.getGetters(clazz);
         for (Method m : getters) {
             String property = ClassesUtil.getProperty(m);
             if (property == null || "class".equals(property)) {
@@ -419,12 +410,8 @@ public class DataSourceUtil {
     private static void getSql(Object val, StringBuilder values) {
         // 对象类型获取id ->未排除集合类型
         Class<?> clazzBean = val.getClass();
-        Method[] gettersBean = ClassesUtil.getGetters(clazzBean);
-        for (Method mBean : gettersBean) {
-            String propertyBean = ClassesUtil.getProperty(mBean);
-            if (propertyBean == null || "class".equals(propertyBean)) {
-                continue;
-            }
+        List<Method> gettersBean = ClassesUtil.getGetters(clazzBean);
+        gettersBean.stream().map(ClassesUtil::getProperty).filter(propertyBean -> propertyBean != null && !"class".equals(propertyBean)).forEach(propertyBean -> {
             Field fieldBean = FieldUtils.getField(clazzBean, propertyBean, true);
             if (DataSourceConstants.ID.equals(propertyBean)) {
                 try {
@@ -434,7 +421,7 @@ public class DataSourceUtil {
                     LOGGER.error("getSQL error:", e);
                 }
             }
-        }
+        });
     }
 
 

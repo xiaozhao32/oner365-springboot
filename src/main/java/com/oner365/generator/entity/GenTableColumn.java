@@ -1,6 +1,7 @@
 package com.oner365.generator.entity;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +19,7 @@ import com.oner365.util.DataUtils;
  */
 public class GenTableColumn implements Serializable {
     private static final long serialVersionUID = 1L;
-    
+
     private static final String BLANK = " ";
 
     /** 编号 */
@@ -316,13 +317,11 @@ public class GenTableColumn implements Serializable {
         String remarks = StringUtils.substringBetween(this.columnComment, "（", "）");
         StringBuilder sb = new StringBuilder();
         if (!DataUtils.isEmpty(remarks)) {
-            for (String value : remarks.split(BLANK)) {
-                if (!DataUtils.isEmpty(value)) {
-                    Object startStr = value.subSequence(0, 1);
-                    String endStr = value.substring(1);
-                    sb.append(startStr).append("=").append(endStr).append(",");
-                }
-            }
+            Arrays.stream(remarks.split(BLANK)).filter(value -> !DataUtils.isEmpty(value)).forEach(value -> {
+                Object startStr = value.subSequence(0, 1);
+                String endStr = value.substring(1);
+                sb.append(startStr).append("=").append(endStr).append(",");
+            });
             return sb.deleteCharAt(sb.length() - 1).toString();
         } else {
             return this.columnComment;

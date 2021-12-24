@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -208,14 +209,8 @@ public class SysOrganizationServiceImpl implements ISysOrganizationService {
     List<SysOrganizationDto> childList = getChildList(list, t);
     if (!childList.isEmpty()) {
       t.setChildren(childList);
-      for (SysOrganizationDto tChild : childList) {
-        if (hasChild(list, tChild)) {
-          // 判断是否有子节点
-          for (SysOrganizationDto n : childList) {
-            recursionFn(list, n);
-          }
-        }
-      }
+      // 判断是否有子节点
+      childList.stream().filter(tChild -> hasChild(list, tChild)).<Consumer<? super SysOrganizationDto>>map(tChild -> n -> recursionFn(list, n)).forEach(childList::forEach);
     }
   }
 
@@ -223,13 +218,7 @@ public class SysOrganizationServiceImpl implements ISysOrganizationService {
    * 得到子节点列表
    */
   private List<SysOrganizationDto> getChildList(List<SysOrganizationDto> list, SysOrganizationDto t) {
-    List<SysOrganizationDto> result = new ArrayList<>();
-    for (SysOrganizationDto n : list) {
-      if (n.getParentId().equals(t.getId())) {
-        result.add(n);
-      }
-    }
-    return result;
+    return list.stream().filter(n -> n.getParentId().equals(t.getId())).collect(Collectors.toList());
   }
 
   /**

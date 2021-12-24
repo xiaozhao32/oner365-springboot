@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -48,7 +49,7 @@ import io.swagger.annotations.ApiParam;
 
 /**
  * 文件上传
- * 
+ *
  * @author zhaoyong
  */
 @RestController
@@ -80,7 +81,7 @@ public class FileStorageController extends BaseController {
 
   /**
    * 获取fdfs目录 - fdfs专用
-   * 
+   *
    * @param fileDirectory 目录
    * @return List<FastdfsFile>
    */
@@ -92,7 +93,7 @@ public class FileStorageController extends BaseController {
     if (!DataUtils.isEmpty(fileDirectory)) {
       directory = fileFdfsProperties.getPath() + "/M00/00/" + fileDirectory;
     }
-    List<SFTPv3DirectoryEntry> vector = DeployUtils.directoryList(fileFdfsProperties.getIp(), fileFdfsProperties.getPort(), 
+    List<SFTPv3DirectoryEntry> vector = DeployUtils.directoryList(fileFdfsProperties.getIp(), fileFdfsProperties.getPort(),
         fileFdfsProperties.getUser(), fileFdfsProperties.getPassword(), directory);
     List<SysFileStorageDto> result = new ArrayList<>();
     for (SFTPv3DirectoryEntry entry : vector) {
@@ -112,7 +113,7 @@ public class FileStorageController extends BaseController {
 
   /**
    * 文件上传 File 类型
-   * 
+   *
    * @param file    File
    * @param dictory 目录
    * @return Map<String, Object>
@@ -133,7 +134,7 @@ public class FileStorageController extends BaseController {
 
   /**
    * 文件下载
-   * 
+   *
    * @param fileUrl  url 开头从组名开始
    * @param filename 文件名称
    * @param response HttpServletResponse
@@ -166,7 +167,7 @@ public class FileStorageController extends BaseController {
 
   /**
    * 文件流下载
-   * 
+   *
    * @param fileUrl url 开头从组名开始
    * @return byte[]
    */
@@ -179,7 +180,7 @@ public class FileStorageController extends BaseController {
 
   /**
    * 删除文件
-   * 
+   *
    * @param ids 文件id
    * @return String
    */
@@ -188,16 +189,14 @@ public class FileStorageController extends BaseController {
   @DeleteMapping("/delete")
   public String delete(@RequestBody String... ids) {
     if (ids != null) {
-      for (String id : ids) {
-        fileStorageClient.deleteFile(id);
-      }
+      Arrays.stream(ids).forEach(id -> fileStorageClient.deleteFile(id));
     }
     return ResultEnum.SUCCESS.getName();
   }
 
   /**
    * 获取文件存储方式
-   * 
+   *
    * @return String
    */
   @ApiOperation("7.获取文件存储方式")

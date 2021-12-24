@@ -26,6 +26,8 @@ import com.oner365.util.GeneTransFormUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+import java.util.Arrays;
+
 /**
  * Elasticsearch Controller
  *
@@ -106,9 +108,7 @@ public class SampleGeneController extends BaseController {
   @DeleteMapping("/delete")
   public Integer delete(@RequestBody String... ids) {
     Integer result = ResultEnum.SUCCESS.getCode();
-    for (String id : ids) {
-      service.deleteById(id);
-    }
+    Arrays.stream(ids).forEach(id -> service.deleteById(id));
     return result;
   }
 

@@ -10,6 +10,8 @@ import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinVCharType;
 import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
 
+import java.util.stream.IntStream;
+
 /**
  * 拼音工具类
  * @author zhaoyong
@@ -74,16 +76,16 @@ public class Pinyin4jUtils {
      */
     public static String toPinYinInitials(String src, Type type) {
         StringBuilder convert = new StringBuilder();
-        for (int j = 0; j < src.length(); j++) {
+        // 提取汉字的首字母
+        IntStream.range(0, src.length()).forEach(j -> {
             char word = src.charAt(j);
-            // 提取汉字的首字母
             String[] pinyinArray = PinyinHelper.toHanyuPinyinStringArray(word);
             if (pinyinArray != null) {
                 convert.append(pinyinArray[0].charAt(0));
             } else {
                 convert.append(word);
             }
-        }
+        });
         if (type == Type.LOWERCASE) {
             return convert.toString().toLowerCase();
         } else {

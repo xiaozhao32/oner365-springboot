@@ -8,6 +8,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.nio.charset.Charset;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -112,11 +113,7 @@ public class ExportExcelUtils {
         String extension = DataUtils.getExtension(fileName);
         try (Workbook workbook = createWorkbook(extension, fileSuffix);
                 FileOutputStream fileOut = new FileOutputStream(filePath + File.separator + fileName)) {
-            for (Map.Entry<String, List<?>> map : mapList.entrySet()) {
-                String sheetName = map.getKey();
-                List<?> dataList = map.getValue();
-                export(workbook, sheetName, columnName, titleKey, dataList);
-            }
+            mapList.forEach((sheetName, dataList) -> export(workbook, sheetName, columnName, titleKey, dataList));
 
             workbook.write(fileOut);
             fileOut.flush();
@@ -190,10 +187,7 @@ public class ExportExcelUtils {
                 Object object = objectList.get(i);
                 // 获取实体类的所有属性，返回Field数组
                 Field[] field = object.getClass().getDeclaredFields();
-                String[] pName = new String[field.length];
-                for (int j = 0; j < field.length; j++) {
-                    pName[j] = field[j].getName();
-                }
+                String[] pName = Arrays.stream(field).map(Field::getName).toArray(String[]::new);
 
                 for (int n = 0; n < titleKey.length; n++) {
                     for (int j = 0; j < pName.length; j++) {

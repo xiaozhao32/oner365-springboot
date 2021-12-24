@@ -15,6 +15,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecuteResultHandler;
@@ -100,14 +102,10 @@ public class DeployUtils {
 
     String ip = properties.get("servers.ip").toString();
     String[] ips = StringUtils.split(ip, ",");
-    List<DeployServer> serverList = new ArrayList<>();
-    for (int i = 0; i < ips.length; i++) {
-      DeployServer server = new DeployServer(ips[i],
-          Integer.parseInt(StringUtils.split(properties.get("servers.port").toString(), ",")[i]),
-          StringUtils.split(properties.get("servers.username").toString(), ",")[i],
-          StringUtils.split(properties.get("servers.password").toString(), ",")[i]);
-      serverList.add(server);
-    }
+    List<DeployServer> serverList = IntStream.range(0, ips.length).mapToObj(i -> new DeployServer(ips[i],
+            Integer.parseInt(StringUtils.split(properties.get("servers.port").toString(), ",")[i]),
+            StringUtils.split(properties.get("servers.username").toString(), ",")[i],
+            StringUtils.split(properties.get("servers.password").toString(), ",")[i])).collect(Collectors.toList());
 
     result.setServerList(serverList);
 
@@ -247,11 +245,7 @@ public class DeployUtils {
       return Collections.emptyList();
     }
 
-    List<String> result = new ArrayList<>();
-    for (String command : commands) {
-      result.add(execExecute(command));
-    }
-    return result;
+    return commands.stream().map(DeployUtils::execExecute).collect(Collectors.toList());
   }
 
   /**
@@ -291,9 +285,7 @@ public class DeployUtils {
       return;
     }
 
-    for (String command : commands) {
-      execExecuteCommand(command);
-    }
+    commands.forEach(DeployUtils::execExecuteCommand);
   }
 
   /**
@@ -367,14 +359,13 @@ public class DeployUtils {
    */
   @SuppressWarnings("unchecked")
   public static List<String> directoryList(SFTPv3Client sftpClient, String directory) {
-    List<String> result = new ArrayList<>();
     try {
       List<SFTPv3DirectoryEntry> vector = sftpClient.ls(directory);
-      vector.forEach(c -> result.add(c.filename));
+      return vector.stream().map(c -> c.filename).collect(Collectors.toList());
     } catch (IOException e) {
       LOGGER.error("Error directoryList:", e);
     }
-    return result;
+    return Collections.emptyList();
   }
 
   /**

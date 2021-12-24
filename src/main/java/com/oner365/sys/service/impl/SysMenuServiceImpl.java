@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -182,14 +183,8 @@ public class SysMenuServiceImpl implements ISysMenuService {
     List<SysMenuDto> childList = getChildList(list, t);
     if (!childList.isEmpty()) {
       t.setChildren(childList);
-      for (SysMenuDto tChild : childList) {
-        if (hasChild(list, tChild)) {
-          // 判断是否有子节点
-          for (SysMenuDto n : childList) {
-            recursionFn(list, n);
-          }
-        }
-      }
+      // 判断是否有子节点
+      childList.stream().filter(tChild -> hasChild(list, tChild)).<Consumer<? super SysMenuDto>>map(tChild -> n -> recursionFn(list, n)).forEach(childList::forEach);
     }
   }
 

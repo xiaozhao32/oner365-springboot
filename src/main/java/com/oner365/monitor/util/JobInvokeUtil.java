@@ -2,6 +2,7 @@ package com.oner365.monitor.util;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -132,29 +133,28 @@ public class JobInvokeUtil {
         }
         String[] methodParams = methodStr.split(",");
         List<Object[]> classList = new LinkedList<>();
-        for (String methodParam : methodParams) {
-            String str = StringUtils.trimToEmpty(methodParam);
-            // String字符串类型，包含'
+        // String字符串类型，包含'
+        Arrays.stream(methodParams).map(StringUtils::trimToEmpty).forEach(str -> {
             if (StringUtils.contains(str, "'")) {
-                classList.add(new Object[] { StringUtils.replace(str, "'", ""), String.class });
+                classList.add(new Object[]{StringUtils.replace(str, "'", ""), String.class});
             }
             // boolean布尔类型，等于true或者false
             else if (StringUtils.equals(str, "true") || StringUtils.equalsIgnoreCase(str, "false")) {
-                classList.add(new Object[] { Boolean.valueOf(str), Boolean.class });
+                classList.add(new Object[]{Boolean.valueOf(str), Boolean.class});
             }
             // long长整形，包含L
             else if (StringUtils.containsIgnoreCase(str, "L")) {
-                classList.add(new Object[] { Long.valueOf(StringUtils.replaceIgnoreCase(str, "L", "")), Long.class });
+                classList.add(new Object[]{Long.valueOf(StringUtils.replaceIgnoreCase(str, "L", "")), Long.class});
             }
             // double浮点类型，包含D
             else if (StringUtils.containsIgnoreCase(str, "D")) {
-                classList.add(new Object[] { Double.valueOf(StringUtils.replaceIgnoreCase(str, "D", "")), Double.class });
+                classList.add(new Object[]{Double.valueOf(StringUtils.replaceIgnoreCase(str, "D", "")), Double.class});
             }
             // 其他类型归类为整形
             else {
-                classList.add(new Object[] { Integer.valueOf(str), Integer.class });
+                classList.add(new Object[]{Integer.valueOf(str), Integer.class});
             }
-        }
+        });
         return classList;
     }
 

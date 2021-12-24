@@ -228,17 +228,17 @@ public class SysUserServiceImpl implements ISysUserService {
 
       // 删除用户角色关联
       userRoleDao.deleteUserRoleByUserId(entity.getId());
-      for (String id : roles) {
+      roles.forEach(id -> {
         SysRole sysRole = sysRoleDao.getById(id);
         SysUserRole sysUserRole = new SysUserRole();
         sysUserRole.setSysRole(sysRole);
         sysUserRole.setSysUser(entity);
         userRoleDao.save(sysUserRole);
-      }
+      });
 
       // 删除用户职位关联
       userJobDao.deleteUserJobByUserId(entity.getId());
-      for (String id : jobs) {
+      jobs.forEach(id -> {
         SysJob sysJob = sysJobDao.getById(id);
         SysUserJob sysUserJob = new SysUserJob();
         sysUserJob.setSysJob(sysJob);
@@ -248,11 +248,11 @@ public class SysUserServiceImpl implements ISysUserService {
         sysUserJob.setCreateTime(time);
         sysUserJob.setUpdateTime(time);
         userJobDao.save(sysUserJob);
-      }
+      });
 
       // 删除用户单位关联
       userOrgDao.deleteUserOrgByUserId(entity.getId());
-      for (String id : orgs) {
+      orgs.forEach(id -> {
         SysOrganization sysOrg = sysOrganizationDao.getById(id);
         SysUserOrg sysUserOrg = new SysUserOrg();
         sysUserOrg.setSysOrganization(sysOrg);
@@ -262,7 +262,7 @@ public class SysUserServiceImpl implements ISysUserService {
         sysUserOrg.setCreateTime(time);
         sysUserOrg.setUpdateTime(time);
         userOrgDao.save(sysUserOrg);
-      }
+      });
       entity.setRoles(roles);
       entity.setJobs(jobs);
       entity.setOrgs(orgs);

@@ -70,7 +70,7 @@ public class SysTaskLogServiceImpl implements ISysTaskLogService {
   /**
    * 新增任务日志
    *
-   * @param taskLog 调度日志信息
+   * @param vo 调度日志信息
    */
   @Override
   public void addTaskLog(SysTaskLogVo vo) {
@@ -79,7 +79,7 @@ public class SysTaskLogServiceImpl implements ISysTaskLogService {
     }
     dao.save(convert(vo, SysTaskLog.class));
   }
-  
+
   /**
    * 批量删除调度日志信息
    *

@@ -1,10 +1,7 @@
 package com.oner365.deploy.utils;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,11 +43,7 @@ public class DeployMethod {
     List<String> cmdList = new ArrayList<>(2);
     cmdList.add(cmd);
     List<List<String>> execList = DeployUtils.execCommand(con, cmdList);
-    for (List<String> list : execList) {
-      for (String s : list) {
-        LOGGER.info("> {}", s);
-      }
-    }
+    execList.stream().flatMap(Collection::stream).forEach(s -> LOGGER.info("> {}", s));
   }
 
   /**
@@ -66,11 +59,7 @@ public class DeployMethod {
     List<String> cmdList = new ArrayList<>(2);
     cmdList.add(cmd);
     List<List<String>> execList = DeployUtils.execCommand(con, cmdList);
-    for (List<String> list : execList) {
-      for (String s : list) {
-        LOGGER.info("> {}", s);
-      }
-    }
+    execList.stream().flatMap(Collection::stream).forEach(s -> LOGGER.info("> {}", s));
   }
 
   /**
@@ -93,11 +82,7 @@ public class DeployMethod {
   public static void execCommands(Connection con, List<String> commands) {
 
     List<List<String>> execList = DeployUtils.execCommand(con, commands);
-    for (List<String> list : execList) {
-      for (String s : list) {
-        LOGGER.info("> {}", s);
-      }
-    }
+    execList.stream().flatMap(Collection::stream).forEach(s -> LOGGER.info("> {}", s));
   }
 
   /**
@@ -106,7 +91,7 @@ public class DeployMethod {
    * @param deployEntity 部署对象
    */
   public static void deployNative(DeployEntity deployEntity) {
-    for (String projectName : deployEntity.getProjects()) {
+    deployEntity.getProjects().forEach(projectName -> {
       // jar包全路径
       String path = deployEntity.getLocation() + File.separator + projectName + File.separator + FILE_TARGET
           + File.separator + projectName + "-" + deployEntity.getVersion() + "." + deployEntity.getSuffix();
@@ -137,7 +122,7 @@ public class DeployMethod {
       items = new HashMap<>(1);
       items.put("RESOURCE_NAME", projectName + "-" + deployEntity.getVersion() + "." + deployEntity.getSuffix());
       DeployUtils.replaceContextFileCreate(readFile, writeFile, items);
-    }
+    });
 
   }
 
@@ -150,20 +135,19 @@ public class DeployMethod {
   public static void deployServer(DeployEntity deployEntity, ServerEntity serverEntity) {
     try {
       // 多个目标进行部署
-      for (DeployServer server : serverEntity.getServerList()) {
-        // get connection
+      // get connection
+      // 认证
+      // close
+      serverEntity.getServerList().forEach(server -> {
         Connection con = DeployUtils.getConnection(server.getIp(), server.getPort());
-
-        // 认证
         boolean auth = DeployUtils.auth(con, server.getUsername(), server.getPassword());
         LOGGER.info("Auth : {}", auth);
         if (auth) {
           List<String> commands = deploy(con, server, deployEntity, serverEntity.getServerName());
           DeployMethod.execCommands(con, commands);
         }
-        // close
         DeployUtils.close(con, null, null);
-      }
+      });
     } catch (Exception e) {
       LOGGER.error("deployServer error:", e);
     }
@@ -180,7 +164,7 @@ public class DeployMethod {
    */
   public static List<String> deploy(Connection con, DeployServer server, DeployEntity deployEntity, String targetRoot) {
     List<String> commands = new ArrayList<>(deployEntity.getProjects().size());
-    for (String projectName : deployEntity.getProjects()) {
+    deployEntity.getProjects().forEach(projectName -> {
       // 上传的文件
       String localFile = deployEntity.getLocation() + File.separator + projectName + File.separator + projectName + "-"
           + deployEntity.getVersion() + "." + deployEntity.getSuffix();
@@ -203,35 +187,27 @@ public class DeployMethod {
       }
       // 准备执行的命令
       commands.add(targetRoot + PublicConstants.DELIMITER + projectName + PublicConstants.DELIMITER + "start.sh");
-    }
+    });
     return commands;
   }
 
   private static void deployMac(DeployServer server, DeployEntity deployEntity, String targetRoot) {
-    for (String lib : deployEntity.getLibs()) {
-      DeployMethod.deploy(server,
-          deployEntity.getLocation() + File.separator + FILE_LIB + File.separator + lib + "-"
-              + deployEntity.getVersion() + "." + deployEntity.getSuffix(),
-          targetRoot + PublicConstants.DELIMITER + FILE_LIB + PublicConstants.DELIMITER);
-    }
+    deployEntity.getLibs().forEach(lib -> DeployMethod.deploy(server,
+            deployEntity.getLocation() + File.separator + FILE_LIB + File.separator + lib + "-"
+                    + deployEntity.getVersion() + "." + deployEntity.getSuffix(),
+            targetRoot + PublicConstants.DELIMITER + FILE_LIB + PublicConstants.DELIMITER));
   }
 
   private static void deployWindows(Connection con, DeployEntity deployEntity, String targetPath, String resourcesFile,
       String targetRoot) {
     File[] files = new File(resourcesFile).listFiles();
     if (files != null) {
-      for (File f : files) {
-        if (!f.isDirectory()) {
-          DeployUtils.uploadFileMap(con, new String[] { f.getPath() },
-              targetPath + FILE_RESOURCES + PublicConstants.DELIMITER);
-        }
-      }
+      Arrays.stream(files).filter(f -> !f.isDirectory()).forEach(f -> DeployUtils.uploadFileMap(con, new String[]{f.getPath()},
+              targetPath + FILE_RESOURCES + PublicConstants.DELIMITER));
     }
-    for (String lib : deployEntity.getLibs()) {
-      DeployUtils.uploadFileMap(con,
-          new String[] { deployEntity.getLocation() + File.separator + FILE_LIB + File.separator + lib + "-"
-              + deployEntity.getVersion() + "." + deployEntity.getSuffix() },
-          targetRoot + PublicConstants.DELIMITER + FILE_LIB + PublicConstants.DELIMITER);
-    }
+    deployEntity.getLibs().forEach(lib -> DeployUtils.uploadFileMap(con,
+            new String[]{deployEntity.getLocation() + File.separator + FILE_LIB + File.separator + lib + "-"
+                    + deployEntity.getVersion() + "." + deployEntity.getSuffix()},
+            targetRoot + PublicConstants.DELIMITER + FILE_LIB + PublicConstants.DELIMITER));
   }
 }

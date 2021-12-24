@@ -6,6 +6,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -104,9 +105,7 @@ public class ImportExcelUtils {
     // 由于第0行和第一行已经合并了 在这里索引从2开始
     // 正文内容应该从第二行开始,第一行为表头的标题
     List<List<Object>> dataList = new ArrayList<>();
-    for (int i = titleRow + 1; i <= rowNum; i++) {
-      getCellDataList(dataList, sheet, colNum, i);
-    }
+    IntStream.rangeClosed(titleRow + 1, rowNum).forEach(i -> getCellDataList(dataList, sheet, colNum, i));
     excelData.setDataList(dataList);
     return excelData;
   }

@@ -1,6 +1,7 @@
 package com.oner365.common.cache.config;
 
 import java.time.Duration;
+import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
@@ -42,36 +43,36 @@ import redis.clients.jedis.Jedis;
  * @author zhaoyong
  *
  */
-@Configuration  
+@Configuration
 @EnableCaching
 @ConditionalOnClass({ JedisConnection.class, RedisOperations.class, Jedis.class })
 @EnableConfigurationProperties(RedisProperties.class)
 @AutoConfigureAfter(RedisAutoConfiguration.class)
-public class RedisCacheConfig extends CachingConfigurerSupport {  
-    
+public class RedisCacheConfig extends CachingConfigurerSupport {
+
     @Bean
     public CacheManager cacheManager(@Autowired RedisConnectionFactory connectionFactory) {
         return RedisCacheManager.builder(connectionFactory)
                 .cacheDefaults(RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(PublicConstants.EXPIRE_TIME)))
                 .transactionAware().build();
     }
-    
+
     @Bean
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory);
-        
+
         FastJsonRedisSerializer<Object> serializer = new FastJsonRedisSerializer<>(Object.class);
-        
+
         redisTemplate.setValueSerializer(serializer);
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setHashValueSerializer(serializer);
         redisTemplate.setHashKeySerializer(new StringRedisSerializer());
-        
+
         redisTemplate.afterPropertiesSet();
         return redisTemplate;
     }
-    
+
     @Bean
     @ConditionalOnProperty(value = { "spring.redis.cluster.enable" }, havingValue = "true")
     public LettuceConnectionFactory redisConnectionFactory(RedisProperties redisProperties) {
@@ -85,7 +86,7 @@ public class RedisCacheConfig extends CachingConfigurerSupport {
                 .readFrom(ReadFrom.REPLICA_PREFERRED).clientOptions(clusterClientOptions).build();
         return new LettuceConnectionFactory(redisClusterConfiguration, lettuceClientConfiguration);
     }
-    
+
     @Bean
     @Override
     public KeyGenerator keyGenerator() {
@@ -100,7 +101,7 @@ public class RedisCacheConfig extends CachingConfigurerSupport {
             strBuilder.append(sp);
             if (params.length > 0) {
                 // 参数值
-                for (Object object : params) {
+                Arrays.stream(params).forEach(object -> {
                     if (DataUtils.isEmpty(object)) {
                         strBuilder.append("");
                     } else if (ClassesUtil.isPrimitive(object.getClass())) {
@@ -108,12 +109,12 @@ public class RedisCacheConfig extends CachingConfigurerSupport {
                     } else {
                         strBuilder.append(JSON.toJSONString(object).hashCode());
                     }
-                }
+                });
             } else {
                 strBuilder.append(sp);
             }
             return strBuilder.toString();
         };
     }
-    
-}  
+
+}

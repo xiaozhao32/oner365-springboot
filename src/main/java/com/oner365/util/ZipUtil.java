@@ -60,9 +60,7 @@ public class ZipUtil {
    */
   public static void zip(List<File> files, String dest, List<String> filter) {
     try (ZipOutputStream out = new ZipOutputStream(new FileOutputStream(dest))) {
-      for (File file : files) {
-        zip(out, file, "", filter);
-      }
+      files.forEach(file -> zip(out, file, "", filter));
     } catch (IOException e) {
       LOGGER.error("Error zip:", e);
     }
