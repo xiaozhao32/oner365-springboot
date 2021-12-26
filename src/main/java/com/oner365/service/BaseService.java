@@ -28,11 +28,7 @@ public interface BaseService {
     if (source == null) {
       return null;
     }
-    try {
-      return JSON.parseObject(JSON.toJSONString(source), clazz);
-    } catch (Exception e) {
-      throw new RuntimeException("转换异常", e);
-    }
+    return JSON.parseObject(JSON.toJSONString(source), clazz);
   }
 
   /**

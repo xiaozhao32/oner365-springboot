@@ -15,7 +15,6 @@ import java.nio.charset.Charset;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -115,7 +114,7 @@ public class HttpClientUtils {
   }
 
   public static String httpsPost(String path, Map<String, String> headers, String body)
-          throws IOException, KeyManagementException, NoSuchAlgorithmException, NoSuchProviderException {
+          throws IOException, KeyManagementException, NoSuchAlgorithmException {
     URL url = new URL(path);
     HostnameVerifier ignoreHostnameVerifier = (s, sslSession) -> {
       LOGGER.warn("WARNING: Hostname is not matched for cert.");
@@ -156,7 +155,7 @@ public class HttpClientUtils {
   }
 
   private static SSLContext getSslContext()
-          throws NoSuchAlgorithmException, KeyManagementException, NoSuchProviderException {
+          throws NoSuchAlgorithmException, KeyManagementException {
     SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
     sslContext.init(null, new TrustManager[]{new MyX509TrustManager()}, new java.security.SecureRandom());
     return sslContext;
@@ -166,10 +165,12 @@ public class HttpClientUtils {
 
     @Override
     public void checkClientTrusted(X509Certificate[] arg0, String arg1) {
+      // checkClientTrusted
     }
 
     @Override
     public void checkServerTrusted(X509Certificate[] arg0, String arg1) {
+      // checkServerTrusted
     }
 
     @Override

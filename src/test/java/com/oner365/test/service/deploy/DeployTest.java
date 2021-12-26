@@ -23,7 +23,7 @@ class DeployTest extends BaseServiceTest {
    * 本地部署
    */
   @Test
-  public void deployNativeTest() {
+  void deployNativeTest() {
     DeployEntity entity = DeployUtils.getDeployEntity();
     Assertions.assertNotNull(entity);
     LOGGER.info("Deploy project: {}", entity);
@@ -35,7 +35,7 @@ class DeployTest extends BaseServiceTest {
    * 服务器部署
    */
   @Test
-  public void deployServerTest() {
+  void deployServerTest() {
     DeployEntity deploy = DeployUtils.getDeployEntity();
     ServerEntity server = DeployUtils.getServerEntity();
     Assertions.assertNotNull(server);
