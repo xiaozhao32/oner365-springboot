@@ -3,7 +3,6 @@ package com.oner365.test.service.sys;
 import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,14 +23,6 @@ class SysMessageServiceTest extends BaseServiceTest {
 
   @Autowired
   private ISysMessageService service;
-
-  @RepeatedTest(value = 2)
-  void findList() {
-    String messageType = "test";
-    List<SysMessageDto> list = service.findList(messageType);
-    LOGGER.info("findList:{}", list.size());
-    Assertions.assertNotEquals(0, list.size());
-  }
 
   @Test
   void getById() {
