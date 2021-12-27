@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSON;
 import com.oner365.common.enums.ResultEnum;
+import com.oner365.common.enums.StatusEnum;
 import com.oner365.common.exception.ProjectRuntimeException;
 import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.QueryCriteriaBean;
@@ -106,7 +107,7 @@ public class SysTaskServiceImpl implements ISysTaskService {
   public int pauseTask(SysTaskVo task) throws SchedulerException, TaskException {
     String taskId = task.getId();
     String taskGroup = task.getTaskGroup();
-    task.setStatus(ScheduleConstants.Status.PAUSE.getValue());
+    task.setStatus(StatusEnum.NO.getCode());
     save(task);
     scheduler.pauseJob(ScheduleUtils.getJobKey(taskId, taskGroup));
     return ResultEnum.SUCCESS.getCode();
@@ -122,7 +123,7 @@ public class SysTaskServiceImpl implements ISysTaskService {
   public int resumeTask(SysTaskVo task) throws SchedulerException, TaskException {
     String taskId = task.getId();
     String taskGroup = task.getTaskGroup();
-    task.setStatus(ScheduleConstants.Status.NORMAL.getValue());
+    task.setStatus(StatusEnum.YES.getCode());
     save(task);
     scheduler.resumeJob(ScheduleUtils.getJobKey(taskId, taskGroup));
     return ResultEnum.SUCCESS.getCode();
@@ -171,9 +172,9 @@ public class SysTaskServiceImpl implements ISysTaskService {
   @Transactional(rollbackFor = ProjectRuntimeException.class)
   public int changeStatus(SysTaskVo task) throws SchedulerException, TaskException {
     int rows = 0;
-    if (ScheduleConstants.Status.NORMAL.getValue().equals(task.getStatus())) {
+    if (StatusEnum.YES.getCode().equals(task.getStatus())) {
       rows = resumeTask(task);
-    } else if (ScheduleConstants.Status.PAUSE.getValue().equals(task.getStatus())) {
+    } else if (StatusEnum.NO.getCode().equals(task.getStatus())) {
       rows = pauseTask(task);
     }
     return rows;
@@ -210,7 +211,7 @@ public class SysTaskServiceImpl implements ISysTaskService {
   public int save(SysTaskVo task) throws SchedulerException, TaskException {
     boolean isAdd = DataUtils.isEmpty(task.getId());
     if (isAdd && DataUtils.isEmpty(task.getStatus())) {
-      task.setStatus(ScheduleConstants.Status.PAUSE.getValue());
+      task.setStatus(StatusEnum.NO.getCode());
       task.setCreateTime(DateUtil.getDate());
     }
     SysTask entity = dao.save(convert(task, SysTask.class));

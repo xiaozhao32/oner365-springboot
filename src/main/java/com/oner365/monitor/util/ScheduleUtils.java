@@ -11,6 +11,7 @@ import org.quartz.SchedulerException;
 import org.quartz.TriggerBuilder;
 import org.quartz.TriggerKey;
 
+import com.oner365.common.enums.StatusEnum;
 import com.oner365.monitor.constants.ScheduleConstants;
 import com.oner365.monitor.dto.SysTaskDto;
 import com.oner365.monitor.exception.TaskException;
@@ -83,7 +84,7 @@ public class ScheduleUtils {
         scheduler.scheduleJob(jobDetail, trigger);
 
         // 暂停任务
-        if (sysTask.getStatus().equals(ScheduleConstants.Status.PAUSE.getValue())) {
+        if (sysTask.getStatus().equals(StatusEnum.NO.getCode())) {
             scheduler.pauseJob(ScheduleUtils.getJobKey(jobId, jobGroup));
         }
     }

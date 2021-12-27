@@ -39,30 +39,6 @@ public class ScheduleConstants {
      */
     public static final String SCHEDULE_CONCURRENT = "1";
 
-    /**
-     * 状态
-     */
-    public enum Status {
-        /**
-         * 正常
-         */
-        NORMAL("1"),
-        /**
-         * 暂停
-         */
-        PAUSE("0");
-
-        private final String value;
-
-        Status(String value) {
-            this.value = value;
-        }
-
-        public String getValue() {
-            return value;
-        }
-    }
-    
     private ScheduleConstants() {
         super();
     }
