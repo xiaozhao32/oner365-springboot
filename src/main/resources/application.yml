@@ -205,9 +205,10 @@ swagger:
   url: https://www.oner365.com
   email: service@oner365.com
   description: Oner365 project
- 
 # knife4j 
-knife4j:  enable: true
+knife4j:
+  enable: true 
+
   
 
 
