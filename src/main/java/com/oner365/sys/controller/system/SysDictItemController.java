@@ -72,7 +72,7 @@ public class SysDictItemController extends BaseController {
    * 获取类别列表
    *
    * @param codes 参数
-   * @return List<SysDictItemType>
+   * @return List<SysDictItemTypeDto>
    */
   @ApiOperation("2.获取类别列表")
   @ApiOperationSupport(order = 2)

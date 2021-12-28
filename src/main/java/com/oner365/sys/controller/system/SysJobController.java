@@ -44,7 +44,7 @@ public class SysJobController extends BaseController {
    * 用户职位列表
    *
    * @param data 查询参数
-   * @return Page<SysJob>
+   * @return Page<SysJobDto>
    */
   @ApiOperation("1.获取列表")
   @ApiOperationSupport(order = 1)
@@ -57,7 +57,7 @@ public class SysJobController extends BaseController {
    * 获取用户职位
    *
    * @param id 编号
-   * @return SysJob
+   * @return SysJobDto
    */
   @ApiOperation("2.按id查询")
   @ApiOperationSupport(order = 2)
@@ -84,7 +84,7 @@ public class SysJobController extends BaseController {
    * 用户职位保存
    *
    * @param sysJobVo 职位对象
-   * @return ResponseResult<SysJob>
+   * @return ResponseResult<SysJobDto>
    */
   @ApiOperation("4.保存")
   @ApiOperationSupport(order = 4)

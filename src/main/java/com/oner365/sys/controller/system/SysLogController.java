@@ -46,7 +46,7 @@ public class SysLogController extends BaseController {
 	 * 列表
 	 *
 	 * @param data 查询参数
-	 * @return PageInfo<SysLog>
+	 * @return PageInfo<SysLogDto>
 	 */
 	@ApiOperation("1.获取列表")
 	@ApiOperationSupport(order = 1)
@@ -59,7 +59,7 @@ public class SysLogController extends BaseController {
 	 * 获取信息
 	 *
 	 * @param id 编号
-	 * @return SysLog
+	 * @return SysLogDto
 	 */
 	@ApiOperation("2.按id查询")
 	@ApiOperationSupport(order = 2)
