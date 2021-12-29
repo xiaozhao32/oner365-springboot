@@ -1,21 +1,19 @@
 package com.oner365.common.cache;
 
-import java.util.Optional;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.oner365.util.DataUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
-import com.google.common.cache.RemovalNotification;
-import com.google.common.util.concurrent.Futures;
-import com.google.common.util.concurrent.ListenableFuture;
-import com.oner365.util.DataUtils;
+import java.util.Optional;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Guava cache
@@ -47,8 +45,7 @@ public class GuavaCache<T> {
             .initialCapacity(INITIAL_CAPACITY)
             .maximumSize(MAXIMUM_SIZE)
             .recordStats()
-            .removalListener(RemovalNotification::getCause)
-            .build(new CacheLoader<String, Optional<T>>() {
+            .build(new CacheLoader<>() {
                 @Override
                 public Optional<T> load(@NonNull String key) {
                     LOGGER.debug("load: {}", key);

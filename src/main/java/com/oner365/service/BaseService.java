@@ -19,7 +19,7 @@ public interface BaseService {
 
   /**
    * 转换对象
-   * 
+   *
    * @param source 转换对象
    * @param clazz  目标类
    * @return T
@@ -48,7 +48,8 @@ public interface BaseService {
   /**
    * 转换分页对象
    *
-   * @param page 分页对象
+   * @param page  分页对象
+   * @param clazz 目标类
    * @return PageInfo<T>
    */
   default <T extends Serializable, S> PageInfo<T> convert(Page<S> page, Class<T> clazz) {
@@ -56,7 +57,7 @@ public interface BaseService {
       return null;
     }
     return new PageInfo<>(convert(page.getContent(), clazz), page.getNumber() + 1, page.getSize(),
-        page.getTotalElements());
+            page.getTotalElements());
   }
 
 }
