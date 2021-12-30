@@ -99,7 +99,7 @@ public class CacheController extends BaseController {
     } else {
       jedis.connect();
     }
-    LOGGER.info("info: {}", auth);
+    LOGGER.debug("info: {}", auth);
 
     List<Map<String, Object>> result = new ArrayList<>();
     if (jedis.isConnected()) {
@@ -138,7 +138,7 @@ public class CacheController extends BaseController {
     } else {
       jedis.connect();
     }
-    LOGGER.info("info: {}", auth);
+    LOGGER.debug("info: {}", auth);
 
     if (jedis.isConnected()) {
       jedis.select(index);
