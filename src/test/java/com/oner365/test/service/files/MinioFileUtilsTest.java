@@ -7,7 +7,6 @@ import java.io.InputStream;
 
 import org.apache.http.entity.ContentType;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
 import com.oner365.test.service.BaseServiceTest;
 
@@ -29,9 +28,9 @@ import io.minio.RemoveObjectArgs;
  */
 class MinioFileUtilsTest extends BaseServiceTest {
 
-  @Test
+//  @Test
   void test() throws Exception {
-    String url = "http://192.168.101.23:9003";
+    String url = "http://localhost:9000";
     String userName = "root";
     String password = "e8818da9cc9";
     // 上传根目录
