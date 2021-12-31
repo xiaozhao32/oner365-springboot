@@ -1,7 +1,9 @@
 package com.oner365.sys.controller.system;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -251,17 +253,15 @@ public class SysUserController extends BaseController {
    * 删除用户
    *
    * @param ids 编号
-   * @return Integer
+   * @return List<Integer>
    */
   @ApiOperation("11.删除")
   @ApiOperationSupport(order = 11)
   @DeleteMapping("/delete")
-  public Integer delete(@RequestBody String... ids) {
-    int code = 0;
-    for (String id : ids) {
-      code = sysUserService.deleteById(id);
-    }
-    return code;
+  public List<Integer> delete(@RequestBody String... ids) {
+    return Arrays.stream(ids).map(id -> {
+      return sysUserService.deleteById(id);
+    }).collect(Collectors.toList());
   }
 
   /**

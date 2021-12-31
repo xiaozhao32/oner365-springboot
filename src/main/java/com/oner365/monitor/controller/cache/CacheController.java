@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,7 +104,7 @@ public class CacheController extends BaseController {
 
     List<Map<String, Object>> result = new ArrayList<>();
     if (jedis.isConnected()) {
-      for (int i = 0; i <= DB_LENGTH; i++) {
+      IntStream.range(0, DB_LENGTH).forEach(i -> {
         jedis.select(i);
         Long size = jedis.dbSize();
         if (size != 0L) {
@@ -113,7 +114,7 @@ public class CacheController extends BaseController {
           map.put("size", size);
           result.add(map);
         }
-      }
+      });
     }
     jedis.close();
 

@@ -1,6 +1,8 @@
 package com.oner365.sys.controller.system;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -101,17 +103,15 @@ public class SysJobController extends BaseController {
    * 删除用户职位
    *
    * @param ids 编号
-   * @return Integer
+   * @return List<Integer>
    */
   @ApiOperation("5.删除")
   @ApiOperationSupport(order = 5)
   @DeleteMapping("/delete")
-  public Integer delete(@RequestBody String... ids) {
-    int code = 0;
-    for (String id : ids) {
-      code = sysJobService.deleteById(id);
-    }
-    return code;
+  public List<Integer> delete(@RequestBody String... ids) {
+    return Arrays.stream(ids).map(id -> {
+      return sysJobService.deleteById(id);
+    }).collect(Collectors.toList());
   }
 
   /**

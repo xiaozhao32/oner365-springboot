@@ -1,5 +1,9 @@
 package com.oner365.sys.controller.datasource;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.common.ResponseResult;
 import com.oner365.common.enums.ErrorInfoEnum;
-import com.oner365.common.enums.ResultEnum;
 import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
@@ -99,16 +102,14 @@ public class DataSourceConfigController extends BaseController {
    * 删除
    * 
    * @param ids 编号
-   * @return Integer
+   * @return List<Integer>
    */
   @ApiOperation("5.删除")
   @ApiOperationSupport(order = 5)
   @DeleteMapping("/delete")
-  public Integer delete(@RequestBody String... ids) {
-    int code = ResultEnum.ERROR.getCode();
-    for (String id : ids) {
-      code = service.deleteById(id);
-    }
-    return code;
+  public List<Integer> delete(@RequestBody String... ids) {
+    return Arrays.stream(ids).map(id -> {
+      return service.deleteById(id);
+    }).collect(Collectors.toList());
   }
 }

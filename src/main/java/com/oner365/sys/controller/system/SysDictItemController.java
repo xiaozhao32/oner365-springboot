@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -186,17 +187,15 @@ public class SysDictItemController extends BaseController {
    * 删除字典类别
    *
    * @param ids 字典编号
-   * @return Integer
+   * @return List<Integer>
    */
   @ApiOperation("9.删除字典类别")
   @ApiOperationSupport(order = 9)
   @DeleteMapping("/deleteItemType")
-  public Integer deleteItemType(@RequestBody String... ids) {
-    int code = 0;
-    for (String id : ids) {
-      code = sysDictItemTypeService.deleteById(id);
-    }
-    return code;
+  public List<Integer> deleteItemType(@RequestBody String... ids) {
+    return Arrays.stream(ids).map(id -> {
+      return sysDictItemTypeService.deleteById(id);
+    }).collect(Collectors.toList());
   }
 
   /**
@@ -296,17 +295,15 @@ public class SysDictItemController extends BaseController {
    * 删除字典信息
    *
    * @param ids 编号
-   * @return Integer
+   * @return List<Integer>
    */
   @ApiOperation("16.删除字典")
   @ApiOperationSupport(order = 16)
   @DeleteMapping("/deleteItem")
-  public Integer deleteItem(@RequestBody String... ids) {
-    int code = 0;
-    for (String id : ids) {
-      code = sysDictItemService.deleteById(id);
-    }
-    return code;
+  public List<Integer> deleteItem(@RequestBody String... ids) {
+    return Arrays.stream(ids).map(id -> {
+      return sysDictItemService.deleteById(id);
+    }).collect(Collectors.toList());
   }
 
   /**

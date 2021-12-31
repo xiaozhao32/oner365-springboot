@@ -1,7 +1,9 @@
 package com.oner365.sys.controller.system;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -89,18 +91,16 @@ public class SysLogController extends BaseController {
 	 * 删除
 	 *
 	 * @param ids 编号
-	 * @return Integer
+	 * @return List<Integer>
 	 */
 	@ApiOperation("4.删除")
 	@ApiOperationSupport(order = 4)
 	@DeleteMapping("/delete")
-	public Integer delete(@RequestBody String... ids) {
-		int code = 0;
-		for (String id : ids) {
-			code = logService.deleteById(id);
-		}
-		return code;
-	}
+	public List<Integer> delete(@RequestBody String... ids) {
+    return Arrays.stream(ids).map(id -> {
+      return logService.deleteById(id);
+    }).collect(Collectors.toList());
+  }
 
 	/**
 	 * 按日期删除日志
