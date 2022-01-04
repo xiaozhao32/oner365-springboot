@@ -1,0 +1,217 @@
+# server
+server:
+  port: 8704
+  servlet:
+    context-path: /
+  tomcat:
+    uri-encoding: UTF-8
+    threads:
+      max: 800
+      min-spare: 30
+
+spring:
+
+  # database
+  datasource:
+    druid:
+      db-type: com.alibaba.druid.pool.DruidDataSource
+      
+      # mysql
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/oner365?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=GMT%2B8
+      username: root
+      password: 1234
+
+      # postgres
+#      driver-class-name: org.postgresql.Driver
+#      url: jdbc:postgresql://localhost:5432/oner365
+#      username: postgres
+#      password: 1234
+
+      test-while-idle: true
+      initial-size: 1
+      max-active: 10
+      min-idle: 1
+
+  # servlet file
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 1024MB
+      max-request-size: 1024MB
+
+  main:
+    allow-bean-definition-overriding: true
+
+  # elasticsearch
+  elasticsearch:
+    rest:
+      connection-timeout: 6000
+      read-timeout: 6000
+      uris: localhost:9200
+
+  data:
+    redis:
+      repositories:
+        enabled: false
+
+    elasticsearch:
+      repositories:
+        enabled: true
+      client:
+        reactive:
+          connection-timeout: 6000
+          socket-timeout: 6000
+          max-in-memory-size: 500MB
+
+  # rabbitmq
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: admin
+    password: admin123
+    connection-timeout: 6000
+
+  # redis
+  redis:
+    enable: true
+    host: 127.0.0.1
+    port: 6379
+    password: 
+    database: 1
+    timeout: 10s
+    lettuce:
+      pool:
+        min-idle: 0
+        max-idle: 8
+        max-active: 8
+        max-wait: -1ms
+
+  jpa:
+    open-in-view: true
+
+  # 线程池
+  task:
+    scheduling:
+      thread-name-prefix: SyncDataTask-
+    execution:
+      pool:
+        allow-core-thread-timeout: false
+        max-size: 60
+        core-size: 10
+        queue-capacity: 100
+        keep-alive: 90
+
+# mybatis
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.oner365.**.entity
+
+# Access Token
+ACCESS_TOKEN_SECRET: test
+ACCESS_TOKEN_EXPIRY_MIN: 14400
+
+# 雪花算法生成id
+sequence:
+  snowflake:
+    datacenterId: 1
+    workerId: 1
+
+# 白名单
+ignore:
+  whites:
+    - /api
+    - /system/auth/login
+    - /system/auth/captchaImage
+    - /system/file/download
+    - /swagger
+    - /webjars
+    - /v3
+    - /csrf
+    - /doc.html
+    - /client
+#客户端接口加密传输白名单，白名单内则需要报文加密操作
+#需要加密报文接口，统一增加sign请求头，以传递对称加密密钥
+#privateKey为约定私钥，此私钥给报文对称加密key解密，客户端用公钥加密
+client: 
+  privateKey: MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCKDjkNMFARP3qpLC5CY1JfwLaMyEyjjLSyz51xirpOlJQbGEDqbVXQlKuX4HXJj6D4nCMB/qsOoQuL1XVTvzr8BBFKgwbhrWuethLQ88494FEpDg9RqJo3zCLoLVJ31kOdIUTcUqBF4xQW+8Zicf/wmWb0tqcrWYoZMwWegVGSpsg3eO99mVk07LkXbJ02XJk3YpqPN046JsJ9AUQTanYEn8uIubMaWeHcb9sb+raWiGnA+i1G+dVf9Jt7bgRQ7NSORCpiK1weT9vVit4arPQi7hIIDcBLNv4e09OmHSHF5aqSEHH+lbBVhhJ8CEZ/9zxY3mP4X1KLY9lmaignuXvRAgMBAAECggEAE/hKuGWsr1IHZEFHz8KeP8uYnHS84UuRN+xgUfRHTuafJew0N7TpHOrkh2uonidwmYW8aqV0CQGysd+GwT6AQcQ03Bpn/G0hjCu6PQ+HXdv84XtvK9i/tiKJShyEOWF9FlWhqF0rYfCfD1QMNmFXLG6EPhHNzK9/EnYW8f6y1gujtxLqyJmwITWfrfsFWkwWzEANJ09DD12rHjyhCPDrEY8GFTPFBUX3cbmeNWiQxV+vLCs/7V6sU2hb0AI8FdHQM0yC91GLvWWpLFP4rgdd6sk1rtJKYv05CbKDGPFtJzbTUp5Fa+j5YMvgw2aJfj6cGfRqmOXx9nLu5ddgJFp3gQKBgQC85rql0xuLT1qPGnDGuPVGXZXtl7keuU9+NRcLk1R6avoKLhdYZxEBQwBOkdh7y49Jj5a0oKM0p0+mP7NOqBAiMLDoZu4KRqqaTsfUjFBisAsm3RXnAJL2hKkReF08hEdw6xvflAaZriPOZ6ABiqO5viETOhejKGJvMeaeHIJSbQKBgQC7F/afVh4U5MR50sjDjSKYZ4x5yLXbuCA4E9uM0bGihwMXb/i1MLg5LnhofP0e+uub4E98TjwCh0MdnyhYHZO7FbmK5br4ADjYevUFnQz2D/dt3g+Uc0QAgJRFAHnztpnWBYj8bg8Nv6dayGHfSxa9yE8D6GRXIFW9W3JPnS8QdQKBgBZ6wqVvLOz0IYu8EsWjRxT7mBbxIkeEt/AF81seSkRTLLQ/benIQh7LUWMIOiHpRID1hHK0Vxex/WmEVRs8Jsda0gKmFRfF9xFr5J3noL1Nw9X5I10dFWAew1vf3gCQoUvPvr5piCuLrJkofcMRM5CsDpWSKTPyX1xqLM6OB/g1AoGABIfRBgy8z762b0jGac3aH5yqTyyoErkDtrfsYh2V0py4W3HvsNuMKn5Qlh8otf5XhD/LTPRMCbeizW3UOUYGFMqy4oUroOPIfJ2Fn2wtKyw5zqRI9kxQQj7a2Ezppxgt43vg1FQJ80hH0i/2BsU3uMLH/w06mM2EpgA35Wul/x0CgYAatVZkES4dGsvOaqmb3pn3580+V/RxREkoiL3ZEEarh9Ua7DJ7//N6bDctwcqMvna75J9b7cfCy/mnWMX+vsvq3V78g/7demPhjqTU8uCVknnhx2lEn0rz4B2jtUIDsaeX26Xg2JjxXr5CmxaIT+BqeBPvTxi84V2jsLcogzIwBw==
+  whites:
+    - /client/login
+    
+# Logger
+logging:
+  file:
+    path: /Users/zhaoyong/Downloads/logs
+  level:
+    web: warn
+    org:
+      springframework: error
+      elasticsearch: error
+
+# 文件上传下载地址
+file:
+  # 存储方式为 local fdfs minio 
+  storage: local
+  # excel后缀
+  excel:
+    suffix: xlsx
+  # 通用文件下载路径
+  download: /Users/zhaoyong/Downloads
+  
+# 上传存储到本地
+local:
+  # 本地配置web访问地址, fdfs使用 fdfs.web-server-url
+  web: http://localhost/uploads
+    # 上传地址
+  upload: /Users/zhaoyong/Downloads
+  
+# FastDFS
+fdfs:
+  connect-timeout: 60
+  so-timeout: 1500
+  tracker-list: 192.168.101.130:22122
+  thumb-image:
+    height: 150
+    width: 150
+  web-server-url: http://192.168.101.130
+  ip: 192.168.101.130
+  port: 22
+  user: root
+  password: root
+  storage:
+    # 用于文件路径展示
+    path: /data/fastdfs-storage/data
+  pool:
+    #连接池最大数量
+    max-total: 200
+    #每个tracker地址的最大连接数
+    max-total-per-key: 50
+    #连接耗尽时等待获取连接的最大毫秒数
+    max-wait-millis: 5000
+  
+# file minio     
+minio:
+  username: root
+  password: e8818da9cc9
+  url: http://192.168.101.23:9003
+  bucket: ${spring.application.name}
+
+# druid
+druid:
+  mysql:
+    use-ping-method: false
+
+# swagger
+swagger:
+  name: ${spring.application.name}
+  version: 1.0
+  url: https://www.oner365.com
+  email: service@oner365.com
+  description: Oner365 project
+# knife4j 
+knife4j:
+  enable: true 
+
+  
+
+
