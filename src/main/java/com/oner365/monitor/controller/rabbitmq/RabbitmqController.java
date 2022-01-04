@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +18,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import com.oner365.common.config.properties.RabbitmqProperties;
 import com.oner365.common.constants.PublicConstants;
 import com.oner365.controller.BaseController;
 import com.oner365.monitor.enums.RabbitmqTypeEnum;
@@ -41,15 +41,9 @@ import reactor.core.publisher.Mono;
 @RequestMapping("/monitor/rabbitmq")
 public class RabbitmqController extends BaseController {
 
-  @Value("${spring.rabbitmq.host}")
-  private String host;
+  @Autowired
+  private RabbitmqProperties rabbitmqProperties;
 
-  @Value("${spring.rabbitmq.username}")
-  private String username;
-
-  @Value("${spring.rabbitmq.password}")
-  private String password;
-  
   @Autowired
   private WebClient client;
 
@@ -113,24 +107,23 @@ public class RabbitmqController extends BaseController {
     return null;
   }
 
-
   private String getHost() {
-    return "http://" + host + ":15672";
+    return String.format("http://%s:%d", rabbitmqProperties.getHost(), rabbitmqProperties.getListener());
   }
 
   private String getUrl(String paramName, String name, int pageIndex, int pageSize) {
-    return "/api/" + paramName + "?page=" + pageIndex + "&page_size=" + pageSize + "&name="
-        + DataUtils.trimToEmpty(name) + "&use_regex=false&pagination=true";
+    return String.format("/api/%s?page=%d&page_size=%d&name=%s&use_regex=false&pagination=true", paramName, pageIndex,
+        pageSize, DataUtils.trimToEmpty(name));
   }
 
   private String getAuthorization() {
-    String auth = username + ":" + password;
+    String auth = rabbitmqProperties.getUsername() + ":" + rabbitmqProperties.getPassword();
     return "Basic " + Base64Utils.encodeBase64String(auth.getBytes());
   }
 
   private JSONObject request(String uri) {
-    Mono<JSONObject> mono = client.get().uri(getHost()+"/"+uri).header(HttpHeaders.AUTHORIZATION, getAuthorization())
-        .retrieve().bodyToMono(JSONObject.class);
+    Mono<JSONObject> mono = client.get().uri(getHost() + "/" + uri)
+        .header(HttpHeaders.AUTHORIZATION, getAuthorization()).retrieve().bodyToMono(JSONObject.class);
     return mono.block();
   }
 }
