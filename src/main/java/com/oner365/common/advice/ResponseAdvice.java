@@ -1,8 +1,11 @@
 package com.oner365.common.advice;
 
 import java.io.Serializable;
+import java.util.Base64;
 import java.util.Collection;
 import java.util.Iterator;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,9 +20,16 @@ import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
+import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oner365.common.ResponseData;
+import com.oner365.common.config.properties.ClientWhiteProperties;
+import com.oner365.common.enums.ResultEnum;
+import com.oner365.util.Cipher;
+import com.oner365.util.DataUtils;
+import com.oner365.util.RequestUtils;
+import com.oner365.util.RsaUtils;
 
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger.web.SwaggerResource;
@@ -37,6 +47,11 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
 
   @Autowired
   private ObjectMapper objectMapper;
+  
+  @Autowired
+  private ClientWhiteProperties clientWhiteProperties;
+  
+ 
 
   @Override
   public boolean supports(MethodParameter returnType, @NonNull Class<? extends HttpMessageConverter<?>> converterType) {
@@ -47,6 +62,29 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
   public Object beforeBodyWrite(@Nullable Object body, @NonNull MethodParameter returnType,
       @NonNull MediaType selectedContentType, @NonNull Class<? extends HttpMessageConverter<?>> selectedConverterType,
       @NonNull ServerHttpRequest request, @NonNull ServerHttpResponse response) {
+	  
+	HttpServletRequest httpRequest = RequestUtils.getHttpRequest();
+	if (RequestUtils.validateClientWhites(httpRequest,clientWhiteProperties.getWhites())) {
+		String sign = httpRequest.getHeader("sign");
+		if (DataUtils.isEmpty(sign)) {
+			return new ResponseData<String>("加密串验证错误");
+		}
+		String key = RsaUtils.buildRsaDecryptByPrivateKey(sign, clientWhiteProperties.getPrivateKey());
+		if (body instanceof ResponseData) {
+			return new ResponseData<String>(
+					Base64.getEncoder().encodeToString(
+							Cipher.encodeSMS4(JSON.toJSONString(body), key.substring(0, 16).getBytes())),
+					ResultEnum.SUCCESS.getCode(), null);
+		}
+		if (body instanceof byte[]) {
+			return Base64.getEncoder()
+					.encodeToString(Cipher.encodeSMS4((byte[]) body, key.substring(0, 16).getBytes())).getBytes();
+		}
+		return new ResponseData<String>(
+				Base64.getEncoder()
+						.encodeToString(Cipher.encodeSMS4(body.toString(), key.substring(0, 16).getBytes())),
+				ResultEnum.SUCCESS.getCode(), null);
+	}
     if (body instanceof String) {
       try {
         return objectMapper.writeValueAsString(ResponseData.success(String.valueOf(body)));

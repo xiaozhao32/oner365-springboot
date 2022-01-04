@@ -5,10 +5,9 @@ import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.client.reactive.ClientHttpConnector;
-import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -50,6 +49,9 @@ public class RabbitmqController extends BaseController {
 
   @Value("${spring.rabbitmq.password}")
   private String password;
+  
+  @Autowired
+  private WebClient client;
 
   /**
    * 首页
@@ -111,10 +113,6 @@ public class RabbitmqController extends BaseController {
     return null;
   }
 
-  private WebClient getWebClient() {
-    ClientHttpConnector httpConnector = new ReactorClientHttpConnector();
-    return WebClient.builder().clientConnector(httpConnector).baseUrl(getHost()).build();
-  }
 
   private String getHost() {
     return "http://" + host + ":15672";
@@ -131,7 +129,7 @@ public class RabbitmqController extends BaseController {
   }
 
   private JSONObject request(String uri) {
-    Mono<JSONObject> mono = getWebClient().get().uri(uri).header(HttpHeaders.AUTHORIZATION, getAuthorization())
+    Mono<JSONObject> mono = client.get().uri(getHost()+"/"+uri).header(HttpHeaders.AUTHORIZATION, getAuthorization())
         .retrieve().bodyToMono(JSONObject.class);
     return mono.block();
   }

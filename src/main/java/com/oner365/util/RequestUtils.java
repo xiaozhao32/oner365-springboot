@@ -15,9 +15,16 @@
  */
 package com.oner365.util;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import com.oner365.common.auth.AuthUser;
+import com.oner365.common.constants.PublicConstants;
 
 /**
  * JavaWebToken常用类
@@ -92,5 +99,32 @@ public class RequestUtils {
         }
         return null;
     }
+    
+    /**
+     * 验证白名单
+     *
+     * @param request HttpServletRequest
+     * @return boolean
+     */
+     public static boolean validateClientWhites(HttpServletRequest request,List<String> paths) {
+    	 if (PublicConstants.DELIMITER.equals(request.getRequestURI())) {
+    		return true;
+    	 }
+    	 return paths.stream().anyMatch(request.getRequestURI()::contains);
+     }
+     
+     public static String getRequestBody(InputStream stream) {
+         String line = "";
+         StringBuilder body = new StringBuilder();
+         BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+         try {
+             while ((line = reader.readLine()) != null) {
+                 body.append(line);
+             }
+         } catch (IOException e) {
+             e.printStackTrace();
+         }
+         return body.toString();
+     }
 
 }

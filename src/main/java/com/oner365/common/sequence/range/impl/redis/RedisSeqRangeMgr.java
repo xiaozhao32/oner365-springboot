@@ -21,7 +21,7 @@ public class RedisSeqRangeMgr implements SeqRangeMgr {
 
     private Integer port;
 
-    private String auth;
+    private String auth ;
 
     private int step = 1000;
 
