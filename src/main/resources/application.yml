@@ -2,6 +2,9 @@
 spring:
   application:
     name: oner365-springboot
-
-  profiles:
-    active: lt
+    
+  config:
+    activate:
+      on-profile: 
+      - lt
+      - zy
