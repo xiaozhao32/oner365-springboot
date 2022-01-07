@@ -25,6 +25,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.oner365.common.auth.AuthUser;
 import com.oner365.common.constants.PublicConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * JavaWebToken常用类
@@ -33,98 +35,94 @@ import com.oner365.common.constants.PublicConstants;
  */
 public class RequestUtils {
 
-    private static final ThreadLocal<HttpServletRequest> LOCAL = new ThreadLocal<>();
+  private static final Logger LOGGER = LoggerFactory.getLogger(RequestUtils.class);
 
-    public static final String AUTH_USER = "authUser";
+  private static final ThreadLocal<HttpServletRequest> LOCAL = new ThreadLocal<>();
 
-    public static final String ACCESS_TOKEN = "accessToken";
+  public static final String AUTH_USER = "authUser";
 
-    public static final String ERROR_TOKEN_MESSAGE = "accessToken is null";
+  public static final String ACCESS_TOKEN = "accessToken";
 
-    public static final String ERROR_AUTH_USER_MESSAGE = "authUser is null";
+  public static final String TOKEN_TYPE = "tokenType";
 
-    public static final String TOKEN_TYPE = "tokenType";
+  private RequestUtils() {
 
-    public static final String EXPIRED = "Expired";
+  }
 
-    private RequestUtils() {
+  /**
+   * set method
+   *
+   * @param request HttpServletRequest
+   */
+  public static void setHttpRequest(HttpServletRequest request) {
+    LOCAL.set(request);
+  }
 
+  /**
+   * get method
+   *
+   * @return HttpServletRequest
+   */
+  public static HttpServletRequest getHttpRequest() {
+    return LOCAL.get();
+  }
+
+  /**
+   * remove method
+   */
+  public static void remove() {
+    LOCAL.remove();
+  }
+
+  /**
+   * 获取用户对象
+   *
+   * @return AuthUser
+   */
+  public static AuthUser getAuthUser() {
+    if (getHttpRequest() != null && getHttpRequest().getAttribute(AUTH_USER) != null) {
+      return (AuthUser) getHttpRequest().getAttribute(AUTH_USER);
     }
+    return null;
+  }
 
-    /**
-     * set method
-     *
-     * @param request HttpServletRequest
-     */
-    public static void setHttpRequest(HttpServletRequest request) {
-        LOCAL.set(request);
+  /**
+   * 获取token
+   *
+   * @return token字符串
+   */
+  public static String getToken() {
+    if (getHttpRequest() != null && getHttpRequest().getAttribute(ACCESS_TOKEN) != null) {
+      return getHttpRequest().getAttribute(ACCESS_TOKEN).toString();
     }
+    return null;
+  }
 
-    /**
-     * get method
-     *
-     * @return HttpServletRequest
-     */
-    public static HttpServletRequest getHttpRequest() {
-        return LOCAL.get();
+  /**
+   * 验证白名单
+   *
+   * @param uri 请求地址
+   * @param paths 白名单
+   * @return boolean
+   */
+  public static boolean validateClientWhites(String uri, List<String> paths) {
+    if (PublicConstants.DELIMITER.equals(uri)) {
+      return true;
     }
+    return paths.stream().anyMatch(uri::contains);
+  }
 
-    /**
-     * remove method
-     */
-    public static void remove() {
-        LOCAL.remove();
+  public static String getRequestBody(InputStream stream) {
+    String line;
+    StringBuilder body = new StringBuilder();
+    try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
+      while ((line = reader.readLine()) != null) {
+        body.append(line);
+      }
+    } catch (IOException e) {
+      LOGGER.error("request body error:", e);
     }
-
-    /**
-     * 获取用户对象
-     *
-     * @return AuthUser
-     */
-    public static AuthUser getAuthUser() {
-        if (getHttpRequest() != null && getHttpRequest().getAttribute(AUTH_USER) != null) {
-            return (AuthUser) getHttpRequest().getAttribute(AUTH_USER);
-        }
-        return null;
-    }
-
-    /**
-     * 获取token
-     *
-     * @return token字符串
-     */
-    public static String getToken() {
-        if (getHttpRequest() != null && getHttpRequest().getAttribute(ACCESS_TOKEN) != null) {
-            return getHttpRequest().getAttribute(ACCESS_TOKEN).toString();
-        }
-        return null;
-    }
-    
-    /**
-     * 验证白名单
-     *
-     * @param request HttpServletRequest
-     * @return boolean
-     */
-     public static boolean validateClientWhites(HttpServletRequest request,List<String> paths) {
-    	 if (PublicConstants.DELIMITER.equals(request.getRequestURI())) {
-    		return true;
-    	 }
-    	 return paths.stream().anyMatch(request.getRequestURI()::contains);
-     }
-     
-     public static String getRequestBody(InputStream stream) {
-         String line = "";
-         StringBuilder body = new StringBuilder();
-         BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-         try {
-             while ((line = reader.readLine()) != null) {
-                 body.append(line);
-             }
-         } catch (IOException e) {
-             e.printStackTrace();
-         }
-         return body.toString();
-     }
+    return body.toString();
+  }
 
 }
