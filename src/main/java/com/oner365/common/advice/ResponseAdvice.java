@@ -24,7 +24,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oner365.common.ResponseData;
 import com.oner365.common.config.properties.ClientWhiteProperties;
-import com.oner365.common.enums.ResultEnum;
 import com.oner365.util.Cipher;
 import com.oner365.util.DataUtils;
 import com.oner365.util.RequestUtils;
@@ -56,29 +55,27 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
 
   @Override
   public Object beforeBodyWrite(Object body, @NonNull MethodParameter returnType,
-                                @NonNull MediaType selectedContentType, @NonNull Class<? extends HttpMessageConverter<?>> selectedConverterType,
-                                @NonNull ServerHttpRequest request, @NonNull ServerHttpResponse response) {
+      @NonNull MediaType selectedContentType, @NonNull Class<? extends HttpMessageConverter<?>> selectedConverterType,
+      @NonNull ServerHttpRequest request, @NonNull ServerHttpResponse response) {
 
     HttpServletRequest httpRequest = RequestUtils.getHttpRequest();
     if (RequestUtils.validateClientWhites(httpRequest.getRequestURI(), clientWhiteProperties.getWhites())) {
       String sign = httpRequest.getHeader("sign");
       if (DataUtils.isEmpty(sign)) {
-        return new ResponseData<>("加密串验证错误");
+        return ResponseData.error("加密串验证错误");
       }
       String key = RsaUtils.buildRsaDecryptByPrivateKey(sign, clientWhiteProperties.getPrivateKey());
       if (key != null) {
         if (body instanceof ResponseData) {
-          return new ResponseData<>(
-                  Base64.getEncoder().encodeToString(Cipher.encodeSms4(JSON.toJSONString(body), key.substring(0, 16).getBytes())),
-                  ResultEnum.SUCCESS.getCode(), null);
+          return ResponseData.success(Base64.getEncoder()
+              .encodeToString(Cipher.encodeSms4(JSON.toJSONString(body), key.substring(0, 16).getBytes())));
         }
         if (body instanceof byte[]) {
           return Base64.getEncoder().encodeToString(Cipher.encodeSms4((byte[]) body, key.substring(0, 16).getBytes()))
-                  .getBytes();
+              .getBytes();
         }
-        return new ResponseData<>(
-                Base64.getEncoder().encodeToString(Cipher.encodeSms4(body.toString(), key.substring(0, 16).getBytes())),
-                ResultEnum.SUCCESS.getCode(), null);
+        return ResponseData.success(
+            Base64.getEncoder().encodeToString(Cipher.encodeSms4(body.toString(), key.substring(0, 16).getBytes())));
       }
     }
     if (body instanceof String) {

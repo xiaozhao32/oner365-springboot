@@ -52,7 +52,7 @@ public class RequestAdvice extends RequestBodyAdviceAdapter {
     try {
       if (RequestUtils.validateClientWhites(request.getRequestURI(), clientWhiteProperties.getWhites())) {
         String body = RequestUtils.getRequestBody(inputMessage.getBody());
-        String sign = Objects.requireNonNull(inputMessage.getHeaders().get("sign")).get(0);
+        String sign = Objects.requireNonNull(request.getHeader("sign"));
         String key = RsaUtils.buildRsaDecryptByPrivateKey(sign, clientWhiteProperties.getPrivateKey());
         if (key != null) {
           String b = Cipher.decodeSms4toString(Base64.getDecoder().decode(body), key.substring(0, 16).getBytes());
