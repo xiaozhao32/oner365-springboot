@@ -59,25 +59,28 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
       @NonNull ServerHttpRequest request, @NonNull ServerHttpResponse response) {
 
     HttpServletRequest httpRequest = RequestUtils.getHttpRequest();
+    // 加密对象返回
     if (RequestUtils.validateClientWhites(httpRequest.getRequestURI(), clientWhiteProperties.getWhites())) {
       String sign = httpRequest.getHeader("sign");
       if (DataUtils.isEmpty(sign)) {
         return ResponseData.error("加密串验证错误");
       }
       String key = RsaUtils.buildRsaDecryptByPrivateKey(sign, clientWhiteProperties.getPrivateKey());
-      if (key != null) {
-        if (body instanceof ResponseData) {
-          return ResponseData.success(Base64.getEncoder()
-              .encodeToString(Cipher.encodeSms4(JSON.toJSONString(body), key.substring(0, 16).getBytes())));
-        }
-        if (body instanceof byte[]) {
-          return Base64.getEncoder().encodeToString(Cipher.encodeSms4((byte[]) body, key.substring(0, 16).getBytes()))
-              .getBytes();
-        }
-        return ResponseData.success(
-            Base64.getEncoder().encodeToString(Cipher.encodeSms4(body.toString(), key.substring(0, 16).getBytes())));
+      if (DataUtils.isEmpty(key)) {
+        return ResponseData.error("解密失败");
       }
+      if (body instanceof ResponseData) {
+        return ResponseData.success(Base64.getEncoder()
+            .encodeToString(Cipher.encodeSms4(JSON.toJSONString(body), key.substring(0, 16).getBytes())));
+      }
+      if (body instanceof byte[]) {
+        return Base64.getEncoder().encodeToString(Cipher.encodeSms4((byte[]) body, key.substring(0, 16).getBytes()))
+            .getBytes();
+      }
+      return ResponseData.success(
+          Base64.getEncoder().encodeToString(Cipher.encodeSms4(body.toString(), key.substring(0, 16).getBytes())));
     }
+    // 默认返回
     if (body instanceof String) {
       try {
         return objectMapper.writeValueAsString(ResponseData.success(String.valueOf(body)));
