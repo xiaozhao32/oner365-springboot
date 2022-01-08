@@ -2,7 +2,6 @@ package com.oner365.test.controller.sys;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import com.oner365.test.controller.BaseControllerTest;
 
@@ -12,7 +11,6 @@ import com.oner365.test.controller.BaseControllerTest;
  * @author zhaoyong
  *
  */
-@SpringBootTest
 class SysMessageControllerTest extends BaseControllerTest {
 
     private static final String PATH = "/system/message";

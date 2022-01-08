@@ -2,7 +2,6 @@ package com.oner365.test.controller.sys;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.RepeatedTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.reactive.function.BodyInserters;
 
 import com.oner365.sys.vo.SysLogVo;
@@ -14,7 +13,6 @@ import com.oner365.test.controller.BaseControllerTest;
  * @author zhaoyong
  *
  */
-@SpringBootTest
 class SysLogControllerTest extends BaseControllerTest {
 
   private static final String PATH = "/system/log";

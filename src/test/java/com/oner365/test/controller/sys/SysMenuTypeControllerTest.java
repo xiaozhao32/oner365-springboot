@@ -1,12 +1,12 @@
 package com.oner365.test.controller.sys;
 
-import com.alibaba.fastjson.JSONObject;
-import com.oner365.test.controller.BaseControllerTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.reactive.function.BodyInserters;
+
+import com.alibaba.fastjson.JSONObject;
+import com.oner365.test.controller.BaseControllerTest;
 
 /**
  * Test SysMenuTypeController
@@ -14,7 +14,6 @@ import org.springframework.web.reactive.function.BodyInserters;
  * @author zhaoyong
  *
  */
-@SpringBootTest
 class SysMenuTypeControllerTest extends BaseControllerTest {
 
     private static final String PATH = "/system/menuType";

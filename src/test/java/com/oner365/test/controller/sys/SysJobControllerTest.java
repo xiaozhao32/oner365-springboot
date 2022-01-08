@@ -1,17 +1,17 @@
 package com.oner365.test.controller.sys;
 
+import java.util.Map;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.Test;
+import org.springframework.web.reactive.function.BodyInserters;
+
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.oner365.common.constants.PublicConstants;
 import com.oner365.sys.entity.SysJob;
 import com.oner365.test.controller.BaseControllerTest;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.RepeatedTest;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.web.reactive.function.BodyInserters;
-
-import java.util.Map;
 
 /**
  * Test AuthController
@@ -19,7 +19,6 @@ import java.util.Map;
  * @author zhaoyong
  *
  */
-@SpringBootTest
 class SysJobControllerTest extends BaseControllerTest {
 
     private static final String PATH = "/system/job";

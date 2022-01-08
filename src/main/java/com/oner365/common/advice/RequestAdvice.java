@@ -17,7 +17,6 @@ import org.springframework.http.HttpInputMessage;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJacksonInputMessage;
 import org.springframework.lang.NonNull;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.RequestBodyAdviceAdapter;
 
@@ -57,9 +56,9 @@ public class RequestAdvice extends RequestBodyAdviceAdapter {
         String body = RequestUtils.getRequestBody(inputMessage.getBody());
         String sign = Objects.requireNonNull(request.getHeader("sign"));
         String key = RsaUtils.buildRsaDecryptByPrivateKey(sign, clientWhiteProperties.getPrivateKey());
-        Assert.isNull(DataUtils.isEmpty(key), "解密失败");
         
-        String b = Cipher.decodeSms4toString(Base64.getDecoder().decode(body), key.substring(0, 16).getBytes());
+        String data = Objects.requireNonNull(DataUtils.trimToNull(key));
+        String b = Cipher.decodeSms4toString(Base64.getDecoder().decode(body), data.substring(0, 16).getBytes());
         return new MappingJacksonInputMessage(new ByteArrayInputStream(b.getBytes()), inputMessage.getHeaders());
       }
     } catch (Exception e) {

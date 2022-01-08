@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import com.oner365.test.controller.BaseControllerTest;
 
@@ -15,7 +14,6 @@ import com.oner365.test.controller.BaseControllerTest;
  * @author zhaoyong
  *
  */
-@SpringBootTest
 class AuthControllerTest extends BaseControllerTest {
 
     private static final String PATH = "/system/auth";

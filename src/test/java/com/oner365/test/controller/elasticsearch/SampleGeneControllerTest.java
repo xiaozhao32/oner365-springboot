@@ -1,11 +1,11 @@
 package com.oner365.test.controller.elasticsearch;
 
-import com.alibaba.fastjson.JSONObject;
-import com.oner365.test.controller.BaseControllerTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.RepeatedTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.reactive.function.BodyInserters;
+
+import com.alibaba.fastjson.JSONObject;
+import com.oner365.test.controller.BaseControllerTest;
 
 /**
  * Test SampleGene Controller
@@ -13,7 +13,6 @@ import org.springframework.web.reactive.function.BodyInserters;
  * @author zhaoyong
  *
  */
-@SpringBootTest
 class SampleGeneControllerTest extends BaseControllerTest {
 
     private static final String PATH = "/elasticsearch/sampleGene";
