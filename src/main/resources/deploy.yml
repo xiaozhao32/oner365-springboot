@@ -1,7 +1,7 @@
 #部署目录
 deploy:
-  location: /Users/zhaoyong/Documents/git
-  name: /Users/zhaoyong/Documents/deploy/springboot
+  location: /Users/taoliu/gitee
+  name: /Users/taoliu/gitee/deploy/springboot
   version: 1.0
   suffix: jar
   project: oner365-springboot
