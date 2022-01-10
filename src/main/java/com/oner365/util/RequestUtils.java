@@ -117,7 +117,7 @@ public class RequestUtils {
     StringBuilder body = new StringBuilder();
     try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
       while ((line = reader.readLine()) != null) {
-        body.append(line);
+        body.append(line.trim());
       }
     } catch (IOException e) {
       LOGGER.error("request body error:", e);
