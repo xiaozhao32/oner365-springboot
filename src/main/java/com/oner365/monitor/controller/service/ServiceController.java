@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import com.oner365.common.config.properties.CommonProperties;
 import com.oner365.common.enums.ResultEnum;
 import com.oner365.controller.BaseController;
 import com.oner365.deploy.entity.DeployEntity;
@@ -34,15 +35,9 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/monitor/service")
 public class ServiceController extends BaseController {
 
-  private static final String HOST = "localhost";
-
-  @Value("${spring.application.name}")
-  private String serviceId;
-  @Value("${server.port}")
-  private int port;
-  @Value("${spring.profiles.active}")
-  private String scheme;
-
+  @Autowired
+  private CommonProperties commonProperties;
+  
   /**
    * 基本信息
    *
@@ -57,12 +52,12 @@ public class ServiceController extends BaseController {
 
     // 获取服务中的实例列表
     Map<String, Object> map = new HashMap<>(10);
-    map.put("serviceId", serviceId);
-    map.put("host", HOST);
-    map.put("port", port);
-    map.put("uri", "http://" + HOST + ":" + port);
-    map.put("instanceId", serviceId);
-    map.put("scheme", scheme);
+    map.put("serviceId", commonProperties.getServiceId());
+    map.put("host", commonProperties.getHost());
+    map.put("port", commonProperties.getPort());
+    map.put("uri", "http://" + commonProperties.getHost() + ":" + commonProperties.getPort());
+    map.put("instanceId", commonProperties.getServiceId());
+    map.put("scheme", commonProperties.getScheme());
     serviceInstances.add(map);
     serviceList.add(serviceInstances);
     return serviceList;
@@ -91,7 +86,7 @@ public class ServiceController extends BaseController {
   public JSONObject getActuatorEnv() {
     JSONObject result = new JSONObject();
     JSONArray profiles = new JSONArray();
-    profiles.add(scheme);
+    profiles.add(commonProperties.getScheme());
     result.put("activeProfiles", profiles);
     result.put("propertySources", null);
     return result;

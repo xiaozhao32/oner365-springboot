@@ -124,6 +124,7 @@ public class DynamicRouteServiceImpl implements DynamicRouteService {
     if (gatewayRoute != null) {
       gatewayRoute.setStatus(status);
       gatewayRouteDao.save(gatewayRoute);
+      syncRouteMqService.syncRoute();
       return ResultEnum.SUCCESS.getName();
     }
     return null;

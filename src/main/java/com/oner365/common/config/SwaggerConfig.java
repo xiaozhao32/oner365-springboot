@@ -68,6 +68,11 @@ public class SwaggerConfig implements WebMvcConfigurer {
     }
     
     @Bean
+    public Docket gatewayApi() {
+      return buildApi("Cloud 专用(网关管理)", "com.oner365.gateway");
+    }
+    
+    @Bean
     public Docket filesApi() {
     	return buildApi("Files(文件中心)", "com.oner365.files");
     }

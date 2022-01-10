@@ -12,7 +12,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -22,6 +21,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import com.alibaba.fastjson.JSON;
 import com.oner365.common.ResponseData;
+import com.oner365.common.config.properties.AccessTokenProperties;
 import com.oner365.common.config.properties.IgnoreWhiteProperties;
 import com.oner365.common.constants.PublicConstants;
 import com.oner365.common.jwt.JwtUtils;
@@ -40,24 +40,22 @@ public class TokenInterceptor implements HandlerInterceptor {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(TokenInterceptor.class);
 
-  /**
-   * 项目密钥
-   */
-  @Value("${ACCESS_TOKEN_SECRET}")
-  private String secret;
-
   private final ApplicationEventPublisher publisher;
 
   private final IgnoreWhiteProperties ignoreWhiteProperties;
+  
+  private final AccessTokenProperties tokenProperties;
 
   /**
    * Constructor
    *
    * @param publisher ApplicationEventPublisher
    */
-  public TokenInterceptor(ApplicationEventPublisher publisher, IgnoreWhiteProperties ignoreWhiteProperties) {
+  public TokenInterceptor(ApplicationEventPublisher publisher, 
+      IgnoreWhiteProperties ignoreWhiteProperties, AccessTokenProperties tokenProperties) {
     this.publisher = publisher;
     this.ignoreWhiteProperties = ignoreWhiteProperties;
+    this.tokenProperties = tokenProperties;
   }
 
   /**
@@ -127,7 +125,7 @@ public class TokenInterceptor implements HandlerInterceptor {
   private boolean validateToken(HttpServletRequest request) {
     try {
       String auth = request.getHeader(HttpHeaders.AUTHORIZATION);
-      return JwtUtils.validateToken(auth, secret);
+      return JwtUtils.validateToken(auth, tokenProperties.getAccessTokenSecret());
     } catch (Exception e) {
       LOGGER.error("TokenInterceptor validateToken error: {}", request.getRequestURI(), e);
     }

@@ -24,13 +24,14 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.oner365.common.auth.AuthUser;
+import com.oner365.common.config.properties.AccessTokenProperties;
 import com.oner365.common.jwt.JwtUtils;
 import com.oner365.util.DataUtils;
 import com.oner365.util.RequestUtils;
@@ -43,26 +44,26 @@ import com.oner365.util.RequestUtils;
 @Component
 public class JwtAuthFilter implements Filter {
 
-    @Value("${ACCESS_TOKEN_SECRET}")
-    private String secret;
+  @Autowired
+  private AccessTokenProperties tokenProperties;
 
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-            throws IOException, ServletException {
+  @Override
+  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+      throws IOException, ServletException {
 
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-        // 获取Token
-        String authToken = httpRequest.getHeader(HttpHeaders.AUTHORIZATION);
-        if (!DataUtils.isEmpty(authToken)) {
-            String tokenInfo = JwtUtils.getUsernameFromToken(authToken, secret);
-            if (tokenInfo != null) {
-                JSONObject json = JSON.parseObject(tokenInfo);
-                httpRequest.setAttribute(RequestUtils.AUTH_USER, new AuthUser(json));
-                httpRequest.setAttribute(RequestUtils.ACCESS_TOKEN, authToken);
-            }
-        }
-        RequestUtils.setHttpRequest(httpRequest);
-        chain.doFilter(request, response);
+    HttpServletRequest httpRequest = (HttpServletRequest) request;
+    // 获取Token
+    String authToken = httpRequest.getHeader(HttpHeaders.AUTHORIZATION);
+    if (!DataUtils.isEmpty(authToken)) {
+      String tokenInfo = JwtUtils.getUsernameFromToken(authToken, tokenProperties.getAccessTokenSecret());
+      if (tokenInfo != null) {
+        JSONObject json = JSON.parseObject(tokenInfo);
+        httpRequest.setAttribute(RequestUtils.AUTH_USER, new AuthUser(json));
+        httpRequest.setAttribute(RequestUtils.ACCESS_TOKEN, authToken);
+      }
     }
+    RequestUtils.setHttpRequest(httpRequest);
+    chain.doFilter(request, response);
+  }
 
 }

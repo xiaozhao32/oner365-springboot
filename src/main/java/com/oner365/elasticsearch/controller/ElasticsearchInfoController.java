@@ -13,12 +13,13 @@ import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.TransportAddress;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import com.oner365.common.config.properties.CommonProperties;
 import com.oner365.controller.BaseController;
 
 import io.swagger.annotations.Api;
@@ -36,8 +37,8 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/elasticsearch/info")
 public class ElasticsearchInfoController extends BaseController {
 
-  @Value("${spring.elasticsearch.rest.uris}")
-  private String uris;
+  @Autowired
+  private CommonProperties commonProperties;
 
   /**
    * Elasticsearch 信息
@@ -48,7 +49,7 @@ public class ElasticsearchInfoController extends BaseController {
   @ApiOperationSupport(order = 1)
   @GetMapping("/index")
   public Map<String, Object> index() {
-    String hostname = StringUtils.substringBefore(uris, ":");
+    String hostname = StringUtils.substringBefore(commonProperties.getUris(), ":");
     int port = 9300;
     // 指定集群
     Settings settings = Settings.builder().build();
