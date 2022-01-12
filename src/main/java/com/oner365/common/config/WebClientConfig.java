@@ -11,7 +11,6 @@ import org.springframework.http.client.reactive.ClientHttpConnector;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import reactor.netty.http.client.HttpClient;
@@ -37,20 +36,14 @@ public class WebClientConfig {
     public WebClient webClient() {
     	ClientHttpConnector httpConnector = new ReactorClientHttpConnector();
     	if(!sslVaild) {
-			SslContext sslContext = null;
-		    try {
-		        sslContext = SslContextBuilder
-		                .forClient()
-		                .trustManager(InsecureTrustManagerFactory.INSTANCE)
-		                .build();
-			} catch (SSLException e) {
-				LOGGER.error("ssl exception:{}",e);
-			}
-		
-		    SslContext finalSslContext = sslContext;
-		    HttpClient httpClient = HttpClient.create()
-		            .secure(sslSpec -> sslSpec.sslContext(finalSslContext));
-			httpConnector = new ReactorClientHttpConnector(httpClient);
+			httpConnector = new ReactorClientHttpConnector(HttpClient.create().secure(sslSpec -> {
+				try {
+					sslSpec.sslContext(
+							SslContextBuilder.forClient().trustManager(InsecureTrustManagerFactory.INSTANCE).build());
+				} catch (SSLException e) {
+					LOGGER.error("webClient error:{}",e);
+				}
+			}));
     	}
 		return WebClient.builder().clientConnector(httpConnector).build();
     }
