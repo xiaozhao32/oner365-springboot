@@ -169,12 +169,12 @@ local:
 fdfs:
   connect-timeout: 60
   so-timeout: 1500
-  tracker-list: 192.168.101.130:22122
+  tracker-list: 192.168.33.43:22122
   thumb-image:
     height: 150
     width: 150
-  web-server-url: http://192.168.101.130
-  ip: 192.168.101.130
+  web-server-url: http://192.168.33.43
+  ip: 192.168.33.43
   port: 22
   user: root
   password: root
@@ -211,6 +211,10 @@ swagger:
 # knife4j 
 knife4j:
   enable: true 
+# 是否跳过ssl验证 
+webclient:
+  ssl:
+    vaild: false
 
   
 

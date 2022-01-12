@@ -211,7 +211,10 @@ swagger:
 # knife4j 
 knife4j:
   enable: true 
-
+# 是否跳过ssl验证 
+webclient:
+  ssl:
+    vaild: false
   
 
 
