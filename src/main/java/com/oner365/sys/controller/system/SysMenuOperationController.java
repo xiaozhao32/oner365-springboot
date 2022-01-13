@@ -31,7 +31,7 @@ import io.swagger.annotations.ApiOperation;
 
 /**
  * 菜单操作权限
- * 
+ *
  * @author zhaoyong
  *
  */
@@ -45,7 +45,7 @@ public class SysMenuOperationController extends BaseController {
 
   /**
    * 列表
-   * 
+   *
    * @param data 查询参数
    * @return PageInfo<SysMenuOperationDto>
    */
@@ -58,7 +58,7 @@ public class SysMenuOperationController extends BaseController {
 
   /**
    * 获取信息
-   * 
+   *
    * @param id 编号
    * @return SysMenuOperationDto
    */
@@ -71,7 +71,7 @@ public class SysMenuOperationController extends BaseController {
 
   /**
    * 判断是否存在
-   * 
+   *
    * @param checkCodeVo 查询参数
    * @return Long
    */
@@ -87,7 +87,7 @@ public class SysMenuOperationController extends BaseController {
 
   /**
    * 保存
-   * 
+   *
    * @param sysMenuOperationVo 操作对象
    * @return ResponseResult<SysMenuOperationDto>
    */
@@ -104,7 +104,7 @@ public class SysMenuOperationController extends BaseController {
 
   /**
    * 删除
-   * 
+   *
    * @param ids 编号
    * @return List<Integer>
    */
@@ -112,9 +112,7 @@ public class SysMenuOperationController extends BaseController {
   @ApiOperationSupport(order = 5)
   @DeleteMapping("/delete")
   public List<Integer> delete(@RequestBody String... ids) {
-    return Arrays.stream(ids).map(id -> {
-      return menuOperationService.deleteById(id);
-    }).collect(Collectors.toList());
+    return Arrays.stream(ids).map(id -> menuOperationService.deleteById(id)).collect(Collectors.toList());
   }
 
 }

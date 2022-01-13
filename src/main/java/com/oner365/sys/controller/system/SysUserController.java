@@ -1,9 +1,7 @@
 package com.oner365.sys.controller.system;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -259,9 +257,12 @@ public class SysUserController extends BaseController {
   @ApiOperationSupport(order = 11)
   @DeleteMapping("/delete")
   public List<Integer> delete(@RequestBody String... ids) {
-    return Arrays.stream(ids).map(id -> {
-      return sysUserService.deleteById(id);
-    }).collect(Collectors.toList());
+    List<Integer> list = new ArrayList<>();
+    for (String id : ids) {
+      Integer integer = sysUserService.deleteById(id);
+      list.add(integer);
+    }
+    return list;
   }
 
   /**

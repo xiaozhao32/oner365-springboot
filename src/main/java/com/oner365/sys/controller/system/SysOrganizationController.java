@@ -215,9 +215,7 @@ public class SysOrganizationController extends BaseController {
   @ApiOperationSupport(order = 11)
   @DeleteMapping("/delete")
   public List<Integer> delete(@RequestBody String... ids) {
-    return Arrays.stream(ids).map(id -> {
-      return sysOrgService.deleteById(id);
-    }).collect(Collectors.toList());
+    return Arrays.stream(ids).map(id -> sysOrgService.deleteById(id)).collect(Collectors.toList());
   }
 
 }

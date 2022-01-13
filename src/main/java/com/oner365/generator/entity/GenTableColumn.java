@@ -292,7 +292,7 @@ public class GenTableColumn implements Serializable {
         return sort;
     }
 
-    public boolean isSuperColumn() {
+    public Boolean isSuperColumn() {
         return isSuperColumn(this.javaField);
     }
 

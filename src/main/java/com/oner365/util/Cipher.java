@@ -15,7 +15,7 @@ public final class Cipher {
   public static final int ROUND = 32;
   public static final int BLOCK = 16;
 
-  private static final byte[] BOX = {(byte) 0xd6, (byte) 0x90, (byte) 0xe9, (byte) 0xfe,
+  private static final byte[] SBOX = {(byte) 0xd6, (byte) 0x90, (byte) 0xe9, (byte) 0xfe,
           (byte) 0xcc, (byte) 0xe1, 0x3d, (byte) 0xb7, 0x16, (byte) 0xb6,
           0x14, (byte) 0xc2, 0x28, (byte) 0xfb, 0x2c, 0x05, 0x2b, 0x67,
           (byte) 0x9a, 0x76, 0x2a, (byte) 0xbe, 0x04, (byte) 0xc3,
@@ -63,77 +63,73 @@ public final class Cipher {
           0xa0a7aeb5, 0xbcc3cad1, 0xd8dfe6ed, 0xf4fb0209, 0x10171e25,
           0x2c333a41, 0x484f565d, 0x646b7279};
 
-  private static int Rotl(int x, int y) {
+  private static int rotl(int x, int y) {
     return x << y | x >>> (32 - y);
   }
 
-  private static int ByteSub(int A) {
-    return (BOX[A >>> 24 & 0xFF] & 0xFF) << 24
-            | (BOX[A >>> 16 & 0xFF] & 0xFF) << 16
-            | (BOX[A >>> 8 & 0xFF] & 0xFF) << 8 | (BOX[A & 0xFF] & 0xFF);
+  private static int byteSub(int a) {
+    return (SBOX[a >>> 24 & 0xFF] & 0xFF) << 24
+            | (SBOX[a >>> 16 & 0xFF] & 0xFF) << 16
+            | (SBOX[a >>> 8 & 0xFF] & 0xFF) << 8 | (SBOX[a & 0xFF] & 0xFF);
   }
 
-  private static int L1(int B) {
-    return B ^ Rotl(B, 2) ^ Rotl(B, 10) ^ Rotl(B, 18) ^ Rotl(B, 24);
-    // return B^(B<<2|B>>>30)^(B<<10|B>>>22)^(B<<18|B>>>14)^(B<<24|B>>>8);
+  private static int l1(int b) {
+    return b ^ rotl(b, 2) ^ rotl(b, 10) ^ rotl(b, 18) ^ rotl(b, 24);
   }
 
-  private static int L2(int B) {
-    return B ^ Rotl(B, 13) ^ Rotl(B, 23);
-    // return B^(B<<13|B>>>19)^(B<<23|B>>>9);
+  private static int l2(int b) {
+    return b ^ rotl(b, 13) ^ rotl(b, 23);
   }
 
   @SuppressWarnings("unused")
-  static void SMS4Crypt(byte[] Input, byte[] Output, int[] rk) {
+  static void sms4Crypt(byte[] input, byte[] output, int[] rk) {
     int r, mid, x0, x1, x2, x3;
     int[] x = new int[4];
     int[] tmp = new int[4];
     for (int i = 0; i < 4; i++) {
-      tmp[0] = Input[0 + 4 * i] & 0xff;
-      tmp[1] = Input[1 + 4 * i] & 0xff;
-      tmp[2] = Input[2 + 4 * i] & 0xff;
-      tmp[3] = Input[3 + 4 * i] & 0xff;
+      tmp[0] = input[0 + 4 * i] & 0xff;
+      tmp[1] = input[1 + 4 * i] & 0xff;
+      tmp[2] = input[2 + 4 * i] & 0xff;
+      tmp[3] = input[3 + 4 * i] & 0xff;
       x[i] = tmp[0] << 24 | tmp[1] << 16 | tmp[2] << 8 | tmp[3];
-      // x[i]=(Input[0+4*i]<<24|Input[1+4*i]<<16|Input[2+4*i]<<8|Input[3+4*i]);
     }
     for (r = 0; r < 32; r += 4) {
       mid = x[1] ^ x[2] ^ x[3] ^ rk[r + 0];
-      mid = ByteSub(mid);
-      x[0] = x[0] ^ L1(mid); // x4
+      mid = byteSub(mid);
+      x[0] = x[0] ^ l1(mid);
 
       mid = x[2] ^ x[3] ^ x[0] ^ rk[r + 1];
-      mid = ByteSub(mid);
-      x[1] = x[1] ^ L1(mid); // x5
+      mid = byteSub(mid);
+      x[1] = x[1] ^ l1(mid);
 
       mid = x[3] ^ x[0] ^ x[1] ^ rk[r + 2];
-      mid = ByteSub(mid);
-      x[2] = x[2] ^ L1(mid); // x6
+      mid = byteSub(mid);
+      x[2] = x[2] ^ l1(mid);
 
       mid = x[0] ^ x[1] ^ x[2] ^ rk[r + 3];
-      mid = ByteSub(mid);
-      x[3] = x[3] ^ L1(mid); // x7
+      mid = byteSub(mid);
+      x[3] = x[3] ^ l1(mid);
     }
 
     // Reverse
     for (int j = 0; j < 16; j += 4) {
-      Output[j] = (byte) (x[3 - j / 4] >>> 24 & 0xFF);
-      Output[j + 1] = (byte) (x[3 - j / 4] >>> 16 & 0xFF);
-      Output[j + 2] = (byte) (x[3 - j / 4] >>> 8 & 0xFF);
-      Output[j + 3] = (byte) (x[3 - j / 4] & 0xFF);
+      output[j] = (byte) (x[3 - j / 4] >>> 24 & 0xFF);
+      output[j + 1] = (byte) (x[3 - j / 4] >>> 16 & 0xFF);
+      output[j + 2] = (byte) (x[3 - j / 4] >>> 8 & 0xFF);
+      output[j + 3] = (byte) (x[3 - j / 4] & 0xFF);
     }
   }
 
-  private static void SMS4KeyExt(byte[] Key, int[] rk, int CryptFlag) {
+  private static void sms4KeyExt(byte[] key, int[] rk, int cryptFlag) {
     int r, mid;
     int[] x = new int[4];
     int[] tmp = new int[4];
     for (int i = 0; i < 4; i++) {
-      tmp[0] = Key[0 + 4 * i] & 0xFF;
-      tmp[1] = Key[1 + 4 * i] & 0xff;
-      tmp[2] = Key[2 + 4 * i] & 0xff;
-      tmp[3] = Key[3 + 4 * i] & 0xff;
+      tmp[0] = key[0 + 4 * i] & 0xFF;
+      tmp[1] = key[1 + 4 * i] & 0xff;
+      tmp[2] = key[2 + 4 * i] & 0xff;
+      tmp[3] = key[3 + 4 * i] & 0xff;
       x[i] = tmp[0] << 24 | tmp[1] << 16 | tmp[2] << 8 | tmp[3];
-      // x[i]=Key[0+4*i]<<24|Key[1+4*i]<<16|Key[2+4*i]<<8|Key[3+4*i];
     }
     x[0] ^= 0xa3b1bac6;
     x[1] ^= 0x56aa3350;
@@ -141,24 +137,28 @@ public final class Cipher {
     x[3] ^= 0xb27022dc;
     for (r = 0; r < 32; r += 4) {
       mid = x[1] ^ x[2] ^ x[3] ^ CK[r + 0];
-      mid = ByteSub(mid);
-      rk[r + 0] = x[0] ^= L2(mid); // rk0=K4
+      mid = byteSub(mid);
+      // rk0=K4
+      rk[r + 0] = x[0] ^= l2(mid);
 
       mid = x[2] ^ x[3] ^ x[0] ^ CK[r + 1];
-      mid = ByteSub(mid);
-      rk[r + 1] = x[1] ^= L2(mid); // rk1=K5
+      mid = byteSub(mid);
+      // rk1=K5
+      rk[r + 1] = x[1] ^= l2(mid);
 
       mid = x[3] ^ x[0] ^ x[1] ^ CK[r + 2];
-      mid = ByteSub(mid);
-      rk[r + 2] = x[2] ^= L2(mid); // rk2=K6
+      mid = byteSub(mid);
+      // rk2=K6
+      rk[r + 2] = x[2] ^= l2(mid);
 
       mid = x[0] ^ x[1] ^ x[2] ^ CK[r + 3];
-      mid = ByteSub(mid);
-      rk[r + 3] = x[3] ^= L2(mid); // rk3=K7
+      mid = byteSub(mid);
+      // rk3=K7
+      rk[r + 3] = x[3] ^= l2(mid);
     }
 
     // 解密时轮密钥使用顺序：rk31,rk30,...,rk0
-    if (CryptFlag == DECRYPT) {
+    if (cryptFlag == DECRYPT) {
       for (r = 0; r < 16; r++) {
         mid = rk[r];
         rk[r] = rk[31 - r];
@@ -167,18 +167,17 @@ public final class Cipher {
     }
   }
 
-  public static int sms4(byte[] in, int inLen, byte[] key, byte[] out, int CryptFlag) {
+  public static int sms4(byte[] in, int inLen, byte[] key, byte[] out, int cryptFlag) {
     int point = 0;
-    int[] round_key = new int[ROUND];
+    int[] roundKey = new int[ROUND];
     // int[] round_key={0};
-    SMS4KeyExt(key, round_key, CryptFlag);
-    byte[] input = new byte[16];
+    sms4KeyExt(key, roundKey, cryptFlag);
+    byte[] input;
     byte[] output = new byte[16];
 
     while (inLen >= BLOCK) {
       input = Arrays.copyOfRange(in, point, point + 16);
-      // output=Arrays.copyOfRange(out, point, point+16);
-      SMS4Crypt(input, output, round_key);
+      sms4Crypt(input, output, roundKey);
       System.arraycopy(output, 0, out, point, BLOCK);
       inLen -= BLOCK;
       point += BLOCK;
@@ -189,11 +188,13 @@ public final class Cipher {
 
 
   public static byte[] encodeSms4(String plaintext, byte[] key) {
-    StringBuilder plain = new StringBuilder(plaintext);
-    if ("".equals(plaintext)) {
+    if (DataUtils.isEmpty(plaintext)) {
       return null;
     }
-    plain.append("\0".repeat(16 - plaintext.getBytes().length % 16));
+    StringBuilder plain = new StringBuilder(plaintext);
+    for (int i = plaintext.getBytes().length % 16; i < 16; i++) {
+      plain.append('\0');
+    }
 
     return encodeSms4(plain.toString().getBytes(), key);
   }
@@ -201,8 +202,8 @@ public final class Cipher {
   /**
    * 不限明文长度的SMS4加密
    *
-   * @param plaintext 文本
-   * @param key       键
+   * @param plaintext 加密串
+   * @param key       密钥
    * @return byte[]
    */
   public static byte[] encodeSms4(byte[] plaintext, byte[] key) {
@@ -225,8 +226,8 @@ public final class Cipher {
   /**
    * 不限明文长度的SMS4解密
    *
-   * @param ciphertext 文本
-   * @param key        键
+   * @param ciphertext 加密串
+   * @param key        密钥
    * @return byte[]
    */
   public static byte[] decodeSms4(byte[] ciphertext, byte[] key) {
@@ -249,8 +250,8 @@ public final class Cipher {
   /**
    * 解密，获得明文字符串
    *
-   * @param ciphertext 文本
-   * @param key        键
+   * @param ciphertext 加密串
+   * @param key        密钥
    * @return String
    */
   public static String decodeSms4toString(byte[] ciphertext, byte[] key) {
@@ -261,8 +262,8 @@ public final class Cipher {
   /**
    * 只加密16位明文
    *
-   * @param plaintext 文本
-   * @param key       键
+   * @param plaintext 加密串
+   * @param key       密钥
    * @return byte[]
    */
   private static byte[] encode16(byte[] plaintext, byte[] key) {
@@ -275,8 +276,8 @@ public final class Cipher {
   /**
    * 只解密16位密文
    *
-   * @param ciphertext 文本
-   * @param key        键
+   * @param ciphertext 加密串
+   * @param key        密钥
    * @return byte[]
    */
   private static byte[] decode16(byte[] ciphertext, byte[] key) {

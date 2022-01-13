@@ -109,9 +109,7 @@ public class SysJobController extends BaseController {
   @ApiOperationSupport(order = 5)
   @DeleteMapping("/delete")
   public List<Integer> delete(@RequestBody String... ids) {
-    return Arrays.stream(ids).map(id -> {
-      return sysJobService.deleteById(id);
-    }).collect(Collectors.toList());
+    return Arrays.stream(ids).map(id -> sysJobService.deleteById(id)).collect(Collectors.toList());
   }
 
   /**

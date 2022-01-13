@@ -17,15 +17,15 @@ import reactor.netty.http.client.HttpClient;
 
 /**
  * WebClient Config
- * 
+ *
  * @author liutao
- * 
+ *
  */
 @Configuration
 public class WebClientConfig {
-	
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(WebClientConfig.class);
-	
+
     /**
      * 是否ssl验证开关
      */
@@ -41,7 +41,7 @@ public class WebClientConfig {
 					sslSpec.sslContext(
 							SslContextBuilder.forClient().trustManager(InsecureTrustManagerFactory.INSTANCE).build());
 				} catch (SSLException e) {
-					LOGGER.error("webClient error:{}",e);
+					LOGGER.error("webClient error:",e);
 				}
 			}));
     	}

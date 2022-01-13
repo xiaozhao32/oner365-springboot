@@ -36,7 +36,7 @@ import io.swagger.annotations.ApiOperation;
 
 /**
  * 菜单类型管理
- * 
+ *
  * @author zhaoyong
  *
  */
@@ -50,7 +50,7 @@ public class SysMenuTypeController extends BaseController {
 
   /**
    * 列表
-   * 
+   *
    * @param data 参数
    * @return PageInfo<SysMenuTypeDto>
    */
@@ -63,7 +63,7 @@ public class SysMenuTypeController extends BaseController {
 
   /**
    * 列表
-   * 
+   *
    * @return List<SysMenuTypeDto>
    */
   @ApiOperation("2.获取全部有效类型")
@@ -80,7 +80,7 @@ public class SysMenuTypeController extends BaseController {
 
   /**
    * 获取信息
-   * 
+   *
    * @param id 编号
    * @return SysMenuTypeDto
    */
@@ -93,7 +93,7 @@ public class SysMenuTypeController extends BaseController {
 
   /**
    * 修改状态
-   * 
+   *
    * @param id     主键
    * @param status 状态
    * @return Integer
@@ -107,7 +107,7 @@ public class SysMenuTypeController extends BaseController {
 
   /**
    * 判断是否存在
-   * 
+   *
    * @param checkCodeVo 查询参数
    * @return Long
    */
@@ -123,7 +123,7 @@ public class SysMenuTypeController extends BaseController {
 
   /**
    * 保存
-   * 
+   *
    * @param sysMenuTypeVo 菜单类型对象
    * @return ResponseResult<SysMenuTypeDto>
    */
@@ -140,7 +140,7 @@ public class SysMenuTypeController extends BaseController {
 
   /**
    * 删除
-   * 
+   *
    * @param ids 编号
    * @return List<Integer>
    */
@@ -148,8 +148,6 @@ public class SysMenuTypeController extends BaseController {
   @ApiOperationSupport(order = 7)
   @DeleteMapping("/delete")
   public List<Integer> delete(@RequestBody String... ids) {
-    return Arrays.stream(ids).map(id -> {
-      return menuTypeService.deleteById(id);
-    }).collect(Collectors.toList());
+    return Arrays.stream(ids).map(id -> menuTypeService.deleteById(id)).collect(Collectors.toList());
   }
 }

@@ -172,9 +172,7 @@ public class SysMenuController extends BaseController {
   @ApiOperationSupport(order = 7)
   @DeleteMapping("/delete")
   public List<Integer> delete(@RequestBody String... ids) {
-    return Arrays.stream(ids).map(id -> {
-      return menuService.deleteById(id);
-    }).collect(Collectors.toList());
+    return Arrays.stream(ids).map(id -> menuService.deleteById(id)).collect(Collectors.toList());
   }
 
 }

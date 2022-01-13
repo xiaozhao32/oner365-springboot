@@ -149,13 +149,13 @@ public class FileMinioClient implements IFileStorageClient {
 
   @Override
   public byte[] download(String fileUrl, long offSet, long fileSize) {
-	// TODO Auto-generated method stub
-	return null;
+    // TODO Auto-generated method stub
+    return null;
   }
 
   @Override
   public FileInfo getFile(String groupName, String path) {
-	return null;
+    return null;
   }
 
 }

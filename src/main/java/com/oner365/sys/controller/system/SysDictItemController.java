@@ -193,9 +193,7 @@ public class SysDictItemController extends BaseController {
   @ApiOperationSupport(order = 9)
   @DeleteMapping("/deleteItemType")
   public List<Integer> deleteItemType(@RequestBody String... ids) {
-    return Arrays.stream(ids).map(id -> {
-      return sysDictItemTypeService.deleteById(id);
-    }).collect(Collectors.toList());
+    return Arrays.stream(ids).map(id -> sysDictItemTypeService.deleteById(id)).collect(Collectors.toList());
   }
 
   /**
@@ -301,9 +299,7 @@ public class SysDictItemController extends BaseController {
   @ApiOperationSupport(order = 16)
   @DeleteMapping("/deleteItem")
   public List<Integer> deleteItem(@RequestBody String... ids) {
-    return Arrays.stream(ids).map(id -> {
-      return sysDictItemService.deleteById(id);
-    }).collect(Collectors.toList());
+    return Arrays.stream(ids).map(id -> sysDictItemService.deleteById(id)).collect(Collectors.toList());
   }
 
   /**

@@ -30,7 +30,7 @@ import io.swagger.annotations.ApiOperation;
 
 /**
  * 数据源
- * 
+ *
  * @author zhaoyong
  *
  */
@@ -44,7 +44,7 @@ public class DataSourceConfigController extends BaseController {
 
   /**
    * 列表
-   * 
+   *
    * @param data 查询参数
    * @return PageInfo<DataSourceConfigDto>
    */
@@ -57,7 +57,7 @@ public class DataSourceConfigController extends BaseController {
 
   /**
    * 按id获取信息
-   * 
+   *
    * @param id 编号
    * @return DataSourceConfigDto
    */
@@ -70,7 +70,7 @@ public class DataSourceConfigController extends BaseController {
 
   /**
    * 按 connectName 获取信息
-   * 
+   *
    * @param connectName 连接名称
    * @return DataSourceConfigDto
    */
@@ -83,7 +83,7 @@ public class DataSourceConfigController extends BaseController {
 
   /**
    * 保存
-   * 
+   *
    * @param dataSourceConfigVo 数据源对象
    * @return ResponseResult<DataSourceConfigDto>
    */
@@ -100,7 +100,7 @@ public class DataSourceConfigController extends BaseController {
 
   /**
    * 删除
-   * 
+   *
    * @param ids 编号
    * @return List<Integer>
    */
@@ -108,8 +108,6 @@ public class DataSourceConfigController extends BaseController {
   @ApiOperationSupport(order = 5)
   @DeleteMapping("/delete")
   public List<Integer> delete(@RequestBody String... ids) {
-    return Arrays.stream(ids).map(id -> {
-      return service.deleteById(id);
-    }).collect(Collectors.toList());
+    return Arrays.stream(ids).map(id -> service.deleteById(id)).collect(Collectors.toList());
   }
 }

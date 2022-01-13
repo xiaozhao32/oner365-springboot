@@ -33,7 +33,7 @@ import io.swagger.annotations.ApiOperation;
 
 /**
  * 角色管理
- * 
+ *
  * @author zhaoyong
  */
 @RestController
@@ -46,7 +46,7 @@ public class SysRoleController extends BaseController {
 
   /**
    * 列表
-   * 
+   *
    * @param data 查询参数
    * @return PageInfo<SysRoleDto>
    */
@@ -59,7 +59,7 @@ public class SysRoleController extends BaseController {
 
   /**
    * 获取信息
-   * 
+   *
    * @param id 编号
    * @return SysRoleDto
    */
@@ -86,7 +86,7 @@ public class SysRoleController extends BaseController {
 
   /**
    * 判断是否存在
-   * 
+   *
    * @param checkRoleNameVo 查询参数
    * @return Long
    */
@@ -102,7 +102,7 @@ public class SysRoleController extends BaseController {
 
   /**
    * 角色权限保存
-   * 
+   *
    * @param sysRoleVo 参数
    * @return ResponseResult<Integer>
    */
@@ -124,7 +124,7 @@ public class SysRoleController extends BaseController {
 
   /**
    * 删除
-   * 
+   *
    * @param ids 编号
    * @return List<Integer>
    */
@@ -132,14 +132,12 @@ public class SysRoleController extends BaseController {
   @ApiOperationSupport(order = 6)
   @DeleteMapping("/delete")
   public List<Integer> delete(@RequestBody String... ids) {
-    return Arrays.stream(ids).map(id -> {
-      return roleService.deleteById(id);
-    }).collect(Collectors.toList());
+    return Arrays.stream(ids).map(id -> roleService.deleteById(id)).collect(Collectors.toList());
   }
 
   /**
    * 导出Excel
-   * 
+   *
    * @param data 参数
    * @return ResponseEntity<byte[]>
    */

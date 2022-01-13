@@ -30,8 +30,6 @@ import com.alibaba.fastjson.JSON;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.common.ResponseData;
 import com.oner365.common.ResponseResult;
-import com.oner365.common.auth.AuthUser;
-import com.oner365.common.auth.annotation.CurrentUser;
 import com.oner365.common.constants.PublicConstants;
 import com.oner365.common.enums.ResultEnum;
 import com.oner365.common.enums.StorageEnum;
@@ -51,7 +49,6 @@ import ch.ethz.ssh2.SFTPv3DirectoryEntry;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 文件上传
@@ -212,40 +209,40 @@ public class FileStorageController extends BaseController {
     StorageEnum result = fileStorageClient.getName();
     return result.getCode();
   }
-  
+
   /**
    * 文件流下载
-   * 
-   * @param fileUrl url 开头从组名开始
+   *
+   * @param downloadVo 文件
    * @return byte[]
    */
   @PostMapping("/downloadFilePart")
   @ApiOperation("文件分段下载 - ResponseData方式")
-  public ResponseData<byte[]> downloadFilePart(@ApiIgnore @CurrentUser AuthUser authUser,@RequestBody DownloadVo downloadVo) {
+  public ResponseData<byte[]> downloadFilePart(@RequestBody DownloadVo downloadVo) {
       return ResponseData.success(fileStorageClient.download(downloadVo.getFileUrl(),downloadVo.getOffset(),downloadVo.getFileSize()));
   }
-  
+
   /**
    * 文件流下载
-   * 
-   * @param fileUrl url 开头从组名开始
+   *
+   * @param downloadVo 文件
    * @return byte[]
    */
   @PostMapping("/downloadFilePartByte")
   @ApiOperation("文件分段下载 - byte[]流方式")
-  public byte[] downloadFilePartByte(@ApiIgnore @CurrentUser AuthUser authUser,@RequestBody DownloadVo downloadVo) {
+  public byte[] downloadFilePartByte(@RequestBody DownloadVo downloadVo) {
       return fileStorageClient.download(downloadVo.getFileUrl(),downloadVo.getOffset(),downloadVo.getFileSize());
   }
-  
+
   /**
    * 获取文件信息
-   * 
-   * @param ClientDownloadVo 
+   *
+   * @param downloadVo 文件
    * @return FileInfo
    */
   @PostMapping("/getFileInfo")
   @ApiOperation("获取文件信息 ")
-  public ResponseData<String> getFileInfo(@ApiIgnore @CurrentUser AuthUser authUser,@RequestBody DownloadVo downloadVo) {
+  public ResponseData<String> getFileInfo(@RequestBody DownloadVo downloadVo) {
   	String fileUrl = downloadVo.getFileUrl();
   	String group = fileUrl.substring(0, fileUrl.indexOf(PublicConstants.DELIMITER));
       String downloadPath = fileUrl.substring(fileUrl.indexOf(PublicConstants.DELIMITER) + 1);

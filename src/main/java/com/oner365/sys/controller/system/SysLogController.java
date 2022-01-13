@@ -97,9 +97,7 @@ public class SysLogController extends BaseController {
 	@ApiOperationSupport(order = 4)
 	@DeleteMapping("/delete")
 	public List<Integer> delete(@RequestBody String... ids) {
-    return Arrays.stream(ids).map(id -> {
-      return logService.deleteById(id);
-    }).collect(Collectors.toList());
+    return Arrays.stream(ids).map(id -> logService.deleteById(id)).collect(Collectors.toList());
   }
 
 	/**
