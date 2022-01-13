@@ -26,10 +26,10 @@ class JwtUtilsTest extends BaseUtilsTest {
     	String key = "test";
     	Date time = DateUtil.after(DateUtil.getDate(), 1440, Calendar.MINUTE);
     	String token = JwtUtils.generateToken(json.toJSONString(), time, key);
-    	System.out.println("token:"+token);
-    	System.out.println("解密token："+JwtUtils.getUsernameFromToken(token, key));
-    	System.out.println("validateToken:" + JwtUtils.validateToken(token, key));
-    	System.out.println("base64 decode:");
+    	LOGGER.info("token:{}",token);
+    	LOGGER.info("解密token:{}",JwtUtils.getUsernameFromToken(token, key));
+    	LOGGER.info("validateToken:",JwtUtils.validateToken(token, key));
+    	LOGGER.info("base64 decode:");
     	Arrays.asList(token.split("\\.")).stream().forEach(s -> System.out.println(new String(Base64.getDecoder().decode(s.trim()))));
     	
     }

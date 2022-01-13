@@ -15,9 +15,6 @@
  */
 package com.oner365.common.jwt;
 
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -164,19 +161,6 @@ public class JwtUtils {
         return expiration;
     }
     
-    public static void main (String[] args) {
-    	JSONObject json = new JSONObject();
-    	json.put("userName", "test");
-    	String key = "test";
-    	Date time = DateUtil.after(DateUtil.getDate(), 1440, Calendar.MINUTE);
-    	String token = JwtUtils.generateToken(json.toJSONString(), time, key);
-    	System.out.println("token:"+token);
-    	System.out.println("解密token："+JwtUtils.getUsernameFromToken(token, key));
-    	System.out.println("isTokenExpired:" + JwtUtils.isTokenExpired(token, key));
-    	System.out.println("validateToken:" + JwtUtils.validateToken(token, key));
-    	System.out.println("base64 decode:");
-    	Arrays.asList(token.split("\\.")).stream().forEach(s -> System.out.println(new String(Base64.getDecoder().decode(s))));
-    	
-    }
+    
 
 }
