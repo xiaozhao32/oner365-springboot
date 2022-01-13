@@ -16,6 +16,7 @@
 package com.oner365.common.filter;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -29,9 +30,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.oner365.common.auth.AuthUser;
+import com.oner365.common.cache.RedisCache;
 import com.oner365.common.config.properties.AccessTokenProperties;
+import com.oner365.common.constants.PublicConstants;
 import com.oner365.common.jwt.JwtUtils;
 import com.oner365.util.DataUtils;
 import com.oner365.util.RequestUtils;
@@ -47,6 +49,11 @@ public class JwtAuthFilter implements Filter {
   @Autowired
   private AccessTokenProperties tokenProperties;
 
+  @Autowired
+  private RedisCache redisCache;
+
+  private static final String CACHE_NAME = "Auth:token:";
+
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
       throws IOException, ServletException {
@@ -55,12 +62,15 @@ public class JwtAuthFilter implements Filter {
     // 获取Token
     String authToken = httpRequest.getHeader(HttpHeaders.AUTHORIZATION);
     if (!DataUtils.isEmpty(authToken)) {
-      String tokenInfo = JwtUtils.getUsernameFromToken(authToken, tokenProperties.getAccessTokenSecret());
-      if (tokenInfo != null) {
-        JSONObject json = JSON.parseObject(tokenInfo);
-        httpRequest.setAttribute(RequestUtils.AUTH_USER, new AuthUser(json));
-        httpRequest.setAttribute(RequestUtils.ACCESS_TOKEN, authToken);
+      String tokenInfo = redisCache.getCacheObject(CACHE_NAME + authToken.hashCode());
+      if (tokenInfo == null) {
+        tokenInfo = JwtUtils.getUsernameFromToken(authToken, tokenProperties.getAccessTokenSecret());
+        if (tokenInfo != null) {
+          redisCache.setCacheObject(CACHE_NAME + authToken.hashCode(), tokenInfo, PublicConstants.EXPIRE_TIME, TimeUnit.MINUTES);
+        }
       }
+      httpRequest.setAttribute(RequestUtils.AUTH_USER, new AuthUser(JSON.parseObject(tokenInfo)));
+      httpRequest.setAttribute(RequestUtils.ACCESS_TOKEN, authToken);
     }
     RequestUtils.setHttpRequest(httpRequest);
     chain.doFilter(request, response);

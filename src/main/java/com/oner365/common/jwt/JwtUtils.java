@@ -18,8 +18,6 @@ package com.oner365.common.jwt;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,9 +40,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class JwtUtils {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(JwtUtils.class);
-
-  private static final ConcurrentMap<String, String> TOKEN_MAP = new ConcurrentHashMap<>();
-
+  
   private JwtUtils() {
 
   }
@@ -77,10 +73,7 @@ public class JwtUtils {
     }
     final Claims claims = getClaimsFromToken(token, secret);
     if (claims != null) {
-      if (TOKEN_MAP.get(token) == null) {
-        TOKEN_MAP.put(token, RsaUtils.decrypt(claims.getSubject()));
-      }
-      return TOKEN_MAP.get(token);
+      return RsaUtils.decrypt(claims.getSubject());
     }
     return null;
   }
