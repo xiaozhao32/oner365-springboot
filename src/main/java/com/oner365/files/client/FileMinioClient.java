@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.github.tobato.fastdfs.domain.fdfs.FileInfo;
 import com.oner365.common.config.properties.DefaultFileProperties;
 import com.oner365.common.constants.PublicConstants;
 import com.oner365.common.enums.StorageEnum;
@@ -144,6 +145,17 @@ public class FileMinioClient implements IFileStorageClient {
     entity.setFileSuffix(DataUtils.getExtension(fileName));
     entity.setSize(DataUtils.convertFileSize(fileSize));
     fileStorageService.save(entity);
+  }
+
+  @Override
+  public byte[] download(String fileUrl, long offSet, long fileSize) {
+	// TODO Auto-generated method stub
+	return null;
+  }
+
+  @Override
+  public FileInfo getFile(String groupName, String path) {
+	return null;
   }
 
 }

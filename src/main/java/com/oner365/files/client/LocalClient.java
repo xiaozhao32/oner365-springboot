@@ -2,7 +2,6 @@ package com.oner365.files.client;
 
 import java.io.File;
 
-import com.oner365.files.dto.SysFileStorageDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +9,11 @@ import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.github.tobato.fastdfs.domain.fdfs.FileInfo;
 import com.oner365.common.enums.StorageEnum;
 import com.oner365.common.sequence.sequence.SnowflakeSequence;
 import com.oner365.files.config.properties.FileLocalProperties;
+import com.oner365.files.dto.SysFileStorageDto;
 import com.oner365.files.service.IFileStorageService;
 import com.oner365.files.storage.IFileStorageClient;
 import com.oner365.files.storage.condition.LocalStorageCondition;
@@ -84,6 +85,18 @@ public class LocalClient implements IFileStorageClient {
   @Override
   public StorageEnum getName() {
     return StorageEnum.LOCAL;
+  }
+  
+  @Override
+  public byte[] download(String fileUrl, long offSet, long fileSize) {
+	// TODO Auto-generated method stub
+	return null;
+  }
+
+  @Override
+  public FileInfo getFile(String groupName, String path) {
+	// TODO Auto-generated method stub
+	return null;
   }
 
 }

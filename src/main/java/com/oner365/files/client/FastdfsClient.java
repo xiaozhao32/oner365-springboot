@@ -195,6 +195,7 @@ public class FastdfsClient implements IFileStorageClient {
    * @param path      地址
    * @return FileInfo
    */
+  @Override
   public FileInfo getFile(String groupName, String path) {
     return fastFileStorageClient.queryFileInfo(groupName, path);
   }
@@ -203,5 +204,22 @@ public class FastdfsClient implements IFileStorageClient {
   public StorageEnum getName() {
     return StorageEnum.FDFS;
   }
+  
+  /**
+   * 下载文件
+   *
+   * @param fileUrl 文件url
+   * @param offSet 其实位置
+   * @param fileSize 每次获取大小
+   * @return byte[]
+   */
+  @Override
+  public byte[] download(String fileUrl,long offset,long fileSize) {
+      String group = fileUrl.substring(0, fileUrl.indexOf(PublicConstants.DELIMITER));
+      String downloadPath = fileUrl.substring(fileUrl.indexOf(PublicConstants.DELIMITER) + 1);
+      return fastFileStorageClient.downloadFile(group, downloadPath,offset,fileSize, new DownloadByteArray());
+  }
+  
+  
 
 }
