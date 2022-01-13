@@ -23,7 +23,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.oner365.util.DataUtils;
 import com.oner365.util.DateUtil;
 import com.oner365.util.RsaUtils;
@@ -55,9 +54,8 @@ public class JwtUtils {
      * @return String
      */
     public static String generateToken(String username, int days, String secret) {
-    	String data = RsaUtils.encrypt(username);
         Map<String, Object> claims = new HashMap<>(2);
-        claims.put("sub", data);
+        claims.put("sub", RsaUtils.encrypt(username));
         claims.put("created", DateUtil.getDate());
         return Jwts.builder().setClaims(claims).setExpiration(DateUtil.getDateAfter(days))
                 .signWith(SignatureAlgorithm.HS512, secret).compact();
@@ -72,9 +70,8 @@ public class JwtUtils {
      * @return String
      */
     public static String generateToken(String username, Date expired, String secret) {
-    	String data = RsaUtils.encrypt(username);
         Map<String, Object> claims = new HashMap<>(2);
-        claims.put("sub", data);
+        claims.put("sub", RsaUtils.encrypt(username));
         claims.put("created", DateUtil.getDate());
         return Jwts.builder().setClaims(claims).setExpiration(expired).signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
@@ -122,10 +119,9 @@ public class JwtUtils {
      * @return Boolean
      */
     public static Boolean validateToken(String token, String secret) {
-        final String username = getUsernameFromToken(token, secret);
-        if (username != null) {
-            JSONObject json = JSON.parseObject(username);
-            return (!DataUtils.isEmpty(json.getString("userName")) && !isTokenExpired(token, secret));
+        final String userName = getUsernameFromToken(token, secret);
+        if (userName != null) {
+            return (!DataUtils.isEmpty(JSON.parseObject(userName).getString("userName")) && !isTokenExpired(token, secret));
         }
         return false;
     }
