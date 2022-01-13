@@ -15,6 +15,9 @@
  */
 package com.oner365.common.jwt;
 
+import java.util.Arrays;
+import java.util.Base64;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,6 +29,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.oner365.util.DataUtils;
 import com.oner365.util.DateUtil;
+import com.oner365.util.RsaUtils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -54,8 +58,9 @@ public class JwtUtils {
      * @return String
      */
     public static String generateToken(String username, int days, String secret) {
+    	String data = RsaUtils.encrypt(username);
         Map<String, Object> claims = new HashMap<>(2);
-        claims.put("sub", username);
+        claims.put("sub", data);
         claims.put("created", DateUtil.getDate());
         return Jwts.builder().setClaims(claims).setExpiration(DateUtil.getDateAfter(days))
                 .signWith(SignatureAlgorithm.HS512, secret).compact();
@@ -70,8 +75,9 @@ public class JwtUtils {
      * @return String
      */
     public static String generateToken(String username, Date expired, String secret) {
+    	String data = RsaUtils.encrypt(username);
         Map<String, Object> claims = new HashMap<>(2);
-        claims.put("sub", username);
+        claims.put("sub", data);
         claims.put("created", DateUtil.getDate());
         return Jwts.builder().setClaims(claims).setExpiration(expired).signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
@@ -90,7 +96,7 @@ public class JwtUtils {
         }
         final Claims claims = getClaimsFromToken(token, secret);
         if (claims != null) {
-            return claims.getSubject();
+            return RsaUtils.decrypt(claims.getSubject());
         }
         return null;
     }
@@ -156,6 +162,21 @@ public class JwtUtils {
             expiration = claims.getExpiration();
         }
         return expiration;
+    }
+    
+    public static void main (String[] args) {
+    	JSONObject json = new JSONObject();
+    	json.put("userName", "test");
+    	String key = "test";
+    	Date time = DateUtil.after(DateUtil.getDate(), 1440, Calendar.MINUTE);
+    	String token = JwtUtils.generateToken(json.toJSONString(), time, key);
+    	System.out.println("token:"+token);
+    	System.out.println("解密token："+JwtUtils.getUsernameFromToken(token, key));
+    	System.out.println("isTokenExpired:" + JwtUtils.isTokenExpired(token, key));
+    	System.out.println("validateToken:" + JwtUtils.validateToken(token, key));
+    	System.out.println("base64 decode:");
+    	Arrays.asList(token.split("\\.")).stream().forEach(s -> System.out.println(new String(Base64.getDecoder().decode(s))));
+    	
     }
 
 }
