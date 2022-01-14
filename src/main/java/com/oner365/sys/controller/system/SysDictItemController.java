@@ -64,7 +64,7 @@ public class SysDictItemController extends BaseController {
    */
   @ApiOperation("1.获取类别列表")
   @ApiOperationSupport(order = 1)
-  @PostMapping("/findTypeList")
+  @PostMapping("/type/list")
   public PageInfo<SysDictItemTypeDto> findTypeList(@RequestBody QueryCriteriaBean data) {
     return sysDictItemTypeService.pageList(data);
   }
@@ -77,7 +77,7 @@ public class SysDictItemController extends BaseController {
    */
   @ApiOperation("2.获取类别列表")
   @ApiOperationSupport(order = 2)
-  @PostMapping("/findListByCodes")
+  @PostMapping("/type/codes/list")
   public List<SysDictItemTypeDto> findListByCode(@RequestBody String... codes) {
     return sysDictItemTypeService.findListByCodes(Arrays.asList(codes));
   }
@@ -90,7 +90,7 @@ public class SysDictItemController extends BaseController {
    */
   @ApiOperation("3.按id查询类别")
   @ApiOperationSupport(order = 3)
-  @GetMapping("/getTypeById/{id}")
+  @GetMapping("/type/get/{id}")
   public SysDictItemTypeDto getTypeById(@PathVariable String id) {
     return sysDictItemTypeService.getById(id);
   }
@@ -103,7 +103,7 @@ public class SysDictItemController extends BaseController {
    */
   @ApiOperation("4.判断字典类别是否存在")
   @ApiOperationSupport(order = 4)
-  @PostMapping("/checkTypeCode")
+  @PostMapping("/type/check")
   public Long checkTypeCode(@RequestBody CheckCodeVo checkCodeVo) {
     if (checkCodeVo != null) {
       return sysDictItemTypeService.checkCode(checkCodeVo.getId(), checkCodeVo.getCode());
@@ -119,7 +119,7 @@ public class SysDictItemController extends BaseController {
    */
   @ApiOperation("5.按类别id查询列表")
   @ApiOperationSupport(order = 5)
-  @GetMapping("/findTypeInfoById/{typeId}")
+  @GetMapping("/item/type/{typeId}")
   public List<SysDictItemDto> findTypeInfoById(@PathVariable String typeId) {
     QueryCriteriaBean data = new QueryCriteriaBean();
     List<AttributeBean> whereList = new ArrayList<>();
@@ -137,7 +137,7 @@ public class SysDictItemController extends BaseController {
    */
   @ApiOperation("6.按类别编码查询字典列表")
   @ApiOperationSupport(order = 6)
-  @PostMapping("/findItemByTypeIds")
+  @PostMapping("/item/type/ids")
   public Map<String, Object> findItemByTypeIds(@RequestBody String... typeIds) {
     Map<String, Object> result = new HashMap<>(10);
     Arrays.stream(typeIds).forEach(typeId -> {
@@ -161,7 +161,7 @@ public class SysDictItemController extends BaseController {
    */
   @ApiOperation("7.修改类别状态")
   @ApiOperationSupport(order = 7)
-  @PostMapping("/editTypeStatus/{id}")
+  @PostMapping("/type/status/{id}")
   public Integer editTypeStatus(@PathVariable String id, @RequestParam("status") String status) {
     return sysDictItemTypeService.editStatus(id, status);
   }
@@ -174,7 +174,7 @@ public class SysDictItemController extends BaseController {
    */
   @ApiOperation("8.字典类别保存")
   @ApiOperationSupport(order = 8)
-  @PutMapping("/saveDictItemType")
+  @PutMapping("/type/save")
   public ResponseResult<SysDictItemTypeDto> saveDictItemType(@RequestBody SysDictItemTypeVo sysDictItemTypeVo) {
     if (sysDictItemTypeVo != null) {
       SysDictItemTypeDto entity = sysDictItemTypeService.save(sysDictItemTypeVo);
@@ -191,7 +191,7 @@ public class SysDictItemController extends BaseController {
    */
   @ApiOperation("9.删除字典类别")
   @ApiOperationSupport(order = 9)
-  @DeleteMapping("/deleteItemType")
+  @DeleteMapping("/type/delete")
   public List<Integer> deleteItemType(@RequestBody String... ids) {
     return Arrays.stream(ids).map(id -> sysDictItemTypeService.deleteById(id)).collect(Collectors.toList());
   }
@@ -204,7 +204,7 @@ public class SysDictItemController extends BaseController {
    */
   @ApiOperation("10.导出字典类别")
   @ApiOperationSupport(order = 10)
-  @PostMapping("/exportItemType")
+  @PostMapping("/type/export")
   public ResponseEntity<byte[]> exportItemType(@RequestBody QueryCriteriaBean data) {
     List<SysDictItemTypeDto> list = sysDictItemTypeService.findList(data);
 
@@ -223,7 +223,7 @@ public class SysDictItemController extends BaseController {
    */
   @ApiOperation("11.获取字典列表")
   @ApiOperationSupport(order = 11)
-  @PostMapping("/findItemList")
+  @PostMapping("/item/list")
   public PageInfo<SysDictItemDto> findItemList(@RequestBody QueryCriteriaBean data) {
     return sysDictItemService.pageList(data);
   }
@@ -236,7 +236,7 @@ public class SysDictItemController extends BaseController {
    */
   @ApiOperation("12.按id查询字典")
   @ApiOperationSupport(order = 12)
-  @GetMapping("/getItemById/{id}")
+  @GetMapping("/item/get/{id}")
   public SysDictItemDto getItemById(@PathVariable String id) {
     return sysDictItemService.getById(id);
   }
@@ -249,7 +249,7 @@ public class SysDictItemController extends BaseController {
    */
   @ApiOperation("13.判断字典是否存在")
   @ApiOperationSupport(order = 13)
-  @PostMapping("/checkCode")
+  @PostMapping("/item/check")
   public Long checkCode(@RequestBody CheckTypeCodeVo checkTypeCodeVo) {
     if (checkTypeCodeVo != null) {
       return sysDictItemService.checkCode(checkTypeCodeVo.getId(), checkTypeCodeVo.getTypeId(),
@@ -267,7 +267,7 @@ public class SysDictItemController extends BaseController {
    */
   @ApiOperation("14.修改字典状态")
   @ApiOperationSupport(order = 14)
-  @PostMapping("/editItemStatus/{id}")
+  @PostMapping("/item/status/{id}")
   public Integer editItemStatus(@PathVariable String id, @RequestParam("status") String status) {
     return sysDictItemService.editStatus(id, status);
   }
@@ -280,7 +280,7 @@ public class SysDictItemController extends BaseController {
    */
   @ApiOperation("15.保存字典")
   @ApiOperationSupport(order = 15)
-  @PutMapping("/saveDictItem")
+  @PutMapping("/item/save")
   public ResponseResult<SysDictItemDto> saveDictItem(@RequestBody SysDictItemVo sysDictItemVo) {
     if (sysDictItemVo != null) {
       SysDictItemDto entity = sysDictItemService.save(sysDictItemVo);
@@ -297,7 +297,7 @@ public class SysDictItemController extends BaseController {
    */
   @ApiOperation("16.删除字典")
   @ApiOperationSupport(order = 16)
-  @DeleteMapping("/deleteItem")
+  @DeleteMapping("/item/delete")
   public List<Integer> deleteItem(@RequestBody String... ids) {
     return Arrays.stream(ids).map(id -> sysDictItemService.deleteById(id)).collect(Collectors.toList());
   }
@@ -310,7 +310,7 @@ public class SysDictItemController extends BaseController {
    */
   @ApiOperation("17.导出字典")
   @ApiOperationSupport(order = 17)
-  @PostMapping("/exportItem")
+  @PostMapping("/item/export")
   public ResponseEntity<byte[]> exportItem(@RequestBody QueryCriteriaBean data) {
     List<SysDictItemDto> list = sysDictItemService.findList(data);
 

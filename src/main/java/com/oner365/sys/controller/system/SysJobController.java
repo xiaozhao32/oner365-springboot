@@ -77,7 +77,7 @@ public class SysJobController extends BaseController {
    */
   @ApiOperation("3.修改状态")
   @ApiOperationSupport(order = 3)
-  @PostMapping("/editStatus/{id}")
+  @PostMapping("/status/{id}")
   public Integer editStatus(@PathVariable String id, @RequestParam("status") String status) {
     return sysJobService.editStatus(id, status);
   }

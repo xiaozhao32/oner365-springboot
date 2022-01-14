@@ -37,7 +37,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @Api(tags = "系统管理 - 菜单操作权限")
-@RequestMapping("/system/menuOperation")
+@RequestMapping("/system/menu/operation")
 public class SysMenuOperationController extends BaseController {
 
   @Autowired
@@ -77,7 +77,7 @@ public class SysMenuOperationController extends BaseController {
    */
   @ApiOperation("3.判断是否存在")
   @ApiOperationSupport(order = 3)
-  @PostMapping("/checkCode")
+  @PostMapping("/check")
   public Long checkCode(@RequestBody CheckCodeVo checkCodeVo) {
     if (checkCodeVo != null) {
       return menuOperationService.checkCode(checkCodeVo.getId(), checkCodeVo.getCode());

@@ -110,7 +110,7 @@ public class AuthController extends BaseController {
    */
   @ApiOperation("2.获取验证码")
   @ApiOperationSupport(order = 2)
-  @GetMapping("/captchaImage")
+  @GetMapping("/captcha")
   public CaptchaImageDto captchaImage() {
     // 生成随机字串
     String verifyCode = VerifyCodeUtils.generateVerifyCode(4);

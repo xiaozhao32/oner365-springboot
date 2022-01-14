@@ -171,5 +171,10 @@
     "name": "local.upload",
     "type": "java.lang.String",
     "description": "A description for 'local.upload'."
+  },
+  {
+    "name": "webclient.ssl.vaild",
+    "type": "java.lang.Boolean",
+    "description": "A description for 'webclient.ssl.valid'."
   }
 ]}

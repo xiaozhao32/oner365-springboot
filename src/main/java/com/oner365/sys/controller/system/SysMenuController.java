@@ -42,7 +42,7 @@ import springfox.documentation.annotations.ApiIgnore;
  */
 @RestController
 @Api(tags = "系统管理 - 菜单")
-@RequestMapping("/system/menu")
+@RequestMapping("/system/menus")
 public class SysMenuController extends BaseController {
 
   @Autowired
@@ -93,7 +93,7 @@ public class SysMenuController extends BaseController {
    */
   @ApiOperation("3.修改状态")
   @ApiOperationSupport(order = 3)
-  @PostMapping("/editStatusById/{id}")
+  @PostMapping("/status/{id}")
   public Integer editStatusById(@PathVariable String id, @RequestParam("status") String status) {
     return menuService.editStatusById(id, status);
   }
@@ -107,7 +107,7 @@ public class SysMenuController extends BaseController {
    */
   @ApiOperation("4.获取树型列表")
   @ApiOperationSupport(order = 4)
-  @PostMapping("/treeselect")
+  @PostMapping("/tree")
   public List<TreeSelect> treeselect(@RequestBody SysMenuVo sysMenuVo, @ApiIgnore @CurrentUser AuthUser authUser) {
     List<SysMenuDto> menus;
     if (SysConstants.DEFAULT_ROLE.equals(authUser.getIsAdmin())) {
@@ -129,7 +129,7 @@ public class SysMenuController extends BaseController {
    */
   @ApiOperation("5.获取权限")
   @ApiOperationSupport(order = 5)
-  @PostMapping("/roleMenuTreeselect/{roleId}")
+  @PostMapping("/role/{roleId}")
   public SysMenuTreeSelectDto roleMenuTreeselect(@RequestBody SysMenuVo sysMenuVo, @PathVariable("roleId") String roleId,
       @ApiIgnore @CurrentUser AuthUser authUser) {
     List<SysMenuDto> menus;

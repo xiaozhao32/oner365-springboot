@@ -42,7 +42,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @Api(tags = "系统管理 - 菜单类型")
-@RequestMapping("/system/menuType")
+@RequestMapping("/system/menu/type")
 public class SysMenuTypeController extends BaseController {
 
   @Autowired
@@ -68,7 +68,7 @@ public class SysMenuTypeController extends BaseController {
    */
   @ApiOperation("2.获取全部有效类型")
   @ApiOperationSupport(order = 2)
-  @GetMapping("/findAll")
+  @GetMapping("/all")
   public List<SysMenuTypeDto> findAll() {
     QueryCriteriaBean data = new QueryCriteriaBean();
     List<AttributeBean> whereList = new ArrayList<>();
@@ -100,7 +100,7 @@ public class SysMenuTypeController extends BaseController {
    */
   @ApiOperation("4.修改状态")
   @ApiOperationSupport(order = 4)
-  @PostMapping("/editStatusById/{id}")
+  @PostMapping("/status/{id}")
   public Integer editStatusById(@PathVariable String id, @RequestParam("status") String status) {
     return menuTypeService.editStatusById(id, status);
   }
@@ -113,7 +113,7 @@ public class SysMenuTypeController extends BaseController {
    */
   @ApiOperation("5.判断是否存在")
   @ApiOperationSupport(order = 5)
-  @PostMapping("/checkCode")
+  @PostMapping("/check")
   public Long checkCode(@RequestBody CheckCodeVo checkCodeVo) {
     if (checkCodeVo != null) {
       return menuTypeService.checkCode(checkCodeVo.getId(), checkCodeVo.getCode());

@@ -69,7 +69,7 @@ public class ApiController extends BaseController {
    */
   @ApiOperation("1.测试分库分表")
   @ApiOperationSupport(order = 1)
-  @GetMapping("/testDataSource")
+  @GetMapping("/sharding/test")
   public List<Map<String, String>> testDataSource(@RequestParam Integer orderId, @RequestParam Integer userId) {
     String sql = "insert into t_order(id, order_id, user_id, status, create_time) " + "values('"
         + snowflakeSequence.nextNo() + "'," + orderId + "," + userId + ",'1','" + DateUtil.getCurrentTime() + "')";
@@ -89,7 +89,7 @@ public class ApiController extends BaseController {
    */
   @ApiOperation("2.测试Guava Cache")
   @ApiOperationSupport(order = 2)
-  @GetMapping("/testGuavaCache")
+  @GetMapping("/cache/guava/test")
   public String testGuavaCache() {
     String sequence1 = snowflakeSequence.nextNo();
     LOGGER.info("sequence1: {}", sequence1);
@@ -114,7 +114,7 @@ public class ApiController extends BaseController {
    */
   @ApiOperation("3.测试Redis Cache")
   @ApiOperationSupport(order = 3)
-  @GetMapping("/testRedisCache")
+  @GetMapping("/cache/redis/test")
   public String testRedisCache() {
     String key = "test1";
     JSONObject value = new JSONObject();

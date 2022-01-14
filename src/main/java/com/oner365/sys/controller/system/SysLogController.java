@@ -108,7 +108,7 @@ public class SysLogController extends BaseController {
 	 */
 	@ApiOperation("5.删除日志")
 	@ApiOperationSupport(order = 5)
-	@DeleteMapping("/deleteLog")
+	@DeleteMapping("/days/delete")
 	public Integer deleteLog(@RequestParam("days") Integer days) {
 		Date date = DateUtil.getDateAgo(days);
 		return logService.deleteLog(DateUtil.dateToLocalDateTime(date));

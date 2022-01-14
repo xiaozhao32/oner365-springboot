@@ -79,7 +79,7 @@ public class SysRoleController extends BaseController {
    */
   @ApiOperation("3.修改状态")
   @ApiOperationSupport(order = 3)
-  @PostMapping("/editStatus/{id}")
+  @PostMapping("/status/{id}")
   public Integer editStatus(@PathVariable String id, @RequestParam("status") String status) {
     return roleService.editStatus(id, status);
   }
@@ -92,7 +92,7 @@ public class SysRoleController extends BaseController {
    */
   @ApiOperation("4.判断角色名称存在")
   @ApiOperationSupport(order = 4)
-  @PostMapping("/checkRoleName")
+  @PostMapping("/check")
   public Long checkRoleName(@RequestBody CheckRoleNameVo checkRoleNameVo) {
     if (checkRoleNameVo != null) {
       return roleService.checkRoleName(checkRoleNameVo.getId(), checkRoleNameVo.getRoleName());

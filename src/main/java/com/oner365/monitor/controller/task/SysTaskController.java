@@ -120,7 +120,7 @@ public class SysTaskController extends BaseController {
    */
   @ApiOperation("5.修改状态")
   @ApiOperationSupport(order = 5)
-  @PutMapping("/changeStatus")
+  @PutMapping("/status")
   public ResponseResult<Integer> changeStatus(@RequestBody SysTaskVo sysTaskVo)
       throws SchedulerException, TaskException {
     if (sysTaskVo != null) {

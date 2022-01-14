@@ -57,7 +57,7 @@ import io.swagger.annotations.ApiParam;
  */
 @RestController
 @Api(tags = "文件上传")
-@RequestMapping("/files/fdfs")
+@RequestMapping("/files/storage")
 public class FileStorageController extends BaseController {
 
   @Autowired
@@ -123,7 +123,7 @@ public class FileStorageController extends BaseController {
    */
   @ApiOperation("3.文件上传")
   @ApiOperationSupport(order = 3)
-  @PostMapping("/uploadMultipartFile")
+  @PostMapping("/upload")
   public ResponseResult<String> uploadFile(
       @ApiParam(name = "file", value = "文件") @RequestPart("file") MultipartFile file,
       @ApiParam(name = "dictory", value = "上传目录") @RequestParam(name = "dictory", required = false) String dictory) {
@@ -176,7 +176,7 @@ public class FileStorageController extends BaseController {
    */
   @ApiOperation("5.文件下载 - byte[]流方式")
   @ApiOperationSupport(order = 5)
-  @GetMapping("/downloadFile")
+  @GetMapping("/byte/download")
   public byte[] downloadFile(@RequestParam("fileUrl") String fileUrl) {
     return fileStorageClient.download(fileUrl);
   }
@@ -204,7 +204,7 @@ public class FileStorageController extends BaseController {
    */
   @ApiOperation("7.获取文件存储方式")
   @ApiOperationSupport(order = 7)
-  @GetMapping("/getStorageName")
+  @GetMapping("/name")
   public String getStorageName() {
     StorageEnum result = fileStorageClient.getName();
     return result.getCode();
@@ -216,8 +216,8 @@ public class FileStorageController extends BaseController {
    * @param downloadVo 文件
    * @return byte[]
    */
-  @PostMapping("/downloadFilePart")
-  @ApiOperation("文件分段下载 - ResponseData方式")
+  @ApiOperation("8.文件分段下载 - ResponseData方式")
+  @PostMapping("/part/download")
   public ResponseData<byte[]> downloadFilePart(@RequestBody DownloadVo downloadVo) {
       return ResponseData.success(fileStorageClient.download(downloadVo.getFileUrl(),downloadVo.getOffset(),downloadVo.getFileSize()));
   }
@@ -228,8 +228,8 @@ public class FileStorageController extends BaseController {
    * @param downloadVo 文件
    * @return byte[]
    */
-  @PostMapping("/downloadFilePartByte")
-  @ApiOperation("文件分段下载 - byte[]流方式")
+  @ApiOperation("9.文件分段下载 - byte[]流方式")
+  @PostMapping("/part/byte/download")
   public byte[] downloadFilePartByte(@RequestBody DownloadVo downloadVo) {
       return fileStorageClient.download(downloadVo.getFileUrl(),downloadVo.getOffset(),downloadVo.getFileSize());
   }
@@ -240,8 +240,8 @@ public class FileStorageController extends BaseController {
    * @param downloadVo 文件
    * @return FileInfo
    */
-  @PostMapping("/getFileInfo")
-  @ApiOperation("获取文件信息 ")
+  @ApiOperation("10.获取文件信息")
+  @PostMapping("/info")
   public ResponseData<String> getFileInfo(@RequestBody DownloadVo downloadVo) {
   	String fileUrl = downloadVo.getFileUrl();
   	String group = fileUrl.substring(0, fileUrl.indexOf(PublicConstants.DELIMITER));

@@ -121,7 +121,7 @@ public class DynamicRouteController extends BaseController {
    */
   @ApiOperation("6.更新状态")
   @ApiOperationSupport(order = 6)
-  @GetMapping("/updateRouteStatus/{id}/{status}")
+  @GetMapping("/status/{id}/{status}")
   public ResponseResult<String> updateRouteStatus(@PathVariable String id, @PathVariable String status) {
     String msg = dynamicRouteService.updateRouteStatus(id, status);
     return ResponseResult.success(msg);

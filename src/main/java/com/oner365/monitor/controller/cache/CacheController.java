@@ -84,7 +84,7 @@ public class CacheController extends BaseController {
    */
   @ApiOperation("2.缓存列表")
   @ApiOperationSupport(order = 2)
-  @GetMapping("/cacheList")
+  @GetMapping("/list")
   public List<Map<String, Object>> cacheList() {
     Jedis jedis = new Jedis(redisProperties.getHost(), redisProperties.getPort());
 

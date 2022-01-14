@@ -70,7 +70,7 @@ public class ServiceController extends BaseController {
    */
   @ApiOperation("2.动态刷新配置")
   @ApiOperationSupport(order = 2)
-  @GetMapping("/refreshConfig")
+  @GetMapping("/refresh")
   public String refreshConfig() {
     return ResultEnum.SUCCESS.getName();
   }
@@ -82,7 +82,7 @@ public class ServiceController extends BaseController {
    */
   @ApiOperation("3.配置信息")
   @ApiOperationSupport(order = 3)
-  @PostMapping("/getActuatorEnv")
+  @PostMapping("/info")
   public JSONObject getActuatorEnv() {
     JSONObject result = new JSONObject();
     JSONArray profiles = new JSONArray();
@@ -99,7 +99,7 @@ public class ServiceController extends BaseController {
    */
   @ApiOperation("4.上传服务")
   @ApiOperationSupport(order = 4)
-  @PostMapping("/uploadService")
+  @PostMapping("/upload")
   public String uploadService() {
     DeployEntity deploy = DeployUtils.getDeployEntity();
     ServerEntity server = DeployUtils.getServerEntity();
@@ -119,7 +119,7 @@ public class ServiceController extends BaseController {
    */
   @ApiOperation("5.重启服务")
   @ApiOperationSupport(order = 5)
-  @PostMapping("/resetService")
+  @PostMapping("/reset")
   public String resetService() {
     return ResultEnum.SUCCESS.getName();
   }

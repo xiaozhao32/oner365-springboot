@@ -149,7 +149,7 @@ public class SysUserController extends BaseController {
    */
   @ApiOperation("5.更新个人信息")
   @ApiOperationSupport(order = 5)
-  @PostMapping("/updateUserProfile")
+  @PostMapping("/update/profile")
   public SysUserDto updateUserProfile(@RequestBody SysUserVo sysUserVo, @ApiIgnore @CurrentUser AuthUser authUser) {
     if (sysUserVo != null) {
       sysUserVo.setId(authUser.getId());
@@ -166,7 +166,7 @@ public class SysUserController extends BaseController {
    */
   @ApiOperation("6.判断存在")
   @ApiOperationSupport(order = 6)
-  @PostMapping("/checkUserName")
+  @PostMapping("/check")
   public Long checkUserName(@RequestBody CheckUserNameVo checkUserNameVo) {
     if (checkUserNameVo != null) {
       return sysUserService.checkUserName(checkUserNameVo.getId(), checkUserNameVo.getUserName());
@@ -182,7 +182,7 @@ public class SysUserController extends BaseController {
    */
   @ApiOperation("7.重置密码")
   @ApiOperationSupport(order = 7)
-  @PostMapping("/resetPassword")
+  @PostMapping("/reset")
   public Integer resetPassword(@RequestBody ResetPasswordVo resetPasswordVo) {
     if (resetPasswordVo != null) {
       return sysUserService.editPassword(resetPasswordVo.getUserId(), resetPasswordVo.getPassword());
@@ -199,7 +199,7 @@ public class SysUserController extends BaseController {
    */
   @ApiOperation("8.修改密码")
   @ApiOperationSupport(order = 8)
-  @PostMapping("/editPassword")
+  @PostMapping("/update/password")
   public ResponseResult<Integer> editPassword(@ApiIgnore @CurrentUser AuthUser authUser,
       @RequestBody ModifyPasswordVo modifyPasswordVo) {
     if (modifyPasswordVo != null) {
@@ -224,7 +224,7 @@ public class SysUserController extends BaseController {
    */
   @ApiOperation("9.修改状态")
   @ApiOperationSupport(order = 9)
-  @PostMapping("/editStatus/{id}")
+  @PostMapping("/status/{id}")
   public Integer editStatus(@PathVariable String id, @RequestParam("status") String status) {
     return sysUserService.editStatus(id, status);
   }

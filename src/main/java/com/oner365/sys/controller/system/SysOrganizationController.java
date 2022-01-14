@@ -90,7 +90,7 @@ public class SysOrganizationController extends BaseController {
    */
   @ApiOperation("3.能否连接数据源")
   @ApiOperationSupport(order = 3)
-  @PostMapping("/isConnection/{ds}")
+  @PostMapping("/connection/{ds}")
   public boolean isConnection(@PathVariable String ds, @RequestParam String ip, @RequestParam int port,
       @RequestParam String dbname, @RequestParam String username, @RequestParam String password) {
     return sysOrgService.isConnection(ds, ip, port, dbname, username, password);
@@ -104,7 +104,7 @@ public class SysOrganizationController extends BaseController {
    */
   @ApiOperation("4.测试连接数据源")
   @ApiOperationSupport(order = 4)
-  @GetMapping("/checkConnection/{id}")
+  @GetMapping("/check/{id}")
   public boolean checkConnection(@PathVariable String id) {
     return sysOrgService.checkConnection(id);
   }
@@ -117,7 +117,7 @@ public class SysOrganizationController extends BaseController {
    */
   @ApiOperation("5.父级id查询")
   @ApiOperationSupport(order = 5)
-  @GetMapping("/findListByParentId")
+  @GetMapping("/parent")
   public List<SysOrganizationDto> findListByParentId(@RequestParam("parentId") String parentId) {
     return sysOrgService.findListByParentId(parentId);
   }
@@ -130,7 +130,7 @@ public class SysOrganizationController extends BaseController {
    */
   @ApiOperation("6.判断编码是否存在")
   @ApiOperationSupport(order = 6)
-  @PostMapping("/checkCode")
+  @PostMapping("/check")
   public Long checkCode(@RequestBody CheckOrgCodeVo checkOrgCodeVo) {
     if (checkOrgCodeVo != null) {
       return sysOrgService.checkCode(checkOrgCodeVo.getId(), checkOrgCodeVo.getCode(), checkOrgCodeVo.getType());
@@ -146,7 +146,7 @@ public class SysOrganizationController extends BaseController {
    */
   @ApiOperation("7.获取树型列表")
   @ApiOperationSupport(order = 7)
-  @PostMapping("/treeselect")
+  @PostMapping("/tree")
   public List<TreeSelect> treeselect(@RequestBody SysOrganizationVo sysOrganizationVo) {
     List<SysOrganizationDto> list = sysOrgService.selectList(sysOrganizationVo);
     return sysOrgService.buildTreeSelect(list);
@@ -161,7 +161,7 @@ public class SysOrganizationController extends BaseController {
    */
   @ApiOperation("8.获取用户权限")
   @ApiOperationSupport(order = 8)
-  @PostMapping("/userTreeselect/{userId}")
+  @PostMapping("/user/{userId}")
   public Map<String, Object> userTreeselect(@RequestBody SysOrganizationVo sysOrganizationVo,
       @PathVariable("userId") String userId) {
     List<SysOrganizationDto> list = sysOrgService.selectList(sysOrganizationVo);
@@ -180,7 +180,7 @@ public class SysOrganizationController extends BaseController {
    */
   @ApiOperation("9.修改状态")
   @ApiOperationSupport(order = 9)
-  @PostMapping("/changeStatus/{id}")
+  @PostMapping("/status/{id}")
   public Integer changeStatus(@PathVariable String id, @RequestParam("status") String status) {
     return sysOrgService.changeStatus(id, status);
   }

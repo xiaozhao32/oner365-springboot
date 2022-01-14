@@ -151,7 +151,7 @@ public class GeneratorController extends BaseController {
    */
   @ApiOperation("8.生成代码")
   @ApiOperationSupport(order = 8)
-  @GetMapping("/genCode/{tableName}")
+  @GetMapping("/code/{tableName}")
   public Map<String, Object> genCode(@PathVariable("tableName") String tableName) {
     genTableService.generatorCode(tableName);
     Map<String, Object> result = new HashMap<>(2);
@@ -164,7 +164,7 @@ public class GeneratorController extends BaseController {
    */
   @ApiOperation("9.同步数据库")
   @ApiOperationSupport(order = 9)
-  @GetMapping("/syncDb/{tableName}")
+  @GetMapping("/sync/{tableName}")
   public Map<String, Object> syncDb(@PathVariable("tableName") String tableName) {
     genTableService.syncDb(tableName);
     Map<String, Object> result = new HashMap<>(2);
@@ -177,7 +177,7 @@ public class GeneratorController extends BaseController {
    */
   @ApiOperation("10.批量生成代码")
   @ApiOperationSupport(order = 10)
-  @GetMapping("/batchGenCode")
+  @GetMapping("/batch")
   public void batchGenCode(HttpServletResponse response, String tables) {
     String[] tableNames = ConvertString.toStrArray(tables);
     byte[] data = genTableService.downloadCode(tableNames);
@@ -202,7 +202,7 @@ public class GeneratorController extends BaseController {
    */
   @ApiOperation("12.导入表结构")
   @ApiOperationSupport(order = 12)
-  @PostMapping("/importTable")
+  @PostMapping("/import")
   public Map<String, Object> importTableSave(@ApiIgnore @CurrentUser AuthUser authUser, String tables) {
     String operName = authUser == null ? null : authUser.getUserName();
     String[] tableNames = ConvertString.toStrArray(tables);

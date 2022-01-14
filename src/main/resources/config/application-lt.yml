@@ -122,7 +122,7 @@ ignore:
   whites:
     - /api
     - /system/auth/login
-    - /system/auth/captchaImage
+    - /system/auth/captcha
     - /system/file/download
     - /swagger
     - /webjars
