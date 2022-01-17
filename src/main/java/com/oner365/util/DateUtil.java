@@ -168,10 +168,12 @@ public class DateUtil {
    * @return 日期型日期
    */
   public static Date stringToDate(String strDate, String fm) {
-    DateFormat df = new SimpleDateFormat(fm);
-    df.setTimeZone(TimeZone.getTimeZone(DATE_TIMEZONE));
     try {
-      return df.parse(strDate);
+      if (strDate != null) {
+        DateFormat df = new SimpleDateFormat(fm);
+        df.setTimeZone(TimeZone.getTimeZone(DATE_TIMEZONE));
+        return df.parse(strDate);
+      }
     } catch (ParseException e) {
       LOGGER.error("Error stringToDate: ", e);
     }
@@ -187,9 +189,11 @@ public class DateUtil {
    */
   public static String dateToString(Date date, String fm) {
     try {
-      SimpleDateFormat dateFmt = new SimpleDateFormat(fm);
-      dateFmt.setTimeZone(TimeZone.getTimeZone(DATE_TIMEZONE));
-      return dateFmt.format(date);
+      if (date != null) {
+        SimpleDateFormat dateFmt = new SimpleDateFormat(fm);
+        dateFmt.setTimeZone(TimeZone.getTimeZone(DATE_TIMEZONE));
+        return dateFmt.format(date);
+      }
     } catch (Exception e) {
       LOGGER.error("Error dateToString: ", e);
     }

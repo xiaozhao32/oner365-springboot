@@ -1,5 +1,7 @@
 package com.oner365.util;
 
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
@@ -24,8 +26,10 @@ import java.net.URLEncoder;
 import java.net.UnknownHostException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -729,5 +733,55 @@ public class DataUtils {
       LOGGER.error("Error convertMultipartFile:", e);
     }
     return new CommonsMultipartFile(item);
+  }
+  
+  /**
+   * 比较对象的参数 返回不同值的参数
+   * 
+   * @param sourcePo 源对象
+   * @param targetPo 目标对象
+   * @param ignoreProperties 被忽略参数
+   * @return Map<String, List<Object>>
+   */
+  public static Map<String, List<Object>> diffBeanProperties(Object sourceObject, Object targetObject,
+      List<String> ignoreProperties) {
+    Map<String, List<Object>> map = new HashMap<>(10);
+    if (sourceObject.getClass().equals(targetObject.getClass())) {
+      try {
+        Class<?> clazz = sourceObject.getClass();
+        PropertyDescriptor[] pds = Introspector.getBeanInfo(clazz, Object.class).getPropertyDescriptors();
+        for (PropertyDescriptor pd : pds) {
+          String name = pd.getName();
+          if (ignoreProperties.stream().noneMatch(name::equals)) {
+
+            Method readMethod = pd.getReadMethod();
+            Object o1 = readMethod.invoke(sourceObject);
+            Object o2 = readMethod.invoke(targetObject);
+            // Date
+            if ("class java.util.Date".equals(pd.getPropertyType().toString())) {
+              o1 = DateUtil.dateToString((Date) o1, DateUtil.FULL_TIME_FORMAT);
+              o2 = DateUtil.dateToString((Date) o2, DateUtil.FULL_TIME_FORMAT);
+            }
+            // LocalDateTime
+            if ("class java.time.LocalDateTime".equals(pd.getPropertyType().toString())) {
+              Date d1 = (Date) DateUtil.localDateTimeToDate((LocalDateTime) o1);
+              Date d2 = (Date) DateUtil.localDateTimeToDate((LocalDateTime) o2);
+              o1 = DateUtil.dateToString(d1, DateUtil.FULL_TIME_FORMAT);
+              o2 = DateUtil.dateToString(d2, DateUtil.FULL_TIME_FORMAT);
+            }
+
+            if (o1 != null && o2 != null && !o1.equals(o2)) {
+              List<Object> list = new ArrayList<>();
+              list.add(o1);
+              list.add(o2);
+              map.put(name, list);
+            }
+          }
+        }
+      } catch (Exception e) {
+        LOGGER.error("Error diffBeanProperties:", e);
+      }
+    }
+    return map;
   }
 }
