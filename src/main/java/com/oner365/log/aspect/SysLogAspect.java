@@ -52,16 +52,16 @@ public class SysLogAspect {
       String className = point.getTarget().getClass().getName();
       String methodName = point.getSignature().getName();
       LOGGER.debug("[Class]:{},[Method]:{}", className, methodName);
+      
       SysLogVo entity = SysLogUtils.getSysLog();
       entity.setOperationName(sysLog.value());
+      entity.setCreateTime(LocalDateTime.now());
       if (HttpMethod.PUT.name().equals(methodName) || HttpMethod.POST.name().equals(methodName)) {
         String params = getParams(point.getArgs());
         entity.setOperationContext(StringUtils.substring(params, 0, 2000));
       }
-      entity.setCreateTime(LocalDateTime.now());
-      Object obj = point.proceed();
       this.publisher.publishEvent(new SysLogEvent(entity));
-      return obj;
+      return point.proceed();
     } catch (Throwable e) {
       LOGGER.error("SysLogAspect error:", e);
     }

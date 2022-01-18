@@ -31,81 +31,164 @@ public class SysUser implements Serializable {
    */
   private static final long serialVersionUID = 1L;
 
+  /**
+   * 主键
+   */
   @Id
   @GeneratedValue(generator = "generator")
   @GenericGenerator(name = "generator", strategy = "uuid")
   private String id;
 
+  /**
+   * 用户标识
+   */
   @Column(name = "user_code", length = 32)
   private String userCode;
 
+  /**
+   * 账号名称
+   */
   @Column(name = "user_name", nullable = false, length = 32)
   private String userName;
 
+  /**
+   * 密码
+   */
   @Column(name = "password", nullable = false, length = 32)
   private String password;
 
+  /**
+   * 姓名
+   */
   @Column(name = "real_name", length = 32)
   private String realName;
 
+  /**
+   * 头像
+   */
   @Column(name = "avatar")
   private String avatar;
 
+  /**
+   * 性别
+   */
   @Column(name = "sex", length = 1)
   private String sex;
 
+  /**
+   * 状态
+   */
   @Column(name = "status", length = 10)
   private String status;
 
+  /**
+   * 最后登录时间
+   */
   @Column(name = "last_time")
   private LocalDateTime lastTime;
 
+  /**
+   * 创建时间
+   */
   @Column(name = "create_time", updatable = false)
   private LocalDateTime createTime;
 
+  /**
+   * 最后登录ip
+   */
   @Column(name = "last_ip", length = 32)
   private String lastIp;
 
+  /**
+   * 邮箱
+   */
   @Column(name = "email", length = 32)
   private String email;
 
+  /**
+   * 电话
+   */
   @Column(name = "phone", length = 32)
   private String phone;
 
+  /**
+   * 身份证
+   */
   @Column(name = "id_card", length = 32)
   private String idCard;
 
+  /**
+   * 是否管理员
+   */
   @Column(name = "is_admin")
   private String isAdmin;
 
+  /**
+   * 默认密码
+   */
   @Column(name = "default_password", length = 32)
   private String defaultPassword;
 
+  /**
+   * 是否有效
+   */
   @Column(name = "active_status", length = 10)
   private String activeStatus;
 
+  /**
+   * 用户类型
+   */
   @Column(name = "user_type", length = 2)
   private String userType;
 
+  /**
+   * 身份证类型
+   */
   @Column(name = "id_type", length = 2)
   private String idType;
 
+  /**
+   * 备注
+   */
   @Column(name = "remark")
   private String remark;
 
+  /**
+   * 角色ID
+   */
   @Transient
   private List<String> roles = new ArrayList<>();
+  /**
+   * 角色名称
+   */
   @Transient
   private List<String> roleNameList = new ArrayList<>();
+  
+  /**
+   * 职位ID
+   */
   @Transient
   private List<String> jobs = new ArrayList<>();
+  /**
+   * 职位名称
+   */
   @Transient
   private List<String> jobNameList = new ArrayList<>();
+  
+  /**
+   * 单位ID
+   */
   @Transient
   private List<String> orgs = new ArrayList<>();
+  /**
+   * 单位名称
+   */
   @Transient
   private List<String> orgNameList = new ArrayList<>();
 
+  /**
+   * 构造方法
+   */
   public SysUser() {
     super();
   }
