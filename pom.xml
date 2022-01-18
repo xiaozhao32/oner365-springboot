@@ -43,7 +43,7 @@
 		<org.apache.poi.version>4.1.2</org.apache.poi.version>
 
 		<org.elasticsearch.version>7.15.2</org.elasticsearch.version>
-		<org.hibernate.version>5.5.7.Final</org.hibernate.version>
+		<org.hibernate.version>5.6.3.Final</org.hibernate.version>
 
 		<com.fasterxml.jackson.version>2.13.1</com.fasterxml.jackson.version>
 
