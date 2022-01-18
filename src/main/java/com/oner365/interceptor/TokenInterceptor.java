@@ -9,12 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.lang.NonNull;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -25,7 +25,6 @@ import com.oner365.common.config.properties.AccessTokenProperties;
 import com.oner365.common.config.properties.IgnoreWhiteProperties;
 import com.oner365.common.constants.PublicConstants;
 import com.oner365.common.jwt.JwtUtils;
-import com.oner365.gateway.constants.GatewayConstants;
 import com.oner365.log.event.SysLogEvent;
 import com.oner365.sys.vo.SysLogVo;
 import com.oner365.util.DataUtils;
@@ -89,9 +88,9 @@ public class TokenInterceptor implements HandlerInterceptor {
    * @return boolean
    */
   private boolean setUnauthorizedResponse(HttpServletResponse response) {
-    ResponseData<Serializable> responseData = new ResponseData<>(HttpStatus.SC_UNAUTHORIZED,
-        GatewayConstants.ERROR_MESSAGE_401);
-    response.setStatus(HttpStatus.SC_UNAUTHORIZED);
+    ResponseData<Serializable> responseData = new ResponseData<>(HttpStatus.UNAUTHORIZED.value(),
+        HttpStatus.UNAUTHORIZED.name());
+    response.setStatus(HttpStatus.UNAUTHORIZED.value());
     response.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
     // 写出
     try {

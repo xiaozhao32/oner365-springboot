@@ -33,11 +33,6 @@ public class GatewayConstants  {
     
     public static final String ROUT_STATUS_DISABLE = "0";
     
-    public static final String ERROR_MESSAGE_401 = "token 验证不正确!";
-    public static final String ERROR_MESSAGE_404 = "请求地址不存在，请联系管理员!";
-    public static final String ERROR_MESSAGE_500 = "服务器错误，请联系管理员!";
-    public static final String ERROR_MESSAGE_503 = "服务未找到，请联系管理员!";
-    
     /**
      * Constructor
      */
