@@ -29,7 +29,7 @@ public class WebClientConfig {
     /**
      * 是否ssl验证开关
      */
-    @Value("${webclient.ssl.vaild}")
+    @Value("${webclient.ssl.vaild:false}")
     private boolean sslVaild;
 
     @Bean
