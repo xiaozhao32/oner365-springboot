@@ -45,10 +45,7 @@ spring:
 
   # elasticsearch
   elasticsearch:
-    rest:
-      connection-timeout: 6000
-      read-timeout: 6000
-      uris: localhost:9200
+    uris: localhost:9200
 
   data:
     redis:
@@ -58,11 +55,6 @@ spring:
     elasticsearch:
       repositories:
         enabled: true
-      client:
-        reactive:
-          connection-timeout: 6000
-          socket-timeout: 6000
-          max-in-memory-size: 500MB
 
   # rabbitmq
   rabbitmq:

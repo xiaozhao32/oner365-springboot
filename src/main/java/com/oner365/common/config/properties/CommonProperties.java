@@ -20,7 +20,7 @@ public class CommonProperties {
   /**
    * elasticsearch地址
    */
-  @Value("${spring.elasticsearch.rest.uris}")
+  @Value("${spring.elasticsearch.uris}")
   private String uris;
   
   /**
