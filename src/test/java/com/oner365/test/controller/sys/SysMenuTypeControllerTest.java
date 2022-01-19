@@ -16,7 +16,7 @@ import com.oner365.test.controller.BaseControllerTest;
  */
 class SysMenuTypeControllerTest extends BaseControllerTest {
 
-    private static final String PATH = "/system/menuType";
+    private static final String PATH = "/system/menu/type";
 
     @Test
     void get() {

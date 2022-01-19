@@ -47,8 +47,8 @@
 
 		<com.fasterxml.jackson.version>2.13.1</com.fasterxml.jackson.version>
 
-		<io.projectreactor.netty.version>1.0.12</io.projectreactor.netty.version>
-		<io.netty.version>4.1.70.Final</io.netty.version>
+		<io.projectreactor.netty.version>1.0.15</io.projectreactor.netty.version>
+		<io.netty.version>4.1.73.Final</io.netty.version>
 	</properties>
 
 	<dependencies>
@@ -227,13 +227,13 @@
 		<dependency>
 			<groupId>redis.clients</groupId>
 			<artifactId>jedis</artifactId>
-			<version>3.6.3</version>
+			<version>3.7.1</version>
 		</dependency>
 		<!-- rabbitmq -->
 		<dependency>
 			<groupId>com.rabbitmq</groupId>
 			<artifactId>amqp-client</artifactId>
-			<version>5.13.1</version>
+			<version>5.14.1</version>
 		</dependency>
 
 		<!-- fastdfs -->

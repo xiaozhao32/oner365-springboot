@@ -15,7 +15,7 @@ import com.oner365.test.controller.BaseControllerTest;
  */
 class FastDfsFilesControllerTest extends BaseControllerTest {
 
-    private static final String PATH = "/files/fdfs";
+    private static final String PATH = "/files/storage";
 
     @RepeatedTest(2)
     void list() {

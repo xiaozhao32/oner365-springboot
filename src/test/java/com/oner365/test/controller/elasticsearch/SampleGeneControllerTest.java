@@ -15,7 +15,7 @@ import com.oner365.test.controller.BaseControllerTest;
  */
 class SampleGeneControllerTest extends BaseControllerTest {
 
-    private static final String PATH = "/elasticsearch/sampleGene";
+    private static final String PATH = "/elasticsearch/sample/gene";
 
     @RepeatedTest(2)
     void list() {

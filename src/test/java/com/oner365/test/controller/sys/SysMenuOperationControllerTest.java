@@ -16,7 +16,7 @@ import com.oner365.test.controller.BaseControllerTest;
  */
 class SysMenuOperationControllerTest extends BaseControllerTest {
 
-    private static final String PATH = "/system/menuOperation";
+    private static final String PATH = "/system/menu/operation";
 
     @Test
     void get() {

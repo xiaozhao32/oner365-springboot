@@ -20,7 +20,7 @@ class SysDictItemControllerTest extends BaseControllerTest {
 
   @Test
   void getTypeById() {
-    String url = PATH + "/getTypeById/sys_task_status";
+    String url = PATH + "/type/get/sys_task_status";
     Object result = get(url);
     LOGGER.info("getTypeById:[{}] -> {}", url, result);
     Assertions.assertNotNull(result);
@@ -28,7 +28,7 @@ class SysDictItemControllerTest extends BaseControllerTest {
 
   @RepeatedTest(2)
   void findItemByTypeIds() {
-    String url = PATH + "/findItemByTypeIds";
+    String url = PATH + "/type/codes/list";
     String[] array = new String[] { "sys_task_status" };
     Object result = post(url, BodyInserters.fromValue(array));
     LOGGER.info("findTypeInfoByCodes:[{}] -> {}", url, result);
@@ -37,7 +37,7 @@ class SysDictItemControllerTest extends BaseControllerTest {
 
   @RepeatedTest(2)
   void findTypeList() {
-    String url = PATH + "/findTypeList";
+    String url = PATH + "/type/list";
     JSONObject paramJson = new JSONObject();
     Object result = post(url, BodyInserters.fromValue(paramJson));
     LOGGER.info("findTypeList:[{}] -> {}", url, result);
@@ -46,7 +46,7 @@ class SysDictItemControllerTest extends BaseControllerTest {
 
   @RepeatedTest(2)
   void findItemList() {
-    String url = PATH + "/findItemList";
+    String url = PATH + "/item/list";
     JSONObject paramJson = new JSONObject();
     Object result = post(url, BodyInserters.fromValue(paramJson));
     LOGGER.info("findItemList:[{}] -> {}", url, result);
@@ -55,7 +55,7 @@ class SysDictItemControllerTest extends BaseControllerTest {
 
   @Test
   void getItemById() {
-    String url = PATH + "/getItemById/1101";
+    String url = PATH + "/item/get/1101";
     Object result = get(url);
     LOGGER.info("getItemById:[{}] -> {}", url, result);
     Assertions.assertNotNull(result);
@@ -63,7 +63,7 @@ class SysDictItemControllerTest extends BaseControllerTest {
 
   @RepeatedTest(2)
   void findListByCodes() {
-    String url = PATH + "/findListByCodes";
+    String url = PATH + "/type/codes/list";
     String[] array = new String[] { "sys_task_status" };
     Object result = post(url, BodyInserters.fromValue(array));
     LOGGER.info("findListByCodes:[{}] -> {}", url, result);

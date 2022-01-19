@@ -26,7 +26,7 @@ class AuthControllerTest extends BaseControllerTest {
 
     @Test
     void captchaImage() {
-        String url = PATH + "/captchaImage";
+        String url = PATH + "/captcha";
         Object result = get(url);
         LOGGER.info("captchaImage:[{}] -> {}", url, result);
         Assertions.assertNotNull(result);
