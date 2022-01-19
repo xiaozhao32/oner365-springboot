@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.github.tobato.fastdfs.domain.fdfs.FileInfo;
 import com.oner365.common.enums.StorageEnum;
 import com.oner365.common.sequence.sequence.SnowflakeSequence;
 import com.oner365.files.config.properties.FileLocalProperties;
@@ -89,14 +88,12 @@ public class LocalClient implements IFileStorageClient {
 
   @Override
   public byte[] download(String fileUrl, long offSet, long fileSize) {
-    // TODO Auto-generated method stub
     return null;
   }
 
   @Override
-  public FileInfo getFile(String groupName, String path) {
-    // TODO Auto-generated method stub
-    return null;
+  public SysFileStorageDto getFile(String id) {
+    return fileStorageService.getById(id);
   }
 
 }

@@ -18,7 +18,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.github.tobato.fastdfs.domain.conn.FdfsWebServer;
-import com.github.tobato.fastdfs.domain.fdfs.FileInfo;
 import com.github.tobato.fastdfs.domain.fdfs.StorePath;
 import com.github.tobato.fastdfs.domain.proto.storage.DownloadByteArray;
 import com.github.tobato.fastdfs.exception.FdfsUnsupportStorePathException;
@@ -26,6 +25,7 @@ import com.github.tobato.fastdfs.service.FastFileStorageClient;
 import com.oner365.common.constants.PublicConstants;
 import com.oner365.common.enums.StorageEnum;
 import com.oner365.files.config.properties.FileFdfsProperties;
+import com.oner365.files.dto.SysFileStorageDto;
 import com.oner365.files.service.IFileStorageService;
 import com.oner365.files.storage.IFileStorageClient;
 import com.oner365.files.storage.condition.FdfsStorageCondition;
@@ -188,16 +188,9 @@ public class FastdfsClient implements IFileStorageClient {
     }
   }
 
-  /**
-   * 获取文件
-   * 
-   * @param groupName 组名称
-   * @param path      地址
-   * @return FileInfo
-   */
   @Override
-  public FileInfo getFile(String groupName, String path) {
-    return fastFileStorageClient.queryFileInfo(groupName, path);
+  public SysFileStorageDto getFile(String id) {
+    return fileStorageService.getById(id);
   }
 
   @Override
@@ -205,14 +198,6 @@ public class FastdfsClient implements IFileStorageClient {
     return StorageEnum.FDFS;
   }
 
-  /**
-   * 下载文件
-   *
-   * @param fileUrl  文件url
-   * @param offSet   其实位置
-   * @param fileSize 每次获取大小
-   * @return byte[]
-   */
   @Override
   public byte[] download(String fileUrl, long offset, long fileSize) {
     String group = fileUrl.substring(0, fileUrl.indexOf(PublicConstants.DELIMITER));

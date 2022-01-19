@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +27,6 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.alibaba.fastjson.JSON;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.common.ResponseData;
 import com.oner365.common.ResponseResult;
@@ -237,16 +237,14 @@ public class FileStorageController extends BaseController {
   /**
    * 获取文件信息
    *
-   * @param downloadVo 文件
-   * @return FileInfo
+   * @param id 主键
+   * @return SysFileStorageDto
    */
   @ApiOperation("10.获取文件信息")
-  @PostMapping("/info")
-  public ResponseData<String> getFileInfo(@RequestBody DownloadVo downloadVo) {
-  	String fileUrl = downloadVo.getFileUrl();
-  	String group = fileUrl.substring(0, fileUrl.indexOf(PublicConstants.DELIMITER));
-      String downloadPath = fileUrl.substring(fileUrl.indexOf(PublicConstants.DELIMITER) + 1);
-      return ResponseData.success(JSON.toJSON(fileStorageClient.getFile(group, downloadPath)).toString());
+  @PostMapping("/info/{id}")
+  public ResponseData<SysFileStorageDto> getFileInfo(@PathVariable String id) {
+    SysFileStorageDto entity = fileStorageClient.getFile(id);
+    return ResponseData.success(entity);
   }
 
 }
