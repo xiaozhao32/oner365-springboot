@@ -10,13 +10,10 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecuteResultHandler;
@@ -27,14 +24,8 @@ import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.util.Assert;
 
 import com.oner365.common.exception.ProjectRuntimeException;
-import com.oner365.deploy.entity.DeployEntity;
-import com.oner365.deploy.entity.DeployServer;
-import com.oner365.deploy.entity.ServerEntity;
 
 import ch.ethz.ssh2.Connection;
 import ch.ethz.ssh2.SCPClient;
@@ -57,59 +48,6 @@ public class DeployUtils {
 
   private DeployUtils() {
 
-  }
-
-  public static Properties getProperties() {
-    YamlPropertiesFactoryBean yaml = new YamlPropertiesFactoryBean();
-    yaml.setResources(new ClassPathResource("deploy.yml"));
-    return yaml.getObject();
-  }
-
-  /**
-   * 获取部署Native对象
-   *
-   * @return DeployEntity
-   */
-  public static DeployEntity getDeployEntity() {
-    Properties properties = getProperties();
-    Assert.notNull(properties, "Properties is not null");
-
-    List<String> projects = Arrays.asList(StringUtils.split(properties.get("deploy.project").toString(), ","));
-    List<String> libs = Arrays.asList(StringUtils.split(properties.get("deploy.lib").toString(), ","));
-
-    DeployEntity result = new DeployEntity();
-    result.setLocation(properties.getProperty("deploy.location"));
-    result.setName(properties.getProperty("deploy.name"));
-    result.setSuffix(properties.getProperty("deploy.suffix"));
-    result.setVersion(properties.getProperty("deploy.version"));
-    result.setProjects(projects);
-    result.setLibs(libs);
-    return result;
-  }
-
-  /**
-   * 获取部署Server对象
-   *
-   * @return ServerEntity
-   */
-  public static ServerEntity getServerEntity() {
-    Properties properties = getProperties();
-    Assert.notNull(properties, "Properties is not null");
-
-    ServerEntity result = new ServerEntity();
-    result.setIsDeploy(Boolean.valueOf(properties.getProperty("servers.deploy")));
-    result.setServerName(properties.getProperty("servers.name"));
-
-    String ip = properties.get("servers.ip").toString();
-    String[] ips = StringUtils.split(ip, ",");
-    List<DeployServer> serverList = IntStream.range(0, ips.length).mapToObj(i -> new DeployServer(ips[i],
-            Integer.parseInt(StringUtils.split(properties.get("servers.port").toString(), ",")[i]),
-            StringUtils.split(properties.get("servers.username").toString(), ",")[i],
-            StringUtils.split(properties.get("servers.password").toString(), ",")[i])).collect(Collectors.toList());
-
-    result.setServerList(serverList);
-
-    return result;
   }
 
   public static boolean isMac() {

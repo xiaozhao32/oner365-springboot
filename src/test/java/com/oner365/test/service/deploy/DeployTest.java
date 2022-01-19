@@ -2,11 +2,13 @@ package com.oner365.test.service.deploy;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import com.oner365.deploy.entity.DeployEntity;
 import com.oner365.deploy.entity.ServerEntity;
+import com.oner365.deploy.service.DeployService;
 import com.oner365.deploy.utils.DeployMethod;
-import com.oner365.deploy.utils.DeployUtils;
 import com.oner365.test.service.BaseServiceTest;
 
 /**
@@ -17,14 +19,18 @@ import com.oner365.test.service.BaseServiceTest;
  * @author zhaoyong
  *
  */
+@SpringBootTest
 class DeployTest extends BaseServiceTest {
+  
+  @Autowired
+  private DeployService deployService;
 
   /**
    * 本地部署
    */
   @Test
   void deployNativeTest() {
-    DeployEntity entity = DeployUtils.getDeployEntity();
+    DeployEntity entity = deployService.getDeployEntity();
     Assertions.assertNotNull(entity);
     LOGGER.info("Deploy project: {}", entity);
     // 部署目录
@@ -36,8 +42,8 @@ class DeployTest extends BaseServiceTest {
    */
   @Test
   void deployServerTest() {
-    DeployEntity deploy = DeployUtils.getDeployEntity();
-    ServerEntity server = DeployUtils.getServerEntity();
+    DeployEntity deploy = deployService.getDeployEntity();
+    ServerEntity server = deployService.getServerEntity();
     Assertions.assertNotNull(server);
     LOGGER.info("Deploy project: {}", server);
     LOGGER.info("Server: {}", server);

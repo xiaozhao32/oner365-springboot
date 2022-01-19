@@ -2,6 +2,7 @@
 SERVICE_NAME=
 VERSION=
 RESOURCE_NAME=$SERVICE_NAME-$VERSION.jar
+ACTIVE=
 
 selfpath=$(cd "$(dirname "$0")"; pwd) 
 cd $selfpath
@@ -30,7 +31,7 @@ else
 fi
  
 rm -f tpid
-nohup java -jar ./$RESOURCE_NAME  > ../logs/$RESOURCE_NAME.log 2>&1 &
+nohup java -jar -Dspring.profiles.active=$ACTIVE ./$RESOURCE_NAME > ../logs/$RESOURCE_NAME.log 2>&1 &
 
 echo $! > tpid
 

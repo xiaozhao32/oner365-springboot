@@ -1,7 +1,12 @@
 package com.oner365.deploy.utils;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -114,6 +119,7 @@ public class DeployMethod {
       Map<String, Object> items = new HashMap<>(1);
       items.put("SERVICE_NAME=", "SERVICE_NAME=" + projectName);
       items.put("VERSION=", "VERSION=" + deployEntity.getVersion());
+      items.put("ACTIVE=", "ACTIVE=" + deployEntity.getActive());
       DeployUtils.replaceContextFileCreate(readFile, writeFile, items);
 
       // 制作 Windows 启动脚本

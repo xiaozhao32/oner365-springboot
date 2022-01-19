@@ -43,7 +43,7 @@ public class CommonProperties {
   /**
    * 当前服务配置
    */
-  @Value("${spring.profiles.active}")
+  @Value("${spring.profiles.active:default}")
   private String scheme;
   
   /**

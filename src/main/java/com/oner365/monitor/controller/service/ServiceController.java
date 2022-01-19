@@ -19,8 +19,8 @@ import com.oner365.common.enums.ResultEnum;
 import com.oner365.controller.BaseController;
 import com.oner365.deploy.entity.DeployEntity;
 import com.oner365.deploy.entity.ServerEntity;
+import com.oner365.deploy.service.DeployService;
 import com.oner365.deploy.utils.DeployMethod;
-import com.oner365.deploy.utils.DeployUtils;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -37,6 +37,9 @@ public class ServiceController extends BaseController {
 
   @Autowired
   private CommonProperties commonProperties;
+  
+  @Autowired
+  private DeployService deployService;
   
   /**
    * 基本信息
@@ -101,8 +104,8 @@ public class ServiceController extends BaseController {
   @ApiOperationSupport(order = 4)
   @PostMapping("/upload")
   public String uploadService() {
-    DeployEntity deploy = DeployUtils.getDeployEntity();
-    ServerEntity server = DeployUtils.getServerEntity();
+    DeployEntity deploy = deployService.getDeployEntity();
+    ServerEntity server = deployService.getServerEntity();
     LOGGER.info("Deploy project: {}", server);
     LOGGER.info("Server: {}", server);
     // 部署服务器开关

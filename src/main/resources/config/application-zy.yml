@@ -208,5 +208,22 @@ webclient:
   ssl:
     vaild: true
   
-
+#部署目录
+deploy:
+  local:
+    location: /Users/zhaoyong/Documents/git
+    name: /Users/zhaoyong/Documents/deploy/springboot
+    version: 1.0
+    suffix: jar
+    active: zy
+    projects: 
+      - oner365-springboot
+    libs: 
+    
+  server:
+    deploy: false
+    name: /home/oner365
+    servers:
+    - 192.168.33.44:22@root:Ed30158d44
+  
 
