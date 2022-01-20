@@ -75,9 +75,8 @@ public class SysLogServiceImpl implements ISysLogService {
   @Async
   @Override
   @Transactional(rollbackFor = ProjectRuntimeException.class)
-  public SysLogDto save(SysLogVo vo) {
-    SysLog entity = dao.save(convert(vo, SysLog.class));
-    return convert(entity, SysLogDto.class);
+  public void save(SysLogVo vo) {
+    dao.save(convert(vo, SysLog.class));
   }
   
   @Override

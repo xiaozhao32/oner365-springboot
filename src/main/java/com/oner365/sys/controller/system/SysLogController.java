@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.oner365.common.enums.ResultEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -74,15 +75,15 @@ public class SysLogController extends BaseController {
 	 * 保存
 	 *
 	 * @param sysLogVo 菜单类型对象
-	 * @return ResponseResult<SysLogDto>
+	 * @return ResponseResult<String>
 	 */
 	@ApiOperation("3.保存")
 	@ApiOperationSupport(order = 3)
 	@PutMapping("/save")
-	public ResponseResult<SysLogDto> save(@RequestBody SysLogVo sysLogVo) {
+	public ResponseResult<String> save(@RequestBody SysLogVo sysLogVo) {
 		if (sysLogVo != null) {
-			SysLogDto entity = logService.save(sysLogVo);
-			return ResponseResult.success(entity);
+			logService.save(sysLogVo);
+			return ResponseResult.success(ResultEnum.SUCCESS.getName());
 		}
 		return ResponseResult.error(ErrorInfoEnum.SAVE_ERROR.getName());
 	}

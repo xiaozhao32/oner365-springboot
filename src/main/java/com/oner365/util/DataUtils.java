@@ -740,8 +740,8 @@ public class DataUtils {
   /**
    * 比较对象的参数 返回不同值的参数
    * 
-   * @param sourcePo 源对象
-   * @param targetPo 目标对象
+   * @param sourceObject 源对象
+   * @param targetObject 目标对象
    * @param ignoreProperties 被忽略参数
    * @return Map<String, List<Object>>
    */
@@ -766,8 +766,8 @@ public class DataUtils {
             }
             // LocalDateTime
             if (o1 instanceof LocalDateTime) {
-              Date d1 = (Date) DateUtil.localDateTimeToDate((LocalDateTime) o1);
-              Date d2 = (Date) DateUtil.localDateTimeToDate((LocalDateTime) o2);
+              Date d1 = DateUtil.localDateTimeToDate((LocalDateTime) o1);
+              Date d2 = DateUtil.localDateTimeToDate((LocalDateTime) o2);
               o1 = DateUtil.dateToString(d1, DateUtil.FULL_TIME_FORMAT);
               o2 = DateUtil.dateToString(d2, DateUtil.FULL_TIME_FORMAT);
             }

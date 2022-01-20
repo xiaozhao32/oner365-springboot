@@ -29,9 +29,9 @@ public abstract class BaseControllerTest extends BaseTest {
 
     protected static final String URL = "http://localhost:8704";
 
-    protected WebClient client;
+    protected final WebClient client;
 
-    protected String token;
+    protected final String token;
 
     protected BaseControllerTest() {
         ClientHttpConnector httpConnector = new ReactorClientHttpConnector();

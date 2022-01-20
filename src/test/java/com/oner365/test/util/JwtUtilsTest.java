@@ -30,7 +30,7 @@ class JwtUtilsTest extends BaseUtilsTest {
     	LOGGER.info("解密token:{}",JwtUtils.getUsernameFromToken(token, key));
     	LOGGER.info("validateToken:{}",JwtUtils.validateToken(token, key));
     	LOGGER.info("base64 decode:");
-    	Arrays.asList(token.split("\\.")).stream().filter(s-> s.startsWith("ey")).forEach(s -> LOGGER.info("content:{}",new String(Base64.getDecoder().decode(s.trim()))));
+    	Arrays.stream(token.split("\\.")).filter(s-> s.startsWith("ey")).forEach(s -> LOGGER.info("content:{}",new String(Base64.getDecoder().decode(s.trim()))));
     	
     }
 }

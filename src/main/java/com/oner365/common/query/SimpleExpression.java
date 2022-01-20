@@ -114,7 +114,7 @@ public class SimpleExpression implements Criterion {
       if (DateUtil.isLocalDateTime(array[0]) && DateUtil.isLocalDateTime(array[1])) {
         return builder.between(expression, DateUtil.toLocalDateTime(array[0]), DateUtil.toLocalDateTime(array[1]));
       }
-      return builder.between(expression, (Comparable) array[0], (Comparable) array[1]);
+      return builder.between(expression, array[0], array[1]);
     default:
       return null;
     }
