@@ -21,6 +21,8 @@ import java.io.PrintWriter;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.InetAddress;
 import java.net.URLEncoder;
 import java.net.UnknownHostException;
@@ -743,9 +745,9 @@ public class DataUtils {
    * @param ignoreProperties 被忽略参数
    * @return Map<String, List<Object>>
    */
-  public static Map<String, List<Object>> diffBeanProperties(Object sourceObject, Object targetObject,
+  public static Map<String, List<String>> diffBeanProperties(Object sourceObject, Object targetObject,
       List<String> ignoreProperties) {
-    Map<String, List<Object>> map = new HashMap<>(10);
+    Map<String, List<String>> map = new HashMap<>(10);
     if (sourceObject.getClass().equals(targetObject.getClass())) {
       try {
         Class<?> clazz = sourceObject.getClass();
@@ -758,22 +760,32 @@ public class DataUtils {
             Object o1 = readMethod.invoke(sourceObject);
             Object o2 = readMethod.invoke(targetObject);
             // Date
-            if ("class java.util.Date".equals(pd.getPropertyType().toString())) {
+            if (o1 instanceof Date) {
               o1 = DateUtil.dateToString((Date) o1, DateUtil.FULL_TIME_FORMAT);
               o2 = DateUtil.dateToString((Date) o2, DateUtil.FULL_TIME_FORMAT);
             }
             // LocalDateTime
-            if ("class java.time.LocalDateTime".equals(pd.getPropertyType().toString())) {
+            if (o1 instanceof LocalDateTime) {
               Date d1 = (Date) DateUtil.localDateTimeToDate((LocalDateTime) o1);
               Date d2 = (Date) DateUtil.localDateTimeToDate((LocalDateTime) o2);
               o1 = DateUtil.dateToString(d1, DateUtil.FULL_TIME_FORMAT);
               o2 = DateUtil.dateToString(d2, DateUtil.FULL_TIME_FORMAT);
             }
+            // BigDecimal
+            if (o1 instanceof BigDecimal) {
+              o1 = ((BigDecimal)o1).setScale(4, RoundingMode.UP);
+              o2 = ((BigDecimal)o2).setScale(4, RoundingMode.UP);
+            }
+            // Enum
+            if (o1 instanceof Enum) {
+              o1 = ((Enum<?>)o1).name();
+              o2 = ((Enum<?>)o2).name();
+            }
 
             if (o1 != null && o2 != null && !o1.equals(o2)) {
-              List<Object> list = new ArrayList<>();
-              list.add(o1);
-              list.add(o2);
+              List<String> list = new ArrayList<>();
+              list.add(o1.toString());
+              list.add(o2.toString());
               map.put(name, list);
             }
           }
