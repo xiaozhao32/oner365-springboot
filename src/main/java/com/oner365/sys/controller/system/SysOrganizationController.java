@@ -104,7 +104,7 @@ public class SysOrganizationController extends BaseController {
    */
   @ApiOperation("4.测试连接数据源")
   @ApiOperationSupport(order = 4)
-  @GetMapping("/check/{id}")
+  @GetMapping("/connection/check/{id}")
   public boolean checkConnection(@PathVariable String id) {
     return sysOrgService.checkConnection(id);
   }
