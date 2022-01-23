@@ -16,16 +16,6 @@
     "description": "Redis Cache enabled."
   },
   {
-    "name": "file.path",
-    "type": "java.lang.String",
-    "description": "File upload and download path."
-  },
-  {
-    "name": "file.excel.suffix",
-    "type": "java.lang.String",
-    "description": "Export excel file suffix."
-  },
-  {
     "name": "fdfs.storage.path",
     "type": "java.lang.String",
     "description": "Fastdfs storage path."
@@ -62,31 +52,6 @@
     "description": "A description for 'ignore.whites'."
   },
   {
-    "name": "project.name",
-    "type": "java.lang.String",
-    "description": "A description for 'project.name'."
-  },
-  {
-    "name": "project.version",
-    "type": "java.lang.String",
-    "description": "A description for 'project.version'."
-  },
-  {
-    "name": "project.url",
-    "type": "java.lang.String",
-    "description": "A description for 'project.url'."
-  },
-  {
-    "name": "project.email",
-    "type": "java.lang.String",
-    "description": "A description for 'project.email'."
-  },
-  {
-    "name": "project.description",
-    "type": "java.lang.String",
-    "description": "A description for 'project.description'."
-  },
-  {
     "name": "swagger.name",
     "type": "java.lang.String",
     "description": "A description for 'swagger.name'."
@@ -118,19 +83,14 @@
     "description": "A description for 'file.storage'."
   },
   {
+    "name": "file.excel.suffix",
+    "type": "java.lang.String",
+    "description": "Export excel file suffix."
+  },
+  {
     "name": "file.download",
     "type": "java.lang.String",
     "description": "A description for 'file.download'."
-  },
-  {
-    "name": "file.local.upload",
-    "type": "java.lang.String",
-    "description": "A description for 'file.local.upload'."
-  },
-  {
-    "name": "file.local.web",
-    "type": "java.lang.String",
-    "description": "A description for 'file.local.web'."
   },
   {
     "name": "sequence.snowflake.datacenter-id",
@@ -211,5 +171,30 @@
     "name": "deploy.local.active",
     "type": "java.lang.String",
     "description": "A description for 'deploy.local.active'."
+  },
+  {
+    "name": "deploy.server.deploy",
+    "type": "java.lang.String",
+    "description": "A description for 'deploy.server.deploy'."
+  },
+  {
+    "name": "deploy.server.name",
+    "type": "java.lang.String",
+    "description": "A description for 'deploy.server.name'."
+  },
+  {
+    "name": "deploy.server.servers",
+    "type": "java.lang.String[]",
+    "description": "A description for 'deploy.server.servers'."
+  },
+  {
+    "name": "client.private-key",
+    "type": "java.lang.String",
+    "description": "A description for 'client.private-key'."
+  },
+  {
+    "name": "client.whites",
+    "type": "java.lang.String[]",
+    "description": "A description for 'client.whites'."
   }
 ]}
