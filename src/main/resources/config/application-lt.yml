@@ -64,6 +64,11 @@ spring:
     password: admin123
     connection-timeout: 6000
 
+    listener:
+      simple:
+        concurrency: 10
+        max-concurrency: 30
+
   # redis
   redis:
     enable: true

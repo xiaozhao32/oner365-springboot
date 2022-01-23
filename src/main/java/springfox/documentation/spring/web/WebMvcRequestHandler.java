@@ -10,6 +10,7 @@ import java.util.StringJoiner;
 
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.http.MediaType;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
@@ -110,6 +111,7 @@ public class WebMvcRequestHandler implements RequestHandler {
 
   @Override
   public RequestHandlerKey key() {
+    Assert.notNull(requestMapping.getPathPatternsCondition(), "PatternValues is not empty.");
     return new RequestHandlerKey(requestMapping.getPathPatternsCondition().getPatternValues(),
         requestMapping.getMethodsCondition().getMethods(),
         requestMapping.getConsumesCondition().getConsumableMediaTypes(),
