@@ -125,7 +125,7 @@ public class SysMenuController extends BaseController {
    * @param authUser  登录对象
    * @param sysMenuVo 菜单对象
    * @param roleId    String
-   * @return Map<String, Object>
+   * @return SysMenuTreeSelectDto
    */
   @ApiOperation("5.获取权限")
   @ApiOperationSupport(order = 5)

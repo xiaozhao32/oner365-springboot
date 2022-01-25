@@ -2,9 +2,7 @@ package com.oner365.sys.controller.system;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +23,7 @@ import com.oner365.common.auth.annotation.CurrentUser;
 import com.oner365.common.enums.ErrorInfoEnum;
 import com.oner365.common.enums.ResultEnum;
 import com.oner365.controller.BaseController;
+import com.oner365.sys.dto.SysMenuTreeSelectDto;
 import com.oner365.sys.dto.SysOrganizationDto;
 import com.oner365.sys.dto.TreeSelect;
 import com.oner365.sys.service.ISysOrganizationService;
@@ -162,12 +161,13 @@ public class SysOrganizationController extends BaseController {
   @ApiOperation("8.获取用户权限")
   @ApiOperationSupport(order = 8)
   @PostMapping("/user/{userId}")
-  public Map<String, Object> userTreeselect(@RequestBody SysOrganizationVo sysOrganizationVo,
+  public SysMenuTreeSelectDto userTreeselect(@RequestBody SysOrganizationVo sysOrganizationVo,
       @PathVariable("userId") String userId) {
     List<SysOrganizationDto> list = sysOrgService.selectList(sysOrganizationVo);
-    Map<String, Object> result = new HashMap<>(2);
-    result.put("checkedKeys", sysOrgService.selectListByUserId(userId));
-    result.put("orgList", sysOrgService.buildTreeSelect(list));
+    SysMenuTreeSelectDto result = new SysMenuTreeSelectDto();
+    
+    result.setCheckedKeys(sysOrgService.selectListByUserId(userId));
+    result.setMenus(sysOrgService.buildTreeSelect(list));
     return result;
   }
 

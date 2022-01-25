@@ -31,7 +31,7 @@ public class SysMenuTreeSelectDto implements Serializable {
    * 选中权限集合
    */
   @ApiModelProperty(value = "选中权限集合")
-  private List<Integer> checkedKeys = new ArrayList<>();
+  private List<String> checkedKeys = new ArrayList<>();
 
   public SysMenuTreeSelectDto() {
     super();
@@ -45,11 +45,11 @@ public class SysMenuTreeSelectDto implements Serializable {
     this.menus = menus;
   }
 
-  public List<Integer> getCheckedKeys() {
+  public List<String> getCheckedKeys() {
     return checkedKeys;
   }
 
-  public void setCheckedKeys(List<Integer> checkedKeys) {
+  public void setCheckedKeys(List<String> checkedKeys) {
     this.checkedKeys = checkedKeys;
   }
 

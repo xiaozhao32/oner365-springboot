@@ -60,7 +60,7 @@ class SysMenuServiceTest extends BaseServiceTest {
 
   @Test
   void selectListByRoleId() {
-    List<Integer> list = service.selectListByRoleId("1", "1");
+    List<String> list = service.selectListByRoleId("1", "1");
     LOGGER.info("selectListByRoleId:{}", list.size());
     Assertions.assertNotEquals(0, list.size());
   }
