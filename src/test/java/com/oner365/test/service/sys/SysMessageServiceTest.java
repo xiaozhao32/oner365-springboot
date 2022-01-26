@@ -1,5 +1,6 @@
 package com.oner365.test.service.sys;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
@@ -8,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.alibaba.fastjson.JSON;
+import com.oner365.common.query.AttributeBean;
+import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.sys.dto.SysMessageDto;
 import com.oner365.sys.service.ISysMessageService;
 import com.oner365.test.service.BaseServiceTest;
@@ -26,8 +29,10 @@ class SysMessageServiceTest extends BaseServiceTest {
 
   @Test
   void getById() {
-    String messageType = "test";
-    List<SysMessageDto> list = service.findList(messageType);
+    String messageType = "default";
+    QueryCriteriaBean data = new QueryCriteriaBean();
+    data.setWhereList(Collections.singletonList(new AttributeBean("messageType", messageType)));
+    List<SysMessageDto> list = service.findList(data);
     if (!list.isEmpty()) {
       SysMessageDto entity = service.getById(list.get(0).getId());
       LOGGER.info("getById:{}", JSON.toJSONString(entity));

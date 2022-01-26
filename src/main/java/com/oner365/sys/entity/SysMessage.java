@@ -80,6 +80,12 @@ public class SysMessage implements Serializable {
    */
   @Column(name = "receive_user", length = 32)
   private String receiveUser;
+  
+  /**
+   * 状态 status
+   */
+  @Column(name = "status", nullable = false, length = 32)
+  private String status;
 
   /**
    * 创建时间 create_time
@@ -252,6 +258,14 @@ public class SysMessage implements Serializable {
    */
   public void setUpdateTime(LocalDateTime updateTime) {
     this.updateTime = updateTime;
+  }
+
+  public String getStatus() {
+    return status;
+  }
+
+  public void setStatus(String status) {
+    this.status = status;
   }
 
 }

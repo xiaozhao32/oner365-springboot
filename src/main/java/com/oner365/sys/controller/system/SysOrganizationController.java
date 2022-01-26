@@ -156,7 +156,7 @@ public class SysOrganizationController extends BaseController {
    *
    * @param sysOrganizationVo 机构对象
    * @param userId            用户id
-   * @return Map<String, Object>
+   * @return SysMenuTreeSelectDto
    */
   @ApiOperation("8.获取用户权限")
   @ApiOperationSupport(order = 8)
