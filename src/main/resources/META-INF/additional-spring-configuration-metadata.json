@@ -1,12 +1,12 @@
 {"properties": [
   {
-    "name": "ACCESS_TOKEN_SECRET",
+    "name": "token.secret",
     "type": "java.lang.String",
     "description": "Token validate secret."
   },
   {
-    "name": "ACCESS_TOKEN_EXPIRY_MIN",
-    "type": "java.lang.String",
+    "name": "token.expire-time",
+    "type": "java.lang.Integer",
     "description": "Token Expire minute time."
   },
   {

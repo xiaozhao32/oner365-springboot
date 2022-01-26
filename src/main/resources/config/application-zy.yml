@@ -105,8 +105,9 @@ mybatis:
   type-aliases-package: com.oner365.**.entity
 
 # Access Token
-ACCESS_TOKEN_SECRET: test
-ACCESS_TOKEN_EXPIRY_MIN: 14400
+token:
+  secret: test
+  expire-time: 60
 
 # 雪花算法生成id
 sequence:

@@ -124,7 +124,7 @@ public class TokenInterceptor implements HandlerInterceptor {
   private boolean validateToken(HttpServletRequest request) {
     try {
       String auth = request.getHeader(HttpHeaders.AUTHORIZATION);
-      return JwtUtils.validateToken(auth, tokenProperties.getAccessTokenSecret());
+      return JwtUtils.validateToken(auth, tokenProperties.getSecret());
     } catch (Exception e) {
       LOGGER.error("TokenInterceptor validateToken error: {}", request.getRequestURI(), e);
     }
