@@ -25,7 +25,6 @@ import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.AttributeBean;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
-import com.oner365.sys.dto.SysJobDto;
 import com.oner365.sys.dto.SysMessageDto;
 import com.oner365.sys.service.ISysMessageService;
 import com.oner365.sys.vo.SysMessageVo;
@@ -148,10 +147,10 @@ public class SysMessageController extends BaseController {
   public ResponseEntity<byte[]> export(@RequestBody QueryCriteriaBean data) {
     List<SysMessageDto> list = sysMessageService.findList(data);
 
-    String[] titleKeys = new String[] { "编号", "职位名称", "职位描述", "排序", "状态", "创建时间", "更新时间" };
-    String[] columnNames = { "id", "jobName", "jobInfo", "jobOrder", "status", "createTime", "updateTime" };
+    String[] titleKeys = new String[] { "编号", "队列类型", "队列标识", "消息类型", "消息名称", "消息内容", "发送者", "接受者", "状态", "创建时间", "更新时间" };
+    String[] columnNames = { "id", "queueType", "queueKey", "messageType", "messageName", "context", "sendUser", "receiveUser", "status", "createTime", "updateTime" };
 
-    String fileName = SysJobDto.class.getSimpleName() + System.currentTimeMillis();
+    String fileName = SysMessageDto.class.getSimpleName() + System.currentTimeMillis();
     return exportExcel(fileName, titleKeys, columnNames, list);
   }
   
