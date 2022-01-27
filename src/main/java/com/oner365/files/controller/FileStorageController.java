@@ -4,10 +4,10 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -92,14 +92,16 @@ public class FileStorageController extends BaseController {
   @ApiOperationSupport(order = 2)
   @GetMapping("/directory")
   public List<SysFileStorageDto> directory(@RequestParam("fileDirectory") String fileDirectory) {
-    String directory = fileFdfsProperties.getPath();
+    final String directory;
     if (!DataUtils.isEmpty(fileDirectory)) {
       directory = fileFdfsProperties.getPath() + "/M00/00/" + fileDirectory;
+    } else {
+      directory = fileFdfsProperties.getPath();
     }
+    
     List<SFTPv3DirectoryEntry> vector = DeployUtils.directoryList(fileFdfsProperties.getIp(), fileFdfsProperties.getPort(),
         fileFdfsProperties.getUser(), fileFdfsProperties.getPassword(), directory);
-    List<SysFileStorageDto> result = new ArrayList<>();
-    for (SFTPv3DirectoryEntry entry : vector) {
+    return vector.stream().map(entry -> {
       SysFileStorageDto fastdfsFile = new SysFileStorageDto();
       fastdfsFile.setId(StringUtils.replace(directory, fileFdfsProperties.getPath(), "group1") + PublicConstants.DELIMITER + entry.filename);
       fastdfsFile.setCreateTime(new Date(entry.attributes.mtime * 1000L));
@@ -109,9 +111,8 @@ public class FileStorageController extends BaseController {
       fastdfsFile.setFilePath(directory);
       fastdfsFile.setFastdfsUrl("http://" + fileFdfsProperties.getIp());
       fastdfsFile.setSize(DataUtils.convertFileSize(entry.attributes.size));
-      result.add(fastdfsFile);
-    }
-    return result;
+      return fastdfsFile;
+    }).collect(Collectors.toList());
   }
 
   /**
@@ -119,7 +120,7 @@ public class FileStorageController extends BaseController {
    *
    * @param file    File
    * @param dictory 目录
-   * @return Map<String, Object>
+   * @return ResponseResult<String>
    */
   @ApiOperation("3.文件上传")
   @ApiOperationSupport(order = 3)

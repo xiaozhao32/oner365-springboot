@@ -26,6 +26,7 @@ import com.oner365.common.auth.AuthUser;
 import com.oner365.common.auth.annotation.CurrentUser;
 import com.oner365.common.constants.PublicConstants;
 import com.oner365.common.enums.ResultEnum;
+import com.oner365.common.page.PageInfo;
 import com.oner365.controller.BaseController;
 import com.oner365.generator.entity.GenTable;
 import com.oner365.generator.entity.GenTableColumn;
@@ -59,12 +60,9 @@ public class GeneratorController extends BaseController {
   @ApiOperation("1.生成列表")
   @ApiOperationSupport(order = 1)
   @PostMapping("/list")
-  public Map<String, Object> genList(@RequestBody GenTable genTable) {
+  public PageInfo<GenTable> genList(@RequestBody GenTable genTable) {
     List<GenTable> list = genTableService.selectGenTableList(genTable);
-    Map<String, Object> result = new HashMap<>(2);
-    result.put(PublicConstants.PARAM_LIST, list);
-    result.put(PublicConstants.PARAM_COUNT, list.size());
-    return result;
+    return new PageInfo<GenTable>(list, 1, PublicConstants.PAGE_SIZE, list.size());
   }
 
   /**
@@ -73,12 +71,9 @@ public class GeneratorController extends BaseController {
   @ApiOperation("2.查询数据库列表")
   @ApiOperationSupport(order = 2)
   @PostMapping("/db/list")
-  public Map<String, Object> dataList(@RequestBody GenTable genTable) {
+  public PageInfo<GenTable> dataList(@RequestBody GenTable genTable) {
     List<GenTable> list = genTableService.selectDbTableList(genTable);
-    Map<String, Object> result = new HashMap<>(2);
-    result.put(PublicConstants.PARAM_LIST, list);
-    result.put(PublicConstants.PARAM_COUNT, list.size());
-    return result;
+    return new PageInfo<GenTable>(list, 1, PublicConstants.PAGE_SIZE, list.size());
   }
 
   /**
@@ -87,12 +82,9 @@ public class GeneratorController extends BaseController {
   @ApiOperation("3.查询字段列表")
   @ApiOperationSupport(order = 3)
   @GetMapping(value = "/column/{tableId}")
-  public Map<String, Object> columnList(@PathVariable Long tableId) {
+  public PageInfo<GenTableColumn> columnList(@PathVariable Long tableId) {
     List<GenTableColumn> list = genTableColumnService.selectGenTableColumnListByTableId(tableId);
-    Map<String, Object> result = new HashMap<>(2);
-    result.put(PublicConstants.PARAM_LIST, list);
-    result.put(PublicConstants.PARAM_COUNT, list.size());
-    return result;
+    return new PageInfo<GenTableColumn>(list, 1, PublicConstants.PAGE_SIZE, list.size());
   }
 
   /**

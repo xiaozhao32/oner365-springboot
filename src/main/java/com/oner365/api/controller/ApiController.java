@@ -2,6 +2,7 @@ package com.oner365.api.controller;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -73,13 +74,12 @@ public class ApiController extends BaseController {
   public List<Map<String, String>> testDataSource(@RequestParam Integer orderId, @RequestParam Integer userId) {
     String sql = "insert into t_order(id, order_id, user_id, status, create_time) " + "values('"
         + snowflakeSequence.nextNo() + "'," + orderId + "," + userId + ",'1','" + DateUtil.getCurrentTime() + "')";
-    List<Map<String, String>> result = new ArrayList<>();
     try (Connection con = shardingDataSource.getConnection()) {
-      result = DataSourceUtil.execute(con, sql);
+      return DataSourceUtil.execute(con, sql);
     } catch (Exception e) {
       LOGGER.error("testDataSource error:", e);
     }
-    return result;
+    return Collections.emptyList();
   }
 
   /**
