@@ -114,7 +114,7 @@ public class HttpClientUtils {
   }
 
   public static String httpsPost(String path, Map<String, String> headers, String body)
-          throws IOException, KeyManagementException, NoSuchAlgorithmException {
+      throws IOException, KeyManagementException, NoSuchAlgorithmException {
     URL url = new URL(path);
     HostnameVerifier ignoreHostnameVerifier = (s, sslSession) -> {
       LOGGER.warn("WARNING: Hostname is not matched for cert.");
@@ -133,25 +133,31 @@ public class HttpClientUtils {
     connection.setAllowUserInteraction(true);
     connection.setChunkedStreamingMode(body.getBytes().length);
     connection.connect();
-    OutputStream outPutStream = connection.getOutputStream();
-    int perLength;
-    InputStream inputStream = new ByteArrayInputStream(body.getBytes());
-    BufferedInputStream bis = new BufferedInputStream(inputStream);
-    byte[] bufferRead = new byte[1024 * 100];
-    while ((perLength = bis.read(bufferRead)) != -1) {
-      byte[] read = Arrays.copyOf(bufferRead, perLength);
-      outPutStream.write(read);
-      outPutStream.flush();
+    try (OutputStream outPutStream = connection.getOutputStream();
+        InputStream inputStream = new ByteArrayInputStream(body.getBytes());
+        BufferedInputStream bis = new BufferedInputStream(inputStream);
+        InputStream connectionStream = connection.getInputStream();
+        BufferedReader bufferReader = new BufferedReader(
+            new InputStreamReader(connectionStream, Charset.defaultCharset()));) {
+      byte[] bufferRead = new byte[1024 * 100];
+      int perLength;
+      while ((perLength = bis.read(bufferRead)) != -1) {
+        byte[] read = Arrays.copyOf(bufferRead, perLength);
+        outPutStream.write(read);
+        outPutStream.flush();
+      }
+      
+      String line;
+      StringBuilder sb = new StringBuilder();
+      while ((line = bufferReader.readLine()) != null) {
+        sb.append(line);
+      }
+      connection.disconnect();
+      return sb.toString();
+    } catch (Exception e) {
+      LOGGER.error("httpsPost error:", e);
     }
-    BufferedReader bufferReader = new BufferedReader(
-            new InputStreamReader(connection.getInputStream(), Charset.defaultCharset()));
-    String line;
-    StringBuilder sb = new StringBuilder();
-    while ((line = bufferReader.readLine()) != null) {
-      sb.append(line);
-    }
-    bufferReader.close();
-    return sb.toString();
+    return null;
   }
 
   private static SSLContext getSslContext()

@@ -67,10 +67,13 @@ public class JwtAuthFilter implements Filter {
         tokenInfo = JwtUtils.getUsernameFromToken(authToken, tokenProperties.getSecret());
         if (tokenInfo != null) {
           redisCache.setCacheObject(CACHE_NAME + authToken.hashCode(), tokenInfo, PublicConstants.EXPIRE_TIME, TimeUnit.MINUTES);
+          httpRequest.setAttribute(RequestUtils.AUTH_USER, new AuthUser(JSON.parseObject(tokenInfo)));
+          httpRequest.setAttribute(RequestUtils.ACCESS_TOKEN, authToken);
         }
+      } else {
+        httpRequest.setAttribute(RequestUtils.AUTH_USER, new AuthUser(JSON.parseObject(tokenInfo)));
+        httpRequest.setAttribute(RequestUtils.ACCESS_TOKEN, authToken);
       }
-      httpRequest.setAttribute(RequestUtils.AUTH_USER, new AuthUser(JSON.parseObject(tokenInfo)));
-      httpRequest.setAttribute(RequestUtils.ACCESS_TOKEN, authToken);
     }
     RequestUtils.setHttpRequest(httpRequest);
     chain.doFilter(request, response);

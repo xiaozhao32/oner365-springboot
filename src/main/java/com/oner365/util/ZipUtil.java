@@ -44,7 +44,8 @@ public class ZipUtil {
    * @param filter 过滤
    */
   public static void zip(File file, String dest, List<String> filter) {
-    try (ZipOutputStream out = new ZipOutputStream(new FileOutputStream(dest))) {
+    try (FileOutputStream outputStream = new FileOutputStream(dest);
+        ZipOutputStream out = new ZipOutputStream(outputStream)) {
       zip(out, file, "", filter);
     } catch (IOException e) {
       LOGGER.error("Error zip:", e);
@@ -59,7 +60,8 @@ public class ZipUtil {
    * @param filter 过滤
    */
   public static void zip(List<File> files, String dest, List<String> filter) {
-    try (ZipOutputStream out = new ZipOutputStream(new FileOutputStream(dest))) {
+    try (FileOutputStream outputStream = new FileOutputStream(dest);
+        ZipOutputStream out = new ZipOutputStream(outputStream)) {
       files.forEach(file -> zip(out, file, "", filter));
     } catch (IOException e) {
       LOGGER.error("Error zip:", e);
