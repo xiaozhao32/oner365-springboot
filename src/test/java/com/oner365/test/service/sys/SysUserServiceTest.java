@@ -54,10 +54,7 @@ class SysUserServiceTest extends BaseServiceTest {
 
   @Test
   void login() {
-    String userName = "admin";
-    String password = "1";
-    String ip = "localhost";
-    LoginUserDto entity = service.login(userName, password, ip);
+    LoginUserDto entity = service.login("admin", "1", "localhost");
     LOGGER.info("login:{}", entity);
     Assertions.assertNotNull(entity);
   }

@@ -32,12 +32,10 @@ class MinioFileUtilsTest extends BaseServiceTest {
 //  @Test
   void test() throws Exception {
     String url = "http://localhost:9000";
-    String userName = "root";
-    String password = "e8818da9cc9";
     // 上传根目录
     String bucketName = "oner365";
 
-    MinioClient minioClient = MinioClient.builder().endpoint(url).credentials(userName, password).build();
+    MinioClient minioClient = MinioClient.builder().endpoint(url).credentials("root", "e8818da9cc9").build();
     Assertions.assertNotNull(minioClient);
     // 创建文件夹
     BucketExistsArgs bucket = BucketExistsArgs.builder().bucket(bucketName).build();
