@@ -275,6 +275,11 @@ public class DataUtils {
    * @return File 文件
    */
   public static File getFile(String filePath) {
+    // 禁止目录上跳级别
+    if (StringUtils.contains(filePath, "..")) {
+      return null;
+    }
+    
     File file = new File(filePath);
     if (file.exists()) {
       return file;
@@ -287,8 +292,8 @@ public class DataUtils {
    * 
    * @param filePath 文件地址
    * @param fileName 文件名称
-   * @return File 文件
-   * @throws FileNotFoundException 
+   * @return FileOutputStream 文件
+   * @throws FileNotFoundException
    */
   public static FileOutputStream getFileOutputStream(String filePath, String fileName) throws FileNotFoundException {
     return getFileOutputStream(filePath + File.separator + fileName);
@@ -298,10 +303,14 @@ public class DataUtils {
    * 获取文件对象
    * 
    * @param filePath 文件地址
-   * @return File 文件
-   * @throws FileNotFoundException 
+   * @return FileOutputStream 文件
+   * @throws FileNotFoundException
    */
   public static FileOutputStream getFileOutputStream(String filePath) throws FileNotFoundException {
+    // 禁止目录上跳级别
+    if (StringUtils.contains(filePath, "..")) {
+      return null;
+    }
     return new FileOutputStream(filePath);
   }
 

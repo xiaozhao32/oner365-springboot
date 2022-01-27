@@ -9,6 +9,7 @@ import org.apache.http.entity.ContentType;
 import org.junit.jupiter.api.Assertions;
 
 import com.oner365.test.service.BaseServiceTest;
+import com.oner365.util.DataUtils;
 
 import io.minio.BucketExistsArgs;
 import io.minio.DownloadObjectArgs;
@@ -53,7 +54,7 @@ class MinioFileUtilsTest extends BaseServiceTest {
     // 本地文件
     String localFileName = "d:/1.jpg";
     // 上传文件
-    File file = new File(localFileName);
+    File file = DataUtils.getFile(localFileName);
     try (InputStream inputStream = new FileInputStream(file)) {
       ObjectWriteResponse writeResponse = minioClient.putObject(PutObjectArgs.builder().bucket(bucketName).object(path)
           .stream(inputStream, file.length(), -1).contentType(ContentType.IMAGE_JPEG.getMimeType()).build());
