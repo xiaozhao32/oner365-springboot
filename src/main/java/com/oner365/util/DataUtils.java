@@ -8,6 +8,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -254,6 +255,54 @@ public class DataUtils {
     } catch (IOException e) {
       LOGGER.error("Error deleteFile:", e);
     }
+  }
+  
+  /**
+   * 获取文件对象
+   * 
+   * @param filePath 文件地址
+   * @param fileName 文件名称
+   * @return File 文件
+   */
+  public static File getFile(String filePath, String fileName) {
+    return getFile(filePath + File.separator + fileName);
+  }
+  
+  /**
+   * 获取文件对象
+   * 
+   * @param filePath 文件地址
+   * @return File 文件
+   */
+  public static File getFile(String filePath) {
+    File file = new File(filePath);
+    if (file.exists()) {
+      return file;
+    }
+    return null;
+  }
+  
+  /**
+   * 获取文件对象
+   * 
+   * @param filePath 文件地址
+   * @param fileName 文件名称
+   * @return File 文件
+   * @throws FileNotFoundException 
+   */
+  public static FileOutputStream getFileOutputStream(String filePath, String fileName) throws FileNotFoundException {
+    return getFileOutputStream(filePath + File.separator + fileName);
+  }
+  
+  /**
+   * 获取文件对象
+   * 
+   * @param filePath 文件地址
+   * @return File 文件
+   * @throws FileNotFoundException 
+   */
+  public static FileOutputStream getFileOutputStream(String filePath) throws FileNotFoundException {
+    return new FileOutputStream(filePath);
   }
 
   /**

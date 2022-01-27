@@ -206,7 +206,7 @@ public class DeployMethod {
 
   private static void deployWindows(Connection con, DeployEntity deployEntity, String targetPath, String resourcesFile,
       String targetRoot) {
-    File[] files = new File(resourcesFile).listFiles();
+    File[] files = DataUtils.getFile(resourcesFile).listFiles();
     if (files != null) {
       Arrays.stream(files).filter(f -> !f.isDirectory()).forEach(f -> DeployUtils.uploadFileMap(con, new String[]{f.getPath()},
               targetPath + FILE_RESOURCES + PublicConstants.DELIMITER));
