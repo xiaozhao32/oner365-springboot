@@ -5,10 +5,11 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
+import org.springframework.lang.NonNull;
 
 /**
  * Elasticsearch 初始化
- * 
+ *
  * @author zhaoyong
  *
  */
@@ -18,7 +19,7 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 public class ElasticsearchInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 
   @Override
-  public void initialize(ConfigurableApplicationContext applicationContext) {
+  public void initialize(@NonNull ConfigurableApplicationContext applicationContext) {
     System.setProperty("es.set.netty.runtime.available.processors", "false");
   }
 

@@ -10,11 +10,11 @@ import com.oner365.sys.vo.SysMessageVo;
 
 /**
  * 消息接口
- * 
+ *
  * @author zhaoyong
  */
 public interface ISysMessageService extends BaseService {
-  
+
   /**
    * 查询列表
    *
@@ -24,13 +24,13 @@ public interface ISysMessageService extends BaseService {
   PageInfo<SysMessageDto> pageList(QueryCriteriaBean data);
 
   /**
-   * 按分类查询详情
+   * 查询列表
    *
-   * @param messageType 类型
+   * @param data 查询参数
    * @return List
    */
   List<SysMessageDto> findList(QueryCriteriaBean data);
-  
+
   /**
    * 按编号查询详情
    *
@@ -38,7 +38,7 @@ public interface ISysMessageService extends BaseService {
    * @return SysMessageDto
    */
   SysMessageDto getById(String id);
-  
+
   /**
    * 添加
    *
@@ -46,7 +46,7 @@ public interface ISysMessageService extends BaseService {
    * @return SysMessageDto
    */
   SysMessageDto save(SysMessageVo sysMessage);
-  
+
   /**
    * 修改状态
    *

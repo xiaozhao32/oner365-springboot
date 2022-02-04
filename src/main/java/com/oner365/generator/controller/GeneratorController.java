@@ -61,7 +61,7 @@ public class GeneratorController extends BaseController {
   @PostMapping("/list")
   public Map<String, Object> genList(@RequestBody GenTable genTable) {
     List<GenTable> list = genTableService.selectGenTableList(genTable);
-    Map<String, Object> result = new HashMap<>();
+    Map<String, Object> result = new HashMap<>(2);
     result.put(PublicConstants.PARAM_LIST, list);
     result.put(PublicConstants.PARAM_COUNT, list.size());
     return result;
@@ -75,7 +75,7 @@ public class GeneratorController extends BaseController {
   @PostMapping("/db/list")
   public Map<String, Object> dataList(@RequestBody GenTable genTable) {
     List<GenTable> list = genTableService.selectDbTableList(genTable);
-    Map<String, Object> result = new HashMap<>();
+    Map<String, Object> result = new HashMap<>(2);
     result.put(PublicConstants.PARAM_LIST, list);
     result.put(PublicConstants.PARAM_COUNT, list.size());
     return result;
@@ -89,7 +89,7 @@ public class GeneratorController extends BaseController {
   @GetMapping(value = "/column/{tableId}")
   public Map<String, Object> columnList(@PathVariable Long tableId) {
     List<GenTableColumn> list = genTableColumnService.selectGenTableColumnListByTableId(tableId);
-    Map<String, Object> result = new HashMap<>();
+    Map<String, Object> result = new HashMap<>(2);
     result.put(PublicConstants.PARAM_LIST, list);
     result.put(PublicConstants.PARAM_COUNT, list.size());
     return result;

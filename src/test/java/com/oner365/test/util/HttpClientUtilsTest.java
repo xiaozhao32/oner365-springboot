@@ -31,7 +31,7 @@ import com.oner365.util.Base64Utils;
 class HttpClientUtilsTest extends BaseUtilsTest {
 
     @Test
-    void test() throws ClientProtocolException, IOException {
+    void test() throws IOException {
         String hostname = "localhost";
         logger.info("base64:{}", new String(Base64Utils.encodeBase64("admin:admin123".getBytes())));
         HttpHost target = new HttpHost(hostname, 15672, "http");
@@ -46,12 +46,12 @@ class HttpClientUtilsTest extends BaseUtilsTest {
         BasicScheme basicAuth = new BasicScheme();
         authCache.put(target, basicAuth);
         HttpClientContext localContext = HttpClientContext.create();
-        
+
         Assertions.assertNotNull(localContext);
         localContext.setAuthCache(authCache);
         CloseableHttpResponse response = httpclient.execute(target, httpget, localContext);
         logger.info("result:{}", EntityUtils.toString(response.getEntity()));
-//        
+//
 //        String url = "http://" + hostname + ":15672/api/queues///oner365.saveTaskLogTask";
 //        System.out.println(URLEncoder.encode(url,Charset.defaultCharset().name()));
 //        ClientHttpConnector httpConnector = new ReactorClientHttpConnector();
