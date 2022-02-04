@@ -29,7 +29,7 @@ class SysTaskServiceTest extends BaseServiceTest {
   void pageList() {
     QueryCriteriaBean paramData = new QueryCriteriaBean();
     PageInfo<SysTaskDto> list = service.pageList(paramData);
-    LOGGER.info("pageList:{}", list.getSize());
+    logger.info("pageList:{}", list.getSize());
     Assertions.assertNotEquals(0, list.getSize());
   }
 
@@ -39,7 +39,7 @@ class SysTaskServiceTest extends BaseServiceTest {
     PageInfo<SysTaskDto> list = service.pageList(paramData);
     if (!list.getContent().isEmpty()) {
       SysTaskDto entity = service.selectTaskById(list.getContent().get(0).getId());
-      LOGGER.info("selectTaskById:{}", JSON.toJSONString(entity));
+      logger.info("selectTaskById:{}", JSON.toJSONString(entity));
       Assertions.assertNotNull(entity);
     }
   }

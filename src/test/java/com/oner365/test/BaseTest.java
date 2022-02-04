@@ -13,6 +13,6 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("zy")
 public abstract class BaseTest {
 
-    public static final Logger LOGGER = LoggerFactory.getLogger(BaseTest.class);
+    public final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 }

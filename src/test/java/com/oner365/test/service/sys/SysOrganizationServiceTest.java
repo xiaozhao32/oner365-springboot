@@ -30,14 +30,14 @@ class SysOrganizationServiceTest extends BaseServiceTest {
   void getById() {
     String id = "110101";
     SysOrganizationDto entity = service.getById(id);
-    LOGGER.info("getById:{}", JSON.toJSONString(entity));
+    logger.info("getById:{}", JSON.toJSONString(entity));
     Assertions.assertNotNull(entity);
   }
 
   @RepeatedTest(value = 2)
   void findListByParentId() {
     List<SysOrganizationDto> list = service.findListByParentId("-1");
-    LOGGER.info("findListByParentId:{}", list.size());
+    logger.info("findListByParentId:{}", list.size());
     Assertions.assertNotEquals(0, list.size());
   }
 
@@ -45,7 +45,7 @@ class SysOrganizationServiceTest extends BaseServiceTest {
   void getByCode() {
     String code = "110101000000";
     SysOrganizationDto entity = service.getByCode(code);
-    LOGGER.info("getByCode:{}", JSON.toJSONString(entity));
+    logger.info("getByCode:{}", JSON.toJSONString(entity));
     Assertions.assertNotNull(entity);
   }
 
@@ -54,7 +54,7 @@ class SysOrganizationServiceTest extends BaseServiceTest {
     SysOrganizationVo sysOrg = new SysOrganizationVo();
     // cache error
     List<SysOrganizationDto> list = service.selectList(sysOrg);
-    LOGGER.info("selectList:{}", list.size());
+    logger.info("selectList:{}", list.size());
     Assertions.assertNotEquals(0, list.size());
   }
 
@@ -62,7 +62,7 @@ class SysOrganizationServiceTest extends BaseServiceTest {
   void selectListByUserId() {
     String userId = "1";
     List<String> list = service.selectListByUserId(userId);
-    LOGGER.info("selectListByUserId:{}", list.size());
+    logger.info("selectListByUserId:{}", list.size());
     Assertions.assertNotEquals(0, list.size());
   }
 

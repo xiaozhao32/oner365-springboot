@@ -22,7 +22,7 @@ class SysDictItemControllerTest extends BaseControllerTest {
   void getTypeById() {
     String url = PATH + "/type/get/sys_task_status";
     Object result = get(url);
-    LOGGER.info("getTypeById:[{}] -> {}", url, result);
+    logger.info("getTypeById:[{}] -> {}", url, result);
     Assertions.assertNotNull(result);
   }
 
@@ -31,7 +31,7 @@ class SysDictItemControllerTest extends BaseControllerTest {
     String url = PATH + "/type/codes/list";
     String[] array = new String[] { "sys_task_status" };
     Object result = post(url, BodyInserters.fromValue(array));
-    LOGGER.info("findTypeInfoByCodes:[{}] -> {}", url, result);
+    logger.info("findTypeInfoByCodes:[{}] -> {}", url, result);
     Assertions.assertNotNull(result);
   }
 
@@ -40,7 +40,7 @@ class SysDictItemControllerTest extends BaseControllerTest {
     String url = PATH + "/type/list";
     JSONObject paramJson = new JSONObject();
     Object result = post(url, BodyInserters.fromValue(paramJson));
-    LOGGER.info("findTypeList:[{}] -> {}", url, result);
+    logger.info("findTypeList:[{}] -> {}", url, result);
     Assertions.assertNotNull(result);
   }
 
@@ -49,7 +49,7 @@ class SysDictItemControllerTest extends BaseControllerTest {
     String url = PATH + "/item/list";
     JSONObject paramJson = new JSONObject();
     Object result = post(url, BodyInserters.fromValue(paramJson));
-    LOGGER.info("findItemList:[{}] -> {}", url, result);
+    logger.info("findItemList:[{}] -> {}", url, result);
     Assertions.assertNotNull(result);
   }
 
@@ -57,7 +57,7 @@ class SysDictItemControllerTest extends BaseControllerTest {
   void getItemById() {
     String url = PATH + "/item/get/1101";
     Object result = get(url);
-    LOGGER.info("getItemById:[{}] -> {}", url, result);
+    logger.info("getItemById:[{}] -> {}", url, result);
     Assertions.assertNotNull(result);
   }
 
@@ -66,7 +66,7 @@ class SysDictItemControllerTest extends BaseControllerTest {
     String url = PATH + "/type/codes/list";
     String[] array = new String[] { "sys_task_status" };
     Object result = post(url, BodyInserters.fromValue(array));
-    LOGGER.info("findListByCodes:[{}] -> {}", url, result);
+    logger.info("findListByCodes:[{}] -> {}", url, result);
     Assertions.assertNotNull(result);
   }
 }

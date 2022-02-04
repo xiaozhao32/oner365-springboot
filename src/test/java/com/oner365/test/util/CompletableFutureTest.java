@@ -43,22 +43,22 @@ class CompletableFutureTest extends BaseUtilsTest {
      *
      * @param executorService service
      */
-    private static void completableFutureTest(ExecutorService executorService) {
+    private void completableFutureTest(ExecutorService executorService) {
         long start = System.currentTimeMillis();
         CompletableFuture<String> futureA = CompletableFuture.supplyAsync(() -> {
-            LOGGER.info("ThreadA:{}", Thread.currentThread().getName());
+            logger.info("ThreadA:{}", Thread.currentThread().getName());
             return "商品详情";
         }, executorService);
 
         CompletableFuture<String> futureB = CompletableFuture.supplyAsync(() -> {
-            LOGGER.info("ThreadB:{}", Thread.currentThread().getName());
+            logger.info("ThreadB:{}", Thread.currentThread().getName());
             return "卖家信息";
         }, executorService);
 
         CompletableFuture<Void> allFuture = CompletableFuture.allOf(futureA, futureB);
         allFuture.join();
 
-        LOGGER.info("Join:{},{}", futureA.join(), futureB.join());
-        LOGGER.info("总耗时: {}", (System.currentTimeMillis() - start));
+        logger.info("Join:{},{}", futureA.join(), futureB.join());
+        logger.info("总耗时: {}", (System.currentTimeMillis() - start));
     }
 }

@@ -40,7 +40,7 @@ class MinioFileUtilsTest extends BaseServiceTest {
     // 创建文件夹
     BucketExistsArgs bucket = BucketExistsArgs.builder().bucket(bucketName).build();
     if (minioClient.bucketExists(bucket)) {
-      LOGGER.info("bucket exists:{}", bucketName);
+      logger.info("bucket exists:{}", bucketName);
     } else {
       minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());
     }
@@ -56,14 +56,14 @@ class MinioFileUtilsTest extends BaseServiceTest {
     try (InputStream inputStream = new FileInputStream(file)) {
       ObjectWriteResponse writeResponse = minioClient.putObject(PutObjectArgs.builder().bucket(bucketName).object(path)
           .stream(inputStream, file.length(), -1).contentType(ContentType.IMAGE_JPEG.getMimeType()).build());
-      LOGGER.info("file path: {}", writeResponse.object());
+      logger.info("file path: {}", writeResponse.object());
     } catch (IOException e) {
       e.printStackTrace();
     }
 
     // 获取文件
     GetObjectResponse objectResponse = minioClient.getObject(GetObjectArgs.builder().bucket(bucketName).object(path).build());
-    LOGGER.info("file get: {}", objectResponse);
+    logger.info("file get: {}", objectResponse);
     objectResponse.close();
 
     // 下载文件

@@ -30,7 +30,7 @@ class GatewayRouteServiceTest extends BaseServiceTest {
   @RepeatedTest(value = 2)
   void findList() {
     List<GatewayRouteDto> list = service.findList();
-    LOGGER.info("findList:{}", list.size());
+    logger.info("findList:{}", list.size());
     Assertions.assertNotEquals(0, list.size());
   }
 
@@ -38,7 +38,7 @@ class GatewayRouteServiceTest extends BaseServiceTest {
   void pageList() {
     QueryCriteriaBean paramData = new QueryCriteriaBean();
     PageInfo<GatewayRouteDto> list = service.pageList(paramData);
-    LOGGER.info("pageList:{}", list.getSize());
+    logger.info("pageList:{}", list.getSize());
     Assertions.assertNotEquals(0, list.getSize());
   }
 
@@ -47,7 +47,7 @@ class GatewayRouteServiceTest extends BaseServiceTest {
     List<GatewayRouteDto> list = service.findList();
     if (!list.isEmpty()) {
       GatewayRouteDto entity = service.getById(list.get(0).getId());
-      LOGGER.info("getById:{}", JSON.toJSONString(entity));
+      logger.info("getById:{}", JSON.toJSONString(entity));
       Assertions.assertNotNull(entity);
     }
   }

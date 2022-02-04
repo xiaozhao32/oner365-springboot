@@ -32,7 +32,7 @@ class SysUserServiceTest extends BaseServiceTest {
   void findList() {
     QueryCriteriaBean paramData = new QueryCriteriaBean();
     List<SysUserDto> list = service.findList(paramData);
-    LOGGER.info("findList:{}", list.size());
+    logger.info("findList:{}", list.size());
     Assertions.assertNotEquals(0, list.size());
   }
 
@@ -40,7 +40,7 @@ class SysUserServiceTest extends BaseServiceTest {
   void pageList() {
     QueryCriteriaBean paramData = new QueryCriteriaBean();
     PageInfo<SysUserDto> list = service.pageList(paramData);
-    LOGGER.info("pageList:{}", list.getSize());
+    logger.info("pageList:{}", list.getSize());
     Assertions.assertNotEquals(0, list.getSize());
   }
 
@@ -48,14 +48,14 @@ class SysUserServiceTest extends BaseServiceTest {
   void getById() {
     String id = "1";
     SysUserDto entity = service.getById(id);
-    LOGGER.info("getById:{}", JSON.toJSONString(entity));
+    logger.info("getById:{}", JSON.toJSONString(entity));
     Assertions.assertNotNull(entity);
   }
 
   @Test
   void login() {
     LoginUserDto entity = service.login("admin", "1", "localhost");
-    LOGGER.info("login:{}", entity);
+    logger.info("login:{}", entity);
     Assertions.assertNotNull(entity);
   }
 

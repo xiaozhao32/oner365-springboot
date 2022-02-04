@@ -31,18 +31,18 @@ class PropertiesTest extends BaseServiceTest {
   @Test
   void fileLocalPropertiesTest() {
     Assertions.assertNotNull(fileLocalProperties);
-    LOGGER.info("Local properties:{}", JSON.toJSONString(fileLocalProperties));
+    logger.info("Local properties:{}", JSON.toJSONString(fileLocalProperties));
   }
   
   @Test
   void fileFdfsPropertiesTest() {
     Assertions.assertNotNull(fileFdfsProperties);
-    LOGGER.info("Fdfs properties:{}", JSON.toJSONString(fileFdfsProperties));
+    logger.info("Fdfs properties:{}", JSON.toJSONString(fileFdfsProperties));
   }
   
   @Test
   void fileMinioPropertiesTest() {
     Assertions.assertNotNull(fileMinioProperties);
-    LOGGER.info("Minio properties:{}", JSON.toJSONString(fileMinioProperties));
+    logger.info("Minio properties:{}", JSON.toJSONString(fileMinioProperties));
   }
 }

@@ -22,7 +22,7 @@ class SysMenuOperationControllerTest extends BaseControllerTest {
     void get() {
         String url = PATH + "/get/1";
         Object result = get(url);
-        LOGGER.info("get:[{}] -> {}", url, result);
+        logger.info("get:[{}] -> {}", url, result);
         Assertions.assertNotNull(result);
     }
 
@@ -32,7 +32,7 @@ class SysMenuOperationControllerTest extends BaseControllerTest {
         JSONObject paramJson = new JSONObject();
         paramJson.put("menuTypeId", "1");
         Object result = post(url, BodyInserters.fromValue(paramJson));
-        LOGGER.info("list:[{}] -> {}", url, result);
+        logger.info("list:[{}] -> {}", url, result);
         Assertions.assertNotNull(result);
     }
 

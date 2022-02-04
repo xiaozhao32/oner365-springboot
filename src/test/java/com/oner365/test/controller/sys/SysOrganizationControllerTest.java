@@ -22,7 +22,7 @@ class SysOrganizationControllerTest extends BaseControllerTest {
     void get() {
         String url = PATH + "/get/1";
         Object result = get(url);
-        LOGGER.info("get:[{}] -> {}", url, result);
+        logger.info("get:[{}] -> {}", url, result);
         Assertions.assertNotNull(result);
     }
 
@@ -31,7 +31,7 @@ class SysOrganizationControllerTest extends BaseControllerTest {
         String url = PATH + "/list";
         JSONObject paramJson = new JSONObject();
         Object result = post(url, BodyInserters.fromValue(paramJson));
-        LOGGER.info("list:[{}] -> {}", url, result);
+        logger.info("list:[{}] -> {}", url, result);
         Assertions.assertNotNull(result);
     }
 

@@ -35,7 +35,7 @@ class SysMessageServiceTest extends BaseServiceTest {
     List<SysMessageDto> list = service.findList(data);
     if (!list.isEmpty()) {
       SysMessageDto entity = service.getById(list.get(0).getId());
-      LOGGER.info("getById:{}", JSON.toJSONString(entity));
+      logger.info("getById:{}", JSON.toJSONString(entity));
       Assertions.assertNotNull(entity);
     }
   }

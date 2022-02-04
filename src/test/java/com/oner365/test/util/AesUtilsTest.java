@@ -17,16 +17,16 @@ class AesUtilsTest extends BaseUtilsTest {
         String data = "Oner365";
         String key = "abc1234";
         String encrypt = AesUtils.getEncryptString(data);
-        LOGGER.info("加密: {}", encrypt);
+        logger.info("加密: {}", encrypt);
         String decrypt = AesUtils.getDecryptString(encrypt);
-        LOGGER.info("解密: {}", decrypt);
+        logger.info("解密: {}", decrypt);
         Assertions.assertEquals(data, decrypt);
         AesUtils.removeKey();
 
         String encrypt2 = AesUtils.getEncryptString(data, key);
-        LOGGER.info("加密: {}", encrypt2);
+        logger.info("加密: {}", encrypt2);
         String decrypt2 = AesUtils.getDecryptString(encrypt2, key);
-        LOGGER.info("解密: {}", decrypt2);
+        logger.info("解密: {}", decrypt2);
         Assertions.assertEquals(data, decrypt2);
         AesUtils.removeKey();
     }

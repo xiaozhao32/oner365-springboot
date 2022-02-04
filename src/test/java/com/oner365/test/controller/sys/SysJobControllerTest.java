@@ -27,7 +27,7 @@ class SysJobControllerTest extends BaseControllerTest {
     void get() {
         String url = PATH + "/get/1";
         Object result = get(url);
-        LOGGER.info("get:[{}] -> {}", url, result);
+        logger.info("get:[{}] -> {}", url, result);
         Assertions.assertNotNull(result);
     }
 
@@ -36,7 +36,7 @@ class SysJobControllerTest extends BaseControllerTest {
         String url = PATH + "/list";
         JSONObject paramJson = new JSONObject();
         Object result = post(url, BodyInserters.fromValue(paramJson));
-        LOGGER.info("list:[{}] -> {}", url, result);
+        logger.info("list:[{}] -> {}", url, result);
         Assertions.assertNotNull(result);
     }
 
@@ -50,14 +50,14 @@ class SysJobControllerTest extends BaseControllerTest {
         entity.setJobOrder(3);
 
         Map<String, Object> map = (Map<String, Object>) put(savePath, BodyInserters.fromValue(JSON.toJSON(entity)));
-        LOGGER.info("save:[{}] -> {}", savePath, map);
+        logger.info("save:[{}] -> {}", savePath, map);
         Assertions.assertNotNull(map);
 
         String deletePath = PATH + "/delete";
         Map<String, Object> sysJob = (Map<String, Object>) map.get(PublicConstants.MSG);
         String[] ids = new String[] { sysJob.get("id").toString() };
         Object deleteResult = delete(deletePath, BodyInserters.fromValue(ids));
-        LOGGER.info("delete:[{}] -> {}", deletePath, deleteResult);
+        logger.info("delete:[{}] -> {}", deletePath, deleteResult);
         Assertions.assertNotNull(deleteResult);
     }
 

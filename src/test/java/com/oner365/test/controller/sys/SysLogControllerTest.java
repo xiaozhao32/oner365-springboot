@@ -21,7 +21,7 @@ class SysLogControllerTest extends BaseControllerTest {
   void list() {
     String url = PATH + "/list";
     Object result = post(url, BodyInserters.fromValue(new SysLogVo()));
-    LOGGER.info("list:[{}] -> {}", url, result);
+    logger.info("list:[{}] -> {}", url, result);
     Assertions.assertNotNull(result);
   }
 

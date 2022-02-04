@@ -26,7 +26,7 @@ class DataSourceConfigServiceTest extends BaseServiceTest {
     void pageList() {
         QueryCriteriaBean paramData = new QueryCriteriaBean();
         PageInfo<DataSourceConfigDto> list = service.pageList(paramData);
-        LOGGER.info("pageList:{}", list.getSize());
+        logger.info("pageList:{}", list.getSize());
         Assertions.assertNotEquals(0, list.getSize());
     }
 

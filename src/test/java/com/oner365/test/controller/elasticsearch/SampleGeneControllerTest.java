@@ -22,7 +22,7 @@ class SampleGeneControllerTest extends BaseControllerTest {
         String url = PATH + "/list";
         JSONObject paramJson = new JSONObject();
         Object result = post(url, BodyInserters.fromValue(paramJson));
-        LOGGER.info("list:[{}] -> {}", url, result);
+        logger.info("list:[{}] -> {}", url, result);
         Assertions.assertNotNull(result);
     }
 

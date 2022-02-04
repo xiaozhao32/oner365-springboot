@@ -32,7 +32,7 @@ class SequenceTest extends BaseServiceTest {
   void snowflakeTest() {
     IntStream.range(0, 10).mapToObj(i -> snowflakeSequence.nextValue()).forEach(value -> {
       Assertions.assertNotNull(value);
-      LOGGER.info("snowflake value: {}", value);
+      logger.info("snowflake value: {}", value);
     });
   }
 
@@ -43,7 +43,7 @@ class SequenceTest extends BaseServiceTest {
   void rangeTest() {
     IntStream.range(0, 10).mapToObj(i -> rangeSequence.nextValue()).forEach(value -> {
       Assertions.assertNotNull(value);
-      LOGGER.info("redis range value: {}", value);
+      logger.info("redis range value: {}", value);
     });
 
   }

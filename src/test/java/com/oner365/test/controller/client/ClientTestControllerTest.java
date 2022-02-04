@@ -33,24 +33,24 @@ class ClientTestControllerTest extends BaseControllerTest {
     LoginUserVo vo = new LoginUserVo();
     vo.setUserName("admin");
     vo.setPassword("1");
-    LOGGER.error("request body decode:{}", JSON.toJSONString(vo));
+    logger.error("request body decode:{}", JSON.toJSONString(vo));
     String key = Md5Util.getInstance().getMd5(String.valueOf(System.currentTimeMillis()));
-    LOGGER.error("key :{}", key);
+    logger.error("key :{}", key);
     String body = Base64.getEncoder()
         .encodeToString(Cipher.encodeSms4(JSON.toJSONString(vo), key.substring(0, 16).getBytes()));
 
-    LOGGER.error("request body encode:{}", body);
+    logger.error("request body encode:{}", body);
     String sign = RsaUtils.buildRsaEncryptByPublicKey(key, publicKey);
-    LOGGER.error("key rsa encode:{}", sign);
+    logger.error("key rsa encode:{}", sign);
     Mono<JSONObject> mono = client.post().uri(URL + PATH + "/login").header("sign", sign)
         .contentType(MediaType.APPLICATION_JSON).body(BodyInserters.fromValue(body)).retrieve()
         .bodyToMono(JSONObject.class);
     JSONObject result = mono.block();
-    LOGGER.error("return result encode:{}", result);
+    logger.error("return result encode:{}", result);
     JSONObject r = JSON
         .parseObject(JSON.parseObject(Cipher.decodeSms4toString(Base64.getDecoder().decode(result.getString("result")),
             key.substring(0, 16).getBytes())).getString("result"));
-    LOGGER.error("return result decode:{}", r);
+    logger.error("return result decode:{}", r);
   }
 
 }

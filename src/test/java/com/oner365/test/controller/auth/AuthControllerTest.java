@@ -20,7 +20,7 @@ class AuthControllerTest extends BaseControllerTest {
 
     @Test
     void authLogin() {
-        LOGGER.info("authLogin:[{}] -> {}", PATH + "/login", token);
+        logger.info("authLogin:[{}] -> {}", PATH + "/login", token);
         Assertions.assertNotNull(token);
     }
 
@@ -28,7 +28,7 @@ class AuthControllerTest extends BaseControllerTest {
     void captchaImage() {
         String url = PATH + "/captcha";
         Object result = get(url);
-        LOGGER.info("captchaImage:[{}] -> {}", url, result);
+        logger.info("captchaImage:[{}] -> {}", url, result);
         Assertions.assertNotNull(result);
     }
 
@@ -36,7 +36,7 @@ class AuthControllerTest extends BaseControllerTest {
     void findMenuByRoles() {
         String url = PATH + "/menu/1";
         ArrayList<?> result = (ArrayList<?>) get(url);
-        LOGGER.info("findMenuByRoles:[{}] -> {}", url, result);
+        logger.info("findMenuByRoles:[{}] -> {}", url, result);
         Assertions.assertNotEquals(0, result.size());
     }
 
@@ -44,7 +44,7 @@ class AuthControllerTest extends BaseControllerTest {
     void findMenuOperByRoles() {
         String url = PATH + "/menu/operation/101";
         ArrayList<?> result = (ArrayList<?>) get(url);
-        LOGGER.info("findMenuOperByRoles:[{}] -> {}", url, result);
+        logger.info("findMenuOperByRoles:[{}] -> {}", url, result);
         Assertions.assertNotEquals(0, result.size());
     }
 }

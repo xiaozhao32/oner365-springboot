@@ -31,7 +31,7 @@ class SysMenuTypeServiceTest extends BaseServiceTest {
   void findList() {
     QueryCriteriaBean paramData = new QueryCriteriaBean();
     List<SysMenuTypeDto> list = service.findList(paramData);
-    LOGGER.info("findList:{}", list.size());
+    logger.info("findList:{}", list.size());
     Assertions.assertNotEquals(0, list.size());
   }
 
@@ -39,7 +39,7 @@ class SysMenuTypeServiceTest extends BaseServiceTest {
   void pageList() {
     QueryCriteriaBean paramData = new QueryCriteriaBean();
     PageInfo<SysMenuTypeDto> list = service.pageList(paramData);
-    LOGGER.info("pageList:{}", list.getSize());
+    logger.info("pageList:{}", list.getSize());
     Assertions.assertNotEquals(0, list.getSize());
   }
 
@@ -47,7 +47,7 @@ class SysMenuTypeServiceTest extends BaseServiceTest {
   void getById() {
     String id = "1";
     SysMenuTypeDto entity = service.getById(id);
-    LOGGER.info("getById:{}", JSON.toJSONString(entity));
+    logger.info("getById:{}", JSON.toJSONString(entity));
     Assertions.assertNotNull(entity);
   }
 
@@ -55,7 +55,7 @@ class SysMenuTypeServiceTest extends BaseServiceTest {
   void getMenuTypeByTypeCode() {
     String code = "nt_sys";
     SysMenuTypeDto entity = service.getMenuTypeByTypeCode(code);
-    LOGGER.info("getMenuTypeByTypeCode:{}", JSON.toJSONString(entity));
+    logger.info("getMenuTypeByTypeCode:{}", JSON.toJSONString(entity));
     Assertions.assertNotNull(entity);
   }
 

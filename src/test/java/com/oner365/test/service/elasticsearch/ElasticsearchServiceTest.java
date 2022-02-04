@@ -27,7 +27,7 @@ class ElasticsearchServiceTest extends BaseServiceTest {
     void findList() {
         QueryCriteriaBean paramJson = new QueryCriteriaBean();
         PageInfo<SampleGeneDto> list = service.findList(paramJson);
-        LOGGER.info("findList:{}", list.getSize());
+        logger.info("findList:{}", list.getSize());
         Assertions.assertNotEquals(0, list.getSize());
     }
 

@@ -32,7 +32,7 @@ class DeployTest extends BaseServiceTest {
   void deployNativeTest() {
     DeployEntity entity = deployService.getDeployEntity();
     Assertions.assertNotNull(entity);
-    LOGGER.info("Deploy project: {}", entity);
+    logger.info("Deploy project: {}", entity);
     // 部署目录
     DeployMethod.deployNative(entity);
   }
@@ -45,8 +45,8 @@ class DeployTest extends BaseServiceTest {
     DeployEntity deploy = deployService.getDeployEntity();
     ServerEntity server = deployService.getServerEntity();
     Assertions.assertNotNull(server);
-    LOGGER.info("Deploy project: {}", server);
-    LOGGER.info("Server: {}", server);
+    logger.info("Deploy project: {}", server);
+    logger.info("Server: {}", server);
     // 部署服务器开关
     if (server.getIsDeploy()) {
       DeployMethod.deployServer(deploy, server);

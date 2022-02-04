@@ -119,8 +119,7 @@ sequence:
 ignore:
   whites:
     - /api
-    - /system/auth/login
-    - /system/auth/captcha
+    - /system/auth
     - /system/file/download
     - /swagger
     - /webjars

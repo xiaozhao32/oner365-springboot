@@ -31,7 +31,7 @@ class SysJobServiceTest extends BaseServiceTest {
     void findList() {
         QueryCriteriaBean paramData = new QueryCriteriaBean();
         List<SysJobDto> list = service.findList(paramData);
-        LOGGER.info("findList:{}", list.size());
+        logger.info("findList:{}", list.size());
         Assertions.assertNotEquals(0, list.size());
     }
 
@@ -39,7 +39,7 @@ class SysJobServiceTest extends BaseServiceTest {
     void pageList() {
         QueryCriteriaBean paramData = new QueryCriteriaBean();
         PageInfo<SysJobDto> list = service.pageList(paramData);
-        LOGGER.info("pageList:{}", list.getSize());
+        logger.info("pageList:{}", list.getSize());
         Assertions.assertNotEquals(0, list.getSize());
     }
 
@@ -47,7 +47,7 @@ class SysJobServiceTest extends BaseServiceTest {
     void getById() {
         String id = "1";
         SysJobDto entity = service.getById(id);
-        LOGGER.info("getById:{}", JSON.toJSONString(entity));
+        logger.info("getById:{}", JSON.toJSONString(entity));
         Assertions.assertNotNull(entity);
     }
 

@@ -33,7 +33,7 @@ class SysRoleServiceTest extends BaseServiceTest {
   void findList() {
     QueryCriteriaBean paramData = new QueryCriteriaBean();
     List<SysRoleDto> list = service.findList(paramData);
-    LOGGER.info("findList:{}", list.size());
+    logger.info("findList:{}", list.size());
     Assertions.assertNotEquals(0, list.size());
   }
 
@@ -41,7 +41,7 @@ class SysRoleServiceTest extends BaseServiceTest {
   void pageList() {
     QueryCriteriaBean paramData = new QueryCriteriaBean();
     PageInfo<SysRoleDto> list = service.pageList(paramData);
-    LOGGER.info("pageList:{}", list.getSize());
+    logger.info("pageList:{}", list.getSize());
     Assertions.assertNotEquals(0, list.getSize());
   }
 
@@ -49,7 +49,7 @@ class SysRoleServiceTest extends BaseServiceTest {
   void getById() {
     String id = "1";
     SysRoleDto entity = service.getById(id);
-    LOGGER.info("getById:{}", JSON.toJSONString(entity));
+    logger.info("getById:{}", JSON.toJSONString(entity));
     Assertions.assertNotNull(entity);
   }
 
@@ -59,7 +59,7 @@ class SysRoleServiceTest extends BaseServiceTest {
     roles.add("1");
     String menuType = "1";
     List<SysMenuTreeDto> list = service.findMenuByRoles(roles, menuType);
-    LOGGER.info("findMenuByRoles:{}", list.size());
+    logger.info("findMenuByRoles:{}", list.size());
     Assertions.assertNotEquals(0, list.size());
   }
 
@@ -68,7 +68,7 @@ class SysRoleServiceTest extends BaseServiceTest {
     String menuType = "1";
     String roleId = "1";
     List<String> list = service.findMenuByRoleId(menuType, roleId);
-    LOGGER.info("findMenuByRoleId:{}", list.size());
+    logger.info("findMenuByRoleId:{}", list.size());
     Assertions.assertNotEquals(0, list.size());
   }
 

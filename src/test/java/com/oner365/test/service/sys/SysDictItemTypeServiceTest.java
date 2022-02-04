@@ -32,7 +32,7 @@ class SysDictItemTypeServiceTest extends BaseServiceTest {
     void findList() {
         QueryCriteriaBean paramData = new QueryCriteriaBean();
         List<SysDictItemTypeDto> list = service.findList(paramData);
-        LOGGER.info("findList:{}", list.size());
+        logger.info("findList:{}", list.size());
         Assertions.assertNotEquals(0, list.size());
     }
 
@@ -40,7 +40,7 @@ class SysDictItemTypeServiceTest extends BaseServiceTest {
     void findListByCodes() {
         String[] codes = new String[]{"sys_task_group", "sys_task_status"};
         List<SysDictItemTypeDto> list = service.findListByCodes(Arrays.asList(codes));
-        LOGGER.info("findListByCodes:{}", list.size());
+        logger.info("findListByCodes:{}", list.size());
         Assertions.assertNotEquals(0, list.size());
     }
 
@@ -48,7 +48,7 @@ class SysDictItemTypeServiceTest extends BaseServiceTest {
     void pageList() {
         QueryCriteriaBean paramData = new QueryCriteriaBean();
         PageInfo<SysDictItemTypeDto> list = service.pageList(paramData);
-        LOGGER.info("pageList:{}", list.getSize());
+        logger.info("pageList:{}", list.getSize());
         Assertions.assertNotEquals(0, list.getSize());
     }
 
@@ -56,7 +56,7 @@ class SysDictItemTypeServiceTest extends BaseServiceTest {
     void getById() {
         String id = "sys_task_group";
         SysDictItemTypeDto entity = service.getById(id);
-        LOGGER.info("getById:{}", JSON.toJSONString(entity));
+        logger.info("getById:{}", JSON.toJSONString(entity));
         Assertions.assertNotNull(entity);
     }
 

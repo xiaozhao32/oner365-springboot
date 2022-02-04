@@ -28,7 +28,7 @@ class DateUtilsTest extends BaseUtilsTest {
         LocalDateTime localDateTime = LocalDateTime.now();
         // localDateTime -> date
         Date date = DateUtil.localDateTimeToDate(localDateTime);
-        LOGGER.info("date: {}", date);
+        logger.info("date: {}", date);
         // date -> localDateTime
         LocalDateTime result = DateUtil.dateToLocalDateTime(date);
         Assertions.assertNotNull(result);
