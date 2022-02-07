@@ -26,6 +26,7 @@ import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
 import com.oner365.sys.dto.SysMessageDto;
 import com.oner365.sys.enums.MessageStatusEnum;
+import com.oner365.sys.enums.MessageTypeEnum;
 import com.oner365.sys.service.ISysMessageService;
 import com.oner365.sys.vo.SysMessageVo;
 
@@ -54,7 +55,7 @@ public class SysMessageController extends BaseController {
   @ApiOperation("1.刷新")
   @ApiOperationSupport(order = 1)
   @GetMapping("/refresh")
-  public ResponseResult<Boolean> refresh(@RequestParam("messageType") String messageType) {
+  public ResponseResult<Boolean> refresh(@RequestParam("messageType") MessageTypeEnum messageType) {
     QueryCriteriaBean data = new QueryCriteriaBean();
     data.setWhereList(Collections.singletonList(new AttributeBean("messageType", messageType)));
     List<SysMessageDto> list = sysMessageService.findList(data);
