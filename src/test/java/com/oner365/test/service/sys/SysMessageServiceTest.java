@@ -12,6 +12,7 @@ import com.alibaba.fastjson.JSON;
 import com.oner365.common.query.AttributeBean;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.sys.dto.SysMessageDto;
+import com.oner365.sys.enums.MessageTypeEnum;
 import com.oner365.sys.service.ISysMessageService;
 import com.oner365.test.service.BaseServiceTest;
 
@@ -29,9 +30,8 @@ class SysMessageServiceTest extends BaseServiceTest {
 
   @Test
   void getById() {
-    String messageType = "default";
     QueryCriteriaBean data = new QueryCriteriaBean();
-    data.setWhereList(Collections.singletonList(new AttributeBean("messageType", messageType)));
+    data.setWhereList(Collections.singletonList(new AttributeBean("messageType", MessageTypeEnum.DEFAULT)));
     List<SysMessageDto> list = service.findList(data);
     if (!list.isEmpty()) {
       SysMessageDto entity = service.getById(list.get(0).getId());

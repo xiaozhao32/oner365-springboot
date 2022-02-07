@@ -25,6 +25,7 @@ import com.oner365.common.query.QueryUtils;
 import com.oner365.sys.dao.ISysMessageDao;
 import com.oner365.sys.dto.SysMessageDto;
 import com.oner365.sys.entity.SysMessage;
+import com.oner365.sys.enums.MessageStatusEnum;
 import com.oner365.sys.service.ISysMessageService;
 import com.oner365.sys.vo.SysMessageVo;
 import com.oner365.util.DataUtils;
@@ -107,7 +108,7 @@ public class SysMessageServiceImpl implements ISysMessageService {
   @Override
   @Transactional(rollbackFor = ProjectRuntimeException.class)
   @CacheEvict(value = CACHE_NAME, allEntries = true)
-  public Integer editStatus(String id, String status) {
+  public Integer editStatus(String id, MessageStatusEnum status) {
     Optional<SysMessage> optional = dao.findById(id);
     if (optional.isPresent()) {
       optional.get().setStatus(status);

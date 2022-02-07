@@ -21,6 +21,7 @@ import com.oner365.common.ResponseData;
 import com.oner365.common.auth.AuthUser;
 import com.oner365.common.auth.annotation.CurrentUser;
 import com.oner365.common.cache.RedisCache;
+import com.oner365.common.cache.constants.CacheConstants;
 import com.oner365.common.enums.ErrorInfoEnum;
 import com.oner365.common.enums.ResultEnum;
 import com.oner365.controller.BaseController;
@@ -49,8 +50,6 @@ import springfox.documentation.annotations.ApiIgnore;
 @Api(tags = "用户认证")
 @RequestMapping("/system/auth")
 public class AuthController extends BaseController {
-
-  private static final String CACHE_LOGIN_NAME = "Auth:Login";
 
   @Autowired
   private ISysUserService sysUserService;
@@ -185,7 +184,7 @@ public class AuthController extends BaseController {
   @ApiOperationSupport(order = 5)
   @PostMapping("/logout")
   public String logout(@ApiIgnore @CurrentUser AuthUser authUser) {
-    String key = CACHE_LOGIN_NAME + ":" + authUser.getUserName();
+    String key = CacheConstants.CACHE_LOGIN_NAME + authUser.getUserName();
     redisCache.deleteObject(key);
     return ResultEnum.SUCCESS.getName();
   }

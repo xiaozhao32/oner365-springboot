@@ -1,20 +1,20 @@
-package com.oner365.common.enums;
+package com.oner365.sys.enums;
 
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Optional;
 
 /**
- * 枚举 - 消息类型
+ * 枚举 - 消息状态
  *
  * @author zhaoyong
  */
 public enum MessageStatusEnum implements Serializable {
 
-    /** 已读 */
-    READ("1", "已读"),
     /** 未读 */
-    READ_NONE("0", "未读");
+    READ_NONE("0", "未读"),
+    /** 已读 */
+    READ("1", "已读");
 
     /**
      * 编码
@@ -59,7 +59,7 @@ public enum MessageStatusEnum implements Serializable {
      * 获取枚举
      *
      * @param code 编码
-     * @return StatusEnum
+     * @return MessageStatusEnum
      */
     public static MessageStatusEnum getCode(String code) {
         Optional<MessageStatusEnum> result = Arrays.stream(MessageStatusEnum.values())

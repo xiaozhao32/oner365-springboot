@@ -53,7 +53,7 @@ public class Restrictions {
    * @param value     值
    * @return SimpleExpression
    */
-  public static SimpleExpression like(String fieldName, String value) {
+  public static SimpleExpression like(String fieldName, Object value) {
     if (DataUtils.isEmpty(value)) {
       return null;
     }
@@ -163,7 +163,7 @@ public class Restrictions {
    * @param value     值
    * @return Criterion
    */
-  public static Criterion between(String fieldName, String value) {
+  public static Criterion between(String fieldName, Object value) {
     if (DataUtils.isEmpty(value)) {
       return null;
     }

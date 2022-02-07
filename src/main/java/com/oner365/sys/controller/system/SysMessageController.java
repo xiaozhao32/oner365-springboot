@@ -20,12 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.common.ResponseResult;
 import com.oner365.common.enums.ErrorInfoEnum;
-import com.oner365.common.enums.MessageStatusEnum;
 import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.AttributeBean;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
 import com.oner365.sys.dto.SysMessageDto;
+import com.oner365.sys.enums.MessageStatusEnum;
 import com.oner365.sys.service.ISysMessageService;
 import com.oner365.sys.vo.SysMessageVo;
 
@@ -59,7 +59,7 @@ public class SysMessageController extends BaseController {
     data.setWhereList(Collections.singletonList(new AttributeBean("messageType", messageType)));
     List<SysMessageDto> list = sysMessageService.findList(data);
     if (!list.isEmpty()) {
-      list.forEach(entity -> sysMessageService.editStatus(entity.getId(), MessageStatusEnum.READ.getCode()));
+      list.forEach(entity -> sysMessageService.editStatus(entity.getId(), MessageStatusEnum.READ));
       return ResponseResult.success(Boolean.TRUE);
     }
     return ResponseResult.success(Boolean.FALSE);
@@ -101,7 +101,7 @@ public class SysMessageController extends BaseController {
   @ApiOperation("4.修改状态")
   @ApiOperationSupport(order = 4)
   @PostMapping("/status/{id}")
-  public Integer editStatus(@PathVariable String id, @RequestParam("status") String status) {
+  public Integer editStatus(@PathVariable String id, @RequestParam("status") MessageStatusEnum status) {
     return sysMessageService.editStatus(id, status);
   }
   

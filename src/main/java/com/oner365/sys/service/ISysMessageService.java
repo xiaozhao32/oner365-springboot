@@ -6,6 +6,7 @@ import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.service.BaseService;
 import com.oner365.sys.dto.SysMessageDto;
+import com.oner365.sys.enums.MessageStatusEnum;
 import com.oner365.sys.vo.SysMessageVo;
 
 /**
@@ -54,7 +55,7 @@ public interface ISysMessageService extends BaseService {
    * @param status 状态
    * @return int
    */
-  Integer editStatus(String id, String status);
+  Integer editStatus(String id, MessageStatusEnum status);
 
   /**
    * 删除
