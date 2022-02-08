@@ -38,12 +38,6 @@ public class SysTaskLogServiceImpl implements ISysTaskLogService {
   @Autowired
   private SysTaskLogMapper taskLogMapper;
 
-  /**
-   * 获取quartz调度器日志的计划任务
-   *
-   * @param data 查询参数
-   * @return 调度任务日志集合
-   */
   @Override
   public PageInfo<SysTaskLogDto> pageList(QueryCriteriaBean data) {
     try {
@@ -55,23 +49,12 @@ public class SysTaskLogServiceImpl implements ISysTaskLogService {
     return null;
   }
 
-  /**
-   * 通过调度任务日志ID查询调度信息
-   *
-   * @param id 调度任务日志ID
-   * @return 调度任务日志对象信息
-   */
   @Override
   public SysTaskLogDto selectTaskLogById(String id) {
     Optional<SysTaskLog> optional = dao.findById(id);
     return convert(optional.orElse(null), SysTaskLogDto.class);
   }
 
-  /**
-   * 新增任务日志
-   *
-   * @param vo 调度日志信息
-   */
   @Override
   public void addTaskLog(SysTaskLogVo vo) {
     if (DataUtils.isEmpty(vo.getId())) {
@@ -80,12 +63,6 @@ public class SysTaskLogServiceImpl implements ISysTaskLogService {
     dao.save(convert(vo, SysTaskLog.class));
   }
 
-  /**
-   * 批量删除调度日志信息
-   *
-   * @param ids 需要删除的数据ID
-   * @return 结果
-   */
   @Override
   public int deleteTaskLogByIds(String[] ids) {
     int result = ResultEnum.ERROR.getCode();
@@ -95,20 +72,17 @@ public class SysTaskLogServiceImpl implements ISysTaskLogService {
     return result;
   }
 
-  /**
-   * 删除任务日志
-   *
-   * @param id 调度日志ID
-   */
   @Override
   public int deleteTaskLogById(String id) {
-    dao.deleteById(id);
-    return ResultEnum.SUCCESS.getCode();
+    try {
+      dao.deleteById(id);
+      return ResultEnum.SUCCESS.getCode();
+    } catch (Exception e) {
+      LOGGER.error("Error deleteTaskLogById:", e);
+    }
+    return ResultEnum.ERROR.getCode();
   }
 
-  /**
-   * 清空任务日志
-   */
   @Override
   public void cleanTaskLog() {
     taskLogMapper.cleanTaskLog();
@@ -121,8 +95,7 @@ public class SysTaskLogServiceImpl implements ISysTaskLogService {
       return StatusEnum.YES.getCode();
     } catch (Exception e) {
       LOGGER.error("Error deleteTaskLogByCreateTime: ", e);
-      return StatusEnum.NO.getCode();
     }
-
+    return StatusEnum.NO.getCode();
   }
 }
