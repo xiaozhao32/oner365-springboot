@@ -157,14 +157,14 @@ public class FileStorageController extends BaseController {
       response.setHeader(HttpHeaders.CONTENT_DISPOSITION,
           "attachment;filename=" + URLEncoder.encode(filename, StandardCharsets.UTF_8.name()));
     } catch (UnsupportedEncodingException e) {
-      LOGGER.error("download UnsupportedEncodingException:", e);
+      logger.error("download UnsupportedEncodingException:", e);
     }
 
     // 写出
     try (ServletOutputStream outputStream = response.getOutputStream()) {
       IOUtils.write(data, outputStream);
     } catch (IOException e) {
-      LOGGER.error("download IOException:", e);
+      logger.error("download IOException:", e);
     }
 
   }

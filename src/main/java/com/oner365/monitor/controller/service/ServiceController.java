@@ -106,8 +106,8 @@ public class ServiceController extends BaseController {
   public String uploadService() {
     DeployEntity deploy = deployService.getDeployEntity();
     ServerEntity server = deployService.getServerEntity();
-    LOGGER.info("Deploy project: {}", server);
-    LOGGER.info("Server: {}", server);
+    logger.info("Deploy project: {}", server);
+    logger.info("Server: {}", server);
     // 部署服务器开关
     if (Boolean.TRUE.equals(server.getIsDeploy())) {
       DeployMethod.deployServer(deploy, server);

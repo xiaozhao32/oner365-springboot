@@ -921,7 +921,7 @@ public class DateUtil {
    * @param date yyyy-MM-dd
    * @return boolean
    */
-  public static Boolean isLeapYear(String date) {
+  public static boolean isLeapYear(String date) {
     String reg = "^((\\d{2}(([02468][048])|([13579][26]))-?((((0?"
         + "[13578])|(1[02]))-?((0?[1-9])|([1-2][0-9])|(3[01])))" + "|(((0?[469])|(11))-?((0?[1-9])|([1-2][0-9])|(30)))|"
         + "(0?2-?((0?[1-9])|([1-2][0-9])))))|(\\d{2}(([02468][12"

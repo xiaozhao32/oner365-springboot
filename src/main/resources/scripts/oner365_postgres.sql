@@ -530,6 +530,7 @@ CREATE TABLE "public"."nt_sys_message" (
   "context" varchar(255) COLLATE "pg_catalog"."default",
   "send_user" varchar(32) COLLATE "pg_catalog"."default",
   "receive_user" varchar(32) COLLATE "pg_catalog"."default",
+  "status" varchar(8) COLLATE "pg_catalog"."default",
   "create_time" timestamp(6),
   "update_time" timestamp(6)
 )
@@ -544,6 +545,7 @@ COMMENT ON COLUMN "public"."nt_sys_message"."type_id" IS '类型编号';
 COMMENT ON COLUMN "public"."nt_sys_message"."context" IS '内容';
 COMMENT ON COLUMN "public"."nt_sys_message"."send_user" IS '发送人';
 COMMENT ON COLUMN "public"."nt_sys_message"."receive_user" IS '接收人';
+COMMENT ON COLUMN "public"."nt_sys_message"."status" IS '状态';
 COMMENT ON COLUMN "public"."nt_sys_message"."create_time" IS '创建时间';
 COMMENT ON COLUMN "public"."nt_sys_message"."update_time" IS '更新时间';
 COMMENT ON TABLE "public"."nt_sys_message" IS '系统消息表';
@@ -552,8 +554,8 @@ COMMENT ON TABLE "public"."nt_sys_message" IS '系统消息表';
 -- Records of nt_sys_message
 -- ----------------------------
 BEGIN;
-INSERT INTO "public"."nt_sys_message" VALUES ('40288112729c3ca101729cab601d0000', 'sysMessageDirect', 'sysMessageKey', 'test', '测试', NULL, '内容', 'admin', 'admin', '2020-06-10 13:19:20', '2020-06-10 13:19:20');
-INSERT INTO "public"."nt_sys_message" VALUES ('ff80808174dcef8f0174dcf068ec0000', 'sysMessageDirect', 'sysMessageKey', 'test', '测试', NULL, '123456', 'admin', 'admin', '2020-09-30 10:56:17', NULL);
+INSERT INTO "public"."nt_sys_message" VALUES ('40288112729c3ca101729cab601d0000', 'sysMessageDirect', 'sysMessageKey', 'test', '测试', NULL, '内容', 'admin', 'admin', '1', '2020-06-10 13:19:20', '2020-06-10 13:19:20');
+INSERT INTO "public"."nt_sys_message" VALUES ('ff80808174dcef8f0174dcf068ec0000', 'sysMessageDirect', 'sysMessageKey', 'test', '测试', NULL, '123456', 'admin', 'admin', '1', '2020-09-30 10:56:17', NULL);
 COMMIT;
 
 -- ----------------------------

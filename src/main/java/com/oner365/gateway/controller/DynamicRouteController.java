@@ -1,7 +1,7 @@
 package com.oner365.gateway.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -91,8 +91,8 @@ public class DynamicRouteController extends BaseController {
   @ApiOperation("4.刷新路由")
   @ApiOperationSupport(order = 4)
   @GetMapping("/refresh")
-  public List<GatewayRouteDto> refresh() {
-    return dynamicRouteService.refreshRoute();
+  public ArrayList<GatewayRouteDto> refresh() {
+    return (ArrayList<GatewayRouteDto>)dynamicRouteService.refreshRoute();
   }
 
   /**

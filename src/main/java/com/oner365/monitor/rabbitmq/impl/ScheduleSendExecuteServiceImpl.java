@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSON;
 import com.oner365.api.rabbitmq.dto.UpdateTaskExecuteStatusDto;
 import com.oner365.monitor.dto.SysTaskDto;
 import com.oner365.monitor.dto.SysTaskLogDto;
@@ -47,7 +46,7 @@ public class ScheduleSendExecuteServiceImpl implements IScheduleSendExecuteServi
   public void saveExecuteTaskLog(SysTaskLogDto taskLog) {
     LOGGER.info("saveExecuteTaskLog :{}", taskLog);
     SysTaskDto sysTask = sysTaskService.selectTaskById(taskLog.getTaskId());
-    SysTaskLogVo sysTaskLog = JSON.toJavaObject(JSON.parseObject(JSON.toJSONString(taskLog)), SysTaskLogVo.class);
+    SysTaskLogVo sysTaskLog = convert(taskLog, SysTaskLogVo.class);
     if (sysTask != null) {
       sysTaskLog.setTaskGroup(sysTask.getTaskGroup());
       sysTaskLog.setTaskName(sysTask.getTaskName());

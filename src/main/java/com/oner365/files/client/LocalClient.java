@@ -88,7 +88,7 @@ public class LocalClient implements IFileStorageClient {
 
   @Override
   public byte[] download(String fileUrl, long offSet, long fileSize) {
-    return null;
+    return new byte[0];
   }
 
   @Override

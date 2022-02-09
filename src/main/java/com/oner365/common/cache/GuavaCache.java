@@ -45,7 +45,7 @@ public class GuavaCache<T> {
             .initialCapacity(INITIAL_CAPACITY)
             .maximumSize(MAXIMUM_SIZE)
             .recordStats()
-            .build(new CacheLoader<>() {
+            .build(new CacheLoader<String, Optional<T>>() {
                 @Override
                 public Optional<T> load(@NonNull String key) {
                     LOGGER.debug("load: {}", key);

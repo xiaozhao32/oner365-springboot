@@ -7,6 +7,7 @@ import java.io.InputStream;
 
 import org.apache.http.entity.ContentType;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import com.oner365.test.service.BaseServiceTest;
 import com.oner365.util.DataUtils;
@@ -28,9 +29,14 @@ import io.minio.RemoveObjectArgs;
  *
  */
 class MinioFileUtilsTest extends BaseServiceTest {
+  
+  @Test
+  void test() {
+    Assertions.assertEquals("MinioFileUtilsTest", MinioFileUtilsTest.class.getSimpleName());
+  }
 
 //  @Test
-  void test() throws Exception {
+  void testMinio() throws Exception {
     String url = "http://localhost:9000";
     // 上传根目录
     String bucketName = "oner365";

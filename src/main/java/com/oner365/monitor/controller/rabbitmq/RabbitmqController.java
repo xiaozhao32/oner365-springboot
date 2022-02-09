@@ -102,7 +102,7 @@ public class RabbitmqController extends BaseController {
       String result = HttpClientUtils.httpDeleteRequest(url, headers, paramJson);
       return JSON.parseObject(result);
     } catch (Exception e) {
-      LOGGER.error("Rabbitmq delete error:", e);
+      logger.error("Rabbitmq delete error:", e);
     }
     return null;
   }

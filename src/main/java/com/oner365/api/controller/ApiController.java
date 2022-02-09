@@ -77,7 +77,7 @@ public class ApiController extends BaseController {
     try (Connection con = shardingDataSource.getConnection()) {
       return DataSourceUtil.execute(con, sql);
     } catch (Exception e) {
-      LOGGER.error("testDataSource error:", e);
+      logger.error("testDataSource error:", e);
     }
     return Collections.emptyList();
   }
@@ -92,16 +92,16 @@ public class ApiController extends BaseController {
   @GetMapping("/cache/guava/test")
   public String testGuavaCache() {
     String sequence1 = snowflakeSequence.nextNo();
-    LOGGER.info("sequence1: {}", sequence1);
+    logger.info("sequence1: {}", sequence1);
     String sequence2 = rangeSequence.nextNo();
-    LOGGER.info("sequence2: {}", sequence2);
+    logger.info("sequence2: {}", sequence2);
 
     String key = "a1";
     if (DataUtils.isEmpty(guavaCache.getCache(key))) {
       guavaCache.setCache(key, Optional.of(111));
     }
-    LOGGER.info("cache:{}", guavaCache.getCache(key));
-    LOGGER.info("cache:{}", guavaCache.getCache(key));
+    logger.info("cache:{}", guavaCache.getCache(key));
+    logger.info("cache:{}", guavaCache.getCache(key));
     guavaCache.removeCache(key);
 
     return ResultEnum.SUCCESS.getName();
@@ -122,7 +122,7 @@ public class ApiController extends BaseController {
     value.put("bbb", 222);
     redisCache.setCacheObject(key, value, PublicConstants.EXPIRE_TIME, TimeUnit.MINUTES);
     JSONObject json = redisCache.getCacheObject(key);
-    LOGGER.info("test1:{}", json);
+    logger.info("test1:{}", json);
 
     String key2 = "test2";
     List<Map<String, Object>> dataList = new ArrayList<>();
@@ -145,7 +145,7 @@ public class ApiController extends BaseController {
     redisCache.setCacheList(key2, dataList);
     redisCache.expire(key2, PublicConstants.EXPIRE_TIME);
     List<String> list = redisCache.getCacheList(key2);
-    LOGGER.info("test2:{}", list);
+    logger.info("test2:{}", list);
 
     String key3 = "test3";
     Map<String, Object> dataMap = new HashMap<>(3);
@@ -153,7 +153,7 @@ public class ApiController extends BaseController {
     redisCache.setCacheMap(key3, dataMap);
     redisCache.expire(key3, PublicConstants.EXPIRE_TIME);
     Map<String, Object> map = redisCache.getCacheMap(key3);
-    LOGGER.info("test3:{}", map);
+    logger.info("test3:{}", map);
 
     String key4 = "test4";
     Set<String> dataSet = new HashSet<>();
@@ -162,13 +162,13 @@ public class ApiController extends BaseController {
     redisCache.setCacheSet(key4, dataSet);
     redisCache.expire(key4, PublicConstants.EXPIRE_TIME);
     Set<String> set = redisCache.getCacheSet(key4);
-    LOGGER.info("test4:{}", set);
+    logger.info("test4:{}", set);
 
     String key5 = "test5";
     boolean b1 = redisCache.lock(key5, 10000);
-    LOGGER.info("test5 lock:{}", b1);
+    logger.info("test5 lock:{}", b1);
     boolean b2 = redisCache.lock(key5, 10000);
-    LOGGER.info("test5 lock:{}", b2);
+    logger.info("test5 lock:{}", b2);
 
     return ResultEnum.SUCCESS.getName();
   }

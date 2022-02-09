@@ -61,12 +61,6 @@ public class SysConstants extends PublicConstants {
     public static final String DEFAULT_PARENT_ID = "-1";
     public static final String UUID = "uuid";
     
-    
-    /**
-     * 任务服务名称
-     */
-    public static final String SCHEDULE_SERVER_NAME = "oner365-system";
-    
     /**
      * Constructor
      */

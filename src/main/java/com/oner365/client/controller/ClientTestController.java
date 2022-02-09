@@ -1,7 +1,5 @@
 package com.oner365.client.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +25,6 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/client")
 public class ClientTestController extends BaseController {
 
-private static final Logger LOGGER = LoggerFactory.getLogger(ClientTestController.class);
   /**
    * 测试系统登录
    *
@@ -38,7 +35,9 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ClientTestControlle
   @ApiOperation("1.登录")
   @ApiOperationSupport(order = 1)
   public ResponseData<LoginUserDto> login(@RequestBody LoginUserVo loginUserVo) {
-	  LOGGER.error(JSON.toJSONString(loginUserVo));
+    if (logger.isDebugEnabled()) {
+      logger.debug("result:{}", JSON.toJSONString(loginUserVo));
+    }
 	  LoginUserDto dto = new LoginUserDto();
 	  dto.setRealName("成功了");
     return ResponseData.success(dto);

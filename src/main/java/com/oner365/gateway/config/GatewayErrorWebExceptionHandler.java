@@ -44,7 +44,7 @@ public class GatewayErrorWebExceptionHandler {
   public ResponseData<GatewayError> exceptionHandler(HttpServletRequest request, Exception e) {
     LOGGER.error("[网关异常] 请求路径:{}, 异常信息:{}", request.getRequestURI(), e.getMessage());
     GatewayError result = getErrorAttributes(request, e);
-    return new ResponseData<>(result, HttpStatus.INTERNAL_SERVER_ERROR.value(), ERROR_MESSAGE);
+    return ResponseData.error(result, HttpStatus.INTERNAL_SERVER_ERROR.value(), ERROR_MESSAGE);
   }
 
   private GatewayError getErrorAttributes(HttpServletRequest request, Exception error) {

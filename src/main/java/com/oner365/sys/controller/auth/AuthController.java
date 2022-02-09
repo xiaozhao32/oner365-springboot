@@ -99,7 +99,7 @@ public class AuthController extends BaseController {
     if (result != null) {
       return ResponseData.success(result);
     }
-    return new ResponseData<>(ResultEnum.ERROR.getCode(), ErrorInfoEnum.USER_NAME_NOT_NULL.getName());
+    return ResponseData.error(ErrorInfoEnum.USER_NAME_NOT_NULL.getName());
   }
 
   /**
@@ -128,7 +128,7 @@ public class AuthController extends BaseController {
       result.setUuid(uuid);
       result.setImg(Base64Utils.encodeToString(stream.toByteArray()));
     } catch (IOException e) {
-      LOGGER.error("Error captchaImage: ", e);
+      logger.error("Error captchaImage: ", e);
     }
 
     return result;
@@ -149,7 +149,7 @@ public class AuthController extends BaseController {
         return sysRoleService.findMenuByRoles(user.getRoleList(), menuType);
       }
     } catch (Exception e) {
-      LOGGER.error("Error findMenuByRoles: ", e);
+      logger.error("Error findMenuByRoles: ", e);
     }
     return Collections.emptyList();
   }
@@ -170,7 +170,7 @@ public class AuthController extends BaseController {
         return sysRoleService.findMenuOperByRoles(user.getRoleList(), menuId);
       }
     } catch (Exception e) {
-      LOGGER.error("Error findMenuOperByRoles: ", e);
+      logger.error("Error findMenuOperByRoles: ", e);
     }
     return Collections.emptyList();
   }

@@ -88,7 +88,7 @@ public class TokenInterceptor implements HandlerInterceptor {
    * @return boolean
    */
   private boolean setUnauthorizedResponse(HttpServletResponse response) {
-    ResponseData<Serializable> responseData = new ResponseData<>(HttpStatus.UNAUTHORIZED.value(),
+    ResponseData<Serializable> responseData = ResponseData.error(HttpStatus.UNAUTHORIZED.value(),
         HttpStatus.UNAUTHORIZED.name());
     response.setStatus(HttpStatus.UNAUTHORIZED.value());
     response.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);

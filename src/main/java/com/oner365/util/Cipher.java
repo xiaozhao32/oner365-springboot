@@ -14,6 +14,10 @@ public final class Cipher {
   public static final int DECRYPT = 0;
   public static final int ROUND = 32;
   public static final int BLOCK = 16;
+  
+  private Cipher() {
+    
+  }
 
   private static final byte[] SBOX = {(byte) 0xd6, (byte) 0x90, (byte) 0xe9, (byte) 0xfe,
           (byte) 0xcc, (byte) 0xe1, 0x3d, (byte) 0xb7, 0x16, (byte) 0xb6,
@@ -83,7 +87,12 @@ public final class Cipher {
 
   @SuppressWarnings("unused")
   static void sms4Crypt(byte[] input, byte[] output, int[] rk) {
-    int r, mid, x0, x1, x2, x3;
+    int r;
+    int mid; 
+    int x0;
+    int x1;
+    int x2;
+    int x3;
     int[] x = new int[4];
     int[] tmp = new int[4];
     for (int i = 0; i < 4; i++) {
@@ -121,7 +130,8 @@ public final class Cipher {
   }
 
   private static void sms4KeyExt(byte[] key, int[] rk, int cryptFlag) {
-    int r, mid;
+    int r;
+    int mid;
     int[] x = new int[4];
     int[] tmp = new int[4];
     for (int i = 0; i < 4; i++) {
@@ -170,7 +180,7 @@ public final class Cipher {
   public static int sms4(byte[] in, int inLen, byte[] key, byte[] out, int cryptFlag) {
     int point = 0;
     int[] roundKey = new int[ROUND];
-    // int[] round_key={0};
+    
     sms4KeyExt(key, roundKey, cryptFlag);
     byte[] input;
     byte[] output = new byte[16];
@@ -189,7 +199,7 @@ public final class Cipher {
 
   public static byte[] encodeSms4(String plaintext, byte[] key) {
     if (DataUtils.isEmpty(plaintext)) {
-      return null;
+      return new byte[0];
     }
     StringBuilder plain = new StringBuilder(plaintext);
     for (int i = plaintext.getBytes().length % 16; i < 16; i++) {

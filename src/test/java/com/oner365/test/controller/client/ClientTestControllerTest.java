@@ -2,6 +2,7 @@ package com.oner365.test.controller.client;
 
 import java.util.Base64;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -33,24 +34,25 @@ class ClientTestControllerTest extends BaseControllerTest {
     LoginUserVo vo = new LoginUserVo();
     vo.setUserName("admin");
     vo.setPassword("1");
-    logger.error("request body decode:{}", JSON.toJSONString(vo));
+    logger.info("request body decode:{}", JSON.toJSONString(vo));
     String key = Md5Util.getInstance().getMd5(String.valueOf(System.currentTimeMillis()));
-    logger.error("key :{}", key);
+    logger.info("key :{}", key);
     String body = Base64.getEncoder()
         .encodeToString(Cipher.encodeSms4(JSON.toJSONString(vo), key.substring(0, 16).getBytes()));
+    Assertions.assertNotNull(body);
 
-    logger.error("request body encode:{}", body);
+    logger.info("request body encode:{}", body);
     String sign = RsaUtils.buildRsaEncryptByPublicKey(key, publicKey);
-    logger.error("key rsa encode:{}", sign);
+    logger.info("key rsa encode:{}", sign);
     Mono<JSONObject> mono = client.post().uri(URL + PATH + "/login").header("sign", sign)
         .contentType(MediaType.APPLICATION_JSON).body(BodyInserters.fromValue(body)).retrieve()
         .bodyToMono(JSONObject.class);
     JSONObject result = mono.block();
-    logger.error("return result encode:{}", result);
+    logger.info("return result encode:{}", result);
     JSONObject r = JSON
         .parseObject(JSON.parseObject(Cipher.decodeSms4toString(Base64.getDecoder().decode(result.getString("result")),
             key.substring(0, 16).getBytes())).getString("result"));
-    logger.error("return result decode:{}", r);
+    logger.info("return result decode:{}", r);
   }
 
 }
