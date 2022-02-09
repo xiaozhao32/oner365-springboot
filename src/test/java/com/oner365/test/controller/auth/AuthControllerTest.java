@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import com.oner365.test.controller.BaseControllerTest;
 
@@ -14,14 +17,16 @@ import com.oner365.test.controller.BaseControllerTest;
  * @author zhaoyong
  *
  */
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class AuthControllerTest extends BaseControllerTest {
 
     private static final String PATH = "/system/auth";
 
     @Test
     void authLogin() {
-        logger.info("authLogin:[{}] -> {}", PATH + "/login", token);
-        Assertions.assertNotNull(token);
+        logger.info("authLogin:[{}] -> {}", PATH + "/login", getToken());
+        Assertions.assertNotNull(getToken());
     }
 
     @Test

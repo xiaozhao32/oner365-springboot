@@ -1,23 +1,21 @@
 package com.oner365.test.controller;
 
 import java.util.Map;
-import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.client.reactive.ClientHttpConnector;
 import org.springframework.http.client.reactive.ClientHttpRequest;
-import org.springframework.http.client.reactive.ReactorClientHttpConnector;
+import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.BodyInserter;
 import org.springframework.web.reactive.function.BodyInserters;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import com.alibaba.fastjson.JSONObject;
 import com.oner365.common.ResponseData;
+import com.oner365.common.cache.RedisCache;
 import com.oner365.test.BaseTest;
 import com.oner365.util.RequestUtils;
-
-import reactor.core.publisher.Mono;
 
 /**
  * Base Controller
@@ -25,100 +23,96 @@ import reactor.core.publisher.Mono;
  * @author zhaoyong
  *
  */
-public abstract class BaseControllerTest extends BaseTest {
+public class BaseControllerTest extends BaseTest {
 
-    protected static final String URL = "http://localhost:8704";
+  @Autowired
+  protected WebTestClient client;
+  
+  @Autowired
+  private RedisCache redisCache;
 
-    protected final WebClient client;
-
-    protected final String token;
-
-    protected BaseControllerTest() {
-        ClientHttpConnector httpConnector = new ReactorClientHttpConnector();
-        client = WebClient.builder().clientConnector(httpConnector).baseUrl(URL).build();
-        token = getToken();
+  /**
+   * Request Header Authorization
+   *
+   * @return String token
+   */
+  protected String getToken() {
+    final String cacheKey = "Auth:test:token";
+    String token = redisCache.getCacheObject(cacheKey);
+    if (token != null) {
+      return token;
     }
+    // auth
+    String url = "/system/auth/login";
+    JSONObject paramJson = new JSONObject();
+    paramJson.put("userName", "admin");
+    paramJson.put("password", "1");
 
-    /**
-     * Request Header Authorization
-     *
-     * @return String token
-     */
-    @SuppressWarnings("rawtypes")
-    protected String getToken() {
-        // auth
-        String url = "/system/auth/login";
-        JSONObject paramJson = new JSONObject();
-        paramJson.put("userName", "admin");
-        paramJson.put("password", "1");
+    ResponseData<?> response = client.post().uri(url).body(BodyInserters.fromValue(paramJson)).exchange()
+        .expectBody(ResponseData.class).returnResult().getResponseBody();
 
-        Mono<ResponseData> mono = client.post().uri(url).body(BodyInserters.fromValue(paramJson)).retrieve()
-                .bodyToMono(ResponseData.class);
+    @SuppressWarnings("unchecked")
+    Map<String, Object> result = (Map<String, Object>) response.getResult();
+    token = result.get(RequestUtils.ACCESS_TOKEN).toString();
+    redisCache.setCacheObject(cacheKey, token, 3, TimeUnit.MINUTES);
+    return token;
+  }
 
-        @SuppressWarnings("unchecked")
-        Map<String, Object> result = (Map<String, Object>) Objects.requireNonNull(mono.block()).getResult();
-        return result.get(RequestUtils.ACCESS_TOKEN).toString();
-    }
+  /**
+   * GET request
+   *
+   * @param url 请求地址
+   * @return Object ResponseData result
+   */
+  protected Object get(String url) {
+    ResponseData<?> response = client.get().uri(url).header(HttpHeaders.AUTHORIZATION, getToken()).exchange()
+        .expectBody(ResponseData.class).returnResult().getResponseBody();
+    return response.getResult();
+  }
 
-    /**
-     * GET request
-     *
-     * @param url 请求地址
-     * @return Object ResponseData result
-     */
-    @SuppressWarnings("rawtypes")
-    protected Object get(String url) {
-        Mono<ResponseData> mono = client.get().uri(url).header(HttpHeaders.AUTHORIZATION, token).retrieve()
-                .bodyToMono(ResponseData.class);
-        return Objects.requireNonNull(mono.block()).getResult();
-    }
+  /**
+   * POST request
+   *
+   * @param url           请求地址
+   * @param bodyInserters 请求Body
+   * @return Object ResponseData result
+   */
+  protected Object post(String url, BodyInserter<?, ? super ClientHttpRequest> bodyInserters) {
+    ResponseData<?> response = client.post().uri(url).header(HttpHeaders.AUTHORIZATION, getToken()).body(bodyInserters)
+        .exchange().expectBody(ResponseData.class).returnResult().getResponseBody();
+    return response.getResult();
+  }
 
-    /**
-     * POST request
-     *
-     * @param url           请求地址
-     * @param bodyInserters 请求Body
-     * @return Object ResponseData result
-     */
-    @SuppressWarnings("rawtypes")
-    protected Object post(String url, BodyInserter<?, ? super ClientHttpRequest> bodyInserters) {
-        Mono<ResponseData> mono = client.post().uri(url).header(HttpHeaders.AUTHORIZATION, token).body(bodyInserters)
-                .retrieve().bodyToMono(ResponseData.class);
-        return Objects.requireNonNull(mono.block()).getResult();
-    }
+  @SuppressWarnings({ "unchecked" })
+  protected <T> T post(String url, BodyInserter<?, ? super ClientHttpRequest> bodyInserters, Class<T> clazz) {
+    ResponseData<?> response = client.post().uri(url).header(HttpHeaders.AUTHORIZATION, getToken()).body(bodyInserters)
+        .exchange().expectBody(ResponseData.class).returnResult().getResponseBody();
+    return (T) response.getResult();
+  }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    protected <T> T post(String url, BodyInserter<?, ? super ClientHttpRequest> bodyInserters, Class<T> clazz) {
-        Mono<ResponseData> mono = client.post().uri(url).header(HttpHeaders.AUTHORIZATION, token).body(bodyInserters)
-                .retrieve().bodyToMono(ResponseData.class);
-        return (T) Objects.requireNonNull(mono.block()).getResult();
-    }
+  /**
+   * PUT request
+   *
+   * @param url           请求地址
+   * @param bodyInserters 请求Body
+   * @return Object ResponseData result
+   */
+  protected Object put(String url, BodyInserter<?, ? super ClientHttpRequest> bodyInserters) {
+    ResponseData<?> response = client.put().uri(url).header(HttpHeaders.AUTHORIZATION, getToken()).body(bodyInserters)
+        .exchange().expectBody(ResponseData.class).returnResult().getResponseBody();
+    return response.getResult();
+  }
 
-    /**
-     * PUT request
-     *
-     * @param url           请求地址
-     * @param bodyInserters 请求Body
-     * @return Object ResponseData result
-     */
-    @SuppressWarnings("rawtypes")
-    protected Object put(String url, BodyInserter<?, ? super ClientHttpRequest> bodyInserters) {
-        Mono<ResponseData> mono = client.put().uri(url).header(HttpHeaders.AUTHORIZATION, token).body(bodyInserters)
-                .retrieve().bodyToMono(ResponseData.class);
-        return Objects.requireNonNull(mono.block()).getResult();
-    }
-
-    /**
-     * DELETE request
-     *
-     * @param url           请求地址
-     * @param bodyInserters 请求Body
-     * @return Object ResponseData result
-     */
-    @SuppressWarnings("rawtypes")
-    protected Object delete(String url, BodyInserter<?, ? super ClientHttpRequest> bodyInserters) {
-        Mono<ResponseData> mono = client.method(HttpMethod.DELETE).uri(url).header(HttpHeaders.AUTHORIZATION, token)
-                .body(bodyInserters).retrieve().bodyToMono(ResponseData.class);
-        return Objects.requireNonNull(mono.block()).getResult();
-    }
+  /**
+   * DELETE request
+   *
+   * @param url           请求地址
+   * @param bodyInserters 请求Body
+   * @return Object ResponseData result
+   */
+  protected Object delete(String url, BodyInserter<?, ? super ClientHttpRequest> bodyInserters) {
+    ResponseData<?> response = client.method(HttpMethod.DELETE).uri(url).header(HttpHeaders.AUTHORIZATION, getToken()).body(bodyInserters)
+        .exchange().expectBody(ResponseData.class).returnResult().getResponseBody();
+    return response.getResult();
+  }
 }

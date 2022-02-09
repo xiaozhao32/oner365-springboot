@@ -4,7 +4,10 @@ import java.util.Base64;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.reactive.function.BodyInserters;
 
 import com.alibaba.fastjson.JSON;
@@ -15,13 +18,13 @@ import com.oner365.util.Cipher;
 import com.oner365.util.Md5Util;
 import com.oner365.util.RsaUtils;
 
-import reactor.core.publisher.Mono;
-
 /**
  * Test ClientTestController
  *
  * @author liutao
  */
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class ClientTestControllerTest extends BaseControllerTest {
 
   private static final String PATH = "/client";
@@ -44,10 +47,9 @@ class ClientTestControllerTest extends BaseControllerTest {
     logger.info("request body encode:{}", body);
     String sign = RsaUtils.buildRsaEncryptByPublicKey(key, publicKey);
     logger.info("key rsa encode:{}", sign);
-    Mono<JSONObject> mono = client.post().uri(URL + PATH + "/login").header("sign", sign)
-        .contentType(MediaType.APPLICATION_JSON).body(BodyInserters.fromValue(body)).retrieve()
-        .bodyToMono(JSONObject.class);
-    JSONObject result = mono.block();
+    JSONObject result = client.post().uri(PATH + "/login").header("sign", sign)
+        .contentType(MediaType.APPLICATION_JSON).body(BodyInserters.fromValue(body)).exchange()
+        .expectBody(JSONObject.class).returnResult().getResponseBody();
     logger.info("return result encode:{}", result);
     JSONObject r = JSON
         .parseObject(JSON.parseObject(Cipher.decodeSms4toString(Base64.getDecoder().decode(result.getString("result")),

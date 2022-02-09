@@ -62,7 +62,7 @@ spring:
     port: 5672
     username: admin
     password: admin123
-    connection-timeout: 6000
+    connection-timeout: 60s
 
     listener:
       simple:
@@ -97,7 +97,7 @@ spring:
         max-size: 60
         core-size: 10
         queue-capacity: 100
-        keep-alive: 90
+        keep-alive: 90s
 
 # mybatis
 mybatis:

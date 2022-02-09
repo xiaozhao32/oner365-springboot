@@ -8,6 +8,7 @@ import java.io.InputStream;
 import org.apache.http.entity.ContentType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import com.oner365.test.service.BaseServiceTest;
 import com.oner365.util.DataUtils;
@@ -28,6 +29,7 @@ import io.minio.RemoveObjectArgs;
  * @author zhaoyong
  *
  */
+@SpringBootTest
 class MinioFileUtilsTest extends BaseServiceTest {
   
   @Test
