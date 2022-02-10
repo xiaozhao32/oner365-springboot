@@ -32,7 +32,7 @@ import cn.smallbun.screw.core.process.ProcessConfig;
 class ScrewUtilsTest extends BaseUtilsTest {
 
   @Autowired
-  private DruidDataSource druidDataSource;
+  private DataSource dataSource;
 
   @Autowired
   private DefaultFileProperties fileProperties;
@@ -47,6 +47,7 @@ class ScrewUtilsTest extends BaseUtilsTest {
    * 文档生成
    */
   private void documentGeneration() {
+    DruidDataSource druidDataSource = (DruidDataSource) dataSource;
     // 数据源
     HikariConfig hikariConfig = new HikariConfig();
     hikariConfig.setDriverClassName(druidDataSource.getDriverClassName());
