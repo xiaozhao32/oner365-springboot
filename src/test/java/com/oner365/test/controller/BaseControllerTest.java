@@ -1,9 +1,10 @@
 package com.oner365.test.controller;
 
-import java.util.Map;
+import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.client.reactive.ClientHttpRequest;
@@ -14,8 +15,9 @@ import org.springframework.web.reactive.function.BodyInserters;
 import com.alibaba.fastjson.JSONObject;
 import com.oner365.common.ResponseData;
 import com.oner365.common.cache.RedisCache;
+import com.oner365.common.enums.ResultEnum;
+import com.oner365.sys.dto.LoginUserDto;
 import com.oner365.test.BaseTest;
-import com.oner365.util.RequestUtils;
 
 /**
  * Base Controller
@@ -48,13 +50,14 @@ public class BaseControllerTest extends BaseTest {
     paramJson.put("userName", "admin");
     paramJson.put("password", "1");
 
-    ResponseData<?> response = client.post().uri(url).body(BodyInserters.fromValue(paramJson)).exchange()
-        .expectBody(ResponseData.class).returnResult().getResponseBody();
+    ResponseData<LoginUserDto> response = client.post().uri(url).body(BodyInserters.fromValue(paramJson)).exchange()
+        .expectBody(new ParameterizedTypeReference<ResponseData<LoginUserDto>>() {}).returnResult().getResponseBody();
 
-    @SuppressWarnings("unchecked")
-    Map<String, Object> result = (Map<String, Object>) response.getResult();
-    token = result.get(RequestUtils.ACCESS_TOKEN).toString();
-    redisCache.setCacheObject(cacheKey, token, 3, TimeUnit.MINUTES);
+    LoginUserDto result = response.getResult();
+    if (ResultEnum.SUCCESS.getCode().equals(response.getCode()) && result != null) {
+      token = result.getAccessToken();
+      redisCache.setCacheObject(cacheKey, token, 3, TimeUnit.MINUTES);
+    }
     return token;
   }
 
@@ -83,11 +86,10 @@ public class BaseControllerTest extends BaseTest {
     return response.getResult();
   }
 
-  @SuppressWarnings({ "unchecked" })
-  protected <T> T post(String url, BodyInserter<?, ? super ClientHttpRequest> bodyInserters, Class<T> clazz) {
-    ResponseData<?> response = client.post().uri(url).header(HttpHeaders.AUTHORIZATION, getToken()).body(bodyInserters)
-        .exchange().expectBody(ResponseData.class).returnResult().getResponseBody();
-    return (T) response.getResult();
+  protected <T extends Serializable> T post(String url, BodyInserter<?, ? super ClientHttpRequest> bodyInserters, Class<T> clazz) {
+    ResponseData<T> response = client.post().uri(url).header(HttpHeaders.AUTHORIZATION, getToken()).body(bodyInserters)
+        .exchange().expectBody(new ParameterizedTypeReference<ResponseData<T>>() {}).returnResult().getResponseBody();
+    return response.getResult();
   }
 
   /**
