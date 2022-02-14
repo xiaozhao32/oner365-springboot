@@ -1,7 +1,6 @@
 package com.oner365.generator.controller;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +25,9 @@ import com.oner365.common.auth.AuthUser;
 import com.oner365.common.auth.annotation.CurrentUser;
 import com.oner365.common.constants.PublicConstants;
 import com.oner365.common.enums.ResultEnum;
+import com.oner365.common.page.PageInfo;
 import com.oner365.controller.BaseController;
+import com.oner365.generator.dto.GenTableInfoDto;
 import com.oner365.generator.entity.GenTable;
 import com.oner365.generator.entity.GenTableColumn;
 import com.oner365.generator.service.IGenTableColumnService;
@@ -59,12 +60,9 @@ public class GeneratorController extends BaseController {
   @ApiOperation("1.生成列表")
   @ApiOperationSupport(order = 1)
   @PostMapping("/list")
-  public Map<String, Object> genList(@RequestBody GenTable genTable) {
+  public PageInfo<GenTable> genList(@RequestBody GenTable genTable) {
     List<GenTable> list = genTableService.selectGenTableList(genTable);
-    Map<String, Object> result = new HashMap<>(2);
-    result.put(PublicConstants.PARAM_LIST, list);
-    result.put(PublicConstants.PARAM_COUNT, list.size());
-    return result;
+    return new PageInfo<GenTable>(list, 1, PublicConstants.PAGE_SIZE, list.size());
   }
 
   /**
@@ -73,12 +71,9 @@ public class GeneratorController extends BaseController {
   @ApiOperation("2.查询数据库列表")
   @ApiOperationSupport(order = 2)
   @PostMapping("/db/list")
-  public Map<String, Object> dataList(@RequestBody GenTable genTable) {
+  public PageInfo<GenTable> dataList(@RequestBody GenTable genTable) {
     List<GenTable> list = genTableService.selectDbTableList(genTable);
-    Map<String, Object> result = new HashMap<>(2);
-    result.put(PublicConstants.PARAM_LIST, list);
-    result.put(PublicConstants.PARAM_COUNT, list.size());
-    return result;
+    return new PageInfo<GenTable>(list, 1, PublicConstants.PAGE_SIZE, list.size());
   }
 
   /**
@@ -87,12 +82,9 @@ public class GeneratorController extends BaseController {
   @ApiOperation("3.查询字段列表")
   @ApiOperationSupport(order = 3)
   @GetMapping(value = "/column/{tableId}")
-  public Map<String, Object> columnList(@PathVariable Long tableId) {
+  public PageInfo<GenTableColumn> columnList(@PathVariable Long tableId) {
     List<GenTableColumn> list = genTableColumnService.selectGenTableColumnListByTableId(tableId);
-    Map<String, Object> result = new HashMap<>(2);
-    result.put(PublicConstants.PARAM_LIST, list);
-    result.put(PublicConstants.PARAM_COUNT, list.size());
-    return result;
+    return new PageInfo<GenTableColumn>(list, 1, PublicConstants.PAGE_SIZE, list.size());
   }
 
   /**
@@ -101,13 +93,10 @@ public class GeneratorController extends BaseController {
   @ApiOperation("4.获取生成信息")
   @ApiOperationSupport(order = 4)
   @GetMapping(value = "/{tableId}")
-  public Map<String, Object> getInfo(@PathVariable Long tableId) {
+  public GenTableInfoDto getInfo(@PathVariable Long tableId) {
     GenTable table = genTableService.selectGenTableById(tableId);
     List<GenTableColumn> list = genTableColumnService.selectGenTableColumnListByTableId(tableId);
-    Map<String, Object> result = new HashMap<>(2);
-    result.put(PublicConstants.MSG, table);
-    result.put(PublicConstants.PARAM_LIST, list);
-    return result;
+    return new GenTableInfoDto(table, list);
   }
 
   /**
@@ -116,13 +105,10 @@ public class GeneratorController extends BaseController {
   @ApiOperation("5.保存生成信息")
   @ApiOperationSupport(order = 5)
   @PutMapping
-  public Map<String, Object> editSave(@Validated @RequestBody GenTable genTable) {
+  public Integer updateGenTable(@Validated @RequestBody GenTable genTable) {
     genTableService.validateEdit(genTable);
     genTableService.updateGenTable(genTable);
-
-    Map<String, Object> result = new HashMap<>(2);
-    result.put(PublicConstants.CODE, ResultEnum.SUCCESS.getCode());
-    return result;
+    return ResultEnum.SUCCESS.getCode();
   }
 
   /**
@@ -152,11 +138,9 @@ public class GeneratorController extends BaseController {
   @ApiOperation("8.生成代码")
   @ApiOperationSupport(order = 8)
   @GetMapping("/code/{tableName}")
-  public Map<String, Object> genCode(@PathVariable("tableName") String tableName) {
+  public Integer genCode(@PathVariable("tableName") String tableName) {
     genTableService.generatorCode(tableName);
-    Map<String, Object> result = new HashMap<>(2);
-    result.put(PublicConstants.CODE, ResultEnum.SUCCESS.getCode());
-    return result;
+    return ResultEnum.SUCCESS.getCode();
   }
 
   /**
@@ -165,11 +149,9 @@ public class GeneratorController extends BaseController {
   @ApiOperation("9.同步数据库")
   @ApiOperationSupport(order = 9)
   @GetMapping("/sync/{tableName}")
-  public Map<String, Object> syncDb(@PathVariable("tableName") String tableName) {
+  public Integer syncDb(@PathVariable("tableName") String tableName) {
     genTableService.syncDb(tableName);
-    Map<String, Object> result = new HashMap<>(2);
-    result.put(PublicConstants.CODE, ResultEnum.SUCCESS.getCode());
-    return result;
+    return ResultEnum.SUCCESS.getCode();
   }
 
   /**
@@ -190,11 +172,9 @@ public class GeneratorController extends BaseController {
   @ApiOperation("11.删除代码生成")
   @ApiOperationSupport(order = 11)
   @DeleteMapping("/{tableIds}")
-  public Map<String, Object> remove(@PathVariable Long[] tableIds) {
+  public Integer remove(@PathVariable Long[] tableIds) {
     genTableService.deleteGenTableByIds(tableIds);
-    Map<String, Object> result = new HashMap<>(2);
-    result.put(PublicConstants.CODE, ResultEnum.SUCCESS.getCode());
-    return result;
+    return ResultEnum.SUCCESS.getCode();
   }
 
   /**
@@ -203,16 +183,13 @@ public class GeneratorController extends BaseController {
   @ApiOperation("12.导入表结构")
   @ApiOperationSupport(order = 12)
   @PostMapping("/import")
-  public Map<String, Object> importTableSave(@ApiIgnore @CurrentUser AuthUser authUser, String tables) {
+  public Integer importTableSave(@ApiIgnore @CurrentUser AuthUser authUser, String tables) {
     String operName = authUser == null ? null : authUser.getUserName();
     String[] tableNames = ConvertString.toStrArray(tables);
     // 查询表信息
     List<GenTable> tableList = genTableService.selectDbTableListByNames(tableNames);
     genTableService.importGenTable(tableList, operName);
-
-    Map<String, Object> result = new HashMap<>(2);
-    result.put(PublicConstants.CODE, ResultEnum.SUCCESS.getCode());
-    return result;
+    return ResultEnum.SUCCESS.getCode();
   }
 
   /**

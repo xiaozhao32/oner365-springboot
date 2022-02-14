@@ -2,7 +2,6 @@ package com.oner365.generator.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 
 /**
  * 读取代码生成相关配置
@@ -11,7 +10,6 @@ import org.springframework.context.annotation.PropertySource;
  */
 @Configuration
 @ConfigurationProperties(prefix = "gen")
-@PropertySource(value = { "classpath:generator.yml" })
 public class GenConfig {
     
     /** 作者 */
