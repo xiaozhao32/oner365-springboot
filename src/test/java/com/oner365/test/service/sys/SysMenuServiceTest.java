@@ -67,7 +67,6 @@ class SysMenuServiceTest extends BaseServiceTest {
 
   @Test
   void selectList() {
-    // cache error
     SysMenuVo menu = new SysMenuVo();
     menu.setMenuTypeId("1");
     List<SysMenuDto> list = service.selectList(menu);

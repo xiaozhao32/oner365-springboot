@@ -52,7 +52,6 @@ class SysOrganizationServiceTest extends BaseServiceTest {
   @Test
   void selectList() {
     SysOrganizationVo sysOrg = new SysOrganizationVo();
-    // cache error
     List<SysOrganizationDto> list = service.selectList(sysOrg);
     logger.info("selectList:{}", list.size());
     Assertions.assertNotEquals(0, list.size());
