@@ -31,6 +31,10 @@
 			<name>zhaoyong</name>
 			<email>xiaozhao32@hotmail.com</email>
 		</developer>
+		<developer>
+			<name>liutao</name>
+			<email>liutao@nationsky.com</email>
+		</developer>
 	</developers>
 
 	<properties>
@@ -492,6 +496,11 @@
 			<groupId>org.elasticsearch</groupId>
 			<artifactId>elasticsearch</artifactId>
 			<version>${org.elasticsearch.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.elasticsearch</groupId>
+		    <artifactId>elasticsearch-x-content</artifactId>
+		    <version>${org.elasticsearch.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.elasticsearch.client</groupId>
