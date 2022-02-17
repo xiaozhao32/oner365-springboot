@@ -1,4 +1,4 @@
-package com.oner365.service;
+package com.oner365.common.service;
 
 import java.io.Serializable;
 import java.util.Collections;

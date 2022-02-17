@@ -2,7 +2,7 @@ package com.oner365.sys.service;
 
 import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.QueryCriteriaBean;
-import com.oner365.service.BaseService;
+import com.oner365.common.service.BaseService;
 import com.oner365.sys.dto.DataSourceConfigDto;
 import com.oner365.sys.vo.DataSourceConfigVo;
 

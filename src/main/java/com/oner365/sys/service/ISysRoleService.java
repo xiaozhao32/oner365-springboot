@@ -5,7 +5,7 @@ import java.util.List;
 import com.alibaba.fastjson.JSONArray;
 import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.QueryCriteriaBean;
-import com.oner365.service.BaseService;
+import com.oner365.common.service.BaseService;
 import com.oner365.sys.dto.SysMenuOperDto;
 import com.oner365.sys.dto.SysMenuTreeDto;
 import com.oner365.sys.dto.SysRoleDto;

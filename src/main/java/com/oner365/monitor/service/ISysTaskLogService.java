@@ -2,9 +2,9 @@ package com.oner365.monitor.service;
 
 import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.QueryCriteriaBean;
+import com.oner365.common.service.BaseService;
 import com.oner365.monitor.dto.SysTaskLogDto;
 import com.oner365.monitor.vo.SysTaskLogVo;
-import com.oner365.service.BaseService;
 
 /**
  * 定时任务调度日志信息信息 服务层

@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component;
 
 import com.oner365.api.constants.ScheduleTaskConstants;
 import com.oner365.api.rabbitmq.dto.UpdateTaskExecuteStatusDto;
+import com.oner365.common.service.BaseService;
 import com.oner365.monitor.dto.SysTaskLogDto;
 import com.oner365.monitor.exception.TaskException;
-import com.oner365.service.BaseService;
 
 /**
  * 定时任务队列

@@ -64,7 +64,7 @@ public class AuthController extends BaseController {
    * 系统登录
    *
    * @param loginUserVo 登录对象
-   * @return ResponseData
+   * @return ResponseData<LoginUserDto>
    */
   @PostMapping("/login")
   @ApiOperation("1.登录")
@@ -138,7 +138,7 @@ public class AuthController extends BaseController {
    * 获取左侧菜单
    *
    * @param menuType 菜单类型
-   * @return JSONArray
+   * @return List<SysMenuTreeDto>
    */
   @ApiOperation("3.获取菜单权限")
   @ApiOperationSupport(order = 3)
@@ -158,7 +158,7 @@ public class AuthController extends BaseController {
    * 获取菜单对应权限
    *
    * @param menuId 菜单id
-   * @return List<Map<String, Object>>
+   * @return List<SysMenuOperDto>
    */
   @ApiOperation("4.获取菜单操作权限")
   @ApiOperationSupport(order = 4)

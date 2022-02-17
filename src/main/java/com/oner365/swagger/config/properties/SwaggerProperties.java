@@ -1,4 +1,4 @@
-package com.oner365.common.config.properties;
+package com.oner365.swagger.config.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;

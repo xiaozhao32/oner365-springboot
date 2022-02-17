@@ -1,4 +1,4 @@
-package com.oner365.common.config;
+package com.oner365.monitor.config;
 
 import javax.net.ssl.SSLException;
 

@@ -8,8 +8,8 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
 import com.oner365.api.constants.ScheduleTaskConstants;
+import com.oner365.common.service.BaseService;
 import com.oner365.monitor.dto.InvokeParamDto;
-import com.oner365.service.BaseService;
 
 /**
  * 定时任务监听

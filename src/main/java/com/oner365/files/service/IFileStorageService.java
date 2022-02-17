@@ -4,9 +4,9 @@ import java.util.List;
 
 import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.QueryCriteriaBean;
+import com.oner365.common.service.BaseService;
 import com.oner365.files.dto.SysFileStorageDto;
 import com.oner365.files.vo.SysFileStorageVo;
-import com.oner365.service.BaseService;
 
 /**
  * 文件接口

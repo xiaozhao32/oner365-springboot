@@ -2,7 +2,7 @@ package com.oner365.sys.service;
 
 import java.util.List;
 
-import com.oner365.service.BaseService;
+import com.oner365.common.service.BaseService;
 import com.oner365.sys.dto.SysOrganizationDto;
 import com.oner365.sys.dto.TreeSelect;
 import com.oner365.sys.vo.SysOrganizationVo;

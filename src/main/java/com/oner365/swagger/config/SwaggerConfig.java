@@ -1,4 +1,4 @@
-package com.oner365.common.config;
+package com.oner365.swagger.config;
 
 import java.util.Collections;
 import java.util.List;
@@ -10,8 +10,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.oner365.common.config.properties.SwaggerProperties;
 import com.oner365.common.constants.PublicConstants;
+import com.oner365.swagger.config.properties.SwaggerProperties;
 
 import io.swagger.models.auth.In;
 import springfox.documentation.builders.ApiInfoBuilder;

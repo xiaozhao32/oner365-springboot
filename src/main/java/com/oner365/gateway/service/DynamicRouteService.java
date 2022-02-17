@@ -5,9 +5,9 @@ import java.util.Map;
 
 import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.QueryCriteriaBean;
+import com.oner365.common.service.BaseService;
 import com.oner365.gateway.dto.GatewayRouteDto;
 import com.oner365.gateway.vo.GatewayRouteVo;
-import com.oner365.service.BaseService;
 
 /**
  * 动态路由服务接口

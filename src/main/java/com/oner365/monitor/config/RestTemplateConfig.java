@@ -1,4 +1,4 @@
-package com.oner365.common.config;
+package com.oner365.monitor.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
