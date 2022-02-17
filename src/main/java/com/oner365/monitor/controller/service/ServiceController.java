@@ -1,10 +1,9 @@
 package com.oner365.monitor.controller.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import com.oner365.monitor.dto.ServiceInfoDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,31 +36,31 @@ public class ServiceController extends BaseController {
 
   @Autowired
   private CommonProperties commonProperties;
-  
+
   @Autowired
   private DeployService deployService;
-  
+
   /**
    * 基本信息
    *
-   * @return List<List<Map<String, Object>>>
+   * @return List<List<ServiceInfoDto>>
    */
   @ApiOperation("1.首页")
   @ApiOperationSupport(order = 1)
   @GetMapping("/index")
-  public List<List<Map<String, Object>>> index() {
-    List<List<Map<String, Object>>> serviceList = new ArrayList<>();
-    List<Map<String, Object>> serviceInstances = new ArrayList<>();
+  public List<List<ServiceInfoDto>> index() {
+    List<List<ServiceInfoDto>> serviceList = new ArrayList<>();
+    List<ServiceInfoDto> serviceInstances = new ArrayList<>();
 
     // 获取服务中的实例列表
-    Map<String, Object> map = new HashMap<>(10);
-    map.put("serviceId", commonProperties.getServiceId());
-    map.put("host", commonProperties.getHost());
-    map.put("port", commonProperties.getPort());
-    map.put("uri", "http://" + commonProperties.getHost() + ":" + commonProperties.getPort());
-    map.put("instanceId", commonProperties.getServiceId());
-    map.put("scheme", commonProperties.getScheme());
-    serviceInstances.add(map);
+    ServiceInfoDto serviceInfoDto = new ServiceInfoDto();
+    serviceInfoDto.setServiceId(commonProperties.getServiceId());
+    serviceInfoDto.setHost(commonProperties.getHost());
+    serviceInfoDto.setPort(commonProperties.getPort());
+    serviceInfoDto.setUri("http://" + commonProperties.getHost() + ":" + commonProperties.getPort());
+    serviceInfoDto.setInstanceId(commonProperties.getServiceId());
+    serviceInfoDto.setScheme(commonProperties.getScheme());
+    serviceInstances.add(serviceInfoDto);
     serviceList.add(serviceInstances);
     return serviceList;
   }
