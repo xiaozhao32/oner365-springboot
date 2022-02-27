@@ -56,13 +56,14 @@ public class ElasticsearchInfoController extends BaseController {
   @GetMapping("/index")
   public TransportClientDto index() {
     // 创建客户端
-    ClientConfiguration configuration = ClientConfiguration.builder().connectedTo(commonProperties.getUris()).build();
+    String uri = StringUtils.substringAfter(commonProperties.getUris(), "http://");
+    ClientConfiguration configuration = ClientConfiguration.builder().connectedTo(uri).build();
     try (RestHighLevelClient client = RestClients.create(configuration).rest()) {
       ClusterHealthResponse healthResponse = client.cluster().health(new ClusterHealthRequest(), RequestOptions.DEFAULT);
 
       TransportClientDto result = new TransportClientDto();
-      result.setHostname(StringUtils.substringBefore(commonProperties.getUris(), ":"));
-      result.setPort(Integer.parseInt(StringUtils.substringAfter(commonProperties.getUris(), ":")));
+      result.setHostname(StringUtils.substringBefore(uri, ":"));
+      result.setPort(Integer.parseInt(StringUtils.substringAfter(uri, ":")));
       result.setClusterName(healthResponse.getClusterName());
       result.setNumberOfDataNodes(healthResponse.getNumberOfDataNodes());
       result.setActiveShards(healthResponse.getActiveShards());
