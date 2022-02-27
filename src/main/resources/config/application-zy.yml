@@ -45,7 +45,7 @@ spring:
 
   # elasticsearch
   elasticsearch:
-    uris: localhost:9200
+    uris: http://localhost:9200
 
   data:
     redis:
@@ -58,7 +58,7 @@ spring:
 
   # rabbitmq
   rabbitmq:
-    host: 127.0.0.1
+    host: localhost
     port: 5672
     username: admin
     password: admin123
@@ -72,7 +72,7 @@ spring:
   # redis
   redis:
     enable: true
-    host: 127.0.0.1
+    host: localhost
     port: 6379
     password: 
     database: 1
@@ -166,15 +166,15 @@ local:
 fdfs:
   connect-timeout: 60
   so-timeout: 1500
-  tracker-list: 192.168.101.130:22122
+  tracker-list: 192.168.213.131:22122
   thumb-image:
     height: 150
     width: 150
-  web-server-url: http://192.168.101.130
-  ip: 192.168.101.130
+  web-server-url: http://192.168.213.131
+  ip: 192.168.213.131
   port: 22
   user: root
-  password: root
+  password: 1234
   storage:
     # 用于文件路径展示
     path: /data/fastdfs-storage/data
