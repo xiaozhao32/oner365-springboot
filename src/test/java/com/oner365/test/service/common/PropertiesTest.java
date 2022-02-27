@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.alibaba.fastjson.JSON;
 import com.oner365.files.config.properties.FileFdfsProperties;
 import com.oner365.files.config.properties.FileLocalProperties;
-import com.oner365.files.config.properties.FileMinioProperties;
+import com.oner365.files.config.properties.MinioProperties;
 import com.oner365.test.service.BaseServiceTest;
 
 /**
@@ -26,7 +26,7 @@ class PropertiesTest extends BaseServiceTest {
   private FileFdfsProperties fileFdfsProperties;
   
   @Autowired
-  private FileMinioProperties fileMinioProperties;
+  private MinioProperties minioProperties;
   
   @Test
   void fileLocalPropertiesTest() {
@@ -42,7 +42,7 @@ class PropertiesTest extends BaseServiceTest {
   
   @Test
   void fileMinioPropertiesTest() {
-    Assertions.assertNotNull(fileMinioProperties);
-    logger.info("Minio properties:{}", JSON.toJSONString(fileMinioProperties));
+    Assertions.assertNotNull(minioProperties);
+    logger.info("Minio properties:{}", JSON.toJSONString(minioProperties));
   }
 }
