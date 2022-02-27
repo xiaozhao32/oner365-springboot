@@ -190,7 +190,7 @@ fdfs:
 minio:
   username: root
   password: e8818da9cc9
-  url: http://192.168.101.23:9003
+  url: http://localhost:9001
   bucket: ${spring.application.name}
 
 # druid
