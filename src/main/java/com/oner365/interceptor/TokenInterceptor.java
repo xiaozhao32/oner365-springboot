@@ -78,7 +78,7 @@ public class TokenInterceptor implements HandlerInterceptor {
     }
 
     // 返回错误信息
-    return setUnauthorizedResponse(response);
+    return setUnauthorizedResponse(request, response);
   }
 
   /**
@@ -87,13 +87,15 @@ public class TokenInterceptor implements HandlerInterceptor {
    * @param response HttpServletResponse
    * @return boolean
    */
-  private boolean setUnauthorizedResponse(HttpServletResponse response) {
+  private boolean setUnauthorizedResponse(HttpServletRequest request, HttpServletResponse response) {
     ResponseData<Serializable> responseData = ResponseData.error(HttpStatus.UNAUTHORIZED.value(),
         HttpStatus.UNAUTHORIZED.name());
     response.setStatus(HttpStatus.UNAUTHORIZED.value());
     response.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
     // 写出
     try {
+      // 返回错误消息
+      LOGGER.error("[{}] Client Unauthorized error. Request uri: {}", HttpStatus.UNAUTHORIZED.value(), request.getRequestURI());
       response.getOutputStream().write(JSON.toJSONString(responseData).getBytes());
     } catch (IOException e) {
       LOGGER.error("TokenInterceptor setUnauthorizedResponse error", e);
