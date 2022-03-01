@@ -5,6 +5,10 @@ server:
     context-path: /
   tomcat:
     uri-encoding: UTF-8
+    #最大连接数（最大30000）默认值200
+    max-connections: 15000
+    #当tomcat连接数已达最大，接受排队的请求个数默认值100
+    accept-count: 1500
     threads:
       max: 800
       min-spare: 30
@@ -45,7 +49,7 @@ spring:
 
   # elasticsearch
   elasticsearch:
-    uris: localhost:9200
+    uris: http://localhost:9200
 
   data:
     redis:
@@ -83,6 +87,7 @@ spring:
         max-idle: 8
         max-active: 8
         max-wait: -1ms
+
 
   jpa:
     open-in-view: true
