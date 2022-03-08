@@ -185,6 +185,7 @@ public class AuthController extends BaseController {
   @PostMapping("/logout")
   public String logout(@ApiIgnore @CurrentUser AuthUser authUser) {
     if (authUser != null) {
+      RequestUtils.remove();
       String key = CacheConstants.CACHE_LOGIN_NAME + authUser.getUserName();
       redisCache.deleteObject(key);
     }
