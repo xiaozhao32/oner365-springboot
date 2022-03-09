@@ -1,0 +1,32 @@
+package com.oner365.test.dao.sys;
+
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.oner365.sys.dao.ISysRoleMenuDao;
+import com.oner365.test.dao.BaseDaoTest;
+
+/**
+ * Test SysRoleMenuDao
+ *
+ * @author zhaoyong
+ *
+ */
+@SpringBootTest
+public class SysRoleMenuDaoTest extends BaseDaoTest {
+  
+  @Autowired
+  private ISysRoleMenuDao dao;
+  
+  @Test
+  void findUserJobByUserId() {
+    String roleId = "1";
+    String menuTypeId = "1";
+    List<String> result = dao.findMenuListByRoleId(roleId, menuTypeId);
+    logger.info("result:{}", result.size());
+  }
+
+}

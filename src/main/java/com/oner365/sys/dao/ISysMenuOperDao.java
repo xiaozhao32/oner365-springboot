@@ -23,7 +23,7 @@ public interface ISysMenuOperDao extends JpaRepository<SysMenuOper, String>,JpaS
      * @param menuId 菜单主键
      * @return List
      */
-    @Query(value = "select operation_id from nt_sys_menu_oper  where menu_id=?1", nativeQuery = true)
+    @Query(value = "select sysMenuOperation.id from SysMenuOper where menuId=?1")
     List<String> selectByMenuId(String menuId);
 
     /**
@@ -32,7 +32,7 @@ public interface ISysMenuOperDao extends JpaRepository<SysMenuOper, String>,JpaS
      */
     @Transactional(rollbackFor = ProjectRuntimeException.class)
     @Modifying(clearAutomatically = true)
-    @Query(value = "delete from nt_sys_menu_oper where menu_id=?1 ",nativeQuery = true)
+    @Query(value = "delete from SysMenuOper where menuId=?1 ")
     void deleteByMenuId(String menuId);
 
     /**
@@ -41,6 +41,6 @@ public interface ISysMenuOperDao extends JpaRepository<SysMenuOper, String>,JpaS
      */
     @Transactional(rollbackFor = ProjectRuntimeException.class)
     @Modifying(clearAutomatically = true)
-    @Query(value = "delete from nt_sys_menu_oper where operation_id=?1 ",nativeQuery = true)
+    @Query(value = "delete from SysMenuOper where sysMenuOperation.id=?1 ")
     void deleteByOperationId(String operationId);
 }

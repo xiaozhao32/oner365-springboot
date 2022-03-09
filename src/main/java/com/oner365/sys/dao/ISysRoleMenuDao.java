@@ -23,7 +23,7 @@ public interface ISysRoleMenuDao extends JpaRepository<SysRoleMenu, String>,JpaS
      * @param menuTypeId 菜单类型编号
      * @return List
      */
-    @Query(value = "select menu_id from nt_sys_role_menu where role_id=?1 and menu_type_id=?2",nativeQuery = true)
+    @Query(value = "select menuId from SysRoleMenu where roleId=?1 and menuTypeId=?2")
     List<String> findMenuListByRoleId(String roleId, String menuTypeId);
 
     /**
@@ -32,7 +32,7 @@ public interface ISysRoleMenuDao extends JpaRepository<SysRoleMenu, String>,JpaS
      */
     @Modifying(clearAutomatically = true)
     @Transactional(rollbackFor = ProjectRuntimeException.class)
-    @Query(value = "delete from nt_sys_role_menu where role_id=?1",nativeQuery = true)
+    @Query(value = "delete from SysRoleMenu where roleId=?1")
     void deleteRoleMenuByRoleId(String roleId);
 
     /**
@@ -41,7 +41,7 @@ public interface ISysRoleMenuDao extends JpaRepository<SysRoleMenu, String>,JpaS
      */
     @Modifying(clearAutomatically = true)
     @Transactional(rollbackFor = ProjectRuntimeException.class)
-    @Query(value = "delete from nt_sys_role_menu where menu_id=?1",nativeQuery = true)
+    @Query(value = "delete from SysRoleMenu where menuId=?1")
     void deleteByMenuId(String menuId);
 
 }

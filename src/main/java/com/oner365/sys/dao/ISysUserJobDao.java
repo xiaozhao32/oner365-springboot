@@ -22,7 +22,7 @@ public interface ISysUserJobDao extends JpaRepository<SysUserJob, String>,JpaSpe
      * @param userId 用户编号
      * @return List
      */
-    @Query(value = "select o.id from nt_sys_job o, nt_sys_user_job s where o.id=s.job_id and s.user_id=?1",nativeQuery = true)
+    @Query(value = "select sysJob.id from SysUserJob where sysUser.id=?1 ")
     List<String> findUserJobByUserId(String userId);
 
     /**

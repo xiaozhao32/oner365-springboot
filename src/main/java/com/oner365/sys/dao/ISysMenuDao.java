@@ -19,7 +19,7 @@ public interface ISysMenuDao extends JpaRepository<SysMenu, String>, JpaSpecific
      * @param typeCode 菜单编号
      * @return List
      */
-    @Query(value = "select m.* from nt_sys_menu    m, nt_sys_menu_type t where m.menu_type_id=t.id and t.type_code=?1 and m.status='1' order by m.menu_order ", nativeQuery = true)
+    @Query(value = "select m from SysMenu m, SysMenuType t where m.menuTypeId=t.id and m.status='1' and t.typeCode=?1")
     List<SysMenu> findMenuByTypeCode(String typeCode);
 
 }

@@ -25,7 +25,7 @@ public interface ISysRoleMenuOperDao extends JpaRepository<SysRoleMenuOper, Stri
      * @param menuTypeId 菜单类型编号
      * @return List
      */
-    @Query(value = "select menu_id as menuId,operation_id as operationId from nt_sys_role_menu_oper where role_id=?1 and menu_type_id=?2",nativeQuery = true)
+    @Query(value = "select menuId as menuId,operationId as operationId from SysRoleMenuOper where roleId=?1 and menuTypeId=?2")
     List<Map<String,String>> findMenuOperListByRoleId(String roleId, String menuTypeId);
 
     /**
@@ -34,7 +34,7 @@ public interface ISysRoleMenuOperDao extends JpaRepository<SysRoleMenuOper, Stri
      */
     @Modifying(clearAutomatically = true)
     @Transactional(rollbackFor = ProjectRuntimeException.class)
-    @Query(value = "delete from nt_sys_role_menu_oper where role_id=?1",nativeQuery = true)
+    @Query(value = "delete from SysRoleMenuOper where roleId=?1")
     void deleteRoleMenuOperByRoleId(String roleId);
 
     /**
@@ -43,7 +43,7 @@ public interface ISysRoleMenuOperDao extends JpaRepository<SysRoleMenuOper, Stri
      * @param menuId 菜单编号
      * @return List
      */
-    @Query(value = "select DISTINCT b.id as operId,b.operation_name as operName,b.operation_type as operType from nt_sys_role_menu_oper a,nt_sys_operation b where a.role_id in (:roles) and a.operation_id=b.id and a.menu_id=:menuId",nativeQuery = true)
+    @Query(value = "select DISTINCT b.id as operId,b.operationName as operName,b.operationType as operType from SysRoleMenuOper a, SysMenuOperation b where a.operationId=b.id and a.roleId in (:roles) and a.menuId=:menuId")
     List<Map<String, String>> findMenuOperByRoles(@Param("roles") List<String> roles, @Param("menuId") String menuId);
 
 }

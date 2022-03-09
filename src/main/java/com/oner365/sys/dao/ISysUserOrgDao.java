@@ -23,7 +23,7 @@ public interface ISysUserOrgDao extends JpaRepository<SysUserOrg, String>,JpaSpe
      * @param userId 用户编号
      * @return List
      */
-    @Query(value = "select o.id from nt_sys_organization o, nt_sys_user_org s where o.id=s.org_id and s.user_id=?1",nativeQuery = true)
+    @Query(value = "select sysOrganization.id from SysUserOrg where sysUser.id=?1")
     List<String> findUserOrgByUserId(String userId);
 
     /**

@@ -22,7 +22,7 @@ public interface ISysUserRoleDao extends JpaRepository<SysUserRole, String>,JpaS
      * @param userId 用户编号
      * @return List
      */
-    @Query(value = "select r.id from nt_sys_user_role ur, nt_sys_role r where ur.role_id=r.id and user_id=?1",nativeQuery = true)
+    @Query(value = "select sysRole.id from SysUserRole where sysUser.id=?1")
     List<String> findUserRoleByUserId(String userId);
 
     /**
@@ -31,7 +31,7 @@ public interface ISysUserRoleDao extends JpaRepository<SysUserRole, String>,JpaS
      */
     @Modifying(clearAutomatically = true)
     @Transactional(rollbackFor = ProjectRuntimeException.class)
-    @Query(value = "delete from nt_sys_user_role where user_id=?1 ",nativeQuery = true)
+    @Query(value = "delete from SysUserRole where sysUser.id=?1 ")
     void deleteUserRoleByUserId(String userId);
 
     /**
@@ -40,7 +40,7 @@ public interface ISysUserRoleDao extends JpaRepository<SysUserRole, String>,JpaS
      */
     @Modifying(clearAutomatically = true)
     @Transactional(rollbackFor = ProjectRuntimeException.class)
-    @Query(value = "delete from nt_sys_user_role where role_id=?1 ",nativeQuery = true)
+    @Query(value = "delete from SysUserRole where sysRole.id=?1 ")
     void deleteUserRoleByRoleId(String roleId);
 
 }

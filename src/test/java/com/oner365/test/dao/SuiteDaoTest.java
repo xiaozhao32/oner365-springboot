@@ -1,4 +1,4 @@
-package com.oner365.test;
+package com.oner365.test.dao;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -14,15 +14,12 @@ import org.junit.runner.RunWith;
  */
 @RunWith(JUnitPlatform.class)
 @SelectPackages({
-    "com.oner365.test.controller",
-    "com.oner365.test.service",
-    "com.oner365.test.dao",
-    "com.oner365.test.util"
+    "com.oner365.test.dao.sys"
 })
-class SuiteTest {
+class SuiteDaoTest {
 
     @Test
     void test() {
-    	Assertions.assertEquals("SuiteTest", SuiteTest.class.getSimpleName());
+    	Assertions.assertEquals("SuiteDaoTest", SuiteDaoTest.class.getSimpleName());
     }
 }

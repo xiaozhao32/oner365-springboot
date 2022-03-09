@@ -12,8 +12,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.oner365.common.enums.ResultEnum;
+import com.oner365.common.exception.ProjectRuntimeException;
 import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.common.query.QueryUtils;
@@ -63,6 +65,7 @@ public class DynamicRouteServiceImpl implements DynamicRouteService {
   }
 
   @Override
+  @Transactional(rollbackFor = ProjectRuntimeException.class)
   public String save(GatewayRouteVo gatewayRoute) {
 
     // Filter
@@ -91,24 +94,17 @@ public class DynamicRouteServiceImpl implements DynamicRouteService {
   }
 
   @Override
+  @Transactional(rollbackFor = ProjectRuntimeException.class)
   public String update(GatewayRouteVo gatewayRoute) {
-    try {
-      delete(gatewayRoute.getId());
-      return save(gatewayRoute);
-    } catch (Exception e) {
-      LOGGER.error("update error:", e);
-    }
-    return null;
+    delete(gatewayRoute.getId());
+    return save(gatewayRoute);
   }
 
   @Override
+  @Transactional(rollbackFor = ProjectRuntimeException.class)
   public void delete(String id) {
-    try {
-      gatewayRouteDao.deleteById(id);
-      syncRouteMqService.syncRoute();
-    } catch (Exception e) {
-      LOGGER.error("delete error:", e);
-    }
+    gatewayRouteDao.deleteById(id);
+    syncRouteMqService.syncRoute();
   }
 
   @Override
