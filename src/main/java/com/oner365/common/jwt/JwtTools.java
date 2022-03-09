@@ -21,6 +21,7 @@ public class JwtTools {
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtTools.class);
 
     private static final String PARAM_AUTH = "auth0";
+    private static final String PARAM_BODY = "body";
 
     /**
      * 生成加密后的token
@@ -31,9 +32,8 @@ public class JwtTools {
      * @return 加密后的token
      */
     public static String getToken(String body, Date time, String secret) {
-        String token = null;
         try {
-            token = JWT.create().withIssuer(PARAM_AUTH).withClaim("body", body)
+            return JWT.create().withIssuer(PARAM_AUTH).withClaim(PARAM_BODY, body)
                     .withExpiresAt(time)
                     .sign(Algorithm.HMAC256(secret));
         } catch (JWTCreationException e) {
@@ -41,7 +41,7 @@ public class JwtTools {
         } catch (IllegalArgumentException e) {
             LOGGER.error("getToken IllegalArgumentException:", e);
         }
-        return token;
+        return null;
     }
 
     /**
@@ -53,16 +53,15 @@ public class JwtTools {
      * @return 解密后的DecodedJWT对象，可以读取token中的数据。
      */
     public static DecodedJWT decodeToken(final String token, String secret) {
-        DecodedJWT jwt = null;
         try {
             JWTVerifier verifier = JWT.require(Algorithm.HMAC256(secret)).withIssuer(PARAM_AUTH).build();
-            jwt = verifier.verify(token);
+            return verifier.verify(token);
         } catch (JWTVerificationException e) {
             LOGGER.error("decodeToken JWTCreationException:", e);
         } catch (IllegalArgumentException e) {
             LOGGER.error("decodeToken IllegalArgumentException:", e);
         }
-        return jwt;
+        return null;
     }
 
 }

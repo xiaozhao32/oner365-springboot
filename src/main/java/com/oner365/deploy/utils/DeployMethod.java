@@ -1,12 +1,7 @@
 package com.oner365.deploy.utils;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,11 +39,7 @@ public class DeployMethod {
   public static void stop(Connection con, String targetServer) {
     // kill tomcat
     String cmd = "kill -9 `cat " + targetServer + ".pid 2>/dev/null` 2>/dev/null || true";
-    LOGGER.info("> {}", cmd);
-    List<String> cmdList = new ArrayList<>(2);
-    cmdList.add(cmd);
-    List<List<String>> execList = DeployUtils.execCommand(con, cmdList);
-    execList.stream().flatMap(Collection::stream).forEach(s -> LOGGER.info("> {}", s));
+    execCommands(con, Collections.singletonList(cmd));
   }
 
   /**
@@ -60,11 +51,7 @@ public class DeployMethod {
   public static void start(Connection con, String targetServer) {
     // tomcat启动找不到java_home,需要设置 ln -s /opt/jdk1.8/bin/java /bin/java
     String cmd = targetServer + "/bin/startup.sh";
-    LOGGER.info("> {}", cmd);
-    List<String> cmdList = new ArrayList<>(2);
-    cmdList.add(cmd);
-    List<List<String>> execList = DeployUtils.execCommand(con, cmdList);
-    execList.stream().flatMap(Collection::stream).forEach(s -> LOGGER.info("> {}", s));
+    execCommands(con, Collections.singletonList(cmd));
   }
 
   /**
@@ -85,7 +72,6 @@ public class DeployMethod {
    * @param commands 命令
    */
   public static void execCommands(Connection con, List<String> commands) {
-
     List<List<String>> execList = DeployUtils.execCommand(con, commands);
     execList.stream().flatMap(Collection::stream).forEach(s -> LOGGER.info("> {}", s));
   }
@@ -206,9 +192,9 @@ public class DeployMethod {
 
   private static void deployWindows(Connection con, DeployEntity deployEntity, String targetPath, String resourcesFile,
       String targetRoot) {
-    File[] files = DataUtils.getFile(resourcesFile).listFiles();
-    if (files != null) {
-      Arrays.stream(files).filter(f -> !f.isDirectory()).forEach(f -> DeployUtils.uploadFileMap(con, new String[]{f.getPath()},
+    File file = DataUtils.getFile(resourcesFile);
+    if (file != null) {
+      Arrays.stream(Objects.requireNonNull(file.listFiles())).filter(f -> !f.isDirectory()).forEach(f -> DeployUtils.uploadFileMap(con, new String[]{f.getPath()},
               targetPath + FILE_RESOURCES + PublicConstants.DELIMITER));
     }
     deployEntity.getLibs().forEach(lib -> DeployUtils.uploadFileMap(con,

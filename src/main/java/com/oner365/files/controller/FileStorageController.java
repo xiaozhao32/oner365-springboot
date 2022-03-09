@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
@@ -63,7 +64,7 @@ public class FileStorageController extends BaseController {
   @Autowired
   private FileFdfsProperties fileFdfsProperties;
 
-  @Autowired
+  @Resource
   private IFileStorageClient fileStorageClient;
 
   @Autowired
@@ -98,7 +99,7 @@ public class FileStorageController extends BaseController {
     } else {
       directory = fileFdfsProperties.getPath();
     }
-    
+
     List<SFTPv3DirectoryEntry> vector = DeployUtils.directoryList(fileFdfsProperties.getIp(), fileFdfsProperties.getPort(),
         fileFdfsProperties.getUser(), fileFdfsProperties.getPassword(), directory);
     return vector.stream().map(entry -> {

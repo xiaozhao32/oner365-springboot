@@ -15,24 +15,20 @@
  */
 package com.oner365.common.jwt;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.oner365.util.DataUtils;
 import com.oner365.util.DateUtil;
 import com.oner365.util.RsaUtils;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * JavaWebToken常用类
@@ -42,7 +38,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class JwtUtils {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(JwtUtils.class);
-  
+
   private JwtUtils() {
 
   }
@@ -140,12 +136,6 @@ public class JwtUtils {
       expiration = claims.getExpiration();
     }
     return expiration;
-  }
-  
-  public static void main(String[] args) {
-	  Date time = DateUtil.after(DateUtil.getDate(), 14400, Calendar.MINUTE);
-	  JSONObject json = JSON.parseObject("{\"id\":\"CGWU5434122967LGB5E4\",\"tokenType\":\"login\",\"userName\":\"9D11AE753FC3824D79541C7A71EA8EA5\",\"deviceId\":\"1d96163d30db4ea97b7478e39f\"}");
-	  System.out.println(JwtUtils.generateToken(json.toJSONString(), time, "test"));
   }
 
 }

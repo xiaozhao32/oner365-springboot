@@ -47,6 +47,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.annotation.Resource;
+
 /**
  * 用户管理
  *
@@ -66,7 +68,7 @@ public class SysUserController extends BaseController {
   @Autowired
   private ISysJobService sysJobService;
 
-  @Autowired
+  @Resource
   private IFileStorageClient fileStorageClient;
 
   /**

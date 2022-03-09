@@ -33,7 +33,7 @@ import io.minio.RemoveObjectArgs;
 
 /**
  * minio工具类
- * 
+ *
  * @author zhaoyong
  */
 @Component
@@ -100,13 +100,13 @@ public class FileMinioClient implements IFileStorageClient {
     }
     return new byte[0];
   }
-  
+
   /**
-   * apache common-io 
-   * 
+   * apache common-io
+   *
    * @param objectResponse GetObjectResponse
    * @return byte[]
-   * @throws IOException
+   * @throws IOException 异常
    */
   public static byte[] readAsByteArray(GetObjectResponse objectResponse) throws IOException {
     int size = 1024;
