@@ -1,38 +1,23 @@
 package com.oner365.deploy.utils;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
+import ch.ethz.ssh2.*;
+import com.oner365.common.exception.ProjectRuntimeException;
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecuteResultHandler;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.PumpStreamHandler;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.ByteArrayOutputStream;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.oner365.common.exception.ProjectRuntimeException;
-
-import ch.ethz.ssh2.Connection;
-import ch.ethz.ssh2.SCPClient;
-import ch.ethz.ssh2.SFTPv3Client;
-import ch.ethz.ssh2.SFTPv3DirectoryEntry;
-import ch.ethz.ssh2.Session;
-import ch.ethz.ssh2.StreamGobbler;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 安装部署工具类
@@ -348,66 +333,6 @@ public class DeployUtils {
       }
     }
     return false;
-  }
-
-  /**
-   * 替换文件内容后生成文件 替换内容为空时直接生成(相当于拷贝文件)
-   *
-   * @param readFile  读取文件路径
-   * @param writeFile 写入文件路径
-   * @param items     替换模板内容：key替换成value, value不能为null, 可以为空字符串
-   * @return boolean
-   */
-  public static boolean replaceContextFileCreate(String readFile, String writeFile, Map<String, Object> items) {
-    try (FileInputStream fis = new FileInputStream(readFile)) {
-      writeFile(fis, writeFile, items);
-      return true;
-    } catch (IOException e) {
-      LOGGER.error("replaceContextFileCreate Error!", e);
-    }
-    return false;
-  }
-
-  private static void writeFile(InputStream is, String writeFile, Map<String, Object> items) {
-    try (InputStreamReader isr = new InputStreamReader(is, Charset.defaultCharset());
-        BufferedReader in = new BufferedReader(isr);
-        FileOutputStream fos = new FileOutputStream(writeFile);
-        OutputStreamWriter osw = new OutputStreamWriter(fos, Charset.defaultCharset());
-        BufferedWriter out = new BufferedWriter(osw)) {
-
-      // 替换对象
-      String s;
-      while ((s = in.readLine()) != null) {
-        String context = replaceContext(items, s);
-        out.write(context);
-        out.newLine();
-      }
-      out.flush();
-    } catch (IOException e) {
-      LOGGER.error("writeFile Error!", e);
-    }
-
-  }
-
-  /**
-   * 替换内容
-   *
-   * @param items 替换内容
-   * @param s     内容
-   */
-  private static String replaceContext(Map<String, Object> items, String s) {
-    String result = s;
-    if (items != null) {
-      for (Map.Entry<String, Object> entry : items.entrySet()) {
-        final String key = entry.getKey();
-        String value = StringUtils.EMPTY;
-        if (items.get(key) != null) {
-          value = items.get(key).toString();
-        }
-        result = result.replace(key, value);
-      }
-    }
-    return result;
   }
 
 }

@@ -76,7 +76,7 @@ public class AuthController extends BaseController {
       String captcha = redisCache.getCacheObject(verifyKey);
       redisCache.deleteObject(verifyKey);
       if (captcha == null || !captcha.equalsIgnoreCase(loginUserVo.getCode())) {
-        return ResponseData.error(ErrorInfoEnum.CAPCHA_ERROR.getName());
+        return ResponseData.error(ErrorInfoEnum.CAPTCHA_ERROR.getName());
       }
     }
 

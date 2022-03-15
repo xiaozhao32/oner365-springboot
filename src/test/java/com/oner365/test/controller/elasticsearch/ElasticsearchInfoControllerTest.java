@@ -16,7 +16,7 @@ import com.oner365.test.controller.BaseControllerTest;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class ElasticsearchInfoControllerTest extends BaseControllerTest {
+class ElasticsearchInfoControllerTest extends BaseControllerTest {
 
   private static final String PATH = "/elasticsearch/info";
 

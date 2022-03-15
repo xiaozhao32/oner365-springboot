@@ -18,7 +18,7 @@ import com.oner365.test.dao.BaseDaoTest;
  *
  */
 @SpringBootTest
-public class SysRoleMenuOperDaoTest extends BaseDaoTest {
+class SysRoleMenuOperDaoTest extends BaseDaoTest {
   
   @Autowired
   private ISysRoleMenuOperDao dao;

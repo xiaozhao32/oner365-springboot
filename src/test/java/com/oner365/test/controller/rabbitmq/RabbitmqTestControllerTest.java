@@ -16,7 +16,7 @@ import com.oner365.test.controller.BaseControllerTest;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class RabbitmqTestControllerTest extends BaseControllerTest {
+class RabbitmqTestControllerTest extends BaseControllerTest {
 
   private static final String PATH = "/rabbitmq";
 

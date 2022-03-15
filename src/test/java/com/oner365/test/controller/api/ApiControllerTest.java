@@ -16,7 +16,7 @@ import com.oner365.test.controller.BaseControllerTest;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class ApiControllerTest extends BaseControllerTest {
+class ApiControllerTest extends BaseControllerTest {
 
   private static final String PATH = "/api";
 

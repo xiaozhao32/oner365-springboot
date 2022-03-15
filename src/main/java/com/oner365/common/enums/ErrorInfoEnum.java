@@ -26,7 +26,7 @@ public enum ErrorInfoEnum implements Serializable {
     /** 您的密码不正确 */
     PASSWORD_ERROR(2007, "您的密码不正确"),
     /** 验证码不正确 */
-    CAPCHA_ERROR(2008, "验证码不正确"),
+    CAPTCHA_ERROR(2008, "验证码不正确"),
     /** 保存失败 */
     SAVE_ERROR(2009, "保存失败"),
     /** 查询失败 */

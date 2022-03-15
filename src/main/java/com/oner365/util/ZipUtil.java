@@ -173,7 +173,7 @@ public class ZipUtil {
    */
   public static void unZip(String srcFile, String dest, boolean deleteFile) {
     File file = DataUtils.getFile(srcFile);
-    if (file.exists()) {
+    if (file != null && file.exists()) {
       try (ZipFile zipFile = new ZipFile(file)) {
         Enumeration<?> e = zipFile.getEntries();
         while (e.hasMoreElements()) {
@@ -194,7 +194,10 @@ public class ZipUtil {
       String name = zipEntry.getName();
       name = name.substring(0, name.length() - 1);
       File f = DataUtils.getFile(dest + name);
-      f.mkdirs();
+      if (f != null) {
+        boolean isMkdir = f.mkdirs();
+        LOGGER.debug("unzipFile mkdir:{}", isMkdir);
+      }
     } else {
       String fileName = dest + zipEntry.getName();
       DataUtils.createFile(fileName, null);

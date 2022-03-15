@@ -106,14 +106,14 @@ public class DeployMethod {
       items.put("SERVICE_NAME=", "SERVICE_NAME=" + projectName);
       items.put("VERSION=", "VERSION=" + deployEntity.getVersion());
       items.put("ACTIVE=", "ACTIVE=" + deployEntity.getActive());
-      DeployUtils.replaceContextFileCreate(readFile, writeFile, items);
+      DataUtils.replaceContextFileCreate(readFile, writeFile, items);
 
       // 制作 Windows 启动脚本
       readFile = DeployMethod.class.getResource("/service/start.bat").getPath();
       writeFile = targetPath + File.separator + "start.bat";
       items = new HashMap<>(1);
       items.put("RESOURCE_NAME", projectName + "-" + deployEntity.getVersion() + "." + deployEntity.getSuffix());
-      DeployUtils.replaceContextFileCreate(readFile, writeFile, items);
+      DataUtils.replaceContextFileCreate(readFile, writeFile, items);
     });
 
   }
