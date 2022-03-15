@@ -110,12 +110,12 @@ public class ApiController extends BaseController {
   /**
    * 测试redis
    *
-   * @return String
+   * @return JSONObject
    */
   @ApiOperation("3.测试Redis Cache")
   @ApiOperationSupport(order = 3)
   @GetMapping("/cache/redis/test")
-  public String testRedisCache() {
+  public JSONObject testRedisCache() {
     String key = "test1";
     JSONObject value = new JSONObject();
     value.put("aaa", 111);
@@ -170,6 +170,6 @@ public class ApiController extends BaseController {
     boolean b2 = redisCache.lock(key5, 10000);
     logger.info("test5 lock:{}", b2);
 
-    return ResultEnum.SUCCESS.getName();
+    return json;
   }
 }
