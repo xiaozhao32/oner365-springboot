@@ -196,5 +196,26 @@
     "name": "client.whites",
     "type": "java.lang.String[]",
     "description": "A description for 'client.whites'."
+  },
+  {
+    "name": "gen.author",
+    "type": "java.lang.String",
+    "description": "A description for 'gen.author'."
+  },
+  {
+    "name": "gen.packageName",
+    "type": "java.lang.String",
+    "description": "A description for 'gen.packageName'."
+  },
+  {
+    "name": "gen.autoRemovePre",
+    "type": "java.lang.Boolean",
+    "defaultValue": false,
+    "description": "A description for 'gen.autoRemovePre'."
+  },
+  {
+    "name": "gen.tablePrefix",
+    "type": "java.lang.String",
+    "description": "A description for 'gen.tablePrefix'."
   }
 ]}
