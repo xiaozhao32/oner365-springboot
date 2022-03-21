@@ -37,20 +37,20 @@ import com.oner365.util.DataUtils;
 
 /**
  * ${functionName} Service 实现类
- * 
+ *
  * @author ${author}
  *
  */
 @Service
 public class ${ClassName}ServiceImpl implements I${ClassName}Service {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(${ClassName}ServiceImpl.class);
 
     private static final String CACHE_NAME = "${ClassName}";
-    
+
     @Autowired
     private I${ClassName}Dao dao;
-    
+
     @Override
     @Cacheable(value = CACHE_NAME, keyGenerator = PublicConstants.KEY_GENERATOR)
     public PageInfo<${ClassName}Dto> pageList(QueryCriteriaBean data) {
@@ -76,14 +76,14 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service {
         }
         return Collections.emptyList();
     }
-    
+
     @Override
     @RedisCacheAble(value = CACHE_NAME, key = PublicConstants.KEY_ID)
     public ${ClassName}Dto getById($AttrName id) {
         try {
             Optional<${ClassName}> optional = dao.findById(id);
             if (optional.isPresent()) {
-                return convertDto(optional.orElse(null));
+                return convertDto(optional.get());
             }
         } catch (Exception e) {
             LOGGER.error("Error getById: ", e);
@@ -104,7 +104,7 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service {
         ${ClassName} entity = dao.save(convert(vo, ${ClassName}.class));
     	return convert(entity, ${ClassName}Dto.class);
     }
-    
+
     @Override
     @Transactional(rollbackFor = ProjectRuntimeException.class)
     @CacheEvict(value = CACHE_NAME, allEntries = true)
@@ -112,5 +112,5 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service {
         dao.deleteById(id);
         return ResultEnum.SUCCESS.getCode();
     }
-    
+
 }

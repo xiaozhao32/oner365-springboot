@@ -8,8 +8,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.oner365.util.DataUtils;
 
 /**
- * Treeselect树结构实体类
- * 
+ * TreeSelect树结构实体类
+ *
  * @author zhaoyong
  */
 public class TreeSelect implements Serializable {
@@ -28,7 +28,7 @@ public class TreeSelect implements Serializable {
     public TreeSelect() {
 
     }
-    
+
     public TreeSelect(SysOrganizationDto organization) {
         this.id = organization.getId();
         this.label = organization.getOrgName();

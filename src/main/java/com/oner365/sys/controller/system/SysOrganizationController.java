@@ -146,7 +146,7 @@ public class SysOrganizationController extends BaseController {
   @ApiOperation("7.获取树型列表")
   @ApiOperationSupport(order = 7)
   @PostMapping("/tree")
-  public List<TreeSelect> treeselect(@RequestBody SysOrganizationVo sysOrganizationVo) {
+  public List<TreeSelect> treeSelect(@RequestBody SysOrganizationVo sysOrganizationVo) {
     List<SysOrganizationDto> list = sysOrgService.selectList(sysOrganizationVo);
     return sysOrgService.buildTreeSelect(list);
   }
@@ -161,11 +161,11 @@ public class SysOrganizationController extends BaseController {
   @ApiOperation("8.获取用户权限")
   @ApiOperationSupport(order = 8)
   @PostMapping("/user/{userId}")
-  public SysMenuTreeSelectDto userTreeselect(@RequestBody SysOrganizationVo sysOrganizationVo,
+  public SysMenuTreeSelectDto userTreeSelect(@RequestBody SysOrganizationVo sysOrganizationVo,
       @PathVariable("userId") String userId) {
     List<SysOrganizationDto> list = sysOrgService.selectList(sysOrganizationVo);
     SysMenuTreeSelectDto result = new SysMenuTreeSelectDto();
-    
+
     result.setCheckedKeys(sysOrgService.selectListByUserId(userId));
     result.setMenus(sysOrgService.buildTreeSelect(list));
     return result;

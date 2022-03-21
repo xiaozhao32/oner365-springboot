@@ -19,7 +19,7 @@ spring:
   datasource:
     druid:
       db-type: com.alibaba.druid.pool.DruidDataSource
-      
+
       # mysql
       driver-class-name: com.mysql.cj.jdbc.Driver
       url: jdbc:mysql://localhost:3306/oner365?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=GMT%2B8
@@ -78,7 +78,7 @@ spring:
     enable: true
     host: 127.0.0.1
     port: 6379
-    password: 
+    password:
     database: 1
     timeout: 10s
     lettuce:
@@ -135,11 +135,11 @@ ignore:
 #客户端接口加密传输白名单，白名单内则需要报文加密操作
 #需要加密报文接口，统一增加sign请求头，以传递对称加密密钥
 #privateKey为约定私钥，此私钥给报文对称加密key解密，客户端用公钥加密
-client: 
+client:
   privateKey: MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCKDjkNMFARP3qpLC5CY1JfwLaMyEyjjLSyz51xirpOlJQbGEDqbVXQlKuX4HXJj6D4nCMB/qsOoQuL1XVTvzr8BBFKgwbhrWuethLQ88494FEpDg9RqJo3zCLoLVJ31kOdIUTcUqBF4xQW+8Zicf/wmWb0tqcrWYoZMwWegVGSpsg3eO99mVk07LkXbJ02XJk3YpqPN046JsJ9AUQTanYEn8uIubMaWeHcb9sb+raWiGnA+i1G+dVf9Jt7bgRQ7NSORCpiK1weT9vVit4arPQi7hIIDcBLNv4e09OmHSHF5aqSEHH+lbBVhhJ8CEZ/9zxY3mP4X1KLY9lmaignuXvRAgMBAAECggEAE/hKuGWsr1IHZEFHz8KeP8uYnHS84UuRN+xgUfRHTuafJew0N7TpHOrkh2uonidwmYW8aqV0CQGysd+GwT6AQcQ03Bpn/G0hjCu6PQ+HXdv84XtvK9i/tiKJShyEOWF9FlWhqF0rYfCfD1QMNmFXLG6EPhHNzK9/EnYW8f6y1gujtxLqyJmwITWfrfsFWkwWzEANJ09DD12rHjyhCPDrEY8GFTPFBUX3cbmeNWiQxV+vLCs/7V6sU2hb0AI8FdHQM0yC91GLvWWpLFP4rgdd6sk1rtJKYv05CbKDGPFtJzbTUp5Fa+j5YMvgw2aJfj6cGfRqmOXx9nLu5ddgJFp3gQKBgQC85rql0xuLT1qPGnDGuPVGXZXtl7keuU9+NRcLk1R6avoKLhdYZxEBQwBOkdh7y49Jj5a0oKM0p0+mP7NOqBAiMLDoZu4KRqqaTsfUjFBisAsm3RXnAJL2hKkReF08hEdw6xvflAaZriPOZ6ABiqO5viETOhejKGJvMeaeHIJSbQKBgQC7F/afVh4U5MR50sjDjSKYZ4x5yLXbuCA4E9uM0bGihwMXb/i1MLg5LnhofP0e+uub4E98TjwCh0MdnyhYHZO7FbmK5br4ADjYevUFnQz2D/dt3g+Uc0QAgJRFAHnztpnWBYj8bg8Nv6dayGHfSxa9yE8D6GRXIFW9W3JPnS8QdQKBgBZ6wqVvLOz0IYu8EsWjRxT7mBbxIkeEt/AF81seSkRTLLQ/benIQh7LUWMIOiHpRID1hHK0Vxex/WmEVRs8Jsda0gKmFRfF9xFr5J3noL1Nw9X5I10dFWAew1vf3gCQoUvPvr5piCuLrJkofcMRM5CsDpWSKTPyX1xqLM6OB/g1AoGABIfRBgy8z762b0jGac3aH5yqTyyoErkDtrfsYh2V0py4W3HvsNuMKn5Qlh8otf5XhD/LTPRMCbeizW3UOUYGFMqy4oUroOPIfJ2Fn2wtKyw5zqRI9kxQQj7a2Ezppxgt43vg1FQJ80hH0i/2BsU3uMLH/w06mM2EpgA35Wul/x0CgYAatVZkES4dGsvOaqmb3pn3580+V/RxREkoiL3ZEEarh9Ua7DJ7//N6bDctwcqMvna75J9b7cfCy/mnWMX+vsvq3V78g/7demPhjqTU8uCVknnhx2lEn0rz4B2jtUIDsaeX26Xg2JjxXr5CmxaIT+BqeBPvTxi84V2jsLcogzIwBw==
   whites:
     - /client/login
-    
+
 # Logger
 logging:
   file:
@@ -152,21 +152,21 @@ logging:
 
 # 文件上传下载地址
 file:
-  # 存储方式为 local fdfs minio 
+  # 存储方式为 local fdfs minio
   storage: local
   # excel后缀
   excel:
     suffix: xlsx
   # 通用文件下载路径
   download: /Users/taoliu/gitee/Downloads
-  
+
 # 上传存储到本地
 local:
   # 本地配置web访问地址, fdfs使用 fdfs.web-server-url
   web: http://localhost/uploads
     # 上传地址
   upload: /Users/taoliu/gitee/Downloads
-  
+
 # FastDFS
 fdfs:
   connect-timeout: 60
@@ -190,8 +190,8 @@ fdfs:
     max-total-per-key: 50
     #连接耗尽时等待获取连接的最大毫秒数
     max-wait-millis: 5000
-  
-# file minio     
+
+# file minio
 minio:
   username: root
   password: e8818da9cc9
@@ -210,13 +210,13 @@ swagger:
   url: https://www.oner365.com
   email: service@oner365.com
   description: Oner365 project
-# knife4j 
+# knife4j
 knife4j:
-  enable: true 
+  enable: true
 # 是否跳过ssl验证 true验证，false跳过验证
 webclient:
   ssl:
-    vaild: true
+    enable: true
 
 #部署目录
 deploy:
@@ -225,11 +225,11 @@ deploy:
     name: /Users/taoliu/gitee/deploy/springboot
     version: 1.0
     suffix: jar
-    projects: 
+    projects:
     - oner365-springboot
     active: lt
-    libs: 
-    
+    libs:
+
   server:
     deploy: false
     name: /home/oner365
@@ -237,7 +237,7 @@ deploy:
     - 192.168.33.44:22@root:Ed30158d44
 
 # 代码生成
-gen: 
+gen:
   # 作者
   author: zhaoyong
   # 默认生成包路径 system 需改成自己的模块名称 如 system monitor tool
@@ -246,4 +246,4 @@ gen:
   autoRemovePre: true
   # 表前缀（生成类名不会包含表前缀，多个用逗号分隔）
   tablePrefix: nt_
-  
+

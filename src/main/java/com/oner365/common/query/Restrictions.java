@@ -9,7 +9,7 @@ import com.oner365.util.DataUtils;
 
 /**
  * 条件构造器-用于创建条件表达式
- * 
+ *
  * @author zhaoyong
  */
 public class Restrictions {
@@ -145,10 +145,7 @@ public class Restrictions {
    * @return LogicalExpression
    */
   public static LogicalExpression in(String fieldName, Collection<?> value, boolean ignoreNull) {
-    if (ignoreNull) {
-      return null;
-    }
-    if (value == null || value.isEmpty()) {
+    if (ignoreNull || value == null || value.isEmpty()) {
       return null;
     }
     List<Criterion> expressionList = value.stream().map(e -> new SimpleExpression(fieldName, e, Operator.EQ))

@@ -129,11 +129,11 @@ public class FileStorageController extends BaseController {
   public ResponseResult<String> uploadFile(
       @ApiParam(name = "file", value = "文件") @RequestPart("file") MultipartFile file,
       @ApiParam(name = "dictory", value = "上传目录") @RequestParam(name = "dictory", required = false) String dictory) {
-    String targetDictory = dictory;
-    if (DataUtils.isEmpty(targetDictory)) {
-      targetDictory = DateUtil.getCurrentDate();
+    String targetDirectory = dictory;
+    if (DataUtils.isEmpty(targetDirectory)) {
+      targetDirectory = DateUtil.getCurrentDate();
     }
-    String url = fileStorageClient.uploadFile(file, targetDictory);
+    String url = fileStorageClient.uploadFile(file, targetDirectory);
     return ResponseResult.success(url);
   }
 

@@ -26,13 +26,13 @@ public class FileLocalUploadUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(FileLocalUploadUtils.class);
 
     private static final String FILE_HTTP = "http://";
-    
+
     private FileLocalUploadUtils() {
     }
 
     /**
      * 上传文件
-     * 
+     *
      * @param file 文件
      * @param fileWeb web访问地址
      * @param filePath 文件上传根目录
@@ -66,12 +66,12 @@ public class FileLocalUploadUtils {
     }
 
     private static File getAbsoluteFile(String filePath, String uploadDir, String fileName) throws IOException {
-        String upath = StringUtils.EMPTY;
+        String uploadPath = StringUtils.EMPTY;
         if (!DataUtils.isEmpty(uploadDir)) {
-            upath = uploadDir + PublicConstants.DELIMITER;
+            uploadPath = uploadDir + PublicConstants.DELIMITER;
         }
-        
-        String absoluteFile = filePath + File.separator + upath + fileName;
+
+        String absoluteFile = filePath + File.separator + uploadPath + fileName;
         LOGGER.info("Local upload File path: {}", absoluteFile);
         File file = new File(absoluteFile);
         if (!file.exists()) {
@@ -80,17 +80,17 @@ public class FileLocalUploadUtils {
         return file;
     }
 
-    private static SysFileStorageVo getPathFileName(MultipartFile file, StorageEnum storageEnum, 
+    private static SysFileStorageVo getPathFileName(MultipartFile file, StorageEnum storageEnum,
             String fileWeb, String uploadDir, String fileName) {
-        String upath = StringUtils.EMPTY;
+        String uploadPath = StringUtils.EMPTY;
         if (!DataUtils.isEmpty(uploadDir)) {
-            upath = uploadDir + PublicConstants.DELIMITER;
+            uploadPath = uploadDir + PublicConstants.DELIMITER;
         }
-        String fileUrl = fileWeb + PublicConstants.DELIMITER + upath + fileName;
+        String fileUrl = fileWeb + PublicConstants.DELIMITER + uploadPath + fileName;
 
         String ss = fileUrl.replace(FILE_HTTP, "");
         String fastUrl = StringUtils.substringBefore(ss, PublicConstants.DELIMITER);
-        String id = upath + fileName;
+        String id = uploadPath + fileName;
         // save file
         SysFileStorageVo fileEntity = new SysFileStorageVo();
         fileEntity.setId(id);
@@ -121,7 +121,7 @@ public class FileLocalUploadUtils {
         } catch (Exception e) {
             LOGGER.error("download error:", e);
         }
-        return new byte[0];    
+        return new byte[0];
     }
 
 }

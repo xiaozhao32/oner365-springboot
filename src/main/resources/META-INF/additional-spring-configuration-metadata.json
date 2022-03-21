@@ -133,9 +133,9 @@
     "description": "A description for 'local.upload'."
   },
   {
-    "name": "webclient.ssl.vaild",
+    "name": "webclient.ssl.enable",
     "type": "java.lang.Boolean",
-    "description": "A description for 'webclient.ssl.valid'."
+    "description": "A description for 'webclient.ssl.enable'."
   },
   {
     "name": "deploy.local.location",
