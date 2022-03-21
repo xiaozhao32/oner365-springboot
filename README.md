@@ -2,7 +2,7 @@
 
 #### 介绍
 1. 个人练习使用。 
-2. 核心框架: Springboot, 数据库采用Mysql, 缓存Redis, 索引查询Elasticsearch, 文件上传使用Fastdfs, 队列为Rabbitmq.
+2. 核心框架: Springboot, 数据库采用Mysql, 缓存Redis, 索引查询Elasticsearch, 文件上传使用Fastdfs、Minio、Local, 队列为Rabbitmq.
 
 #### 软件架构
 软件架构说明
@@ -18,7 +18,7 @@
 
 1.  导入mysql脚本, 在 resources/scripts中
 2.  修改配置文件 application.yml 相关路径。
-3.  启动服务
+3.  启动服务 配置启动参数对应的配置文件 如: -Dspring.profiles.active=zy
 4.  Swagger地址
 
       http://localhost:8704/doc.html
