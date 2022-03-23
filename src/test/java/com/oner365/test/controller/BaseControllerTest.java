@@ -1,6 +1,5 @@
 package com.oner365.test.controller;
 
-import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,12 +82,6 @@ public class BaseControllerTest extends BaseTest {
   protected Object post(String url, BodyInserter<?, ? super ClientHttpRequest> bodyInserters) {
     ResponseData<?> response = client.post().uri(url).header(HttpHeaders.AUTHORIZATION, getToken()).body(bodyInserters)
         .exchange().expectBody(ResponseData.class).returnResult().getResponseBody();
-    return response.getResult();
-  }
-
-  protected <T extends Serializable> T post(String url, BodyInserter<?, ? super ClientHttpRequest> bodyInserters, Class<T> clazz) {
-    ResponseData<T> response = client.post().uri(url).header(HttpHeaders.AUTHORIZATION, getToken()).body(bodyInserters)
-        .exchange().expectBody(new ParameterizedTypeReference<ResponseData<T>>() {}).returnResult().getResponseBody();
     return response.getResult();
   }
 

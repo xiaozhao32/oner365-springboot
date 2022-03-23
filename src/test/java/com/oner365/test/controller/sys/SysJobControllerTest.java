@@ -12,9 +12,12 @@ import org.springframework.web.reactive.function.BodyInserters;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.reflect.TypeToken;
 import com.oner365.common.constants.PublicConstants;
+import com.oner365.common.page.PageInfo;
 import com.oner365.sys.entity.SysJob;
 import com.oner365.test.controller.BaseControllerTest;
+import com.oner365.util.GsonUtils;
 
 /**
  * Test AuthController
@@ -34,8 +37,12 @@ class SysJobControllerTest extends BaseControllerTest {
         Object result = get(url);
         logger.info("get:[{}] -> {}", url, result);
         Assertions.assertNotNull(result);
+        // 转换对象
+        SysJob sysJob = GsonUtils.jsonToBean(GsonUtils.objectToJson(result), SysJob.class);
+        Assertions.assertNotNull(sysJob);
     }
 
+    @SuppressWarnings("serial")
     @RepeatedTest(2)
     void list() {
         String url = PATH + "/list";
@@ -43,6 +50,9 @@ class SysJobControllerTest extends BaseControllerTest {
         Object result = post(url, BodyInserters.fromValue(paramJson));
         logger.info("list:[{}] -> {}", url, result);
         Assertions.assertNotNull(result);
+        // 转换对象
+        PageInfo<SysJob> page = GsonUtils.jsonToBean(GsonUtils.objectToJson(result), new TypeToken<PageInfo<SysJob>>() {});
+        Assertions.assertNotEquals(0, page.getContent().size());
     }
 
     @Test
