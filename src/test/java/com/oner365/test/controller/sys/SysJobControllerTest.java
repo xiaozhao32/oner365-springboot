@@ -5,6 +5,8 @@ import java.util.Map;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -31,7 +33,11 @@ class SysJobControllerTest extends BaseControllerTest {
 
     private static final String PATH = "/system/job";
 
-    @Test
+    /**
+     * 多线程测试
+     */
+    @RepeatedTest(10)
+    @Execution(ExecutionMode.CONCURRENT)
     void get() {
         String url = PATH + "/get/1";
         Object result = get(url);
@@ -42,8 +48,8 @@ class SysJobControllerTest extends BaseControllerTest {
         Assertions.assertNotNull(sysJob);
     }
 
-    @SuppressWarnings("serial")
     @RepeatedTest(2)
+    @SuppressWarnings("serial")
     void list() {
         String url = PATH + "/list";
         JSONObject paramJson = new JSONObject();
