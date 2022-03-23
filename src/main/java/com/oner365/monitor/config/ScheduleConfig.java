@@ -5,6 +5,8 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.quartz.SchedulerFactoryBeanCustomizer;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
 /**
@@ -13,6 +15,8 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
  * @author zhaoyong
  */
 @Configuration
+@EnableAsync
+@EnableScheduling
 public class ScheduleConfig implements SchedulerFactoryBeanCustomizer {
 
     @Autowired
