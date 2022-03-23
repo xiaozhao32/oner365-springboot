@@ -12,6 +12,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -35,6 +37,8 @@ import com.oner365.util.DataUtils;
  * @author zhaoyong
  *
  */
+@Order(3)
+@Configuration
 public class TokenInterceptor implements HandlerInterceptor {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(TokenInterceptor.class);

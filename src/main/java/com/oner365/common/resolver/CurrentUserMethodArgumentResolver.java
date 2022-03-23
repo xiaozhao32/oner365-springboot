@@ -1,6 +1,8 @@
 package com.oner365.common.resolver;
 
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.MethodParameter;
+import org.springframework.core.annotation.Order;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -15,6 +17,8 @@ import com.oner365.util.RequestUtils;
  *
  * @author zhaoyong
  */
+@Order(2)
+@Configuration
 public class CurrentUserMethodArgumentResolver implements HandlerMethodArgumentResolver {
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {

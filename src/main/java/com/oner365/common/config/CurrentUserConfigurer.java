@@ -2,15 +2,11 @@ package com.oner365.common.config;
 
 import java.util.List;
 
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.oner365.common.config.properties.AccessTokenProperties;
-import com.oner365.common.config.properties.IgnoreWhiteProperties;
 import com.oner365.common.resolver.CurrentUserMethodArgumentResolver;
 import com.oner365.interceptor.TokenInterceptor;
 
@@ -23,24 +19,19 @@ import com.oner365.interceptor.TokenInterceptor;
 @Configuration
 public class CurrentUserConfigurer implements WebMvcConfigurer {
 
-  private final ApplicationEventPublisher publisher;
+  private final CurrentUserMethodArgumentResolver resolver;
 
-  private final IgnoreWhiteProperties ignoreWhiteProperties;
-
-  private final AccessTokenProperties tokenProperties;
+  private final TokenInterceptor tokenInterceptor;
 
   /**
    * 构造方法
    * 
-   * @param publisher             ApplicationEventPublisher
-   * @param ignoreWhiteProperties IgnoreWhiteProperties
-   * @param tokenProperties       AccessTokenProperties
+   * @param resolver         CurrentUserMethodArgumentResolver
+   * @param tokenInterceptor TokenInterceptor
    */
-  public CurrentUserConfigurer(ApplicationEventPublisher publisher, IgnoreWhiteProperties ignoreWhiteProperties,
-      AccessTokenProperties tokenProperties) {
-    this.publisher = publisher;
-    this.ignoreWhiteProperties = ignoreWhiteProperties;
-    this.tokenProperties = tokenProperties;
+  public CurrentUserConfigurer(CurrentUserMethodArgumentResolver resolver, TokenInterceptor tokenInterceptor) {
+    this.resolver = resolver;
+    this.tokenInterceptor = tokenInterceptor;
   }
 
   /**
@@ -48,17 +39,7 @@ public class CurrentUserConfigurer implements WebMvcConfigurer {
    */
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
-    registry.addInterceptor(tokenInterceptor()).addPathPatterns("/**");
-  }
-
-  /**
-   * token 拦截器
-   * 
-   * @return TokenInterceptor
-   */
-  @Bean
-  public TokenInterceptor tokenInterceptor() {
-    return new TokenInterceptor(publisher, ignoreWhiteProperties, tokenProperties);
+    registry.addInterceptor(tokenInterceptor).addPathPatterns("/**");
   }
 
   /**
@@ -66,16 +47,7 @@ public class CurrentUserConfigurer implements WebMvcConfigurer {
    */
   @Override
   public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
-    argumentResolvers.add(currentUserMethodArgumentResolver());
+    argumentResolvers.add(resolver);
   }
 
-  /**
-   * CurrentUser 参数注解
-   * 
-   * @return CurrentUserMethodArgumentResolver
-   */
-  @Bean
-  public CurrentUserMethodArgumentResolver currentUserMethodArgumentResolver() {
-    return new CurrentUserMethodArgumentResolver();
-  }
 }

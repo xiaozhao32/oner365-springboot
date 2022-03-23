@@ -1,1 +1,11 @@
-org.springframework.context.ApplicationContextInitializer=com.oner365.log.config.ApplicationLoggerInitializer,com.oner365.elasticsearch.config.ElasticsearchInitializer
+# ApplicationContextInitializer
+org.springframework.context.ApplicationContextInitializer=\
+com.oner365.log.config.ApplicationLoggerInitializer,com.oner365.elasticsearch.config.ElasticsearchInitializer
+
+# HandlerMethodArgumentResolver
+org.springframework.web.method.support.HandlerMethodArgumentResolver=\
+com.oner365.common.resolver.CurrentUserMethodArgumentResolver
+
+# HandlerInterceptor
+org.springframework.web.servlet.HandlerInterceptor=\
+com.oner365.interceptor.TokenInterceptor
