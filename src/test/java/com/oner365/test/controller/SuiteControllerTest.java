@@ -26,6 +26,6 @@ class SuiteControllerTest {
 
     @Test
     void test() {
-    	Assertions.assertEquals("SuiteControllerTest", SuiteControllerTest.class.getSimpleName());
+      Assertions.assertEquals("SuiteControllerTest", SuiteControllerTest.class.getSimpleName());
     }
 }

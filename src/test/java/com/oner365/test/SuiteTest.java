@@ -23,6 +23,6 @@ class SuiteTest {
 
     @Test
     void test() {
-    	Assertions.assertEquals("SuiteTest", SuiteTest.class.getSimpleName());
+      Assertions.assertEquals("SuiteTest", SuiteTest.class.getSimpleName());
     }
 }

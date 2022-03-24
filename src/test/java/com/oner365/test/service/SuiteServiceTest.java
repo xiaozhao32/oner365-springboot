@@ -25,6 +25,6 @@ class SuiteServiceTest {
 
     @Test
     void test() {
-    	Assertions.assertEquals("SuiteServiceTest", SuiteServiceTest.class.getSimpleName());
+      Assertions.assertEquals("SuiteServiceTest", SuiteServiceTest.class.getSimpleName());
     }
 }

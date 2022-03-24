@@ -38,11 +38,9 @@ public class ClientTestController extends BaseController {
     if (logger.isDebugEnabled()) {
       logger.debug("result:{}", JSON.toJSONString(loginUserVo));
     }
-	  LoginUserDto dto = new LoginUserDto();
-	  dto.setRealName("成功了");
+    LoginUserDto dto = new LoginUserDto();
+    dto.setRealName("成功了");
     return ResponseData.success(dto);
   }
-
-  
 
 }

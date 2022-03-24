@@ -14,47 +14,44 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties(prefix = "client")
 public class ClientWhiteProperties {
-    
-    /**
-     * 校验列表
-     */
-    private List<String> whites = new ArrayList<>();
-    
-    /**
-     * 私有key ssl证书提取
-     */
-    private String privateKey;
-    
-    /**
-     * 构造方法
-     */
-    public ClientWhiteProperties() {
-        super();
-    }
 
-    /**
-     * @return the whites
-     */
-    public List<String> getWhites() {
-        return whites;
-    }
+  /**
+   * 校验列表
+   */
+  private List<String> whites = new ArrayList<>();
 
-    /**
-     * @param whites the whites to set
-     */
-    public void setWhites(List<String> whites) {
-        this.whites = whites;
-    }
+  /**
+   * 私有key ssl证书提取
+   */
+  private String privateKey;
 
-	public String getPrivateKey() {
-		return privateKey;
-	}
+  /**
+   * 构造方法
+   */
+  public ClientWhiteProperties() {
+    super();
+  }
 
-	public void setPrivateKey(String privateKey) {
-		this.privateKey = privateKey;
-	}
+  /**
+   * @return the whites
+   */
+  public List<String> getWhites() {
+    return whites;
+  }
 
-    
-    
+  /**
+   * @param whites the whites to set
+   */
+  public void setWhites(List<String> whites) {
+    this.whites = whites;
+  }
+
+  public String getPrivateKey() {
+    return privateKey;
+  }
+
+  public void setPrivateKey(String privateKey) {
+    this.privateKey = privateKey;
+  }
 
 }

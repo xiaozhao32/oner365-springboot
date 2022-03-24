@@ -20,14 +20,14 @@ import com.oner365.util.RequestUtils;
 @Order(2)
 @Configuration
 public class CurrentUserMethodArgumentResolver implements HandlerMethodArgumentResolver {
-	@Override
-	public boolean supportsParameter(MethodParameter parameter) {
-		return parameter.hasParameterAnnotation(CurrentUser.class);
-	}
+  @Override
+  public boolean supportsParameter(MethodParameter parameter) {
+    return parameter.hasParameterAnnotation(CurrentUser.class);
+  }
 
-	@Override
-	public Object resolveArgument(@NonNull MethodParameter parameter, ModelAndViewContainer mavContainer,
-			@NonNull NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
-		return RequestUtils.getAuthUser();
-	}
+  @Override
+  public Object resolveArgument(@NonNull MethodParameter parameter, ModelAndViewContainer mavContainer,
+      @NonNull NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
+    return RequestUtils.getAuthUser();
+  }
 }

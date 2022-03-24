@@ -20,6 +20,6 @@ class SuiteDaoTest {
 
     @Test
     void test() {
-    	Assertions.assertEquals("SuiteDaoTest", SuiteDaoTest.class.getSimpleName());
+      Assertions.assertEquals("SuiteDaoTest", SuiteDaoTest.class.getSimpleName());
     }
 }
