@@ -1,7 +1,6 @@
 package com.oner365.common.converter;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.context.annotation.Bean;
@@ -25,10 +24,7 @@ public class MessageConverter {
         fastJsonConfig.setSerializerFeatures(SerializerFeature.PrettyFormat);
 
         fasHttpMessageConverter.setFastJsonConfig(fastJsonConfig);
-
-        List<MediaType> fastMediaTypes = new ArrayList<>();
-        fastMediaTypes.add(MediaType.APPLICATION_JSON);
-        fasHttpMessageConverter.setSupportedMediaTypes(fastMediaTypes);
+        fasHttpMessageConverter.setSupportedMediaTypes(Collections.singletonList(MediaType.APPLICATION_JSON));
 
         return new HttpMessageConverters(fasHttpMessageConverter);
     }
