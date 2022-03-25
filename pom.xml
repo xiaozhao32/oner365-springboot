@@ -41,18 +41,18 @@
 		<java.version>11</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		<org.springframework.boot.version>2.6.3</org.springframework.boot.version>
-		<org.springframework.version>5.3.16</org.springframework.version>
+		<org.springframework.boot.version>2.6.5</org.springframework.boot.version>
+		<org.springframework.version>5.3.17</org.springframework.version>
 
 		<org.apache.poi.version>4.1.2</org.apache.poi.version>
 
 		<org.elasticsearch.version>7.15.2</org.elasticsearch.version>
-		<org.hibernate.version>5.6.5.Final</org.hibernate.version>
+		<org.hibernate.version>5.6.7.Final</org.hibernate.version>
 
-		<com.fasterxml.jackson.version>2.13.1</com.fasterxml.jackson.version>
+		<com.fasterxml.jackson.version>2.13.2</com.fasterxml.jackson.version>
 
-		<io.projectreactor.netty.version>1.0.15</io.projectreactor.netty.version>
-		<io.netty.version>4.1.74.Final</io.netty.version>
+		<io.projectreactor.netty.version>1.0.17</io.projectreactor.netty.version>
+		<io.netty.version>4.1.75.Final</io.netty.version>
 	</properties>
 
 	<dependencies>
@@ -242,7 +242,7 @@
 		<dependency>
 			<groupId>com.rabbitmq</groupId>
 			<artifactId>amqp-client</artifactId>
-			<version>5.14.1</version>
+			<version>5.14.2</version>
 		</dependency>
 
 		<!-- fastdfs -->
