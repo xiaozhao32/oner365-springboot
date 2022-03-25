@@ -14,6 +14,7 @@ public final class Cipher {
   public static final int DECRYPT = 0;
   public static final int ROUND = 32;
   public static final int BLOCK = 16;
+  public static final int FOUR = 4;
   
   private Cipher() {
     
@@ -93,16 +94,16 @@ public final class Cipher {
     int x1;
     int x2;
     int x3;
-    int[] x = new int[4];
-    int[] tmp = new int[4];
-    for (int i = 0; i < 4; i++) {
-      tmp[0] = input[0 + 4 * i] & 0xff;
-      tmp[1] = input[1 + 4 * i] & 0xff;
-      tmp[2] = input[2 + 4 * i] & 0xff;
-      tmp[3] = input[3 + 4 * i] & 0xff;
+    int[] x = new int[FOUR];
+    int[] tmp = new int[FOUR];
+    for (int i = 0; i < FOUR; i++) {
+      tmp[0] = input[0 + FOUR * i] & 0xff;
+      tmp[1] = input[1 + FOUR * i] & 0xff;
+      tmp[2] = input[2 + FOUR * i] & 0xff;
+      tmp[3] = input[3 + FOUR * i] & 0xff;
       x[i] = tmp[0] << 24 | tmp[1] << 16 | tmp[2] << 8 | tmp[3];
     }
-    for (r = 0; r < 32; r += 4) {
+    for (r = 0; r < ROUND; r += FOUR) {
       mid = x[1] ^ x[2] ^ x[3] ^ rk[r + 0];
       mid = byteSub(mid);
       x[0] = x[0] ^ l1(mid);
@@ -121,31 +122,31 @@ public final class Cipher {
     }
 
     // Reverse
-    for (int j = 0; j < 16; j += 4) {
-      output[j] = (byte) (x[3 - j / 4] >>> 24 & 0xFF);
-      output[j + 1] = (byte) (x[3 - j / 4] >>> 16 & 0xFF);
-      output[j + 2] = (byte) (x[3 - j / 4] >>> 8 & 0xFF);
-      output[j + 3] = (byte) (x[3 - j / 4] & 0xFF);
+    for (int j = 0; j < BLOCK; j += FOUR) {
+      output[j] = (byte) (x[3 - j / FOUR] >>> 24 & 0xFF);
+      output[j + 1] = (byte) (x[3 - j / FOUR] >>> 16 & 0xFF);
+      output[j + 2] = (byte) (x[3 - j / FOUR] >>> 8 & 0xFF);
+      output[j + 3] = (byte) (x[3 - j / FOUR] & 0xFF);
     }
   }
 
   private static void sms4KeyExt(byte[] key, int[] rk, int cryptFlag) {
     int r;
     int mid;
-    int[] x = new int[4];
-    int[] tmp = new int[4];
-    for (int i = 0; i < 4; i++) {
-      tmp[0] = key[0 + 4 * i] & 0xFF;
-      tmp[1] = key[1 + 4 * i] & 0xff;
-      tmp[2] = key[2 + 4 * i] & 0xff;
-      tmp[3] = key[3 + 4 * i] & 0xff;
+    int[] x = new int[FOUR];
+    int[] tmp = new int[FOUR];
+    for (int i = 0; i < FOUR; i++) {
+      tmp[0] = key[0 + FOUR * i] & 0xFF;
+      tmp[1] = key[1 + FOUR * i] & 0xff;
+      tmp[2] = key[2 + FOUR * i] & 0xff;
+      tmp[3] = key[3 + FOUR * i] & 0xff;
       x[i] = tmp[0] << 24 | tmp[1] << 16 | tmp[2] << 8 | tmp[3];
     }
     x[0] ^= 0xa3b1bac6;
     x[1] ^= 0x56aa3350;
     x[2] ^= 0x677d9197;
     x[3] ^= 0xb27022dc;
-    for (r = 0; r < 32; r += 4) {
+    for (r = 0; r < ROUND; r += FOUR) {
       mid = x[1] ^ x[2] ^ x[3] ^ CK[r + 0];
       mid = byteSub(mid);
       // rk0=K4
@@ -169,7 +170,7 @@ public final class Cipher {
 
     // 解密时轮密钥使用顺序：rk31,rk30,...,rk0
     if (cryptFlag == DECRYPT) {
-      for (r = 0; r < 16; r++) {
+      for (r = 0; r < BLOCK; r++) {
         mid = rk[r];
         rk[r] = rk[31 - r];
         rk[31 - r] = mid;
@@ -202,7 +203,7 @@ public final class Cipher {
       return new byte[0];
     }
     StringBuilder plain = new StringBuilder(plaintext);
-    for (int i = plaintext.getBytes().length % 16; i < 16; i++) {
+    for (int i = plaintext.getBytes().length % BLOCK; i < BLOCK; i++) {
       plain.append('\0');
     }
 
@@ -221,9 +222,9 @@ public final class Cipher {
 
     int k = 0;
     int plainLen = plaintext.length;
-    while (k + 16 <= plainLen) {
-      byte[] cellPlain = new byte[16];
-      System.arraycopy(plaintext, k + 0, cellPlain, 0, 16);
+    while (k + BLOCK <= plainLen) {
+      byte[] cellPlain = new byte[BLOCK];
+      System.arraycopy(plaintext, k + 0, cellPlain, 0, BLOCK);
       byte[] cellCipher = encode16(cellPlain, key);
       System.arraycopy(cellCipher, 0, ciphertext, k + 0, cellCipher.length);
 
@@ -245,9 +246,9 @@ public final class Cipher {
 
     int k = 0;
     int cipherLen = ciphertext.length;
-    while (k + 16 <= cipherLen) {
-      byte[] cellCipher = new byte[16];
-      System.arraycopy(ciphertext, k + 0, cellCipher, 0, 16);
+    while (k + BLOCK <= cipherLen) {
+      byte[] cellCipher = new byte[BLOCK];
+      System.arraycopy(ciphertext, k + 0, cellCipher, 0, BLOCK);
       byte[] cellPlain = decode16(cellCipher, key);
       System.arraycopy(cellPlain, 0, plaintext, k + 0, cellPlain.length);
 

@@ -74,8 +74,8 @@ class MinioFileUtilsTest extends BaseServiceTest {
     logger.info("file get: {}", objectResponse);
     objectResponse.close();
 
-    // 下载文件
-    String downloadPath = "d:/11111.jpg"; // 重新命名
+    // 下载文件 重新命名
+    String downloadPath = "d:/11111.jpg";
     minioClient.downloadObject(DownloadObjectArgs.builder().bucket(bucketName).object(path).filename(downloadPath).build());
 
     // 删除文件
