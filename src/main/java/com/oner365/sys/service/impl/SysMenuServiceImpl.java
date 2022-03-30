@@ -77,30 +77,34 @@ public class SysMenuServiceImpl implements ISysMenuService {
   }
 
   @Override
-  @Transactional(rollbackFor = ProjectRuntimeException.class)
   @RedisCachePut(value = CACHE_NAME, key = PublicConstants.KEY_ID)
   @Caching(evict = {
       @CacheEvict(value = CACHE_NAME, allEntries = true),
       @CacheEvict(value = CACHE_ROLE_NAME, allEntries = true) })
   public SysMenuDto save(SysMenuVo vo) {
-    vo.setStatus(StatusEnum.YES.getCode());
-    vo.setCreateTime(LocalDateTime.now());
-    vo.setUpdateTime(LocalDateTime.now());
-
-    SysMenu menu = menuDao.save(convert(vo, SysMenu.class));
-
-    menuOperDao.deleteByMenuId(menu.getId());
-    if (!DataUtils.isEmpty(menu.getOperIds())) {
-      menu.getOperIds().forEach(id -> {
-        SysMenuOperation operation = new SysMenuOperation();
-        operation.setId(id);
-        SysMenuOper menuOper = new SysMenuOper();
-        menuOper.setMenuId(menu.getId());
-        menuOper.setSysMenuOperation(operation);
-        menuOperDao.save(menuOper);
-      });
+    try {
+      vo.setStatus(StatusEnum.YES.getCode());
+      vo.setCreateTime(LocalDateTime.now());
+      vo.setUpdateTime(LocalDateTime.now());
+  
+      SysMenu menu = menuDao.save(convert(vo, SysMenu.class));
+  
+      menuOperDao.deleteByMenuId(menu.getId());
+      if (!DataUtils.isEmpty(menu.getOperIds())) {
+        menu.getOperIds().forEach(id -> {
+          SysMenuOperation operation = new SysMenuOperation();
+          operation.setId(id);
+          SysMenuOper menuOper = new SysMenuOper();
+          menuOper.setMenuId(menu.getId());
+          menuOper.setSysMenuOperation(operation);
+          menuOperDao.save(menuOper);
+        });
+      }
+      return convert(menu, SysMenuDto.class);
+    } catch (Exception e) {
+      LOGGER.error("Error save: ", e);
+      throw new ProjectRuntimeException();
     }
-    return convert(menu, SysMenuDto.class);
   }
 
   @Override

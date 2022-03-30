@@ -21,6 +21,7 @@ public class ApplicationLoggerInitializer implements ApplicationContextInitializ
      */
     @Override
     public void initialize(ConfigurableApplicationContext applicationContext) {
+        // 配置 logback 这里无效
         ConfigurableEnvironment environment = applicationContext.getEnvironment();
         String appName = environment.getProperty("spring.application.name");
         String logBase = environment.getProperty("logging.file.path", "logs");

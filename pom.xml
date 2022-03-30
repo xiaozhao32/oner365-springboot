@@ -224,6 +224,11 @@
 		    <artifactId>logback-classic</artifactId>
 		    <version>1.2.10</version>
 		</dependency>
+		<dependency>
+		    <groupId>net.logstash.logback</groupId>
+		    <artifactId>logstash-logback-encoder</artifactId>
+		    <version>7.0.1</version>
+		</dependency>
 
 		<!-- ssh2 -->
 		<dependency>

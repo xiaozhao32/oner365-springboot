@@ -323,6 +323,7 @@ INSERT INTO `nt_sys_menu` VALUES ('2017', '1', '队列监控', '201', 'monitor/r
 INSERT INTO `nt_sys_menu` VALUES ('2018', '1', '文档监控', '201', 'monitor/fastdfs/index', '/fastdfs', 28, '文档监控', 'documentation', '1', '2020-12-25 14:49:33', '2020-12-25 14:50:24', NULL);
 INSERT INTO `nt_sys_menu` VALUES ('301', '1', '日志管理', '-1', 'Layout', '/log', 3, '日志管理', 'log', '1', '2020-11-16 15:36:00', '2020-11-16 15:36:00', NULL);
 INSERT INTO `nt_sys_menu` VALUES ('3011', '1', '服务日志', '301', 'system/log/index', '/syslog', 31, '服务日志', 'druid', '1', '2020-11-16 15:36:00', '2021-09-12 10:59:39', NULL);
+INSERT INTO `nt_sys_menu` VALUES ('3012', '1', '应用日志', '301', 'application/log/index', '/application/log', 32, '应用日志', 'bug', '1', '2020-11-16 15:36:00', '2021-09-12 10:59:39', NULL);
 INSERT INTO `nt_sys_menu` VALUES ('401', '1', '生成管理', '-1', 'Layout', '/generator', 4, '生成管理', 'money', '1', '2021-10-26 11:09:27', '2021-10-26 11:10:35', NULL);
 INSERT INTO `nt_sys_menu` VALUES ('4011', '1', '生成框架', '401', 'tool/gen/index', '/generator/gen', 1, '生成框架', 'system', '1', '2021-10-26 11:12:05', '2021-10-26 11:17:07', NULL);
 COMMIT;
@@ -517,6 +518,7 @@ INSERT INTO `nt_sys_role_menu` VALUES ('112017', '2017', '1', '1');
 INSERT INTO `nt_sys_role_menu` VALUES ('112018', '2018', '1', '1');
 INSERT INTO `nt_sys_role_menu` VALUES ('11301', '301', '1', '1');
 INSERT INTO `nt_sys_role_menu` VALUES ('113011', '3011', '1', '1');
+INSERT INTO `nt_sys_role_menu` VALUES ('113012', '3012', '1', '1');
 INSERT INTO `nt_sys_role_menu` VALUES ('11401', '401', '1', '1');
 INSERT INTO `nt_sys_role_menu` VALUES ('114011', '4011', '1', '1');
 INSERT INTO `nt_sys_role_menu` VALUES ('ff80808172a150110172a159d9c400001101', '101', 'ff80808172a150110172a159d9c40000', '1');
