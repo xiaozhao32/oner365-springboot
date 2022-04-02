@@ -223,7 +223,7 @@ deploy:
   local:
     location: /Users/taoliu/gitee
     name: /Users/taoliu/gitee/deploy/springboot
-    version: 1.0
+    version: 2.0.0
     suffix: jar
     projects:
     - oner365-springboot

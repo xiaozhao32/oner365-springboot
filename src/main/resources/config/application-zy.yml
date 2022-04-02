@@ -153,7 +153,7 @@ logging:
 # 文件上传下载地址
 file:
   # 存储方式为 local fdfs minio
-  storage: local
+  storage: minio
   # excel后缀
   excel:
     suffix: xlsx
@@ -224,7 +224,7 @@ deploy:
   local:
     location: /Users/zhaoyong/Documents/git
     name: /Users/zhaoyong/Documents/deploy/springboot
-    version: 1.0
+    version: 2.0.0
     suffix: jar
     active: zy
     projects:
