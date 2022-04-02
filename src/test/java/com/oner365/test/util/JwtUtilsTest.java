@@ -8,6 +8,8 @@ import java.util.Date;
 import com.alibaba.fastjson.JSON;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.oner365.common.jwt.JwtTools;
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import com.alibaba.fastjson.JSONObject;
@@ -33,6 +35,7 @@ class JwtUtilsTest extends BaseUtilsTest {
     logger.info("解密token:{}", JwtUtils.getUsernameFromToken(token, key));
     logger.info("validateToken:{}", JwtUtils.validateToken(token, key));
     logger.info("base64 decode:");
+    Assertions.assertNotEquals(null, token);
     Arrays.stream(token.split("\\.")).filter(s -> s.startsWith("ey"))
         .forEach(s -> logger.info("content:{}", new String(Base64.getDecoder().decode(s.trim()))));
   }
@@ -46,6 +49,7 @@ class JwtUtilsTest extends BaseUtilsTest {
     String token = JwtTools.getToken(json.toJSONString(), time, "test");
     // 打印token
     logger.info("token: {}", token);
+    Assertions.assertNotEquals(null, token);
     // 解密token
     DecodedJWT jwt = JwtTools.decodeToken(token, "test");
     logger.info("body: {}", jwt.getClaim("body").asString());

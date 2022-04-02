@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,6 +30,7 @@ class SysRoleMenuOperDaoTest extends BaseDaoTest {
     String menuTypeId = "1";
     List<Map<String,String>> result = dao.findMenuOperListByRoleId(roleId, menuTypeId);
     logger.info("result:{}", result.size());
+    Assertions.assertNotEquals(0, result.size());
   }
   
   @Test
@@ -38,6 +40,7 @@ class SysRoleMenuOperDaoTest extends BaseDaoTest {
     String menuId = "101";
     List<Map<String,String>> result = dao.findMenuOperByRoles(roles, menuId);
     logger.info("result:{}", result.size());
+    Assertions.assertNotEquals(0, result.size());
   }
 
 }

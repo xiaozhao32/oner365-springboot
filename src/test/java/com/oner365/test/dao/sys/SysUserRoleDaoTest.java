@@ -2,6 +2,7 @@ package com.oner365.test.dao.sys;
 
 import java.util.List;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,6 +27,7 @@ class SysUserRoleDaoTest extends BaseDaoTest {
     String userId = "1";
     List<String> result = dao.findUserRoleByUserId(userId);
     logger.info("result:{}", result.size());
+    Assertions.assertNotEquals(0, result.size());
   }
 
 }

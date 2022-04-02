@@ -22,6 +22,9 @@ public class JwtTools {
 
     private static final String PARAM_AUTH = "auth0";
     private static final String PARAM_BODY = "body";
+    
+    private JwtTools() {
+    }
 
     /**
      * 生成加密后的token

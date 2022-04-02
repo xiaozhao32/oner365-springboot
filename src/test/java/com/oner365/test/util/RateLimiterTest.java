@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
 import org.apache.tomcat.util.threads.ThreadPoolExecutor;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import com.google.common.util.concurrent.RateLimiter;
@@ -42,6 +43,7 @@ class RateLimiterTest extends BaseUtilsTest {
       double d = rt.acquire();
       logger.info("Thread:{}", Thread.currentThread().getName());
       logger.info("正常执行方法，ts:{} - {}", Instant.now(), d);
+      Assertions.assertNotEquals(0, d);
     }).forEach(executorService::execute);
     executorService.shutdown();
   }

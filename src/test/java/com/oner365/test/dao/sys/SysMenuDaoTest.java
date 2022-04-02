@@ -2,6 +2,7 @@ package com.oner365.test.dao.sys;
 
 import java.util.List;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,6 +28,7 @@ class SysMenuDaoTest extends BaseDaoTest {
     String typeCode = "nt_sys";
     List<SysMenu> result = dao.findMenuByTypeCode(typeCode);
     logger.info("result:{}", result.size());
+    Assertions.assertNotEquals(0, result.size());
   }
 
 }

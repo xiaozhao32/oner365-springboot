@@ -24,7 +24,7 @@ import com.oner365.test.BaseTest;
  * @author zhaoyong
  *
  */
-public class BaseControllerTest extends BaseTest {
+public abstract class BaseControllerTest extends BaseTest {
 
   @Autowired
   protected WebTestClient client;
