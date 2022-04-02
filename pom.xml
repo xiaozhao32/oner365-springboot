@@ -41,8 +41,8 @@
 		<java.version>11</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		<org.springframework.boot.version>2.6.5</org.springframework.boot.version>
-		<org.springframework.version>5.3.17</org.springframework.version>
+		<org.springframework.boot.version>2.6.6</org.springframework.boot.version>
+		<org.springframework.version>5.3.18</org.springframework.version>
 
 		<org.apache.poi.version>5.2.2</org.apache.poi.version>
 
