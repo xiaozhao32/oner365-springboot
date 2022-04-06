@@ -80,8 +80,9 @@ public class JwtAuthFilter implements Filter {
 
   private void setHttpRequest(HttpServletRequest httpRequest, String tokenInfo, String authToken) {
     AuthUser authUser = new AuthUser(JSON.parseObject(tokenInfo));
-    if (authUser != null)
-    httpRequest.setAttribute(RequestUtils.AUTH_USER, authUser);
+    if (authUser != null) {
+      httpRequest.setAttribute(RequestUtils.AUTH_USER, authUser);
+    }
     if (authToken != null) {
       httpRequest.setAttribute(RequestUtils.ACCESS_TOKEN, authToken);
     }
