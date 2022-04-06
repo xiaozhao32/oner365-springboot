@@ -9,7 +9,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.util.ClassUtils;
 
 import java.beans.PropertyDescriptor;
-import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -85,7 +84,7 @@ public class ClassesUtil {
    * @param clazz 类
    * @return boolean
    */
-  public static boolean isCollection(Class<?> clazz) {
+  public static <T> boolean isCollection(Class<T> clazz) {
     boolean result = false;
     if (ClassUtils.isAssignable(Iterable.class, clazz)) {
       result = true;
@@ -99,7 +98,7 @@ public class ClassesUtil {
    * @param clazz 类
    * @return boolean
    */
-  public static boolean isMap(Class<?> clazz) {
+  public static <T> boolean isMap(Class<T> clazz) {
     boolean result = false;
     if (ClassUtils.isAssignable(Map.class, clazz)) {
       result = true;
@@ -123,7 +122,7 @@ public class ClassesUtil {
    * @param clazz 类
    * @return boolean
    */
-  public static boolean isDate(Class<?> clazz) {
+  public static <T> boolean isDate(Class<T> clazz) {
     boolean result = false;
     if (ClassUtils.isAssignable(java.util.Date.class, clazz)) {
       result = true;
@@ -137,7 +136,7 @@ public class ClassesUtil {
    * @param clazz 类
    * @return boolean
    */
-  public static boolean isSerial(Class<?> clazz) {
+  public static <T> boolean isSerial(Class<T> clazz) {
     boolean result = false;
     if (ClassUtils.isAssignable(java.sql.Clob.class, clazz)
             || ClassUtils.isAssignable(java.sql.Blob.class, clazz)) {
@@ -152,7 +151,7 @@ public class ClassesUtil {
    * @param clazz 类
    * @return boolean
    */
-  public static boolean isJson(Class<?> clazz) {
+  public static <T> boolean isJson(Class<T> clazz) {
     boolean result = false;
     if (ClassUtils.isAssignable(JSON.class, clazz)) {
       result = true;
@@ -166,7 +165,7 @@ public class ClassesUtil {
    * @param clazz 类
    * @return boolean
    */
-  public static boolean isAtomic(Class<?> clazz) {
+  public static <T> boolean isAtomic(Class<T> clazz) {
     return isSpecific(clazz) || isDate(clazz)
             || isCollection(clazz) || isSerial(clazz) || isJson(clazz);
   }
@@ -177,7 +176,7 @@ public class ClassesUtil {
    * @param clazz 类
    * @return String
    */
-  public static String getObjectType(Class<?> clazz) {
+  public static <T> String getObjectType(Class<T> clazz) {
     if (clazz == null) {
       return StringUtils.EMPTY;
     } else if (isAtomic(clazz)) {
@@ -214,7 +213,7 @@ public class ClassesUtil {
    * @return T
    */
   @SuppressWarnings("unchecked")
-  public static <T> T invokeMethod(Object object, String methodName, Object[] args, Class<?>[] parameterTypes) {
+  public static <T> T invokeMethod(Object object, String methodName, Object[] args, Class<T>[] parameterTypes) {
     try {
       return (T) MethodUtils.invokeMethod(object, methodName, args, parameterTypes);
     } catch (Exception e) {
@@ -329,10 +328,10 @@ public class ClassesUtil {
    * 获取非基本类型对象
    *
    * @param clazz 类
-   * @return List<Class < ?>>
+   * @return List<Class <T>>
    */
-  public static List<Class<?>> findNoneAtomicClass(Class<?> clazz) {
-    List<Class<?>> result = new ArrayList<>();
+  public static <T> List<Class<T>> findNoneAtomicClass(Class<T> clazz) {
+    List<Class<T>> result = new ArrayList<>();
     List<Method> setters = getSetters(clazz);
     setters.forEach(setter -> {
       String property = getProperty(setter);
@@ -340,7 +339,7 @@ public class ClassesUtil {
         return;
       }
       @SuppressWarnings("unchecked")
-      Class<? extends Serializable> paramType = (Class<Serializable>) setter.getParameterTypes()[0];
+      Class<T> paramType = (Class<T>) setter.getParameterTypes()[0];
       if (!isAtomic(paramType)) {
         result.add(paramType);
       }
