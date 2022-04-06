@@ -47,8 +47,7 @@ public class LocalDateTimeTypeAdapter implements JsonSerializer<LocalDateTime>, 
 
   @Override
   public JsonElement serialize(LocalDateTime src, Type arg1, JsonSerializationContext arg2) {
-    DateFormat dateFormat = getDateFormat();
-    String dateFormatAsString = dateFormat.format(new Date(DateUtil.localDateTimeToDate(src).getTime()));
+    String dateFormatAsString = getDateFormat().format(new Date(DateUtil.localDateTimeToDate(src).getTime()));
     return new JsonPrimitive(dateFormatAsString);
   }
 
