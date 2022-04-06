@@ -10,6 +10,8 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,6 +32,8 @@ import com.oner365.util.ClassesUtil;
 @Aspect
 @Component
 public class RedisCacheAspect {
+  
+    private final Logger logger = LoggerFactory.getLogger(RedisCacheAspect.class);
 
     @Autowired
     private RedisCache redisCache;
@@ -58,10 +62,9 @@ public class RedisCacheAspect {
      * @param joinPoint ProceedingJoinPoint
      * @param rd RedisCacheAble
      * @return Object
-     * @throws Throwable 异常
      */
     @Around("annotationAble()&& @annotation(rd)")
-    public Object redisCacheAble(ProceedingJoinPoint joinPoint, RedisCacheAble rd) throws Throwable {
+    public Object redisCacheAble(ProceedingJoinPoint joinPoint, RedisCacheAble rd) {
 
         String key = "";
         if (commonProperties.isRedisEnabled()) {
@@ -78,16 +81,21 @@ public class RedisCacheAspect {
             }
         }
 
-        Object sourceObject = joinPoint.proceed();
-        if (sourceObject == null) {
+        try {
+          Object sourceObject = joinPoint.proceed();
+          if (sourceObject == null) {
             return null;
+          }
+  
+          if (commonProperties.isRedisEnabled()) {
+              // Set cache
+              redisCache.setCacheObject(key, JSON.toJSONString(sourceObject), PublicConstants.EXPIRE_TIME, TimeUnit.MINUTES);
+          }
+          return sourceObject;
+        } catch (Throwable e) {
+          logger.error("redisCacheAble error:", e);
         }
-
-        if (commonProperties.isRedisEnabled()) {
-            // Set cache
-            redisCache.setCacheObject(key, JSON.toJSONString(sourceObject), PublicConstants.EXPIRE_TIME, TimeUnit.MINUTES);
-        }
-        return sourceObject;
+        return null;
     }
 
     /**

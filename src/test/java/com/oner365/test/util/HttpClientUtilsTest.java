@@ -1,6 +1,7 @@
 package com.oner365.test.util;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
@@ -32,7 +33,7 @@ class HttpClientUtilsTest extends BaseUtilsTest {
     @Test
     void test() throws IOException {
         String hostname = "localhost";
-        logger.info("base64:{}", new String(Base64Utils.encodeBase64("admin:admin123".getBytes())));
+        logger.info("base64:{}", new String(Base64Utils.encodeBase64("admin:admin123".getBytes()), Charset.defaultCharset()));
         HttpHost target = new HttpHost(hostname, 15672, "http");
         CredentialsProvider credsProvider = new BasicCredentialsProvider();
         credsProvider.setCredentials(

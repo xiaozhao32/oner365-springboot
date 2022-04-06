@@ -5,6 +5,7 @@ import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.Set;
 import java.util.stream.IntStream;
 
@@ -482,7 +483,7 @@ public class ConvertString {
     if (DataUtils.isEmpty(valueStr)) {
       return defaultValue;
     }
-    valueStr = valueStr.trim().toLowerCase();
+    valueStr = valueStr.trim().toLowerCase(Locale.ENGLISH);
     switch (valueStr) {
       case "true":
       case "yes":
@@ -711,7 +712,7 @@ public class ConvertString {
     }
 
     if (null == charset) {
-      return new String(data);
+      return new String(data, Charset.defaultCharset());
     }
     return new String(data, charset);
   }

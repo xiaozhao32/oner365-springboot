@@ -1,5 +1,6 @@
 package com.oner365.test.util;
 
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Calendar;
@@ -37,7 +38,7 @@ class JwtUtilsTest extends BaseUtilsTest {
     logger.info("base64 decode:");
     Assertions.assertNotEquals(null, token);
     Arrays.stream(token.split("\\.")).filter(s -> s.startsWith("ey"))
-        .forEach(s -> logger.info("content:{}", new String(Base64.getDecoder().decode(s.trim()))));
+        .forEach(s -> logger.info("content:{}", new String(Base64.getDecoder().decode(s.trim()), Charset.defaultCharset())));
   }
 
   @Test

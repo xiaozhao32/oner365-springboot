@@ -1,6 +1,7 @@
 package com.oner365.deploy.utils;
 
 import java.io.File;
+import java.net.URL;
 import java.util.*;
 
 import org.slf4j.Logger;
@@ -100,20 +101,26 @@ public class DeployMethod {
       DataUtils.copyDirectory(libPath, deployEntity.getName());
 
       // 制作 Linux 启动脚本
-      String readFile = DeployMethod.class.getResource("/service/start.sh").getPath();
-      String writeFile = targetPath + File.separator + "start.sh";
-      Map<String, Object> items = new HashMap<>(1);
-      items.put("SERVICE_NAME=", "SERVICE_NAME=" + projectName);
-      items.put("VERSION=", "VERSION=" + deployEntity.getVersion());
-      items.put("ACTIVE=", "ACTIVE=" + deployEntity.getActive());
-      DataUtils.replaceContextFileCreate(readFile, writeFile, items);
+      URL shUrl = DeployMethod.class.getResource("/service/start.sh");
+      if (shUrl != null) {
+        String readFile = shUrl.getPath();
+        String writeFile = targetPath + File.separator + "start.sh";
+        Map<String, Object> items = new HashMap<>(3);
+        items.put("SERVICE_NAME=", "SERVICE_NAME=" + projectName);
+        items.put("VERSION=", "VERSION=" + deployEntity.getVersion());
+        items.put("ACTIVE=", "ACTIVE=" + deployEntity.getActive());
+        DataUtils.replaceContextFileCreate(readFile, writeFile, items);
+      }
 
       // 制作 Windows 启动脚本
-      readFile = DeployMethod.class.getResource("/service/start.bat").getPath();
-      writeFile = targetPath + File.separator + "start.bat";
-      items = new HashMap<>(1);
-      items.put("RESOURCE_NAME", projectName + "-" + deployEntity.getVersion() + "." + deployEntity.getSuffix());
-      DataUtils.replaceContextFileCreate(readFile, writeFile, items);
+      URL batUrl = DeployMethod.class.getResource("/service/start.bat");
+      if (batUrl != null) {
+        String readFile = batUrl.getPath();
+        String writeFile = targetPath + File.separator + "start.bat";
+        Map<String, Object> items = new HashMap<>(1);
+        items.put("RESOURCE_NAME", projectName + "-" + deployEntity.getVersion() + "." + deployEntity.getSuffix());
+        DataUtils.replaceContextFileCreate(readFile, writeFile, items);
+      }
     });
 
   }

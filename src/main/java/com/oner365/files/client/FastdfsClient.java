@@ -122,7 +122,7 @@ public class FastdfsClient implements IFileStorageClient {
    */
   private String getExtName(String fileName, String contentType) {
     String result = FilenameUtils.getExtension(fileName);
-    if ("".equals(result)) {
+    if (DataUtils.isEmpty(result)) {
       return StringUtils.substringAfterLast(contentType, PublicConstants.DELIMITER);
     }
     return result;

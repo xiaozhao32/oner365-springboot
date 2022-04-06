@@ -93,7 +93,7 @@ public class RequestUtils {
    */
   public static String getToken() {
     if (getHttpRequest() != null && getHttpRequest().getAttribute(ACCESS_TOKEN) != null) {
-      return getHttpRequest().getAttribute(ACCESS_TOKEN).toString();
+      return (String) getHttpRequest().getAttribute(ACCESS_TOKEN);
     }
     return null;
   }
@@ -112,9 +112,15 @@ public class RequestUtils {
     return paths.stream().anyMatch(uri::contains);
   }
 
+  /**
+   * 获取RequestBody
+   * 
+   * @param stream 输入流
+   * @return String
+   */
   public static String getRequestBody(InputStream stream) {
     String line;
-    StringBuilder body = new StringBuilder();
+    StringBuilder body = new StringBuilder(PublicConstants.BYTE_SIZE);
     try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
       while ((line = reader.readLine()) != null) {
         body.append(line.trim());

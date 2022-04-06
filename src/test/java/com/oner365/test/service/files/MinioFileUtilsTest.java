@@ -66,7 +66,7 @@ class MinioFileUtilsTest extends BaseServiceTest {
           .stream(inputStream, file.length(), -1).contentType(ContentType.IMAGE_JPEG.getMimeType()).build());
       logger.info("file path: {}", writeResponse.object());
     } catch (IOException e) {
-      e.printStackTrace();
+      logger.error("upload file error:", e);
     }
 
     // 获取文件

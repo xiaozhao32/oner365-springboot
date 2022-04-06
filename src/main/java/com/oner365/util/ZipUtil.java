@@ -179,11 +179,12 @@ public class ZipUtil {
         while (e.hasMoreElements()) {
           unzipFile(zipFile, e, dest);
         }
+      } catch (IOException e) {
+        LOGGER.error("Error unZip:", e);
+      } finally {
         if (deleteFile) {
           file.deleteOnExit();
         }
-      } catch (IOException e) {
-        LOGGER.error("Error unZip:", e);
       }
     }
   }
@@ -245,7 +246,7 @@ public class ZipUtil {
    * @return String
    */
   public static String getZipSpecifiedFileString(String zipFilePath, String specifiesFileName) {
-    StringBuilder str = new StringBuilder();
+    StringBuilder str = new StringBuilder(PublicConstants.BYTE_SIZE);
 
     try (ZipFile zipFile = new ZipFile(zipFilePath)) {
       Enumeration<?> enu = zipFile.getEntries();

@@ -17,6 +17,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 /**
@@ -35,9 +36,17 @@ public class DeployUtils {
 
   }
 
+  /**
+   * 是否mac系统
+   * 
+   * @return boolean
+   */
   public static boolean isMac() {
     String os = System.getProperty("os.name");
-    return !os.toLowerCase().startsWith("win");
+    if (os != null) {
+      return !os.toLowerCase(Locale.ENGLISH).startsWith("win");
+    }
+    return false;
   }
 
   /**

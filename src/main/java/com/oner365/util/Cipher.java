@@ -1,6 +1,7 @@
 package com.oner365.util;
 
 
+import java.nio.charset.Charset;
 import java.util.Arrays;
 
 /**
@@ -267,7 +268,7 @@ public final class Cipher {
    */
   public static String decodeSms4toString(byte[] ciphertext, byte[] key) {
     byte[] plaintext = decodeSms4(ciphertext, key);
-    return new String(plaintext);
+    return new String(plaintext, Charset.defaultCharset());
   }
 
   /**

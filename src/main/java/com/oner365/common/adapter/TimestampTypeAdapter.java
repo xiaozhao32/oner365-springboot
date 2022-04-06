@@ -19,32 +19,53 @@ import com.google.gson.JsonSerializer;
 
 /**
  * Timestamp 转换
+ * 
  * @author zhaoyong
  */
 public class TimestampTypeAdapter implements JsonSerializer<Timestamp>, JsonDeserializer<Timestamp> {
-    private final DateFormat format = new SimpleDateFormat(DateUtil.FULL_TIME_FORMAT);
-
-    @Override
-    public JsonElement serialize(Timestamp src, Type arg1, JsonSerializationContext arg2) {
-        String dateFormatAsString = format.format(new Date(src.getTime()));
-        return new JsonPrimitive(dateFormatAsString);
+  
+  private static final ThreadLocal<DateFormat> LOCAL = new ThreadLocal<>();
+  
+  /**
+   * get method
+   *
+   * @return DateFormat
+   */
+  public static DateFormat getDateFormat() {
+    if (LOCAL == null) {
+      LOCAL.set(new SimpleDateFormat(DateUtil.FULL_TIME_FORMAT));
     }
+    return LOCAL.get();
+  }
 
-    @Override
-    public Timestamp deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) {
-        if (!(json instanceof JsonPrimitive)) {
-            throw new JsonParseException("The date should be a string value");
-        }
-        try {
-            if (DataUtils.isEmpty(json.getAsString())) {
-                return null;
-            } else {
-                Date date = format.parse(json.getAsString());
-                return new Timestamp(date.getTime());
-            }
-        } catch (ParseException e) {
-            throw new JsonParseException(e);
-        }
+  /**
+   * remove method
+   */
+  public static void remove() {
+    LOCAL.remove();
+  } 
+
+  @Override
+  public JsonElement serialize(Timestamp src, Type arg1, JsonSerializationContext arg2) {
+    String dateFormatAsString = getDateFormat().format(new Date(src.getTime()));
+    return new JsonPrimitive(dateFormatAsString);
+  }
+
+  @Override
+  public Timestamp deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) {
+    if (!(json instanceof JsonPrimitive)) {
+      throw new JsonParseException("The date should be a string value");
     }
+    try {
+      if (DataUtils.isEmpty(json.getAsString())) {
+        return null;
+      } else {
+        Date date = getDateFormat().parse(json.getAsString());
+        return new Timestamp(date.getTime());
+      }
+    } catch (ParseException e) {
+      throw new JsonParseException(e);
+    }
+  }
 
 }
