@@ -51,7 +51,6 @@ public class ScheduleTaskServiceImpl implements IScheduleTaskService {
 
       } else {
         if (!StatusEnum.NO.getCode().equals(sysTask.getExecuteStatus())) {
-          sysTask.getInvokeParamDto();
           status = execute(taskId, param, sysTask);
         }
         LOGGER.info("taskExecute  concurrent : {}", concurrent);

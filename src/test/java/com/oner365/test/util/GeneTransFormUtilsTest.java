@@ -20,30 +20,30 @@ class GeneTransFormUtilsTest extends BaseUtilsTest {
     void geneFormatList() {
         String str = "{\"D7S820\": \"10/11\", \"D12S391\": \"18/18\", \"D13S317\": \"11/12\", \"D16S539\": \"10/13\"}";
         JSONArray result = GeneTransFormUtils.geneFormatList(str);
-        Assertions.assertEquals(false, result.isEmpty());
+        Assertions.assertFalse(result.isEmpty());
     }
-    
+
     @Test
     void geneFormatString() {
         String str = "[{\"name\": \"D8S1179\", \"value\": \"11/12\"}, {\"name\": \"D2S11\", \"value\": \"9/10\"}]";
         JSONObject result = GeneTransFormUtils.geneFormatString(str);
-        Assertions.assertEquals(false, result.isEmpty());
+        Assertions.assertFalse(result.isEmpty());
     }
-    
+
     @Test
     void match() {
         String str1 = "{\"D2S11\":\"9/10\",\"D8S1179\":\"11/12\",\"D16S539\":\"11/12\"}";
         String str2 = "{\"D2S11\":\"9/10\",\"D8S1179\":\"11/12/13\"}";
         boolean result = GeneTransFormUtils.match(JSON.parseObject(str1), JSON.parseObject(str2));
-        Assertions.assertEquals(true, result);
+        Assertions.assertTrue(result);
     }
-    
+
     @Test
     void matchEquals() {
         String str1 = "{\"D2S11\":\"9/10\",\"D8S1179\":\"11/12\",\"D16S539\":\"11/12\"}";
         String str2 = "{\"D2S11\":\"9/10\",\"D8S1179\":\"11/12\"}";
         boolean result = GeneTransFormUtils.matchEquals(JSON.parseObject(str1), JSON.parseObject(str2));
-        Assertions.assertEquals(true, result);
+        Assertions.assertTrue(result);
     }
 
 }

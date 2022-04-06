@@ -87,12 +87,11 @@ public class CacheController extends BaseController {
       if (jedis.isConnected()) {
         IntStream.range(0, DB_LENGTH).forEach(i -> {
           jedis.select(i);
-          Long size = jedis.dbSize();
-          if (size != 0L) {
+          if (jedis.dbSize() != 0L) {
             CacheJedisInfoDto dto = new CacheJedisInfoDto();
             dto.setName("DB" + i);
             dto.setIndex(i);
-            dto.setSize(size);
+            dto.setSize(jedis.dbSize());
             result.add(dto);
           }
         });
