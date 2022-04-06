@@ -41,7 +41,7 @@ import com.oner365.util.RequestUtils;
 
 /**
  * 用于对客户端调用请求时验证token的合法性
- * 
+ *
  * @author zhaoyong
  */
 @Component
@@ -80,13 +80,11 @@ public class JwtAuthFilter implements Filter {
 
   private void setHttpRequest(HttpServletRequest httpRequest, String tokenInfo, String authToken) {
     AuthUser authUser = new AuthUser(JSON.parseObject(tokenInfo));
-    if (authUser != null) {
-      httpRequest.setAttribute(RequestUtils.AUTH_USER, authUser);
-    }
+    httpRequest.setAttribute(RequestUtils.AUTH_USER, authUser);
     if (authToken != null) {
       httpRequest.setAttribute(RequestUtils.ACCESS_TOKEN, authToken);
     }
-    
+
     // token 过期处理
     validateToken(authUser, authToken);
   }
