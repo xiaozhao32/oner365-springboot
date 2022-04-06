@@ -32,7 +32,7 @@ public class LocalDateTimeTypeAdapter implements JsonSerializer<LocalDateTime>, 
    * @return DateFormat
    */
   public static DateFormat getDateFormat() {
-    if (LOCAL == null) {
+    if (LOCAL.get() == null) {
       LOCAL.set(new SimpleDateFormat(DateUtil.FULL_TIME_FORMAT));
     }
     return LOCAL.get();
@@ -47,7 +47,8 @@ public class LocalDateTimeTypeAdapter implements JsonSerializer<LocalDateTime>, 
 
   @Override
   public JsonElement serialize(LocalDateTime src, Type arg1, JsonSerializationContext arg2) {
-    String dateFormatAsString = getDateFormat().format(new Date(DateUtil.localDateTimeToDate(src).getTime()));
+    DateFormat dateFormat = getDateFormat();
+    String dateFormatAsString = dateFormat.format(new Date(DateUtil.localDateTimeToDate(src).getTime()));
     return new JsonPrimitive(dateFormatAsString);
   }
 

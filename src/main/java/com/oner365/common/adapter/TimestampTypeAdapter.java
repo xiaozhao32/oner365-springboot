@@ -32,7 +32,7 @@ public class TimestampTypeAdapter implements JsonSerializer<Timestamp>, JsonDese
    * @return DateFormat
    */
   public static DateFormat getDateFormat() {
-    if (LOCAL == null) {
+    if (LOCAL.get() == null) {
       LOCAL.set(new SimpleDateFormat(DateUtil.FULL_TIME_FORMAT));
     }
     return LOCAL.get();

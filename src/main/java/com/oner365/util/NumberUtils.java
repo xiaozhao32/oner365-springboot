@@ -45,7 +45,7 @@ public class NumberUtils {
    * @return DecimalFormat
    */
   public static DecimalFormat getDecimalFormat() {
-    if (LOCAL == null) {
+    if (LOCAL.get() == null) {
       LOCAL.set(new DecimalFormat("#.##"));
     }
     return LOCAL.get();
