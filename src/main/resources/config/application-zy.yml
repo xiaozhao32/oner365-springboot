@@ -153,7 +153,7 @@ logging:
 # 文件上传下载地址
 file:
   # 存储方式为 local fdfs minio
-  storage: minio
+  storage: local
   # excel后缀
   excel:
     suffix: xlsx
