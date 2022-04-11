@@ -112,8 +112,8 @@ public class SysMessageController extends BaseController {
    * @param sysMessageVo 消息对象
    * @return ResponseResult<SysMessageDto>
    */
-  @ApiOperation("4.保存")
-  @ApiOperationSupport(order = 4)
+  @ApiOperation("5.保存")
+  @ApiOperationSupport(order = 5)
   @PutMapping("/save")
   public ResponseResult<SysMessageDto> save(@RequestBody SysMessageVo sysMessageVo) {
     if (sysMessageVo != null) {
@@ -129,8 +129,8 @@ public class SysMessageController extends BaseController {
    * @param ids 编号
    * @return List<Integer>
    */
-  @ApiOperation("5.删除")
-  @ApiOperationSupport(order = 5)
+  @ApiOperation("6.删除")
+  @ApiOperationSupport(order = 6)
   @DeleteMapping("/delete")
   public List<Integer> delete(@RequestBody String... ids) {
     return Arrays.stream(ids).map(id -> sysMessageService.deleteById(id)).collect(Collectors.toList());
@@ -142,8 +142,8 @@ public class SysMessageController extends BaseController {
    * @param data 查询参数
    * @return ResponseEntity<byte[]>
    */
-  @ApiOperation("6.导出")
-  @ApiOperationSupport(order = 6)
+  @ApiOperation("7.导出")
+  @ApiOperationSupport(order = 7)
   @PostMapping("/export")
   public ResponseEntity<byte[]> export(@RequestBody QueryCriteriaBean data) {
     List<SysMessageDto> list = sysMessageService.findList(data);
