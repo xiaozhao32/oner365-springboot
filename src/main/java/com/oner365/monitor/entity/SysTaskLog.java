@@ -113,7 +113,7 @@ public class SysTaskLog implements Serializable {
   /**
    * 更新时间
    */
-  @Column(name = "update_time", insertable = false)
+  @Column(name = "update_time", updatable = true)
   private Date updateTime;
 
   public SysTaskLog() {
