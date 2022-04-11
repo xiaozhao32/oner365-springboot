@@ -5,9 +5,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
@@ -37,8 +34,6 @@ import com.oner365.common.enums.StorageEnum;
 import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
-import com.oner365.deploy.utils.DeployUtils;
-import com.oner365.files.config.properties.FileFdfsProperties;
 import com.oner365.files.dto.SysFileStorageDto;
 import com.oner365.files.service.IFileStorageService;
 import com.oner365.files.storage.IFileStorageClient;
@@ -46,7 +41,6 @@ import com.oner365.files.vo.DownloadVo;
 import com.oner365.util.DataUtils;
 import com.oner365.util.DateUtil;
 
-import ch.ethz.ssh2.SFTPv3DirectoryEntry;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -60,9 +54,6 @@ import io.swagger.annotations.ApiParam;
 @Api(tags = "文件上传")
 @RequestMapping("/files/storage")
 public class FileStorageController extends BaseController {
-
-  @Autowired
-  private FileFdfsProperties fileFdfsProperties;
 
   @Resource
   private IFileStorageClient fileStorageClient;
@@ -84,46 +75,13 @@ public class FileStorageController extends BaseController {
   }
 
   /**
-   * 获取fdfs目录 - fdfs专用
-   *
-   * @param fileDirectory 目录
-   * @return List<FastdfsFile>
-   */
-  @ApiOperation("2.获取目录 - fdfs专用")
-  @ApiOperationSupport(order = 2)
-  @GetMapping("/directory")
-  public List<SysFileStorageDto> directory(@RequestParam("fileDirectory") String fileDirectory) {
-    final String directory;
-    if (!DataUtils.isEmpty(fileDirectory)) {
-      directory = fileFdfsProperties.getPath() + "/M00/00/" + fileDirectory;
-    } else {
-      directory = fileFdfsProperties.getPath();
-    }
-
-    List<SFTPv3DirectoryEntry> vector = DeployUtils.directoryList(fileFdfsProperties.getIp(), fileFdfsProperties.getPort(),
-        fileFdfsProperties.getUser(), fileFdfsProperties.getPassword(), directory);
-    return vector.stream().map(entry -> {
-      SysFileStorageDto fastdfsFile = new SysFileStorageDto();
-      fastdfsFile.setId(StringUtils.replace(directory, fileFdfsProperties.getPath(), "group1") + PublicConstants.DELIMITER + entry.filename);
-      fastdfsFile.setCreateTime(new Date(entry.attributes.mtime * 1000L));
-      fastdfsFile.setFileName(entry.filename);
-      fastdfsFile.setDirectory(entry.attributes.isDirectory());
-      fastdfsFile.setFileSuffix(DataUtils.getExtension(entry.filename));
-      fastdfsFile.setFilePath(directory);
-      fastdfsFile.setFastdfsUrl("http://" + fileFdfsProperties.getIp());
-      fastdfsFile.setSize(DataUtils.convertFileSize(entry.attributes.size));
-      return fastdfsFile;
-    }).collect(Collectors.toList());
-  }
-
-  /**
    * 文件上传 File 类型
    *
    * @param file    File
    * @param dictory 目录
    * @return ResponseResult<String>
    */
-  @ApiOperation("3.文件上传")
+  @ApiOperation("2.文件上传")
   @ApiOperationSupport(order = 3)
   @PostMapping("/upload")
   public ResponseResult<String> uploadFile(
@@ -144,7 +102,7 @@ public class FileStorageController extends BaseController {
    * @param filename 文件名称
    * @param response HttpServletResponse
    */
-  @ApiOperation("4.文件下载 - 写出")
+  @ApiOperation("3.文件下载 - 写出")
   @ApiOperationSupport(order = 4)
   @GetMapping("/download")
   public void download(@RequestParam("fileUrl") String fileUrl, String filename, HttpServletResponse response) {
@@ -176,7 +134,7 @@ public class FileStorageController extends BaseController {
    * @param fileUrl url 开头从组名开始
    * @return byte[]
    */
-  @ApiOperation("5.文件下载 - byte[]流方式")
+  @ApiOperation("4.文件下载 - byte[]流方式")
   @ApiOperationSupport(order = 5)
   @GetMapping("/byte/download")
   public byte[] downloadFile(@RequestParam("fileUrl") String fileUrl) {
@@ -189,7 +147,7 @@ public class FileStorageController extends BaseController {
    * @param ids 文件id
    * @return String
    */
-  @ApiOperation("6.删除文件")
+  @ApiOperation("5.删除文件")
   @ApiOperationSupport(order = 6)
   @DeleteMapping("/delete")
   public String delete(@RequestBody String... ids) {
@@ -204,7 +162,7 @@ public class FileStorageController extends BaseController {
    *
    * @return String
    */
-  @ApiOperation("7.获取文件存储方式")
+  @ApiOperation("6.获取文件存储方式")
   @ApiOperationSupport(order = 7)
   @GetMapping("/name")
   public String getStorageName() {
@@ -218,7 +176,7 @@ public class FileStorageController extends BaseController {
    * @param downloadVo 文件
    * @return byte[]
    */
-  @ApiOperation("8.文件分段下载 - ResponseData方式")
+  @ApiOperation("7.文件分段下载 - ResponseData方式")
   @PostMapping("/part/download")
   public ResponseData<byte[]> downloadFilePart(@RequestBody DownloadVo downloadVo) {
       return ResponseData.success(fileStorageClient.download(downloadVo.getFileUrl(),downloadVo.getOffset(),downloadVo.getFileSize()));
@@ -230,7 +188,7 @@ public class FileStorageController extends BaseController {
    * @param downloadVo 文件
    * @return byte[]
    */
-  @ApiOperation("9.文件分段下载 - byte[]流方式")
+  @ApiOperation("8.文件分段下载 - byte[]流方式")
   @PostMapping("/part/byte/download")
   public byte[] downloadFilePartByte(@RequestBody DownloadVo downloadVo) {
       return fileStorageClient.download(downloadVo.getFileUrl(),downloadVo.getOffset(),downloadVo.getFileSize());
@@ -242,7 +200,7 @@ public class FileStorageController extends BaseController {
    * @param id 主键
    * @return SysFileStorageDto
    */
-  @ApiOperation("10.获取文件信息")
+  @ApiOperation("9.获取文件信息")
   @PostMapping("/info/{id}")
   public ResponseData<SysFileStorageDto> getFileInfo(@PathVariable String id) {
     SysFileStorageDto entity = fileStorageClient.getFile(id);

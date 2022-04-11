@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -24,6 +27,7 @@ import com.github.tobato.fastdfs.exception.FdfsUnsupportStorePathException;
 import com.github.tobato.fastdfs.service.FastFileStorageClient;
 import com.oner365.common.constants.PublicConstants;
 import com.oner365.common.enums.StorageEnum;
+import com.oner365.deploy.utils.DeployUtils;
 import com.oner365.files.config.properties.FileFdfsProperties;
 import com.oner365.files.dto.SysFileStorageDto;
 import com.oner365.files.service.IFileStorageService;
@@ -32,6 +36,8 @@ import com.oner365.files.storage.condition.FdfsStorageCondition;
 import com.oner365.files.vo.SysFileStorageVo;
 import com.oner365.util.DataUtils;
 import com.oner365.util.DateUtil;
+
+import ch.ethz.ssh2.SFTPv3DirectoryEntry;
 
 /**
  * fastdfs工具类
@@ -203,6 +209,30 @@ public class FastdfsClient implements IFileStorageClient {
     String group = fileUrl.substring(0, fileUrl.indexOf(PublicConstants.DELIMITER));
     String downloadPath = fileUrl.substring(fileUrl.indexOf(PublicConstants.DELIMITER) + 1);
     return fastFileStorageClient.downloadFile(group, downloadPath, offset, fileSize, new DownloadByteArray());
+  }
+
+  public List<SysFileStorageDto> findList(String fileDirectory) {
+    final String directory;
+    if (!DataUtils.isEmpty(fileDirectory)) {
+      directory = fileFdfsProperties.getPath() + "/M00/00/" + fileDirectory;
+    } else {
+      directory = fileFdfsProperties.getPath();
+    }
+
+    List<SFTPv3DirectoryEntry> vector = DeployUtils.directoryList(fileFdfsProperties.getIp(), fileFdfsProperties.getPort(),
+        fileFdfsProperties.getUser(), fileFdfsProperties.getPassword(), directory);
+    return vector.stream().map(entry -> {
+      SysFileStorageDto fastdfsFile = new SysFileStorageDto();
+      fastdfsFile.setId(StringUtils.replace(directory, fileFdfsProperties.getPath(), "group1") + PublicConstants.DELIMITER + entry.filename);
+      fastdfsFile.setCreateTime(new Date(entry.attributes.mtime * 1000L));
+      fastdfsFile.setFileName(entry.filename);
+      fastdfsFile.setDirectory(entry.attributes.isDirectory());
+      fastdfsFile.setFileSuffix(DataUtils.getExtension(entry.filename));
+      fastdfsFile.setFilePath(directory);
+      fastdfsFile.setFastdfsUrl("http://" + fileFdfsProperties.getIp());
+      fastdfsFile.setSize(DataUtils.convertFileSize(entry.attributes.size));
+      return fastdfsFile;
+    }).collect(Collectors.toList());
   }
 
 }

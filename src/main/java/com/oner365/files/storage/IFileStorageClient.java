@@ -71,5 +71,5 @@ public interface IFileStorageClient {
    * @return SysFileStorageDto
    */
   SysFileStorageDto getFile(String id);
-
+  
 }
