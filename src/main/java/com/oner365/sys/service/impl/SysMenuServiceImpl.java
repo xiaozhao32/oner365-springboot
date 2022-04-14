@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.oner365.common.cache.annotation.RedisCacheAble;
-import com.oner365.common.cache.annotation.RedisCachePut;
 import com.oner365.common.constants.PublicConstants;
 import com.oner365.common.enums.ResultEnum;
 import com.oner365.common.enums.StatusEnum;
@@ -77,7 +76,6 @@ public class SysMenuServiceImpl implements ISysMenuService {
   }
 
   @Override
-  @RedisCachePut(value = CACHE_NAME, key = PublicConstants.KEY_ID)
   @Caching(evict = {
       @CacheEvict(value = CACHE_NAME, allEntries = true),
       @CacheEvict(value = CACHE_ROLE_NAME, allEntries = true) })
