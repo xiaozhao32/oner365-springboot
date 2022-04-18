@@ -45,8 +45,8 @@ public class ApplicationLogController extends BaseController {
   @ApiOperation("1.获取列表")
   @ApiOperationSupport(order = 1)
   @PostMapping("/list")
-  public PageInfo<ApplicationLogDto> list(@RequestBody QueryCriteriaBean data) {
-    return this.service.findList(data);
+  public PageInfo<ApplicationLogDto> pageList(@RequestBody QueryCriteriaBean data) {
+    return this.service.pageList(data);
   }
 
   /**

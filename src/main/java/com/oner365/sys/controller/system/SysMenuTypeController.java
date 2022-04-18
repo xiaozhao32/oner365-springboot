@@ -57,7 +57,7 @@ public class SysMenuTypeController extends BaseController {
   @ApiOperation("1.获取分页列表")
   @ApiOperationSupport(order = 1)
   @PostMapping("/list")
-  public PageInfo<SysMenuTypeDto> list(@RequestBody QueryCriteriaBean data) {
+  public PageInfo<SysMenuTypeDto> pageList(@RequestBody QueryCriteriaBean data) {
     return menuTypeService.pageList(data);
   }
 

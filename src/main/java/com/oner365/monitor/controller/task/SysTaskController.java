@@ -49,10 +49,10 @@ public class SysTaskController extends BaseController {
    * @param data 查询参数
    * @return PageInfo<SysTaskDto>
    */
-  @ApiOperation("1.列表")
+  @ApiOperation("1.获取列表")
   @ApiOperationSupport(order = 1)
   @PostMapping("/list")
-  public PageInfo<SysTaskDto> list(@RequestBody QueryCriteriaBean data) {
+  public PageInfo<SysTaskDto> pageList(@RequestBody QueryCriteriaBean data) {
     return taskService.pageList(data);
   }
   

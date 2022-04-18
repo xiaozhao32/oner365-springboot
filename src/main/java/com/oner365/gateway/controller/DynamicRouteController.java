@@ -49,7 +49,7 @@ public class DynamicRouteController extends BaseController {
   @ApiOperation("1.获取列表")
   @ApiOperationSupport(order = 1)
   @PostMapping("/list")
-  public PageInfo<GatewayRouteDto> list(@RequestBody QueryCriteriaBean data) {
+  public PageInfo<GatewayRouteDto> pageList(@RequestBody QueryCriteriaBean data) {
     return dynamicRouteService.pageList(data);
   }
 

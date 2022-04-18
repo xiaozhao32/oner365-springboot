@@ -54,7 +54,7 @@ public class SysLogController extends BaseController {
   @ApiOperation("1.获取列表")
   @ApiOperationSupport(order = 1)
   @PostMapping("/list")
-  public PageInfo<SysLogDto> list(@RequestBody QueryCriteriaBean data) {
+  public PageInfo<SysLogDto> pageList(@RequestBody QueryCriteriaBean data) {
     return logService.pageList(data);
   }
 

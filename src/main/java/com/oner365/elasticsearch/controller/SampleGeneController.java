@@ -51,8 +51,8 @@ public class SampleGeneController extends BaseController {
   @ApiOperation("1.获取列表")
   @ApiOperationSupport(order = 1)
   @PostMapping("/list")
-  public PageInfo<SampleGeneDto> list(@RequestBody QueryCriteriaBean data) {
-    return this.service.findList(data);
+  public PageInfo<SampleGeneDto> pageList(@RequestBody QueryCriteriaBean data) {
+    return this.service.pageList(data);
   }
 
   /**

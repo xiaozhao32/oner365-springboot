@@ -67,10 +67,10 @@ public class FileStorageController extends BaseController {
    * @param data 查询参数
    * @return PageInfo<SysFileStorageDto>
    */
-  @ApiOperation("1.查询列表")
+  @ApiOperation("1.获取列表")
   @ApiOperationSupport(order = 1)
   @PostMapping("/list")
-  public PageInfo<SysFileStorageDto> list(@RequestBody QueryCriteriaBean data) {
+  public PageInfo<SysFileStorageDto> pageList(@RequestBody QueryCriteriaBean data) {
     return fileStorageService.pageList(data);
   }
 

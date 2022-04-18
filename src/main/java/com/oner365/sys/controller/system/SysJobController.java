@@ -51,7 +51,7 @@ public class SysJobController extends BaseController {
   @ApiOperation("1.获取列表")
   @ApiOperationSupport(order = 1)
   @PostMapping("/list")
-  public PageInfo<SysJobDto> list(@RequestBody QueryCriteriaBean data) {
+  public PageInfo<SysJobDto> pageList(@RequestBody QueryCriteriaBean data) {
     return sysJobService.pageList(data);
   }
 

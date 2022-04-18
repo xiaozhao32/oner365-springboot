@@ -46,7 +46,7 @@ public class SampleGeneElasticsearchServiceImpl implements ISampleGeneElasticsea
 
   @Override
   @SuppressWarnings("unchecked")
-  public PageInfo<SampleGeneDto> findList(QueryCriteriaBean data) {
+  public PageInfo<SampleGeneDto> pageList(QueryCriteriaBean data) {
     BoolQueryBuilder queryBuilder = QueryBuilders.boolQuery();
     data.getWhereList().forEach(entity -> {
       if (!DataUtils.isEmpty(entity.getVal())) {

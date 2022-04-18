@@ -52,7 +52,7 @@ public class SysMenuOperationController extends BaseController {
   @ApiOperation("1.获取列表")
   @ApiOperationSupport(order = 1)
   @PostMapping("/list")
-  public PageInfo<SysMenuOperationDto> findList(@RequestBody QueryCriteriaBean data) {
+  public PageInfo<SysMenuOperationDto> pageList(@RequestBody QueryCriteriaBean data) {
     return menuOperationService.pageList(data);
   }
 

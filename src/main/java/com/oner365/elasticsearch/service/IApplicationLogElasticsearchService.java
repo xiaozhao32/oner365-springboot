@@ -19,7 +19,7 @@ public interface IApplicationLogElasticsearchService extends BaseService {
    * @param data 查询条件参数
    * @return PageInfo<ApplicationLogDto>
    */
-  PageInfo<ApplicationLogDto> findList(QueryCriteriaBean data);
+  PageInfo<ApplicationLogDto> pageList(QueryCriteriaBean data);
 
   /**
    * 查询对象

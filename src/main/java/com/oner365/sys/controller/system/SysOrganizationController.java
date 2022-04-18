@@ -48,12 +48,12 @@ public class SysOrganizationController extends BaseController {
   private ISysOrganizationService sysOrgService;
 
   /**
-   * 查询列表
+   * 获取列表
    *
    * @param sysOrganizationVo 机构对象
    * @return List<SysOrganizationDto>
    */
-  @ApiOperation("1.查询列表")
+  @ApiOperation("1.获取列表")
   @ApiOperationSupport(order = 1)
   @PostMapping("/list")
   public List<SysOrganizationDto> findList(@RequestBody SysOrganizationVo sysOrganizationVo) {

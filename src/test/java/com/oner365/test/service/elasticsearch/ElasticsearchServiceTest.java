@@ -24,9 +24,9 @@ class ElasticsearchServiceTest extends BaseServiceTest {
     private ISampleGeneElasticsearchService service;
 
     @RepeatedTest(value = 2)
-    void findList() {
+    void pageList() {
         QueryCriteriaBean paramJson = new QueryCriteriaBean();
-        PageInfo<SampleGeneDto> list = service.findList(paramJson);
+        PageInfo<SampleGeneDto> list = service.pageList(paramJson);
         logger.info("findList:{}", list.getSize());
         Assertions.assertNotEquals(0, list.getSize());
     }

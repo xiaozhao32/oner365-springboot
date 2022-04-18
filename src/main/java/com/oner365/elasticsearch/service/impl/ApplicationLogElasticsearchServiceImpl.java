@@ -42,7 +42,7 @@ public class ApplicationLogElasticsearchServiceImpl implements IApplicationLogEl
 
   @Override
   @SuppressWarnings("unchecked")
-  public PageInfo<ApplicationLogDto> findList(QueryCriteriaBean data) {
+  public PageInfo<ApplicationLogDto> pageList(QueryCriteriaBean data) {
     BoolQueryBuilder queryBuilder = QueryBuilders.boolQuery();
     data.getWhereList().forEach(entity -> {
       if (!DataUtils.isEmpty(entity.getVal())) {

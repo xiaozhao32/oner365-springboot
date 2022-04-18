@@ -65,7 +65,7 @@ public class SysDictItemController extends BaseController {
   @ApiOperation("1.获取类别列表")
   @ApiOperationSupport(order = 1)
   @PostMapping("/type/list")
-  public PageInfo<SysDictItemTypeDto> findTypeList(@RequestBody QueryCriteriaBean data) {
+  public PageInfo<SysDictItemTypeDto> pageTypeList(@RequestBody QueryCriteriaBean data) {
     return sysDictItemTypeService.pageList(data);
   }
 
@@ -224,7 +224,7 @@ public class SysDictItemController extends BaseController {
   @ApiOperation("11.获取字典列表")
   @ApiOperationSupport(order = 11)
   @PostMapping("/item/list")
-  public PageInfo<SysDictItemDto> findItemList(@RequestBody QueryCriteriaBean data) {
+  public PageInfo<SysDictItemDto> pageItemList(@RequestBody QueryCriteriaBean data) {
     return sysDictItemService.pageList(data);
   }
 

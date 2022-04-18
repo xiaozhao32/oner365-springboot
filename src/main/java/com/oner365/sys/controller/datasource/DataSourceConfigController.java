@@ -48,10 +48,10 @@ public class DataSourceConfigController extends BaseController {
    * @param data 查询参数
    * @return PageInfo<DataSourceConfigDto>
    */
-  @ApiOperation("1.列表")
+  @ApiOperation("1.获取列表")
   @ApiOperationSupport(order = 1)
   @PostMapping("/list")
-  public PageInfo<DataSourceConfigDto> list(@RequestBody QueryCriteriaBean data) {
+  public PageInfo<DataSourceConfigDto> pageList(@RequestBody QueryCriteriaBean data) {
     return service.pageList(data);
   }
 
