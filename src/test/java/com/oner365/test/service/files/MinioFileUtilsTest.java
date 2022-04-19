@@ -7,6 +7,7 @@ import java.io.InputStream;
 
 import org.apache.http.entity.ContentType;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -37,7 +38,8 @@ class MinioFileUtilsTest extends BaseServiceTest {
     Assertions.assertEquals("MinioFileUtilsTest", MinioFileUtilsTest.class.getSimpleName());
   }
 
-//  @Test
+  @Test
+  @Disabled
   void testMinio() throws Exception {
     String url = "http://localhost:9000";
     // 上传根目录
