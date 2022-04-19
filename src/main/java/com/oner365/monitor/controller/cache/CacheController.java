@@ -1,14 +1,10 @@
 package com.oner365.monitor.controller.cache;
 
-import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
-import com.oner365.common.enums.ResultEnum;
-import com.oner365.controller.BaseController;
-import com.oner365.monitor.dto.CacheCommandStatsDto;
-import com.oner365.monitor.dto.CacheInfoDto;
-import com.oner365.monitor.dto.CacheJedisInfoDto;
-import com.oner365.util.DataUtils;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+import java.util.stream.IntStream;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
@@ -18,10 +14,18 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import redis.clients.jedis.Jedis;
 
-import java.util.*;
-import java.util.stream.IntStream;
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import com.oner365.common.enums.ResultEnum;
+import com.oner365.controller.BaseController;
+import com.oner365.monitor.dto.CacheCommandStatsDto;
+import com.oner365.monitor.dto.CacheInfoDto;
+import com.oner365.monitor.dto.CacheJedisInfoDto;
+import com.oner365.util.JedisUtils;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import redis.clients.jedis.Jedis;
 
 /**
  * 缓存监控
@@ -83,7 +87,7 @@ public class CacheController extends BaseController {
   @GetMapping("/list")
   public List<CacheJedisInfoDto> cacheList() {
     List<CacheJedisInfoDto> result = new ArrayList<>();
-    try (Jedis jedis = getJedis()) {
+    try (Jedis jedis = JedisUtils.getJedis(redisProperties)) {
       if (jedis.isConnected()) {
         IntStream.range(0, DB_LENGTH).forEach(i -> {
           jedis.select(i);
@@ -110,26 +114,13 @@ public class CacheController extends BaseController {
   @ApiOperationSupport(order = 3)
   @GetMapping("/clean")
   public String clean(int index) {
-    try (Jedis jedis = getJedis()) {
+    try (Jedis jedis = JedisUtils.getJedis(redisProperties)) {
       if (jedis.isConnected()) {
         jedis.select(index);
         jedis.flushDB();
       }
     }
     return ResultEnum.SUCCESS.getName();
-  }
-
-  private Jedis getJedis() {
-    Jedis jedis = new Jedis(redisProperties.getHost(), redisProperties.getPort());
-
-    String auth = "ok";
-    if (!DataUtils.isEmpty(redisProperties.getPassword())) {
-      auth = jedis.auth(redisProperties.getPassword());
-    } else {
-      jedis.connect();
-    }
-    logger.debug("info: {}", auth);
-    return jedis;
   }
 
 }
