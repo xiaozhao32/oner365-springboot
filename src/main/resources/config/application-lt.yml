@@ -37,7 +37,7 @@ spring:
       max-active: 10
       min-idle: 1
       
-       # druid 监控
+      # druid 监控
       filters: stat, slf4j
       stat-view-servlet:
         enabled: true
