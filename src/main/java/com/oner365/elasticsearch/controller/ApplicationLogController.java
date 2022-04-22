@@ -69,7 +69,7 @@ public class ApplicationLogController extends BaseController {
    * @return Integer
    */
   @ApiOperation("3.删除")
-  @ApiOperationSupport(order = 4)
+  @ApiOperationSupport(order = 3)
   @DeleteMapping("/delete")
   public Integer delete(@RequestBody String... ids) {
     Integer result = ResultEnum.SUCCESS.getCode();

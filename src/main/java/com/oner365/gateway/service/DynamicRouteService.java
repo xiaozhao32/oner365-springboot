@@ -3,6 +3,7 @@ package com.oner365.gateway.service;
 import java.util.List;
 import java.util.Map;
 
+import com.oner365.common.enums.StatusEnum;
 import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.common.service.BaseService;
@@ -76,7 +77,7 @@ public interface DynamicRouteService extends BaseService {
    * @param status 状态
    * @return String
    */
-  String updateRouteStatus(String id, String status);
+  String updateRouteStatus(String id, StatusEnum status);
 
   /**
    * 映射路由path状态

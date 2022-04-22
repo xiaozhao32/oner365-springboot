@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +25,8 @@ import com.oner365.common.enums.ResultEnum;
 import com.oner365.common.enums.StatusEnum;
 import com.oner365.common.exception.ProjectRuntimeException;
 import com.oner365.common.query.Criteria;
+import com.oner365.common.query.QueryCriteriaBean;
+import com.oner365.common.query.QueryUtils;
 import com.oner365.common.query.Restrictions;
 import com.oner365.sys.constants.SysConstants;
 import com.oner365.sys.dao.ISysMenuDao;
@@ -81,7 +85,6 @@ public class SysMenuServiceImpl implements ISysMenuService {
       @CacheEvict(value = CACHE_ROLE_NAME, allEntries = true) })
   public SysMenuDto save(SysMenuVo vo) {
     try {
-      vo.setStatus(StatusEnum.YES.getCode());
       vo.setCreateTime(LocalDateTime.now());
       vo.setUpdateTime(LocalDateTime.now());
   
@@ -110,7 +113,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
   @Caching(evict = {
       @CacheEvict(value = CACHE_NAME, allEntries = true),
       @CacheEvict(value = CACHE_ROLE_NAME, allEntries = true) })
-  public int editStatusById(String id, String status) {
+  public int editStatus(String id, StatusEnum status) {
     Optional<SysMenu> optional = menuDao.findById(id);
     if (optional.isPresent()) {
       SysMenu entity = optional.get();
@@ -147,9 +150,9 @@ public class SysMenuServiceImpl implements ISysMenuService {
   @Cacheable(value = CACHE_NAME, keyGenerator = PublicConstants.KEY_GENERATOR)
   public List<SysMenuDto> findMenu(String menuTypeId, String parentId) {
     Criteria<SysMenu> criteria = new Criteria<>();
-    criteria.add(Restrictions.eq("menuTypeId", menuTypeId));
-    criteria.add(Restrictions.eq("parentId", parentId));
-    criteria.add(Restrictions.eq(SysConstants.STATUS, StatusEnum.YES.getCode()));
+    criteria.add(Restrictions.eq(SysConstants.MENU_TYPE_ID, menuTypeId));
+    criteria.add(Restrictions.eq(SysConstants.PARENT_ID, parentId));
+    criteria.add(Restrictions.eq(SysConstants.STATUS, StatusEnum.YES));
     return convert(menuDao.findAll(criteria), SysMenuDto.class);
   }
 
@@ -205,12 +208,36 @@ public class SysMenuServiceImpl implements ISysMenuService {
   private boolean hasChild(List<SysMenuDto> list, SysMenuDto t) {
     return !getChildList(list, t).isEmpty();
   }
+  
+  @Override
+  @Cacheable(value = CACHE_NAME, keyGenerator = PublicConstants.KEY_GENERATOR)
+  public List<SysMenuDto> findList(QueryCriteriaBean data) {
+    try {
+      if (data.getOrder() == null) {
+        return convert(menuDao.findAll(QueryUtils.buildCriteria(data)), SysMenuDto.class);
+      }
+      List<SysMenu> list = menuDao.findAll(QueryUtils.buildCriteria(data), QueryUtils.buildSortRequest(data.getOrder()));
+      return convert(list, SysMenuDto.class);
+    } catch (Exception e) {
+      LOGGER.error("Error findList: ", e);
+    }
+    return Collections.emptyList();
+  }
 
   @Override
   @Cacheable(value = CACHE_NAME, keyGenerator = PublicConstants.KEY_GENERATOR)
-  public List<SysMenuDto> selectList(SysMenuVo vo) {
-    List<SysMenu> list = menuMapper.selectList(convert(vo, SysMenu.class));
-    return convert(list, SysMenuDto.class);
+  public List<SysMenuDto> selectList(SysMenuVo sysMenuVo) {
+    Criteria<SysMenu> criteria = new Criteria<>();
+    if (!DataUtils.isEmpty(sysMenuVo.getMenuTypeId())) {
+      criteria.add(Restrictions.eq(SysConstants.MENU_TYPE_ID, sysMenuVo.getMenuTypeId()));
+    }
+    if (!DataUtils.isEmpty(sysMenuVo.getMenuName())) {
+      criteria.add(Restrictions.like(SysConstants.MENU_NAME, sysMenuVo.getMenuName()));
+    }
+    if (!DataUtils.isEmpty(sysMenuVo.getStatus())) {
+      criteria.add(Restrictions.eq(SysConstants.STATUS, sysMenuVo.getStatus()));
+    }
+    return convert(menuDao.findAll(criteria, Sort.by(Direction.DESC, SysConstants.PARENT_ID, SysConstants.MENU_ORDER)), SysMenuDto.class);
   }
 
   @Override

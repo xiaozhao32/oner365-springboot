@@ -72,7 +72,7 @@ public class SysMenuTypeController extends BaseController {
   public List<SysMenuTypeDto> findAll() {
     QueryCriteriaBean data = new QueryCriteriaBean();
     List<AttributeBean> whereList = new ArrayList<>();
-    AttributeBean attribute = new AttributeBean(SysConstants.STATUS, StatusEnum.YES.getCode());
+    AttributeBean attribute = new AttributeBean(SysConstants.STATUS, StatusEnum.YES);
     whereList.add(attribute);
     data.setWhereList(whereList);
     return menuTypeService.findList(data);
@@ -101,8 +101,8 @@ public class SysMenuTypeController extends BaseController {
   @ApiOperation("4.修改状态")
   @ApiOperationSupport(order = 4)
   @PostMapping("/status/{id}")
-  public Integer editStatusById(@PathVariable String id, @RequestParam("status") String status) {
-    return menuTypeService.editStatusById(id, status);
+  public Integer editStatus(@PathVariable String id, @RequestParam("status") StatusEnum status) {
+    return menuTypeService.editStatus(id, status);
   }
 
   /**

@@ -1,7 +1,6 @@
 package com.oner365.sys.controller.system;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,6 +21,8 @@ import com.oner365.common.auth.AuthUser;
 import com.oner365.common.auth.annotation.CurrentUser;
 import com.oner365.common.enums.ErrorInfoEnum;
 import com.oner365.common.enums.ResultEnum;
+import com.oner365.common.enums.StatusEnum;
+import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
 import com.oner365.sys.dto.SysMenuTreeSelectDto;
 import com.oner365.sys.dto.SysOrganizationDto;
@@ -50,17 +51,14 @@ public class SysOrganizationController extends BaseController {
   /**
    * 获取列表
    *
-   * @param sysOrganizationVo 机构对象
+   * @param data 查询对象
    * @return List<SysOrganizationDto>
    */
   @ApiOperation("1.获取列表")
   @ApiOperationSupport(order = 1)
   @PostMapping("/list")
-  public List<SysOrganizationDto> findList(@RequestBody SysOrganizationVo sysOrganizationVo) {
-    if (sysOrganizationVo != null) {
-      return sysOrgService.selectList(sysOrganizationVo);
-    }
-    return Collections.emptyList();
+  public List<SysOrganizationDto> findList(@RequestBody QueryCriteriaBean data) {
+    return sysOrgService.findList(data);
   }
 
   /**
@@ -140,7 +138,7 @@ public class SysOrganizationController extends BaseController {
   /**
    * 获取菜单下拉树列表
    *
-   * @param sysOrganizationVo 机构对象
+   * @param sysOrganizationVo 查询对象
    * @return List<TreeSelect>
    */
   @ApiOperation("7.获取树型列表")
@@ -154,7 +152,7 @@ public class SysOrganizationController extends BaseController {
   /**
    * 加载对应角色菜单列表树
    *
-   * @param sysOrganizationVo 机构对象
+   * @param sysOrganizationVo 查询对象
    * @param userId            用户id
    * @return SysMenuTreeSelectDto
    */
@@ -181,8 +179,8 @@ public class SysOrganizationController extends BaseController {
   @ApiOperation("9.修改状态")
   @ApiOperationSupport(order = 9)
   @PostMapping("/status/{id}")
-  public Integer changeStatus(@PathVariable String id, @RequestParam("status") String status) {
-    return sysOrgService.changeStatus(id, status);
+  public Integer editStatus(@PathVariable String id, @RequestParam("status") StatusEnum status) {
+    return sysOrgService.editStatus(id, status);
   }
 
   /**

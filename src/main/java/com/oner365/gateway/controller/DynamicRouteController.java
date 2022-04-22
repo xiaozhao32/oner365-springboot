@@ -16,6 +16,7 @@ import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.common.ResponseResult;
 import com.oner365.common.enums.ErrorInfoEnum;
 import com.oner365.common.enums.ResultEnum;
+import com.oner365.common.enums.StatusEnum;
 import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
@@ -122,7 +123,7 @@ public class DynamicRouteController extends BaseController {
   @ApiOperation("6.更新状态")
   @ApiOperationSupport(order = 6)
   @GetMapping("/status/{id}/{status}")
-  public ResponseResult<String> updateRouteStatus(@PathVariable String id, @PathVariable String status) {
+  public ResponseResult<String> updateRouteStatus(@PathVariable String id, @PathVariable StatusEnum status) {
     String msg = dynamicRouteService.updateRouteStatus(id, status);
     return ResponseResult.success(msg);
   }

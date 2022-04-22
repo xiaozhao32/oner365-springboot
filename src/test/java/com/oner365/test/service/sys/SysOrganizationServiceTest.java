@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.alibaba.fastjson.JSON;
+import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.sys.dto.SysOrganizationDto;
 import com.oner365.sys.service.ISysOrganizationService;
-import com.oner365.sys.vo.SysOrganizationVo;
 import com.oner365.test.service.BaseServiceTest;
 
 /**
@@ -50,9 +50,9 @@ class SysOrganizationServiceTest extends BaseServiceTest {
   }
 
   @Test
-  void selectList() {
-    SysOrganizationVo sysOrg = new SysOrganizationVo();
-    List<SysOrganizationDto> list = service.selectList(sysOrg);
+  void findList() {
+    QueryCriteriaBean paramData = new QueryCriteriaBean();
+    List<SysOrganizationDto> list = service.findList(paramData);
     logger.info("selectList:{}", list.size());
     Assertions.assertNotEquals(0, list.size());
   }

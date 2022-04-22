@@ -5,6 +5,7 @@ import java.io.Serializable;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.MoreObjects;
+import com.oner365.elasticsearch.enums.GeneTypeEnum;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -29,7 +30,7 @@ public class SampleGeneDto implements Serializable {
      * 基因类型 (格式: 1:X 2:Y)
      */
     @ApiModelProperty(value = "基因类型")
-    private String geneType;
+    private GeneTypeEnum geneType;
 
     /**
      * 人员编号
@@ -78,14 +79,14 @@ public class SampleGeneDto implements Serializable {
     /**
      * @return the geneType
      */
-    public String getGeneType() {
+    public GeneTypeEnum getGeneType() {
         return geneType;
     }
 
     /**
      * @param geneType the geneType to set
      */
-    public void setGeneType(String geneType) {
+    public void setGeneType(GeneTypeEnum geneType) {
         this.geneType = geneType;
     }
 

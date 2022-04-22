@@ -16,7 +16,6 @@ public class GatewayError implements Serializable {
   private static final long serialVersionUID = 1L;
 
   private Integer code;
-  private String status;
   private String path;
   private String method;
   private String message;
@@ -41,20 +40,6 @@ public class GatewayError implements Serializable {
    */
   public void setCode(Integer code) {
     this.code = code;
-  }
-
-  /**
-   * @return the status
-   */
-  public String getStatus() {
-    return status;
-  }
-
-  /**
-   * @param status the status to set
-   */
-  public void setStatus(String status) {
-    this.status = status;
   }
 
   /**

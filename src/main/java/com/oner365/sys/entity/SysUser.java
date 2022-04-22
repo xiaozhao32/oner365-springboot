@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -15,6 +16,7 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.oner365.common.enums.StatusEnum;
 
 /**
  * 系统用户
@@ -78,8 +80,9 @@ public class SysUser implements Serializable {
   /**
    * 状态
    */
-  @Column(name = "status", length = 10)
-  private String status;
+  @Enumerated
+  @Column(name = "status", nullable = false)
+  private StatusEnum status;
 
   /**
    * 最后登录时间
@@ -266,14 +269,14 @@ public class SysUser implements Serializable {
   /**
    * @return the status
    */
-  public String getStatus() {
+  public StatusEnum getStatus() {
     return status;
   }
 
   /**
    * @param status the status to set
    */
-  public void setStatus(String status) {
+  public void setStatus(StatusEnum status) {
     this.status = status;
   }
 
