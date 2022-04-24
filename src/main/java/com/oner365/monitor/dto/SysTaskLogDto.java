@@ -3,6 +3,8 @@ package com.oner365.monitor.dto;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.oner365.monitor.enums.TaskStatusEnum;
+
 import io.swagger.annotations.ApiModel;
 
 /**
@@ -46,9 +48,9 @@ public class SysTaskLogDto implements Serializable {
   private String taskMessage;
 
   /**
-   * 执行状态（0正常 1失败）
+   * 执行状态
    */
-  private String status;
+  private TaskStatusEnum status;
 
   /**
    * 异常信息
@@ -139,11 +141,11 @@ public class SysTaskLogDto implements Serializable {
     this.taskMessage = taskMessage;
   }
 
-  public String getStatus() {
+  public TaskStatusEnum getStatus() {
     return status;
   }
 
-  public void setStatus(String status) {
+  public void setStatus(TaskStatusEnum status) {
     this.status = status;
   }
 

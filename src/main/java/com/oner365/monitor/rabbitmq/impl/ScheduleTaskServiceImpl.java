@@ -11,6 +11,7 @@ import com.oner365.common.enums.StatusEnum;
 import com.oner365.monitor.constants.ScheduleConstants;
 import com.oner365.monitor.dto.InvokeParamDto;
 import com.oner365.monitor.dto.SysTaskDto;
+import com.oner365.monitor.enums.TaskStatusEnum;
 import com.oner365.monitor.service.ISysTaskLogService;
 import com.oner365.monitor.service.ISysTaskService;
 import com.oner365.monitor.vo.SysTaskLogVo;
@@ -42,7 +43,7 @@ public class ScheduleTaskServiceImpl implements IScheduleTaskService {
   }
 
   private void taskExecute(String concurrent, String taskId, JSONObject param) {
-    String status = StatusEnum.YES.getCode();
+    StatusEnum status = StatusEnum.YES;
     SysTaskDto sysTask = sysTaskService.selectTaskById(taskId);
     if (sysTask != null) {
       if (ScheduleConstants.SCHEDULE_CONCURRENT.equals(concurrent)) {
@@ -50,7 +51,7 @@ public class ScheduleTaskServiceImpl implements IScheduleTaskService {
         status = execute(taskId, param, sysTask);
 
       } else {
-        if (!StatusEnum.NO.getCode().equals(sysTask.getExecuteStatus())) {
+        if (!StatusEnum.NO.equals(sysTask.getExecuteStatus())) {
           status = execute(taskId, param, sysTask);
         }
         LOGGER.info("taskExecute  concurrent : {}", concurrent);
@@ -59,30 +60,30 @@ public class ScheduleTaskServiceImpl implements IScheduleTaskService {
     }
   }
 
-  private String execute(String taskId, JSONObject param, SysTaskDto sysTask) {
+  private StatusEnum execute(String taskId, JSONObject param, SysTaskDto sysTask) {
     try {
       LOGGER.info("taskId:{}", taskId);
-      sysTask.setExecuteStatus(StatusEnum.NO.getCode());
+      sysTask.setExecuteStatus(StatusEnum.NO);
       sysTaskService.save(convert(sysTask, SysTaskVo.class));
       int day = param.getInteger("day");
       String time = DateUtil.nextDay(day - 2 * day, DateUtil.FULL_TIME_FORMAT);
-      String status = sysTaskLogService.deleteTaskLogByCreateTime(time);
-      sysTask.setExecuteStatus(StatusEnum.YES.getCode());
+      sysTaskLogService.deleteTaskLogByCreateTime(time);
+      sysTask.setExecuteStatus(StatusEnum.YES);
       sysTaskService.save(convert(sysTask, SysTaskVo.class));
-      return status;
+      return StatusEnum.YES;
     } catch (Exception e) {
       LOGGER.error("update sysTask Exception:", e);
-      return StatusEnum.NO.getCode();
+      return StatusEnum.NO;
     }
   }
 
-  private void executeLog(SysTaskDto sysTask, String status) {
+  private void executeLog(SysTaskDto sysTask, StatusEnum status) {
     LOGGER.info("saveTaskLog status:{}", status);
     long time = System.currentTimeMillis();
     SysTaskLogVo taskLog = new SysTaskLogVo();
     taskLog.setExecuteIp(DataUtils.getLocalhost());
     taskLog.setExecuteServerName(ScheduleConstants.SCHEDULE_SERVER_NAME);
-    taskLog.setStatus(StatusEnum.YES.getCode());
+    taskLog.setStatus(TaskStatusEnum.NORMAL);
     taskLog.setTaskMessage("执行时间：" + (System.currentTimeMillis() - time) + "毫秒");
     taskLog.setTaskGroup(sysTask.getTaskGroup());
     taskLog.setTaskName(sysTask.getTaskName());
