@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -12,6 +13,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.oner365.monitor.enums.TaskStatusEnum;
 
 /**
  * 定时任务调度日志表 nt_sys_task_log
@@ -57,10 +59,11 @@ public class SysTaskLog implements Serializable {
   private String taskMessage;
 
   /**
-   * 执行状态（0正常 1失败）
+   * 执行状态
    */
+  @Enumerated
   @Column(name = "status", length = 1)
-  private String status;
+  private TaskStatusEnum status;
 
   /**
    * 异常信息
@@ -160,11 +163,11 @@ public class SysTaskLog implements Serializable {
     this.taskMessage = taskMessage;
   }
 
-  public String getStatus() {
+  public TaskStatusEnum getStatus() {
     return status;
   }
 
-  public void setStatus(String status) {
+  public void setStatus(TaskStatusEnum status) {
     this.status = status;
   }
 

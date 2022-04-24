@@ -11,9 +11,9 @@ import org.quartz.SchedulerException;
 import org.quartz.TriggerBuilder;
 import org.quartz.TriggerKey;
 
-import com.oner365.common.enums.StatusEnum;
 import com.oner365.monitor.constants.ScheduleConstants;
 import com.oner365.monitor.dto.SysTaskDto;
+import com.oner365.monitor.enums.TaskStatusEnum;
 import com.oner365.monitor.exception.TaskException;
 import com.oner365.monitor.exception.TaskException.Code;
 
@@ -84,7 +84,7 @@ public class ScheduleUtils {
         scheduler.scheduleJob(jobDetail, trigger);
 
         // 暂停任务
-        if (sysTask.getStatus().equals(StatusEnum.NO.getCode())) {
+        if (sysTask.getStatus().equals(TaskStatusEnum.PAUSE)) {
             scheduler.pauseJob(ScheduleUtils.getJobKey(jobId, jobGroup));
         }
     }
@@ -95,13 +95,13 @@ public class ScheduleUtils {
     public static CronScheduleBuilder handleCronScheduleMisfirePolicy(SysTaskDto job, CronScheduleBuilder cb)
             throws TaskException {
         switch (job.getMisfirePolicy()) {
-        case ScheduleConstants.MISFIRE_DEFAULT:
+        case DEFAULT:
             return cb;
-        case ScheduleConstants.MISFIRE_IGNORE_MISFIRES:
+        case IGNORE:
             return cb.withMisfireHandlingInstructionIgnoreMisfires();
-        case ScheduleConstants.MISFIRE_FIRE_AND_PROCEED:
+        case ONCE:
             return cb.withMisfireHandlingInstructionFireAndProceed();
-        case ScheduleConstants.MISFIRE_DO_NOTHING:
+        case NONE:
             return cb.withMisfireHandlingInstructionDoNothing();
         default:
             throw new TaskException(
