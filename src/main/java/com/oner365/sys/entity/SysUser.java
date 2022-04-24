@@ -17,6 +17,8 @@ import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.oner365.common.enums.StatusEnum;
+import com.oner365.sys.enums.SysUserSexEnum;
+import com.oner365.sys.enums.SysUserTypeEnum;
 
 /**
  * 系统用户
@@ -74,8 +76,9 @@ public class SysUser implements Serializable {
   /**
    * 性别
    */
+  @Enumerated
   @Column(name = "sex", length = 1)
-  private String sex;
+  private SysUserSexEnum sex;
 
   /**
    * 状态
@@ -135,14 +138,16 @@ public class SysUser implements Serializable {
   /**
    * 是否有效
    */
+  @Enumerated
   @Column(name = "active_status", length = 10)
-  private String activeStatus;
+  private StatusEnum activeStatus;
 
   /**
    * 用户类型
    */
+  @Enumerated
   @Column(name = "user_type", length = 2)
-  private String userType;
+  private SysUserTypeEnum userType;
 
   /**
    * 身份证类型
@@ -395,28 +400,28 @@ public class SysUser implements Serializable {
   /**
    * @return the activeStatus
    */
-  public String getActiveStatus() {
+  public StatusEnum getActiveStatus() {
     return activeStatus;
   }
 
   /**
    * @param activeStatus the activeStatus to set
    */
-  public void setActiveStatus(String activeStatus) {
+  public void setActiveStatus(StatusEnum activeStatus) {
     this.activeStatus = activeStatus;
   }
 
   /**
    * @return the userType
    */
-  public String getUserType() {
+  public SysUserTypeEnum getUserType() {
     return userType;
   }
 
   /**
    * @param userType the userType to set
    */
-  public void setUserType(String userType) {
+  public void setUserType(SysUserTypeEnum userType) {
     this.userType = userType;
   }
 
@@ -465,14 +470,14 @@ public class SysUser implements Serializable {
   /**
    * @return the sex
    */
-  public String getSex() {
+  public SysUserSexEnum getSex() {
     return sex;
   }
 
   /**
    * @param sex the sex to set
    */
-  public void setSex(String sex) {
+  public void setSex(SysUserSexEnum sex) {
     this.sex = sex;
   }
 
