@@ -2,7 +2,7 @@ package com.oner365.queue.service;
 
 import com.oner365.api.dto.UpdateTaskExecuteStatusDto;
 import com.oner365.monitor.dto.InvokeParamDto;
-import com.oner365.monitor.dto.SysTaskLogDto;
+import com.oner365.monitor.dto.SysTaskDto;
 
 /**
  * 发送队列
@@ -41,8 +41,8 @@ public interface IQueueSendService {
   /**
    * 保存任务执行日志
    * 
-   * @param sysTaskLogDto 对象
+   * @param sysTask 对象
    */
-  void saveExecuteTaskLog(SysTaskLogDto sysTaskLogDto);
+  void saveExecuteTaskLog(SysTaskDto sysTask);
 
 }

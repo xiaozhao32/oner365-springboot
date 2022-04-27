@@ -32,6 +32,7 @@ import com.oner365.monitor.service.ISysTaskService;
 import com.oner365.monitor.util.CronUtils;
 import com.oner365.monitor.util.ScheduleUtils;
 import com.oner365.monitor.vo.SysTaskVo;
+import com.oner365.queue.service.IQueueSendService;
 import com.oner365.util.DataUtils;
 import com.oner365.util.DateUtil;
 
@@ -50,6 +51,9 @@ public class SysTaskServiceImpl implements ISysTaskService {
 
   @Autowired
   private ISysTaskDao dao;
+  
+  @Autowired
+  private IQueueSendService queueSendService;
   
   /**
    * 项目启动时，初始化定时器 主要是防止手动修改数据库导致未同步到定时任务处理（注：不能手动修改数据库ID和任务组名，否则会导致脏数据）
@@ -111,6 +115,7 @@ public class SysTaskServiceImpl implements ISysTaskService {
       sysTask.setStatus(TaskStatusEnum.PAUSE);
       dao.save(sysTask);
       scheduler.pauseJob(ScheduleUtils.getJobKey(sysTask.getId(), sysTask.getTaskGroup()));
+      queueSendService.saveExecuteTaskLog(convert(sysTask, SysTaskDto.class));
     }
     return ResultEnum.SUCCESS.getCode();
   }
@@ -129,6 +134,7 @@ public class SysTaskServiceImpl implements ISysTaskService {
       sysTask.setStatus(TaskStatusEnum.NORMAL);
       dao.save(sysTask);
       scheduler.resumeJob(ScheduleUtils.getJobKey(sysTask.getId(), sysTask.getTaskGroup()));
+      queueSendService.saveExecuteTaskLog(convert(sysTask, SysTaskDto.class));
     }
     return ResultEnum.SUCCESS.getCode();
   }
@@ -202,6 +208,7 @@ public class SysTaskServiceImpl implements ISysTaskService {
       JobDataMap dataMap = new JobDataMap();
       dataMap.put(ScheduleConstants.TASK_PROPERTIES, JSON.toJSONString(convert(sysTask, SysTaskDto.class)));
       scheduler.triggerJob(ScheduleUtils.getJobKey(id, taskGroup), dataMap);
+      queueSendService.saveExecuteTaskLog(convert(sysTask, SysTaskDto.class));
     }
   }
 
@@ -221,6 +228,7 @@ public class SysTaskServiceImpl implements ISysTaskService {
     SysTask entity = dao.save(convert(task, SysTask.class));
     if (isAdd) {
       ScheduleUtils.createScheduleJob(scheduler, convert(entity, SysTaskDto.class));
+      queueSendService.saveExecuteTaskLog(convert(entity, SysTaskDto.class));
     }
     return ResultEnum.SUCCESS.getCode();
   }
@@ -257,6 +265,7 @@ public class SysTaskServiceImpl implements ISysTaskService {
       scheduler.deleteJob(taskKey);
     }
     ScheduleUtils.createScheduleJob(scheduler, convert(task, SysTaskDto.class));
+    queueSendService.saveExecuteTaskLog(convert(task, SysTaskDto.class));
   }
 
   /**

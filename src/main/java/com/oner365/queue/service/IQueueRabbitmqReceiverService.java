@@ -10,7 +10,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import com.oner365.api.dto.UpdateTaskExecuteStatusDto;
 import com.oner365.common.service.BaseService;
 import com.oner365.monitor.dto.InvokeParamDto;
-import com.oner365.monitor.dto.SysTaskLogDto;
+import com.oner365.monitor.dto.SysTaskDto;
 import com.oner365.monitor.exception.TaskException;
 import com.oner365.queue.constants.RabbitmqConstants;
 
@@ -81,7 +81,7 @@ public interface IQueueRabbitmqReceiverService extends BaseService {
   /**
    * 保存任务执行日志
    * 
-   * @param taskLog 任务对象
+   * @param sysTask 任务对象
    */
   @RabbitListener(
       bindings = @QueueBinding(
@@ -90,5 +90,5 @@ public interface IQueueRabbitmqReceiverService extends BaseService {
           key = RabbitmqConstants.SAVE_TASK_LOG_QUEUE_KEY
       )
   )
-  void saveExecuteTaskLog(SysTaskLogDto taskLog);
+  void saveExecuteTaskLog(SysTaskDto sysTask);
 }

@@ -15,7 +15,6 @@ import com.oner365.gateway.service.DynamicRouteService;
 import com.oner365.monitor.constants.ScheduleConstants;
 import com.oner365.monitor.dto.InvokeParamDto;
 import com.oner365.monitor.dto.SysTaskDto;
-import com.oner365.monitor.dto.SysTaskLogDto;
 import com.oner365.monitor.enums.TaskStatusEnum;
 import com.oner365.monitor.exception.TaskException;
 import com.oner365.monitor.service.ISysTaskLogService;
@@ -54,7 +53,7 @@ public class QueueRabbitmqReceiverServiceImpl implements IQueueRabbitmqReceiverS
   
   @Override
   public void syncRoute(String gatewayIp) {
-      logger.info("MQ pull: {}", gatewayIp);
+      logger.info("syncRoute: {}", gatewayIp);
       dynamicRouteService.refreshRoute();
   }
 
@@ -66,20 +65,19 @@ public class QueueRabbitmqReceiverServiceImpl implements IQueueRabbitmqReceiverS
   }
   
   private void taskExecute(String concurrent, String taskId, JSONObject param) {
-    StatusEnum status = StatusEnum.YES;
     SysTaskDto sysTask = sysTaskService.selectTaskById(taskId);
     if (sysTask != null) {
       if (ScheduleConstants.SCHEDULE_CONCURRENT.equals(concurrent)) {
         logger.info("taskExecute  concurrent : {} , update sysTask  executeStatus = 0", concurrent);
-        status = execute(taskId, param, sysTask);
+        execute(taskId, param, sysTask);
 
       } else {
         if (!StatusEnum.NO.equals(sysTask.getExecuteStatus())) {
-          status = execute(taskId, param, sysTask);
+          execute(taskId, param, sysTask);
         }
         logger.info("taskExecute  concurrent : {}", concurrent);
       }
-      executeLog(sysTask, status);
+      saveExecuteTaskLog(sysTask);
     }
   }
   
@@ -101,20 +99,6 @@ public class QueueRabbitmqReceiverServiceImpl implements IQueueRabbitmqReceiverS
     }
   }
 
-  private void executeLog(SysTaskDto sysTask, StatusEnum status) {
-    logger.info("saveTaskLog status:{}", status);
-    long time = System.currentTimeMillis();
-    SysTaskLogVo taskLog = new SysTaskLogVo();
-    taskLog.setExecuteIp(DataUtils.getLocalhost());
-    taskLog.setExecuteServerName(ScheduleConstants.SCHEDULE_SERVER_NAME);
-    taskLog.setStatus(TaskStatusEnum.NORMAL);
-    taskLog.setTaskMessage("执行时间：" + (System.currentTimeMillis() - time) + "毫秒");
-    taskLog.setTaskGroup(sysTask.getTaskGroup());
-    taskLog.setTaskName(sysTask.getTaskName());
-    taskLog.setInvokeTarget(sysTask.getInvokeTarget());
-    sysTaskLogService.addTaskLog(taskLog);
-  }
-
   @Override
   public void updateTaskExecuteStatus(UpdateTaskExecuteStatusDto updateTask) throws SchedulerException, TaskException {
     logger.info("updateTaskExecuteStatus :{}", updateTask);
@@ -126,16 +110,19 @@ public class QueueRabbitmqReceiverServiceImpl implements IQueueRabbitmqReceiverS
   }
 
   @Override
-  public void saveExecuteTaskLog(SysTaskLogDto taskLog) {
-    logger.info("saveExecuteTaskLog :{}", taskLog);
-    SysTaskDto sysTask = sysTaskService.selectTaskById(taskLog.getTaskId());
-    SysTaskLogVo sysTaskLog = convert(taskLog, SysTaskLogVo.class);
-    if (sysTask != null) {
-      sysTaskLog.setTaskGroup(sysTask.getTaskGroup());
-      sysTaskLog.setTaskName(sysTask.getTaskName());
-      sysTaskLog.setInvokeTarget(sysTask.getInvokeTarget());
-      sysTaskLogService.addTaskLog(sysTaskLog);
-    }
+  public void saveExecuteTaskLog(SysTaskDto sysTask) {
+    logger.info("saveExecuteTaskLog :{}", sysTask);
+    
+    long time = System.currentTimeMillis();
+    SysTaskLogVo taskLog = new SysTaskLogVo();
+    taskLog.setExecuteIp(DataUtils.getLocalhost());
+    taskLog.setExecuteServerName(ScheduleConstants.SCHEDULE_SERVER_NAME);
+    taskLog.setStatus(TaskStatusEnum.NORMAL);
+    taskLog.setTaskMessage("执行时间：" + (System.currentTimeMillis() - time) + "毫秒");
+    taskLog.setTaskGroup(sysTask.getTaskGroup());
+    taskLog.setTaskName(sysTask.getTaskName());
+    taskLog.setInvokeTarget(sysTask.getInvokeTarget());
+    sysTaskLogService.addTaskLog(taskLog);
   }
 
 }

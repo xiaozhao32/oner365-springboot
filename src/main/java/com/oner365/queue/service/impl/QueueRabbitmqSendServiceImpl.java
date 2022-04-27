@@ -1,8 +1,5 @@
 package com.oner365.queue.service.impl;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -11,9 +8,10 @@ import org.springframework.stereotype.Service;
 
 import com.oner365.api.dto.UpdateTaskExecuteStatusDto;
 import com.oner365.monitor.dto.InvokeParamDto;
-import com.oner365.monitor.dto.SysTaskLogDto;
+import com.oner365.monitor.dto.SysTaskDto;
 import com.oner365.queue.constants.RabbitmqConstants;
 import com.oner365.queue.service.IQueueSendService;
+import com.oner365.util.DataUtils;
 
 /**
  * rabbitmq 发送队列实现类
@@ -37,25 +35,10 @@ public class QueueRabbitmqSendServiceImpl implements IQueueSendService {
 
   @Override
   public void syncRoute() {
-    logger.info("Rabbitmq syncRoute: {}", getLocalhost());
-    rabbitTemplate.convertAndSend(RabbitmqConstants.ROUTE_QUEUE_TYPE, RabbitmqConstants.ROUTE_QUEUE_KEY, getLocalhost());
+    logger.info("Rabbitmq syncRoute: {}", DataUtils.getLocalhost());
+    rabbitTemplate.convertAndSend(RabbitmqConstants.ROUTE_QUEUE_TYPE, RabbitmqConstants.ROUTE_QUEUE_KEY, DataUtils.getLocalhost());
   }
 
-  /**
-   * 获取本机ip
-   * 
-   * @return String
-   */
-  private String getLocalhost() {
-    try {
-      InetAddress inet = InetAddress.getLocalHost();
-      return inet.getHostAddress();
-    } catch (UnknownHostException e) {
-      logger.error("Error getLocalhost:", e);
-    }
-    return null;
-  }
-  
   @Override
   public void pullTask(InvokeParamDto invokeParamDto) {
     logger.info("Rabbitmq pullTask: {}", invokeParamDto);
@@ -71,10 +54,10 @@ public class QueueRabbitmqSendServiceImpl implements IQueueSendService {
   }
 
   @Override
-  public void saveExecuteTaskLog(SysTaskLogDto sysTaskLogDto) {
-    logger.info("Rabbitmq saveExecuteTaskLog push: {}", sysTaskLogDto);
+  public void saveExecuteTaskLog(SysTaskDto sysTask) {
+    logger.info("Rabbitmq saveExecuteTaskLog push: {}", sysTask);
     rabbitTemplate.convertAndSend(RabbitmqConstants.SAVE_TASK_LOG_QUEUE_TYPE,
-        RabbitmqConstants.SAVE_TASK_LOG_QUEUE_KEY, sysTaskLogDto);
+        RabbitmqConstants.SAVE_TASK_LOG_QUEUE_KEY, sysTask);
   }
 
 
