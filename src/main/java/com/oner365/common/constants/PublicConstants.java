@@ -25,6 +25,8 @@ public class PublicConstants {
     public static final String PARAM_LIST = "list";
     /** 查询状态 status */
     public static final String PARAM_STATUS = "status";
+    /** 文件类型 fileStorage */
+    public static final String PARAM_FILE_STORAGE = "fileStorage";
     /** 分页对象 */
     public static final String PARAM_PAGE = "pageInfo";
 
@@ -35,7 +37,7 @@ public class PublicConstants {
 
     /** 默认值 */
     public static final String DEFAULT_VALUE = "1";
-    
+
     /** 缓存id */
     public static final String KEY_ID = "#id";
     /** 缓存键名称 */
@@ -45,13 +47,13 @@ public class PublicConstants {
     public static final String MQ_KEY = "key";
     public static final String MQ_FANOUT = "fanout";
     public static final String MQ_DIRECT = "direct";
-    
+
     /** 文件存储 */
     public static final String FILE_STORAGE = "file.storage";
 
     /** 分隔符 */
     public static final String DELIMITER = "/";
-    
+
     /**
      * Constructor
      */
