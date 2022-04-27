@@ -26,9 +26,9 @@ import com.oner365.gateway.dto.GatewayRouteDto;
 import com.oner365.gateway.entity.GatewayFilter;
 import com.oner365.gateway.entity.GatewayPredicate;
 import com.oner365.gateway.entity.GatewayRoute;
-import com.oner365.gateway.rabbitmq.ISyncRouteMqService;
 import com.oner365.gateway.service.DynamicRouteService;
 import com.oner365.gateway.vo.GatewayRouteVo;
+import com.oner365.queue.service.IQueueSendService;
 import com.oner365.util.DataUtils;
 
 /**
@@ -45,7 +45,7 @@ public class DynamicRouteServiceImpl implements DynamicRouteService {
   private IGatewayRouteDao gatewayRouteDao;
 
   @Autowired
-  private ISyncRouteMqService syncRouteMqService;
+  private IQueueSendService queueSendService;
 
   protected static Map<String, String> predicateMap = new HashMap<>();
 
@@ -101,7 +101,7 @@ public class DynamicRouteServiceImpl implements DynamicRouteService {
   @Transactional(rollbackFor = ProjectRuntimeException.class)
   public void delete(String id) {
     gatewayRouteDao.deleteById(id);
-    syncRouteMqService.syncRoute();
+    queueSendService.syncRoute();
   }
 
   @Override
@@ -117,7 +117,7 @@ public class DynamicRouteServiceImpl implements DynamicRouteService {
     if (gatewayRoute != null) {
       gatewayRoute.setStatus(status);
       gatewayRouteDao.save(gatewayRoute);
-      syncRouteMqService.syncRoute();
+      queueSendService.syncRoute();
       return ResultEnum.SUCCESS.getName();
     }
     return null;
@@ -147,7 +147,7 @@ public class DynamicRouteServiceImpl implements DynamicRouteService {
           String pattern = StringUtils.substring(predicates.getArgs().get(GatewayConstants.PREDICATE_ARGS_PATTERN), 0,
               predicates.getArgs().get(GatewayConstants.PREDICATE_ARGS_PATTERN).length() - 2);
           predicateMap.put(pattern,
-              DataUtils.isEmpty(route.getStatus().getCode()) ? GatewayConstants.ROUT_STATUS_DISABLE : route.getStatus().getCode());
+              DataUtils.isEmpty(route.getStatus().getCode()) ? StatusEnum.NO.getCode() : route.getStatus().getCode());
         });
     return predicateMap;
   }

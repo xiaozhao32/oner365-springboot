@@ -1,4 +1,4 @@
-package com.oner365.api.rabbitmq.dto;
+package com.oner365.api.dto;
 
 import java.io.Serializable;
 

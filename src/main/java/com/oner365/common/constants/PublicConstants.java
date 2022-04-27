@@ -44,6 +44,7 @@ public class PublicConstants {
     /** 队列键值 */
     public static final String MQ_KEY = "key";
     public static final String MQ_FANOUT = "fanout";
+    public static final String MQ_DIRECT = "direct";
     
     /** 文件存储 */
     public static final String FILE_STORAGE = "file.storage";

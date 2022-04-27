@@ -79,7 +79,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
 
   @Bean
   public Docket rabbitmqApi() {
-    return buildApi("Rabbitmq(消息队列)", "com.oner365.rabbitmq");
+    return buildApi("Queue(队列)", "com.oner365.queue");
   }
 
   private Docket buildApi(String groupName, String packageName) {
