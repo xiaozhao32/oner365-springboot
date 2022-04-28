@@ -2,6 +2,8 @@ package com.oner365.elasticsearch.dto;
 
 import java.io.Serializable;
 
+import org.springframework.boot.logging.LogLevel;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -43,7 +45,7 @@ public class ApplicationLogDto implements Serializable {
    * 日志级别
    */
   @ApiModelProperty(value = "日志级别")
-  private String level;
+  private LogLevel level;
   
   /**
    * 类名称
@@ -123,14 +125,14 @@ public class ApplicationLogDto implements Serializable {
   /**
    * @return the level
    */
-  public String getLevel() {
+  public LogLevel getLevel() {
     return level;
   }
 
   /**
    * @param level the level to set
    */
-  public void setLevel(String level) {
+  public void setLevel(LogLevel level) {
     this.level = level;
   }
 

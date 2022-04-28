@@ -2,6 +2,7 @@ package com.oner365.elasticsearch.entity;
 
 import java.io.Serializable;
 
+import org.springframework.boot.logging.LogLevel;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -47,7 +48,7 @@ public class ApplicationLog implements Serializable {
    * 日志级别
    */
   @Field(name="level", type = FieldType.Keyword)
-  private String level;
+  private LogLevel level;
   
   /**
    * 类名称
@@ -155,14 +156,14 @@ public class ApplicationLog implements Serializable {
   /**
    * @return the level
    */
-  public String getLevel() {
+  public LogLevel getLevel() {
     return level;
   }
 
   /**
    * @param level the level to set
    */
-  public void setLevel(String level) {
+  public void setLevel(LogLevel level) {
     this.level = level;
   }
   
