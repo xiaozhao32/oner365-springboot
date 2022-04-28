@@ -1,7 +1,6 @@
 package com.oner365.common.serializer;
 
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 
 import org.springframework.data.redis.serializer.RedisSerializer;
 
@@ -18,7 +17,7 @@ import com.fasterxml.jackson.databind.type.TypeFactory;
  */
 public class FastJson2JsonRedisSerializer<T> implements RedisSerializer<T> {
 
-    private static final Charset DEFAULT_CHARSET = Charset.forName(StandardCharsets.UTF_8.name());
+    private static final Charset DEFAULT_CHARSET = Charset.defaultCharset();
 
     private final Class<T> clazz;
 
