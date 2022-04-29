@@ -82,7 +82,11 @@ public class ImportExcelUtils {
   private static <T> ExcelData<T> readExcel(Workbook wb, Integer sheetAt, Integer titleRow, Class<T> clazz) {
     ExcelData<T> excelData = new ExcelData<>();
     // 读取Sheet, 默认0
+    if(wb.isSheetHidden(sheetAt)){
+      return ExcelData.error(0, "文档第一个sheet是隐藏的，不是目标数据sheet");
+    }
     Sheet sheet = wb.getSheetAt(sheetAt == null ? 0 : sheetAt);
+    
     /*
      * 1、获取Sheet名称
      */
