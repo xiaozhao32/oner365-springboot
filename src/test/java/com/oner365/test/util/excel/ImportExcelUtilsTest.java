@@ -37,6 +37,13 @@ class ImportExcelUtilsTest extends BaseUtilsTest {
         logger.info("code:{},message:{}",excelData.getCode(),excelData.getMessage());
         excelData.getDataList().stream().forEach(dto -> logger.info("资产编号: {},用户名: {},部门: {},工号: {},序列号: {},",dto.getAssetsNo(), dto.getUserName(),
         dto.getDepartment(), dto.getJobNumber() , dto.getSerialNumber()));
+
+        List<BindingAppleDeviceDto> dataList = excelData.getDataList().stream()
+            .filter(dto -> (!DataUtils.isEmpty(dto.getAssetsNo()) || !DataUtils.isEmpty(dto.getDepartment())
+                || !DataUtils.isEmpty(dto.getJobNumber()) || !DataUtils.isEmpty(dto.getPhone())
+                || !DataUtils.isEmpty(dto.getSerialNumber()) || !DataUtils.isEmpty(dto.getUserName())))
+            .collect(Collectors.toList());
+        logger.error("excelData dataList size :{}", dataList.size());
       }catch(Exception e) {
           e.printStackTrace();
       }
