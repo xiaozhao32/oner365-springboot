@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.oner365.test.util.BaseUtilsTest;
 import com.oner365.util.DataUtils;
 import com.oner365.util.excel.ExcelData;
@@ -30,7 +29,9 @@ class ImportExcelUtilsTest extends BaseUtilsTest {
 
     @Test
     void test() throws IOException {
-      File file  = new File(System.getProperty("user.dir")+"/src/test/java/com/oner365/test/util/excel/0408最新台账.xlsx");
+      //隐藏sheet的文件
+//      File file  = new File(System.getProperty("user.dir")+"/src/test/java/com/oner365/test/util/excel/0408最新台账.xlsx");
+      File file  = new File(System.getProperty("user.dir")+"/src/test/java/com/oner365/test/util/excel/testecxel.xlsx");
       try (InputStream is = new FileInputStream(file);){
         ExcelData<BindingAppleDeviceDto> excelData = ImportExcelUtils.readExcel(is, 0, 1, DataUtils.getExtension(file.getName()), BindingAppleDeviceDto.class);
         logger.info("code:{},message:{}",excelData.getCode(),excelData.getMessage());

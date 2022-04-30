@@ -21,6 +21,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.oner365.common.enums.ResultEnum;
 import com.oner365.util.ClassesUtil;
 import com.oner365.util.DataUtils;
 
@@ -83,7 +84,7 @@ public class ImportExcelUtils {
     ExcelData<T> excelData = new ExcelData<>();
     // 读取Sheet, 默认0
     if(wb.isSheetHidden(sheetAt)){
-      return ExcelData.error(0, "文档第一个sheet是隐藏的，不是目标数据sheet");
+      return ExcelData.error(ResultEnum.ERROR.getCode(), "文档第一个sheet是隐藏的，不是目标数据sheet");
     }
     Sheet sheet = wb.getSheetAt(sheetAt == null ? 0 : sheetAt);
     
@@ -117,6 +118,7 @@ public class ImportExcelUtils {
     IntStream.rangeClosed(titleRow + 1, rowNum)
         .forEach(i -> getCellDataList(dataList, sheet, methods, clazz, colNum, i, title));
     excelData.setDataList(dataList);
+    excelData.setCode(ResultEnum.SUCCESS.getCode());
     return excelData;
   }
 
