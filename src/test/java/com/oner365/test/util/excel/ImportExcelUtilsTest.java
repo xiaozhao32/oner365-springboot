@@ -111,6 +111,56 @@ class ImportExcelUtilsTest extends BaseUtilsTest {
        }
        
      });
-      
     }
+   
+   @Test
+   void testDistinctData() throws IOException {
+     File file  = new File(System.getProperty("user.dir")+"/src/test/java/com/oner365/test/util/excel/distinct.xlsx");
+     try (InputStream is = new FileInputStream(file);){
+       ExcelData<BindingAppleDeviceDto> excelData = ImportExcelUtils.readExcel(is, 0, 1, DataUtils.getExtension(file.getName()), BindingAppleDeviceDto.class);
+       excelData.getDataList().stream().forEach(dto -> logger.info("资产编号: {},用户名: {},部门: {},工号: {},序列号: {},",dto.getAssetsNo(), dto.getUserName(),
+       dto.getDepartment(), dto.getJobNumber() , dto.getSerialNumber()));
+       List<BindingAppleDeviceDto> dataList = excelData.getDataList().stream()
+           .filter(dto -> (!DataUtils.isEmpty(dto.getAssetsNo()) || !DataUtils.isEmpty(dto.getDepartment())
+               || !DataUtils.isEmpty(dto.getJobNumber()) || !DataUtils.isEmpty(dto.getPhone())
+               || !DataUtils.isEmpty(dto.getSerialNumber()) || !DataUtils.isEmpty(dto.getUserName())))
+           .collect(Collectors.toList());
+       Map<String, String> map = new HashMap<String, String>();
+       AtomicInteger distinctIndex = new AtomicInteger(0);
+       dataList.stream().forEach(dto -> {
+         distinctIndex.getAndIncrement();
+         distinctData(dataList, dto.getJobNumber(), distinctIndex.intValue(), map);
+         distinctData(dataList, dto.getSerialNumber(), distinctIndex.intValue(), map);
+       });
+       if (!DataUtils.isEmpty(map)) {
+         final StringBuilder distinctInfo = new StringBuilder();
+         map.keySet().stream().forEach(key -> {
+           distinctInfo.append(map.get(key) + ",");
+         });
+         logger.error("distinctInfo :{}", distinctInfo);
+       }
+     }catch(Exception e) {
+         e.printStackTrace();
+     }
+   }
+   
+   /**
+    * 验证主数据是否重复 主数据是否重复
+    * 
+    * @param list  excel读取数据
+    * @param filed 主数据字段
+    * @param i     此数据行数
+    * @param map   重复数据行数信息
+    * @return
+    */
+   void distinctData(List<BindingAppleDeviceDto> list, String filed, int i, Map<String, String> map) {
+     AtomicInteger index = new AtomicInteger(0);
+     list.stream().forEach(dto -> {
+       index.getAndIncrement();
+       if (((filed.equals(dto.getJobNumber()) || filed.equals(dto.getSerialNumber())) && index.intValue() != i)
+           && (!map.containsKey(filed + "-" + index + "-" + i) && !map.containsKey(filed + "-" + i + "-" + index))) {
+         map.put(filed + "-" + index + "-" + i, "第" + i + "与" + index + "行");
+       }
+     });
+   }
 }
