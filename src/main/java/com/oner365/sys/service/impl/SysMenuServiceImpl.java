@@ -12,13 +12,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.oner365.common.cache.annotation.GeneratorCache;
 import com.oner365.common.cache.annotation.RedisCacheAble;
 import com.oner365.common.constants.PublicConstants;
 import com.oner365.common.enums.ResultEnum;
@@ -125,7 +125,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
   }
 
   @Override
-  @Cacheable(value = CACHE_NAME, keyGenerator = PublicConstants.KEY_GENERATOR)
+  @GeneratorCache(CACHE_NAME)
   public List<SysMenuDto> findMenuByTypeCode(String typeCode) {
     try {
       return convert(menuDao.findMenuByTypeCode(typeCode), SysMenuDto.class);
@@ -136,7 +136,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
   }
 
   @Override
-  @Cacheable(value = CACHE_NAME, keyGenerator = PublicConstants.KEY_GENERATOR)
+  @GeneratorCache(CACHE_NAME)
   public List<SysMenuDto> selectMenuByRoles(List<String> roles, String menuTypeId, String parentId) {
     try {
       return convert(menuMapper.selectMenuByRoles(roles, menuTypeId, parentId), SysMenuDto.class);
@@ -147,7 +147,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
   }
 
   @Override
-  @Cacheable(value = CACHE_NAME, keyGenerator = PublicConstants.KEY_GENERATOR)
+  @GeneratorCache(CACHE_NAME)
   public List<SysMenuDto> findMenu(String menuTypeId, String parentId) {
     Criteria<SysMenu> criteria = new Criteria<>();
     criteria.add(Restrictions.eq(SysConstants.MENU_TYPE_ID, menuTypeId));
@@ -157,7 +157,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
   }
 
   @Override
-  @Cacheable(value = CACHE_NAME, keyGenerator = PublicConstants.KEY_GENERATOR)
+  @GeneratorCache(CACHE_NAME)
   public List<TreeSelect> buildTreeSelect(List<SysMenuDto> menus) {
     List<SysMenuDto> menuTrees = buildTree(menus);
     return menuTrees.stream().map(TreeSelect::new).collect(Collectors.toList());
@@ -210,7 +210,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
   }
   
   @Override
-  @Cacheable(value = CACHE_NAME, keyGenerator = PublicConstants.KEY_GENERATOR)
+  @GeneratorCache(CACHE_NAME)
   public List<SysMenuDto> findList(QueryCriteriaBean data) {
     try {
       if (data.getOrder() == null) {
@@ -225,7 +225,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
   }
 
   @Override
-  @Cacheable(value = CACHE_NAME, keyGenerator = PublicConstants.KEY_GENERATOR)
+  @GeneratorCache(CACHE_NAME)
   public List<SysMenuDto> selectList(SysMenuVo sysMenuVo) {
     Criteria<SysMenu> criteria = new Criteria<>();
     if (!DataUtils.isEmpty(sysMenuVo.getMenuTypeId())) {
@@ -241,14 +241,14 @@ public class SysMenuServiceImpl implements ISysMenuService {
   }
 
   @Override
-  @Cacheable(value = CACHE_NAME, keyGenerator = PublicConstants.KEY_GENERATOR)
+  @GeneratorCache(CACHE_NAME)
   public List<SysMenuDto> selectListByUserId(SysMenuVo vo) {
     List<SysMenu> list = menuMapper.selectListByUserId(convert(vo, SysMenu.class));
     return convert(list, SysMenuDto.class);
   }
 
   @Override
-  @Cacheable(value = CACHE_NAME, keyGenerator = PublicConstants.KEY_GENERATOR)
+  @GeneratorCache(CACHE_NAME)
   public List<String> selectListByRoleId(String roleId, String menuTypeId) {
     return menuMapper.selectListByRoleId(roleId, menuTypeId);
   }
