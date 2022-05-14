@@ -1,10 +1,7 @@
 package com.oner365.sys.service.impl;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -87,9 +84,9 @@ public class SysMenuServiceImpl implements ISysMenuService {
     try {
       vo.setCreateTime(LocalDateTime.now());
       vo.setUpdateTime(LocalDateTime.now());
-  
+
       SysMenu menu = menuDao.save(convert(vo, SysMenu.class));
-  
+
       menuOperDao.deleteByMenuId(menu.getId());
       if (!DataUtils.isEmpty(menu.getOperIds())) {
         menu.getOperIds().forEach(id -> {
@@ -208,7 +205,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
   private boolean hasChild(List<SysMenuDto> list, SysMenuDto t) {
     return !getChildList(list, t).isEmpty();
   }
-  
+
   @Override
   @GeneratorCache(CACHE_NAME)
   public List<SysMenuDto> findList(QueryCriteriaBean data) {
@@ -216,7 +213,8 @@ public class SysMenuServiceImpl implements ISysMenuService {
       if (data.getOrder() == null) {
         return convert(menuDao.findAll(QueryUtils.buildCriteria(data)), SysMenuDto.class);
       }
-      List<SysMenu> list = menuDao.findAll(QueryUtils.buildCriteria(data), QueryUtils.buildSortRequest(data.getOrder()));
+      List<SysMenu> list = menuDao.findAll(QueryUtils.buildCriteria(data),
+              Objects.requireNonNull(QueryUtils.buildSortRequest(data.getOrder())));
       return convert(list, SysMenuDto.class);
     } catch (Exception e) {
       LOGGER.error("Error findList: ", e);

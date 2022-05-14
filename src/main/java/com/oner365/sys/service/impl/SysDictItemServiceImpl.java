@@ -2,6 +2,7 @@ package com.oner365.sys.service.impl;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -51,7 +52,7 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
 
   @Override
   @Transactional(rollbackFor = ProjectRuntimeException.class)
-  @Caching(evict = { 
+  @Caching(evict = {
       @CacheEvict(value = CACHE_NAME, allEntries = true),
       @CacheEvict(value = CACHE_TYPE_NAME, allEntries = true) })
   public SysDictItemDto save(SysDictItemVo vo) {
@@ -90,7 +91,8 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
       if (data.getOrder() == null) {
         return convert(dao.findAll(QueryUtils.buildCriteria(data)), SysDictItemDto.class);
       }
-      List<SysDictItem> list = dao.findAll(QueryUtils.buildCriteria(data), QueryUtils.buildSortRequest(data.getOrder()));
+      List<SysDictItem> list = dao.findAll(QueryUtils.buildCriteria(data),
+              Objects.requireNonNull(QueryUtils.buildSortRequest(data.getOrder())));
       return convert(list, SysDictItemDto.class);
     } catch (Exception e) {
       LOGGER.error("Error findList: ", e);
@@ -116,7 +118,7 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
 
   @Override
   @Transactional(rollbackFor = ProjectRuntimeException.class)
-  @Caching(evict = { 
+  @Caching(evict = {
       @CacheEvict(value = CACHE_NAME, allEntries = true),
       @CacheEvict(value = CACHE_TYPE_NAME, allEntries = true) })
   public int deleteById(String id) {

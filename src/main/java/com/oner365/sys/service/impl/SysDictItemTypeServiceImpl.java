@@ -1,9 +1,6 @@
 package com.oner365.sys.service.impl;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,7 +55,7 @@ public class SysDictItemTypeServiceImpl implements ISysDictItemTypeService {
 
   @Override
   @Transactional(rollbackFor = ProjectRuntimeException.class)
-  @Caching(evict = { 
+  @Caching(evict = {
       @CacheEvict(value = CACHE_NAME, allEntries = true),
       @CacheEvict(value = CACHE_ITEM_NAME, allEntries = true) })
   public SysDictItemTypeDto save(SysDictItemTypeVo vo) {
@@ -100,7 +97,8 @@ public class SysDictItemTypeServiceImpl implements ISysDictItemTypeService {
       if (data.getOrder() == null) {
         return convert(dao.findAll(QueryUtils.buildCriteria(data)), SysDictItemTypeDto.class);
       }
-      List<SysDictItemType> list = dao.findAll(QueryUtils.buildCriteria(data), QueryUtils.buildSortRequest(data.getOrder()));
+      List<SysDictItemType> list = dao.findAll(QueryUtils.buildCriteria(data),
+              Objects.requireNonNull(QueryUtils.buildSortRequest(data.getOrder())));
       return convert(list, SysDictItemTypeDto.class);
     } catch (Exception e) {
       LOGGER.error("Error findList: ", e);
@@ -125,7 +123,7 @@ public class SysDictItemTypeServiceImpl implements ISysDictItemTypeService {
 
   @Override
   @Transactional(rollbackFor = ProjectRuntimeException.class)
-  @Caching(evict = { 
+  @Caching(evict = {
       @CacheEvict(value = CACHE_NAME, allEntries = true),
       @CacheEvict(value = CACHE_ITEM_NAME, allEntries = true) })
   public int deleteById(String id) {
@@ -155,7 +153,7 @@ public class SysDictItemTypeServiceImpl implements ISysDictItemTypeService {
 
   @Override
   @Transactional(rollbackFor = ProjectRuntimeException.class)
-  @Caching(evict = { 
+  @Caching(evict = {
       @CacheEvict(value = CACHE_NAME, allEntries = true),
       @CacheEvict(value = CACHE_ITEM_NAME, allEntries = true) })
   public Integer editStatus(String id, StatusEnum status) {

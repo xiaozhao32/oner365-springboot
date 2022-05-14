@@ -3,6 +3,7 @@ package com.oner365.sys.service.impl;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -43,7 +44,7 @@ public class SysMessageServiceImpl implements ISysMessageService {
 
   @Autowired
   private ISysMessageDao dao;
-  
+
   @Override
   @GeneratorCache(CACHE_NAME)
   public PageInfo<SysMessageDto> pageList(QueryCriteriaBean data) {
@@ -55,7 +56,7 @@ public class SysMessageServiceImpl implements ISysMessageService {
     }
     return null;
   }
-  
+
   @Override
   @GeneratorCache(CACHE_NAME)
   public List<SysMessageDto> findList(QueryCriteriaBean data) {
@@ -63,7 +64,8 @@ public class SysMessageServiceImpl implements ISysMessageService {
       if (data.getOrder() == null) {
         return convert(dao.findAll(QueryUtils.buildCriteria(data)), SysMessageDto.class);
       }
-      List<SysMessage> list = dao.findAll(QueryUtils.buildCriteria(data), QueryUtils.buildSortRequest(data.getOrder()));
+      List<SysMessage> list = dao.findAll(QueryUtils.buildCriteria(data),
+              Objects.requireNonNull(QueryUtils.buildSortRequest(data.getOrder())));
       return convert(list, SysMessageDto.class);
     } catch (Exception e) {
       LOGGER.error("Error findList: ", e);
@@ -82,7 +84,7 @@ public class SysMessageServiceImpl implements ISysMessageService {
     }
     return null;
   }
-  
+
   @Override
   @Transactional(rollbackFor = ProjectRuntimeException.class)
   @CacheEvict(value = CACHE_NAME, allEntries = true)
@@ -102,7 +104,7 @@ public class SysMessageServiceImpl implements ISysMessageService {
     dao.deleteById(id);
     return ResultEnum.SUCCESS.getCode();
   }
-  
+
   @Override
   @Transactional(rollbackFor = ProjectRuntimeException.class)
   @CacheEvict(value = CACHE_NAME, allEntries = true)

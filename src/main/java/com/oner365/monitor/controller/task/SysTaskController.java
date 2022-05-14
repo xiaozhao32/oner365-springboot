@@ -1,5 +1,6 @@
 package com.oner365.monitor.controller.task;
 
+import com.oner365.util.DateUtil;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -55,7 +56,7 @@ public class SysTaskController extends BaseController {
   public PageInfo<SysTaskDto> pageList(@RequestBody QueryCriteriaBean data) {
     return taskService.pageList(data);
   }
-  
+
   /**
    * 获取定时任务详细信息
    *
@@ -107,6 +108,8 @@ public class SysTaskController extends BaseController {
     if (sysTaskVo == null || !CronUtils.isValid(sysTaskVo.getCronExpression())) {
       return ResponseResult.error("cron表达式不正确");
     }
+    sysTaskVo.setCreateUser(authUser.getUserName());
+    sysTaskVo.setUpdateTime(DateUtil.getDate());
     int code = taskService.updateTask(sysTaskVo);
     return ResponseResult.success(code);
   }
@@ -116,13 +119,13 @@ public class SysTaskController extends BaseController {
    *
    * @param sysTaskVo 参数
    * @return ResponseResult<Integer>
-   * @throws SchedulerException, TaskException 异常
+   * @throws SchedulerException 异常
    */
   @ApiOperation("5.修改状态")
   @ApiOperationSupport(order = 5)
   @PutMapping("/status")
   public ResponseResult<Integer> changeStatus(@RequestBody SysTaskVo sysTaskVo)
-      throws SchedulerException, TaskException {
+      throws SchedulerException {
     if (sysTaskVo != null) {
       int code = taskService.changeStatus(sysTaskVo);
       return ResponseResult.success(code);
@@ -162,7 +165,7 @@ public class SysTaskController extends BaseController {
     taskService.deleteTaskByIds(ids);
     return ResponseResult.success(ResultEnum.SUCCESS.getName());
   }
-  
+
   /**
    * 导出定时任务列表
    *

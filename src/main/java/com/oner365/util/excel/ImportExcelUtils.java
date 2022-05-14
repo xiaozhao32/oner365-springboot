@@ -86,8 +86,8 @@ public class ImportExcelUtils {
     if(wb.isSheetHidden(sheetAt)){
       return ExcelData.error(ResultEnum.ERROR.getCode(), "文档第一个sheet是隐藏的，不是目标数据sheet");
     }
-    Sheet sheet = wb.getSheetAt(sheetAt == null ? 0 : sheetAt);
-    
+    Sheet sheet = wb.getSheetAt(sheetAt);
+
     /*
      * 1、获取Sheet名称
      */
@@ -135,9 +135,9 @@ public class ImportExcelUtils {
           if (cell != null) {
             val = getCellValue(cell);
           }
-          Object o = val != null ? val.toString().trim() : val;
+          Object o = val != null ? val.toString().trim() : null;
           String firstLetter = title[j].substring(0, 1).toUpperCase();
-          String setter = "set" + firstLetter + title[j].substring(1, title[j].length());
+          String setter = "set" + firstLetter + title[j].substring(1);
           Optional<Method> setMethod = methods.stream().filter(method -> method.getName().equals(setter)).findFirst();
           if (setMethod.isPresent()) {
             ClassesUtil.invokeMethod(c, setter, o);
