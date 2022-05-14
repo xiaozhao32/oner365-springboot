@@ -47,7 +47,7 @@ public class DynamicRouteServiceImpl implements DynamicRouteService {
   @Autowired
   private IQueueSendService queueSendService;
 
-  protected static Map<String, String> predicateMap = new HashMap<>();
+  protected static Map<String, Integer> predicateMap = new HashMap<>();
 
   @Override
   public List<GatewayRouteDto> findList() {
@@ -141,13 +141,13 @@ public class DynamicRouteServiceImpl implements DynamicRouteService {
   }
 
   @Override
-  public Map<String, String> mapRoute(GatewayRouteDto route) {
+  public Map<String, Integer> mapRoute(GatewayRouteDto route) {
     route.getPredicates().stream().filter(predicate -> predicate.getName().equals(GatewayConstants.PREDICATE_NAME))
         .forEach(predicates -> {
           String pattern = StringUtils.substring(predicates.getArgs().get(GatewayConstants.PREDICATE_ARGS_PATTERN), 0,
               predicates.getArgs().get(GatewayConstants.PREDICATE_ARGS_PATTERN).length() - 2);
           predicateMap.put(pattern,
-              DataUtils.isEmpty(route.getStatus().getCode()) ? StatusEnum.NO.getCode() : route.getStatus().getCode());
+              DataUtils.isEmpty(route.getStatus()) ? StatusEnum.NO.ordinal() : route.getStatus().ordinal());
         });
     return predicateMap;
   }

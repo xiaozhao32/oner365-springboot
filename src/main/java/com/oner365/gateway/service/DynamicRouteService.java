@@ -85,6 +85,6 @@ public interface DynamicRouteService extends BaseService {
    * @param route 路由对象
    * @return Map
    */
-  Map<String, String> mapRoute(GatewayRouteDto route);
+  Map<String, Integer> mapRoute(GatewayRouteDto route);
 
 }
