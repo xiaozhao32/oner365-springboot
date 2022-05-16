@@ -1,8 +1,6 @@
 package com.oner365.common.enums;
 
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.Optional;
 
 /**
  * 枚举 - 文件存储方式
@@ -12,16 +10,11 @@ import java.util.Optional;
 public enum StorageEnum implements Serializable {
 
     /** 本地上传 */
-    LOCAL("local", "本地上传"),
+    LOCAL("本地上传"),
     /** Minio上传 */
-    MINIO("minio", "Minio上传"),
+    MINIO("Minio上传"),
     /** Fdfs上传 */
-    FDFS("fdfs", "Fdfs上传");
-
-    /**
-     * 编码
-     */
-    private final String code;
+    FDFS("Fdfs上传");
 
     /**
      * 名称
@@ -31,21 +24,10 @@ public enum StorageEnum implements Serializable {
     /**
      * 构造方法
      *
-     * @param code  编码
      * @param name 名称
      */
-    StorageEnum(String code, String name) {
-        this.code = code;
+    StorageEnum(String name) {
         this.name = name;
-    }
-
-    /**
-     * get code
-     *
-     * @return code
-     */
-    public String getCode() {
-        return code;
     }
 
     /**
@@ -55,19 +37,6 @@ public enum StorageEnum implements Serializable {
      */
     public String getName() {
         return name;
-    }
-
-    /**
-     * 获取枚举
-     *
-     * @param code 编码
-     * @return StorageEnum
-     */
-    public static StorageEnum getCode(String code) {
-        Optional<StorageEnum> result = Arrays.stream(StorageEnum.values())
-                .filter(e -> e.getCode().equals(code))
-                .findFirst();
-        return result.orElse(null);
     }
 
 }

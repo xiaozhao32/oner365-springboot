@@ -154,14 +154,13 @@ public class FileStorageController extends BaseController {
   /**
    * 获取文件存储方式
    *
-   * @return String
+   * @return StorageEnum
    */
   @ApiOperation("6.获取文件存储方式")
   @ApiOperationSupport(order = 6)
   @GetMapping("/name")
-  public String getStorageName() {
-    StorageEnum result = fileStorageClient.getName();
-    return result.getCode();
+  public StorageEnum getStorageName() {
+    return fileStorageClient.getName();
   }
 
   /**
