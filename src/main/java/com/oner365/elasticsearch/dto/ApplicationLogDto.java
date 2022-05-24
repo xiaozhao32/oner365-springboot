@@ -54,6 +54,12 @@ public class ApplicationLogDto implements Serializable {
   private String loggerName;
   
   /**
+   * 项目名称
+   */
+  @ApiModelProperty(value = "项目名称")
+  private String projectName;
+  
+  /**
    * 创建时间
    */
   @ApiModelProperty(value = "创建时间")
@@ -162,5 +168,19 @@ public class ApplicationLogDto implements Serializable {
    */
   public void setCreateTime(String createTime) {
     this.createTime = createTime;
+  }
+
+  /**
+   * @return the projectName
+   */
+  public String getProjectName() {
+    return projectName;
+  }
+
+  /**
+   * @param projectName the projectName to set
+   */
+  public void setProjectName(String projectName) {
+    this.projectName = projectName;
   }
 }

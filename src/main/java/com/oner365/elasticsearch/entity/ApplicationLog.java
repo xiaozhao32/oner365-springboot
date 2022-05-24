@@ -57,6 +57,12 @@ public class ApplicationLog implements Serializable {
   private String loggerName;
   
   /**
+   * 项目名称
+   */
+  @Field(name="LOG_NAME", type = FieldType.Keyword)
+  private String projectName;
+  
+  /**
    * 创建时间
    */
   @Field(name="@timestamp", type = FieldType.Keyword)
@@ -165,6 +171,20 @@ public class ApplicationLog implements Serializable {
    */
   public void setLevel(LogLevel level) {
     this.level = level;
+  }
+
+  /**
+   * @return the projectName
+   */
+  public String getProjectName() {
+    return projectName;
+  }
+
+  /**
+   * @param projectName the projectName to set
+   */
+  public void setProjectName(String projectName) {
+    this.projectName = projectName;
   }
   
 }
