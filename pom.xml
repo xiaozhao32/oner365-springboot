@@ -56,7 +56,7 @@
 		<org.junit.platform.version>1.7.2</org.junit.platform.version>
 
 		<com.alibaba.druid.version>1.2.9</com.alibaba.druid.version>
-		<com.alibaba.fastjson.version>1.2.79</com.alibaba.fastjson.version>
+		<com.alibaba.fastjson.version>1.2.83</com.alibaba.fastjson.version>
 		
 		<com.fasterxml.jackson.version>2.13.2</com.fasterxml.jackson.version>
 		<com.google.code.gson.version>2.9.0</com.google.code.gson.version>
