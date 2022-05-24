@@ -70,8 +70,9 @@ public class ApplicationLogElasticsearchServiceImpl implements IApplicationLogEl
   }
 
   @Override
-  public void deleteById(String id) {
+  public Boolean deleteById(String id) {
     dao.deleteById(id);
+    return Boolean.TRUE;
   }
 
 }

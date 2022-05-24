@@ -1,7 +1,11 @@
 package com.oner365.sys.service.impl;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -18,8 +22,6 @@ import org.springframework.util.Assert;
 import com.oner365.common.cache.annotation.GeneratorCache;
 import com.oner365.common.cache.annotation.RedisCacheAble;
 import com.oner365.common.constants.PublicConstants;
-import com.oner365.common.enums.ExistsEnum;
-import com.oner365.common.enums.ResultEnum;
 import com.oner365.common.enums.StatusEnum;
 import com.oner365.common.exception.ProjectRuntimeException;
 import com.oner365.common.query.Criteria;
@@ -73,28 +75,30 @@ public class SysOrganizationServiceImpl implements ISysOrganizationService {
   @Override
   @Transactional(rollbackFor = ProjectRuntimeException.class)
   @CacheEvict(value = CACHE_NAME, allEntries = true)
-  public int deleteById(String id) {
+  public Boolean deleteById(String id) {
     dao.deleteById(id);
-    return ResultEnum.SUCCESS.getCode();
+    return Boolean.TRUE;
   }
 
   @Override
-  public long checkCode(String orgId, String code, String type) {
+  public Boolean checkCode(String orgId, String code, String type) {
     try {
       Criteria<SysOrganization> criteria = new Criteria<>();
       criteria.add(Restrictions.eq(type, code));
       if (!DataUtils.isEmpty(orgId)) {
         criteria.add(Restrictions.ne(SysConstants.ID, orgId));
       }
-      return dao.count(criteria);
+      if (dao.count(criteria) > 0) {
+        return Boolean.TRUE;
+      }
     } catch (Exception e) {
       LOGGER.error("Error checkCode:", e);
     }
-    return ExistsEnum.NO.getCode();
+    return Boolean.FALSE;
   }
 
   @Override
-  public boolean checkConnection(String id) {
+  public Boolean checkConnection(String id) {
     try {
       Optional<SysOrganization> optional = dao.findById(id);
       if (optional.isPresent()) {
@@ -111,7 +115,7 @@ public class SysOrganizationServiceImpl implements ISysOrganizationService {
   }
 
   @Override
-  public boolean isConnection(String dsType, String ip, int port, String dbName, String userName, String pwd) {
+  public Boolean isConnection(String dsType, String ip, int port, String dbName, String userName, String pwd) {
     String driverName;
     String url;
     if (DataSourceConstants.DB_TYPE_MYSQL.equals(dsType)) {
@@ -270,15 +274,15 @@ public class SysOrganizationServiceImpl implements ISysOrganizationService {
   @Override
   @Transactional(rollbackFor = ProjectRuntimeException.class)
   @CacheEvict(value = CACHE_NAME, allEntries = true)
-  public Integer editStatus(String id, StatusEnum status) {
+  public Boolean editStatus(String id, StatusEnum status) {
     Optional<SysOrganization> optional = dao.findById(id);
     if (optional.isPresent()) {
       SysOrganization entity = optional.get();
       entity.setStatus(status);
       dao.save(entity);
-      return ResultEnum.SUCCESS.getCode();
+      return Boolean.TRUE;
     }
-    return ResultEnum.ERROR.getCode();
+    return Boolean.FALSE;
   }
 
 }

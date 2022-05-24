@@ -74,12 +74,12 @@ public class SysJobController extends BaseController {
    *
    * @param id     主键
    * @param status 状态
-   * @return Integer
+   * @return Boolean
    */
   @ApiOperation("3.修改状态")
   @ApiOperationSupport(order = 3)
   @PostMapping("/status/{id}")
-  public Integer editStatus(@PathVariable String id, @RequestParam("status") StatusEnum status) {
+  public Boolean editStatus(@PathVariable String id, @RequestParam("status") StatusEnum status) {
     return sysJobService.editStatus(id, status);
   }
 
@@ -109,7 +109,7 @@ public class SysJobController extends BaseController {
   @ApiOperation("5.删除")
   @ApiOperationSupport(order = 5)
   @DeleteMapping("/delete")
-  public List<Integer> delete(@RequestBody String... ids) {
+  public List<Boolean> delete(@RequestBody String... ids) {
     return Arrays.stream(ids).map(id -> sysJobService.deleteById(id)).collect(Collectors.toList());
   }
 

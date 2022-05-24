@@ -102,12 +102,12 @@ public class DataSourceConfigController extends BaseController {
    * 删除
    *
    * @param ids 编号
-   * @return List<Integer>
+   * @return List<Boolean>
    */
   @ApiOperation("5.删除")
   @ApiOperationSupport(order = 5)
   @DeleteMapping("/delete")
-  public List<Integer> delete(@RequestBody String... ids) {
+  public List<Boolean> delete(@RequestBody String... ids) {
     return Arrays.stream(ids).map(id -> service.deleteById(id)).collect(Collectors.toList());
   }
 }

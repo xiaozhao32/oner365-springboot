@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.common.ResponseResult;
 import com.oner365.common.enums.ErrorInfoEnum;
-import com.oner365.common.enums.ResultEnum;
 import com.oner365.common.enums.StatusEnum;
 import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.AttributeBean;
@@ -96,12 +95,12 @@ public class SysMenuTypeController extends BaseController {
    *
    * @param id     主键
    * @param status 状态
-   * @return Integer
+   * @return Boolean
    */
   @ApiOperation("4.修改状态")
   @ApiOperationSupport(order = 4)
   @PostMapping("/status/{id}")
-  public Integer editStatus(@PathVariable String id, @RequestParam("status") StatusEnum status) {
+  public Boolean editStatus(@PathVariable String id, @RequestParam("status") StatusEnum status) {
     return menuTypeService.editStatus(id, status);
   }
 
@@ -109,16 +108,16 @@ public class SysMenuTypeController extends BaseController {
    * 判断是否存在
    *
    * @param checkCodeVo 查询参数
-   * @return Long
+   * @return Boolean
    */
   @ApiOperation("5.判断是否存在")
   @ApiOperationSupport(order = 5)
   @PostMapping("/check")
-  public Long checkCode(@RequestBody CheckCodeVo checkCodeVo) {
+  public Boolean checkCode(@RequestBody CheckCodeVo checkCodeVo) {
     if (checkCodeVo != null) {
       return menuTypeService.checkCode(checkCodeVo.getId(), checkCodeVo.getCode());
     }
-    return Long.valueOf(ResultEnum.ERROR.getCode());
+    return Boolean.FALSE;
   }
 
   /**
@@ -142,12 +141,12 @@ public class SysMenuTypeController extends BaseController {
    * 删除
    *
    * @param ids 编号
-   * @return List<Integer>
+   * @return List<Boolean>
    */
   @ApiOperation("7.删除")
   @ApiOperationSupport(order = 7)
   @DeleteMapping("/delete")
-  public List<Integer> delete(@RequestBody String... ids) {
+  public List<Boolean> delete(@RequestBody String... ids) {
     return Arrays.stream(ids).map(id -> menuTypeService.deleteById(id)).collect(Collectors.toList());
   }
 }

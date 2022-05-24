@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
@@ -28,7 +30,6 @@ import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.common.ResponseData;
 import com.oner365.common.ResponseResult;
 import com.oner365.common.constants.PublicConstants;
-import com.oner365.common.enums.ResultEnum;
 import com.oner365.common.enums.StorageEnum;
 import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.QueryCriteriaBean;
@@ -144,11 +145,8 @@ public class FileStorageController extends BaseController {
   @ApiOperation("5.删除文件")
   @ApiOperationSupport(order = 5)
   @DeleteMapping("/delete")
-  public String delete(@RequestBody String... ids) {
-    if (ids != null) {
-      Arrays.stream(ids).forEach(id -> fileStorageClient.deleteFile(id));
-    }
-    return ResultEnum.SUCCESS.getName();
+  public List<Boolean> delete(@RequestBody String... ids) {
+    return Arrays.stream(ids).map(id -> fileStorageClient.deleteFile(id)).collect(Collectors.toList());
   }
 
   /**

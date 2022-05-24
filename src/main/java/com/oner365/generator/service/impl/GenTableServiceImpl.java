@@ -112,13 +112,15 @@ public class GenTableServiceImpl implements IGenTableService {
    */
   @Override
   @Transactional(rollbackFor = ProjectException.class)
-  public void updateGenTable(GenTable genTable) {
+  public Boolean updateGenTable(GenTable genTable) {
     String options = JSON.toJSONString(genTable.getParams());
     genTable.setOptions(options);
     int row = genTableMapper.updateGenTable(genTable);
     if (row > 0) {
       genTable.getColumns().forEach(cenTableColumn -> genTableColumnMapper.updateGenTableColumn(cenTableColumn));
+      return Boolean.TRUE;
     }
+    return Boolean.FALSE;
   }
 
   /**
@@ -128,9 +130,10 @@ public class GenTableServiceImpl implements IGenTableService {
    */
   @Override
   @Transactional(rollbackFor = ProjectException.class)
-  public void deleteGenTableByIds(Long[] tableIds) {
+  public Boolean deleteGenTableByIds(Long[] tableIds) {
     genTableMapper.deleteGenTableByIds(tableIds);
     genTableColumnMapper.deleteGenTableColumnByIds(tableIds);
+    return Boolean.TRUE;
   }
 
   /**
@@ -140,7 +143,7 @@ public class GenTableServiceImpl implements IGenTableService {
    */
   @Override
   @Transactional(rollbackFor = ProjectException.class)
-  public void importGenTable(List<GenTable> tableList, String operName) {
+  public Boolean importGenTable(List<GenTable> tableList, String operName) {
     try {
       tableList.forEach(table -> {
         String tableName = table.getTableName();
@@ -155,9 +158,11 @@ public class GenTableServiceImpl implements IGenTableService {
           });
         }
       });
+      return Boolean.TRUE;
     } catch (Exception e) {
       LOGGER.error("导入失败：", e);
     }
+    return Boolean.FALSE;
   }
 
   /**
@@ -213,7 +218,7 @@ public class GenTableServiceImpl implements IGenTableService {
    * @param tableName 表名称
    */
   @Override
-  public void generatorCode(String tableName) {
+  public Boolean generatorCode(String tableName) {
     // 查询表信息
     GenTable table = genTableMapper.selectGenTableByName(tableName);
     // 查询列信息
@@ -238,6 +243,7 @@ public class GenTableServiceImpl implements IGenTableService {
         LOGGER.error("渲染模板失败，表名：{}", table.getTableName());
       }
     });
+    return Boolean.TRUE;
   }
 
   /**
@@ -247,7 +253,7 @@ public class GenTableServiceImpl implements IGenTableService {
    */
   @Override
   @Transactional(rollbackFor = ProjectException.class)
-  public void syncDb(String tableName) {
+  public Boolean syncDb(String tableName) {
     GenTable table = genTableMapper.selectGenTableByName(tableName);
     List<GenTableColumn> tableColumns = table.getColumns();
     List<String> tableColumnNames = tableColumns.stream().map(GenTableColumn::getColumnName)
@@ -269,6 +275,7 @@ public class GenTableServiceImpl implements IGenTableService {
     if (!DataUtils.isEmpty(delColumns)) {
       genTableColumnMapper.deleteGenTableColumns(delColumns);
     }
+    return Boolean.TRUE;
   }
 
   /**

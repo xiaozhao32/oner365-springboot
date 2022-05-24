@@ -14,7 +14,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.oner365.common.enums.ResultEnum;
 import com.oner365.common.enums.StatusEnum;
 import com.oner365.common.exception.ProjectRuntimeException;
 import com.oner365.common.page.PageInfo;
@@ -67,7 +66,7 @@ public class DynamicRouteServiceImpl implements DynamicRouteService {
 
   @Override
   @Transactional(rollbackFor = ProjectRuntimeException.class)
-  public String save(GatewayRouteVo gatewayRoute) {
+  public GatewayRouteDto save(GatewayRouteVo gatewayRoute) {
 
     // Filter
     GatewayFilter gatewayFilter = new GatewayFilter();
@@ -86,22 +85,23 @@ public class DynamicRouteServiceImpl implements DynamicRouteService {
     gatewayRoute.setPredicates(Collections.singletonList(gatewayPredicate));
 
     // 页面保存信息
-    gatewayRouteDao.save(convert(gatewayRoute, GatewayRoute.class));
-    return ResultEnum.SUCCESS.getName();
+    GatewayRoute entity = gatewayRouteDao.save(convert(gatewayRoute, GatewayRoute.class));
+    return convert(entity, GatewayRouteDto.class);
   }
 
   @Override
   @Transactional(rollbackFor = ProjectRuntimeException.class)
-  public String update(GatewayRouteVo gatewayRoute) {
-    delete(gatewayRoute.getId());
+  public GatewayRouteDto update(GatewayRouteVo gatewayRoute) {
+    deleteById(gatewayRoute.getId());
     return save(gatewayRoute);
   }
 
   @Override
   @Transactional(rollbackFor = ProjectRuntimeException.class)
-  public void delete(String id) {
+  public Boolean deleteById(String id) {
     gatewayRouteDao.deleteById(id);
     queueSendService.syncRoute();
+    return Boolean.TRUE;
   }
 
   @Override
@@ -112,15 +112,15 @@ public class DynamicRouteServiceImpl implements DynamicRouteService {
   }
 
   @Override
-  public String updateRouteStatus(String id, StatusEnum status) {
+  public Boolean editStatus(String id, StatusEnum status) {
     GatewayRoute gatewayRoute = findById(id);
     if (gatewayRoute != null) {
       gatewayRoute.setStatus(status);
       gatewayRouteDao.save(gatewayRoute);
       queueSendService.syncRoute();
-      return ResultEnum.SUCCESS.getName();
+      return Boolean.TRUE;
     }
-    return null;
+    return Boolean.FALSE;
   }
 
   private GatewayRoute findById(String id) {

@@ -1,6 +1,8 @@
 package com.oner365.elasticsearch.controller;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
-import com.oner365.common.enums.ResultEnum;
 import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
@@ -71,10 +72,8 @@ public class ApplicationLogController extends BaseController {
   @ApiOperation("3.删除")
   @ApiOperationSupport(order = 3)
   @DeleteMapping("/delete")
-  public Integer delete(@RequestBody String... ids) {
-    Integer result = ResultEnum.SUCCESS.getCode();
-    Arrays.stream(ids).forEach(id -> service.deleteById(id));
-    return result;
+  public List<Boolean> delete(@RequestBody String... ids) {
+    return Arrays.stream(ids).map(id -> service.deleteById(id)).collect(Collectors.toList());
   }
 
 }

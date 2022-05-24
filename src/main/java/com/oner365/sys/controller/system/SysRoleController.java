@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.common.ResponseResult;
 import com.oner365.common.enums.ErrorInfoEnum;
-import com.oner365.common.enums.ResultEnum;
 import com.oner365.common.enums.StatusEnum;
 import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.QueryCriteriaBean;
@@ -76,12 +75,12 @@ public class SysRoleController extends BaseController {
    *
    * @param id     主键
    * @param status 状态
-   * @return Integer
+   * @return Boolean
    */
   @ApiOperation("3.修改状态")
   @ApiOperationSupport(order = 3)
   @PostMapping("/status/{id}")
-  public Integer editStatus(@PathVariable String id, @RequestParam("status") StatusEnum status) {
+  public Boolean editStatus(@PathVariable String id, @RequestParam("status") StatusEnum status) {
     return roleService.editStatus(id, status);
   }
 
@@ -89,32 +88,32 @@ public class SysRoleController extends BaseController {
    * 判断是否存在
    *
    * @param checkRoleNameVo 查询参数
-   * @return Long
+   * @return Boolean
    */
   @ApiOperation("4.判断角色名称存在")
   @ApiOperationSupport(order = 4)
   @PostMapping("/check")
-  public Long checkRoleName(@RequestBody CheckRoleNameVo checkRoleNameVo) {
+  public Boolean checkRoleName(@RequestBody CheckRoleNameVo checkRoleNameVo) {
     if (checkRoleNameVo != null) {
       return roleService.checkRoleName(checkRoleNameVo.getId(), checkRoleNameVo.getRoleName());
     }
-    return Long.valueOf(ResultEnum.ERROR.getCode());
+    return Boolean.FALSE;
   }
 
   /**
    * 角色权限保存
    *
    * @param sysRoleVo 参数
-   * @return ResponseResult<Integer>
+   * @return ResponseResult<Boolean>
    */
   @ApiOperation("5.保存")
   @ApiOperationSupport(order = 5)
   @PutMapping("/save")
-  public ResponseResult<Integer> save(@RequestBody SysRoleVo sysRoleVo) {
+  public ResponseResult<Boolean> save(@RequestBody SysRoleVo sysRoleVo) {
     if (sysRoleVo != null) {
       // 保存角色
       SysRoleDto entity = roleService.save(sysRoleVo);
-      int code = StatusEnum.NO.ordinal();
+      Boolean code = Boolean.FALSE;
       if (entity != null && sysRoleVo.getMenuType() != null) {
         // 保存权限
         code = roleService.saveAuthority(sysRoleVo.getMenuType(), sysRoleVo.getMenuIds(), entity.getId());
@@ -128,12 +127,12 @@ public class SysRoleController extends BaseController {
    * 删除
    *
    * @param ids 编号
-   * @return List<Integer>
+   * @return List<Boolean>
    */
   @ApiOperation("6.删除")
   @ApiOperationSupport(order = 6)
   @DeleteMapping("/delete")
-  public List<Integer> delete(@RequestBody String... ids) {
+  public List<Boolean> delete(@RequestBody String... ids) {
     return Arrays.stream(ids).map(id -> roleService.deleteById(id)).collect(Collectors.toList());
   }
 

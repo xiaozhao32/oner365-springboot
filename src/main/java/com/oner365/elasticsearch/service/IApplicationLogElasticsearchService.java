@@ -33,6 +33,7 @@ public interface IApplicationLogElasticsearchService extends BaseService {
    * 删除对象
    * 
    * @param id 主键
+   * @return Boolean
    */
-  void deleteById(String id);
+  Boolean deleteById(String id);
 }

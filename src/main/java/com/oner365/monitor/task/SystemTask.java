@@ -43,7 +43,7 @@ public class SystemTask {
 
   public void taskDeleteLog(Integer days) {
     Date date = DateUtil.getDateAgo(days);
-    int isSuccess = sysLogService.deleteLog(DateUtil.dateToLocalDateTime(date));
+    Boolean isSuccess = sysLogService.deleteLog(DateUtil.dateToLocalDateTime(date));
     LOGGER.info("delete log days:{}, isSuccess:{}", days, isSuccess);
   }
 

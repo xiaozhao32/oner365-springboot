@@ -1,7 +1,11 @@
 package com.oner365.sys.controller.system;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.annotation.Resource;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +27,6 @@ import com.oner365.common.ResponseResult;
 import com.oner365.common.auth.AuthUser;
 import com.oner365.common.auth.annotation.CurrentUser;
 import com.oner365.common.enums.ErrorInfoEnum;
-import com.oner365.common.enums.ResultEnum;
 import com.oner365.common.enums.StatusEnum;
 import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.AttributeBean;
@@ -46,8 +49,6 @@ import com.oner365.util.RequestUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import springfox.documentation.annotations.ApiIgnore;
-
-import javax.annotation.Resource;
 
 /**
  * 用户管理
@@ -164,32 +165,32 @@ public class SysUserController extends BaseController {
    * 判断用户是否存在
    *
    * @param checkUserNameVo 查询参数
-   * @return Long
+   * @return Boolean
    */
   @ApiOperation("6.判断存在")
   @ApiOperationSupport(order = 6)
   @PostMapping("/check")
-  public Long checkUserName(@RequestBody CheckUserNameVo checkUserNameVo) {
+  public Boolean checkUserName(@RequestBody CheckUserNameVo checkUserNameVo) {
     if (checkUserNameVo != null) {
       return sysUserService.checkUserName(checkUserNameVo.getId(), checkUserNameVo.getUserName());
     }
-    return Long.valueOf(ResultEnum.ERROR.getCode());
+    return Boolean.FALSE;
   }
 
   /**
    * 重置密码
    *
    * @param resetPasswordVo 查询参数
-   * @return Integer
+   * @return Boolean
    */
   @ApiOperation("7.重置密码")
   @ApiOperationSupport(order = 7)
   @PostMapping("/reset")
-  public Integer resetPassword(@RequestBody ResetPasswordVo resetPasswordVo) {
+  public Boolean resetPassword(@RequestBody ResetPasswordVo resetPasswordVo) {
     if (resetPasswordVo != null) {
       return sysUserService.editPassword(resetPasswordVo.getUserId(), resetPasswordVo.getPassword());
     }
-    return ResultEnum.ERROR.getCode();
+    return Boolean.FALSE;
   }
 
   /**
@@ -197,12 +198,12 @@ public class SysUserController extends BaseController {
    *
    * @param authUser         登录对象
    * @param modifyPasswordVo 请求参数
-   * @return Integer
+   * @return Boolean
    */
   @ApiOperation("8.修改密码")
   @ApiOperationSupport(order = 8)
   @PostMapping("/update/password")
-  public ResponseResult<Integer> editPassword(@ApiIgnore @CurrentUser AuthUser authUser,
+  public ResponseResult<Boolean> editPassword(@ApiIgnore @CurrentUser AuthUser authUser,
       @RequestBody ModifyPasswordVo modifyPasswordVo) {
     if (modifyPasswordVo != null) {
       String oldPassword = DigestUtils.md5Hex(modifyPasswordVo.getOldPassword()).toUpperCase();
@@ -211,7 +212,7 @@ public class SysUserController extends BaseController {
       if (!oldPassword.equals(sysUser.getPassword())) {
         return ResponseResult.error(ErrorInfoEnum.PASSWORD_ERROR.getName());
       }
-      int result = sysUserService.editPassword(authUser.getId(), modifyPasswordVo.getPassword());
+      Boolean result = sysUserService.editPassword(authUser.getId(), modifyPasswordVo.getPassword());
       return ResponseResult.success(result);
     }
     return ResponseResult.error(ErrorInfoEnum.PARAM.getName());
@@ -222,12 +223,12 @@ public class SysUserController extends BaseController {
    *
    * @param id     主键
    * @param status 状态
-   * @return Integer
+   * @return Boolean
    */
   @ApiOperation("9.修改状态")
   @ApiOperationSupport(order = 9)
   @PostMapping("/status/{id}")
-  public Integer editStatus(@PathVariable String id, @RequestParam("status") StatusEnum status) {
+  public Boolean editStatus(@PathVariable String id, @RequestParam("status") StatusEnum status) {
     return sysUserService.editStatus(id, status);
   }
 
@@ -253,18 +254,13 @@ public class SysUserController extends BaseController {
    * 删除用户
    *
    * @param ids 编号
-   * @return List<Integer>
+   * @return List<Boolean>
    */
   @ApiOperation("11.删除")
   @ApiOperationSupport(order = 11)
   @DeleteMapping("/delete")
-  public List<Integer> delete(@RequestBody String... ids) {
-    List<Integer> list = new ArrayList<>();
-    for (String id : ids) {
-      Integer integer = sysUserService.deleteById(id);
-      list.add(integer);
-    }
-    return list;
+  public List<Boolean> delete(@RequestBody String... ids) {
+    return Arrays.stream(ids).map(id -> sysUserService.deleteById(id)).collect(Collectors.toList());
   }
 
   /**

@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.common.ResponseResult;
 import com.oner365.common.enums.ErrorInfoEnum;
-import com.oner365.common.enums.ResultEnum;
 import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
@@ -73,16 +72,16 @@ public class SysMenuOperationController extends BaseController {
    * 判断是否存在
    *
    * @param checkCodeVo 查询参数
-   * @return Long
+   * @return Boolean
    */
   @ApiOperation("3.判断是否存在")
   @ApiOperationSupport(order = 3)
   @PostMapping("/check")
-  public Long checkCode(@RequestBody CheckCodeVo checkCodeVo) {
+  public Boolean checkCode(@RequestBody CheckCodeVo checkCodeVo) {
     if (checkCodeVo != null) {
       return menuOperationService.checkCode(checkCodeVo.getId(), checkCodeVo.getCode());
     }
-    return Long.valueOf(ResultEnum.ERROR.getCode());
+    return Boolean.FALSE;
   }
 
   /**
@@ -106,12 +105,12 @@ public class SysMenuOperationController extends BaseController {
    * 删除
    *
    * @param ids 编号
-   * @return List<Integer>
+   * @return List<Boolean>
    */
   @ApiOperation("5.删除")
   @ApiOperationSupport(order = 5)
   @DeleteMapping("/delete")
-  public List<Integer> delete(@RequestBody String... ids) {
+  public List<Boolean> delete(@RequestBody String... ids) {
     return Arrays.stream(ids).map(id -> menuOperationService.deleteById(id)).collect(Collectors.toList());
   }
 

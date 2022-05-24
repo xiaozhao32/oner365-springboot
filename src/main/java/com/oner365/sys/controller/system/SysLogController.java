@@ -92,12 +92,12 @@ public class SysLogController extends BaseController {
    * 删除
    *
    * @param ids 编号
-   * @return List<Integer>
+   * @return List<Boolean>
    */
   @ApiOperation("4.删除")
   @ApiOperationSupport(order = 4)
   @DeleteMapping("/delete")
-  public List<Integer> delete(@RequestBody String... ids) {
+  public List<Boolean> delete(@RequestBody String... ids) {
     return Arrays.stream(ids).map(id -> logService.deleteById(id)).collect(Collectors.toList());
   }
 
@@ -105,12 +105,12 @@ public class SysLogController extends BaseController {
    * 按日期删除日志
    *
    * @param days 天数
-   * @return Integer
+   * @return Boolean
    */
   @ApiOperation("5.删除日志")
   @ApiOperationSupport(order = 5)
   @DeleteMapping("/days/delete")
-  public Integer deleteLog(@RequestParam("days") Integer days) {
+  public Boolean deleteLog(@RequestParam("days") Integer days) {
     Date date = DateUtil.getDateAgo(days);
     return logService.deleteLog(DateUtil.dateToLocalDateTime(date));
   }

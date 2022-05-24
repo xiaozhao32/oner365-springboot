@@ -134,14 +134,15 @@ public class FileMinioClient implements IFileStorageClient {
   }
 
   @Override
-  public void deleteFile(String fileUrl) {
+  public Boolean deleteFile(String fileUrl) {
     try {
       // 删除文件
       minioClient.removeObject(RemoveObjectArgs.builder().bucket(minioProperties.getBucket()).object(fileUrl).build());
-      fileStorageService.deleteById(fileUrl);
+      return fileStorageService.deleteById(fileUrl);
     } catch (Exception e) {
       logger.error("delete File Error:", e);
     }
+    return Boolean.FALSE;
   }
 
   @Override

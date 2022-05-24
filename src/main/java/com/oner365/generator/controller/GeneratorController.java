@@ -24,7 +24,6 @@ import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.common.auth.AuthUser;
 import com.oner365.common.auth.annotation.CurrentUser;
 import com.oner365.common.constants.PublicConstants;
-import com.oner365.common.enums.ResultEnum;
 import com.oner365.common.page.PageInfo;
 import com.oner365.controller.BaseController;
 import com.oner365.generator.dto.GenTableInfoDto;
@@ -105,10 +104,9 @@ public class GeneratorController extends BaseController {
   @ApiOperation("5.保存生成信息")
   @ApiOperationSupport(order = 5)
   @PutMapping
-  public Integer updateGenTable(@Validated @RequestBody GenTable genTable) {
+  public Boolean updateGenTable(@Validated @RequestBody GenTable genTable) {
     genTableService.validateEdit(genTable);
-    genTableService.updateGenTable(genTable);
-    return ResultEnum.SUCCESS.getCode();
+    return genTableService.updateGenTable(genTable);
   }
 
   /**
@@ -138,9 +136,8 @@ public class GeneratorController extends BaseController {
   @ApiOperation("8.生成代码")
   @ApiOperationSupport(order = 8)
   @GetMapping("/code/{tableName}")
-  public Integer genCode(@PathVariable("tableName") String tableName) {
-    genTableService.generatorCode(tableName);
-    return ResultEnum.SUCCESS.getCode();
+  public Boolean genCode(@PathVariable("tableName") String tableName) {
+    return genTableService.generatorCode(tableName);
   }
 
   /**
@@ -149,9 +146,8 @@ public class GeneratorController extends BaseController {
   @ApiOperation("9.同步数据库")
   @ApiOperationSupport(order = 9)
   @GetMapping("/sync/{tableName}")
-  public Integer syncDb(@PathVariable("tableName") String tableName) {
-    genTableService.syncDb(tableName);
-    return ResultEnum.SUCCESS.getCode();
+  public Boolean syncDb(@PathVariable("tableName") String tableName) {
+    return genTableService.syncDb(tableName);
   }
 
   /**
@@ -172,9 +168,8 @@ public class GeneratorController extends BaseController {
   @ApiOperation("11.删除代码生成")
   @ApiOperationSupport(order = 11)
   @DeleteMapping("/{tableIds}")
-  public Integer remove(@PathVariable Long[] tableIds) {
-    genTableService.deleteGenTableByIds(tableIds);
-    return ResultEnum.SUCCESS.getCode();
+  public Boolean remove(@PathVariable Long[] tableIds) {
+    return genTableService.deleteGenTableByIds(tableIds);
   }
 
   /**
@@ -183,13 +178,12 @@ public class GeneratorController extends BaseController {
   @ApiOperation("12.导入表结构")
   @ApiOperationSupport(order = 12)
   @PostMapping("/import")
-  public Integer importTableSave(@ApiIgnore @CurrentUser AuthUser authUser, String tables) {
+  public Boolean importTableSave(@ApiIgnore @CurrentUser AuthUser authUser, String tables) {
     String operName = authUser == null ? null : authUser.getUserName();
     String[] tableNames = ConvertString.toStrArray(tables);
     // 查询表信息
     List<GenTable> tableList = genTableService.selectDbTableListByNames(tableNames);
-    genTableService.importGenTable(tableList, operName);
-    return ResultEnum.SUCCESS.getCode();
+    return genTableService.importGenTable(tableList, operName);
   }
 
   /**

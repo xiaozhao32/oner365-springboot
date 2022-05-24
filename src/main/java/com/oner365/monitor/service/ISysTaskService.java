@@ -38,7 +38,7 @@ public interface ISysTaskService extends BaseService {
    * @return 结果
    * @throws SchedulerException SchedulerException
    */
-  int pauseTask(SysTaskVo task) throws SchedulerException;
+  Boolean pauseTask(SysTaskVo task) throws SchedulerException;
 
   /**
    * 恢复任务
@@ -47,7 +47,7 @@ public interface ISysTaskService extends BaseService {
    * @return 结果
    * @throws SchedulerException SchedulerException
    */
-  int resumeTask(SysTaskVo task) throws SchedulerException;
+  Boolean resumeTask(SysTaskVo task) throws SchedulerException;
 
   /**
    * 删除任务后，所对应的trigger也将被删除
@@ -56,15 +56,16 @@ public interface ISysTaskService extends BaseService {
    * @return 结果
    * @throws SchedulerException SchedulerException
    */
-  int deleteTask(String id) throws SchedulerException;
+  Boolean deleteTask(String id) throws SchedulerException;
 
   /**
    * 批量删除调度信息
    *
    * @param ids 需要删除的任务ID
+   * @return 结果
    * @throws SchedulerException SchedulerException
    */
-  void deleteTaskByIds(String[] ids) throws SchedulerException;
+  Boolean deleteTaskByIds(String[] ids) throws SchedulerException;
 
   /**
    * 任务调度状态修改
@@ -73,15 +74,16 @@ public interface ISysTaskService extends BaseService {
    * @return 结果
    * @throws SchedulerException SchedulerException
    */
-  int changeStatus(SysTaskVo task) throws SchedulerException;
+  Boolean changeStatus(SysTaskVo task) throws SchedulerException;
 
   /**
    * 立即运行任务
    *
    * @param task 调度信息
+   * @return 结果
    * @throws SchedulerException SchedulerException
    */
-  void run(SysTaskVo task) throws SchedulerException;
+  Boolean run(SysTaskVo task) throws SchedulerException;
 
   /**
    * 保存任务
@@ -91,7 +93,7 @@ public interface ISysTaskService extends BaseService {
    * @throws SchedulerException SchedulerException
    * @throws TaskException      TaskException
    */
-  int save(SysTaskVo task) throws SchedulerException, TaskException;
+  Boolean save(SysTaskVo task) throws SchedulerException, TaskException;
 
   /**
    * 更新任务
@@ -101,7 +103,7 @@ public interface ISysTaskService extends BaseService {
    * @throws SchedulerException SchedulerException
    * @throws TaskException      TaskException
    */
-  int updateTask(SysTaskVo task) throws SchedulerException, TaskException;
+  Boolean updateTask(SysTaskVo task) throws SchedulerException, TaskException;
 
   /**
    * 校验cron表达式是否有效
@@ -109,6 +111,6 @@ public interface ISysTaskService extends BaseService {
    * @param cronExpression 表达式
    * @return 结果
    */
-  boolean checkCronExpressionIsValid(String cronExpression);
+  Boolean checkCronExpressionIsValid(String cronExpression);
 
 }

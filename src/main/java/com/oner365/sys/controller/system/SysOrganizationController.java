@@ -20,7 +20,6 @@ import com.oner365.common.ResponseResult;
 import com.oner365.common.auth.AuthUser;
 import com.oner365.common.auth.annotation.CurrentUser;
 import com.oner365.common.enums.ErrorInfoEnum;
-import com.oner365.common.enums.ResultEnum;
 import com.oner365.common.enums.StatusEnum;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
@@ -123,16 +122,16 @@ public class SysOrganizationController extends BaseController {
    * 判断机构编号是否存在
    *
    * @param checkOrgCodeVo 查询参数
-   * @return Long
+   * @return Boolean
    */
   @ApiOperation("6.判断编码是否存在")
   @ApiOperationSupport(order = 6)
   @PostMapping("/check")
-  public Long checkCode(@RequestBody CheckOrgCodeVo checkOrgCodeVo) {
+  public Boolean checkCode(@RequestBody CheckOrgCodeVo checkOrgCodeVo) {
     if (checkOrgCodeVo != null) {
       return sysOrgService.checkCode(checkOrgCodeVo.getId(), checkOrgCodeVo.getCode(), checkOrgCodeVo.getType());
     }
-    return Long.valueOf(ResultEnum.ERROR.getCode());
+    return Boolean.FALSE;
   }
 
   /**
@@ -174,12 +173,12 @@ public class SysOrganizationController extends BaseController {
    *
    * @param id     主键
    * @param status 状态
-   * @return Integer
+   * @return Boolean
    */
   @ApiOperation("9.修改状态")
   @ApiOperationSupport(order = 9)
   @PostMapping("/status/{id}")
-  public Integer editStatus(@PathVariable String id, @RequestParam("status") StatusEnum status) {
+  public Boolean editStatus(@PathVariable String id, @RequestParam("status") StatusEnum status) {
     return sysOrgService.editStatus(id, status);
   }
 
@@ -207,12 +206,12 @@ public class SysOrganizationController extends BaseController {
    * 删除
    *
    * @param ids 编号
-   * @return List<Integer>
+   * @return List<Boolean>
    */
   @ApiOperation("11.删除")
   @ApiOperationSupport(order = 11)
   @DeleteMapping("/delete")
-  public List<Integer> delete(@RequestBody String... ids) {
+  public List<Boolean> delete(@RequestBody String... ids) {
     return Arrays.stream(ids).map(id -> sysOrgService.deleteById(id)).collect(Collectors.toList());
   }
 

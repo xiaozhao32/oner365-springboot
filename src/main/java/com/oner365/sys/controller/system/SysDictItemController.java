@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.common.ResponseResult;
 import com.oner365.common.enums.ErrorInfoEnum;
-import com.oner365.common.enums.ResultEnum;
 import com.oner365.common.enums.StatusEnum;
 import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.AttributeBean;
@@ -100,16 +99,16 @@ public class SysDictItemController extends BaseController {
    * 判断类别id 类别是否存在
    *
    * @param checkCodeVo 查询参数
-   * @return Long
+   * @return Boolean
    */
   @ApiOperation("4.判断字典类别是否存在")
   @ApiOperationSupport(order = 4)
   @PostMapping("/type/check")
-  public Long checkTypeCode(@RequestBody CheckCodeVo checkCodeVo) {
+  public Boolean checkTypeCode(@RequestBody CheckCodeVo checkCodeVo) {
     if (checkCodeVo != null) {
       return sysDictItemTypeService.checkCode(checkCodeVo.getId(), checkCodeVo.getCode());
     }
-    return Long.valueOf(ResultEnum.ERROR.getCode());
+    return Boolean.FALSE;
   }
 
   /**
@@ -158,12 +157,12 @@ public class SysDictItemController extends BaseController {
    *
    * @param id     主键
    * @param status 状态
-   * @return Integer
+   * @return Boolean
    */
   @ApiOperation("7.修改类别状态")
   @ApiOperationSupport(order = 7)
   @PostMapping("/type/status/{id}")
-  public Integer editTypeStatus(@PathVariable String id, @RequestParam("status") StatusEnum status) {
+  public Boolean editTypeStatus(@PathVariable String id, @RequestParam("status") StatusEnum status) {
     return sysDictItemTypeService.editStatus(id, status);
   }
 
@@ -188,12 +187,12 @@ public class SysDictItemController extends BaseController {
    * 删除字典类别
    *
    * @param ids 字典编号
-   * @return List<Integer>
+   * @return List<Boolean>
    */
   @ApiOperation("9.删除字典类别")
   @ApiOperationSupport(order = 9)
   @DeleteMapping("/type/delete")
-  public List<Integer> deleteItemType(@RequestBody String... ids) {
+  public List<Boolean> deleteItemType(@RequestBody String... ids) {
     return Arrays.stream(ids).map(id -> sysDictItemTypeService.deleteById(id)).collect(Collectors.toList());
   }
 
@@ -246,17 +245,17 @@ public class SysDictItemController extends BaseController {
    * 判断类别id 字典是否存在
    *
    * @param checkTypeCodeVo 查询参数
-   * @return Long
+   * @return Boolean
    */
   @ApiOperation("13.判断字典是否存在")
   @ApiOperationSupport(order = 13)
   @PostMapping("/item/check")
-  public Long checkCode(@RequestBody CheckTypeCodeVo checkTypeCodeVo) {
+  public Boolean checkCode(@RequestBody CheckTypeCodeVo checkTypeCodeVo) {
     if (checkTypeCodeVo != null) {
       return sysDictItemService.checkCode(checkTypeCodeVo.getId(), checkTypeCodeVo.getTypeId(),
           checkTypeCodeVo.getCode());
     }
-    return Long.valueOf(ResultEnum.ERROR.getCode());
+    return Boolean.FALSE;
   }
 
   /**
@@ -264,12 +263,12 @@ public class SysDictItemController extends BaseController {
    *
    * @param id     主键
    * @param status 状态
-   * @return Integer
+   * @return Boolean
    */
   @ApiOperation("14.修改字典状态")
   @ApiOperationSupport(order = 14)
   @PostMapping("/item/status/{id}")
-  public Integer editItemStatus(@PathVariable String id, @RequestParam("status") StatusEnum status) {
+  public Boolean editItemStatus(@PathVariable String id, @RequestParam("status") StatusEnum status) {
     return sysDictItemService.editStatus(id, status);
   }
 
@@ -294,12 +293,12 @@ public class SysDictItemController extends BaseController {
    * 删除字典信息
    *
    * @param ids 编号
-   * @return List<Integer>
+   * @return List<Boolean>
    */
   @ApiOperation("16.删除字典")
   @ApiOperationSupport(order = 16)
   @DeleteMapping("/item/delete")
-  public List<Integer> deleteItem(@RequestBody String... ids) {
+  public List<Boolean> deleteItem(@RequestBody String... ids) {
     return Arrays.stream(ids).map(id -> sysDictItemService.deleteById(id)).collect(Collectors.toList());
   }
 
