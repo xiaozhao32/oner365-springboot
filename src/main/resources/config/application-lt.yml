@@ -1,6 +1,6 @@
 # server
 server:
-  port: 8704
+  port: 8604
   servlet:
     context-path: /
   tomcat:
@@ -22,9 +22,9 @@ spring:
 
       # mysql
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/oner365?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=GMT%2B8
+      url: jdbc:mysql://192.168.33.42:3306/oner365?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=GMT%2B8
       username: root
-      password: 1qazXSW@
+      password: 1234
 
       # postgres
 #      driver-class-name: org.postgresql.Driver
@@ -61,7 +61,7 @@ spring:
 
   # elasticsearch
   elasticsearch:
-    uris: http://localhost:9200
+    uris: http://192.168.33.42:9200
 
   data:
     redis:
@@ -74,7 +74,7 @@ spring:
 
   # rabbitmq
   rabbitmq:
-    host: 127.0.0.1
+    host: 192.168.33.43
     port: 5672
     username: admin
     password: admin123
@@ -88,14 +88,14 @@ spring:
   # redis
   redis:
     enable: true
-    host: localhost
-    port: 6379
-    password: 
+#    host: localhost
+#    port: 6379
+#    password: 
     #哨兵模式配置
-#    password: 1qazXSW@
-#    sentinel:
-#      master: mymaster
-#      nodes: 192.168.33.41:26379,192.168.33.43:26379,192.168.33.44:26379
+    password: 1qazXSW@
+    sentinel:
+      master: mymaster
+      nodes: 192.168.33.41:26379,192.168.33.43:26379,192.168.33.44:26379
     database: 1
     timeout: 10s
     lettuce:
@@ -160,7 +160,8 @@ client:
 # Logger
 logging:
   file:
-    path: /Users/taoliu/gitee/Downloadslogs
+#    path: /home/oner365/gitee/download/logs
+    path: /Users/taoliu/download/logs
   level:
     web: warn
     org:
@@ -212,7 +213,7 @@ fdfs:
 minio:
   username: root
   password: e8818da9cc9
-  url: http://192.168.101.23:9003
+  url: http://192.168.33.44:9003
   bucket: ${spring.application.name}
 
 # druid
