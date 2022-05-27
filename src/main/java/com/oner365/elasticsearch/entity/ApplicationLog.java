@@ -10,6 +10,8 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 import org.springframework.data.elasticsearch.annotations.Setting;
 
+import com.oner365.util.DateUtil;
+
 /**
  * 应用日志
  *
@@ -66,7 +68,7 @@ public class ApplicationLog implements Serializable {
   /**
    * 创建时间
    */
-  @Field(name="createTime", type = FieldType.Keyword)
+  @Field(name="createTime", type = FieldType.Date, pattern = DateUtil.FULL_TIME_FORMAT)
   private LocalDateTime createTime;
   
   /**
