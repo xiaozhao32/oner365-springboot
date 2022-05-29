@@ -45,30 +45,18 @@ public class ResponseResult<T extends Serializable> implements Serializable {
    * @return ResponseData
    */
   public static <T extends Serializable> ResponseResult<T> error(String message) {
-    return error(null, ResultEnum.ERROR.getCode(), message);
+    return error(ResultEnum.ERROR.getCode(), message);
   }
 
   /**
    * 返回错误结果
    *
-   * @param code    编码
-   * @param message 消息
-   * @return ResponseData
-   */
-  public static <T extends Serializable> ResponseResult<T> error(int code, String message) {
-    return error(null, code, message);
-  }
-
-  /**
-   * 返回错误结果
-   *
-   * @param result  结果
    * @param code    编码
    * @param message 消息
    * @return ResponseData
    */
   @SuppressWarnings("unchecked")
-  public static <T extends Serializable> ResponseResult<T> error(T result, int code, String message) {
+  public static <T extends Serializable> ResponseResult<T> error(int code, String message) {
     ResponseResult<T> response = new ResponseResult<>();
     response.setCode(code);
     response.setMsg((T) message);

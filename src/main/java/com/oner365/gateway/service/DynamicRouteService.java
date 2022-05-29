@@ -60,6 +60,7 @@ public interface DynamicRouteService extends BaseService {
    * 删除路由
    *
    * @param id 编号
+   * @return Boolean
    */
   Boolean deleteById(String id);
 

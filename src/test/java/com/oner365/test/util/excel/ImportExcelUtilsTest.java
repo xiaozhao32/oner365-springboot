@@ -2,7 +2,6 @@ package com.oner365.test.util.excel;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,6 +10,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import com.google.common.collect.Lists;
@@ -28,14 +28,15 @@ import com.oner365.util.excel.ImportExcelUtils;
 class ImportExcelUtilsTest extends BaseUtilsTest {
 
     @Test
-    void test() throws IOException {
+    void test() {
       //隐藏sheet的文件
 //      File file  = new File(System.getProperty("user.dir")+"/src/test/java/com/oner365/test/util/excel/0408最新台账.xlsx");
       File file  = new File(System.getProperty("user.dir")+"/src/test/java/com/oner365/test/util/excel/testecxel.xlsx");
-      try (InputStream is = new FileInputStream(file);){
+      try (InputStream is = new FileInputStream(file)){
         ExcelData<BindingAppleDeviceDto> excelData = ImportExcelUtils.readExcel(is, 0, 1, DataUtils.getExtension(file.getName()), BindingAppleDeviceDto.class);
+        Assertions.assertNotNull(excelData);
         logger.info("code:{},message:{}",excelData.getCode(),excelData.getMessage());
-        excelData.getDataList().stream().forEach(dto -> logger.info("资产编号: {},用户名: {},部门: {},工号: {},序列号: {},",dto.getAssetsNo(), dto.getUserName(),
+        excelData.getDataList().forEach(dto -> logger.info("资产编号: {},用户名: {},部门: {},工号: {},序列号: {},",dto.getAssetsNo(), dto.getUserName(),
         dto.getDepartment(), dto.getJobNumber() , dto.getSerialNumber()));
 
         List<BindingAppleDeviceDto> dataList = excelData.getDataList().stream()
@@ -45,7 +46,7 @@ class ImportExcelUtilsTest extends BaseUtilsTest {
             .collect(Collectors.toList());
         logger.error("excelData dataList size :{}", dataList.size());
       }catch(Exception e) {
-          e.printStackTrace();
+        logger.error("import excel error", e);
       }
     }
     @Test
@@ -68,10 +69,11 @@ class ImportExcelUtilsTest extends BaseUtilsTest {
               }
               return false;
           }).findFirst();
-      indexList.stream().forEach(i -> logger.info("i:{}",i));
+      indexList.forEach(i -> logger.info("i:{}",i));
       logger.info("index:{}",index.get());
           
       List<String> newList = list.stream().filter(s -> s.equals("test19")).collect(Collectors.toList());
+      Assertions.assertNotNull(newList);
       logger.info("list size:{}",newList.size());
       logger.info("boolean:{}",DataUtils.isEmpty(new StringBuilder()));
       
@@ -85,24 +87,25 @@ class ImportExcelUtilsTest extends BaseUtilsTest {
       list.add("test1");list.add("test1");
       list.stream().filter(s -> s.equals("test1")).collect(Collectors.toList());
       final List<String> finalList = Lists.newArrayList();
-      list.stream().forEach(s -> finalList.add(s));
+      finalList.addAll(list);
       finalList.addAll(new ArrayList<String>());
-      finalList.stream().forEach(s -> logger.info("s:{}",s));
+      finalList.forEach(s -> logger.info("s:{}",s));
       AtomicInteger index = new AtomicInteger(0);
-      Map<String,String> map = new HashMap<String,String>();
-      list.stream().forEach(s -> {
+      Map<String,String> map = new HashMap<>();
+      list.forEach(s -> {
         logger.info("s string1:{}",s);
         index.getAndIncrement();
         getMap(list,s,index.intValue(),map);
         
       });
+      Assertions.assertNotNull(map);
       logger.info("map size :{}",map.keySet().size());
-      map.keySet().stream().forEach(key -> logger.info("map:{}",map.get(key)));
+      map.keySet().forEach(key -> logger.info("map:{}",map.get(key)));
     }
     
    void getMap(List<String> list, String filed, int i, Map<String, String> map) {
      AtomicInteger index = new AtomicInteger(0);
-     list.stream().forEach(s -> {
+     list.forEach(s -> {
        index.getAndIncrement();
        if ((filed.equals(s) && index.intValue() != i) && (!map.containsKey(filed+"-"+index+"-"+i)
            && !map.containsKey(filed+"-"+i+"-"+index))) {
@@ -114,29 +117,28 @@ class ImportExcelUtilsTest extends BaseUtilsTest {
     }
    
    @Test
-   void testDistinctData() throws IOException {
+   void testDistinctData() {
      File file  = new File(System.getProperty("user.dir")+"/src/test/java/com/oner365/test/util/excel/distinct.xlsx");
-     try (InputStream is = new FileInputStream(file);){
+     try (InputStream is = new FileInputStream(file)){
        ExcelData<BindingAppleDeviceDto> excelData = ImportExcelUtils.readExcel(is, 0, 1, DataUtils.getExtension(file.getName()), BindingAppleDeviceDto.class);
-       excelData.getDataList().stream().forEach(dto -> logger.info("资产编号: {},用户名: {},部门: {},工号: {},序列号: {},",dto.getAssetsNo(), dto.getUserName(),
+       Assertions.assertNotNull(excelData);
+       excelData.getDataList().forEach(dto -> logger.info("资产编号: {},用户名: {},部门: {},工号: {},序列号: {},",dto.getAssetsNo(), dto.getUserName(),
        dto.getDepartment(), dto.getJobNumber() , dto.getSerialNumber()));
        List<BindingAppleDeviceDto> dataList = excelData.getDataList().stream()
            .filter(dto -> (!DataUtils.isEmpty(dto.getAssetsNo()) || !DataUtils.isEmpty(dto.getDepartment())
                || !DataUtils.isEmpty(dto.getJobNumber()) || !DataUtils.isEmpty(dto.getPhone())
                || !DataUtils.isEmpty(dto.getSerialNumber()) || !DataUtils.isEmpty(dto.getUserName())))
            .collect(Collectors.toList());
-       Map<String, String> map = new HashMap<String, String>();
+       Map<String, String> map = new HashMap<>();
        AtomicInteger distinctIndex = new AtomicInteger(0);
-       dataList.stream().forEach(dto -> {
+       dataList.forEach(dto -> {
          distinctIndex.getAndIncrement();
          distinctData(dataList, dto.getJobNumber(), distinctIndex.intValue(), map);
          distinctData(dataList, dto.getSerialNumber(), distinctIndex.intValue(), map);
        });
        if (!DataUtils.isEmpty(map)) {
          final StringBuilder distinctInfo = new StringBuilder();
-         map.keySet().stream().forEach(key -> {
-           distinctInfo.append(map.get(key) + ",");
-         });
+         map.keySet().forEach(key -> distinctInfo.append(map.get(key)).append(","));
          logger.error("distinctInfo :{}", distinctInfo);
        }
      }catch(Exception e) {
@@ -151,11 +153,10 @@ class ImportExcelUtilsTest extends BaseUtilsTest {
     * @param filed 主数据字段
     * @param i     此数据行数
     * @param map   重复数据行数信息
-    * @return
     */
    void distinctData(List<BindingAppleDeviceDto> list, String filed, int i, Map<String, String> map) {
      AtomicInteger index = new AtomicInteger(0);
-     list.stream().forEach(dto -> {
+     list.forEach(dto -> {
        index.getAndIncrement();
        if (((filed.equals(dto.getJobNumber()) || filed.equals(dto.getSerialNumber())) && index.intValue() != i)
            && (!map.containsKey(filed + "-" + index + "-" + i) && !map.containsKey(filed + "-" + i + "-" + index))) {

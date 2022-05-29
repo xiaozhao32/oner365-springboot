@@ -34,7 +34,7 @@ import com.oner365.util.DateUtil;
 @Service
 public class QueueRabbitmqReceiverServiceImpl implements IQueueRabbitmqReceiverService {
 
-  protected final Logger logger = LoggerFactory.getLogger(IQueueRabbitmqReceiverService.class);
+  private final Logger logger = LoggerFactory.getLogger(QueueRabbitmqReceiverServiceImpl.class);
   
   @Autowired
   private DynamicRouteService dynamicRouteService;

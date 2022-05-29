@@ -42,6 +42,7 @@ import io.swagger.annotations.ApiOperation;
  * @author zhaoyong
  *
  */
+@SuppressWarnings("deprecation")
 @RestController
 @Api(tags = "Elasticsearch 信息")
 @RequestMapping("/elasticsearch/info")
@@ -55,7 +56,7 @@ public class ElasticsearchInfoController extends BaseController {
    *
    * @return TransportClientDto
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({ "unchecked" })
   @ApiOperation("1.首页")
   @ApiOperationSupport(order = 1)
   @GetMapping("/index")

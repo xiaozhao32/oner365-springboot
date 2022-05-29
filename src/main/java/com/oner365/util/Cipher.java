@@ -87,14 +87,9 @@ public final class Cipher {
     return b ^ rotl(b, 13) ^ rotl(b, 23);
   }
 
-  @SuppressWarnings("unused")
   static void sms4Crypt(byte[] input, byte[] output, int[] rk) {
     int r;
     int mid; 
-    int x0;
-    int x1;
-    int x2;
-    int x3;
     int[] x = new int[FOUR];
     int[] tmp = new int[FOUR];
     for (int i = 0; i < FOUR; i++) {
