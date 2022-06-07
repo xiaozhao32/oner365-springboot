@@ -160,8 +160,8 @@ client:
 # Logger
 logging:
   file:
-#    path: /home/oner365/gitee/download/logs
-    path: /Users/taoliu/download/logs
+    path: /home/oner365/gitee/download/logs
+#    path: /Users/taoliu/download/logs
   level:
     web: warn
     org:
@@ -171,7 +171,7 @@ logging:
 # 文件上传下载地址
 file:
   # 存储方式为 local fdfs minio
-  storage: local
+  storage: minio
   # excel后缀
   excel:
     suffix: xlsx
@@ -213,7 +213,7 @@ fdfs:
 minio:
   username: root
   password: e8818da9cc9
-  url: http://192.168.33.44:9003
+  url: http://192.168.33.44:9002
   bucket: ${spring.application.name}
 
 # druid

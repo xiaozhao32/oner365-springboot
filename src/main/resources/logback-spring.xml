@@ -55,16 +55,17 @@
     </appender>
 
 	<!-- logstash 远程日志配置 -->
-	<!-- <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-		<destination>localhost:5044</destination>
+	<appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+		<!-- 多个input索引监听修改对应logstash监听端口即可 -->
+		<destination>192.168.33.42:5045</destination>
 		<encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder" />
-	</appender> -->
+	</appender> 
 
 	<!-- 日志输出级别 -->
 	<root level="${LOG_LEVEL}">
 		<appender-ref ref="CONSOLE" />
 		<appender-ref ref="FILE_INFO" />
 		<appender-ref ref="FILE_ERROR" />
-		<!-- <appender-ref ref="LOGSTASH" /> -->
+		<appender-ref ref="LOGSTASH" />
 	</root>
 </configuration>
