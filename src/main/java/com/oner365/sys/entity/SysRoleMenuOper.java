@@ -48,13 +48,13 @@ public class SysRoleMenuOper implements Serializable {
     /**
      * 菜单 menu_id
      */
-    @Column(name = "menu_id")
+    @Column(name = "menu_id", nullable = false)
     private String menuId;
 
     /**
      * 菜单操作operation_id
      */
-    @Column(name = "operation_id")
+    @Column(name = "operation_id", nullable = false)
     private String operationId;
 
 
