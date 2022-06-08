@@ -1,6 +1,6 @@
 # server
 server:
-  port: 8604
+  port: 8704
   servlet:
     context-path: /
   tomcat:
@@ -160,8 +160,8 @@ client:
 # Logger
 logging:
   file:
-    path: /home/oner365/gitee/download/logs
-#    path: /Users/taoliu/download/logs
+#    path: /home/oner365/gitee/download/logs
+    path: /Users/taoliu/download/logs
   level:
     web: warn
     org:
@@ -176,7 +176,7 @@ file:
   excel:
     suffix: xlsx
   # 通用文件下载路径
-  download: /Users/taoliu/gitee/Downloads
+  download: /Users/taoliu/gitee/downloads
 
 # 上传存储到本地
 local:

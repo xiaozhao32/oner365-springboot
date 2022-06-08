@@ -23,7 +23,6 @@ import com.oner365.common.enums.StatusEnum;
 import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
-import com.oner365.sys.dto.SysJobDto;
 import com.oner365.sys.dto.SysMenuOperationDto;
 import com.oner365.sys.service.ISysMenuOperationService;
 import com.oner365.sys.vo.SysMenuOperationVo;
@@ -147,7 +146,7 @@ public class SysMenuOperationController extends BaseController {
     String[] titleKeys = new String[] { "编号", "操作名称", "操作类型", "状态", "创建时间", "更新时间" };
     String[] columnNames = { "id", "operationName", "operationType", "status", "createTime", "updateTime" };
 
-    String fileName = SysJobDto.class.getSimpleName() + System.currentTimeMillis();
+    String fileName = SysMenuOperationDto.class.getSimpleName() + System.currentTimeMillis();
     return exportExcel(fileName, titleKeys, columnNames, list);
   }
 
