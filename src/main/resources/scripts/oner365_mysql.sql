@@ -347,7 +347,6 @@ INSERT INTO `nt_sys_menu` VALUES ('1014', '1', '用户管理', '101', 'system/us
 INSERT INTO `nt_sys_menu` VALUES ('1015', '1', '字典管理', '101', 'system/dict/index', '/dict', 15, '字典管理', 'dict', 1, '2020-09-05 20:30:00', '2020-09-05 20:30:00', NULL);
 INSERT INTO `nt_sys_menu` VALUES ('1016', '1', '菜单管理', '101', 'system/menu/index', '/menu', 16, '菜单管理', 'tree-table', 1, '2020-09-05 20:30:00', '2020-09-05 20:30:00', NULL);
 INSERT INTO `nt_sys_menu` VALUES ('1017', '1', '菜单操作管理', '101', 'system/operation/index', '/operation', 17, NULL, 'list', 1, '2022-06-08 14:03:32', '2022-06-08 14:43:25', NULL);
-
 INSERT INTO `nt_sys_menu` VALUES ('201', '1', '系统监控', '-1', 'Layout', '/monitor', 2, '系统监控', 'monitor', 1, '2020-09-03 17:20:13', '2020-09-17 20:57:13', NULL);
 INSERT INTO `nt_sys_menu` VALUES ('2011', '1', '服务监控', '201', 'monitor/service/index', '/service', 21, '服务监控', 'druid', 1, '2020-09-03 17:21:32', '2020-09-17 20:57:02', NULL);
 INSERT INTO `nt_sys_menu` VALUES ('2012', '1', '服务器监控', '201', 'monitor/server/index', '/server', 22, '服务器监控', 'server', 1, '2020-09-03 17:22:24', '2020-09-12 17:27:11', NULL);
