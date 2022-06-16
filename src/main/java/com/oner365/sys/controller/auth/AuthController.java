@@ -137,16 +137,15 @@ public class AuthController extends BaseController {
   /**
    * 获取左侧菜单
    *
-   * @param menuType 菜单类型
    * @return List<SysMenuTreeDto>
    */
   @ApiOperation("3.获取菜单权限")
   @ApiOperationSupport(order = 3)
-  @GetMapping("/menu/{menuType}")
-  public List<SysMenuTreeDto> findMenuByRoles(@ApiIgnore @CurrentUser AuthUser user, @PathVariable String menuType) {
+  @GetMapping("/menu")
+  public List<SysMenuTreeDto> findMenuByRoles(@ApiIgnore @CurrentUser AuthUser user) {
     try {
-      if (user != null && !user.getRoleList().isEmpty()) {
-        return sysRoleService.findMenuByRoles(user.getRoleList(), menuType);
+      if (user != null && !user.getRoleList().isEmpty() && !DataUtils.isEmpty(user.getMenuType())) {
+        return sysRoleService.findMenuByRoles(user.getRoleList(), user.getMenuType());
       }
     } catch (Exception e) {
       logger.error("Error findMenuByRoles: ", e);
