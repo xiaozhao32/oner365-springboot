@@ -196,8 +196,8 @@ public class SysUserServiceImpl implements ISysUserService {
     Criteria<SysRoleMenu> criteria = new Criteria<>();
     criteria.add(Restrictions.eq(SysConstants.ROLE_ID, roleId));
     List<SysRoleMenu> list = roleMenuDao.findAll(criteria);
-    if (list.isEmpty()) {
-      return list.get(0).getMenuTypeId();
+    if (!list.isEmpty()) {
+      return list.stream().findFirst().get().getMenuTypeId();
     }
     return null;
   }

@@ -1,6 +1,6 @@
 # server
 server:
-  port: 8704
+  port: 8604
   servlet:
     context-path: /
   tomcat:
