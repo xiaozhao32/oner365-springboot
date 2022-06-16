@@ -61,7 +61,7 @@ public class FileMinioClient implements IFileStorageClient {
       ObjectWriteResponse writeResponse = minioClient
           .putObject(PutObjectArgs.builder().bucket(minioProperties.getBucket()).object(path)
               .stream(inputStream, file.getSize(), -1).contentType(file.getContentType()).build());
-      String url = writeResponse.object();
+      String url = minioProperties.getBucket() + PublicConstants.DELIMITER + writeResponse.object();
       logger.info("file path: {}", url);
       saveFileStorage(url, file.getOriginalFilename(), file.getSize());
       return url;
@@ -80,7 +80,7 @@ public class FileMinioClient implements IFileStorageClient {
       }
       ObjectWriteResponse writeResponse = minioClient.putObject(PutObjectArgs.builder()
           .bucket(minioProperties.getBucket()).object(path).stream(inputStream, file.length(), -1).build());
-      String url = writeResponse.object();
+      String url = minioProperties.getBucket() + PublicConstants.DELIMITER + writeResponse.object();
       logger.info("file path: {}", url);
       saveFileStorage(url, file.getName(), file.length());
       return url;
