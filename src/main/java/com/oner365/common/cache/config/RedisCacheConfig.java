@@ -53,7 +53,7 @@ import redis.clients.jedis.Jedis;
 public class RedisCacheConfig extends CachingConfigurerSupport {
 
     @Bean
-    public CacheManager cacheManager(@Autowired RedisConnectionFactory connectionFactory) {
+    public CacheManager cacheManager(RedisConnectionFactory connectionFactory) {
         return RedisCacheManager.builder(connectionFactory)
                 .cacheDefaults(RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(PublicConstants.EXPIRE_TIME)))
                 .transactionAware().build();
