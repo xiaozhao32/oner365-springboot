@@ -70,7 +70,7 @@
 		
 		<io.projectreactor.netty.version>1.0.18</io.projectreactor.netty.version>
 		<io.jsonwebtoken.version>0.9.1</io.jsonwebtoken.version>
-		<io.netty.version>4.1.76.Final</io.netty.version>
+		<io.netty.version>4.1.78.Final</io.netty.version>
 		<io.minio.version>8.4.1</io.minio.version>
 		
 		<net.logstash.logback.version>7.2</net.logstash.logback.version>
