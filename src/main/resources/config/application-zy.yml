@@ -236,7 +236,7 @@ deploy:
   local:
     location: /Users/zhaoyong/Documents/git
     name: /Users/zhaoyong/Documents/deploy/springboot
-    version: 2.0.1
+    version: 2.0.2
     suffix: jar
     active: zy
     projects:
