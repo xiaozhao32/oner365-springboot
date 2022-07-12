@@ -3,6 +3,8 @@ package com.oner365.sys.vo;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import javax.validation.constraints.NotBlank;
+
 import com.google.common.base.MoreObjects;
 import com.oner365.sys.enums.MessageStatusEnum;
 import com.oner365.sys.enums.MessageTypeEnum;
@@ -29,24 +31,28 @@ public class SysMessageVo implements Serializable {
      * 队列类型
      */
     @ApiModelProperty(value = "队列类型", required = true)
+    @NotBlank(message = "队列类型不能为空")
     private String queueType;
 
     /**
      * 队列标识
      */
-    @ApiModelProperty(value = "队列标识")
+    @ApiModelProperty(value = "队列标识", required = true)
+    @NotBlank(message = "队列标识不能为空")
     private String queueKey;
 
     /**
      * 消息类型
      */
-    @ApiModelProperty(value = "消息类型")
+    @ApiModelProperty(value = "消息类型", required = true)
+    @NotBlank(message = "消息类型不能为空")
     private MessageTypeEnum messageType;
 
     /**
      * 消息名称
      */
-    @ApiModelProperty(value = "消息名称")
+    @ApiModelProperty(value = "消息名称", required = true)
+    @NotBlank(message = "消息名称不能为空")
     private String messageName;
 
     /**

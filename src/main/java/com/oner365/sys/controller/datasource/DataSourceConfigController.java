@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -90,7 +91,7 @@ public class DataSourceConfigController extends BaseController {
   @ApiOperation("4.保存")
   @ApiOperationSupport(order = 4)
   @PutMapping("/save")
-  public ResponseResult<DataSourceConfigDto> save(@RequestBody DataSourceConfigVo dataSourceConfigVo) {
+  public ResponseResult<DataSourceConfigDto> save(@Validated @RequestBody DataSourceConfigVo dataSourceConfigVo) {
     if (dataSourceConfigVo != null) {
       DataSourceConfigDto entity = service.save(dataSourceConfigVo);
       return ResponseResult.success(entity);

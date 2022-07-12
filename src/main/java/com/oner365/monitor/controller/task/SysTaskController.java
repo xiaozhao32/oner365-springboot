@@ -3,6 +3,7 @@ package com.oner365.monitor.controller.task;
 import com.oner365.util.DateUtil;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -81,7 +82,7 @@ public class SysTaskController extends BaseController {
   @ApiOperation("3.新增定时任务")
   @ApiOperationSupport(order = 3)
   @PostMapping
-  public ResponseResult<Boolean> add(@RequestBody SysTaskVo sysTaskVo, @ApiIgnore @CurrentUser AuthUser authUser)
+  public ResponseResult<Boolean> add(@Validated @RequestBody SysTaskVo sysTaskVo, @ApiIgnore @CurrentUser AuthUser authUser)
       throws SchedulerException, TaskException {
     if (sysTaskVo == null || !CronUtils.isValid(sysTaskVo.getCronExpression())) {
       return ResponseResult.error("cron表达式不正确");

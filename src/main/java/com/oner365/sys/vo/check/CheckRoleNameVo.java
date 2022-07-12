@@ -2,6 +2,8 @@ package com.oner365.sys.vo.check;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotBlank;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -28,7 +30,8 @@ public class CheckRoleNameVo implements Serializable {
     /**
      * 角色名称
      */
-    @ApiModelProperty(value = "角色名称")
+    @ApiModelProperty(value = "角色名称", required = true)
+    @NotBlank(message = "角色名称不能为空")
     private String roleName;
     
     /**

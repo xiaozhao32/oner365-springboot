@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Base64Utils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -69,7 +70,7 @@ public class AuthController extends BaseController {
   @PostMapping("/login")
   @ApiOperation("1.登录")
   @ApiOperationSupport(order = 1)
-  public ResponseData<LoginUserDto> login(@RequestBody LoginUserVo loginUserVo) {
+  public ResponseData<LoginUserDto> login(@Validated @RequestBody LoginUserVo loginUserVo) {
     // 验证码
     if (!DataUtils.isEmpty(loginUserVo.getUuid())) {
       String verifyKey = SysConstants.CAPTCHA_IMAGE + ":" + loginUserVo.getUuid();

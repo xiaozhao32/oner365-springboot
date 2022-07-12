@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.constraints.NotBlank;
+
 import com.google.common.base.MoreObjects;
 import com.oner365.common.enums.StatusEnum;
 
@@ -31,7 +33,8 @@ public class SysOrganizationVo implements Serializable {
     /**
      * 机构名称 org_name
      */
-    @ApiModelProperty(value = "机构名称")
+    @ApiModelProperty(value = "机构名称", required = true)
+    @NotBlank(message = "机构名称不能为空")
     private String orgName;
 
     /**
@@ -43,7 +46,8 @@ public class SysOrganizationVo implements Serializable {
     /**
      * 机构代码 org_code
      */
-    @ApiModelProperty(value = "机构代码")
+    @ApiModelProperty(value = "机构代码", required = true)
+    @NotBlank(message = "机构代码不能为空")
     private String orgCode;
 
     /**
@@ -91,7 +95,8 @@ public class SysOrganizationVo implements Serializable {
     /**
      * 状态 status
      */
-    @ApiModelProperty(value = "状态")
+    @ApiModelProperty(value = "状态", required = true)
+    @NotBlank(message = "机构状态不能为空")
     private StatusEnum status;
 
     /**

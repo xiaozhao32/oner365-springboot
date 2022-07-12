@@ -2,6 +2,8 @@ package com.oner365.sys.vo;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotBlank;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -23,12 +25,14 @@ public class ResetPasswordVo implements Serializable {
      * 账号 userId
      */
     @ApiModelProperty(value = "账号id", required = true)
+    @NotBlank(message = "账号id不能为空")
     private String userId;
 
     /**
      * 密码 password
      */
     @ApiModelProperty(value = "密码", required = true)
+    @NotBlank(message = "重置密码不能为空")
     private String password;
 
     /**

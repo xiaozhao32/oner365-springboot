@@ -3,6 +3,8 @@ package com.oner365.gateway.vo;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.validation.constraints.NotBlank;
+
 import com.google.common.base.MoreObjects;
 import com.oner365.common.enums.StatusEnum;
 import com.oner365.gateway.entity.GatewayFilter;
@@ -45,18 +47,21 @@ public class GatewayRouteVo implements Serializable {
      * 路由规则转发的目标uri
      */
     @ApiModelProperty(value = "转发地址", required = true)
+    @NotBlank(message = "路由地址不能为空")
     private String uri;
 
     /**
      * 路由执行的顺序
      */
     @ApiModelProperty(value = "执行顺序", required = true)
+    @NotBlank(message = "路由顺序不能为空")
     private Integer routeOrder = 0;
 
     /**
      * 路由状态 1：可用 0：不可用
      */
     @ApiModelProperty(value = "路由状态", required = true)
+    @NotBlank(message = "路由状态不能为空")
     private StatusEnum status;
 
     /**

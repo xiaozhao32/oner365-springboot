@@ -3,6 +3,8 @@ package com.oner365.sys.vo;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import javax.validation.constraints.NotBlank;
+
 import com.google.common.base.MoreObjects;
 import com.oner365.common.enums.StatusEnum;
 
@@ -28,12 +30,13 @@ public class SysJobVo implements Serializable {
      * 职位名称 job_name
      */
     @ApiModelProperty(value = "职位名称", required = true)
+    @NotBlank(message = "职位名称不能为空")
     private String jobName;
 
     /**
-     * 职位名称 parent_id
+     * 职位上级 parent_id
      */
-    @ApiModelProperty(value = "职位上级id", required = true)
+    @ApiModelProperty(value = "职位上级id")
     private String parentId;
 
     /**

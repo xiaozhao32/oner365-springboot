@@ -3,9 +3,12 @@ package com.oner365.monitor.vo;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.validation.constraints.NotBlank;
+
 import com.oner365.monitor.enums.TaskStatusEnum;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * SysTaskLog
@@ -25,16 +28,22 @@ public class SysTaskLogVo implements Serializable {
   /**
    * 任务名称
    */
+  @ApiModelProperty(value = "任务名称", required = true)
+  @NotBlank(message = "任务名称不能为空")
   private String taskName;
 
   /**
    * 任务组名
    */
+  @ApiModelProperty(value = "任务组", required = true)
+  @NotBlank(message = "任务组不能为空")
   private String taskGroup;
 
   /**
    * 调用目标字符串
    */
+  @ApiModelProperty(value = "调用目标", required = true)
+  @NotBlank(message = "调用目标不能为空")
   private String invokeTarget;
 
   /**

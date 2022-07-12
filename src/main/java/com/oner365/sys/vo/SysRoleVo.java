@@ -3,6 +3,8 @@ package com.oner365.sys.vo;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import javax.validation.constraints.NotBlank;
+
 import com.alibaba.fastjson.JSONArray;
 import com.google.common.base.MoreObjects;
 import com.oner365.common.enums.StatusEnum;
@@ -29,13 +31,15 @@ public class SysRoleVo implements Serializable {
     /**
      * 角色标识 role_code
      */
-    @ApiModelProperty(value = "角色标识")
+    @ApiModelProperty(value = "角色标识", required = true)
+    @NotBlank(message = "角色标识不能为空")
     private String roleCode;
 
     /**
      * 角色名称 role_name
      */
     @ApiModelProperty(value = "角色名称", required = true)
+    @NotBlank(message = "角色名称不能为空")
     private String roleName;
 
     /**

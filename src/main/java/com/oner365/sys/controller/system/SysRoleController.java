@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -93,7 +94,7 @@ public class SysRoleController extends BaseController {
   @ApiOperation("4.判断角色名称存在")
   @ApiOperationSupport(order = 4)
   @PostMapping("/check")
-  public Boolean checkRoleName(@RequestBody CheckRoleNameVo checkRoleNameVo) {
+  public Boolean checkRoleName(@Validated @RequestBody CheckRoleNameVo checkRoleNameVo) {
     if (checkRoleNameVo != null) {
       return roleService.checkRoleName(checkRoleNameVo.getId(), checkRoleNameVo.getRoleName());
     }
@@ -109,7 +110,7 @@ public class SysRoleController extends BaseController {
   @ApiOperation("5.保存")
   @ApiOperationSupport(order = 5)
   @PutMapping("/save")
-  public ResponseResult<Boolean> save(@RequestBody SysRoleVo sysRoleVo) {
+  public ResponseResult<Boolean> save(@Validated @RequestBody SysRoleVo sysRoleVo) {
     if (sysRoleVo != null) {
       // 保存角色
       SysRoleDto entity = roleService.save(sysRoleVo);

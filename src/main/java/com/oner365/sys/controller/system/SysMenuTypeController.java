@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -113,7 +114,7 @@ public class SysMenuTypeController extends BaseController {
   @ApiOperation("5.判断是否存在")
   @ApiOperationSupport(order = 5)
   @PostMapping("/check")
-  public Boolean checkCode(@RequestBody CheckCodeVo checkCodeVo) {
+  public Boolean checkCode(@Validated @RequestBody CheckCodeVo checkCodeVo) {
     if (checkCodeVo != null) {
       return menuTypeService.checkCode(checkCodeVo.getId(), checkCodeVo.getCode());
     }
@@ -129,7 +130,7 @@ public class SysMenuTypeController extends BaseController {
   @ApiOperation("6.保存")
   @ApiOperationSupport(order = 6)
   @PutMapping("/save")
-  public ResponseResult<SysMenuTypeDto> save(@RequestBody SysMenuTypeVo sysMenuTypeVo) {
+  public ResponseResult<SysMenuTypeDto> save(@Validated @RequestBody SysMenuTypeVo sysMenuTypeVo) {
     if (sysMenuTypeVo != null) {
       SysMenuTypeDto entity = menuTypeService.save(sysMenuTypeVo);
       return ResponseResult.success(entity);

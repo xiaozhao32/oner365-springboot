@@ -3,6 +3,8 @@ package com.oner365.sys.vo;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import javax.validation.constraints.NotBlank;
+
 import com.google.common.base.MoreObjects;
 
 import io.swagger.annotations.ApiModel;
@@ -31,6 +33,7 @@ public class DataSourceConfigVo implements Serializable {
      * 连接名
      */
     @ApiModelProperty(value = "连接名称", required = true)
+    @NotBlank(message = "数据源连接名称不能为空")
     private String connectName;
 
     /**

@@ -2,6 +2,8 @@ package com.oner365.sys.vo;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotBlank;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -23,12 +25,14 @@ public class LoginUserVo implements Serializable {
      * 账号 userName
      */
     @ApiModelProperty(value = "账号", required = true)
+    @NotBlank(message = "登录账号不能为空")
     private String userName;
     
     /**
      * 密码 password
      */
     @ApiModelProperty(value = "密码", required = true)
+    @NotBlank(message = "登录密码不能为空")
     private String password;
     
     /**

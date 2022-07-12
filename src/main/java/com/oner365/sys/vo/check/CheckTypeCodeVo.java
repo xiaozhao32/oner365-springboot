@@ -2,6 +2,8 @@ package com.oner365.sys.vo.check;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotBlank;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -28,7 +30,8 @@ public class CheckTypeCodeVo implements Serializable {
     /**
      * 编码
      */
-    @ApiModelProperty(value = "编码")
+    @ApiModelProperty(value = "编码", required = true)
+    @NotBlank(message = "类型编码不能为空")
     private String code;
     
     /**

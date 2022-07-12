@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -152,7 +153,7 @@ public class SysMenuController extends BaseController {
   @ApiOperation("6.保存")
   @ApiOperationSupport(order = 6)
   @PutMapping("/save")
-  public ResponseResult<SysMenuDto> save(@RequestBody SysMenuVo sysMenuVo) {
+  public ResponseResult<SysMenuDto> save(@Validated @RequestBody SysMenuVo sysMenuVo) {
     if (sysMenuVo != null) {
       SysMenuDto entity = menuService.save(sysMenuVo);
       return ResponseResult.success(entity);

@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -104,7 +105,7 @@ public class SysDictItemController extends BaseController {
   @ApiOperation("4.判断字典类别是否存在")
   @ApiOperationSupport(order = 4)
   @PostMapping("/type/check")
-  public Boolean checkTypeCode(@RequestBody CheckCodeVo checkCodeVo) {
+  public Boolean checkTypeCode(@Validated @RequestBody CheckCodeVo checkCodeVo) {
     if (checkCodeVo != null) {
       return sysDictItemTypeService.checkCode(checkCodeVo.getId(), checkCodeVo.getCode());
     }
@@ -175,7 +176,7 @@ public class SysDictItemController extends BaseController {
   @ApiOperation("8.字典类别保存")
   @ApiOperationSupport(order = 8)
   @PutMapping("/type/save")
-  public ResponseResult<SysDictItemTypeDto> saveDictItemType(@RequestBody SysDictItemTypeVo sysDictItemTypeVo) {
+  public ResponseResult<SysDictItemTypeDto> saveDictItemType(@Validated @RequestBody SysDictItemTypeVo sysDictItemTypeVo) {
     if (sysDictItemTypeVo != null) {
       SysDictItemTypeDto entity = sysDictItemTypeService.save(sysDictItemTypeVo);
       return ResponseResult.success(entity);
@@ -250,7 +251,7 @@ public class SysDictItemController extends BaseController {
   @ApiOperation("13.判断字典是否存在")
   @ApiOperationSupport(order = 13)
   @PostMapping("/item/check")
-  public Boolean checkCode(@RequestBody CheckTypeCodeVo checkTypeCodeVo) {
+  public Boolean checkCode(@Validated @RequestBody CheckTypeCodeVo checkTypeCodeVo) {
     if (checkTypeCodeVo != null) {
       return sysDictItemService.checkCode(checkTypeCodeVo.getId(), checkTypeCodeVo.getTypeId(),
           checkTypeCodeVo.getCode());
@@ -281,7 +282,7 @@ public class SysDictItemController extends BaseController {
   @ApiOperation("15.保存字典")
   @ApiOperationSupport(order = 15)
   @PutMapping("/item/save")
-  public ResponseResult<SysDictItemDto> saveDictItem(@RequestBody SysDictItemVo sysDictItemVo) {
+  public ResponseResult<SysDictItemDto> saveDictItem(@Validated @RequestBody SysDictItemVo sysDictItemVo) {
     if (sysDictItemVo != null) {
       SysDictItemDto entity = sysDictItemService.save(sysDictItemVo);
       return ResponseResult.success(entity);

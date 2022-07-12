@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -146,14 +147,14 @@ public class SysUserController extends BaseController {
   /**
    * 更新个人信息
    *
-   * @param sysUserVo 对象
    * @param authUser  登录对象
+   * @param sysUserVo 对象
    * @return ResponseData
    */
   @ApiOperation("5.更新个人信息")
   @ApiOperationSupport(order = 5)
   @PostMapping("/update/profile")
-  public SysUserDto updateUserProfile(@RequestBody SysUserVo sysUserVo, @ApiIgnore @CurrentUser AuthUser authUser) {
+  public SysUserDto updateUserProfile(@ApiIgnore @CurrentUser AuthUser authUser, @RequestBody SysUserVo sysUserVo) {
     if (sysUserVo != null) {
       sysUserVo.setId(authUser.getId());
       return sysUserService.updateUserProfile(sysUserVo);
@@ -167,10 +168,10 @@ public class SysUserController extends BaseController {
    * @param checkUserNameVo 查询参数
    * @return Boolean
    */
-  @ApiOperation("6.判断存在")
+  @ApiOperation("6.判断是否存在")
   @ApiOperationSupport(order = 6)
   @PostMapping("/check")
-  public Boolean checkUserName(@RequestBody CheckUserNameVo checkUserNameVo) {
+  public Boolean checkUserName(@Validated @RequestBody CheckUserNameVo checkUserNameVo) {
     if (checkUserNameVo != null) {
       return sysUserService.checkUserName(checkUserNameVo.getId(), checkUserNameVo.getUserName());
     }
@@ -186,7 +187,7 @@ public class SysUserController extends BaseController {
   @ApiOperation("7.重置密码")
   @ApiOperationSupport(order = 7)
   @PostMapping("/reset")
-  public Boolean resetPassword(@RequestBody ResetPasswordVo resetPasswordVo) {
+  public Boolean resetPassword(@Validated @RequestBody ResetPasswordVo resetPasswordVo) {
     if (resetPasswordVo != null) {
       return sysUserService.editPassword(resetPasswordVo.getUserId(), resetPasswordVo.getPassword());
     }
@@ -204,7 +205,7 @@ public class SysUserController extends BaseController {
   @ApiOperationSupport(order = 8)
   @PostMapping("/update/password")
   public ResponseResult<Boolean> editPassword(@ApiIgnore @CurrentUser AuthUser authUser,
-      @RequestBody ModifyPasswordVo modifyPasswordVo) {
+      @Validated @RequestBody ModifyPasswordVo modifyPasswordVo) {
     if (modifyPasswordVo != null) {
       String oldPassword = DigestUtils.md5Hex(modifyPasswordVo.getOldPassword()).toUpperCase();
       SysUserDto sysUser = sysUserService.getById(authUser.getId());
@@ -241,7 +242,7 @@ public class SysUserController extends BaseController {
   @ApiOperation("10.保存")
   @ApiOperationSupport(order = 10)
   @PutMapping("/save")
-  public ResponseResult<SysUserDto> save(@RequestBody SysUserVo sysUserVo) {
+  public ResponseResult<SysUserDto> save(@Validated @RequestBody SysUserVo sysUserVo) {
     if (sysUserVo != null) {
       sysUserVo.setLastIp(DataUtils.getIpAddress(RequestUtils.getHttpRequest()));
       SysUserDto entity = sysUserService.saveUser(sysUserVo);

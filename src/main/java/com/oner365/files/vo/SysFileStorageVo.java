@@ -3,6 +3,8 @@ package com.oner365.files.vo;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.validation.constraints.NotBlank;
+
 import com.oner365.common.enums.StorageEnum;
 
 import io.swagger.annotations.ApiModel;
@@ -28,6 +30,7 @@ public class SysFileStorageVo implements Serializable {
      * 文件名称 file_name
      */
     @ApiModelProperty(value = "文件名称")
+    @NotBlank(message = "文件名称不能为空")
     private String fileName;
 
     /**

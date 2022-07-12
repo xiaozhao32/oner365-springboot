@@ -3,6 +3,8 @@ package com.oner365.sys.vo;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import javax.validation.constraints.NotBlank;
+
 import com.google.common.base.MoreObjects;
 import com.oner365.common.enums.StatusEnum;
 
@@ -31,6 +33,7 @@ public class SysMenuOperationVo implements Serializable {
      * 操作名称
      */
     @ApiModelProperty(value = "操作名称", required = true)
+    @NotBlank(message = "操作名称不能为空")
     private String operationName;
 
     /**

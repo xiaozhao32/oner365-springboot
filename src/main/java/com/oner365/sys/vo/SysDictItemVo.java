@@ -2,6 +2,8 @@ package com.oner365.sys.vo;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotBlank;
+
 import com.google.common.base.MoreObjects;
 import com.oner365.common.enums.StatusEnum;
 
@@ -31,18 +33,21 @@ public class SysDictItemVo implements Serializable {
      * 字典类型编码 type_id
      */
     @ApiModelProperty(value = "字典类型编码", required = true)
+    @NotBlank(message = "字典类型编码不能为空")
     private String typeId;
 
     /**
      * 字典编码 item_code
      */
     @ApiModelProperty(value = "字典编码", required = true)
+    @NotBlank(message = "字典编码不能为空")
     private String itemCode;
 
     /**
      * 字典名称 item_name
      */
     @ApiModelProperty(value = "字典名称", required = true)
+    @NotBlank(message = "字典名称不能为空")
     private String itemName;
 
     /**

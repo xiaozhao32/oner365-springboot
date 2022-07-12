@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -77,7 +78,7 @@ public class DynamicRouteController extends BaseController {
   @ApiOperation("3.添加路由")
   @ApiOperationSupport(order = 3)
   @PostMapping("/add")
-  public ResponseResult<GatewayRouteDto> add(@RequestBody GatewayRouteVo gatewayRouteVo) {
+  public ResponseResult<GatewayRouteDto> add(@Validated @RequestBody GatewayRouteVo gatewayRouteVo) {
     if (gatewayRouteVo != null) {
       GatewayRouteDto result = dynamicRouteService.save(gatewayRouteVo);
       return ResponseResult.success(result);
@@ -106,7 +107,7 @@ public class DynamicRouteController extends BaseController {
   @ApiOperation("5.更新路由")
   @ApiOperationSupport(order = 5)
   @PostMapping("/update")
-  public ResponseResult<GatewayRouteDto> update(@RequestBody GatewayRouteVo gatewayRouteVo) {
+  public ResponseResult<GatewayRouteDto> update(@Validated @RequestBody GatewayRouteVo gatewayRouteVo) {
     if (gatewayRouteVo != null) {
       GatewayRouteDto result = dynamicRouteService.update(gatewayRouteVo);
       return ResponseResult.success(result);

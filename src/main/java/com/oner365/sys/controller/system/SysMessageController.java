@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -115,7 +116,7 @@ public class SysMessageController extends BaseController {
   @ApiOperation("5.保存")
   @ApiOperationSupport(order = 5)
   @PutMapping("/save")
-  public ResponseResult<SysMessageDto> save(@RequestBody SysMessageVo sysMessageVo) {
+  public ResponseResult<SysMessageDto> save(@Validated @RequestBody SysMessageVo sysMessageVo) {
     if (sysMessageVo != null) {
       SysMessageDto entity = sysMessageService.save(sysMessageVo);
       return ResponseResult.success(entity);
