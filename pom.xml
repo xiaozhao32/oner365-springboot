@@ -56,7 +56,7 @@
 		<org.junit.platform.version>1.7.2</org.junit.platform.version>
 		<org.javassist.version>3.29.0-GA</org.javassist.version>
 
-		<com.alibaba.druid.version>1.2.9</com.alibaba.druid.version>
+		<com.alibaba.druid.version>1.2.11</com.alibaba.druid.version>
 		<com.alibaba.fastjson.version>1.2.83</com.alibaba.fastjson.version>
 		
 		<com.fasterxml.jackson.version>2.13.3</com.fasterxml.jackson.version>
@@ -327,13 +327,13 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.26</version>
+			<version>8.0.29</version>
 		</dependency>
 		<!-- PostgreSQL -->
 		<dependency>
 		    <groupId>org.postgresql</groupId>
 		    <artifactId>postgresql</artifactId>
-		    <version>42.2.18</version>
+		    <version>42.3.6</version>
 		</dependency>
 
 		<!-- 定时任务 -->
