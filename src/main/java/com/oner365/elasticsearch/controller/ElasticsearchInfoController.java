@@ -1,9 +1,9 @@
 package com.oner365.elasticsearch.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
@@ -80,16 +80,20 @@ public class ElasticsearchInfoController extends BaseController {
       List<ClusterDto> clusterList = new ArrayList<>();
       GetAliasesResponse aliasResponse = client.indices().getAlias(new GetAliasesRequest(), RequestOptions.DEFAULT);
       Map<String, Set<AliasMetadata>> aliasMap = aliasResponse.getAliases();
-      for (Entry<String, Set<AliasMetadata>> entry : aliasMap.entrySet()) {
-        SearchResponse search = client.search(new SearchRequest(entry.getKey()), RequestOptions.DEFAULT);
-
-        ClusterDto clusterDto = new ClusterDto();
-        clusterDto.setIndex(entry.getKey());
-        clusterDto.setNumberOfShards(search.getTotalShards());
-        clusterDto.setNumberOfReplicas(search.getNumReducePhases());
-        clusterDto.setStatus(search.status());
-        clusterList.add(clusterDto);
-      }
+      aliasMap.entrySet().forEach(entry -> {
+        try {
+          SearchResponse search = client.search(new SearchRequest(entry.getKey()), RequestOptions.DEFAULT);
+  
+          ClusterDto clusterDto = new ClusterDto();
+          clusterDto.setIndex(entry.getKey());
+          clusterDto.setNumberOfShards(search.getTotalShards());
+          clusterDto.setNumberOfReplicas(search.getNumReducePhases());
+          clusterDto.setStatus(search.status());
+          clusterList.add(clusterDto);
+        } catch (IOException e) {
+          logger.error("SearchRequest error:", e);
+        }
+      });
       result.setClusterList(clusterList);
       
       // mapping信息
@@ -99,13 +103,13 @@ public class ElasticsearchInfoController extends BaseController {
         Map<String, Object> map = mappings.get(cluster.getIndex()).sourceAsMap();
         Map<String, Object> properties = (Map<String, Object>) map.get("properties");
         List<ClusterMappingDto> mappingList = new ArrayList<>();
-        for (Entry<String, Object> entry : properties.entrySet()) {
+        properties.entrySet().forEach(entry -> {
           ClusterMappingDto mapping = new ClusterMappingDto();
           mapping.setName(entry.getKey());
           Map<String, Object> valueMap = (Map<String, Object>) entry.getValue();
           mapping.setType(valueMap.get("type") == null ? "Object" : valueMap.get("type").toString());
           mappingList.add(mapping);
-        }
+        });
         cluster.setMappingList(mappingList);
       });
       return result;

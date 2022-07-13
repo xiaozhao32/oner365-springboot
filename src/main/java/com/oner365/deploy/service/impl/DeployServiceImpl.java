@@ -48,7 +48,7 @@ public class DeployServiceImpl implements DeployService {
     result.setServerName(serverDeployProperties.getName());
     List<DeployServer> serverList = new ArrayList<>();
     List<String> servers = serverDeployProperties.getServers();
-    for (String server: servers) {
+    servers.forEach(server -> {
       String[] splitServer = StringUtils.split(server, "@");
       if (splitServer.length > 1) {
         DeployServer deployServer = new DeployServer();
@@ -58,7 +58,7 @@ public class DeployServiceImpl implements DeployService {
         deployServer.setPassword(StringUtils.substringAfter(splitServer[1], ":"));
         serverList.add(deployServer);
       }
-    }
+    });
     result.setServerList(serverList);
     return result;
   }

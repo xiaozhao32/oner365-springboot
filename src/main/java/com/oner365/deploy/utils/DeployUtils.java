@@ -139,9 +139,9 @@ public class DeployUtils {
    */
   public static List<List<String>> execCommand(Connection con, List<String> commands) {
     List<List<String>> result = new ArrayList<>();
-    try {
-      for (String s : commands) {
-        LOGGER.info("> {}", s);
+    commands.forEach(s -> {
+      LOGGER.info("> {}", s);
+      try {
         Session session = getSession(con);
         session.execCommand(s);
 
@@ -156,13 +156,13 @@ public class DeployUtils {
         }
         result.add(list);
         close(null, session, null);
+      } catch (Exception e) {
+        List<String> list = new ArrayList<>();
+        list.add("ssh exec command error.");
+        result.add(list);
+        LOGGER.error("execCommand error:", e);
       }
-    } catch (Exception e) {
-      List<String> list = new ArrayList<>();
-      list.add("ssh exec command error.");
-      result.add(list);
-      LOGGER.error("execCommand error:", e);
-    }
+    });
     return result;
   }
 

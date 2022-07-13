@@ -1,5 +1,6 @@
 package com.oner365.monitor.service.impl;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -168,10 +169,14 @@ public class SysTaskServiceImpl implements ISysTaskService {
   @Override
   @Transactional(rollbackFor = ProjectRuntimeException.class)
   public Boolean deleteTaskByIds(String[] ids) throws SchedulerException {
-    for (String id : ids) {
-      deleteTask(id);
-    }
-    return Boolean.TRUE;
+    return Arrays.stream(ids).map(id -> {
+      try {
+        return deleteTask(id);
+      } catch (SchedulerException e) {
+        LOGGER.error("deleteTaskByIds error: ", e);
+      }
+      return Boolean.FALSE;
+    }).findFirst().orElse(Boolean.FALSE);
   }
 
   /**

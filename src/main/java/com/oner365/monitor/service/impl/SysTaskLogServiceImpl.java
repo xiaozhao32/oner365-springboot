@@ -1,5 +1,6 @@
 package com.oner365.monitor.service.impl;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -64,11 +65,7 @@ public class SysTaskLogServiceImpl implements ISysTaskLogService {
 
   @Override
   public Boolean deleteTaskLogByIds(String[] ids) {
-    Boolean result = Boolean.FALSE;
-    for (String id : ids) {
-      result = deleteTaskLogById(id);
-    }
-    return result;
+    return Arrays.stream(ids).map(id -> deleteTaskLogById(id)).findFirst().orElse(Boolean.FALSE);
   }
 
   @Override
