@@ -226,6 +226,9 @@ swagger:
 # knife4j
 knife4j:
   enable: true
+  # 生产环境需要屏蔽
+  production: false
+  
 # 是否跳过ssl验证 true验证，false跳过验证
 webclient:
   ssl:
