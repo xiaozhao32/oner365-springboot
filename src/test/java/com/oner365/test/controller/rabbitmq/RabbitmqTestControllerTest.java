@@ -18,7 +18,7 @@ import com.oner365.test.controller.BaseControllerTest;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class RabbitmqTestControllerTest extends BaseControllerTest {
 
-  private static final String PATH = "/rabbitmq";
+  private static final String PATH = "/queue";
 
   @RepeatedTest(2)
   void send() {

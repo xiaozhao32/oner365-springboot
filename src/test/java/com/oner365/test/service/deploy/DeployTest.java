@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 
 import com.oner365.deploy.entity.DeployEntity;
 import com.oner365.deploy.entity.ServerEntity;
@@ -21,7 +20,6 @@ import com.oner365.test.service.BaseServiceTest;
  *
  */
 @SpringBootTest
-@ActiveProfiles("lt")
 class DeployTest extends BaseServiceTest {
   
   @Autowired
