@@ -25,8 +25,8 @@ public interface ISysRoleMenuOperDao extends JpaRepository<SysRoleMenuOper, Stri
      * @param menuTypeId 菜单类型编号
      * @return List
      */
-    @Query(value = "select menuId as menuId,operationId as operationId from SysRoleMenuOper where roleId=?1 and menuTypeId=?2")
-    List<Map<String,String>> findMenuOperListByRoleId(String roleId, String menuTypeId);
+    @Query(value = "from SysRoleMenuOper where roleId=?1 and menuTypeId=?2")
+    List<SysRoleMenuOper> findMenuOperListByRoleId(String roleId, String menuTypeId);
 
     /**
      * 删除操作权限

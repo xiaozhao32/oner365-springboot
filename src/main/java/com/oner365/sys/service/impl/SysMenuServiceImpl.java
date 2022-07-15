@@ -238,7 +238,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
     if (!DataUtils.isEmpty(sysMenuVo.getStatus())) {
       criteria.add(Restrictions.eq(SysConstants.STATUS, sysMenuVo.getStatus()));
     }
-    return convert(menuDao.findAll(criteria, Sort.by(Direction.DESC, SysConstants.PARENT_ID, SysConstants.MENU_ORDER)), SysMenuDto.class);
+    return convert(menuDao.findAll(criteria, Sort.by(Direction.ASC, SysConstants.PARENT_ID, SysConstants.MENU_ORDER)), SysMenuDto.class);
   }
 
   @Override
