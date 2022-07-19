@@ -1,6 +1,9 @@
 package com.oner365.monitor.controller.task;
 
 import com.oner365.util.DateUtil;
+
+import java.util.List;
+
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -156,15 +159,13 @@ public class SysTaskController extends BaseController {
    * 删除定时任务
    *
    * @param ids 主键
-   * @return ResponseResult<Boolean>
-   * @throws SchedulerException 异常
+   * @return List<Boolean>
    */
   @ApiOperation("7.删除定时任务")
   @ApiOperationSupport(order = 7)
-  @DeleteMapping("/{ids}")
-  public ResponseResult<Boolean> remove(@PathVariable String[] ids) throws SchedulerException {
-    Boolean result = taskService.deleteTaskByIds(ids);
-    return ResponseResult.success(result);
+  @DeleteMapping("/delete")
+  public List<Boolean> remove(@RequestBody String... ids) {
+    return taskService.deleteTaskByIds(ids);
   }
 
   /**

@@ -1,5 +1,7 @@
 package com.oner365.monitor.service;
 
+import java.util.List;
+
 import org.quartz.SchedulerException;
 
 import com.oner365.common.page.PageInfo;
@@ -63,9 +65,8 @@ public interface ISysTaskService extends BaseService {
    *
    * @param ids 需要删除的任务ID
    * @return 结果
-   * @throws SchedulerException SchedulerException
    */
-  Boolean deleteTaskByIds(String[] ids) throws SchedulerException;
+  List<Boolean> deleteTaskByIds(String[] ids);
 
   /**
    * 任务调度状态修改

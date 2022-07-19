@@ -1,5 +1,7 @@
 package com.oner365.monitor.controller.task;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -75,12 +77,12 @@ public class SysTaskLogController extends BaseController {
    * 删除定时任务调度日志
    * 
    * @param ids 主键
-   * @return Boolean
+   * @return List<Boolean>
    */
   @ApiOperation("4.删除任务日志")
   @ApiOperationSupport(order = 4)
-  @DeleteMapping("/{ids}")
-  public Boolean remove(@PathVariable String[] ids) {
+  @DeleteMapping("/delete")
+  public List<Boolean> remove(@RequestBody String... ids) {
     return taskLogService.deleteTaskLogByIds(ids);
   }
 
