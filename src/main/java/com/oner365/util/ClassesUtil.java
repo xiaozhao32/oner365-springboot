@@ -1,7 +1,15 @@
 package com.oner365.util;
 
-import com.alibaba.fastjson.JSON;
-import com.oner365.common.enums.BaseEnum;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.Method;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
@@ -10,11 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.ClassUtils;
 
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.Method;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.*;
+import com.alibaba.fastjson.JSON;
 
 /**
  * 工具类 - 类加载器
@@ -167,10 +171,14 @@ public class ClassesUtil {
    * @param clazz 类
    * @return boolean
    */
-  public static <T> boolean isEnum(Class<T> clazz) {
+  public static <T> boolean isEnum(String className) {
     boolean result = false;
-    if (ClassUtils.isAssignable(BaseEnum.class, clazz)) {
-      result = true;
+    try {
+      if (Class.forName(className).isEnum()) {
+        result = true;
+      }
+    } catch (ClassNotFoundException e) {
+      LOGGER.error("isEnum error ",e);
     }
     return result;
   }
@@ -183,7 +191,7 @@ public class ClassesUtil {
    */
   public static <T> boolean isAtomic(Class<T> clazz) {
     return isSpecific(clazz) || isDate(clazz)
-            || isCollection(clazz) || isSerial(clazz) || isJson(clazz) || isEnum(clazz);
+            || isCollection(clazz) || isSerial(clazz) || isJson(clazz) || isEnum(clazz.getCanonicalName());
   }
 
   /**
