@@ -10,4 +10,10 @@ import java.io.Serializable;
  */
 public interface BaseEnum extends Serializable {
 
+  /**
+   * 获取名称
+   * 
+   * @return String
+   */
+  String getName();
 }
