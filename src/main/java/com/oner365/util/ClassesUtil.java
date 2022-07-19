@@ -172,15 +172,12 @@ public class ClassesUtil {
    * @return boolean
    */
   public static <T> boolean isEnum(String className) {
-    boolean result = false;
     try {
-      if (Class.forName(className).isEnum()) {
-        result = true;
-      }
+      return Class.forName(className).isEnum();
     } catch (ClassNotFoundException e) {
       LOGGER.error("isEnum error ",e);
     }
-    return result;
+    return false;
   }
 
   /**
