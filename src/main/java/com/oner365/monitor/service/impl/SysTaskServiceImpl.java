@@ -1,7 +1,9 @@
 package com.oner365.monitor.service.impl;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -72,12 +74,6 @@ public class SysTaskServiceImpl implements ISysTaskService {
     });
   }
 
-  /**
-   * 获取quartz调度器的计划任务列表
-   *
-   * @param data 查询参数
-   * @return Page
-   */
   @Override
   public PageInfo<SysTaskDto> pageList(QueryCriteriaBean data) {
     try {
@@ -88,25 +84,28 @@ public class SysTaskServiceImpl implements ISysTaskService {
     }
     return null;
   }
+  
+  @Override
+  public List<SysTaskDto> findList(QueryCriteriaBean data) {
+    try {
+      if (data.getOrder() == null) {
+        return convert(dao.findAll(QueryUtils.buildCriteria(data)), SysTaskDto.class);
+      }
+      List<SysTask> list = dao.findAll(QueryUtils.buildCriteria(data),
+              Objects.requireNonNull(QueryUtils.buildSortRequest(data.getOrder())));
+      return convert(list, SysTaskDto.class);
+    } catch (Exception e) {
+      LOGGER.error("Error findList: ", e);
+    }
+    return Collections.emptyList();
+  }
 
-  /**
-   * 通过调度任务ID查询调度信息
-   *
-   * @param id 调度任务ID
-   * @return 调度任务对象信息
-   */
   @Override
   public SysTaskDto selectTaskById(String id) {
     Optional<SysTask> optional = dao.findById(id);
     return convert(optional.orElse(null), SysTaskDto.class);
   }
 
-  /**
-   * 暂停任务
-   *
-   * @param vo 调度信息
-   * @throws SchedulerException 异常
-   */
   @Override
   @Transactional(rollbackFor = ProjectRuntimeException.class)
   public Boolean pauseTask(SysTaskVo vo) throws SchedulerException {
@@ -122,12 +121,6 @@ public class SysTaskServiceImpl implements ISysTaskService {
     return Boolean.FALSE;
   }
 
-  /**
-   * 恢复任务
-   *
-   * @param vo 调度信息
-   * @throws SchedulerException 异常
-   */
   @Override
   @Transactional(rollbackFor = ProjectRuntimeException.class)
   public Boolean resumeTask(SysTaskVo vo) throws SchedulerException {
@@ -143,11 +136,6 @@ public class SysTaskServiceImpl implements ISysTaskService {
     return Boolean.FALSE;
   }
 
-  /**
-   * 删除任务后，所对应的trigger也将被删除
-   *
-   * @param id 任务id
-   */
   @Override
   @Transactional(rollbackFor = ProjectRuntimeException.class)
   public Boolean deleteTask(String id) {
@@ -166,24 +154,12 @@ public class SysTaskServiceImpl implements ISysTaskService {
     return Boolean.FALSE;
   }
 
-  /**
-   * 批量删除调度信息
-   *
-   * @param ids 需要删除的任务ID
-   */
   @Override
   @Transactional(rollbackFor = ProjectRuntimeException.class)
   public List<Boolean> deleteTaskByIds(String[] ids) {
     return Arrays.stream(ids).map(id -> deleteTask(id)).collect(Collectors.toList());
   }
 
-  /**
-   * 任务调度状态修改
-   *
-   * @param task 调度信息
-   * @return int
-   * @throws SchedulerException 异常
-   */
   @Override
   @Transactional(rollbackFor = ProjectRuntimeException.class)
   public Boolean changeStatus(SysTaskVo task) throws SchedulerException {
@@ -196,11 +172,6 @@ public class SysTaskServiceImpl implements ISysTaskService {
     return rows;
   }
 
-  /**
-   * 立即运行任务
-   *
-   * @param task 调度信息
-   */
   @Override
   @Transactional(rollbackFor = ProjectRuntimeException.class)
   public Boolean run(SysTaskVo task) throws SchedulerException {
@@ -220,11 +191,6 @@ public class SysTaskServiceImpl implements ISysTaskService {
     return Boolean.FALSE;
   }
 
-  /**
-   * 保存任务
-   *
-   * @param task 调度信息 调度信息
-   */
   @Override
   @Transactional(rollbackFor = ProjectRuntimeException.class)
   public Boolean save(SysTaskVo task) throws SchedulerException, TaskException {
@@ -241,11 +207,6 @@ public class SysTaskServiceImpl implements ISysTaskService {
     return Boolean.TRUE;
   }
 
-  /**
-   * 更新任务的时间表达式
-   *
-   * @param task 调度信息
-   */
   @Override
   @Transactional(rollbackFor = ProjectRuntimeException.class)
   public Boolean updateTask(SysTaskVo task) throws SchedulerException, TaskException {
@@ -259,13 +220,7 @@ public class SysTaskServiceImpl implements ISysTaskService {
     return Boolean.FALSE;
   }
 
-  /**
-   * 更新任务
-   *
-   * @param task      任务对象
-   * @param taskGroup 任务组名
-   */
-  public void updateSchedulerTask(SysTaskVo task, String taskGroup) throws SchedulerException, TaskException {
+  private void updateSchedulerTask(SysTaskVo task, String taskGroup) throws SchedulerException, TaskException {
     String taskId = task.getId();
     // 判断是否存在
     JobKey taskKey = ScheduleUtils.getJobKey(taskId, taskGroup);
@@ -277,12 +232,6 @@ public class SysTaskServiceImpl implements ISysTaskService {
     queueSendService.saveExecuteTaskLog(convert(task, SysTaskDto.class));
   }
 
-  /**
-   * 校验cron表达式是否有效
-   *
-   * @param cronExpression 表达式
-   * @return 结果
-   */
   @Override
   public Boolean checkCronExpressionIsValid(String cronExpression) {
     return CronUtils.isValid(cronExpression);

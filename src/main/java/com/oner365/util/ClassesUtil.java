@@ -1,6 +1,8 @@
 package com.oner365.util;
 
 import com.alibaba.fastjson.JSON;
+import com.oner365.common.enums.BaseEnum;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
 import org.slf4j.Logger;
@@ -158,6 +160,20 @@ public class ClassesUtil {
     }
     return result;
   }
+  
+  /**
+   * 判断是否为枚举类型
+   * 
+   * @param clazz 类
+   * @return boolean
+   */
+  public static <T> boolean isEnum(Class<T> clazz) {
+    boolean result = false;
+    if (ClassUtils.isAssignable(BaseEnum.class, clazz)) {
+      result = true;
+    }
+    return result;
+  }
 
   /**
    * 判断是否为基本类型
@@ -167,7 +183,7 @@ public class ClassesUtil {
    */
   public static <T> boolean isAtomic(Class<T> clazz) {
     return isSpecific(clazz) || isDate(clazz)
-            || isCollection(clazz) || isSerial(clazz) || isJson(clazz);
+            || isCollection(clazz) || isSerial(clazz) || isJson(clazz) || isEnum(clazz);
   }
 
   /**

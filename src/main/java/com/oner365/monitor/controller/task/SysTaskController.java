@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +22,6 @@ import com.oner365.common.ResponseResult;
 import com.oner365.common.auth.AuthUser;
 import com.oner365.common.auth.annotation.CurrentUser;
 import com.oner365.common.enums.ErrorInfoEnum;
-import com.oner365.common.enums.ResultEnum;
 import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
@@ -172,12 +172,20 @@ public class SysTaskController extends BaseController {
    * 导出定时任务列表
    *
    * @param data 查询参数
-   * @return String
+   * @return ResponseEntity<byte[]>
    */
   @ApiOperation("8.导出")
   @ApiOperationSupport(order = 8)
-  @GetMapping("/export")
-  public String export(@RequestBody QueryCriteriaBean data) {
-    return ResultEnum.SUCCESS.getName();
+  @PostMapping("/export")
+  public ResponseEntity<byte[]> export(@RequestBody QueryCriteriaBean data) {
+    List<SysTaskDto> list = taskService.findList(data);
+
+    String[] titleKeys = new String[] { "编号", "任务名称", "任务组", "调用目标", "目标参数", "执行表达式", "计划策略", 
+        "是否并发", "状态", "执行状态", "备注", "创建人", "创建时间", "更新时间" };
+    String[] columnNames = { "id", "taskName", "taskGroup", "invokeTarget", "invokeParamDto", "cronExpression", "misfirePolicy", 
+        "concurrent", "status", "executeStatus", "remark", "createUser", "createTime", "updateTime" };
+
+    String fileName = SysTaskDto.class.getSimpleName() + System.currentTimeMillis();
+    return exportExcel(fileName, titleKeys, columnNames, list);
   }
 }

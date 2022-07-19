@@ -1,7 +1,9 @@
 package com.oner365.monitor.service.impl;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -48,6 +50,21 @@ public class SysTaskLogServiceImpl implements ISysTaskLogService {
       LOGGER.error("Error pageList: ", e);
     }
     return null;
+  }
+  
+  @Override
+  public List<SysTaskLogDto> findList(QueryCriteriaBean data) {
+    try {
+      if (data.getOrder() == null) {
+        return convert(dao.findAll(QueryUtils.buildCriteria(data)), SysTaskLogDto.class);
+      }
+      List<SysTaskLog> list = dao.findAll(QueryUtils.buildCriteria(data),
+              Objects.requireNonNull(QueryUtils.buildSortRequest(data.getOrder())));
+      return convert(list, SysTaskLogDto.class);
+    } catch (Exception e) {
+      LOGGER.error("Error findList: ", e);
+    }
+    return Collections.emptyList();
   }
 
   @Override

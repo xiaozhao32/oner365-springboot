@@ -21,6 +21,14 @@ public interface ISysTaskLogService extends BaseService {
    * @return 调度任务日志集合
    */
   PageInfo<SysTaskLogDto> pageList(QueryCriteriaBean data);
+  
+  /**
+   * 查询列表
+   * 
+   * @param data 查询参数
+   * @return List<SysTaskLogDto>
+   */
+  List<SysTaskLogDto> findList(QueryCriteriaBean data);
 
   /**
    * 通过调度任务日志ID查询调度信息

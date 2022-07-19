@@ -24,6 +24,14 @@ public interface ISysTaskService extends BaseService {
    * @return 调度任务集合
    */
   PageInfo<SysTaskDto> pageList(QueryCriteriaBean data);
+  
+  /**
+   * 获取列表 
+   * 
+   * @param data
+   * @return List<SysTaskDto>
+   */
+  List<SysTaskDto> findList(QueryCriteriaBean data);
 
   /**
    * 通过调度任务ID查询调度信息
