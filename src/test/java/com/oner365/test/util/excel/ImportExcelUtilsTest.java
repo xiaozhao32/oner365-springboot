@@ -142,7 +142,7 @@ class ImportExcelUtilsTest extends BaseUtilsTest {
          logger.error("distinctInfo :{}", distinctInfo);
        }
      }catch(Exception e) {
-         e.printStackTrace();
+       logger.error("distinctInfo error", e);
      }
    }
    
