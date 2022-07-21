@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.controller.BaseController;
 import com.oner365.queue.service.IMqttSendService;
@@ -35,8 +36,10 @@ public class MqttTestController extends BaseController {
   @ApiOperation("1.测试发送")
   @ApiOperationSupport(order = 1)
   @GetMapping("/send")
-  public String send(String data) {
+  public JSONObject send(String data) {
+    JSONObject json = new JSONObject();
+    json.put("data", data);
     service.sendMessage(data);
-    return data;
+    return json;
   }
 }
