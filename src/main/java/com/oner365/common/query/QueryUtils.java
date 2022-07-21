@@ -12,9 +12,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 
 import com.google.common.base.Joiner;
+import com.oner365.common.constants.PublicConstants;
 import com.oner365.common.enums.BaseEnum;
 import com.oner365.common.query.Criterion.Operator;
-import com.oner365.init.StartupRunner;
 import com.oner365.util.DataUtils;
 
 /**
@@ -107,7 +107,7 @@ public class QueryUtils {
    */
   private static Object getEnum(String key, String value) {
     try {
-      Class<?> clazz = Class.forName(StartupRunner.initEnumMap.get(key));
+      Class<?> clazz = Class.forName(PublicConstants.initEnumMap.get(key));
       if (clazz.isEnum()) {
         Field f = clazz.getDeclaredField(value);
         f.setAccessible(true);

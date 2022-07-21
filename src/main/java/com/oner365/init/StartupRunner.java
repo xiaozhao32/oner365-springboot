@@ -1,8 +1,5 @@
 package com.oner365.init;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.annotation.PreDestroy;
 
 import org.slf4j.Logger;
@@ -36,11 +33,6 @@ public class StartupRunner implements ApplicationRunner {
   
   private final Logger logger = LoggerFactory.getLogger(StartupRunner.class);
 
-  /**
-   * 枚举集合
-   */
-  public static Map<String, String> initEnumMap;
-
   @Override
   public void run(ApplicationArguments args) {
     initEnum();
@@ -51,30 +43,29 @@ public class StartupRunner implements ApplicationRunner {
    */
   private void initEnum() {
     /* common */
-    initEnumMap = new HashMap<>();
-    initEnumMap.put(PublicConstants.PARAM_STATUS, StatusEnum.class.getName());
-    initEnumMap.put(PublicConstants.PARAM_FILE_STORAGE, StorageEnum.class.getName());
-    initEnumMap.put("errorInfo", ErrorInfoEnum.class.getName());
-    initEnumMap.put("exists", ExistsEnum.class.getName());
-    initEnumMap.put("result", ResultEnum.class.getName());
+    PublicConstants.initEnumMap.put(PublicConstants.PARAM_STATUS, StatusEnum.class.getName());
+    PublicConstants.initEnumMap.put(PublicConstants.PARAM_FILE_STORAGE, StorageEnum.class.getName());
+    PublicConstants.initEnumMap.put("errorInfo", ErrorInfoEnum.class.getName());
+    PublicConstants.initEnumMap.put("exists", ExistsEnum.class.getName());
+    PublicConstants.initEnumMap.put("result", ResultEnum.class.getName());
     
     /* system */
-    initEnumMap.put("messageStatus", MessageStatusEnum.class.getName());
-    initEnumMap.put("messageType", MessageTypeEnum.class.getName());
-    initEnumMap.put("sex", SysUserSexEnum.class.getName());
-    initEnumMap.put("sysUserType", SysUserTypeEnum.class.getName());
+    PublicConstants.initEnumMap.put("messageStatus", MessageStatusEnum.class.getName());
+    PublicConstants.initEnumMap.put("messageType", MessageTypeEnum.class.getName());
+    PublicConstants.initEnumMap.put("sex", SysUserSexEnum.class.getName());
+    PublicConstants.initEnumMap.put("sysUserType", SysUserTypeEnum.class.getName());
     
     /* monitor */
-    initEnumMap.put("misfirePolicy", MisfirePolicyEnum.class.getName());
-    initEnumMap.put("rabbitmqType", RabbitmqTypeEnum.class.getName());
-    initEnumMap.put("taskStatus", TaskStatusEnum.class.getName());
+    PublicConstants.initEnumMap.put("misfirePolicy", MisfirePolicyEnum.class.getName());
+    PublicConstants.initEnumMap.put("rabbitmqType", RabbitmqTypeEnum.class.getName());
+    PublicConstants.initEnumMap.put("taskStatus", TaskStatusEnum.class.getName());
     
     logger.info("Initializing Oner365 Enum map.");
   }
   
   @PreDestroy
   public void destroy() {
-    initEnumMap.clear();
+    PublicConstants.initEnumMap.clear();
     logger.info("Destroy Oner365 config.");
   }
 
