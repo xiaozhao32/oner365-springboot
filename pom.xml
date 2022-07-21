@@ -41,6 +41,7 @@
 		<java.version>11</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
+		<org.springframework.integration.version>5.5.13</org.springframework.integration.version>
 		<org.springframework.security.version>5.7.2</org.springframework.security.version>
 		<org.springframework.boot.version>2.7.1</org.springframework.boot.version>
 		<org.springframework.version>5.3.21</org.springframework.version>
@@ -557,6 +558,12 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webflux</artifactId>
 			<version>${org.springframework.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.springframework.integration</groupId>
+		    <artifactId>spring-integration-mqtt</artifactId>
+		    <version>${org.springframework.integration.version}</version>
 		</dependency>
 
 		<!-- elasticsearch -->

@@ -3,6 +3,8 @@ package com.oner365.init;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.PreDestroy;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
@@ -34,7 +36,10 @@ public class StartupRunner implements ApplicationRunner {
   
   private final Logger logger = LoggerFactory.getLogger(StartupRunner.class);
 
-  public static Map<String, String> initEnumMap = new HashMap<>();
+  /**
+   * 枚举集合
+   */
+  public static Map<String, String> initEnumMap;
 
   @Override
   public void run(ApplicationArguments args) {
@@ -46,6 +51,7 @@ public class StartupRunner implements ApplicationRunner {
    */
   private void initEnum() {
     /* common */
+    initEnumMap = new HashMap<>();
     initEnumMap.put(PublicConstants.PARAM_STATUS, StatusEnum.class.getName());
     initEnumMap.put(PublicConstants.PARAM_FILE_STORAGE, StorageEnum.class.getName());
     initEnumMap.put("errorInfo", ErrorInfoEnum.class.getName());
@@ -64,6 +70,12 @@ public class StartupRunner implements ApplicationRunner {
     initEnumMap.put("taskStatus", TaskStatusEnum.class.getName());
     
     logger.info("Initializing Oner365 Enum map.");
+  }
+  
+  @PreDestroy
+  public void destroy() {
+    initEnumMap.clear();
+    logger.info("Destroy Oner365 config.");
   }
 
 }
