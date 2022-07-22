@@ -161,6 +161,13 @@ logging:
     org:
       springframework: error
       elasticsearch: error
+      
+mqtt:
+  uri: tcp://localhost:1883
+  username: admin
+  password: admin123
+  default-topic: amq.topic
+  client-id: oner365-client
 
 # 文件上传下载地址
 file:

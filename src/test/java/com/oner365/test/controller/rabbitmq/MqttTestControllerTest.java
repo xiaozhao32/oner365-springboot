@@ -9,16 +9,16 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.oner365.test.controller.BaseControllerTest;
 
 /**
- * Test RabbitmqTestController
+ * Test MQTT TestController
  *
  * @author zhaoyong
  *
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class RabbitmqTestControllerTest extends BaseControllerTest {
+class MqttTestControllerTest extends BaseControllerTest {
 
-  private static final String PATH = "/queue";
+  private static final String PATH = "/mqtt";
 
   @RepeatedTest(2)
   void send() {
