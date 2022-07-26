@@ -55,7 +55,7 @@
 		<org.hibernate.version>5.6.10.Final</org.hibernate.version>
 		
 		<org.mybatis.spring.boot.version>2.2.2</org.mybatis.spring.boot.version>
-		<org.elasticsearch.version>7.17.4</org.elasticsearch.version>
+		<org.elasticsearch.version>7.17.5</org.elasticsearch.version>
 		<org.junit.platform.version>1.7.2</org.junit.platform.version>
 		<org.javassist.version>3.29.0-GA</org.javassist.version>
 		<org.quartz.version>2.3.2</org.quartz.version>

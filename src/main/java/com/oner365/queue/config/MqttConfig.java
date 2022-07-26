@@ -1,6 +1,9 @@
 package com.oner365.queue.config;
 
+import javax.annotation.PreDestroy;
+
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
+import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,12 +27,21 @@ import com.oner365.queue.config.properties.MqttProperties;
  */
 @Configuration
 public class MqttConfig {
-
+  
   @Autowired
   private MqttProperties mqttProperties;
+  
+  @Autowired
+  private RabbitAdmin rabbitAdmin;
 
   public static final String IN_BOUND_CHANNEL = "mqttInboundChannel";
   public static final String OUT_BOUND_CHANNEL = "mqttOutboundChannel";
+  public static final String CHANNEL_ADAPTER = "_adapter";
+  public static final String CHANNEL_PRODUCER = "_producer";
+  public static final String SUBCRIPTION = "mqtt-subscription-";
+  public static final Integer COMPLETION_TIMEOUT = 5000;
+  public static final String QOS_NAME = "qos";
+  public static final Integer QOS = 1;
 
   @Bean
   public MqttPahoClientFactory mqttPahoClientFactory() {
@@ -46,16 +58,16 @@ public class MqttConfig {
   @Bean
   public MqttPahoMessageDrivenChannelAdapter adapter() {
     // clientId不能重复
-    return new MqttPahoMessageDrivenChannelAdapter(mqttProperties.getClientId() + "_adapter", mqttPahoClientFactory(),
+    return new MqttPahoMessageDrivenChannelAdapter(mqttProperties.getClientId() + CHANNEL_ADAPTER, mqttPahoClientFactory(),
         mqttProperties.getDefaultTopic());
   }
 
   @Bean
   public MessageProducer mqttInbound(MqttPahoMessageDrivenChannelAdapter adapter) {
-    adapter.setCompletionTimeout(5000);
     // 入站投递的通道
     adapter.setOutputChannel(mqttInboundChannel());
-    adapter.setQos(1);
+    adapter.setCompletionTimeout(COMPLETION_TIMEOUT);
+    adapter.setQos(QOS);
     return adapter;
   }
 
@@ -63,7 +75,7 @@ public class MqttConfig {
   @ServiceActivator(inputChannel = OUT_BOUND_CHANNEL)
   public MessageHandler mqttOutbound() {
     // clientId不能重复
-    MqttPahoMessageHandler handler = new MqttPahoMessageHandler(mqttProperties.getClientId() + "_producer",
+    MqttPahoMessageHandler handler = new MqttPahoMessageHandler(mqttProperties.getClientId() + CHANNEL_PRODUCER,
         mqttPahoClientFactory());
     handler.setAsync(true);
     handler.setDefaultTopic(mqttProperties.getDefaultTopic());
@@ -79,5 +91,12 @@ public class MqttConfig {
   public MessageChannel mqttInboundChannel() {
     return new DirectChannel();
   }
+  
+  @PreDestroy
+  public void destroy() {
 
+    rabbitAdmin.deleteQueue(SUBCRIPTION + mqttProperties.getClientId() + CHANNEL_PRODUCER + QOS_NAME + QOS);
+    rabbitAdmin.deleteQueue(SUBCRIPTION + mqttProperties.getClientId() + CHANNEL_ADAPTER + QOS_NAME + QOS);
+
+  }
 }
