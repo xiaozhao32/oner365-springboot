@@ -165,19 +165,17 @@ public class DeployMethod {
     List<String> commands = new ArrayList<>(deployEntity.getProjects().size());
     deployEntity.getProjects().forEach(projectName -> {
       // 上传的文件
-      String localFile = deployEntity.getLocation() + File.separator + projectName + File.separator + projectName + "-"
+      String localFile = deployEntity.getName() + File.separator + projectName + File.separator + projectName + "-"
           + deployEntity.getVersion() + "." + deployEntity.getSuffix();
       // 上传的路径
       String targetPath = targetRoot + PublicConstants.DELIMITER + projectName + PublicConstants.DELIMITER;
       // 配置文件
-      String resourcesFile = deployEntity.getLocation() + File.separator + projectName + File.separator
+      String resourcesFile = deployEntity.getName() + File.separator + projectName + File.separator
           + FILE_RESOURCES;
       // 依赖包上传到lib
       if (DeployUtils.isMac()) {
         // mac scp方式
-        DeployMethod.deploy(server, localFile, targetPath);
-        DeployMethod.deploy(server, resourcesFile, targetPath);
-
+        DeployMethod.deploy(server, deployEntity.getName() + File.separator + projectName, targetRoot);
         deployMac(server, deployEntity, targetRoot);
       } else {
         // windows scp方式
@@ -185,16 +183,15 @@ public class DeployMethod {
         deployWindows(con, deployEntity, targetPath, resourcesFile, targetRoot);
       }
       // 准备执行的命令
-      commands.add(targetRoot + PublicConstants.DELIMITER + projectName + PublicConstants.DELIMITER + "start.sh");
+      commands.add("chmod 750 " + targetRoot + PublicConstants.DELIMITER + projectName + PublicConstants.DELIMITER + "*.sh");
+      commands.add(targetRoot + PublicConstants.DELIMITER + "start.sh");
     });
     return commands;
   }
 
   private static void deployMac(DeployServer server, DeployEntity deployEntity, String targetRoot) {
-    deployEntity.getLibs().forEach(lib -> DeployMethod.deploy(server,
-            deployEntity.getLocation() + File.separator + FILE_LIB + File.separator + lib + "-"
-                    + deployEntity.getVersion() + "." + deployEntity.getSuffix(),
-            targetRoot + PublicConstants.DELIMITER + FILE_LIB + PublicConstants.DELIMITER));
+    DeployMethod.deploy(server, deployEntity.getName() + File.separator + FILE_LIB,
+        targetRoot + PublicConstants.DELIMITER);
   }
 
   private static void deployWindows(Connection con, DeployEntity deployEntity, String targetPath, String resourcesFile,
@@ -204,9 +201,7 @@ public class DeployMethod {
       Arrays.stream(Objects.requireNonNull(file.listFiles())).filter(f -> !f.isDirectory()).forEach(f -> DeployUtils.uploadFileMap(con, new String[]{f.getPath()},
               targetPath + FILE_RESOURCES + PublicConstants.DELIMITER));
     }
-    deployEntity.getLibs().forEach(lib -> DeployUtils.uploadFileMap(con,
-            new String[]{deployEntity.getLocation() + File.separator + FILE_LIB + File.separator + lib + "-"
-                    + deployEntity.getVersion() + "." + deployEntity.getSuffix()},
-            targetRoot + PublicConstants.DELIMITER + FILE_LIB + PublicConstants.DELIMITER));
+    DeployUtils.uploadFileMap(con, new String[] { deployEntity.getName() + File.separator + FILE_LIB },
+        targetRoot + PublicConstants.DELIMITER);
   }
 }
