@@ -184,7 +184,8 @@ public class DeployMethod {
       }
       // 准备执行的命令
       commands.add("chmod 750 " + targetRoot + PublicConstants.DELIMITER + projectName + PublicConstants.DELIMITER + "*.sh");
-      commands.add(targetRoot + PublicConstants.DELIMITER + "start.sh");
+      // 是否启动 需要执行过以下命令才可以启动 ln -s $JAVA_HOME/bin/java /bin/java
+//      commands.add(targetRoot + PublicConstants.DELIMITER + "start.sh");
     });
     return commands;
   }
