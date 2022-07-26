@@ -82,8 +82,8 @@ spring:
 
     listener:
       simple:
-        concurrency: 10
-        max-concurrency: 30
+        concurrency: 2
+        max-concurrency: 10
 
   # redis
   redis:

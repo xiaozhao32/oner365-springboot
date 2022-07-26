@@ -34,8 +34,7 @@ class ClassUtils extends BaseUtilsTest {
           }
         });
       } catch (SecurityException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
+        logger.error("SecurityException error", e);
       }
     });
   }
