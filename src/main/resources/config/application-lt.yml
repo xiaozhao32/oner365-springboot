@@ -169,6 +169,7 @@ logging:
       elasticsearch: error
       
 mqtt:
+  enabled: false
   uri: tcp://localhost:1883
   username: admin
   password: admin123
@@ -231,7 +232,7 @@ druid:
 # swagger
 swagger:
   name: ${spring.application.name}
-  version: 1.0
+  version: 2.0.2
   url: https://www.oner365.com
   email: service@oner365.com
   description: Oner365 project

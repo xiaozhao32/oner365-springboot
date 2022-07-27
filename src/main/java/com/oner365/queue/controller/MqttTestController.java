@@ -1,6 +1,7 @@
 package com.oner365.queue.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSONObject;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.controller.BaseController;
+import com.oner365.queue.config.MqttCondition;
 import com.oner365.queue.service.IMqttSendService;
 
 import io.swagger.annotations.Api;
@@ -22,6 +24,7 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @Api(tags = "MQTT测试")
 @RequestMapping("/mqtt")
+@Conditional(MqttCondition.class)
 public class MqttTestController extends BaseController {
   
   @Autowired

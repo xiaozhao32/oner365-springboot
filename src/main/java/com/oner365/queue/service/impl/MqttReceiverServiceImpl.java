@@ -2,9 +2,11 @@ package com.oner365.queue.service.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.stereotype.Service;
 
+import com.oner365.queue.config.MqttCondition;
 import com.oner365.queue.config.MqttConfig;
 import com.oner365.queue.service.IMqttReceiverService;
 
@@ -15,6 +17,7 @@ import com.oner365.queue.service.IMqttReceiverService;
  *
  */
 @Service
+@Conditional(MqttCondition.class)
 public class MqttReceiverServiceImpl implements IMqttReceiverService {
 
   private final Logger logger = LoggerFactory.getLogger(MqttReceiverServiceImpl.class);

@@ -1,10 +1,12 @@
 package com.oner365.queue.service;
 
+import org.springframework.context.annotation.Conditional;
 import org.springframework.integration.annotation.MessagingGateway;
 import org.springframework.integration.mqtt.support.MqttHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
 
+import com.oner365.queue.config.MqttCondition;
 import com.oner365.queue.config.MqttConfig;
 
 /**
@@ -14,6 +16,7 @@ import com.oner365.queue.config.MqttConfig;
  *
  */
 @Component
+@Conditional(MqttCondition.class)
 @MessagingGateway(defaultRequestChannel = MqttConfig.OUT_BOUND_CHANNEL)
 public interface IMqttSendService {
 
