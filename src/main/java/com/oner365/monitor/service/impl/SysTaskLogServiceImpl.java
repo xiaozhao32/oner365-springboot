@@ -51,7 +51,7 @@ public class SysTaskLogServiceImpl implements ISysTaskLogService {
     }
     return null;
   }
-  
+
   @Override
   public List<SysTaskLogDto> findList(QueryCriteriaBean data) {
     try {
@@ -84,7 +84,7 @@ public class SysTaskLogServiceImpl implements ISysTaskLogService {
 
   @Override
   public List<Boolean> deleteTaskLogByIds(String[] ids) {
-    return Arrays.stream(ids).map(id -> deleteTaskLogById(id)).collect(Collectors.toList());
+    return Arrays.stream(ids).map(this::deleteTaskLogById).collect(Collectors.toList());
   }
 
   @Override

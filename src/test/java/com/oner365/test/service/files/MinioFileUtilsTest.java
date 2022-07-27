@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Objects;
 
 import org.apache.http.entity.ContentType;
 import org.junit.jupiter.api.Assertions;
@@ -32,7 +33,7 @@ import io.minio.RemoveObjectArgs;
  */
 @SpringBootTest
 class MinioFileUtilsTest extends BaseServiceTest {
-  
+
   @Test
   void test() {
     Assertions.assertEquals("MinioFileUtilsTest", MinioFileUtilsTest.class.getSimpleName());
@@ -63,7 +64,7 @@ class MinioFileUtilsTest extends BaseServiceTest {
     String localFileName = "d:/1.jpg";
     // 上传文件
     File file = DataUtils.getFile(localFileName);
-    try (InputStream inputStream = new FileInputStream(file)) {
+    try (InputStream inputStream = new FileInputStream(Objects.requireNonNull(file))) {
       ObjectWriteResponse writeResponse = minioClient.putObject(PutObjectArgs.builder().bucket(bucketName).object(path)
           .stream(inputStream, file.length(), -1).contentType(ContentType.IMAGE_JPEG.getMimeType()).build());
       logger.info("file path: {}", writeResponse.object());

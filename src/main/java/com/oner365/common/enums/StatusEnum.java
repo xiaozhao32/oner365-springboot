@@ -31,6 +31,7 @@ public enum StatusEnum implements BaseEnum {
      *
      * @return name
      */
+    @Override
     public String getName() {
         return name;
     }

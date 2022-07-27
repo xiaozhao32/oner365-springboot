@@ -5,10 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.charset.Charset;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -238,7 +235,7 @@ public class GenTableServiceImpl implements IGenTableService {
       tpl.merge(context, sw);
       try {
         String path = getGenPath(table, template);
-        FileUtils.writeStringToFile(DataUtils.getFile(path), sw.toString(), Charset.defaultCharset().name());
+        FileUtils.writeStringToFile(Objects.requireNonNull(DataUtils.getFile(path)), sw.toString(), Charset.defaultCharset().name());
       } catch (Exception e) {
         LOGGER.error("渲染模板失败，表名：{}", table.getTableName());
       }

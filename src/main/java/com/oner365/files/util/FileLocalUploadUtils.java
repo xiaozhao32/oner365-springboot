@@ -3,6 +3,7 @@ package com.oner365.files.util;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.Objects;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -117,7 +118,7 @@ public class FileLocalUploadUtils {
         LOGGER.info("Local download File path: {}", path);
         File file = DataUtils.getFile(path);
         try {
-            return FileUtil.readAsByteArray(file);
+            return FileUtil.readAsByteArray(Objects.requireNonNull(file));
         } catch (Exception e) {
             LOGGER.error("download error:", e);
         }

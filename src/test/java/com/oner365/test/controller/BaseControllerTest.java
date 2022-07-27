@@ -1,5 +1,6 @@
 package com.oner365.test.controller;
 
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public abstract class BaseControllerTest extends BaseTest {
 
   @Autowired
   protected WebTestClient client;
-  
+
   @Autowired
   private RedisCache redisCache;
 
@@ -52,6 +53,7 @@ public abstract class BaseControllerTest extends BaseTest {
     ResponseData<LoginUserDto> response = client.post().uri(url).body(BodyInserters.fromValue(paramJson)).exchange()
         .expectBody(new ParameterizedTypeReference<ResponseData<LoginUserDto>>() {}).returnResult().getResponseBody();
 
+    assert response != null;
     LoginUserDto result = response.getResult();
     if (ResultEnum.SUCCESS.getCode().equals(response.getCode()) && result != null) {
       token = result.getAccessToken();
@@ -69,7 +71,7 @@ public abstract class BaseControllerTest extends BaseTest {
   protected Object get(String url) {
     ResponseData<?> response = client.get().uri(url).header(HttpHeaders.AUTHORIZATION, getToken()).exchange()
         .expectBody(ResponseData.class).returnResult().getResponseBody();
-    return response.getResult();
+    return Objects.requireNonNull(response).getResult();
   }
 
   /**
@@ -82,7 +84,7 @@ public abstract class BaseControllerTest extends BaseTest {
   protected Object post(String url, BodyInserter<?, ? super ClientHttpRequest> bodyInserters) {
     ResponseData<?> response = client.post().uri(url).header(HttpHeaders.AUTHORIZATION, getToken()).body(bodyInserters)
         .exchange().expectBody(ResponseData.class).returnResult().getResponseBody();
-    return response.getResult();
+    return Objects.requireNonNull(response).getResult();
   }
 
   /**
@@ -95,7 +97,7 @@ public abstract class BaseControllerTest extends BaseTest {
   protected Object put(String url, BodyInserter<?, ? super ClientHttpRequest> bodyInserters) {
     ResponseData<?> response = client.put().uri(url).header(HttpHeaders.AUTHORIZATION, getToken()).body(bodyInserters)
         .exchange().expectBody(ResponseData.class).returnResult().getResponseBody();
-    return response.getResult();
+    return Objects.requireNonNull(response).getResult();
   }
 
   /**
@@ -108,6 +110,6 @@ public abstract class BaseControllerTest extends BaseTest {
   protected Object delete(String url, BodyInserter<?, ? super ClientHttpRequest> bodyInserters) {
     ResponseData<?> response = client.method(HttpMethod.DELETE).uri(url).header(HttpHeaders.AUTHORIZATION, getToken()).body(bodyInserters)
         .exchange().expectBody(ResponseData.class).returnResult().getResponseBody();
-    return response.getResult();
+    return Objects.requireNonNull(response).getResult();
   }
 }

@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 
 import org.quartz.JobDataMap;
 import org.quartz.JobKey;
@@ -15,7 +16,6 @@ import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,13 +49,13 @@ public class SysTaskServiceImpl implements ISysTaskService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(SysTaskServiceImpl.class);
 
-  @Autowired
+  @Resource
   private Scheduler scheduler;
 
-  @Autowired
+  @Resource
   private ISysTaskDao dao;
 
-  @Autowired
+  @Resource
   private IQueueSendService queueSendService;
 
   /**
@@ -84,7 +84,7 @@ public class SysTaskServiceImpl implements ISysTaskService {
     }
     return null;
   }
-  
+
   @Override
   public List<SysTaskDto> findList(QueryCriteriaBean data) {
     try {
@@ -157,7 +157,7 @@ public class SysTaskServiceImpl implements ISysTaskService {
   @Override
   @Transactional(rollbackFor = ProjectRuntimeException.class)
   public List<Boolean> deleteTaskByIds(String[] ids) {
-    return Arrays.stream(ids).map(id -> deleteTask(id)).collect(Collectors.toList());
+    return Arrays.stream(ids).map(this::deleteTask).collect(Collectors.toList());
   }
 
   @Override

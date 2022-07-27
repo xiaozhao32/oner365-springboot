@@ -71,15 +71,15 @@ class ImportExcelUtilsTest extends BaseUtilsTest {
           }).findFirst();
       indexList.forEach(i -> logger.info("i:{}",i));
       logger.info("index:{}",index.get());
-          
+
       List<String> newList = list.stream().filter(s -> s.equals("test19")).collect(Collectors.toList());
       Assertions.assertNotNull(newList);
       logger.info("list size:{}",newList.size());
       logger.info("boolean:{}",DataUtils.isEmpty(new StringBuilder()));
-      
- 
+
+
     }
-    
+
     @Test
     void testSet() {
       List<String> list = new ArrayList<>();
@@ -88,7 +88,7 @@ class ImportExcelUtilsTest extends BaseUtilsTest {
       list.stream().filter(s -> s.equals("test1")).collect(Collectors.toList());
       final List<String> finalList = Lists.newArrayList();
       finalList.addAll(list);
-      finalList.addAll(new ArrayList<String>());
+      finalList.addAll(new ArrayList<>());
       finalList.forEach(s -> logger.info("s:{}",s));
       AtomicInteger index = new AtomicInteger(0);
       Map<String,String> map = new HashMap<>();
@@ -96,13 +96,13 @@ class ImportExcelUtilsTest extends BaseUtilsTest {
         logger.info("s string1:{}",s);
         index.getAndIncrement();
         getMap(list,s,index.intValue(),map);
-        
+
       });
       Assertions.assertNotNull(map);
       logger.info("map size :{}",map.keySet().size());
       map.keySet().forEach(key -> logger.info("map:{}",map.get(key)));
     }
-    
+
    void getMap(List<String> list, String filed, int i, Map<String, String> map) {
      AtomicInteger index = new AtomicInteger(0);
      list.forEach(s -> {
@@ -112,10 +112,10 @@ class ImportExcelUtilsTest extends BaseUtilsTest {
          logger.info("s string:{}",s);
          map.put(filed+"-"+index+"-"+i, filed+"字段第"+i+"与"+index);
        }
-       
+
      });
     }
-   
+
    @Test
    void testDistinctData() {
      File file  = new File(System.getProperty("user.dir")+"/src/test/java/com/oner365/test/util/excel/distinct.xlsx");
@@ -145,10 +145,10 @@ class ImportExcelUtilsTest extends BaseUtilsTest {
        logger.error("distinctInfo error", e);
      }
    }
-   
+
    /**
     * 验证主数据是否重复 主数据是否重复
-    * 
+    *
     * @param list  excel读取数据
     * @param filed 主数据字段
     * @param i     此数据行数

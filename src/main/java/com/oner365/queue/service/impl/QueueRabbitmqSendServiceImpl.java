@@ -3,7 +3,6 @@ package com.oner365.queue.service.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.oner365.api.dto.UpdateTaskExecuteStatusDto;
@@ -13,9 +12,11 @@ import com.oner365.queue.constants.RabbitmqConstants;
 import com.oner365.queue.service.IQueueSendService;
 import com.oner365.util.DataUtils;
 
+import javax.annotation.Resource;
+
 /**
  * rabbitmq 发送队列实现类
- * 
+ *
  * @author zhaoyong
  *
  */
@@ -24,7 +25,7 @@ public class QueueRabbitmqSendServiceImpl implements IQueueSendService {
 
   private final Logger logger = LoggerFactory.getLogger(QueueRabbitmqSendServiceImpl.class);
 
-  @Autowired
+  @Resource
   private RabbitTemplate rabbitTemplate;
 
   @Override
@@ -45,7 +46,7 @@ public class QueueRabbitmqSendServiceImpl implements IQueueSendService {
     rabbitTemplate.convertAndSend(RabbitmqConstants.SCHEDULE_TASK_QUEUE_TYPE,
         RabbitmqConstants.SCHEDULE_TASK_QUEUE_KEY, invokeParamDto);
   }
-  
+
   @Override
   public void updateTaskExecuteStatus(UpdateTaskExecuteStatusDto updateTaskExecuteStatusDto) {
     logger.info("Rabbitmq updateTaskExecuteStatus push: {}", updateTaskExecuteStatusDto);

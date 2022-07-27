@@ -52,6 +52,7 @@ public enum TaskStatusEnum implements BaseEnum {
    *
    * @return name
    */
+  @Override
   public String getName() {
     return name;
   }

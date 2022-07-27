@@ -75,17 +75,17 @@ public class ElasticsearchInfoController extends BaseController {
       result.setActiveShards(healthResponse.getActiveShards());
       result.setStatus(healthResponse.getStatus());
       result.setTaskMaxWaitingTime(healthResponse.getTaskMaxWaitingTime().getMillis());
-      
+
       // 索引信息
       List<ClusterDto> clusterList = new ArrayList<>();
       GetAliasesResponse aliasResponse = client.indices().getAlias(new GetAliasesRequest(), RequestOptions.DEFAULT);
       Map<String, Set<AliasMetadata>> aliasMap = aliasResponse.getAliases();
-      aliasMap.entrySet().forEach(entry -> {
+      aliasMap.forEach((key, value) -> {
         try {
-          SearchResponse search = client.search(new SearchRequest(entry.getKey()), RequestOptions.DEFAULT);
-  
+          SearchResponse search = client.search(new SearchRequest(key), RequestOptions.DEFAULT);
+
           ClusterDto clusterDto = new ClusterDto();
-          clusterDto.setIndex(entry.getKey());
+          clusterDto.setIndex(key);
           clusterDto.setNumberOfShards(search.getTotalShards());
           clusterDto.setNumberOfReplicas(search.getNumReducePhases());
           clusterDto.setStatus(search.status());
@@ -95,7 +95,7 @@ public class ElasticsearchInfoController extends BaseController {
         }
       });
       result.setClusterList(clusterList);
-      
+
       // mapping信息
       GetMappingsResponse mappingResponse = client.indices().getMapping(new GetMappingsRequest(), RequestOptions.DEFAULT);
       Map<String, MappingMetadata> mappings = mappingResponse.mappings();
@@ -103,10 +103,10 @@ public class ElasticsearchInfoController extends BaseController {
         Map<String, Object> map = mappings.get(cluster.getIndex()).sourceAsMap();
         Map<String, Object> properties = (Map<String, Object>) map.get("properties");
         List<ClusterMappingDto> mappingList = new ArrayList<>();
-        properties.entrySet().forEach(entry -> {
+        properties.forEach((key, value) -> {
           ClusterMappingDto mapping = new ClusterMappingDto();
-          mapping.setName(entry.getKey());
-          Map<String, Object> valueMap = (Map<String, Object>) entry.getValue();
+          mapping.setName(key);
+          Map<String, Object> valueMap = (Map<String, Object>) value;
           mapping.setType(valueMap.get("type") == null ? "Object" : valueMap.get("type").toString());
           mappingList.add(mapping);
         });

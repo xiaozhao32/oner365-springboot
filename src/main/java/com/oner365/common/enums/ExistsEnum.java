@@ -50,6 +50,7 @@ public enum ExistsEnum implements BaseEnum {
      *
      * @return name
      */
+    @Override
     public String getName() {
         return name;
     }

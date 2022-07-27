@@ -24,11 +24,11 @@ public interface ISysTaskService extends BaseService {
    * @return 调度任务集合
    */
   PageInfo<SysTaskDto> pageList(QueryCriteriaBean data);
-  
+
   /**
-   * 获取列表 
-   * 
-   * @param data
+   * 获取列表
+   *
+   * @param data 查询参数
    * @return List<SysTaskDto>
    */
   List<SysTaskDto> findList(QueryCriteriaBean data);

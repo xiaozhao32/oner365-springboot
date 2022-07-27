@@ -54,6 +54,7 @@ public enum GeneTypeEnum implements BaseEnum {
    *
    * @return name
    */
+  @Override
   public String getName() {
     return name;
   }

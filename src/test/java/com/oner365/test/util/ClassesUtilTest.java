@@ -2,10 +2,8 @@ package com.oner365.test.util;
 
 import com.oner365.deploy.utils.DeployUtils;
 import com.oner365.util.ClassesUtil;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.Assert.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * 工具类测试
@@ -18,13 +16,13 @@ class ClassesUtilTest extends BaseUtilsTest {
     @Test
     void test() {
         boolean result = ClassesUtil.isPrimitive(String.class);
-        assertTrue(result);
+        Assertions.assertTrue(result);
     }
-    
-    @Test 
+
+    @Test
     void isMac() {
       Boolean b = DeployUtils.isMac();
-      assertNotNull(b);
+      Assertions.assertNotNull(b);
     }
 
 }

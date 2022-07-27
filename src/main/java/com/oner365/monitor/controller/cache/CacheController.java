@@ -6,7 +6,6 @@ import java.util.Properties;
 import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.data.redis.connection.RedisServerCommands;
 import org.springframework.data.redis.core.RedisCallback;
@@ -27,6 +26,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import redis.clients.jedis.Jedis;
 
+import javax.annotation.Resource;
+
 /**
  * 缓存监控
  *
@@ -39,10 +40,10 @@ public class CacheController extends BaseController {
 
   private static final int DB_LENGTH = 15;
 
-  @Autowired
+  @Resource
   private RedisTemplate<String, String> redisTemplate;
 
-  @Autowired
+  @Resource
   private RedisProperties redisProperties;
 
   /**

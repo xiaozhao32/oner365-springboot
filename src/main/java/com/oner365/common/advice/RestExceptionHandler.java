@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.oner365.common.ResponseData;
 import com.oner365.common.enums.ResultEnum;
 
+import java.util.Objects;
+
 /**
  * 全局异常信息
- * 
+ *
  * @author zhaoyong
  *
  */
@@ -24,20 +26,20 @@ public class RestExceptionHandler {
 
   /**
    * 验证异常信息处理
-   * 
+   *
    * @param e BindException
    * @return ResponseData
    */
   @ExceptionHandler(BindException.class)
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   public ResponseData<String> exception(BindException e) {
-    LOGGER.error("[验证异常] 异常信息:{}", e.getFieldError().getDefaultMessage());
+    LOGGER.error("[验证异常] 异常信息:{}", Objects.requireNonNull(e.getFieldError()).getDefaultMessage());
     return ResponseData.error(ResultEnum.ERROR.getCode(), e.getFieldError().getDefaultMessage());
   }
 
   /**
    * 异常信息处理
-   * 
+   *
    * @param e Exception
    * @return ResponseData
    */

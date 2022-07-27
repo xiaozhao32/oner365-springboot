@@ -1,10 +1,7 @@
 package com.oner365.test.util;
 
 import java.nio.charset.Charset;
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.*;
 
 import com.alibaba.fastjson.JSON;
 import com.auth0.jwt.interfaces.DecodedJWT;
@@ -53,6 +50,6 @@ class JwtUtilsTest extends BaseUtilsTest {
     Assertions.assertNotEquals(null, token);
     // 解密token
     DecodedJWT jwt = JwtTools.decodeToken(token, "test");
-    logger.info("body: {}", jwt.getClaim("body").asString());
+    logger.info("body: {}", Objects.requireNonNull(jwt).getClaim("body").asString());
   }
 }
