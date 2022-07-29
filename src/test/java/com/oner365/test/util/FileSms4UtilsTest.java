@@ -1,9 +1,12 @@
 package com.oner365.test.util;
 
-import java.io.File;
-
+import com.oner365.common.config.properties.DefaultFileProperties;
 import com.oner365.util.FileSms4Utils;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import java.io.File;
 
 /**
  * 工具类测试
@@ -11,7 +14,11 @@ import org.junit.jupiter.api.Test;
  * @author liutao
  *
  */
+@SpringBootTest
 class FileSms4UtilsTest extends BaseUtilsTest {
+
+  @Autowired
+  private DefaultFileProperties properties;
 
   /**
    *  加密文件
@@ -19,7 +26,7 @@ class FileSms4UtilsTest extends BaseUtilsTest {
    */
   @Test
   void encodePartTest() {
-    String filePath = "/Users/zhaoyong/Downloads";
+    String filePath = properties.getDownload();
     File encodeFile = new File(filePath + "/test.png");
     String encodeFilePath = filePath + "/encodePart-test.png";
     FileSms4Utils.encodePart(encodeFile, encodeFilePath);
@@ -35,7 +42,7 @@ class FileSms4UtilsTest extends BaseUtilsTest {
    */
   @Test
   void encodeTest() {
-    String filePath = "/Users/zhaoyong/Downloads";
+    String filePath = properties.getDownload();
     File encodeFile = new File(filePath + "/test.png");
     String encodeFilePath = filePath + "/encode-test.png";
     FileSms4Utils.encode(encodeFile, encodeFilePath);
@@ -51,7 +58,7 @@ class FileSms4UtilsTest extends BaseUtilsTest {
    */
   @Test
   void encodePartNoPlaceholderTest() {
-    String filePath = "/Users/zhaoyong/Downloads";
+    String filePath = properties.getDownload();
     File encodeFile = new File(filePath + "/test.png");
     String encodeFilePath = filePath + "/encodePartPlace-test.png";
     FileSms4Utils.encodePartNoPlaceholder(encodeFile, encodeFilePath);
