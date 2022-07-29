@@ -170,8 +170,7 @@ public class FileSms4Utils {
         System.arraycopy(sms4Content, BEGIN, encodeByte, encodeByte.length - PART_SIZE, sms4Content.length);
         FileUtils.writeByteArrayToFile(new File(encodeFilePath), encodeByte);
       } else {
-        byte[] sms4Content = Cipher.encodeSms4(content, Md5Util.getInstance().getMd5(key).getBytes());
-        FileUtils.writeByteArrayToFile(new File(encodeFilePath), sms4Content);
+        encode(file, encodeFilePath);
       }
     } catch (IOException e) {
       LOGGER.error("encodePartNoPlaceholder error", e);
@@ -200,8 +199,7 @@ public class FileSms4Utils {
         System.arraycopy(rightContent, BEGIN, deContent, leftContent.length, rightContent.length);
         FileUtils.writeByteArrayToFile(new File(decodeFilePath), deContent);
       } else {
-        byte[] deContent = Cipher.decodeSms4(content, Md5Util.getInstance().getMd5(key).getBytes());
-        FileUtils.writeByteArrayToFile(new File(decodeFilePath), deContent);
+        decode(file, decodeFilePath);
       }
     } catch (IOException e) {
       LOGGER.error("decodePartNoPlaceholder error", e);
