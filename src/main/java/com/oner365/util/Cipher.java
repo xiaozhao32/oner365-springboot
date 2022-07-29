@@ -16,6 +16,7 @@ public final class Cipher {
   public static final int ROUND = 32;
   public static final int BLOCK = 16;
   public static final int FOUR = 4;
+  private static final String PARAM_ERROR = "内容和密钥至少16个字符.";
   
   private Cipher() {
     
@@ -180,10 +181,10 @@ public final class Cipher {
     
     sms4KeyExt(key, roundKey, cryptFlag);
     byte[] input;
-    byte[] output = new byte[16];
+    byte[] output = new byte[BLOCK];
 
     while (inLen >= BLOCK) {
-      input = Arrays.copyOfRange(in, point, point + 16);
+      input = Arrays.copyOfRange(in, point, point + BLOCK);
       sms4Crypt(input, output, roundKey);
       System.arraycopy(output, 0, out, point, BLOCK);
       inLen -= BLOCK;
@@ -195,8 +196,8 @@ public final class Cipher {
 
 
   public static byte[] encodeSms4(String plaintext, byte[] key) {
-    if (DataUtils.isEmpty(plaintext)) {
-      return new byte[0];
+    if (plaintext.length() < BLOCK || key.length < BLOCK) {
+      throw new IllegalArgumentException(PARAM_ERROR);
     }
     StringBuilder plain = new StringBuilder(plaintext);
     for (int i = plaintext.getBytes().length % BLOCK; i < BLOCK; i++) {
@@ -214,6 +215,9 @@ public final class Cipher {
    * @return byte[]
    */
   public static byte[] encodeSms4(byte[] plaintext, byte[] key) {
+    if (plaintext.length < BLOCK || key.length < BLOCK) {
+      throw new IllegalArgumentException(PARAM_ERROR);
+    }
     byte[] ciphertext = new byte[plaintext.length];
 
     int k = 0;
@@ -238,6 +242,9 @@ public final class Cipher {
    * @return byte[]
    */
   public static byte[] decodeSms4(byte[] ciphertext, byte[] key) {
+    if (ciphertext.length < BLOCK || key.length < BLOCK) {
+      throw new IllegalArgumentException(PARAM_ERROR);
+    }
     byte[] plaintext = new byte[ciphertext.length];
 
     int k = 0;
@@ -262,6 +269,9 @@ public final class Cipher {
    * @return String
    */
   public static String decodeSms4toString(byte[] ciphertext, byte[] key) {
+    if (ciphertext.length < BLOCK || key.length < BLOCK) {
+      throw new IllegalArgumentException(PARAM_ERROR);
+    }
     byte[] plaintext = decodeSms4(ciphertext, key);
     return new String(plaintext, Charset.defaultCharset());
   }
