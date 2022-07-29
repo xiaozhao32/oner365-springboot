@@ -20,6 +20,8 @@ public class FileSms4Utils {
   private static final Logger LOGGER = LoggerFactory.getLogger(FileSms4Utils.class);
 
   private final static String PLACEHOLDER = "0123456789101112";
+  
+  private final static String DEFAULT_KEY = "01234567891011121314151617181920";
 
   private final static int KEY_SIZE = 32;
 
@@ -42,6 +44,9 @@ public class FileSms4Utils {
     byte[] key = new byte[KEY_SIZE];
     try (FileInputStream fis = new FileInputStream(file)) {
       int len = fis.read(key, BEGIN, KEY_SIZE);
+      if(len > BEGIN) {
+        key = DEFAULT_KEY.getBytes();
+      }
       byte[] content = FileUtils.readFileToByteArray(file);
       byte[] contentPlaceholder = new byte[content.length + PLACEHOLDER_SIZE];
       System.arraycopy(content, BEGIN, contentPlaceholder, BEGIN, content.length);
@@ -66,7 +71,7 @@ public class FileSms4Utils {
   public static void decode(File file, String decodeFilePath) {
     byte[] key = new byte[KEY_SIZE];
     try (FileInputStream fis = new FileInputStream(file)) {
-      int len = fis.read(key, BEGIN, KEY_SIZE);
+      fis.read(key, BEGIN, KEY_SIZE);
       byte[] content = FileUtils.readFileToByteArray(file);
       byte[] encodeContent = new byte[content.length - KEY_SIZE];
       System.arraycopy(content, KEY_SIZE, encodeContent, BEGIN, encodeContent.length);
@@ -88,6 +93,9 @@ public class FileSms4Utils {
     byte[] key = new byte[KEY_SIZE];
     try (FileInputStream fis = new FileInputStream(file)) {
       int len = fis.read(key, BEGIN, KEY_SIZE);
+      if(len > BEGIN) {
+        key = DEFAULT_KEY.getBytes();
+      }
       byte[] content = FileUtils.readFileToByteArray(file);
       if (content.length > PART_SIZE) {
         byte[] encodeContent = new byte[PART_SIZE + PLACEHOLDER_SIZE];
@@ -117,7 +125,7 @@ public class FileSms4Utils {
   public static void decodePart(File file, String decodeFilePath) {
     byte[] key = new byte[KEY_SIZE];
     try (FileInputStream fis = new FileInputStream(file)) {
-      int len = fis.read(key, BEGIN, KEY_SIZE);
+      fis.read(key, BEGIN, KEY_SIZE);
       byte[] content = FileUtils.readFileToByteArray(file);
       if (content.length > PART_SIZE) {
         byte[] allContent = new byte[content.length - KEY_SIZE];
@@ -148,6 +156,9 @@ public class FileSms4Utils {
     byte[] key = new byte[KEY_SIZE];
     try (FileInputStream fis = new FileInputStream(file)) {
       int len = fis.read(key, BEGIN, KEY_SIZE);
+      if(len > BEGIN) {
+        key = DEFAULT_KEY.getBytes();
+      }
       byte[] content = FileUtils.readFileToByteArray(file);
       if (content.length > PART_SIZE) {
         byte[] encodeContent = new byte[PART_SIZE];
@@ -176,7 +187,7 @@ public class FileSms4Utils {
   public static void decodePartNoPlaceholder(File file, String decodeFilePath) {
     byte[] key = new byte[KEY_SIZE];
     try (FileInputStream fis = new FileInputStream(file)) {
-      int len = fis.read(key, BEGIN, KEY_SIZE);
+      fis.read(key, BEGIN, KEY_SIZE);
       byte[] content = FileUtils.readFileToByteArray(file);
       if (content.length > PART_SIZE) {
         byte[] allContent = new byte[content.length - KEY_SIZE];
