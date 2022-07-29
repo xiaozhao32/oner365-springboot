@@ -1,18 +1,43 @@
-# oner365-springboot
+
+<h3 align="center">Oner365 Springboot</h3>
+
+---
+
+<p align="center">
+    <a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://shields.io/badge/Spring%20Boot-2.7.2-blue" alt="Spring Boot 2.7.2"></a>
+    <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue" alt="License Apache 2.0"></a>
+    <a href="https://www.oracle.com/java/technologies/javase-downloads.html" target="_blank"><img src="https://img.shields.io/badge/JDK-8%2C11%2C17-green" alt="Java 8,11,17"></a>
+</p>
+<p align="center">
+    <a href="https://blog.csdn.net/Pointer_v" target="_blank"><img src="https://shields.io/badge/Author-Zy&Lt-orange" alt="Zy&Lt"></a>
+    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-2.0.2-red" alt="Version 2.0.2"></a>
+    <a href="https://gitee.com/xiaozhao32/oner365-springboot"><img src="https://img.shields.io/github/stars/xiaozhao32/oner365-springboot?style=flat&logo=github" alt="Github star"></a>
+    <a href="https://gitee.com/xiaozhao32/oner365-springboot"><img src="https://img.shields.io/github/forks/xiaozhao32/oner365-springboot?style=flat&logo=github" alt="Github fork"></a>
+    <a href="https://gitee.com/xiaozhao32/oner365-springboot"><img src="https://gitee.com/xiaozhao32/oner365-springboot/badge/star.svg?theme=dark" alt="Gitee star"></a>
+    <a href="https://gitee.com/xiaozhao32/oner365-springboot"><img src="https://gitee.com/xiaozhao32/oner365-springboot/badge/fork.svg?theme=dark" alt="Gitee fork"></a>
+</p>
+<p align="center">
+    <a href="https://github.com/xiaozhao32/oner365-springboot">Github 仓库</a> &nbsp; | &nbsp;
+    <a href="https://gitee.com/xiaozhao32/oner365-springboot">Gitee 仓库</a>
+</p>
+
+---
+
 
 #### 介绍
-1. 个人练习使用。 
-2. 核心框架: Springboot, 数据库采用Mysql, 缓存Redis, 索引查询Elasticsearch, 文件上传使用Fastdfs、Minio、Local, 队列为Rabbitmq.
+1. 个人练习 Springboot
 
 #### 软件架构
 软件架构说明
 
+#### 技术框架
 
-#### 安装教程
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
+1. 数据库：MySQL
+2. 缓存：Redis
+3. 队列：RabbitMQ
+4. 文件处理：Fastdfs && Hadoop && Minio && Local
+5. 搜索引擎：Elasticserach
+6. API框架：Swagger
 
 #### 使用说明
 
@@ -23,19 +48,9 @@
 
       http://localhost:8704/doc.html
 
-#### 参与贡献
+##### 前端架构
+1. 前端地址 - 8701 
+<p>
+	<a href="https://github.com/xiaozhao32/oner365-vue">Github 前端仓库</a> &nbsp; | &nbsp; <a href="https://gitee.com/xiaozhao32/oner365-vue">Gitee 前端仓库</a>
+</p>
 
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
-
-
-#### 特技
-
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
