@@ -1,6 +1,7 @@
 package com.oner365.util;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -39,7 +40,8 @@ public class FileSms4Utils {
    */
   public static void encode(File file, String encodeFilePath) {
     byte[] key = new byte[KEY_SIZE];
-    try {
+    try (FileInputStream fis = new FileInputStream(file)) {
+      int len = fis.read(key, BEGIN, KEY_SIZE);
       byte[] content = FileUtils.readFileToByteArray(file);
       byte[] contentPlaceholder = new byte[content.length + PLACEHOLDER_SIZE];
       System.arraycopy(content, BEGIN, contentPlaceholder, BEGIN, content.length);
@@ -63,7 +65,8 @@ public class FileSms4Utils {
    */
   public static void decode(File file, String decodeFilePath) {
     byte[] key = new byte[KEY_SIZE];
-    try {
+    try (FileInputStream fis = new FileInputStream(file)) {
+      int len = fis.read(key, BEGIN, KEY_SIZE);
       byte[] content = FileUtils.readFileToByteArray(file);
       byte[] encodeContent = new byte[content.length - KEY_SIZE];
       System.arraycopy(content, KEY_SIZE, encodeContent, BEGIN, encodeContent.length);
@@ -83,7 +86,8 @@ public class FileSms4Utils {
    */
   public static void encodePart(File file, String encodeFilePath) {
     byte[] key = new byte[KEY_SIZE];
-    try {
+    try (FileInputStream fis = new FileInputStream(file)) {
+      int len = fis.read(key, BEGIN, KEY_SIZE);
       byte[] content = FileUtils.readFileToByteArray(file);
       if (content.length > PART_SIZE) {
         byte[] encodeContent = new byte[PART_SIZE + PLACEHOLDER_SIZE];
@@ -112,7 +116,8 @@ public class FileSms4Utils {
    */
   public static void decodePart(File file, String decodeFilePath) {
     byte[] key = new byte[KEY_SIZE];
-    try {
+    try (FileInputStream fis = new FileInputStream(file)) {
+      int len = fis.read(key, BEGIN, KEY_SIZE);
       byte[] content = FileUtils.readFileToByteArray(file);
       if (content.length > PART_SIZE) {
         byte[] allContent = new byte[content.length - KEY_SIZE];
@@ -141,7 +146,8 @@ public class FileSms4Utils {
    */
   public static void encodePartNoPlaceholder(File file, String encodeFilePath) {
     byte[] key = new byte[KEY_SIZE];
-    try {
+    try (FileInputStream fis = new FileInputStream(file)) {
+      int len = fis.read(key, BEGIN, KEY_SIZE);
       byte[] content = FileUtils.readFileToByteArray(file);
       if (content.length > PART_SIZE) {
         byte[] encodeContent = new byte[PART_SIZE];
@@ -169,7 +175,8 @@ public class FileSms4Utils {
    */
   public static void decodePartNoPlaceholder(File file, String decodeFilePath) {
     byte[] key = new byte[KEY_SIZE];
-    try {
+    try (FileInputStream fis = new FileInputStream(file)) {
+      int len = fis.read(key, BEGIN, KEY_SIZE);
       byte[] content = FileUtils.readFileToByteArray(file);
       if (content.length > PART_SIZE) {
         byte[] allContent = new byte[content.length - KEY_SIZE];
