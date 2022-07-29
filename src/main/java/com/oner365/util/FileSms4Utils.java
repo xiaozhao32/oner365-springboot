@@ -44,7 +44,7 @@ public class FileSms4Utils {
     byte[] key = new byte[KEY_SIZE];
     try (FileInputStream fis = new FileInputStream(file)) {
       int len = fis.read(key, BEGIN, KEY_SIZE);
-      if(len > BEGIN) {
+      if(len < KEY_SIZE) {
         key = DEFAULT_KEY.getBytes();
       }
       byte[] content = FileUtils.readFileToByteArray(file);
@@ -93,7 +93,7 @@ public class FileSms4Utils {
     byte[] key = new byte[KEY_SIZE];
     try (FileInputStream fis = new FileInputStream(file)) {
       int len = fis.read(key, BEGIN, KEY_SIZE);
-      if(len > BEGIN) {
+      if(len < KEY_SIZE) {
         key = DEFAULT_KEY.getBytes();
       }
       byte[] content = FileUtils.readFileToByteArray(file);
@@ -156,7 +156,7 @@ public class FileSms4Utils {
     byte[] key = new byte[KEY_SIZE];
     try (FileInputStream fis = new FileInputStream(file)) {
       int len = fis.read(key, BEGIN, KEY_SIZE);
-      if(len > BEGIN) {
+      if(len < KEY_SIZE) {
         key = DEFAULT_KEY.getBytes();
       }
       byte[] content = FileUtils.readFileToByteArray(file);
