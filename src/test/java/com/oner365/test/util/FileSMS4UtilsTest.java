@@ -32,8 +32,8 @@ class FileSMS4UtilsTest extends BaseUtilsTest {
   @Test
   void decodePartTest() {
     File file = new File("/Users/taoliu/Downloads/encodePart-test.png");
-    String encodeFilePath = "/Users/taoliu/Downloads/decodePart-test.png";
-    FileSMS4Utils.decodePart(file, encodeFilePath);
+    String decodeFilePath = "/Users/taoliu/Downloads/decodePart-test.png";
+    FileSMS4Utils.decodePart(file, decodeFilePath);
   }
   
   /**
@@ -54,8 +54,8 @@ class FileSMS4UtilsTest extends BaseUtilsTest {
   @Test
   void decodeTest() {
     File file = new File("/Users/taoliu/Downloads/encode-test.png");
-    String encodeFilePath = "/Users/taoliu/Downloads/decode-test.png";
-    FileSMS4Utils.decode(file, encodeFilePath);
+    String decodeFilePath = "/Users/taoliu/Downloads/decode-test.png";
+    FileSMS4Utils.decode(file, decodeFilePath);
   }
   
 }
