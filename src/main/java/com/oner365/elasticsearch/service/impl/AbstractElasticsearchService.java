@@ -30,15 +30,18 @@ public class AbstractElasticsearchService {
   @SuppressWarnings("unchecked")
   public <T> Page<T> pageList(QueryCriteriaBean data, Class<T> clazz) {
     BoolQueryBuilder queryBuilder = QueryBuilders.boolQuery();
+    
     data.getWhereList().forEach(entity -> {
       if (!DataUtils.isEmpty(entity.getVal())) {
         queryBuilder.filter(QueryBuilders.termQuery(entity.getKey(), entity.getVal()));
       }
     });
 
-    // 版本更新
-    NativeSearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(queryBuilder)
-        .withPageable(QueryUtils.buildPageRequest(data)).build();
+    NativeSearchQuery searchQuery = new NativeSearchQueryBuilder()
+        .withQuery(queryBuilder)
+        .withPageable(QueryUtils.buildPageRequest(data))
+        .withSort(QueryUtils.buildSortRequest(data.getOrder()))
+        .build();
     SearchHits<T> searchHits = execute(search -> search.search(searchQuery, clazz));
     if (searchQuery != null && searchHits != null) {
       SearchPage<T> page = SearchHitSupport.searchPageFor(searchHits, searchQuery.getPageable());
