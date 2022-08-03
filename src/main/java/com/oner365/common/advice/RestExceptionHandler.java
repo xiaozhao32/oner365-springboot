@@ -1,5 +1,7 @@
 package com.oner365.common.advice;
 
+import java.util.Objects;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -10,8 +12,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.oner365.common.ResponseData;
 import com.oner365.common.enums.ResultEnum;
-
-import java.util.Objects;
 
 /**
  * 全局异常信息
@@ -34,7 +34,8 @@ public class RestExceptionHandler {
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   public ResponseData<String> exception(BindException e) {
     LOGGER.error("[验证异常] 异常信息:{}", Objects.requireNonNull(e.getFieldError()).getDefaultMessage());
-    return ResponseData.error(ResultEnum.ERROR.getCode(), e.getFieldError().getDefaultMessage());
+    return ResponseData.error(ResultEnum.ERROR.getCode(),
+        Objects.requireNonNull(e.getFieldError()).getDefaultMessage());
   }
 
   /**

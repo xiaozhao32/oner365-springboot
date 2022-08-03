@@ -19,17 +19,17 @@ public class FileSms4Utils {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(FileSms4Utils.class);
 
-  private final static String PLACEHOLDER = "0123456789101112";
+  private static final String PLACEHOLDER = "0123456789101112";
   
-  private final static String DEFAULT_KEY = "01234567891011121314151617181920";
+  private static final String DEFAULT_KEY = "01234567891011121314151617181920";
 
-  private final static int KEY_SIZE = 32;
+  private static final int KEY_SIZE = 32;
 
-  private final static int BEGIN = 0;
+  private static final int BEGIN = 0;
 
-  private final static int PLACEHOLDER_SIZE = 16;
+  private static final int PLACEHOLDER_SIZE = 16;
 
-  private final static int PART_SIZE = 1024 * 1024;
+  private static final int PART_SIZE = 1024 * 1024;
 
   private FileSms4Utils() {
   }

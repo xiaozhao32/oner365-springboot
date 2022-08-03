@@ -1,3 +1,4 @@
+
 package com.oner365.util;
 
 import java.beans.PropertyDescriptor;
@@ -168,10 +169,10 @@ public class ClassesUtil {
   /**
    * 判断是否为枚举类型
    * 
-   * @param clazz 类
+   * @param className 类
    * @return boolean
    */
-  public static <T> boolean isEnum(String className) {
+  public static boolean isEnum(String className) {
     try {
       return Class.forName(className).isEnum();
     } catch (ClassNotFoundException e) {
