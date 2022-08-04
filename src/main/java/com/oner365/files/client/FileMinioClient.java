@@ -61,7 +61,7 @@ public class FileMinioClient implements IFileStorageClient {
       ObjectWriteResponse writeResponse = minioClient
           .putObject(PutObjectArgs.builder().bucket(minioProperties.getBucket()).object(path)
               .stream(inputStream, file.getSize(), -1).contentType(file.getContentType()).build());
-      String url = minioProperties.getBucket() + PublicConstants.DELIMITER + writeResponse.object();
+      String url = writeResponse.object();
       logger.info("file path: {}", url);
       saveFileStorage(url, file.getOriginalFilename(), file.getSize());
       return url;
@@ -80,10 +80,9 @@ public class FileMinioClient implements IFileStorageClient {
       }
       ObjectWriteResponse writeResponse = minioClient.putObject(PutObjectArgs.builder()
           .bucket(minioProperties.getBucket()).object(path).stream(inputStream, file.length(), -1).build());
-      String url = minioProperties.getBucket() + PublicConstants.DELIMITER + writeResponse.object();
-      logger.info("file path: {}", url);
-      saveFileStorage(url, file.getName(), file.length());
-      return url;
+      logger.info("file path: {}", writeResponse.object());
+      saveFileStorage(writeResponse.object(), file.getName(), file.length());
+      return writeResponse.object();
     } catch (Exception e) {
       logger.error("uploadFile File Error:", e);
     }
@@ -154,12 +153,12 @@ public class FileMinioClient implements IFileStorageClient {
     // save
     SysFileStorageVo entity = new SysFileStorageVo();
     entity.setFastdfsUrl(minioProperties.getUrl() + PublicConstants.DELIMITER + minioProperties.getBucket());
-    entity.setId(StringUtils.replace(url, entity.getFastdfsUrl() + PublicConstants.DELIMITER, ""));
+    entity.setId(url);
     entity.setCreateTime(DateUtil.getDate());
     entity.setDirectory(false);
     entity.setFileStorage(getName());
-    entity.setFilePath(entity.getFastdfsUrl() + PublicConstants.DELIMITER + url);
-    entity.setFileName(StringUtils.substringAfterLast(url, PublicConstants.DELIMITER));
+    entity.setFilePath(entity.getFastdfsUrl() + PublicConstants.DELIMITER + entity.getId());
+    entity.setFileName(StringUtils.substringAfterLast(entity.getId(), PublicConstants.DELIMITER));
     entity.setDisplayName(fileName);
     entity.setFileSuffix(DataUtils.getExtension(fileName));
     entity.setSize(DataUtils.convertFileSize(fileSize));
