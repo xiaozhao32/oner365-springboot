@@ -648,10 +648,8 @@
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>3.0.2</version>
 				<configuration>
-					<excludes>
-						<exclude>*.**</exclude>
-					</excludes>
 					<archive>
+						<addMavenDescriptor>true</addMavenDescriptor>
 						<manifest>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>../lib/</classpathPrefix>
@@ -663,9 +661,12 @@
 						</manifestEntries>
 					</archive>
 					<outputDirectory>${project.build.directory}</outputDirectory>
+					<includes>
+						<include>**/*.class</include>
+					</includes>
 				</configuration>
 			</plugin>
-
+			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
