@@ -91,7 +91,7 @@ class ImportExcelUtilsTest extends BaseUtilsTest {
       finalList.addAll(new ArrayList<>());
       finalList.forEach(s -> logger.info("s:{}",s));
       AtomicInteger index = new AtomicInteger(0);
-      Map<String,String> map = new HashMap<>();
+      Map<String,String> map = new HashMap<>(10);
       list.forEach(s -> {
         logger.info("s string1:{}",s);
         index.getAndIncrement();
@@ -129,7 +129,7 @@ class ImportExcelUtilsTest extends BaseUtilsTest {
                || !DataUtils.isEmpty(dto.getJobNumber()) || !DataUtils.isEmpty(dto.getPhone())
                || !DataUtils.isEmpty(dto.getSerialNumber()) || !DataUtils.isEmpty(dto.getUserName())))
            .collect(Collectors.toList());
-       Map<String, String> map = new HashMap<>();
+       Map<String, String> map = new HashMap<>(10);
        AtomicInteger distinctIndex = new AtomicInteger(0);
        dataList.forEach(dto -> {
          distinctIndex.getAndIncrement();
