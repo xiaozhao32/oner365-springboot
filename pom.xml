@@ -38,7 +38,7 @@
 	</developers>
 
 	<properties>
-		<java.version>11</java.version>
+		<java.version>1.8</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 		<org.springframework.integration.version>5.5.14</org.springframework.integration.version>
@@ -65,7 +65,7 @@
 		<com.mysql.version>8.0.29</com.mysql.version>
 		
 		<com.alibaba.fastjson.version>1.2.83</com.alibaba.fastjson.version>
-		<com.alibaba.druid.version>1.2.11</com.alibaba.druid.version>
+		<com.alibaba.druid.version>1.2.12</com.alibaba.druid.version>
 		
 		<com.fasterxml.jackson.version>2.13.3</com.fasterxml.jackson.version>
 		<com.google.code.gson.version>2.9.0</com.google.code.gson.version>
@@ -664,7 +664,7 @@
 						<addMavenDescriptor>true</addMavenDescriptor>
 						<manifest>
 							<addClasspath>true</addClasspath>
-							<classpathPrefix>../lib/</classpathPrefix>
+							<classpathPrefix>./lib/</classpathPrefix>
 							<useUniqueVersions>false</useUniqueVersions>
 							<mainClass>com.oner365.SpringbootApplication</mainClass>
 						</manifest>
@@ -720,6 +720,23 @@
 					</execution>
 				</executions>
 			</plugin>
+			
+			
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>1.2.2</version>
+				<configuration>
+					<imageName>${project.artifactId}</imageName>
+					<dockerDirectory>./</dockerDirectory>
+					<dockerHost>http://192.168.213.128:2375</dockerHost>
+					<buildArgs>
+						<JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
+		                <OUT_DIRECTORY>target</OUT_DIRECTORY>
+					</buildArgs>
+				</configuration>
+			</plugin>
+			
 		</plugins>
 	</build>
 

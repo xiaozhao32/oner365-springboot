@@ -8,3 +8,4 @@ spring:
       on-profile: 
       - lt
       - zy
+      - prod

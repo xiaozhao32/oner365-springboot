@@ -38,15 +38,24 @@
 4. 文件处理：Fastdfs && Hadoop && Minio && Local
 5. 搜索引擎：Elasticserach
 6. API框架：Swagger
+7. 环境部署：docker
 
 #### 使用说明
 
 1.  导入mysql脚本, 在 resources/scripts中
 2.  修改配置文件 application.yml 相关路径。
-3.  启动服务 配置启动参数对应的配置文件 如: -Dspring.profiles.active=zy
+3.  启动服务 配置启动参数对应的配置文件 如: -Dspring.profiles.active=prod
 4.  Swagger地址
 
       http://localhost:8704/doc.html
+      
+5. docker使用 
+
+    mvn docker:build
+    
+6. 服务器执行
+
+    docker run -d --name oner365-springboot -p 8704:8704 --restart=always --privileged=true --restart=always oner365-springboot
 
 ##### 前端架构
 1. 前端地址 - 8701 
