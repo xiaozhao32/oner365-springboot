@@ -92,13 +92,12 @@ public class DeployMethod {
       String libPath = deployEntity.getLocation() + File.separator + projectName + File.separator + FILE_TARGET
           + File.separator + FILE_LIB;
       // 目标目录
-      String targetPath = deployEntity.getName() + File.separator + projectName;
-
+      String targetPath = deployEntity.getName();
       // 拷贝相关文件
       DataUtils.createFolder(targetPath);
       DataUtils.copyFile(path, targetPath);
       DataUtils.copyDirectory(resourcePath, targetPath);
-      DataUtils.copyDirectory(libPath, deployEntity.getName());
+      DataUtils.copyDirectory(libPath, targetPath);
 
       // 制作 Linux 启动脚本
       URL shUrl = DeployMethod.class.getResource("/service/start.sh");
@@ -109,6 +108,14 @@ public class DeployMethod {
         items.put("SERVICE_NAME=", "SERVICE_NAME=" + projectName);
         items.put("VERSION=", "VERSION=" + deployEntity.getVersion());
         items.put("ACTIVE=", "ACTIVE=" + deployEntity.getActive());
+        DataUtils.replaceContextFileCreate(readFile, writeFile, items);
+      }
+      URL stopUrl = DeployMethod.class.getResource("/service/stop.sh");
+      if (stopUrl != null) {
+        String readFile = stopUrl.getPath();
+        String writeFile = targetPath + File.separator + "stop.sh";
+        Map<String, Object> items = new HashMap<>(3);
+        items.put("SERVICE_NAME=", "SERVICE_NAME=" + projectName);
         DataUtils.replaceContextFileCreate(readFile, writeFile, items);
       }
 
@@ -164,18 +171,17 @@ public class DeployMethod {
   public static List<String> deploy(Connection con, DeployServer server, DeployEntity deployEntity, String targetRoot) {
     List<String> commands = new ArrayList<>(deployEntity.getProjects().size());
     deployEntity.getProjects().forEach(projectName -> {
-      // 上传的文件
-      String localFile = deployEntity.getName() + File.separator + projectName + File.separator + projectName + "-"
-          + deployEntity.getVersion() + "." + deployEntity.getSuffix();
-      // 上传的路径
-      String targetPath = targetRoot + PublicConstants.DELIMITER + projectName + PublicConstants.DELIMITER;
-      // 配置文件
-      String resourcesFile = deployEntity.getName() + File.separator + projectName + File.separator
-          + FILE_RESOURCES;
+        // 上传的文件
+        String localFile = deployEntity.getName() + File.separator + projectName + "-" + deployEntity.getVersion() + "."
+                + deployEntity.getSuffix();
+        // 上传的路径
+        String targetPath = targetRoot + PublicConstants.DELIMITER + projectName + PublicConstants.DELIMITER;
+        // 配置文件
+        String resourcesFile = deployEntity.getName() + File.separator + FILE_RESOURCES;
       // 依赖包上传到lib
       if (DeployUtils.isMac()) {
         // mac scp方式
-        DeployMethod.deploy(server, deployEntity.getName() + File.separator + projectName, targetRoot);
+        DeployMethod.deploy(server, deployEntity.getName(), targetRoot);
         deployMac(server, deployEntity, targetRoot);
       } else {
         // windows scp方式

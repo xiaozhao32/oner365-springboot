@@ -219,6 +219,8 @@ public class DataUtils {
       File targetFile = new File(targetPath);
       if (srcFile.exists()) {
         FileUtils.copyDirectoryToDirectory(srcFile, targetFile);
+      } else {
+          LOGGER.error("file directory is not exists: {}", filePath);
       }
     } catch (Exception e) {
       LOGGER.error("Error copyDirectory:", e);
@@ -237,6 +239,8 @@ public class DataUtils {
       File targetFile = new File(targetPath);
       if (srcFile.exists()) {
         FileUtils.copyFileToDirectory(srcFile, targetFile);
+      } else {
+          LOGGER.error("file is not exists: {}", filePath);
       }
     } catch (Exception e) {
       LOGGER.error("Error copyDirectory:", e);
@@ -253,6 +257,8 @@ public class DataUtils {
       File file = new File(filePath);
       if (file.exists()) {
         FileUtils.forceDelete(file);
+      } else {
+          LOGGER.error("file is not exists: {}", filePath);
       }
     } catch (IOException e) {
       LOGGER.error("Error deleteFile:", e);
@@ -285,6 +291,8 @@ public class DataUtils {
     File file = new File(filePath);
     if (file.exists()) {
       return file;
+    } else {
+        LOGGER.error("file is not exists: {}", filePath);
     }
     return null;
   }

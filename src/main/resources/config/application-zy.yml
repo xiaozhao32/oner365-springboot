@@ -245,7 +245,7 @@ webclient:
 #部署目录
 deploy:
   local:
-    location: /Users/zhaoyong/Documents/git
+    location: /Users/zhaoyong/Documents/git/oner365
     name: /Users/zhaoyong/Documents/deploy/springboot
     version: 2.0.2
     suffix: jar
