@@ -69,8 +69,8 @@ public class DataSourceUtil {
             queryString.append(" SELECT table_name, substring_index(TABLE_COMMENT, ';','1') as table_comment ");
             queryString.append(" FROM INFORMATION_SCHEMA.TABLES ");
             queryString.append(" WHERE TABLE_SCHEMA='").append(tableSchema).append("' ");
-        } else if (DataSourceConstants.DRIVER_NAME_ORACLE.equals(driverClassName)) {
-            // Oracle
+        } else if (DataSourceConstants.DRIVER_NAME_ORACLE.equals(driverClassName) || DataSourceConstants.DRIVER_NAME_DM.equals(driverClassName)) {
+            // Oracle & DM
             queryString.append(" select table_name, comments as table_comment from user_tab_comments");
         } else if (DataSourceConstants.DRIVER_NAME_POSTGRESQL.equals(driverClassName)) {
             // postgreSQL
@@ -117,8 +117,8 @@ public class DataSourceUtil {
             queryString.append(" and a.TABLE_SCHEMA=b.TABLE_SCHEMA ");
             queryString.append(" and b.TABLE_SCHEMA='").append(tableSchema).append("' ");
             queryString.append(" and b.TABLE_NAME = '").append(tableName).append("' ");
-        } else if (DataSourceConstants.DRIVER_NAME_ORACLE.equals(driverClassName)) {
-            // Oracle
+        } else if (DataSourceConstants.DRIVER_NAME_ORACLE.equals(driverClassName) || DataSourceConstants.DRIVER_NAME_DM.equals(driverClassName)) {
+            // Oracle & DM
             queryString.append(
                     " select a.TABLE_NAME as table_name, c.COMMENTS as table_comment, a.COLUMN_NAME as column_name, b.COMMENTS as column_comment, a.DATA_TYPE as column_type, a.DATA_LENGTH as data_length, a.DATA_SCALE as column_default, a.NULLABLE as is_nullable ");
             queryString.append("  from USER_TAB_COLUMNS a, USER_COL_COMMENTS b,USER_TAB_COMMENTS c ");
