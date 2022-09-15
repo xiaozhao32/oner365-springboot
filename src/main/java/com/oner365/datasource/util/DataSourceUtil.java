@@ -206,8 +206,7 @@ public class DataSourceUtil {
      * @return List<Map<String, String>>
      */
     public static List<Map<String, String>> execute(Connection con, String sql) {
-        final String[] key = new String[] { "create ", "drop ", "alter ", "insert ", "update ", "delete ", "call ",
-                "CREATE ", "DROP ", "ALTER ", "INSERT ", "UPDATE ", "DELETE ", "CALL " };
+        final String[] key = new String[] { "create ", "drop ", "alter ", "insert ", "update ", "delete ", "call ", "set "};
 
         if (sql == null) {
             return Collections.emptyList();
@@ -217,7 +216,7 @@ public class DataSourceUtil {
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             // 判断是否是执行语句
-            boolean isExecute = Arrays.stream(key).anyMatch(s -> StringUtils.startsWith(sql, s));
+            boolean isExecute = Arrays.stream(key).anyMatch(s -> StringUtils.startsWithIgnoreCase(sql, s));
 
             if (isExecute) {
                 execute(con, ps, resultList);
@@ -227,8 +226,10 @@ public class DataSourceUtil {
 
         } catch (Exception e) {
             Map<String, String> map = new HashMap<>(1);
-            map.put("Error:", e.getMessage());
+            map.put("sql", sql);
+            map.put("error", e.getMessage());
             resultList.add(map);
+            LOGGER.error("execute sql error:", sql);
             LOGGER.error("execute error:", e);
         }
         return resultList;
