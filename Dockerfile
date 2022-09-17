@@ -1,4 +1,4 @@
-FROM openjdk:8-jdk-alpine
+FROM jdk:1.8
 
 VOLUME /root/oner365-springboot
 RUN mkdir -p /root/oner365-springboot
@@ -13,8 +13,7 @@ ARG OUT_DIRECTORY
 COPY ${OUT_DIRECTORY}/lib /root/oner365-springboot/lib/
 COPY ${OUT_DIRECTORY}/resources /root/oner365-springboot/resources/
 COPY ${JAR_FILE} /root/oner365-springboot/oner365-springboot-2.0.2.jar
-
-ENTRYPOINT ["java","-Dspring.profiles.active=prod","-jar","/root/oner365-springboot/oner365-springboot-2.0.2.jar"]
+ENTRYPOINT ["java","-Dspring.profiles.active=prod","-jar","oner365-springboot-2.0.2.jar"]
 
 # 本地执行
 # mvn docker:build
