@@ -11,7 +11,7 @@ function exec() {
     rm -f tpid
     if [ ${tpid} ]; then
         echo $SERVICE_NAME "Kill '${tpid}' Process!"
-        kill -9 $tpid
+        kill -15 $tpid
     else
         echo $SERVICE_NAME "Stop Success!"
     fi
