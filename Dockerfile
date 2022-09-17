@@ -6,6 +6,7 @@ WORKDIR /root/oner365-springboot
 EXPOSE 8704
 
 ENV TZ=Asia/Shanghai
+ENV PATH $PATH
 
 ARG JAR_FILE
 ARG OUT_DIRECTORY
