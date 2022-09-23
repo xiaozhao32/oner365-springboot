@@ -80,8 +80,10 @@ public class FileMinioClient implements IFileStorageClient {
       ObjectWriteResponse writeResponse = minioClient.putObject(PutObjectArgs.builder()
           .bucket(minioProperties.getBucket()).object(path).stream(inputStream, file.length(), -1).build());
       logger.info("file path: {}", writeResponse.object());
-      saveFileStorage(writeResponse.object(), file.getName(), file.length());
-      return writeResponse.object();
+      SysFileStorageVo vo = saveFileStorage(writeResponse.object(), file.getName(), file.length());
+      if (vo != null) {
+          return vo.getFilePath();
+      }
     } catch (Exception e) {
       logger.error("uploadFile File Error:", e);
     }
@@ -148,7 +150,7 @@ public class FileMinioClient implements IFileStorageClient {
     return StorageEnum.MINIO;
   }
 
-  private void saveFileStorage(String url, String fileName, long fileSize) {
+  private SysFileStorageVo saveFileStorage(String url, String fileName, long fileSize) {
     // save
     SysFileStorageVo entity = new SysFileStorageVo();
     entity.setFastdfsUrl(minioProperties.getUrl() + PublicConstants.DELIMITER + minioProperties.getBucket());
@@ -162,6 +164,7 @@ public class FileMinioClient implements IFileStorageClient {
     entity.setFileSuffix(DataUtils.getExtension(fileName));
     entity.setSize(DataUtils.convertFileSize(fileSize));
     fileStorageService.save(entity);
+    return entity;
   }
 
   @Override
