@@ -16,6 +16,8 @@ import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.common.query.QueryUtils;
 import com.oner365.util.DataUtils;
 
+import java.util.Objects;
+
 /**
  * Abstract ElasticsearchService 抽象类
  * 
@@ -39,14 +41,11 @@ public class AbstractElasticsearchService {
     NativeSearchQuery searchQuery = new NativeSearchQueryBuilder()
         .withQuery(queryBuilder)
         .withPageable(QueryUtils.buildPageRequest(data))
-        .withSort(QueryUtils.buildSortRequest(data.getOrder()))
+        .withSort(Objects.requireNonNull(QueryUtils.buildSortRequest(data.getOrder())))
         .build();
     SearchHits<T> searchHits = elasticsearchRestTemplate.search(searchQuery, clazz);
-    if (searchQuery != null && searchHits != null) {
-      SearchPage<T> page = SearchHitSupport.searchPageFor(searchHits, searchQuery.getPageable());
-      return (Page<T>) SearchHitSupport.unwrapSearchHits(page);
-    }
-    return null;
+    SearchPage<T> page = SearchHitSupport.searchPageFor(searchHits, searchQuery.getPageable());
+    return (Page<T>) SearchHitSupport.unwrapSearchHits(page);
   }
   
 }

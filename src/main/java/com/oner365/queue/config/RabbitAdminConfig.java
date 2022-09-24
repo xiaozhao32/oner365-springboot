@@ -5,6 +5,8 @@ import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
+
 /**
  * Rabbit admin config
  * 
@@ -14,8 +16,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class RabbitAdminConfig {
 
+  @Resource
+  private ConnectionFactory connectionFactory;
+
   @Bean
-  public RabbitAdmin rabbitAdmin(ConnectionFactory connectionFactory) {
+  public RabbitAdmin rabbitAdmin() {
     RabbitAdmin rabbitAdmin = new RabbitAdmin(connectionFactory);
     rabbitAdmin.setAutoStartup(true);
     return rabbitAdmin;

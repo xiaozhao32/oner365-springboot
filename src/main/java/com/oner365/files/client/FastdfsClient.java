@@ -75,9 +75,7 @@ public class FastdfsClient implements IFileStorageClient {
           getExtName(file.getOriginalFilename(), file.getContentType()), null);
       String url = getResAccessUrl(storePath);
       SysFileStorageVo vo = saveFileStorage(url, file.getOriginalFilename(), file.getSize());
-      if (vo != null) {
-          return vo.getFilePath();
-      }
+      return vo.getFilePath();
     } catch (IOException e) {
       logger.error("upload MultipartFile IOException:", e);
     }

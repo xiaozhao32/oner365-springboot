@@ -64,9 +64,8 @@ public interface ISysTaskService extends BaseService {
    *
    * @param id 调度信息
    * @return 结果
-   * @throws SchedulerException SchedulerException
    */
-  Boolean deleteTask(String id) throws SchedulerException;
+  Boolean deleteTask(String id);
 
   /**
    * 批量删除调度信息

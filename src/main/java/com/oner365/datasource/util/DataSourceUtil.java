@@ -229,7 +229,7 @@ public class DataSourceUtil {
             map.put("sql", sql);
             map.put("error", e.getMessage());
             resultList.add(map);
-            LOGGER.error("execute sql error:", sql);
+            LOGGER.error("execute sql error:{}", sql);
             LOGGER.error("execute error:", e);
         }
         return resultList;
