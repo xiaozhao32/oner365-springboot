@@ -75,7 +75,7 @@ public class FastdfsClient implements IFileStorageClient {
           getExtName(file.getOriginalFilename(), file.getContentType()), null);
       String url = getResAccessUrl(storePath);
       SysFileStorageVo vo = saveFileStorage(url, file.getOriginalFilename(), file.getSize());
-      return vo.getFilePath();
+      return vo.getId();
     } catch (IOException e) {
       logger.error("upload MultipartFile IOException:", e);
     }
@@ -94,8 +94,8 @@ public class FastdfsClient implements IFileStorageClient {
       StorePath storePath = fastFileStorageClient.uploadFile(inputStream, file.length(),
           getExtName(file.getName(), null), null);
       String url = getResAccessUrl(storePath);
-      saveFileStorage(url, file.getName(), file.length());
-      return url;
+      SysFileStorageVo vo = saveFileStorage(url, file.getName(), file.length());
+      return vo.getId();
     } catch (IOException e) {
       logger.error("upload File IOException:", e);
     }
