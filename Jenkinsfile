@@ -2,10 +2,6 @@
 pipeline {
     agent {label 'master'}
     
-    tools {
-        maven 'maven'
-    }
-    
     environment {
     	GIT_AUTH = "79885bd0-30f0-013b-defd-1ab2cc80ca33"
 		GIT_URL = "https://gitee.com/xiaozhao32/oner365-springboot.git"
