@@ -19,4 +19,4 @@ ENTRYPOINT ["java","-Dspring.profiles.active=prod","-jar","oner365-springboot-2.
 # 本地执行
 # mvn docker:build
 # 服务器执行
-# docker run -d --name oner365-springboot -p 8704:8704 --restart=always --privileged=true --restart=always oner365-springboot
+# docker run -d --name oner365-springboot-2.0.2 -p 8704:8704 --restart=always --privileged=true --restart=always oner365-springboot:2.0.2
