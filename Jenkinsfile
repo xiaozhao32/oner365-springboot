@@ -1,6 +1,10 @@
  
 pipeline {
-    agent {label 'master'}
+    agent {
+    	node {
+        	label 'maven'
+       	}
+    }
     
     environment {
     	GIT_AUTH = "79885bd0-30f0-013b-defd-1ab2cc80ca33"
