@@ -1,5 +1,6 @@
 package com.oner365.sys.controller.auth;
 
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Collections;
@@ -7,7 +8,9 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
+import javax.imageio.ImageIO;
+
 import org.springframework.util.Base64Utils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import com.google.code.kaptcha.Producer;
 import com.oner365.common.ResponseData;
 import com.oner365.common.auth.AuthUser;
 import com.oner365.common.auth.annotation.CurrentUser;
@@ -36,7 +40,6 @@ import com.oner365.sys.service.ISysUserService;
 import com.oner365.sys.vo.LoginUserVo;
 import com.oner365.util.DataUtils;
 import com.oner365.util.RequestUtils;
-import com.oner365.util.VerifyCodeUtils;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -52,14 +55,17 @@ import springfox.documentation.annotations.ApiIgnore;
 @RequestMapping("/system/auth")
 public class AuthController extends BaseController {
 
-  @Autowired
+  @Resource
   private ISysUserService sysUserService;
 
-  @Autowired
+  @Resource
   private ISysRoleService sysRoleService;
 
-  @Autowired
+  @Resource
   private RedisCache redisCache;
+  
+  @Resource(name = "captchaProducer")
+  private Producer producer;
 
   /**
    * 系统登录
@@ -113,18 +119,17 @@ public class AuthController extends BaseController {
   @GetMapping("/captcha")
   public CaptchaImageDto captchaImage() {
     // 生成随机字串
-    String verifyCode = VerifyCodeUtils.generateVerifyCode(4);
+    String verifyCode = producer.createText();
     // 唯一标识
     String uuid = UUID.randomUUID().toString();
     String verifyKey = SysConstants.CAPTCHA_IMAGE + ":" + uuid;
     redisCache.setCacheObject(verifyKey, verifyCode, 3, TimeUnit.MINUTES);
 
     CaptchaImageDto result = new CaptchaImageDto();
+    
     try (ByteArrayOutputStream stream = new ByteArrayOutputStream()) {
-      // 生成图片
-      int w = 111;
-      int h = 36;
-      VerifyCodeUtils.outputImage(w, h, stream, verifyCode);
+      BufferedImage image = producer.createImage(verifyCode);
+      ImageIO.write(image, "jpg", stream);
 
       result.setUuid(uuid);
       result.setImg(Base64Utils.encodeToString(stream.toByteArray()));
