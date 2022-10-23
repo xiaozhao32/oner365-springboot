@@ -76,6 +76,7 @@ spring:
   rabbitmq:
     host: localhost
     port: 5672
+    virtual-host: /
     username: admin
     password: admin123
     connection-timeout: 60s
