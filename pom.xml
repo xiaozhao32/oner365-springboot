@@ -52,7 +52,7 @@
 		<org.apache.poi.version>5.2.2</org.apache.poi.version>
 
 		<org.hibernate.validator.version>6.2.5.Final</org.hibernate.validator.version>
-		<org.hibernate.version>5.6.11.Final</org.hibernate.version>
+		<org.hibernate.version>5.6.12.Final</org.hibernate.version>
 		
 		<org.mybatis.spring.boot.version>2.2.2</org.mybatis.spring.boot.version>
 		<org.elasticsearch.version>7.17.6</org.elasticsearch.version>
@@ -92,6 +92,8 @@
 		<redis.clients.version>4.2.3</redis.clients.version>
 		<javax.servlet.version>4.0.1</javax.servlet.version>
 		<joda.time.version>2.11.1</joda.time.version>
+		
+		<org.apache.maven.plugins.version>3.3.0</org.apache.maven.plugins.version>
 	</properties>
 
 	<dependencies>
@@ -667,7 +669,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
-				<version>3.0.2</version>
+				<version>${org.apache.maven.plugins.version}</version>
 				<configuration>
 					<archive>
 						<addMavenDescriptor>true</addMavenDescriptor>
@@ -691,7 +693,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
-				<version>3.0.2</version>
+				<version>${org.apache.maven.plugins.version}</version>
 				<executions>
 					<execution>
 						<id>copy-resources</id>
@@ -714,6 +716,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
+				<version>${org.apache.maven.plugins.version}</version>
 				<executions>
 					<execution>
 						<id>copy-dependencies</id>
