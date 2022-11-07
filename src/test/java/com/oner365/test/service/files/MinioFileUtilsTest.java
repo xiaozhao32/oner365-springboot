@@ -10,8 +10,10 @@ import org.apache.http.entity.ContentType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.oner365.files.config.properties.MinioProperties;
 import com.oner365.test.service.BaseServiceTest;
 import com.oner365.util.DataUtils;
 
@@ -33,6 +35,9 @@ import io.minio.RemoveObjectArgs;
  */
 @SpringBootTest
 class MinioFileUtilsTest extends BaseServiceTest {
+    
+  @Autowired
+  private MinioProperties minioProperties;
 
   @Test
   void test() {
@@ -42,18 +47,15 @@ class MinioFileUtilsTest extends BaseServiceTest {
   @Test
   @Disabled
   void testMinio() throws Exception {
-    String url = "http://localhost:9000";
-    // 上传根目录
-    String bucketName = "oner365";
-
-    MinioClient minioClient = MinioClient.builder().endpoint(url).credentials("root", "e8818da9cc9").build();
+    MinioClient minioClient = MinioClient.builder().endpoint(minioProperties.getUrl())
+            .credentials(minioProperties.getUsername(), minioProperties.getPassword()).build();
     Assertions.assertNotNull(minioClient);
     // 创建文件夹
-    BucketExistsArgs bucket = BucketExistsArgs.builder().bucket(bucketName).build();
+    BucketExistsArgs bucket = BucketExistsArgs.builder().bucket(minioProperties.getBucket()).build();
     if (minioClient.bucketExists(bucket)) {
-      logger.info("bucket exists:{}", bucketName);
+      logger.info("bucket exists:{}", minioProperties.getBucket());
     } else {
-      minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());
+      minioClient.makeBucket(MakeBucketArgs.builder().bucket(minioProperties.getBucket()).build());
     }
 
     // 文件名称
@@ -65,7 +67,7 @@ class MinioFileUtilsTest extends BaseServiceTest {
     // 上传文件
     File file = DataUtils.getFile(localFileName);
     try (InputStream inputStream = new FileInputStream(Objects.requireNonNull(file))) {
-      ObjectWriteResponse writeResponse = minioClient.putObject(PutObjectArgs.builder().bucket(bucketName).object(path)
+      ObjectWriteResponse writeResponse = minioClient.putObject(PutObjectArgs.builder().bucket(minioProperties.getBucket()).object(path)
           .stream(inputStream, file.length(), -1).contentType(ContentType.IMAGE_JPEG.getMimeType()).build());
       logger.info("file path: {}", writeResponse.object());
     } catch (IOException e) {
@@ -73,15 +75,15 @@ class MinioFileUtilsTest extends BaseServiceTest {
     }
 
     // 获取文件
-    GetObjectResponse objectResponse = minioClient.getObject(GetObjectArgs.builder().bucket(bucketName).object(path).build());
+    GetObjectResponse objectResponse = minioClient.getObject(GetObjectArgs.builder().bucket(minioProperties.getBucket()).object(path).build());
     logger.info("file get: {}", objectResponse);
     objectResponse.close();
 
     // 下载文件 重新命名
     String downloadPath = "d:/11111.jpg";
-    minioClient.downloadObject(DownloadObjectArgs.builder().bucket(bucketName).object(path).filename(downloadPath).build());
+    minioClient.downloadObject(DownloadObjectArgs.builder().bucket(minioProperties.getBucket()).object(path).filename(downloadPath).build());
 
     // 删除文件
-    minioClient.removeObject(RemoveObjectArgs.builder().bucket(bucketName).object(path).build());
+    minioClient.removeObject(RemoveObjectArgs.builder().bucket(minioProperties.getBucket()).object(path).build());
   }
 }

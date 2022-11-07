@@ -19,7 +19,7 @@ import java.util.List;
  * @author zhaoyong
  */
 @SpringBootTest
-public class RedisCacheTest extends BaseServiceTest {
+class RedisCacheTest extends BaseServiceTest {
 
     @Autowired
     private RedisCache redisCache;

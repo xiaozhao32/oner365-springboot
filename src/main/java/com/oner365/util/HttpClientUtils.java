@@ -172,11 +172,13 @@ public class HttpClientUtils {
     @Override
     public void checkClientTrusted(X509Certificate[] arg0, String arg1) {
       // checkClientTrusted
+      LOGGER.info("checkClientTrusted: {}", arg1);
     }
 
     @Override
     public void checkServerTrusted(X509Certificate[] arg0, String arg1) {
       // checkServerTrusted
+        LOGGER.info("checkServerTrusted: {}", arg1);
     }
 
     @Override

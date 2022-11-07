@@ -1,16 +1,15 @@
 package com.oner365.test.util;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import com.oner365.datasource.util.DataSourceUtil;
-import com.oner365.util.DataUtils;
 
 /**
  * 工具类测试
@@ -18,15 +17,17 @@ import com.oner365.util.DataUtils;
  * @author zhaoyong
  *
  */
-public class DataSourceUtilTest extends BaseUtilsTest {
+class DataSourceUtilTest extends BaseUtilsTest {
 
     @Test
     void test() {
-        assertTrue(DataUtils.isEmpty(null));
+        Assertions.assertEquals("DataSourceUtilTest", DataSourceUtilTest.class.getSimpleName());
     }
 
     @Test
+    @Disabled
     void testDriver() {
+        // 达梦数据库 创建账户和表空间
         String driverName = "dm.jdbc.driver.DmDriver";
         String url = "jdbc:dm://172.16.80.50";
         String userName = "SYSDBA";

@@ -61,9 +61,10 @@ public class FileMinioClient implements IFileStorageClient {
       ObjectWriteResponse writeResponse = minioClient
           .putObject(PutObjectArgs.builder().bucket(minioProperties.getBucket()).object(path)
               .stream(inputStream, file.getSize(), -1).contentType(file.getContentType()).build());
-      logger.info("file path: {}", writeResponse.object());
-      saveFileStorage(writeResponse.object(), file.getOriginalFilename(), file.getSize());
-      return writeResponse.object();
+      String result = writeResponse.object();
+      logger.info("file path: {}", result);
+      saveFileStorage(result, file.getOriginalFilename(), file.getSize());
+      return result;
     } catch (Exception e) {
       logger.error("uploadFile MultipartFile Error:", e);
     }
@@ -79,8 +80,9 @@ public class FileMinioClient implements IFileStorageClient {
       }
       ObjectWriteResponse writeResponse = minioClient.putObject(PutObjectArgs.builder()
           .bucket(minioProperties.getBucket()).object(path).stream(inputStream, file.length(), -1).build());
-      logger.info("file path: {}", writeResponse.object());
-      SysFileStorageVo vo = saveFileStorage(writeResponse.object(), file.getName(), file.length());
+      String result = writeResponse.object();
+      logger.info("file path: {}", result);
+      SysFileStorageVo vo = saveFileStorage(result, file.getName(), file.length());
       return vo.getFilePath();
     } catch (Exception e) {
       logger.error("uploadFile File Error:", e);
