@@ -56,9 +56,6 @@ spring:
       max-file-size: 1024MB
       max-request-size: 1024MB
 
-  main:
-    allow-bean-definition-overriding: true
-
   # elasticsearch
   elasticsearch:
     uris: http://localhost:9200
@@ -80,11 +77,13 @@ spring:
     username: admin
     password: admin123
     connection-timeout: 60s
+    publisher-confirm-type: CORRELATED
 
     listener:
       simple:
         concurrency: 2
         max-concurrency: 10
+        default-requeue-rejected: true
 
   # redis
   redis:

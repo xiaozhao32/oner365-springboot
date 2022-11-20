@@ -1,10 +1,12 @@
 package com.oner365.queue.service.impl;
 
+import java.io.IOException;
 import java.util.Optional;
 
 import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +26,7 @@ import com.oner365.monitor.vo.SysTaskVo;
 import com.oner365.queue.service.IQueueRabbitmqReceiverService;
 import com.oner365.util.DataUtils;
 import com.oner365.util.DateUtil;
+import com.rabbitmq.client.Channel;
 
 /**
  * rabbitmq 接收队列实现类
@@ -46,9 +49,20 @@ public class QueueRabbitmqReceiverServiceImpl implements IQueueRabbitmqReceiverS
   private ISysTaskService sysTaskService;
 
   @Override
-  public void message(String message) {
-    Optional<String> optional = Optional.ofNullable(message);
-    optional.ifPresent(s -> logger.info("Message: {}", s));
+  public void message(String msg, Channel channel, Message message) throws IOException {
+    try {
+      Optional<String> optional = Optional.ofNullable(msg);
+      optional.ifPresent(s -> logger.info("Message: {}", s));
+      channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+    } catch (IOException e) {
+      if (message.getMessageProperties().getRedelivered()) {
+        logger.info("消息处理失败，拒绝接收.");
+        channel.basicReject(message.getMessageProperties().getDeliveryTag(), false);
+      } else {
+        logger.info("消息重新发送.");
+        channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
+      }
+    }
   }
   
   @Override

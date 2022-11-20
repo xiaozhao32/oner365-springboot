@@ -89,7 +89,7 @@ public class RabbitmqController extends BaseController {
   @DeleteMapping("/delete/{type}/{name}")
   public JSONObject delete(@PathVariable("type") String type, @PathVariable("name") String name) {
     try {
-      String vhost = "/";
+      String vhost = rabbitmqProperties.getVirtualHost();
       JSONObject paramJson = new JSONObject();
       paramJson.put("vhost", vhost);
       paramJson.put("mode", "delete");
