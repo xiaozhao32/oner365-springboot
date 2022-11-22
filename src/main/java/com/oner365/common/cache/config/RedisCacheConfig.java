@@ -27,6 +27,7 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.util.ObjectUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.support.spring.FastJsonRedisSerializer;
@@ -79,6 +80,10 @@ public class RedisCacheConfig extends CachingConfigurerSupport {
   public LettuceConnectionFactory redisConnectionFactory(RedisProperties redisProperties) {
     RedisClusterConfiguration redisClusterConfiguration = new RedisClusterConfiguration(
         redisProperties.getCluster().getNodes());
+    if (!ObjectUtils.isEmpty(redisProperties.getPassword())) {
+        redisClusterConfiguration.setPassword(redisProperties.getPassword());
+    }
+    
     ClusterTopologyRefreshOptions clusterTopologyRefreshOptions = ClusterTopologyRefreshOptions.builder()
         .enablePeriodicRefresh().enableAllAdaptiveRefreshTriggers().refreshPeriod(Duration.ofSeconds(5L)).build();
     ClusterClientOptions clusterClientOptions = ClusterClientOptions.builder()
@@ -92,7 +97,7 @@ public class RedisCacheConfig extends CachingConfigurerSupport {
   @Override
   public KeyGenerator keyGenerator() {
     return (target, method, params) -> {
-      char sp = ':';
+      String sp = "::";
       StringBuilder strBuilder = new StringBuilder(30);
       // 类名
       strBuilder.append(target.getClass().getSimpleName());

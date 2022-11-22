@@ -1,6 +1,7 @@
 package com.oner365.util;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.ObjectUtils;
 
 /**
  * 脱敏工具类
@@ -68,7 +69,7 @@ public class DesensitizationUtils {
    * @return String
    */
   public static String mobileEncrypt(String mobile) {
-    if (StringUtils.isEmpty(mobile) || (mobile.length() != ELEVEN)) {
+    if (ObjectUtils.isEmpty(mobile) || (mobile.length() != ELEVEN)) {
       return mobile;
     }
     return mobile.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
@@ -81,7 +82,7 @@ public class DesensitizationUtils {
    * @return String
    */
   public static String idEncrypt(String id) {
-    if (StringUtils.isEmpty(id) || (id.length() < EIGHT)) {
+    if (ObjectUtils.isEmpty(id) || (id.length() < EIGHT)) {
       return id;
     }
     return id.replaceAll("(?<=\\w{3})\\w(?=\\w{4})", "*");
@@ -94,7 +95,7 @@ public class DesensitizationUtils {
    * @return String
    */
   public static String idPassport(String id) {
-    if (StringUtils.isEmpty(id) || (id.length() < EIGHT)) {
+    if (ObjectUtils.isEmpty(id) || (id.length() < EIGHT)) {
       return id;
     }
     return id.substring(0, 2) + new String(new char[id.length() - 5]).replace("\0", "*")
