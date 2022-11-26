@@ -12,7 +12,7 @@ import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.CacheManager;
-import org.springframework.cache.annotation.CachingConfigurerSupport;
+import org.springframework.cache.annotation.CachingConfigurer;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.Bean;
@@ -51,7 +51,7 @@ import redis.clients.jedis.Jedis;
 @ConditionalOnClass({ JedisConnection.class, RedisOperations.class, Jedis.class })
 @EnableConfigurationProperties(RedisProperties.class)
 @AutoConfigureAfter(RedisAutoConfiguration.class)
-public class RedisCacheConfig extends CachingConfigurerSupport {
+public class RedisCacheConfig implements CachingConfigurer {
 
   @Bean
   public CacheManager cacheManager(RedisConnectionFactory connectionFactory) {
@@ -81,9 +81,9 @@ public class RedisCacheConfig extends CachingConfigurerSupport {
     RedisClusterConfiguration redisClusterConfiguration = new RedisClusterConfiguration(
         redisProperties.getCluster().getNodes());
     if (!ObjectUtils.isEmpty(redisProperties.getPassword())) {
-        redisClusterConfiguration.setPassword(redisProperties.getPassword());
+      redisClusterConfiguration.setPassword(redisProperties.getPassword());
     }
-    
+
     ClusterTopologyRefreshOptions clusterTopologyRefreshOptions = ClusterTopologyRefreshOptions.builder()
         .enablePeriodicRefresh().enableAllAdaptiveRefreshTriggers().refreshPeriod(Duration.ofSeconds(5L)).build();
     ClusterClientOptions clusterClientOptions = ClusterClientOptions.builder()
