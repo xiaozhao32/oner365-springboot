@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.google.common.base.MoreObjects;
 import com.oner365.common.enums.StatusEnum;
@@ -53,15 +54,14 @@ public class GatewayRouteVo implements Serializable {
     /**
      * 路由执行的顺序
      */
-    @ApiModelProperty(value = "执行顺序", required = true)
-    @NotBlank(message = "路由顺序不能为空")
+    @ApiModelProperty(value = "执行顺序")
     private Integer routeOrder = 0;
 
     /**
      * 路由状态 1：可用 0：不可用
      */
     @ApiModelProperty(value = "路由状态", required = true)
-    @NotBlank(message = "路由状态不能为空")
+    @NotNull(message = "路由状态不能为空")
     private StatusEnum status;
 
     /**

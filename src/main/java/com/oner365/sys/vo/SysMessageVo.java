@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.google.common.base.MoreObjects;
 import com.oner365.sys.enums.MessageStatusEnum;
@@ -45,7 +46,7 @@ public class SysMessageVo implements Serializable {
      * 消息类型
      */
     @ApiModelProperty(value = "消息类型", required = true)
-    @NotBlank(message = "消息类型不能为空")
+    @NotNull(message = "消息类型不能为空")
     private MessageTypeEnum messageType;
 
     /**

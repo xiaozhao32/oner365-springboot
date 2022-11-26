@@ -17,21 +17,20 @@ spring:
 
   # database
   datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    # mysql
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.33.42:3306/oner365?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=GMT%2B8
+    username: root
+    password: 1234
+
+    # postgres
+#    driver-class-name: org.postgresql.Driver
+#    url: jdbc:postgresql://localhost:5432/oner365
+#    username: postgres
+#    password: 1234
+
     druid:
-      db-type: com.alibaba.druid.pool.DruidDataSource
-
-      # mysql
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://192.168.33.42:3306/oner365?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=GMT%2B8
-      username: root
-      password: 1234
-
-      # postgres
-#      driver-class-name: org.postgresql.Driver
-#      url: jdbc:postgresql://localhost:5432/oner365
-#      username: postgres
-#      password: 1234
-
       test-while-idle: true
       initial-size: 1
       max-active: 10
@@ -56,9 +55,6 @@ spring:
       max-file-size: 1024MB
       max-request-size: 1024MB
 
-  main:
-    allow-bean-definition-overriding: true
-
   # elasticsearch
   elasticsearch:
     uris: http://192.168.33.42:9200
@@ -70,7 +66,7 @@ spring:
 
     elasticsearch:
       repositories:
-        enabled: true
+        enabled: false
 
   # rabbitmq
   rabbitmq:
@@ -109,6 +105,8 @@ spring:
 
   jpa:
     open-in-view: true
+  freemarker:
+    check-template-location: false
 
   # 线程池
   task:

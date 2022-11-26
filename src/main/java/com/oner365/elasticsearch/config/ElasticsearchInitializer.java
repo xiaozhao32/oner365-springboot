@@ -15,7 +15,7 @@ import org.springframework.lang.NonNull;
  */
 @Order(2)
 @Configuration
-@EnableElasticsearchRepositories(basePackages = "com.oner365.elasticsearch.service")
+@EnableElasticsearchRepositories(basePackages = "com.oner365.elasticsearch.dao")
 public class ElasticsearchInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 
   @Override

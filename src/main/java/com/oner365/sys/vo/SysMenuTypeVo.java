@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.google.common.base.MoreObjects;
 import com.oner365.common.enums.StatusEnum;
@@ -47,7 +48,7 @@ public class SysMenuTypeVo implements Serializable {
      * 状态
      */
     @ApiModelProperty(value = "状态", required = true)
-    @NotBlank(message = "菜单状态不能为空")
+    @NotNull(message = "菜单状态不能为空")
     private StatusEnum status;
 
     /**
