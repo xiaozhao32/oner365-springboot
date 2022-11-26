@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import com.oner365.files.config.properties.MinioProperties;
 import com.oner365.test.service.BaseServiceTest;
@@ -33,7 +32,8 @@ import io.minio.RemoveObjectArgs;
  * @author zhaoyong
  *
  */
-@SpringBootTest
+//@SpringBootTest
+@Disabled
 class MinioFileUtilsTest extends BaseServiceTest {
     
   @Autowired

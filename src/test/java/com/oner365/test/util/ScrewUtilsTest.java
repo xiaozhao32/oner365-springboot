@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.oner365.common.config.properties.DefaultFileProperties;
 import com.oner365.common.constants.PublicConstants;
+import com.oner365.swagger.config.properties.SwaggerProperties;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -36,6 +37,9 @@ class ScrewUtilsTest extends BaseUtilsTest {
 
   @Autowired
   private DefaultFileProperties fileProperties;
+  
+  @Autowired
+  private SwaggerProperties swaggerProperties;
 
   @Test
   void screwUtilsTest() {
@@ -97,9 +101,9 @@ class ScrewUtilsTest extends BaseUtilsTest {
     // 配置
     Configuration config = Configuration.builder()
         // 版本
-        .version("1.0.0")
+        .version(swaggerProperties.getVersion())
         // 描述
-        .description("数据库设计文档")
+        .description(swaggerProperties.getDescription())
         // 数据源
         .dataSource(dataSource)
         // 生成配置
