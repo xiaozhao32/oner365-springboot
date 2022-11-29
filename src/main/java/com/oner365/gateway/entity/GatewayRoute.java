@@ -3,19 +3,18 @@ package com.oner365.gateway.entity;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.oner365.common.enums.StatusEnum;
-import com.vladmihalcea.hibernate.type.json.JsonStringType;
+import com.vladmihalcea.hibernate.type.json.JsonType;
 
 /**
  * Gateway的路由定义模型
@@ -24,7 +23,6 @@ import com.vladmihalcea.hibernate.type.json.JsonStringType;
  */
 @Entity
 @Table(name = "nt_gateway_route")
-@TypeDef(name = "json", typeClass = JsonStringType.class)
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler", "transportOrders" })
 public class GatewayRoute implements Serializable {
 
@@ -42,15 +40,15 @@ public class GatewayRoute implements Serializable {
   /**
    * 路由断言集合配置
    */
-  @Type(type = "json")
-  @Column(name = "predicates")
+  @Type(value = JsonType.class)
+  @Column(name = "predicates", columnDefinition = "VARCHAR2")
   private List<GatewayPredicate> predicates;
 
   /**
    * 路由过滤器集合配置
    */
-  @Type(type = "json")
-  @Column(name = "filters")
+  @Type(value = JsonType.class)
+  @Column(name = "filters", columnDefinition = "VARCHAR2")
   private List<GatewayFilter> filters;
 
   /**

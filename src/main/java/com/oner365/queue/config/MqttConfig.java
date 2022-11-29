@@ -1,6 +1,6 @@
 package com.oner365.queue.config;
 
-import javax.annotation.PreDestroy;
+import jakarta.annotation.PreDestroy;
 
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;

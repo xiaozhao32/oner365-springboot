@@ -10,7 +10,7 @@
     "description": "Token Expire minute time."
   },
   {
-    "name": "spring.redis.enable",
+    "name": "spring.data.redis.enable",
     "type": "java.lang.Boolean",
     "defaultValue": false,
     "description": "Redis Cache enabled."

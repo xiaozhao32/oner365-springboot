@@ -7,10 +7,12 @@ import org.springframework.stereotype.Service;
 
 import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.QueryCriteriaBean;
-import com.oner365.elasticsearch.dao.IApplicationLogDao;
 import com.oner365.elasticsearch.dto.ApplicationLogDto;
 import com.oner365.elasticsearch.entity.ApplicationLog;
+import com.oner365.elasticsearch.repository.ApplicationLogElasticsearchRepository;
 import com.oner365.elasticsearch.service.IApplicationLogElasticsearchService;
+
+import jakarta.annotation.Resource;
 
 /**
  * SampleGeneElasticsearch实现类
@@ -18,30 +20,26 @@ import com.oner365.elasticsearch.service.IApplicationLogElasticsearchService;
  * @author zhaoyong
  */
 @Service
-public class ApplicationLogElasticsearchServiceImpl extends AbstractElasticsearchService
-    implements IApplicationLogElasticsearchService {
+public class ApplicationLogElasticsearchServiceImpl implements IApplicationLogElasticsearchService {
 
-  private final IApplicationLogDao dao;
-
-  public ApplicationLogElasticsearchServiceImpl(IApplicationLogDao dao) {
-    this.dao = dao;
-  }
+  @Resource
+  private ApplicationLogElasticsearchRepository repository;
 
   @Override
   public PageInfo<ApplicationLogDto> pageList(QueryCriteriaBean data) {
-    Page<ApplicationLog> pageList = pageList(data, ApplicationLog.class);
+    Page<ApplicationLog> pageList = repository.pageList(data);
     return convert(pageList, ApplicationLogDto.class);
   }
 
   @Override
   public ApplicationLogDto findById(String id) {
-    Optional<ApplicationLog> optional = dao.findById(id);
+    Optional<ApplicationLog> optional = repository.findById(id);
     return convert(optional.orElse(null), ApplicationLogDto.class);
   }
 
   @Override
   public Boolean deleteById(String id) {
-    dao.deleteById(id);
+    repository.deleteById(id);
     return Boolean.TRUE;
   }
 

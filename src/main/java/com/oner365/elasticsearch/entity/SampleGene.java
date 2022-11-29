@@ -2,7 +2,7 @@ package com.oner365.elasticsearch.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.Enumerated;
+import jakarta.persistence.Enumerated;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;

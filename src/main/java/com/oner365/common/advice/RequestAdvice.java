@@ -6,7 +6,7 @@ import java.lang.reflect.Type;
 import java.util.Base64;
 import java.util.Objects;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;

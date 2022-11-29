@@ -14,7 +14,7 @@ public class CommonProperties {
   /**
    * redis缓存开关
    */
-  @Value("${spring.redis.enable}")
+  @Value("${spring.data.redis.enable}")
   private boolean redisEnabled;
 
   /**

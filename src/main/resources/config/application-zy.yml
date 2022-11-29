@@ -63,6 +63,19 @@ spring:
     redis:
       repositories:
         enabled: false
+        
+      enable: true
+      host: localhost
+      port: 6379
+      password:
+      database: 1
+      timeout: 10s
+      lettuce:
+        pool:
+          min-idle: 0
+          max-idle: 8
+          max-active: 8
+          max-wait: -1ms
 
     elasticsearch:
       repositories:
@@ -83,22 +96,6 @@ spring:
         concurrency: 2
         max-concurrency: 10
         default-requeue-rejected: true
-
-  # redis
-  redis:
-    enable: true
-    host: localhost
-    port: 6379
-    password:
-    database: 1
-    timeout: 10s
-    lettuce:
-      pool:
-        min-idle: 0
-        max-idle: 8
-        max-active: 8
-        max-wait: -1ms
-
 
   jpa:
     open-in-view: true

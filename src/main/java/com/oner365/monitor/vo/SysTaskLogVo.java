@@ -3,7 +3,7 @@ package com.oner365.monitor.vo;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 import com.oner365.monitor.enums.TaskStatusEnum;
 

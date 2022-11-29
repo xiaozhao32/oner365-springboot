@@ -236,17 +236,17 @@ public class RedisCache {
 
         return (Boolean) redisTemplate.execute((RedisCallback) connection -> {
             long expireAt = System.currentTimeMillis() + expireTime + 1;
-            Boolean acquire = connection.setNX(lock.getBytes(), String.valueOf(expireAt).getBytes());
+            Boolean acquire = connection.stringCommands().setNX(lock.getBytes(), String.valueOf(expireAt).getBytes());
 
             if (acquire != null && acquire) {
                 return true;
             } else {
-                byte[] value = connection.get(lock.getBytes());
+                byte[] value = connection.stringCommands().get(lock.getBytes());
                 if (!DataUtils.isEmpty(value)) {
                     long time = Long.parseLong(new String(value));
                     if (time < System.currentTimeMillis()) {
                         // 重新加锁，防止死锁
-                        byte[] oldValue = connection.getSet(lock.getBytes(),
+                        byte[] oldValue = connection.stringCommands().getSet(lock.getBytes(),
                                 String.valueOf(System.currentTimeMillis() + expireTime + 1).getBytes());
                         Assert.notNull(oldValue, "oldValue is not null.");
                         return Long.parseLong(new String(oldValue)) < System.currentTimeMillis();
