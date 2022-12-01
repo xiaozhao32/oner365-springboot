@@ -87,7 +87,7 @@
 		<com.auth0.version>3.19.1</com.auth0.version>
 		
 		<io.projectreactor.core.version>3.5.0</io.projectreactor.core.version>
-		<io.projectreactor.netty.version>1.0.23</io.projectreactor.netty.version>
+		<io.projectreactor.netty.version>1.1.0</io.projectreactor.netty.version>
 		<io.jsonwebtoken.version>0.9.1</io.jsonwebtoken.version>
 		<io.netty.version>4.1.85.Final</io.netty.version>
 		<io.minio.version>8.4.5</io.minio.version>
