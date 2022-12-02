@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.google.common.base.MoreObjects;
 import com.oner365.common.enums.StatusEnum;
@@ -96,7 +97,7 @@ public class SysOrganizationVo implements Serializable {
      * 状态 status
      */
     @ApiModelProperty(value = "状态", required = true)
-    @NotBlank(message = "机构状态不能为空")
+    @NotNull(message = "机构状态不能为空")
     private StatusEnum status;
 
     /**
