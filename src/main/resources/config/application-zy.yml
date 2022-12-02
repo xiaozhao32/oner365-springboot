@@ -162,6 +162,10 @@ logging:
     org:
       springframework: info
       elasticsearch: info
+  # logstash
+  logstash:
+    enabled: false
+    addresses: localhost:5045
       
 mqtt:
   enabled: true

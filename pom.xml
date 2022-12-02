@@ -66,6 +66,7 @@
 		<org.junit.platform.version>1.7.2</org.junit.platform.version>
 		<org.javassist.version>3.29.2-GA</org.javassist.version>
 		<org.reflections.version>0.10.2</org.reflections.version>
+		<org.codehaus.version>3.1.9</org.codehaus.version>
 		<org.quartz.version>2.3.2</org.quartz.version>
 
 		<org.postgresql.version>42.5.0</org.postgresql.version>
@@ -286,6 +287,12 @@
 		    <groupId>net.logstash.logback</groupId>
 		    <artifactId>logstash-logback-encoder</artifactId>
 		    <version>${net.logstash.logback.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.codehaus.janino</groupId>
+		    <artifactId>janino</artifactId>
+		    <version>${org.codehaus.version}</version>
 		</dependency>
 		
 		<!-- byte-buddy -->

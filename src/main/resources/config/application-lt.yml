@@ -166,6 +166,11 @@ logging:
     org:
       springframework: error
       elasticsearch: error
+  # logstash
+  logstash:
+    enabled: false
+    addresses: 192.168.33.42:5045
+      
       
 mqtt:
   enabled: false
