@@ -74,6 +74,10 @@
 		<appender-ref ref="CONSOLE" />
 		<appender-ref ref="FILE_INFO" />
 		<appender-ref ref="FILE_ERROR" />
-		<!-- <appender-ref ref="LOGSTASH" /> -->
+		<if condition='property("LOGSTASH_ENABELD").equals("true")'>
+		<then>
+			<appender-ref ref="LOGSTASH" />
+		</then>
+		</if>
 	</root>
 </configuration>

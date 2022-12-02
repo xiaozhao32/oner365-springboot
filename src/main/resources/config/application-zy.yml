@@ -165,7 +165,7 @@ logging:
   # logstash
   logstash:
     enabled: false
-    addresses: localhost:5045
+    addresses: localhost:5044
       
 mqtt:
   enabled: true
