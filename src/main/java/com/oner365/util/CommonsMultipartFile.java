@@ -23,7 +23,6 @@ import org.springframework.web.multipart.MultipartFile;
  * @author Trevor D. Cook
  * @author Juergen Hoeller
  * @since 29.09.2003
- * @see CommonsMultipartResolver
  */
 public class CommonsMultipartFile implements MultipartFile, Serializable {
 
@@ -65,7 +64,6 @@ public class CommonsMultipartFile implements MultipartFile, Serializable {
      * 
      * @since 4.3.5
      * @see #getOriginalFilename()
-     * @see CommonsMultipartResolver#setPreserveFilename(boolean)
      */
     public void setPreserveFilename(boolean preserveFilename) {
         this.preserveFilename = preserveFilename;

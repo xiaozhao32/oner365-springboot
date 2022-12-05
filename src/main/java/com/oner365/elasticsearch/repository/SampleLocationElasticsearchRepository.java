@@ -19,6 +19,8 @@ import com.oner365.elasticsearch.entity.SampleLocation;
 import com.oner365.elasticsearch.repository.entity.SampleLocationElasticsearchEntityInformation;
 import com.oner365.util.DataUtils;
 
+import java.util.Objects;
+
 /**
  * SampleLocationElasticsearchRepository
  * 
@@ -48,7 +50,7 @@ public class SampleLocationElasticsearchRepository extends SimpleElasticsearchRe
     });
 
     NativeSearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(queryBuilder)
-        .withPageable(QueryUtils.buildPageRequest(data)).withSort(QueryUtils.buildSortRequest(data.getOrder())).build();
+        .withPageable(QueryUtils.buildPageRequest(data)).withSort(Objects.requireNonNull(QueryUtils.buildSortRequest(data.getOrder()))).build();
     SearchHits<SampleLocation> searchHits = elasticsearchTemplate.search(searchQuery, SampleLocation.class);
     SearchPage<SampleLocation> page = SearchHitSupport.searchPageFor(searchHits, searchQuery.getPageable());
     return (Page<SampleLocation>) SearchHitSupport.unwrapSearchHits(page);

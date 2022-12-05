@@ -19,6 +19,8 @@ import com.oner365.elasticsearch.entity.SampleGene;
 import com.oner365.elasticsearch.repository.entity.SampleGeneElasticsearchEntityInformation;
 import com.oner365.util.DataUtils;
 
+import java.util.Objects;
+
 /**
  * SampleGeneElasticsearchRepository
  * 
@@ -48,7 +50,7 @@ public class SampleGeneElasticsearchRepository extends SimpleElasticsearchReposi
     });
 
     NativeSearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(queryBuilder)
-        .withPageable(QueryUtils.buildPageRequest(data)).withSort(QueryUtils.buildSortRequest(data.getOrder())).build();
+        .withPageable(QueryUtils.buildPageRequest(data)).withSort(Objects.requireNonNull(QueryUtils.buildSortRequest(data.getOrder()))).build();
     SearchHits<SampleGene> searchHits = elasticsearchTemplate.search(searchQuery, SampleGene.class);
     SearchPage<SampleGene> page = SearchHitSupport.searchPageFor(searchHits, searchQuery.getPageable());
     return (Page<SampleGene>) SearchHitSupport.unwrapSearchHits(page);

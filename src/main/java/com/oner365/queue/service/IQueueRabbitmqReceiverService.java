@@ -29,7 +29,9 @@ public interface IQueueRabbitmqReceiverService extends BaseService {
   /**
    * 消息接口
    *
-   * @param message 消息
+   * @param msg 消息内容
+   * @param channel channel
+   * @param message 消息对象
    * @throws IOException 异常信息
    */
   @RabbitListener(
