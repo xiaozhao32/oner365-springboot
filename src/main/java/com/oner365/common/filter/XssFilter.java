@@ -1,16 +1,23 @@
 package com.oner365.common.filter;
 
-import com.oner365.common.xss.XssHttpServletRequestWrapper;
-import com.oner365.util.DataUtils;
-import org.springframework.http.HttpMethod;
-import org.springframework.stereotype.Component;
-
-import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.http.HttpMethod;
+import org.springframework.stereotype.Component;
+
+import com.oner365.common.xss.XssHttpServletRequestWrapper;
+import com.oner365.util.DataUtils;
 
 /**
  * XSS 过滤器

@@ -154,7 +154,7 @@ public class QueryUtils {
         return Sort.by(Direction.ASC, order.getKey().split(","));
       }
     }
-    return null;
+    return Sort.unsorted();
   }
 
   /**
