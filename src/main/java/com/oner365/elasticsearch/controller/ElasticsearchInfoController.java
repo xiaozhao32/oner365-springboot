@@ -1,31 +1,5 @@
 package com.oner365.elasticsearch.controller;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpHost;
-import org.apache.http.HttpResponseInterceptor;
-import org.apache.http.entity.ContentType;
-import org.apache.http.message.BasicHeader;
-import org.elasticsearch.client.RestClient;
-import org.elasticsearch.client.RestClientBuilder.HttpClientConfigCallback;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
-import com.oner365.common.config.properties.CommonProperties;
-import com.oner365.controller.BaseController;
-import com.oner365.elasticsearch.dto.ClusterDto;
-import com.oner365.elasticsearch.dto.ClusterMappingDto;
-import com.oner365.elasticsearch.dto.TransportClientDto;
-
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch._types.NodeShard;
 import co.elastic.clients.elasticsearch.cluster.HealthResponse;
@@ -37,8 +11,28 @@ import co.elastic.clients.elasticsearch.indices.stats.ShardRoutingState;
 import co.elastic.clients.json.jackson.JacksonJsonpMapper;
 import co.elastic.clients.transport.ElasticsearchTransport;
 import co.elastic.clients.transport.rest_client.RestClientTransport;
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import com.oner365.common.config.properties.CommonProperties;
+import com.oner365.controller.BaseController;
+import com.oner365.elasticsearch.dto.ClusterDto;
+import com.oner365.elasticsearch.dto.ClusterMappingDto;
+import com.oner365.elasticsearch.dto.TransportClientDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.http.HttpHost;
+import org.apache.http.HttpResponseInterceptor;
+import org.apache.http.entity.ContentType;
+import org.apache.http.message.BasicHeader;
+import org.elasticsearch.client.RestClient;
+import org.elasticsearch.client.RestClientBuilder.HttpClientConfigCallback;
+import org.springframework.http.HttpHeaders;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
+import java.util.*;
 
 /**
  * Elasticsearch 信息
@@ -51,7 +45,7 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/elasticsearch/info")
 public class ElasticsearchInfoController extends BaseController {
 
-  @Autowired
+  @Resource
   private CommonProperties commonProperties;
 
   /**
@@ -71,7 +65,7 @@ public class ElasticsearchInfoController extends BaseController {
                 .singleton(new BasicHeader(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON.toString())))
             .addInterceptorLast((HttpResponseInterceptor) (response, context) -> response.addHeader("X-Elastic-Product",
                 "Elasticsearch"));
-    
+
     try (RestClient restClient = RestClient
         .builder(
             new HttpHost(StringUtils.substringBefore(uri, ":"), Integer.parseInt(StringUtils.substringAfter(uri, ":"))))
@@ -98,16 +92,12 @@ public class ElasticsearchInfoController extends BaseController {
 
       List<List<NodeShard>> shards = client.searchShards().shards();
 
-      Map<String, ShardRoutingState> stateMap = new HashMap<>();
-      Map<String, Integer> shardsMap = new HashMap<>();
+      Map<String, ShardRoutingState> stateMap = new HashMap<>(10);
+      Map<String, Integer> shardsMap = new HashMap<>(10);
       shards.forEach(list -> {
         for (NodeShard shard : list) {
           stateMap.put(shard.index(), shard.state());
-          if (shardsMap.get(shard.index()) != null) {
-            shardsMap.put(shard.index(), shardsMap.get(shard.index()) + 1);
-          } else {
-            shardsMap.put(shard.index(), 1);
-          }
+          shardsMap.merge(shard.index(), 1, Integer::sum);
         }
       });
 
