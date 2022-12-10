@@ -8,15 +8,12 @@ import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.HashOperations;
-import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
 
 import com.oner365.common.cache.constants.CacheConstants;
 import com.oner365.common.constants.PublicConstants;
-import com.oner365.util.DataUtils;
-import org.springframework.util.Assert;
 
 /**
  * spring redis 工具类
@@ -228,33 +225,12 @@ public class RedisCache {
      * 分布式锁
      *
      * @param key        键值
-     * @param expireTime 过期时间
+     * @param expireTime 过期时间(秒)
      * @return boolean
      */
     public Boolean lock(String key, long expireTime) {
         String lock = CacheConstants.CACHE_LOCK_NAME + key;
-
-        return (Boolean) redisTemplate.execute((RedisCallback) connection -> {
-            long expireAt = System.currentTimeMillis() + expireTime + 1;
-            Boolean acquire = connection.setNX(lock.getBytes(), String.valueOf(expireAt).getBytes());
-
-            if (acquire != null && acquire) {
-                return true;
-            } else {
-                byte[] value = connection.get(lock.getBytes());
-                if (!DataUtils.isEmpty(value)) {
-                    long time = Long.parseLong(new String(value));
-                    if (time < System.currentTimeMillis()) {
-                        // 重新加锁，防止死锁
-                        byte[] oldValue = connection.getSet(lock.getBytes(),
-                                String.valueOf(System.currentTimeMillis() + expireTime + 1).getBytes());
-                        Assert.notNull(oldValue, "oldValue is not null.");
-                        return Long.parseLong(new String(oldValue)) < System.currentTimeMillis();
-                    }
-                }
-            }
-            return false;
-        });
+        return redisTemplate.opsForValue().setIfAbsent(lock, lock, expireTime, TimeUnit.SECONDS);
     }
 
 }

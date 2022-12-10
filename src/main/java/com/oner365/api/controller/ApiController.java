@@ -165,9 +165,9 @@ public class ApiController extends BaseController {
     logger.info("test4:{}", set);
 
     String key5 = "test5";
-    boolean b1 = redisCache.lock(key5, 10000);
+    boolean b1 = redisCache.lock(key5, 10);
     logger.info("test5 lock:{}", b1);
-    boolean b2 = redisCache.lock(key5, 10000);
+    boolean b2 = redisCache.lock(key5, 10);
     logger.info("test5 lock:{}", b2);
 
     return json;

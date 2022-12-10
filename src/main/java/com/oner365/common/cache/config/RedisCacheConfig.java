@@ -54,7 +54,7 @@ import redis.clients.jedis.Jedis;
 public class RedisCacheConfig implements CachingConfigurer {
 
   @Bean
-  public CacheManager cacheManager(RedisConnectionFactory connectionFactory) {
+  CacheManager cacheManager(RedisConnectionFactory connectionFactory) {
     return RedisCacheManager.builder(connectionFactory)
         .cacheDefaults(
             RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(PublicConstants.EXPIRE_TIME)))
@@ -62,7 +62,7 @@ public class RedisCacheConfig implements CachingConfigurer {
   }
 
   @Bean
-  public RedisTemplate<String, Serializable> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+  RedisTemplate<String, Serializable> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
     RedisTemplate<String, Serializable> redisTemplate = new RedisTemplate<>();
     redisTemplate.setConnectionFactory(redisConnectionFactory);
     FastJsonRedisSerializer<Object> serializer = new FastJsonRedisSerializer<>(Object.class);
@@ -77,7 +77,7 @@ public class RedisCacheConfig implements CachingConfigurer {
 
   @Bean
   @ConditionalOnProperty(value = { "spring.redis.cluster.enable" }, havingValue = "true")
-  public LettuceConnectionFactory redisConnectionFactory(RedisProperties redisProperties) {
+  LettuceConnectionFactory redisConnectionFactory(RedisProperties redisProperties) {
     RedisClusterConfiguration redisClusterConfiguration = new RedisClusterConfiguration(
         redisProperties.getCluster().getNodes());
     if (!ObjectUtils.isEmpty(redisProperties.getPassword())) {
