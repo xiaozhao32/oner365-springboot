@@ -170,13 +170,13 @@ public class HttpClientUtils {
   public static class MyX509TrustManager implements X509TrustManager {
 
     @Override
-    public void checkClientTrusted(X509Certificate[] arg0, String arg1) {
+    public void checkClientTrusted(X509Certificate[] arg0, String arg1) throws java.security.cert.CertificateException {
       // checkClientTrusted
       LOGGER.info("checkClientTrusted: {}", arg1);
     }
 
     @Override
-    public void checkServerTrusted(X509Certificate[] arg0, String arg1) {
+    public void checkServerTrusted(X509Certificate[] arg0, String arg1) throws java.security.cert.CertificateException {
       // checkServerTrusted
         LOGGER.info("checkServerTrusted: {}", arg1);
     }
