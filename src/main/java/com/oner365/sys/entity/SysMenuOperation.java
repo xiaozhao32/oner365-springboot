@@ -14,6 +14,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.oner365.common.enums.StatusEnum;
+import com.oner365.sys.constants.SysConstants;
 
 /**
  * 操作对象
@@ -32,7 +33,7 @@ public class SysMenuOperation implements Serializable {
 
   @Id
   @GeneratedValue(generator = "generator")
-  @GenericGenerator(name = "generator", strategy = "uuid")
+  @GenericGenerator(name = "generator", strategy = SysConstants.UUID)
   private String id;
 
   @Column(name = "operation_name", nullable = false, length = 32)

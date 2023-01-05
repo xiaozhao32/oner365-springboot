@@ -14,6 +14,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.oner365.sys.constants.SysConstants;
 
 /**
  * 基础权限--用户角色表nt_sys_user_role
@@ -32,7 +33,7 @@ public class SysUserRole implements Serializable {
      */
     @Id
     @GeneratedValue(generator = "generator")
-    @GenericGenerator(name = "generator", strategy = "uuid")
+    @GenericGenerator(name = "generator", strategy = SysConstants.UUID)
     private String id;
 
     /**

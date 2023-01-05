@@ -14,6 +14,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.oner365.monitor.enums.TaskStatusEnum;
+import com.oner365.sys.constants.SysConstants;
 
 /**
  * 定时任务调度日志表 nt_sys_task_log
@@ -31,7 +32,7 @@ public class SysTaskLog implements Serializable {
    */
   @Id
   @GeneratedValue(generator = "generator")
-  @GenericGenerator(name = "generator", strategy = "uuid")
+  @GenericGenerator(name = "generator", strategy = SysConstants.UUID)
   private String id;
 
   /**

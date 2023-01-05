@@ -22,6 +22,7 @@ import com.oner365.common.enums.StatusEnum;
 import com.oner365.monitor.enums.MisfirePolicyEnum;
 import com.oner365.monitor.enums.TaskStatusEnum;
 import com.oner365.monitor.util.CronUtils;
+import com.oner365.sys.constants.SysConstants;
 import com.oner365.util.DataUtils;
 import com.vladmihalcea.hibernate.type.json.JsonStringType;
 
@@ -42,7 +43,7 @@ public class SysTask implements Serializable {
    */
   @Id
   @GeneratedValue(generator = "generator")
-  @GenericGenerator(name = "generator", strategy = "uuid")
+  @GenericGenerator(name = "generator", strategy = SysConstants.UUID)
   private String id;
 
   /**

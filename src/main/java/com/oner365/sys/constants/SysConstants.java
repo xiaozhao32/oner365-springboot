@@ -64,7 +64,7 @@ public class SysConstants extends PublicConstants {
     
     public static final String DEFAULT_ROLE = "1";
     public static final String DEFAULT_PARENT_ID = "-1";
-    public static final String UUID = "uuid";
+    public static final String UUID = "org.hibernate.id.UUIDGenerator";
     
     /**
      * Constructor
