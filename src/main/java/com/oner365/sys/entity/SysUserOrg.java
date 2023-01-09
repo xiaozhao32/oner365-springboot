@@ -17,8 +17,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.oner365.common.constants.PublicConstants;
 import com.oner365.common.enums.StatusEnum;
-import com.oner365.sys.constants.SysConstants;
 
 /**
  * 基础权限--用户部门nt_sys_user_org
@@ -37,7 +37,7 @@ public class SysUserOrg implements Serializable {
      */
     @Id
     @GeneratedValue(generator = "generator")
-    @GenericGenerator(name = "generator", strategy = SysConstants.UUID)
+    @GenericGenerator(name = "generator", strategy = PublicConstants.UUID)
     private String id;
 
     /**

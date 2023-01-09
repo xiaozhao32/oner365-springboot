@@ -14,7 +14,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.oner365.sys.constants.SysConstants;
+import com.oner365.common.constants.PublicConstants;
 
 /**
  * 菜单操作权限对象
@@ -33,7 +33,7 @@ public class SysMenuOper implements Serializable {
 
   @Id
   @GeneratedValue(generator = "generator")
-  @GenericGenerator(name = "generator", strategy = SysConstants.UUID)
+  @GenericGenerator(name = "generator", strategy = PublicConstants.UUID)
   private String id;
 
   @Column(name = "menu_id", nullable = false, length = 32)

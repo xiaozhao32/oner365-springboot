@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.oner365.sys.constants.SysConstants;
+import com.oner365.common.constants.PublicConstants;
 
 /**
  * 系统日志对象
@@ -31,7 +31,7 @@ public class SysLog implements Serializable {
 
   @Id
   @GeneratedValue(generator = "generator")
-  @GenericGenerator(name = "generator", strategy = SysConstants.UUID)
+  @GenericGenerator(name = "generator", strategy = PublicConstants.UUID)
   private String id;
 
   @Column(name = "operation_ip", length = 32)
