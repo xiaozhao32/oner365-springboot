@@ -117,7 +117,7 @@ public class RabbitmqController extends BaseController {
   }
 
   private String getAuthorization() {
-    String auth = rabbitmqProperties.getUsername() + ":" + rabbitmqProperties.getPassword();
+    String auth = rabbitmqProperties.getUsername() + PublicConstants.COLON + rabbitmqProperties.getPassword();
     return "Basic " + Base64Utils.encodeBase64String(auth.getBytes());
   }
 

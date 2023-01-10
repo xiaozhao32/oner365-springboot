@@ -14,6 +14,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.common.config.properties.CommonProperties;
+import com.oner365.common.constants.PublicConstants;
 import com.oner365.common.enums.ResultEnum;
 import com.oner365.controller.BaseController;
 import com.oner365.deploy.entity.DeployEntity;
@@ -57,7 +58,7 @@ public class ServiceController extends BaseController {
     serviceInfoDto.setServiceId(commonProperties.getServiceId());
     serviceInfoDto.setHost(commonProperties.getHost());
     serviceInfoDto.setPort(commonProperties.getPort());
-    serviceInfoDto.setUri("http://" + commonProperties.getHost() + ":" + commonProperties.getPort());
+    serviceInfoDto.setUri("http://" + commonProperties.getHost() + PublicConstants.COLON + commonProperties.getPort());
     serviceInfoDto.setInstanceId(commonProperties.getServiceId());
     serviceInfoDto.setScheme(commonProperties.getScheme());
     serviceInstances.add(serviceInfoDto);

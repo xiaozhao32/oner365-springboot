@@ -1,24 +1,13 @@
 package com.oner365.elasticsearch.controller;
 
-import co.elastic.clients.elasticsearch.ElasticsearchClient;
-import co.elastic.clients.elasticsearch._types.NodeShard;
-import co.elastic.clients.elasticsearch.cluster.HealthResponse;
-import co.elastic.clients.elasticsearch.indices.GetAliasResponse;
-import co.elastic.clients.elasticsearch.indices.GetMappingResponse;
-import co.elastic.clients.elasticsearch.indices.get_alias.IndexAliases;
-import co.elastic.clients.elasticsearch.indices.get_mapping.IndexMappingRecord;
-import co.elastic.clients.elasticsearch.indices.stats.ShardRoutingState;
-import co.elastic.clients.json.jackson.JacksonJsonpMapper;
-import co.elastic.clients.transport.ElasticsearchTransport;
-import co.elastic.clients.transport.rest_client.RestClientTransport;
-import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
-import com.oner365.common.config.properties.CommonProperties;
-import com.oner365.controller.BaseController;
-import com.oner365.elasticsearch.dto.ClusterDto;
-import com.oner365.elasticsearch.dto.ClusterMappingDto;
-import com.oner365.elasticsearch.dto.TransportClientDto;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponseInterceptor;
@@ -31,8 +20,27 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
-import java.util.*;
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import com.oner365.common.config.properties.CommonProperties;
+import com.oner365.common.constants.PublicConstants;
+import com.oner365.controller.BaseController;
+import com.oner365.elasticsearch.dto.ClusterDto;
+import com.oner365.elasticsearch.dto.ClusterMappingDto;
+import com.oner365.elasticsearch.dto.TransportClientDto;
+
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch._types.NodeShard;
+import co.elastic.clients.elasticsearch.cluster.HealthResponse;
+import co.elastic.clients.elasticsearch.indices.GetAliasResponse;
+import co.elastic.clients.elasticsearch.indices.GetMappingResponse;
+import co.elastic.clients.elasticsearch.indices.get_alias.IndexAliases;
+import co.elastic.clients.elasticsearch.indices.get_mapping.IndexMappingRecord;
+import co.elastic.clients.elasticsearch.indices.stats.ShardRoutingState;
+import co.elastic.clients.json.jackson.JacksonJsonpMapper;
+import co.elastic.clients.transport.ElasticsearchTransport;
+import co.elastic.clients.transport.rest_client.RestClientTransport;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * Elasticsearch 信息
@@ -66,19 +74,18 @@ public class ElasticsearchInfoController extends BaseController {
             .addInterceptorLast((HttpResponseInterceptor) (response, context) -> response.addHeader("X-Elastic-Product",
                 "Elasticsearch"));
 
-    try (RestClient restClient = RestClient
-        .builder(
-            new HttpHost(StringUtils.substringBefore(uri, ":"), Integer.parseInt(StringUtils.substringAfter(uri, ":"))))
-        .setHttpClientConfigCallback(httpClientConfigCallback)
-        .build()) {
+        try (RestClient restClient = RestClient
+            .builder(new HttpHost(StringUtils.substringBefore(uri, PublicConstants.COLON),
+                Integer.parseInt(StringUtils.substringAfter(uri, PublicConstants.COLON))))
+            .setHttpClientConfigCallback(httpClientConfigCallback).build()) {
 
       ElasticsearchTransport transport = new RestClientTransport(restClient, new JacksonJsonpMapper());
       ElasticsearchClient client = new ElasticsearchClient(transport);
       HealthResponse healthResponse = client.cluster().health();
 
       TransportClientDto result = new TransportClientDto();
-      result.setHostname(StringUtils.substringBefore(uri, ":"));
-      result.setPort(Integer.parseInt(StringUtils.substringAfter(uri, ":")));
+      result.setHostname(StringUtils.substringBefore(uri, PublicConstants.COLON));
+      result.setPort(Integer.parseInt(StringUtils.substringAfter(uri, PublicConstants.COLON)));
       result.setClusterName(healthResponse.clusterName());
       result.setNumberOfDataNodes(healthResponse.numberOfDataNodes());
       result.setActiveShards(healthResponse.activeShards());

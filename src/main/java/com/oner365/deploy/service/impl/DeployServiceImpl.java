@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.oner365.common.constants.PublicConstants;
 import com.oner365.deploy.config.properties.LocalDeployProperties;
 import com.oner365.deploy.config.properties.ServerDeployProperties;
 import com.oner365.deploy.entity.DeployEntity;
@@ -52,10 +53,10 @@ public class DeployServiceImpl implements DeployService {
       String[] splitServer = StringUtils.split(server, "@");
       if (splitServer.length > 1) {
         DeployServer deployServer = new DeployServer();
-        deployServer.setIp(StringUtils.substringBefore(splitServer[0], ":"));
-        deployServer.setPort(Integer.parseInt(StringUtils.substringAfter(splitServer[0], ":")));
-        deployServer.setUsername(StringUtils.substringBefore(splitServer[1], ":"));
-        deployServer.setPassword(StringUtils.substringAfter(splitServer[1], ":"));
+        deployServer.setIp(StringUtils.substringBefore(splitServer[0], PublicConstants.COLON));
+        deployServer.setPort(Integer.parseInt(StringUtils.substringAfter(splitServer[0], PublicConstants.COLON)));
+        deployServer.setUsername(StringUtils.substringBefore(splitServer[1], PublicConstants.COLON));
+        deployServer.setPassword(StringUtils.substringAfter(splitServer[1], PublicConstants.COLON));
         serverList.add(deployServer);
       }
     });
