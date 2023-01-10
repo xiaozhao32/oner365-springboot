@@ -9,6 +9,8 @@ import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.oner365.common.constants.PublicConstants;
+
 /**
  * 文件加密工具类
  *
@@ -29,7 +31,7 @@ public class FileSms4Utils {
 
   private static final int PLACEHOLDER_SIZE = 16;
 
-  private static final int PART_SIZE = 1024 * 1024;
+  private static final int PART_SIZE = PublicConstants.BYTE_SIZE * PublicConstants.BYTE_SIZE;
 
   private FileSms4Utils() {
   }

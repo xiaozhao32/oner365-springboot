@@ -53,6 +53,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 
+import com.oner365.common.constants.PublicConstants;
+
 /***
  * HttpClient工具类
  *
@@ -139,7 +141,7 @@ public class HttpClientUtils {
         InputStream connectionStream = connection.getInputStream();
         BufferedReader bufferReader = new BufferedReader(
             new InputStreamReader(connectionStream, Charset.defaultCharset()))) {
-      byte[] bufferRead = new byte[1024 * 100];
+      byte[] bufferRead = new byte[PublicConstants.BYTE_SIZE * 100];
       int perLength;
       while ((perLength = bis.read(bufferRead)) != -1) {
         byte[] read = Arrays.copyOf(bufferRead, perLength);
@@ -178,7 +180,7 @@ public class HttpClientUtils {
     @Override
     public void checkServerTrusted(X509Certificate[] arg0, String arg1) throws java.security.cert.CertificateException {
       // checkServerTrusted
-        LOGGER.info("checkServerTrusted: {}", arg1);
+      LOGGER.info("checkServerTrusted: {}", arg1);
     }
 
     @Override
