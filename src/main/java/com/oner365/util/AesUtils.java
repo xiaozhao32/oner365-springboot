@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
 public class AesUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AesUtils.class);
-
+    
     /**
      * 密钥
      */
@@ -38,6 +38,8 @@ public class AesUtils {
      * 加密类型
      */
     private static final String ALGORITHM = "AES/GCM/NoPadding";
+    private static final String ALGORITHM_AES = "AES";
+    private static final String ALGORITHM_SECURE = "SHA1PRNG";
     private static final ThreadLocal<Map<String, Key>> LOCAL_MAP_KEY = new ThreadLocal<>();
 
     private AesUtils() {
@@ -50,12 +52,12 @@ public class AesUtils {
 
     public static SecretKeySpec getKey(String strKey) {
         try {
-            KeyGenerator generator = KeyGenerator.getInstance("AES");
-            SecureRandom secureRandom = SecureRandom.getInstance("SHA1PRNG");
+            KeyGenerator generator = KeyGenerator.getInstance(ALGORITHM_AES);
+            SecureRandom secureRandom = SecureRandom.getInstance(ALGORITHM_SECURE);
             secureRandom.setSeed(strKey.getBytes());
             generator.init(128, secureRandom);
             SecretKey secretKey = generator.generateKey();
-            SecretKeySpec result = new SecretKeySpec(secretKey.getEncoded(), "AES");
+            SecretKeySpec result = new SecretKeySpec(secretKey.getEncoded(), ALGORITHM_AES);
             Map<String, Key> map = new HashMap<>(2);
             map.put(strKey, result);
             LOCAL_MAP_KEY.set(map);
