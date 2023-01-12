@@ -63,6 +63,7 @@
 		<org.slf4j.version>1.7.36</org.slf4j.version>
 		<ch.qos.logback.version>1.2.11</ch.qos.logback.version>
 		
+		<org.jetbrains.kotlin.version>1.8.0</org.jetbrains.kotlin.version>
 		<org.junit.platform.version>1.7.2</org.junit.platform.version>
 		<org.javassist.version>3.29.2-GA</org.javassist.version>
 		<org.reflections.version>0.10.2</org.reflections.version>
@@ -70,6 +71,8 @@
 		<org.quartz.version>2.3.2</org.quartz.version>
 
 		<org.postgresql.version>42.5.0</org.postgresql.version>
+		<com.oracle.version>11.2.0.3</com.oracle.version>
+		<com.dameng.version>8.1.1.49</com.dameng.version>
 		<com.mysql.version>8.0.31</com.mysql.version>
 		
 		<com.alibaba.fastjson.version>1.2.83</com.alibaba.fastjson.version>
@@ -91,7 +94,7 @@
 		<io.projectreactor.netty.version>1.1.1</io.projectreactor.netty.version>
 		<io.jsonwebtoken.version>0.9.1</io.jsonwebtoken.version>
 		<io.netty.version>4.1.86.Final</io.netty.version>
-		<io.minio.version>8.4.5</io.minio.version>
+		<io.minio.version>8.4.6</io.minio.version>
 		
 		<net.logstash.logback.version>7.2</net.logstash.logback.version>
 		<net.bytebuddy.version>1.12.19</net.bytebuddy.version>
@@ -389,15 +392,38 @@
 		</dependency>
 		<!-- Oracle -->
 		<dependency>
-		    <groupId>com.oracle.database.jdbc</groupId>
-		    <artifactId>ojdbc8</artifactId>
-		    <version>21.5.0.0</version>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc6</artifactId>
+			<version>${com.oracle.version}</version>
 		</dependency>
 		<!-- DM -->
 		<dependency>
 		    <groupId>com.dameng</groupId>
 		    <artifactId>Dm8JdbcDriver18</artifactId>
-		    <version>8.1.1.49</version>
+		    <version>${com.dameng.version}</version>
+		</dependency>
+		
+		<!-- kotlin -->
+		<dependency>
+		    <groupId>org.jetbrains.kotlin</groupId>
+		    <artifactId>kotlin-stdlib</artifactId>
+		    <version>${org.jetbrains.kotlin.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.jetbrains.kotlin</groupId>
+		    <artifactId>kotlin-stdlib-common</artifactId>
+		    <version>${org.jetbrains.kotlin.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.jetbrains.kotlin</groupId>
+		    <artifactId>kotlin-stdlib-jdk7</artifactId>
+		    <version>${org.jetbrains.kotlin.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.jetbrains.kotlin</groupId>
+		    <artifactId>kotlin-stdlib-jdk8</artifactId>
+		    <version>${org.jetbrains.kotlin.version}</version>
 		</dependency>
 
 		<!-- 定时任务 -->
