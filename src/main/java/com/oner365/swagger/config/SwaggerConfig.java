@@ -81,6 +81,11 @@ public class SwaggerConfig implements WebMvcConfigurer {
   public Docket rabbitmqApi() {
     return buildApi("Queue(队列)", "com.oner365.queue");
   }
+  
+  @Bean
+  public Docket statemachineApi() {
+    return buildApi("State(状态转换)", "com.oner365.statemachine");
+  }
 
   private Docket buildApi(String groupName, String packageName) {
     return new Docket(DocumentationType.OAS_30).pathMapping(PublicConstants.DELIMITER).groupName(groupName)
