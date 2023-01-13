@@ -121,6 +121,7 @@ public class AuthController extends BaseController {
   public CaptchaImageDto captchaImage() {
     // 生成随机字串
     String verifyCode = producer.createText();
+    logger.info("login captcha:{}", verifyCode);
     // 唯一标识
     String uuid = UUID.randomUUID().toString();
     String verifyKey = SysConstants.CAPTCHA_IMAGE + PublicConstants.COLON + uuid;
