@@ -9,6 +9,7 @@ import org.springframework.statemachine.annotation.OnTransitionEnd;
 import org.springframework.statemachine.annotation.OnTransitionStart;
 import org.springframework.statemachine.annotation.WithStateMachine;
 
+import com.oner365.statemachine.constants.StatemachineConstants;
 import com.oner365.statemachine.entity.Order;
 import com.oner365.statemachine.enums.OrderEventEnum;
 import com.oner365.statemachine.enums.OrderStateEnum;
@@ -24,34 +25,32 @@ import com.oner365.statemachine.enums.OrderStateEnum;
 public class OrderStateMachineEventConfig {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(OrderStateMachineEventConfig.class);
-  
-  public static final String HEADER_NAME = "order";
 
-  @OnTransition(target = "UNPAY")
+  @OnTransition(target = StatemachineConstants.SOURCE_UNPAY)
   public void create() {
     LOGGER.info("订单创建");
   }
 
-  @OnTransition(source = "UNPAY", target = "WAIT_RECEIVE")
+  @OnTransition(source = StatemachineConstants.SOURCE_UNPAY, target = StatemachineConstants.SOURCE_WAIT_RECEIVE)
   public void pay(Message<OrderEventEnum> message) {
-    Order order = (Order) message.getHeaders().get(HEADER_NAME);
+    Order order = (Order) message.getHeaders().get(StatemachineConstants.HEADER_NAME);
     order.setOrderState(OrderStateEnum.WAIT_RECEIVE);
     LOGGER.info("用户支付完成: {}", message.getHeaders().toString());
   }
 
-  @OnTransitionStart(source = "UNPAY", target = "WAIT_RECEIVE")
+  @OnTransitionStart(source = StatemachineConstants.SOURCE_UNPAY, target = StatemachineConstants.SOURCE_WAIT_RECEIVE)
   public void payStart() {
     LOGGER.info("用户支付开始");
   }
 
-  @OnTransitionEnd(source = "UNPAY", target = "WAIT_RECEIVE")
+  @OnTransitionEnd(source = StatemachineConstants.SOURCE_UNPAY, target = StatemachineConstants.SOURCE_WAIT_RECEIVE)
   public void payEnd() {
     LOGGER.info("用户支付结束");
   }
 
-  @OnTransition(source = "WAIT_RECEIVE", target = "FINISHED")
+  @OnTransition(source = StatemachineConstants.SOURCE_WAIT_RECEIVE, target = StatemachineConstants.SOURCE_FINISHED)
   public void receive(Message<OrderEventEnum> message) {
-    Order order = (Order) message.getHeaders().get(HEADER_NAME);
+    Order order = (Order) message.getHeaders().get(StatemachineConstants.HEADER_NAME);
     order.setOrderState(OrderStateEnum.FINISHED);
     LOGGER.info("用户已收货: {}", message.getHeaders().toString());
   }

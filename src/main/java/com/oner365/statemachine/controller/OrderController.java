@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.common.enums.ResultEnum;
 import com.oner365.controller.BaseController;
-import com.oner365.statemachine.config.OrderStateMachineEventConfig;
+import com.oner365.statemachine.constants.StatemachineConstants;
 import com.oner365.statemachine.entity.Order;
 import com.oner365.statemachine.enums.OrderEventEnum;
 import com.oner365.statemachine.enums.OrderStateEnum;
@@ -55,12 +55,12 @@ public class OrderController extends BaseController {
 
     logger.info("--- 发送支付事件 ---");
     Message<OrderEventEnum> message = MessageBuilder.withPayload(OrderEventEnum.PAY)
-        .setHeader(OrderStateMachineEventConfig.HEADER_NAME, order).build();
+        .setHeader(StatemachineConstants.HEADER_NAME, order).build();
     stateMachine.sendEvent(message);
 
     logger.info("--- 发送收货事件 ---");
     message = MessageBuilder.withPayload(OrderEventEnum.RECEIVE)
-        .setHeader(OrderStateMachineEventConfig.HEADER_NAME, order).build();
+        .setHeader(StatemachineConstants.HEADER_NAME, order).build();
     stateMachine.sendEvent(message);
 
     return ResultEnum.SUCCESS.getName();
