@@ -29,7 +29,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @Api(tags = "订单状态机")
-@RequestMapping("/order")
+@RequestMapping("/statemachine/order")
 public class OrderController extends BaseController {
 
   @Autowired
