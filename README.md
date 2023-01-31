@@ -4,7 +4,7 @@
 ---
 
 <p align="center">
-    <a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://shields.io/badge/Spring%20Boot-2.7.7-blue" alt="Spring Boot 2.7.7"></a>
+    <a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://shields.io/badge/Spring%20Boot-2.7.8-blue" alt="Spring Boot 2.7.8"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue" alt="License Apache 2.0"></a>
     <a href="https://www.oracle.com/java/technologies/javase-downloads.html" target="_blank"><img src="https://img.shields.io/badge/JDK-8%2C11%2C17-green" alt="Java 8,11,17"></a>
 </p>
@@ -32,10 +32,10 @@
 
 #### 技术框架
 
-1. 数据库：MySQL
+1. 数据库：MySQL && Postgres
 2. 缓存：Redis
 3. 队列：RabbitMQ
-4. 文件处理：Fastdfs && Hadoop && Minio && Local
+4. 文件处理：Fastdfs && Minio && Local
 5. 搜索引擎：Elasticserach
 6. API框架：Swagger
 7. 环境部署：docker

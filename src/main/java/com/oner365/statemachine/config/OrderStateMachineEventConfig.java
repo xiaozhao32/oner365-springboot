@@ -16,7 +16,7 @@ import com.oner365.statemachine.enums.OrderStateEnum;
 
 /**
  * 事件监听器
- * 
+ *
  * @author zhaoyong
  *
  */
@@ -34,6 +34,10 @@ public class OrderStateMachineEventConfig {
   @OnTransition(source = StatemachineConstants.SOURCE_UNPAY, target = StatemachineConstants.SOURCE_WAIT_RECEIVE)
   public void pay(Message<OrderEventEnum> message) {
     Order order = (Order) message.getHeaders().get(StatemachineConstants.HEADER_NAME);
+    if (order == null) {
+      LOGGER.error("用户支付失败 订单不存在: {}", message.getPayload());
+      return;
+    }
     order.setOrderState(OrderStateEnum.WAIT_RECEIVE);
     LOGGER.info("用户支付完成: {}", message.getHeaders().toString());
   }
@@ -51,6 +55,10 @@ public class OrderStateMachineEventConfig {
   @OnTransition(source = StatemachineConstants.SOURCE_WAIT_RECEIVE, target = StatemachineConstants.SOURCE_FINISHED)
   public void receive(Message<OrderEventEnum> message) {
     Order order = (Order) message.getHeaders().get(StatemachineConstants.HEADER_NAME);
+    if (order == null) {
+      LOGGER.error("用户收货失败 订单不存在: {}", message.getPayload());
+      return;
+    }
     order.setOrderState(OrderStateEnum.FINISHED);
     LOGGER.info("用户已收货: {}", message.getHeaders().toString());
   }

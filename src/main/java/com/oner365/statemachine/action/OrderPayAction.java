@@ -13,13 +13,13 @@ import com.oner365.statemachine.enums.OrderStateEnum;
 
 /**
  * 状态机 - Action
- * 
+ *
  * @author zhaoyong
  *
  */
 @Service
 public class OrderPayAction implements Action<OrderStateEnum, OrderEventEnum> {
-  
+
   private final Logger logger = LoggerFactory.getLogger(OrderPayAction.class);
 
   @Override
@@ -32,6 +32,10 @@ public class OrderPayAction implements Action<OrderStateEnum, OrderEventEnum> {
     }
     // 处理订单
     Order order = (Order) context.getMessage().getHeaders().get(StatemachineConstants.HEADER_NAME);
+    if (order == null) {
+      logger.error("处理失败 订单不存在: {}", context.getMessage());
+      return;
+    }
     logger.info("处理订单: {}", order.toString());
   }
 

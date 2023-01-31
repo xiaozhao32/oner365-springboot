@@ -1,6 +1,5 @@
 package com.oner365.statemachine.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.statemachine.StateMachine;
@@ -21,9 +20,11 @@ import com.oner365.statemachine.vo.OrderVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+import javax.annotation.Resource;
+
 /**
  * 订单状态机
- * 
+ *
  * @author zhaoyong
  *
  */
@@ -32,15 +33,15 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/statemachine/order")
 public class OrderController extends BaseController {
 
-  @Autowired
+  @Resource
   private StateMachine<OrderStateEnum, OrderEventEnum> stateMachine;
 
-  @Autowired
+  @Resource
   private StateMachinePersister<OrderStateEnum, OrderEventEnum, String> stateMachinePersister;
 
   /**
    * 订单状态机测试
-   * 
+   *
    * @return String
    */
   @ApiOperation("1.测试")
@@ -57,7 +58,7 @@ public class OrderController extends BaseController {
 
   /**
    * 发送事件返回订单结果
-   * 
+   *
    * @param order 订单对象
    * @return OrderVo
    */
@@ -71,7 +72,7 @@ public class OrderController extends BaseController {
       boolean payResult = sendEvent(order, OrderEventEnum.PAY);
       // 收货
       boolean receiveResult = sendEvent(order, OrderEventEnum.RECEIVE);
-  
+
       result.setPayResult(payResult);
       result.setPayState(OrderEventEnum.PAY);
       result.setReceiveResult(receiveResult);
@@ -88,7 +89,7 @@ public class OrderController extends BaseController {
 
   /**
    * 创建订单对象
-   * 
+   *
    * @param orderId 订单id
    * @return Order
    */
@@ -102,7 +103,7 @@ public class OrderController extends BaseController {
 
   /**
    * 发送事件
-   * 
+   *
    * @param order 订单对象
    * @param enums 事件类型
    */
@@ -117,7 +118,7 @@ public class OrderController extends BaseController {
       // 获取状态机状态
       StateMachine<OrderStateEnum, OrderEventEnum> persistState = stateMachinePersister.restore(stateMachine,
           persistId);
-      
+
       boolean result = persistState.sendEvent(message);
       if (result) {
         // 持久化状态机状态
