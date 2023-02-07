@@ -18,11 +18,6 @@ public class RabbitmqProperties {
   private String host;
   
   /**
-   * 端口
-   */
-  private int listener = 15672;
-
-  /**
    * 账号
    */
   private String username;
@@ -31,6 +26,11 @@ public class RabbitmqProperties {
    * 密码
    */
   private String password;
+  
+  /**
+   * web地址
+   */
+  private String uri;
   
   /**
    * virtual host
@@ -65,12 +65,12 @@ public class RabbitmqProperties {
     this.password = password;
   }
 
-  public int getListener() {
-    return listener;
+  public String getUri() {
+    return uri;
   }
 
-  public void setListener(int listener) {
-    this.listener = listener;
+  public void setUri(String uri) {
+    this.uri = uri;
   }
 
   /**
