@@ -55,7 +55,7 @@ public interface ISysOrganizationService extends BaseService {
    *
    * @param driverName 驱动名称
    * @param url        ip地址
-   * @param username   账号
+   * @param userName   账号
    * @param pwd   密码
    * @return Boolean
    */
