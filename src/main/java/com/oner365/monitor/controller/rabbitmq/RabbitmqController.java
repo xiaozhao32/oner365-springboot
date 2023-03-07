@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,10 +19,11 @@ import org.springframework.web.reactive.function.client.WebClient;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
-import com.oner365.common.config.properties.RabbitmqProperties;
 import com.oner365.common.constants.PublicConstants;
 import com.oner365.controller.BaseController;
 import com.oner365.monitor.enums.RabbitmqTypeEnum;
+import com.oner365.queue.condition.RabbitmqCondition;
+import com.oner365.queue.config.properties.RabbitmqProperties;
 import com.oner365.util.Base64Utils;
 import com.oner365.util.DataUtils;
 import com.oner365.util.HttpClientUtils;
@@ -39,6 +41,7 @@ import reactor.core.publisher.Mono;
 @RestController
 @Api(tags = "监控 - Rabbitmq")
 @RequestMapping("/monitor/rabbitmq")
+@Conditional(RabbitmqCondition.class)
 public class RabbitmqController extends BaseController {
 
   @Autowired

@@ -51,6 +51,7 @@
 		<org.apache.httpclient.version>4.5.13</org.apache.httpclient.version>
 		<org.apache.httpcore.version>4.4.15</org.apache.httpcore.version>
 		<org.apache.tomcat.version>9.0.71</org.apache.tomcat.version>
+		<org.apache.pulsar.version>2.11.0</org.apache.pulsar.version>
 		<org.apache.poi.version>5.2.2</org.apache.poi.version>
 
 		<org.hibernate.validator.version>6.2.5.Final</org.hibernate.validator.version>
@@ -335,12 +336,6 @@
 			<artifactId>jedis</artifactId>
 			<version>${redis.clients.version}</version>
 		</dependency>
-		<!-- rabbitmq -->
-		<dependency>
-			<groupId>com.rabbitmq</groupId>
-			<artifactId>amqp-client</artifactId>
-			<version>${com.rabbitmq.version}</version>
-		</dependency>
 		
 		<!-- Swagger -->
 		<dependency>
@@ -607,12 +602,6 @@
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-amqp</artifactId>
-			<version>${org.springframework.boot.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 			<version>${org.springframework.boot.version}</version>
 		</dependency>
@@ -724,6 +713,24 @@
 			<artifactId>tomcat-embed-websocket</artifactId>
 			<version>${org.apache.tomcat.version}</version>
 		</dependency>
+		
+		<!-- rabbitmq -->
+		<dependency>
+			<groupId>com.rabbitmq</groupId>
+			<artifactId>amqp-client</artifactId>
+			<version>${com.rabbitmq.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-amqp</artifactId>
+			<version>${org.springframework.boot.version}</version>
+		</dependency>
+		<!-- pulsar -->    
+		<dependency>
+            <groupId>org.apache.pulsar</groupId>
+            <artifactId>pulsar-client</artifactId>
+            <version>${org.apache.pulsar.version}</version>
+        </dependency>
 
 		<!-- elasticsearch -->
 		<dependency>

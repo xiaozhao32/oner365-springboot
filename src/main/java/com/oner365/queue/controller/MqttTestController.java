@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSONObject;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.controller.BaseController;
-import com.oner365.queue.config.MqttCondition;
-import com.oner365.queue.service.IMqttSendService;
+import com.oner365.queue.condition.MqttCondition;
+import com.oner365.queue.service.mqtt.IMqttSendService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

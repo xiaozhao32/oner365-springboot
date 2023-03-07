@@ -258,5 +258,10 @@
     "name": "logging.logstash.addresses",
     "type": "java.lang.String",
     "description": "A description for 'logging.logstash.addresses'."
+  },
+  {
+    "name": "queue.type",
+    "type": "java.lang.String",
+    "description": "A description for 'queue.type'."
   }
 ]}

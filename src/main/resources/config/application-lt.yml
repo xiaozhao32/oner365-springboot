@@ -172,7 +172,11 @@ logging:
     enabled: false
     addresses: 192.168.33.42:5045
       
-      
+# 队列方式    
+queue:
+  # rabbitmq rocketmq kafka pulsar activemq
+  type: rabbitmq
+        
 mqtt:
   enabled: false
   uri: tcp://localhost:1883

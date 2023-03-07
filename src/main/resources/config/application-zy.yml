@@ -167,7 +167,12 @@ logging:
   logstash:
     enabled: false
     addresses: localhost:5044
-      
+
+# 队列方式    
+queue:
+  # rabbitmq rocketmq kafka pulsar activemq
+  type: rabbitmq
+        
 mqtt:
   enabled: true
   uri: tcp://localhost:1883

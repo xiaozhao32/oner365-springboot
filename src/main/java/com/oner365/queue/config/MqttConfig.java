@@ -3,6 +3,8 @@ package com.oner365.queue.config;
 import javax.annotation.PreDestroy;
 
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -19,7 +21,10 @@ import org.springframework.integration.mqtt.outbound.MqttPahoMessageHandler;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHandler;
 
+import com.oner365.common.enums.QueueEnum;
+import com.oner365.queue.condition.MqttCondition;
 import com.oner365.queue.config.properties.MqttProperties;
+import com.oner365.queue.constants.MqttConstants;
 
 /**
  * MQTT config
@@ -32,20 +37,17 @@ import com.oner365.queue.config.properties.MqttProperties;
 @EnableConfigurationProperties({ MqttProperties.class })
 public class MqttConfig {
   
+  private final Logger logger = LoggerFactory.getLogger(MqttConfig.class);
+
   @Autowired
   private MqttProperties mqttProperties;
-  
+
   @Autowired
   private RabbitAdmin rabbitAdmin;
-
-  public static final String IN_BOUND_CHANNEL = "mqttInboundChannel";
-  public static final String OUT_BOUND_CHANNEL = "mqttOutboundChannel";
-  public static final String CHANNEL_ADAPTER = "_adapter";
-  public static final String CHANNEL_PRODUCER = "_producer";
-  public static final String SUBCRIPTION = "mqtt-subscription-";
-  public static final Integer COMPLETION_TIMEOUT = 5000;
-  public static final String QOS_NAME = "qos";
-  public static final Integer QOS = 1;
+  
+  public MqttConfig() {
+    logger.info("Queue Type: {}", QueueEnum.MQTT);
+  }
 
   @Bean
   public MqttPahoClientFactory mqttPahoClientFactory() {
@@ -62,45 +64,47 @@ public class MqttConfig {
   @Bean
   public MqttPahoMessageDrivenChannelAdapter adapter() {
     // clientId不能重复
-    return new MqttPahoMessageDrivenChannelAdapter(mqttProperties.getClientId() + CHANNEL_ADAPTER, mqttPahoClientFactory(),
-        mqttProperties.getDefaultTopic());
+    return new MqttPahoMessageDrivenChannelAdapter(mqttProperties.getClientId() + MqttConstants.CHANNEL_ADAPTER,
+        mqttPahoClientFactory(), mqttProperties.getDefaultTopic());
   }
 
   @Bean
   public MessageProducer mqttInbound(MqttPahoMessageDrivenChannelAdapter adapter) {
     // 入站投递的通道
     adapter.setOutputChannel(mqttInboundChannel());
-    adapter.setCompletionTimeout(COMPLETION_TIMEOUT);
-    adapter.setQos(QOS);
+    adapter.setCompletionTimeout(MqttConstants.COMPLETION_TIMEOUT);
+    adapter.setQos(MqttConstants.QOS);
     return adapter;
   }
 
   @Bean
-  @ServiceActivator(inputChannel = OUT_BOUND_CHANNEL)
+  @ServiceActivator(inputChannel = MqttConstants.OUT_BOUND_CHANNEL)
   public MessageHandler mqttOutbound() {
     // clientId不能重复
-    MqttPahoMessageHandler handler = new MqttPahoMessageHandler(mqttProperties.getClientId() + CHANNEL_PRODUCER,
-        mqttPahoClientFactory());
+    MqttPahoMessageHandler handler = new MqttPahoMessageHandler(
+        mqttProperties.getClientId() + MqttConstants.CHANNEL_PRODUCER, mqttPahoClientFactory());
     handler.setAsync(true);
     handler.setDefaultTopic(mqttProperties.getDefaultTopic());
     return handler;
   }
 
-  @Bean(name = OUT_BOUND_CHANNEL)
+  @Bean(name = MqttConstants.OUT_BOUND_CHANNEL)
   public MessageChannel mqttOutboundChannel() {
     return new DirectChannel();
   }
 
-  @Bean(name = IN_BOUND_CHANNEL)
+  @Bean(name = MqttConstants.IN_BOUND_CHANNEL)
   public MessageChannel mqttInboundChannel() {
     return new DirectChannel();
   }
-  
+
   @PreDestroy
   public void destroy() {
 
-    rabbitAdmin.deleteQueue(SUBCRIPTION + mqttProperties.getClientId() + CHANNEL_PRODUCER + QOS_NAME + QOS);
-    rabbitAdmin.deleteQueue(SUBCRIPTION + mqttProperties.getClientId() + CHANNEL_ADAPTER + QOS_NAME + QOS);
+    rabbitAdmin.deleteQueue(MqttConstants.SUBCRIPTION + mqttProperties.getClientId() + MqttConstants.CHANNEL_PRODUCER
+        + MqttConstants.QOS_NAME + MqttConstants.QOS);
+    rabbitAdmin.deleteQueue(MqttConstants.SUBCRIPTION + mqttProperties.getClientId() + MqttConstants.CHANNEL_ADAPTER
+        + MqttConstants.QOS_NAME + MqttConstants.QOS);
 
   }
 }

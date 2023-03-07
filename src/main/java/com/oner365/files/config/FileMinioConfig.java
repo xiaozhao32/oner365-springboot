@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 
 import com.alibaba.fastjson.JSON;
+import com.oner365.common.enums.StorageEnum;
 import com.oner365.files.config.properties.MinioProperties;
 import com.oner365.files.storage.condition.MinioStorageCondition;
 
@@ -26,6 +27,10 @@ import io.minio.MinioClient;
 public class FileMinioConfig {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(FileMinioConfig.class);
+  
+  public FileMinioConfig() {
+    LOGGER.info("Storage Type: {}", StorageEnum.MINIO);
+  }
   
   @Bean
   public MinioClient minioClient(MinioProperties minioProperties) {
