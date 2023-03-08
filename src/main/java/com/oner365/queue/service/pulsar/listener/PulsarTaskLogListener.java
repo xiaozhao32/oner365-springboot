@@ -12,41 +12,37 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Component;
 
-import com.oner365.gateway.service.DynamicRouteService;
+import com.oner365.monitor.dto.SysTaskDto;
 import com.oner365.queue.condition.PulsarCondition;
 import com.oner365.queue.config.properties.PulsarProperties;
 
 /**
- * pulsar Route listener
+ * pulsar SysTaskDto listener
  * 
  * @author zhaoyong
  *
  */
 @Component
 @Conditional(PulsarCondition.class)
-public class PulsarRouteListener implements MessageListener<String> {
+public class PulsarTaskLogListener implements MessageListener<SysTaskDto> {
 
   private static final long serialVersionUID = 1L;
 
-  private final Logger logger = LoggerFactory.getLogger(PulsarRouteListener.class);
+  private final Logger logger = LoggerFactory.getLogger(PulsarTaskLogListener.class);
 
   @Resource
   private PulsarProperties pulsarProperties;
 
   @Resource
   private PulsarClient pulsarClient;
-  
-  @Resource
-  private DynamicRouteService dynamicRouteService;
 
   @Override
-  public void received(Consumer<String> consumer, Message<String> msg) {
+  public void received(Consumer<SysTaskDto> consumer, Message<SysTaskDto> msg) {
     try {
       logger.info("Pulsar consumer data: {}, topic: {}", new String(msg.getData()), consumer.getTopic());
       consumer.acknowledge(msg);
       
       // business
-      dynamicRouteService.refreshRoute();
       
     } catch (PulsarClientException e) {
       consumer.negativeAcknowledge(msg);
