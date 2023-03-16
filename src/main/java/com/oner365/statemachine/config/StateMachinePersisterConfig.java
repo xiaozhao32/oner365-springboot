@@ -28,7 +28,7 @@ public class StateMachinePersisterConfig {
    * Redis持久化配置
    */
   @Bean
-  public RedisStateMachinePersister<OrderStateEnum, OrderEventEnum> persister() {
+  RedisStateMachinePersister<OrderStateEnum, OrderEventEnum> persister() {
     RedisStateMachineContextRepository<OrderStateEnum, OrderEventEnum> repository = new RedisStateMachineContextRepository<>(
         redisConnectionFactory);
     return new RedisStateMachinePersister<>(new RepositoryStateMachinePersist<>(repository));

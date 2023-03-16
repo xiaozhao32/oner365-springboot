@@ -38,7 +38,7 @@ public class LogAutoConfiguration {
      * @return SysLogListener
      */
     @Bean
-    public SysLogListener sysLogListener() {
+    SysLogListener sysLogListener() {
         return new SysLogListener(this.sysLogService);
     }
 
@@ -49,7 +49,7 @@ public class LogAutoConfiguration {
      * @return SysLogAspect
      */
     @Bean
-    public SysLogAspect sysLogAspect(ApplicationEventPublisher publisher) {
+    SysLogAspect sysLogAspect(ApplicationEventPublisher publisher) {
         return new SysLogAspect(publisher);
     }
 }

@@ -36,7 +36,7 @@ public class RabbitAdminConfig {
   }
 
   @Bean
-  public RabbitAdmin rabbitAdmin() {
+  RabbitAdmin rabbitAdmin() {
     RabbitAdmin rabbitAdmin = new RabbitAdmin(connectionFactory);
     rabbitAdmin.setAutoStartup(true);
     return rabbitAdmin;

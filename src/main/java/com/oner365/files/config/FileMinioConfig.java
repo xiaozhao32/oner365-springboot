@@ -33,7 +33,7 @@ public class FileMinioConfig {
   }
   
   @Bean
-  public MinioClient minioClient(MinioProperties minioProperties) {
+  MinioClient minioClient(MinioProperties minioProperties) {
     try {
       MinioClient minioClient = MinioClient.builder().endpoint(minioProperties.getUrl())
           .credentials(minioProperties.getUsername(), minioProperties.getPassword()).build();

@@ -37,7 +37,7 @@ public class PulsarConfig {
   }
 
   @Bean
-  public PulsarClient getPulsarFactory() {
+  PulsarClient getPulsarFactory() {
     PulsarClient client = null;
     try {
       client = PulsarClient.builder().serviceUrl("pulsar://" + pulsarProperties.getUrl()).build();

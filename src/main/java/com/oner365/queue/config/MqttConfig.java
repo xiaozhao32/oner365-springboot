@@ -50,7 +50,7 @@ public class MqttConfig {
   }
 
   @Bean
-  public MqttPahoClientFactory mqttPahoClientFactory() {
+  MqttPahoClientFactory mqttPahoClientFactory() {
     DefaultMqttPahoClientFactory factory = new DefaultMqttPahoClientFactory();
     MqttConnectOptions options = new MqttConnectOptions();
     options.setCleanSession(false);
@@ -62,14 +62,14 @@ public class MqttConfig {
   }
 
   @Bean
-  public MqttPahoMessageDrivenChannelAdapter adapter() {
+  MqttPahoMessageDrivenChannelAdapter adapter() {
     // clientId不能重复
     return new MqttPahoMessageDrivenChannelAdapter(mqttProperties.getClientId() + MqttConstants.CHANNEL_ADAPTER,
         mqttPahoClientFactory(), mqttProperties.getDefaultTopic());
   }
 
   @Bean
-  public MessageProducer mqttInbound(MqttPahoMessageDrivenChannelAdapter adapter) {
+  MessageProducer mqttInbound(MqttPahoMessageDrivenChannelAdapter adapter) {
     // 入站投递的通道
     adapter.setOutputChannel(mqttInboundChannel());
     adapter.setCompletionTimeout(MqttConstants.COMPLETION_TIMEOUT);
@@ -79,7 +79,7 @@ public class MqttConfig {
 
   @Bean
   @ServiceActivator(inputChannel = MqttConstants.OUT_BOUND_CHANNEL)
-  public MessageHandler mqttOutbound() {
+  MessageHandler mqttOutbound() {
     // clientId不能重复
     MqttPahoMessageHandler handler = new MqttPahoMessageHandler(
         mqttProperties.getClientId() + MqttConstants.CHANNEL_PRODUCER, mqttPahoClientFactory());
@@ -89,12 +89,12 @@ public class MqttConfig {
   }
 
   @Bean(name = MqttConstants.OUT_BOUND_CHANNEL)
-  public MessageChannel mqttOutboundChannel() {
+  MessageChannel mqttOutboundChannel() {
     return new DirectChannel();
   }
 
   @Bean(name = MqttConstants.IN_BOUND_CHANNEL)
-  public MessageChannel mqttInboundChannel() {
+  MessageChannel mqttInboundChannel() {
     return new DirectChannel();
   }
 

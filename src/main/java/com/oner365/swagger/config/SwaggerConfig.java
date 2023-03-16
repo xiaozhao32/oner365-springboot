@@ -48,42 +48,42 @@ public class SwaggerConfig implements WebMvcConfigurer {
   }
 
   @Bean
-  public Docket testApi() {
+  Docket testApi() {
     return buildApi("Api(对外接口)", "com.oner365.api");
   }
 
   @Bean
-  public Docket systemApi() {
+  Docket systemApi() {
     return buildApi("System(系统管理)", "com.oner365.sys");
   }
 
   @Bean
-  public Docket monitorApi() {
+  Docket monitorApi() {
     return buildApi("Monitor(监控中心)", "com.oner365.monitor");
   }
 
   @Bean
-  public Docket elasticsearchApi() {
+  Docket elasticsearchApi() {
     return buildApi("Elasticsearch(索引查询)", "com.oner365.elasticsearch");
   }
 
   @Bean
-  public Docket gatewayApi() {
+  Docket gatewayApi() {
     return buildApi("Cloud 专用(网关管理)", "com.oner365.gateway");
   }
 
   @Bean
-  public Docket filesApi() {
+  Docket filesApi() {
     return buildApi("Files(文件中心)", "com.oner365.files");
   }
 
   @Bean
-  public Docket rabbitmqApi() {
+  Docket rabbitmqApi() {
     return buildApi("Queue(队列)", "com.oner365.queue");
   }
   
   @Bean
-  public Docket statemachineApi() {
+  Docket statemachineApi() {
     return buildApi("State(状态转换)", "com.oner365.statemachine");
   }
 

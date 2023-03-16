@@ -60,6 +60,10 @@ spring:
     uris: http://192.168.33.42:9200
 
   data:
+    jpa:
+      repositories:
+        enabled: true
+        
     redis:
       repositories:
         enabled: false
