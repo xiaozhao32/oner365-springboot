@@ -1,4 +1,4 @@
-package com.oner365.test;
+package com.oner365.test.mapper;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -14,16 +14,12 @@ import org.junit.runner.RunWith;
  */
 @RunWith(JUnitPlatform.class)
 @SelectPackages({
-    "com.oner365.test.controller",
-    "com.oner365.test.service",
-    "com.oner365.test.mapper",
-    "com.oner365.test.dao",
-    "com.oner365.test.util"
+    "com.oner365.test.mapper.sys"
 })
-class SuiteTest {
+class SuiteMapperTest {
 
     @Test
     void test() {
-      Assertions.assertEquals("SuiteTest", SuiteTest.class.getSimpleName());
+      Assertions.assertEquals("SuiteMapperTest", SuiteMapperTest.class.getSimpleName());
     }
 }
