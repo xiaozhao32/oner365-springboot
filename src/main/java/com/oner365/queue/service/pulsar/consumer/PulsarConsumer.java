@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.alibaba.fastjson.JSONObject;
 import com.oner365.api.dto.UpdateTaskExecuteStatusDto;
+import com.oner365.common.exception.ProjectRuntimeException;
 import com.oner365.monitor.dto.InvokeParamDto;
 import com.oner365.monitor.dto.SysTaskDto;
 import com.oner365.queue.condition.PulsarCondition;
@@ -95,7 +96,7 @@ public class PulsarConsumer {
           .ackTimeout(10, TimeUnit.SECONDS).subscriptionType(SubscriptionType.Shared).messageListener(messageListener)
           .subscribe();
     } catch (PulsarClientException e) {
-      throw new RuntimeException("createConsumer error");
+      throw new ProjectRuntimeException("createConsumer error");
     }
   }
 

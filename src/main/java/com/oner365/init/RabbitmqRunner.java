@@ -25,7 +25,7 @@ public class RabbitmqRunner implements ApplicationRunner {
   private RabbitAdmin rabbitAdmin;
   
   @Override
-  public void run(ApplicationArguments args) {
+  public void run(ApplicationArguments args) throws Exception {
     
   }
 

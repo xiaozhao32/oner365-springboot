@@ -33,5 +33,4 @@ class DateUtilsTest extends BaseUtilsTest {
         LocalDateTime result = DateUtil.dateToLocalDateTime(date);
         Assertions.assertNotNull(result);
     }
-
 }

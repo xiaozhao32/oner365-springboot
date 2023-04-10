@@ -14,9 +14,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.oner365.api.dto.UpdateTaskExecuteStatusDto;
+import com.oner365.common.exception.ProjectRuntimeException;
 import com.oner365.monitor.dto.InvokeParamDto;
 import com.oner365.monitor.dto.SysTaskDto;
 import com.oner365.queue.condition.PulsarCondition;
@@ -35,7 +35,7 @@ import com.oner365.util.DataUtils;
 @Conditional(PulsarCondition.class)
 public class PulsarSendServiceImpl implements IQueueSendService {
 
-  private final Logger logger = LoggerFactory.getLogger(IQueueSendService.class);
+  private final Logger logger = LoggerFactory.getLogger(PulsarSendServiceImpl.class);
 
   @Resource
   private PulsarProperties pulsarProperties;
@@ -48,7 +48,7 @@ public class PulsarSendServiceImpl implements IQueueSendService {
       return pulsarClient.newProducer(schema).topic(topic).batchingMaxPublishDelay(10, TimeUnit.MILLISECONDS)
           .sendTimeout(10, TimeUnit.SECONDS).blockIfQueueFull(true).create();
     } catch (PulsarClientException e) {
-      throw new RuntimeException("初始化Pulsar Producer失败");
+      throw new ProjectRuntimeException("初始化Pulsar Producer失败");
     }
   }
 
@@ -80,7 +80,7 @@ public class PulsarSendServiceImpl implements IQueueSendService {
     try (Producer<InvokeParamDto> producer = createProducer(PulsarConstants.SCHEDULE_TASK_QUEUE_NAME,
         Schema.JSON(InvokeParamDto.class))) {
       MessageId messageId = producer.send(data);
-      logger.info("Pulsar syncRoute: {} topic: {} messageId: {}", JSON.toJSONString(data),
+      logger.info("Pulsar syncRoute: {} topic: {} messageId: {}", data,
           PulsarConstants.SCHEDULE_TASK_QUEUE_NAME, messageId);
     } catch (PulsarClientException e) {
       logger.error("Pulsar pullTask error:", e);
@@ -92,7 +92,7 @@ public class PulsarSendServiceImpl implements IQueueSendService {
     try (Producer<UpdateTaskExecuteStatusDto> producer = createProducer(PulsarConstants.TASK_UPDATE_STATUS_QUEUE_NAME,
         Schema.JSON(UpdateTaskExecuteStatusDto.class))) {
       MessageId messageId = producer.send(data);
-      logger.info("Pulsar updateTaskExecuteStatus: {} topic: {} messageId: {}", JSON.toJSONString(data),
+      logger.info("Pulsar updateTaskExecuteStatus: {} topic: {} messageId: {}", data,
           PulsarConstants.TASK_UPDATE_STATUS_QUEUE_NAME, messageId);
     } catch (PulsarClientException e) {
       logger.error("Pulsar updateTaskExecuteStatus error:", e);
@@ -104,7 +104,7 @@ public class PulsarSendServiceImpl implements IQueueSendService {
     try (Producer<SysTaskDto> producer = createProducer(PulsarConstants.SAVE_TASK_LOG_QUEUE_NAME,
         Schema.JSON(SysTaskDto.class))) {
       MessageId messageId = producer.send(data);
-      logger.info("Pulsar saveExecuteTaskLog: {} topic: {} messageId: {}", JSON.toJSONString(data),
+      logger.info("Pulsar saveExecuteTaskLog: {} topic: {} messageId: {}", data,
           PulsarConstants.SAVE_TASK_LOG_QUEUE_NAME, messageId);
     } catch (PulsarClientException e) {
       logger.error("Pulsar saveExecuteTaskLog error:", e);

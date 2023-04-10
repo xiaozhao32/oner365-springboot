@@ -16,7 +16,7 @@ import com.oner365.test.mapper.BaseMapperTest;
  * @author zhaoyong
  *
  */
-public class SysMenuMapperTest extends BaseMapperTest {
+class SysMenuMapperTest extends BaseMapperTest {
 
   @Test
   void selectListByRoleId() {

@@ -15,7 +15,7 @@ import com.oner365.test.mapper.BaseMapperTest;
  * @author zhaoyong
  *
  */
-public class GenTableColumnMapperTest extends BaseMapperTest {
+class GenTableColumnMapperTest extends BaseMapperTest {
 
   @Test
   void selectGenTableList() {

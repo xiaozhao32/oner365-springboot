@@ -34,6 +34,7 @@ class DataSourceUtilTest extends BaseUtilsTest {
         String password = "SYSDBA";
         String dataPath = "/opt/dmdbms/data";
         boolean isConn = DataSourceUtil.isConnection(driverName, url, userName, password);
+        Assertions.assertTrue(isConn);
         
         String name = "oner365";
         String createTablespace = String.format("create tablespace %s datafile '" + dataPath + "/%s/%s.dbf' size 500",

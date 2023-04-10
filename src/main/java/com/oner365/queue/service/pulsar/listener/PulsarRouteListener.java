@@ -5,7 +5,6 @@ import javax.annotation.Resource;
 import org.apache.pulsar.client.api.Consumer;
 import org.apache.pulsar.client.api.Message;
 import org.apache.pulsar.client.api.MessageListener;
-import org.apache.pulsar.client.api.PulsarClient;
 import org.apache.pulsar.client.api.PulsarClientException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,21 +27,19 @@ public class PulsarRouteListener implements MessageListener<String> {
 
   private static final long serialVersionUID = 1L;
 
-  private final Logger logger = LoggerFactory.getLogger(PulsarRouteListener.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(PulsarRouteListener.class);
 
   @Resource
   private PulsarProperties pulsarProperties;
 
-  @Resource
-  private PulsarClient pulsarClient;
-  
   @Resource
   private DynamicRouteService dynamicRouteService;
 
   @Override
   public void received(Consumer<String> consumer, Message<String> msg) {
     try {
-      logger.info("Pulsar consumer data: {}, topic: {}", new String(msg.getData()), consumer.getTopic());
+      String data = String.valueOf(msg.getData());
+      LOGGER.info("Pulsar consumer data: {}, topic: {}", data, consumer.getTopic());
       consumer.acknowledge(msg);
       
       // business

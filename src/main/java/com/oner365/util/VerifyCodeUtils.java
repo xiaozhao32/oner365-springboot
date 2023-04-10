@@ -184,12 +184,11 @@ public class VerifyCodeUtils {
         int phase = RANDOM.nextInt(2);
 
         for (int i = 0; i < h1; i++) {
-            double d = (double) (period >> 1)
-                    * Math.sin((double) i / (double) period + (6.2831853071795862D * (double) phase) / (double) frames);
-            g.copyArea(0, i, w1, 1, (int) d, 0);
-            g.setColor(color);
-            g.drawLine((int) d, i, 0, i);
-            g.drawLine((int) d + w1, i, w1, i);
+          double d = (period >> 1) * Math.sin((double)i / period + (6.2831853071795862D * phase) / frames);
+          g.copyArea(0, i, w1, 1, (int) d, 0);
+          g.setColor(color);
+          g.drawLine((int) d, i, 0, i);
+          g.drawLine((int) d + w1, i, w1, i);
         }
 
     }
@@ -200,12 +199,11 @@ public class VerifyCodeUtils {
 
         int phase = 7;
         for (int i = 0; i < w1; i++) {
-            double d = (double) (period >> 1)
-                    * Math.sin((double) i / (double) period + (6.2831853071795862D * (double) phase) / (double) COLOR_20);
-            g.copyArea(i, 0, 1, h1, 0, (int) d);
-            g.setColor(color);
-            g.drawLine(i, (int) d, i, 0);
-            g.drawLine(i, (int) d + h1, i, h1);
+          double d = (period >> 1) * Math.sin((double)i / period + (6.2831853071795862D * phase) / COLOR_20);
+          g.copyArea(i, 0, 1, h1, 0, (int) d);
+          g.setColor(color);
+          g.drawLine(i, (int) d, i, 0);
+          g.drawLine(i, (int) d + h1, i, h1);
 
         }
     }

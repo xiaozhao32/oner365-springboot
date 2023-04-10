@@ -60,8 +60,4 @@ public class XssFilter implements Filter {
     return DataUtils.matches(url, excludes);
   }
 
-  @Override
-  public void destroy() {
-
-  }
 }

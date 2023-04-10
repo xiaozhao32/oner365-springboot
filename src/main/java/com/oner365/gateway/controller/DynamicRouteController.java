@@ -1,6 +1,5 @@
 package com.oner365.gateway.controller;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -94,8 +93,8 @@ public class DynamicRouteController extends BaseController {
   @ApiOperation("4.刷新路由")
   @ApiOperationSupport(order = 4)
   @GetMapping("/refresh")
-  public ArrayList<GatewayRouteDto> refresh() {
-    return (ArrayList<GatewayRouteDto>)dynamicRouteService.refreshRoute();
+  public List<GatewayRouteDto> refresh() {
+    return dynamicRouteService.refreshRoute();
   }
 
   /**

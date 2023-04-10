@@ -58,7 +58,7 @@ public class QueueRabbitmqReceiverServiceImpl implements IQueueRabbitmqReceiverS
       optional.ifPresent(s -> logger.info("Message: {}", s));
       channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
     } catch (IOException e) {
-      if (message.getMessageProperties().getRedelivered()) {
+      if (Boolean.TRUE.equals(message.getMessageProperties().getRedelivered())) {
         logger.info("消息处理失败，拒绝接收.");
         channel.basicReject(message.getMessageProperties().getDeliveryTag(), false);
       } else {

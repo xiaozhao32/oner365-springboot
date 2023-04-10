@@ -1,5 +1,7 @@
 package com.oner365.statemachine.controller;
 
+import javax.annotation.Resource;
+
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.statemachine.StateMachine;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.common.ResponseResult;
+import com.oner365.common.constants.PublicConstants;
 import com.oner365.controller.BaseController;
 import com.oner365.statemachine.constants.StatemachineConstants;
 import com.oner365.statemachine.entity.Order;
@@ -19,8 +22,6 @@ import com.oner365.statemachine.vo.OrderVo;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-
-import javax.annotation.Resource;
 
 /**
  * 订单状态机
@@ -110,7 +111,7 @@ public class OrderController extends BaseController {
   private synchronized boolean sendEvent(Order order, OrderEventEnum enums) {
     logger.info("--- 发送事件 {} 订单:{} ---", enums, order.getId());
     // 持久化订单id
-    final String persistId = StatemachineConstants.HEADER_NAME + StatemachineConstants.COLON + order.getId();
+    final String persistId = StatemachineConstants.HEADER_NAME + PublicConstants.COLON + order.getId();
 
     try {
       Message<OrderEventEnum> message = MessageBuilder.withPayload(enums)

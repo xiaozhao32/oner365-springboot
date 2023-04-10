@@ -14,7 +14,7 @@ import com.oner365.test.mapper.BaseMapperTest;
  * @author zhaoyong
  *
  */
-public class SysOrganizationMapperTest extends BaseMapperTest {
+class SysOrganizationMapperTest extends BaseMapperTest {
 
   @Test
   void selectListByUserId() {

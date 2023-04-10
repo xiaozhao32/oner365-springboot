@@ -107,7 +107,7 @@ public class RabbitmqController extends BaseController {
     } catch (Exception e) {
       logger.error("Rabbitmq delete error:", e);
     }
-    return null;
+    return new JSONObject();
   }
 
   private String getUrl(String paramName, String name, int pageIndex, int pageSize) {
