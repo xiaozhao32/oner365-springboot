@@ -45,7 +45,7 @@
 		<org.springframework.statemachine.version>2.5.1</org.springframework.statemachine.version>
 		<org.springframework.security.version>5.8.2</org.springframework.security.version>
 		<org.springframework.boot.version>2.7.10</org.springframework.boot.version>
-		<org.springframework.version>5.3.26</org.springframework.version>
+		<org.springframework.version>5.3.27</org.springframework.version>
 		
 		<org.apache.logging.log4j.version>2.19.0</org.apache.logging.log4j.version>
 		<org.apache.httpclient.version>4.5.13</org.apache.httpclient.version>
@@ -90,8 +90,8 @@
 		<com.github.penggle.version>2.3.2</com.github.penggle.version>
 		<com.github.tobato.version>1.27.2</com.github.tobato.version>
 		<com.github.oshi.version>6.2.2</com.github.oshi.version>
-		<com.vladmihalcea.version>2.19.2</com.vladmihalcea.version>
-		<com.rabbitmq.version>5.16.0</com.rabbitmq.version>
+		<com.vladmihalcea.version>2.21.1</com.vladmihalcea.version>
+		<com.rabbitmq.version>5.17.0</com.rabbitmq.version>
 		<com.belerweb.version>2.5.1</com.belerweb.version>
 		<com.auth0.version>3.19.1</com.auth0.version>
 		
@@ -109,6 +109,7 @@
 		<redis.clients.version>4.3.1</redis.clients.version>
 		<jakarta.json.version>2.1.1</jakarta.json.version>
 		<joda.time.version>2.12.2</joda.time.version>
+		<junit.version>4.13.2</junit.version>
 		
 		<org.apache.maven.plugins.version>3.3.0</org.apache.maven.plugins.version>
 	</properties>
@@ -654,7 +655,7 @@
 		<dependency>
 		    <groupId>junit</groupId>
 		    <artifactId>junit</artifactId>
-		    <version>4.13.2</version>
+		    <version>${junit.version}</version>
 		</dependency>
 		
 		<!-- spring data -->
@@ -712,22 +713,22 @@
 			<artifactId>spring-aspects</artifactId>
 			<version>${org.springframework.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 			<version>${org.springframework.version}</version>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
-			<version>${org.springframework.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-tx</artifactId>
+			<artifactId>spring-context-support</artifactId>
 			<version>${org.springframework.version}</version>
 		</dependency>
 		
@@ -736,10 +737,46 @@
 			<artifactId>spring-messaging</artifactId>
 			<version>${org.springframework.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-oxm</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework</groupId>
 			<artifactId>spring-webflux</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
 			<version>${org.springframework.version}</version>
 		</dependency>
 		
