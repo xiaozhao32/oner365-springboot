@@ -105,7 +105,7 @@ public class FastdfsClient implements IFileStorageClient {
   private SysFileStorageVo saveFileStorage(String url, String fileName, long fileSize) {
     // save
     SysFileStorageVo entity = new SysFileStorageVo();
-    entity.setFastdfsUrl("http://" + fileFdfsProperties.getIp());
+    entity.setFastdfsUrl(PublicConstants.FILE_HTTP + fileFdfsProperties.getIp());
     entity.setId(StringUtils.replace(url, entity.getFastdfsUrl() + PublicConstants.DELIMITER, ""));
     entity.setCreateTime(DateUtil.getDate());
     entity.setDirectory(false);
@@ -230,7 +230,7 @@ public class FastdfsClient implements IFileStorageClient {
       fastdfsFile.setDirectory(entry.attributes.isDirectory());
       fastdfsFile.setFileSuffix(DataUtils.getExtension(entry.filename));
       fastdfsFile.setFilePath(directory);
-      fastdfsFile.setFastdfsUrl("http://" + fileFdfsProperties.getIp());
+      fastdfsFile.setFastdfsUrl(PublicConstants.FILE_HTTP + fileFdfsProperties.getIp());
       fastdfsFile.setSize(DataUtils.convertFileSize(entry.attributes.size));
       return fastdfsFile;
     }).collect(Collectors.toList());

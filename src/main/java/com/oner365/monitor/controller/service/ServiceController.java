@@ -58,7 +58,7 @@ public class ServiceController extends BaseController {
     serviceInfoDto.setServiceId(commonProperties.getServiceId());
     serviceInfoDto.setHost(commonProperties.getHost());
     serviceInfoDto.setPort(commonProperties.getPort());
-    serviceInfoDto.setUri("http://" + commonProperties.getHost() + PublicConstants.COLON + commonProperties.getPort());
+    serviceInfoDto.setUri(PublicConstants.FILE_HTTP + commonProperties.getHost() + PublicConstants.COLON + commonProperties.getPort());
     serviceInfoDto.setInstanceId(commonProperties.getServiceId());
     serviceInfoDto.setScheme(commonProperties.getScheme());
     serviceInstances.add(serviceInfoDto);

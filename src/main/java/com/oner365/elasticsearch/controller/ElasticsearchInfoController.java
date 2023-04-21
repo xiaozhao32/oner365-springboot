@@ -66,7 +66,7 @@ public class ElasticsearchInfoController extends BaseController {
   @GetMapping("/index")
   public TransportClientDto index() {
     // 创建客户端
-    String uri = StringUtils.substringAfter(commonProperties.getUris(), "http://");
+    String uri = StringUtils.substringAfter(commonProperties.getUris(), PublicConstants.FILE_HTTP);
     HttpClientConfigCallback httpClientConfigCallback = httpClientBuilder ->
         httpClientBuilder
             .setDefaultHeaders(Collections

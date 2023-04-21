@@ -20,6 +20,7 @@ import org.apache.http.util.EntityUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import com.oner365.common.constants.PublicConstants;
 import com.oner365.util.Base64Utils;
 
 /**
@@ -41,7 +42,7 @@ class HttpClientUtilsTest extends BaseUtilsTest {
                 new UsernamePasswordCredentials("admin", "admin123"));
         CloseableHttpClient httpclient = HttpClients.custom()
                 .setDefaultCredentialsProvider(credsProvider).build();
-        HttpGet httpget = new HttpGet("http://" + hostname + ":15672/api/queues/%2f/oner365.saveTaskLogTask");
+        HttpGet httpget = new HttpGet(PublicConstants.FILE_HTTP + hostname + ":15672/api/queues/%2f/oner365.saveTaskLogTask");
         AuthCache authCache = new BasicAuthCache();
         BasicScheme basicAuth = new BasicScheme();
         authCache.put(target, basicAuth);
@@ -52,7 +53,7 @@ class HttpClientUtilsTest extends BaseUtilsTest {
         CloseableHttpResponse response = httpclient.execute(target, httpget, localContext);
         logger.info("result:{}", EntityUtils.toString(response.getEntity()));
 //
-//        String url = "http://" + hostname + ":15672/api/queues///oner365.saveTaskLogTask";
+//        String url = PublicConstants.FILE_HTTP + hostname + ":15672/api/queues///oner365.saveTaskLogTask";
 //        System.out.println(URLEncoder.encode(url,Charset.defaultCharset().name()));
 //        ClientHttpConnector httpConnector = new ReactorClientHttpConnector();
 //        WebClient webClient = WebClient.builder().clientConnector(httpConnector).baseUrl(URLEncoder.encode(url,Charset.defaultCharset().name())).build();

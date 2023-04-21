@@ -64,6 +64,7 @@ public class SysDictItemTypeServiceImpl implements ISysDictItemTypeService {
     if (DataUtils.isEmpty(vo.getId())) {
       vo.setId(vo.getTypeCode());
     }
+    vo.setTypeOrder(Integer.parseInt(PublicConstants.DEFAULT_VALUE));
     SysDictItemType entity = dao.save(convert(vo, SysDictItemType.class));
     return convert(entity, SysDictItemTypeDto.class);
   }
