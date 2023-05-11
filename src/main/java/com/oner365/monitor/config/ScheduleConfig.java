@@ -2,8 +2,6 @@ package com.oner365.monitor.config;
 
 import java.util.Properties;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.quartz.SchedulerFactoryBeanCustomizer;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +11,7 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.oner365.datasource.constants.DataSourceConstants;
+import com.oner365.datasource.dynamic.DynamicDataSource;
 
 /**
  * 定时任务配置
@@ -25,7 +24,7 @@ import com.oner365.datasource.constants.DataSourceConstants;
 public class ScheduleConfig implements SchedulerFactoryBeanCustomizer {
 
     @Autowired
-    private DataSource dataSource;
+    private DynamicDataSource dataSource;
 
     @Override
     public void customize(SchedulerFactoryBean schedulerFactoryBean) {
@@ -33,7 +32,7 @@ public class ScheduleConfig implements SchedulerFactoryBeanCustomizer {
         schedulerFactoryBean.setApplicationContextSchedulerContextKey("applicationContextKey");
         
         // Postgres 设置
-        DruidDataSource source = (DruidDataSource) dataSource;
+        DruidDataSource source = (DruidDataSource)dataSource.getResolvedDefaultDataSource();
         if (DataSourceConstants.DRIVER_NAME_POSTGRESQL.equals(source.getDriverClassName())) {
           Properties properties = new Properties();
           properties.put("org.quartz.jobStore.driverDelegateClass", "org.quartz.impl.jdbcjobstore.PostgreSQLDelegate");

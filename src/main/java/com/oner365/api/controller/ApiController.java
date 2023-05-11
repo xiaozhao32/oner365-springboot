@@ -12,7 +12,6 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
-import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +28,7 @@ import com.oner365.common.enums.ResultEnum;
 import com.oner365.common.sequence.sequence.RangeSequence;
 import com.oner365.common.sequence.sequence.SnowflakeSequence;
 import com.oner365.controller.BaseController;
+import com.oner365.datasource.dynamic.DynamicDataSource;
 import com.oner365.datasource.util.DataSourceUtil;
 import com.oner365.util.DataUtils;
 import com.oner365.util.DateUtil;
@@ -49,8 +49,8 @@ public class ApiController extends BaseController {
   @Autowired
   private RedisCache redisCache;
 
-  @Resource(name = "dataSource")
-  private DataSource shardingDataSource;
+  @Resource
+  private DynamicDataSource dataSource;
 
   @Autowired
   private GuavaCache<Object> guavaCache;
@@ -74,7 +74,7 @@ public class ApiController extends BaseController {
   public List<Map<String, String>> testDataSource(@RequestParam Integer orderId, @RequestParam Integer userId) {
     String sql = "insert into t_order(id, order_id, user_id, status, create_time) " + "values('"
         + snowflakeSequence.nextNo() + "'," + orderId + "," + userId + ",'1','" + DateUtil.getCurrentTime() + "')";
-    try (Connection con = shardingDataSource.getConnection()) {
+    try (Connection con = dataSource.getConnection()) {
       return DataSourceUtil.execute(con, sql);
     } catch (Exception e) {
       logger.error("testDataSource error:", e);
