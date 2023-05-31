@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.oner365.common.config.properties.DefaultFileProperties;
 import com.oner365.common.constants.PublicConstants;
+import com.oner365.datasource.dynamic.DynamicDataSource;
 import com.oner365.swagger.config.properties.SwaggerProperties;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -51,7 +52,8 @@ class ScrewUtilsTest extends BaseUtilsTest {
    * 文档生成
    */
   private void documentGeneration() {
-    DruidDataSource druidDataSource = (DruidDataSource) dataSource;
+    DynamicDataSource dynamicDataSource = (DynamicDataSource) dataSource;
+    DruidDataSource druidDataSource = (DruidDataSource)dynamicDataSource.getResolvedDefaultDataSource();
     // 数据源
     HikariConfig hikariConfig = new HikariConfig();
     hikariConfig.setDriverClassName(druidDataSource.getDriverClassName());

@@ -1,8 +1,10 @@
 package com.oner365.test.util;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
 
+import javax.annotation.Resource;
+
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -19,9 +21,9 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
-import com.oner365.common.constants.PublicConstants;
-import com.oner365.util.Base64Utils;
+import com.oner365.queue.config.properties.RabbitmqProperties;
 
 /**
  * 工具类测试
@@ -29,20 +31,24 @@ import com.oner365.util.Base64Utils;
  * @author zhaoyong
  *
  */
+@SpringBootTest
 class HttpClientUtilsTest extends BaseUtilsTest {
+  
+    @Resource
+    private RabbitmqProperties rabbitmqProperties;
 
     @Test
     void test() throws IOException {
-        String hostname = "localhost";
-        logger.info("base64:{}", new String(Base64Utils.encodeBase64("admin:admin123".getBytes()), Charset.defaultCharset()));
-        HttpHost target = new HttpHost(hostname, 15672, "http");
+        String uri = rabbitmqProperties.getUri();
+        HttpHost target = new HttpHost(rabbitmqProperties.getHost(), Integer.parseInt(StringUtils.substringAfterLast(uri, ":")),
+            StringUtils.substringBefore(uri, ":"));
         CredentialsProvider credsProvider = new BasicCredentialsProvider();
         credsProvider.setCredentials(
                 new AuthScope(target.getHostName(), target.getPort()),
-                new UsernamePasswordCredentials("admin", "admin123"));
+                new UsernamePasswordCredentials(rabbitmqProperties.getUsername(), rabbitmqProperties.getPassword()));
         CloseableHttpClient httpclient = HttpClients.custom()
                 .setDefaultCredentialsProvider(credsProvider).build();
-        HttpGet httpget = new HttpGet(PublicConstants.FILE_HTTP + hostname + ":15672/api/queues/%2f/oner365.saveTaskLogTask");
+        HttpGet httpget = new HttpGet(rabbitmqProperties.getUri() + "/api/queues/%2f/oner365.saveTaskLogTask");
         AuthCache authCache = new BasicAuthCache();
         BasicScheme basicAuth = new BasicScheme();
         authCache.put(target, basicAuth);
