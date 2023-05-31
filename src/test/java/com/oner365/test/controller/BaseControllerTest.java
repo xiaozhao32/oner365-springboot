@@ -3,7 +3,8 @@ package com.oner365.test.controller;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
+
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -27,10 +28,10 @@ import com.oner365.test.BaseTest;
  */
 public abstract class BaseControllerTest extends BaseTest {
 
-  @Autowired
+  @Resource
   protected WebTestClient client;
 
-  @Autowired
+  @Resource
   private RedisCache redisCache;
 
   /**

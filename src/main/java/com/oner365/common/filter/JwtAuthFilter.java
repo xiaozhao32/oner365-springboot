@@ -18,6 +18,7 @@ package com.oner365.common.filter;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import javax.annotation.Resource;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -25,7 +26,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
@@ -47,10 +47,10 @@ import com.oner365.util.RequestUtils;
 @Component
 public class JwtAuthFilter implements Filter {
 
-  @Autowired
+  @Resource
   private AccessTokenProperties tokenProperties;
 
-  @Autowired
+  @Resource
   private RedisCache redisCache;
 
   @Override

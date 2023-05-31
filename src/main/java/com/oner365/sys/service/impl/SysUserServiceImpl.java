@@ -9,10 +9,11 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import javax.annotation.Resource;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
@@ -73,34 +74,34 @@ public class SysUserServiceImpl implements ISysUserService {
   private static final String CACHE_NAME = "SysUser";
   private static final String CACHE_ORG_NAME = "SysOrganization";
 
-  @Autowired
+  @Resource
   private RedisCache redisCache;
 
-  @Autowired
+  @Resource
   private ISysUserDao userDao;
 
-  @Autowired
+  @Resource
   private ISysRoleDao sysRoleDao;
 
-  @Autowired
+  @Resource
   private ISysOrganizationDao sysOrganizationDao;
 
-  @Autowired
+  @Resource
   private ISysJobDao sysJobDao;
 
-  @Autowired
+  @Resource
   private ISysUserRoleDao userRoleDao;
 
-  @Autowired
+  @Resource
   private ISysUserOrgDao userOrgDao;
 
-  @Autowired
+  @Resource
   private ISysUserJobDao userJobDao;
   
-  @Autowired
+  @Resource
   private ISysRoleMenuDao roleMenuDao;
 
-  @Autowired
+  @Resource
   private AccessTokenProperties tokenProperties;
 
   @Override

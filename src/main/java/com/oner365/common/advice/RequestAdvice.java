@@ -6,12 +6,12 @@ import java.lang.reflect.Type;
 import java.util.Base64;
 import java.util.Objects;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -36,7 +36,7 @@ public class RequestAdvice extends RequestBodyAdviceAdapter {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(RequestAdvice.class);
 
-  @Autowired
+  @Resource
   private ClientWhiteProperties clientWhiteProperties;
 
   @Override

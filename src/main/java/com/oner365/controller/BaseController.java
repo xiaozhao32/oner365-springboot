@@ -3,9 +3,10 @@ package com.oner365.controller;
 import java.io.File;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
 import com.oner365.common.config.properties.DefaultFileProperties;
@@ -21,7 +22,7 @@ public class BaseController {
 
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Autowired
+    @Resource
     protected DefaultFileProperties fileProperties;
 
     /**

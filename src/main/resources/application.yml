@@ -9,3 +9,4 @@ spring:
       - lt
       - zy
       - prod
+      - dev

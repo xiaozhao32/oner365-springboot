@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -59,7 +58,7 @@ public class FileStorageController extends BaseController {
   @Resource
   private IFileStorageClient fileStorageClient;
 
-  @Autowired
+  @Resource
   private IFileStorageService fileStorageService;
 
   /**

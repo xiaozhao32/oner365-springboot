@@ -3,8 +3,9 @@ package com.oner365.deploy.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.oner365.common.constants.PublicConstants;
@@ -24,9 +25,9 @@ import com.oner365.deploy.service.DeployService;
 @Service
 public class DeployServiceImpl implements DeployService {
   
-  @Autowired
+  @Resource
   private LocalDeployProperties localDeployProperties;
-  @Autowired
+  @Resource
   private ServerDeployProperties serverDeployProperties;
 
   @Override

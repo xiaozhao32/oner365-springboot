@@ -9,9 +9,10 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Sort;
@@ -55,16 +56,16 @@ public class SysMenuServiceImpl implements ISysMenuService {
   private static final String CACHE_NAME = "SysMenu";
   private static final String CACHE_ROLE_NAME = "SysRole";
 
-  @Autowired
+  @Resource
   private ISysMenuDao menuDao;
 
-  @Autowired
+  @Resource
   private ISysMenuOperDao menuOperDao;
 
-  @Autowired
+  @Resource
   private ISysRoleMenuDao roleMenuDao;
 
-  @Autowired
+  @Resource
   private SysMenuMapper menuMapper;
 
   @Override

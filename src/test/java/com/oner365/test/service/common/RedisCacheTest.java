@@ -1,17 +1,19 @@
 package com.oner365.test.service.common;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.oner365.common.cache.RedisCache;
 import com.oner365.test.service.BaseServiceTest;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * 单元测试 - RedisCache
@@ -21,7 +23,7 @@ import java.util.List;
 @SpringBootTest
 class RedisCacheTest extends BaseServiceTest {
 
-    @Autowired
+    @Resource
     private RedisCache redisCache;
 
     @Test

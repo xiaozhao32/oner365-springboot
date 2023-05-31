@@ -2,7 +2,8 @@ package com.oner365.monitor.controller.task;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +33,7 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/monitor/taskLog")
 public class SysTaskLogController extends BaseController {
 
-  @Autowired
+  @Resource
   private ISysTaskLogService taskLogService;
 
   /**

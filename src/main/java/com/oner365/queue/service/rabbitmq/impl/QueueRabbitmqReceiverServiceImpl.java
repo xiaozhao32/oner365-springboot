@@ -3,11 +3,12 @@ package com.oner365.queue.service.rabbitmq.impl;
 import java.io.IOException;
 import java.util.Optional;
 
+import javax.annotation.Resource;
+
 import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.Message;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Service;
 
@@ -42,13 +43,13 @@ public class QueueRabbitmqReceiverServiceImpl implements IQueueRabbitmqReceiverS
 
   private final Logger logger = LoggerFactory.getLogger(QueueRabbitmqReceiverServiceImpl.class);
   
-  @Autowired
+  @Resource
   private DynamicRouteService dynamicRouteService;
   
-  @Autowired
+  @Resource
   private ISysTaskLogService sysTaskLogService;
 
-  @Autowired
+  @Resource
   private ISysTaskService sysTaskService;
 
   @Override

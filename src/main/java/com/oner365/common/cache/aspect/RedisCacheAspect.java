@@ -2,6 +2,8 @@ package com.oner365.common.cache.aspect;
 
 import java.util.concurrent.TimeUnit;
 
+import javax.annotation.Resource;
+
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -12,7 +14,6 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
@@ -35,10 +36,10 @@ public class RedisCacheAspect {
   
     private final Logger logger = LoggerFactory.getLogger(RedisCacheAspect.class);
 
-    @Autowired
+    @Resource
     private RedisCache redisCache;
 
-    @Autowired
+    @Resource
     private CommonProperties commonProperties;
 
     @Pointcut("@annotation(com.oner365.common.cache.annotation.RedisCachePut)")

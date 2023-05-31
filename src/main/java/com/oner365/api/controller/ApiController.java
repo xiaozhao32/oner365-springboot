@@ -13,7 +13,6 @@ import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,19 +45,19 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/api")
 public class ApiController extends BaseController {
 
-  @Autowired
+  @Resource
   private RedisCache redisCache;
 
   @Resource
   private DynamicDataSource dataSource;
 
-  @Autowired
+  @Resource
   private GuavaCache<Object> guavaCache;
 
-  @Autowired
+  @Resource
   private SnowflakeSequence snowflakeSequence;
 
-  @Autowired
+  @Resource
   private RangeSequence rangeSequence;
 
   /**

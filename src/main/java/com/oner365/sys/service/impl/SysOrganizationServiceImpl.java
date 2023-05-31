@@ -9,9 +9,10 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
@@ -54,10 +55,10 @@ public class SysOrganizationServiceImpl implements ISysOrganizationService {
 
   private static final String CACHE_NAME = "SysOrganization";
 
-  @Autowired
+  @Resource
   private ISysOrganizationDao dao;
 
-  @Autowired
+  @Resource
   private SysOrganizationMapper organizationMapper;
 
   @Override

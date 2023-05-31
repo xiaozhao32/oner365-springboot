@@ -5,7 +5,8 @@ import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
+
 import org.springframework.context.annotation.Conditional;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -44,10 +45,10 @@ import reactor.core.publisher.Mono;
 @Conditional(RabbitmqCondition.class)
 public class RabbitmqController extends BaseController {
 
-  @Autowired
+  @Resource
   private RabbitmqProperties rabbitmqProperties;
 
-  @Autowired
+  @Resource
   private WebClient client;
 
   /**

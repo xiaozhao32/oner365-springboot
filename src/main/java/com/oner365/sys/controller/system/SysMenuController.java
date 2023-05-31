@@ -4,7 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
+
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,10 +48,10 @@ import springfox.documentation.annotations.ApiIgnore;
 @RequestMapping("/system/menus")
 public class SysMenuController extends BaseController {
 
-  @Autowired
+  @Resource
   public ISysMenuService menuService;
 
-  @Autowired
+  @Resource
   public ISysMenuOperationService operationService;
 
   /**

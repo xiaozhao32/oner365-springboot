@@ -2,7 +2,8 @@ package com.oner365.generator.service.impl;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Service;
 
 import com.oner365.generator.entity.GenTableColumn;
@@ -17,7 +18,7 @@ import com.oner365.util.ConvertString;
  */
 @Service
 public class GenTableColumnServiceImpl implements IGenTableColumnService {
-    @Autowired
+    @Resource
     private GenTableColumnMapper genTableColumnMapper;
 
     /**

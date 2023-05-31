@@ -6,9 +6,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
@@ -49,10 +50,10 @@ public class SysDictItemTypeServiceImpl implements ISysDictItemTypeService {
   private static final String CACHE_NAME = "SysDictItemType";
   private static final String CACHE_ITEM_NAME = "SysDictItem";
 
-  @Autowired
+  @Resource
   private ISysDictItemTypeDao dao;
 
-  @Autowired
+  @Resource
   private ISysDictItemService sysDictItemService;
 
   @Override

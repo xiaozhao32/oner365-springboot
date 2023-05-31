@@ -1,11 +1,10 @@
 package com.oner365.monitor.controller.task;
 
-import com.oner365.util.DateUtil;
-
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.quartz.SchedulerException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,6 +29,7 @@ import com.oner365.monitor.exception.TaskException;
 import com.oner365.monitor.service.ISysTaskService;
 import com.oner365.monitor.util.CronUtils;
 import com.oner365.monitor.vo.SysTaskVo;
+import com.oner365.util.DateUtil;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -45,7 +45,7 @@ import springfox.documentation.annotations.ApiIgnore;
 @RequestMapping("/monitor/task")
 public class SysTaskController extends BaseController {
 
-  @Autowired
+  @Resource
   private ISysTaskService taskService;
 
   /**

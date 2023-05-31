@@ -6,9 +6,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -41,7 +42,7 @@ public class SysJobServiceImpl implements ISysJobService {
 
   private static final String CACHE_NAME = "SysJob";
 
-  @Autowired
+  @Resource
   private ISysJobDao dao;
 
   @Override

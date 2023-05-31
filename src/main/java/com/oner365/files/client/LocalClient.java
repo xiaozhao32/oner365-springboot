@@ -2,9 +2,10 @@ package com.oner365.files.client;
 
 import java.io.File;
 
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,13 +32,13 @@ public class LocalClient implements IFileStorageClient {
 
   private final Logger logger = LoggerFactory.getLogger(LocalClient.class);
 
-  @Autowired
+  @Resource
   private FileLocalProperties fileLocalProperties;
 
-  @Autowired
+  @Resource
   private IFileStorageService fileStorageService;
 
-  @Autowired
+  @Resource
   private SnowflakeSequence snowflakeSequence;
 
   @Override

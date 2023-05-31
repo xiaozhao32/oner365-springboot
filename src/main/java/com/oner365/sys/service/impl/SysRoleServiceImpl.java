@@ -7,10 +7,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.annotation.Resource;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
@@ -58,19 +59,19 @@ public class SysRoleServiceImpl implements ISysRoleService {
   private static final String CACHE_NAME = "SysRole";
   private static final String CACHE_MENU_NAME = "SysMenu";
 
-  @Autowired
+  @Resource
   private ISysRoleDao roleDao;
 
-  @Autowired
+  @Resource
   private ISysRoleMenuDao roleMenuDao;
 
-  @Autowired
+  @Resource
   private ISysRoleMenuOperDao roleMenuOperDao;
 
-  @Autowired
+  @Resource
   private ISysUserRoleDao userRoleDao;
 
-  @Autowired
+  @Resource
   private ISysMenuService sysMenuService;
 
   @Override

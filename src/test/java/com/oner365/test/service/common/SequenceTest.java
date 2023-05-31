@@ -2,9 +2,10 @@ package com.oner365.test.service.common;
 
 import java.util.stream.IntStream;
 
+import javax.annotation.Resource;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.oner365.common.sequence.sequence.RangeSequence;
@@ -19,10 +20,10 @@ import com.oner365.test.service.BaseServiceTest;
 @SpringBootTest
 class SequenceTest extends BaseServiceTest {
 
-  @Autowired
+  @Resource
   private SnowflakeSequence snowflakeSequence;
 
-  @Autowired
+  @Resource
   private RangeSequence rangeSequence;
 
   /**

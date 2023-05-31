@@ -2,11 +2,11 @@ package com.oner365.test.util;
 
 import java.util.ArrayList;
 
+import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.alibaba.druid.pool.DruidDataSource;
@@ -33,13 +33,13 @@ import cn.smallbun.screw.core.process.ProcessConfig;
 @SpringBootTest
 class ScrewUtilsTest extends BaseUtilsTest {
 
-  @Autowired
+  @Resource
   private DataSource dataSource;
 
-  @Autowired
+  @Resource
   private DefaultFileProperties fileProperties;
   
-  @Autowired
+  @Resource
   private SwaggerProperties swaggerProperties;
 
   @Test

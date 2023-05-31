@@ -6,7 +6,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
+
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -24,7 +25,7 @@ import com.oner365.common.constants.PublicConstants;
 @SuppressWarnings(value = { "unchecked", "rawtypes" })
 public class RedisCache {
 
-    @Autowired
+    @Resource
     public RedisTemplate redisTemplate;
 
     /**

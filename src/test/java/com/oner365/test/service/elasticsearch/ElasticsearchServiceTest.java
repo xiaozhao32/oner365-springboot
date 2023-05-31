@@ -1,8 +1,9 @@
 package com.oner365.test.service.elasticsearch;
 
+import javax.annotation.Resource;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.RepeatedTest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.oner365.common.page.PageInfo;
@@ -20,7 +21,7 @@ import com.oner365.test.service.BaseServiceTest;
 @SpringBootTest
 class ElasticsearchServiceTest extends BaseServiceTest {
 
-    @Autowired
+    @Resource
     private ISampleGeneElasticsearchService service;
 
     @RepeatedTest(value = 2)

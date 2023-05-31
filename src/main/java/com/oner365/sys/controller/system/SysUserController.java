@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 import javax.annotation.Resource;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -61,13 +60,13 @@ import springfox.documentation.annotations.ApiIgnore;
 @RequestMapping("/system/user")
 public class SysUserController extends BaseController {
 
-  @Autowired
+  @Resource
   private ISysUserService sysUserService;
 
-  @Autowired
+  @Resource
   private ISysRoleService sysRoleService;
 
-  @Autowired
+  @Resource
   private ISysJobService sysJobService;
 
   @Resource

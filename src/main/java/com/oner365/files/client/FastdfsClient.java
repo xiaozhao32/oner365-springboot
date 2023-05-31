@@ -10,11 +10,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.annotation.Resource;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -49,16 +50,16 @@ public class FastdfsClient implements IFileStorageClient {
 
   private final Logger logger = LoggerFactory.getLogger(FastdfsClient.class);
 
-  @Autowired
+  @Resource
   private FileFdfsProperties fileFdfsProperties;
 
-  @Autowired
+  @Resource
   private FastFileStorageClient fastFileStorageClient;
 
-  @Autowired
+  @Resource
   private FdfsWebServer fdfsWebServer;
 
-  @Autowired
+  @Resource
   private IFileStorageService fileStorageService;
 
   /**

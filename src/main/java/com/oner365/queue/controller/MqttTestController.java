@@ -1,6 +1,7 @@
 package com.oner365.queue.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
+
 import org.springframework.context.annotation.Conditional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +28,7 @@ import io.swagger.annotations.ApiOperation;
 @Conditional(MqttCondition.class)
 public class MqttTestController extends BaseController {
   
-  @Autowired
+  @Resource
   private IMqttSendService service;
 
   /**

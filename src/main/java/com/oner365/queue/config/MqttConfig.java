@@ -1,12 +1,12 @@
 package com.oner365.queue.config;
 
 import javax.annotation.PreDestroy;
+import javax.annotation.Resource;
 
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
@@ -39,10 +39,10 @@ public class MqttConfig {
   
   private final Logger logger = LoggerFactory.getLogger(MqttConfig.class);
 
-  @Autowired
+  @Resource
   private MqttProperties mqttProperties;
 
-  @Autowired
+  @Resource
   private RabbitAdmin rabbitAdmin;
   
   public MqttConfig() {

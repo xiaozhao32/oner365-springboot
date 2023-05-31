@@ -2,7 +2,8 @@ package com.oner365.monitor.config;
 
 import java.util.Properties;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
+
 import org.springframework.boot.autoconfigure.quartz.SchedulerFactoryBeanCustomizer;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -23,7 +24,7 @@ import com.oner365.datasource.dynamic.DynamicDataSource;
 @EnableScheduling
 public class ScheduleConfig implements SchedulerFactoryBeanCustomizer {
 
-    @Autowired
+    @Resource
     private DynamicDataSource dataSource;
 
     @Override

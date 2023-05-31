@@ -1,6 +1,7 @@
 package com.oner365.queue.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,7 +25,7 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/queue")
 public class QueueTestController extends BaseController {
   
-  @Autowired
+  @Resource
   private IQueueSendService service;
 
   /**

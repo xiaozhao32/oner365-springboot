@@ -3,8 +3,8 @@ package com.oner365.monitor.controller.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.oner365.monitor.dto.ServiceInfoDto;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +21,7 @@ import com.oner365.deploy.entity.DeployEntity;
 import com.oner365.deploy.entity.ServerEntity;
 import com.oner365.deploy.service.DeployService;
 import com.oner365.deploy.utils.DeployMethod;
+import com.oner365.monitor.dto.ServiceInfoDto;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -35,10 +36,10 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/monitor/service")
 public class ServiceController extends BaseController {
 
-  @Autowired
+  @Resource
   private CommonProperties commonProperties;
 
-  @Autowired
+  @Resource
   private DeployService deployService;
 
   /**

@@ -6,11 +6,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
 
+import javax.annotation.Resource;
+
 import org.apache.http.entity.ContentType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.oner365.files.config.properties.MinioProperties;
 import com.oner365.test.service.BaseServiceTest;
@@ -36,7 +37,7 @@ import io.minio.RemoveObjectArgs;
 @Disabled
 class MinioFileUtilsTest extends BaseServiceTest {
     
-  @Autowired
+  @Resource
   private MinioProperties minioProperties;
 
   @Test

@@ -7,9 +7,10 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
@@ -35,10 +36,10 @@ public class SysTaskLogServiceImpl implements ISysTaskLogService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(SysTaskLogServiceImpl.class);
 
-  @Autowired
+  @Resource
   private ISysTaskLogDao dao;
 
-  @Autowired
+  @Resource
   private SysTaskLogMapper taskLogMapper;
 
   @Override

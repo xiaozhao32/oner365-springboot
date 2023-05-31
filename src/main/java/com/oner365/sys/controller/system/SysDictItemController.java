@@ -7,7 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -51,10 +52,10 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/system/dict")
 public class SysDictItemController extends BaseController {
 
-  @Autowired
+  @Resource
   private ISysDictItemTypeService sysDictItemTypeService;
 
-  @Autowired
+  @Resource
   private ISysDictItemService sysDictItemService;
 
   /**

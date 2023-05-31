@@ -4,7 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -43,7 +44,7 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/system/menu/operation")
 public class SysMenuOperationController extends BaseController {
 
-  @Autowired
+  @Resource
   private ISysMenuOperationService menuOperationService;
 
   /**

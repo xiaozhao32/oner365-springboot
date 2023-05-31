@@ -2,9 +2,10 @@ package com.oner365.monitor.task;
 
 import java.util.Date;
 
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
@@ -23,10 +24,10 @@ public class SystemTask {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(SystemTask.class);
 
-  @Autowired
+  @Resource
   private IQueueSendService queueSendService;
 
-  @Autowired
+  @Resource
   private ISysLogService sysLogService;
 
   public void taskMultipleParams(String s, Boolean b, Long l, Double d, Integer i) {

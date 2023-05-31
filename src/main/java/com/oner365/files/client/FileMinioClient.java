@@ -5,10 +5,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import javax.annotation.Resource;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -42,13 +43,13 @@ public class FileMinioClient implements IFileStorageClient {
 
   private final Logger logger = LoggerFactory.getLogger(FileMinioClient.class);
 
-  @Autowired
+  @Resource
   private MinioProperties minioProperties;
 
-  @Autowired
+  @Resource
   private MinioClient minioClient;
 
-  @Autowired
+  @Resource
   private IFileStorageService fileStorageService;
 
   @Override
