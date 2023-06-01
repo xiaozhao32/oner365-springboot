@@ -133,9 +133,7 @@ public class QueryUtils {
       pageSize = data.getPageSize() == null ? pageSize : data.getPageSize();
 
       Sort sort = buildSortRequest(data.getOrder());
-      if (sort != null) {
-        return PageRequest.of(pageNum - 1, pageSize, sort);
-      }
+      return PageRequest.of(pageNum - 1, pageSize, sort);
     }
     return PageRequest.of(pageNum - 1, pageSize);
   }

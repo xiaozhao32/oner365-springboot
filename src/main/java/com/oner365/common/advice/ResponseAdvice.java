@@ -80,6 +80,10 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
       return ResponseData.success(
           Base64.getEncoder().encodeToString(Cipher.encodeSms4(body.toString(), key.substring(0, 16).getBytes())));
     }
+    
+    if (body == null) {
+      return null;
+    }
     // 默认返回
     if (body instanceof String) {
       try {
