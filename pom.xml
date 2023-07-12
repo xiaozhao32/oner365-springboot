@@ -20,12 +20,12 @@
 			<comments>oner365 Project</comments>
 		</license>
 	</licenses>
-	
+
 	<organization>
 		<url>http://www.oner365.com</url>
 		<name>oner365</name>
 	</organization>
-	
+
 	<developers>
 		<developer>
 			<name>zhaoyong</name>
@@ -43,34 +43,35 @@
 
 		<org.springframework.integration.version>5.5.18</org.springframework.integration.version>
 		<org.springframework.statemachine.version>2.5.1</org.springframework.statemachine.version>
-		<org.springframework.security.version>5.8.3</org.springframework.security.version>
+		<org.springframework.security.version>5.8.4</org.springframework.security.version>
 		<org.springframework.boot.version>2.7.13</org.springframework.boot.version>
 		<org.springframework.version>5.3.28</org.springframework.version>
-		
+
 		<org.apache.logging.log4j.version>2.20.0</org.apache.logging.log4j.version>
 		<org.apache.httpclient.version>4.5.14</org.apache.httpclient.version>
 		<org.apache.httpcore.version>4.4.16</org.apache.httpcore.version>
 		<org.apache.tomcat.version>9.0.76</org.apache.tomcat.version>
-		<org.apache.pulsar.version>2.11.0</org.apache.pulsar.version>
+		<org.apache.pulsar.version>3.0.0</org.apache.pulsar.version>
 		<org.apache.poi.version>5.2.2</org.apache.poi.version>
 
 		<org.hibernate.validator.version>6.2.5.Final</org.hibernate.validator.version>
 		<org.hibernate.version>5.6.15.Final</org.hibernate.version>
 		<javax.servlet.version>4.0.1</javax.servlet.version>
-		
+
 		<org.mybatis.spring.boot.version>2.3.0</org.mybatis.spring.boot.version>
 		<org.mybatis.version>3.5.13</org.mybatis.version>
-		
+
+		<org.bouncycastle.version>1.70</org.bouncycastle.version>
 		<org.elasticsearch.version>7.17.7</org.elasticsearch.version>
 		<org.slf4j.version>1.7.36</org.slf4j.version>
 		<ch.qos.logback.version>1.2.12</ch.qos.logback.version>
-		
-		<org.jetbrains.kotlin.version>1.8.20</org.jetbrains.kotlin.version>
+
+		<org.jetbrains.kotlin.version>1.9.0</org.jetbrains.kotlin.version>
 		<org.junit.platform.version>1.7.2</org.junit.platform.version>
 		<org.javassist.version>3.29.2-GA</org.javassist.version>
 		<org.freemarker.version>2.3.32</org.freemarker.version>
 		<org.reflections.version>0.10.2</org.reflections.version>
-		<org.codehaus.version>3.1.9</org.codehaus.version>
+		<org.codehaus.version>3.1.10</org.codehaus.version>
 		<org.quartz.version>2.3.2</org.quartz.version>
 		<org.yaml.version>2.0</org.yaml.version>
 
@@ -78,13 +79,13 @@
 		<com.oracle.version>21.9.0.0</com.oracle.version>
 		<com.dameng.version>8.1.1.49</com.dameng.version>
 		<com.mysql.version>8.0.32</com.mysql.version>
-		
+
 		<com.alibaba.fastjson.version>1.2.83</com.alibaba.fastjson.version>
 		<com.alibaba.druid.version>1.2.17</com.alibaba.druid.version>
-		
+
 		<com.fasterxml.jackson.version>2.15.1</com.fasterxml.jackson.version>
 		<com.google.code.gson.version>2.9.1</com.google.code.gson.version>
-		<com.google.guava.version>31.1-jre</com.google.guava.version>
+		<com.google.guava.version>32.1.1-jre</com.google.guava.version>
 		<com.google.protobuf.version>3.22.4</com.google.protobuf.version>
 		<com.github.xiaoymin.version>3.0.3</com.github.xiaoymin.version>
 		<com.github.penggle.version>2.3.2</com.github.penggle.version>
@@ -94,13 +95,13 @@
 		<com.rabbitmq.version>5.17.0</com.rabbitmq.version>
 		<com.belerweb.version>2.5.1</com.belerweb.version>
 		<com.auth0.version>3.19.1</com.auth0.version>
-		
+
 		<io.projectreactor.core.version>3.5.6</io.projectreactor.core.version>
 		<io.projectreactor.netty.version>1.1.6</io.projectreactor.netty.version>
 		<io.jsonwebtoken.version>0.9.1</io.jsonwebtoken.version>
-		<io.netty.version>4.1.92.Final</io.netty.version>
-		<io.minio.version>8.5.2</io.minio.version>
-		
+		<io.netty.version>4.1.94.Final</io.netty.version>
+		<io.minio.version>8.5.4</io.minio.version>
+
 		<net.logstash.logback.version>7.2</net.logstash.logback.version>
 		<net.bytebuddy.version>1.12.23</net.bytebuddy.version>
 		<net.minidev.version>2.4.10</net.minidev.version>
@@ -110,7 +111,7 @@
 		<jakarta.json.version>2.1.1</jakarta.json.version>
 		<joda.time.version>2.12.5</joda.time.version>
 		<junit.version>4.13.2</junit.version>
-		
+
 		<org.apache.maven.plugins.version>3.3.0</org.apache.maven.plugins.version>
 	</properties>
 
@@ -195,8 +196,13 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.velocity</groupId>
-			<artifactId>velocity</artifactId>
-			<version>1.7</version>
+		  	<artifactId>velocity-engine-core</artifactId>
+		  	<version>2.3</version>
+		</dependency>
+		<dependency>
+		  	<groupId>org.apache.velocity.tools</groupId>
+		  	<artifactId>velocity-tools-generic</artifactId>
+		  	<version>3.1</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.apache.logging.log4j</groupId>
@@ -234,7 +240,7 @@
 			<artifactId>httpcore-nio</artifactId>
 			<version>${org.apache.httpcore.version}</version>
 		</dependency>
-		
+
 		<!-- excel -->
 		<dependency>
 			<groupId>org.apache.poi</groupId>
@@ -251,6 +257,22 @@
 			<artifactId>poi-ooxml</artifactId>
 			<version>${org.apache.poi.version}</version>
 		</dependency>
+		
+		<dependency>
+		    <groupId>org.bouncycastle</groupId>
+		    <artifactId>bcprov-jdk15on</artifactId>
+		    <version>${org.bouncycastle.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.bouncycastle</groupId>
+		    <artifactId>bcprov-ext-jdk15on</artifactId>
+		    <version>${org.bouncycastle.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.bouncycastle</groupId>
+		    <artifactId>bcpkix-jdk15on</artifactId>
+		    <version>${org.bouncycastle.version}</version>
+		</dependency>
 
 		<!-- google -->
 		<dependency>
@@ -264,13 +286,13 @@
 			<artifactId>gson</artifactId>
 			<version>${com.google.code.gson.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.google.protobuf</groupId>
 			<artifactId>protobuf-java</artifactId>
 			<version>${com.google.protobuf.version}</version>
 		</dependency>
-		
+
 		<!-- 验证码 -->
         <dependency>
             <groupId>com.github.penggle</groupId>
@@ -291,7 +313,7 @@
 			<artifactId>oshi-core</artifactId>
 			<version>${com.github.oshi.version}</version>
 		</dependency>
-		
+
 		<!-- logback -->
 		<dependency>
 		    <groupId>ch.qos.logback</groupId>
@@ -303,34 +325,34 @@
 		    <artifactId>logback-classic</artifactId>
 		    <version>${ch.qos.logback.version}</version>
 		</dependency>
-		
+
 		<!-- logback logstash -->
 		<dependency>
 		    <groupId>net.logstash.logback</groupId>
 		    <artifactId>logstash-logback-encoder</artifactId>
 		    <version>${net.logstash.logback.version}</version>
 		</dependency>
-		
+
 		<dependency>
 		    <groupId>org.codehaus.janino</groupId>
 		    <artifactId>janino</artifactId>
 		    <version>${org.codehaus.version}</version>
 		</dependency>
-		
+
 		<!-- byte-buddy -->
 		<dependency>
 			<groupId>net.bytebuddy</groupId>
 			<artifactId>byte-buddy</artifactId>
 			<version>${net.bytebuddy.version}</version>
 		</dependency>
-		
+
 		<!-- jopt-simple -->
 		<dependency>
 			<groupId>net.sf.jopt-simple</groupId>
 			<artifactId>jopt-simple</artifactId>
 			<version>${net.sf.jopt.version}</version>
 		</dependency>
-		
+
 		<!-- json-smart -->
 		<dependency>
 		    <groupId>net.minidev</groupId>
@@ -344,21 +366,21 @@
 			<artifactId>ganymed-ssh2</artifactId>
 			<version>build210</version>
 		</dependency>
-		
+
 		<!-- screw-core -->
 		<dependency>
     		<groupId>cn.smallbun.screw</groupId>
 			<artifactId>screw-core</artifactId>
 			<version>${cn.smallbun.screw.version}</version>
 		</dependency>
-		
+
 		<!-- redis -->
 		<dependency>
 			<groupId>redis.clients</groupId>
 			<artifactId>jedis</artifactId>
 			<version>${redis.clients.version}</version>
 		</dependency>
-		
+
 		<!-- Swagger -->
 		<dependency>
 		    <groupId>com.github.xiaoymin</groupId>
@@ -371,7 +393,7 @@
 		    	</exclusion>
 		    </exclusions>
 		</dependency>
-		
+
 		<!-- jwt -->
 		<dependency>
 			<groupId>com.auth0</groupId>
@@ -422,7 +444,7 @@
 		    <artifactId>Dm8JdbcDriver18</artifactId>
 		    <version>${com.dameng.version}</version>
 		</dependency>
-		
+
 		<!-- kotlin -->
 		<dependency>
 		    <groupId>org.jetbrains.kotlin</groupId>
@@ -439,7 +461,7 @@
 		    <artifactId>kotlin-stdlib-jdk7</artifactId>
 		    <version>${org.jetbrains.kotlin.version}</version>
 		</dependency>
-		
+
 		<dependency>
 		    <groupId>org.jetbrains.kotlin</groupId>
 		    <artifactId>kotlin-stdlib-jdk8</artifactId>
@@ -495,14 +517,14 @@
 			<artifactId>reflections</artifactId>
 			<version>${org.reflections.version}</version>
 		</dependency>
-		
+
 		<!-- freemarker -->
 		<dependency>
 			<groupId>org.freemarker</groupId>
 			<artifactId>freemarker</artifactId>
 			<version>${org.freemarker.version}</version>
 		</dependency>
-		
+
 		<dependency>
 		    <groupId>org.yaml</groupId>
 		    <artifactId>snakeyaml</artifactId>
@@ -532,12 +554,12 @@
 			<artifactId>netty-codec-http</artifactId>
 			<version>${io.netty.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>io.projectreactor</groupId>
 			<artifactId>reactor-core</artifactId>
 			<version>${io.projectreactor.core.version}</version>
-		</dependency>		
+		</dependency>
 		<dependency>
 			<groupId>io.projectreactor.netty</groupId>
 			<artifactId>reactor-netty-http</artifactId>
@@ -568,13 +590,13 @@
 			<artifactId>jackson-module-jaxb-annotations</artifactId>
 			<version>${com.fasterxml.jackson.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.fasterxml.jackson.module</groupId>
 			<artifactId>jackson-module-parameter-names</artifactId>
 			<version>${com.fasterxml.jackson.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.fasterxml.jackson.datatype</groupId>
 			<artifactId>jackson-datatype-jdk8</artifactId>
@@ -586,7 +608,7 @@
 			<artifactId>jackson-datatype-jsr310</artifactId>
 			<version>${com.fasterxml.jackson.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.fasterxml.jackson.dataformat</groupId>
 			<artifactId>jackson-dataformat-smile</artifactId>
@@ -598,7 +620,7 @@
 			<artifactId>jackson-dataformat-yaml</artifactId>
 			<version>${com.fasterxml.jackson.version}</version>
 		</dependency>
-		 
+
 		<dependency>
 			<groupId>com.fasterxml.jackson.dataformat</groupId>
 			<artifactId>jackson-dataformat-cbor</artifactId>
@@ -639,14 +661,14 @@
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 			<version>${org.springframework.boot.version}</version>
 		</dependency>
-		
+
 		<!-- spring test -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<version>${org.springframework.boot.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.junit.platform</groupId>
 			<artifactId>junit-platform-runner</artifactId>
@@ -657,32 +679,32 @@
 		    <artifactId>junit</artifactId>
 		    <version>${junit.version}</version>
 		</dependency>
-		
+
 		<!-- spring data -->
 		<dependency>
 		    <groupId>org.springframework.data</groupId>
 		    <artifactId>spring-data-commons</artifactId>
 		    <version>${org.springframework.boot.version}</version>
 		</dependency>
-		
+
 		<dependency>
 		    <groupId>org.springframework.data</groupId>
 		    <artifactId>spring-data-jpa</artifactId>
 		    <version>${org.springframework.boot.version}</version>
 		</dependency>
-		
+
 		<dependency>
 		    <groupId>org.springframework.data</groupId>
 		    <artifactId>spring-data-redis</artifactId>
 		    <version>${org.springframework.boot.version}</version>
 		</dependency>
-		
+
 		<dependency>
 		    <groupId>org.springframework.data</groupId>
 		    <artifactId>spring-data-keyvalue</artifactId>
 		    <version>${org.springframework.boot.version}</version>
 		</dependency>
-		
+
 		<!-- spring mybatis -->
 		<dependency>
 			<groupId>org.mybatis.spring.boot</groupId>
@@ -713,7 +735,7 @@
 			<artifactId>spring-aspects</artifactId>
 			<version>${org.springframework.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-beans</artifactId>
@@ -725,25 +747,25 @@
 			<artifactId>spring-context</artifactId>
 			<version>${org.springframework.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
 			<version>${org.springframework.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-messaging</artifactId>
 			<version>${org.springframework.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-orm</artifactId>
 			<version>${org.springframework.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-oxm</artifactId>
@@ -755,31 +777,31 @@
 			<artifactId>spring-test</artifactId>
 			<version>${org.springframework.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-tx</artifactId>
 			<version>${org.springframework.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
 			<version>${org.springframework.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webflux</artifactId>
 			<version>${org.springframework.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
 			<version>${org.springframework.version}</version>
 		</dependency>
-		
+
 		<dependency>
 		    <groupId>org.springframework.security</groupId>
 		    <artifactId>spring-security-core</artifactId>
@@ -791,7 +813,7 @@
 		    <artifactId>spring-integration-mqtt</artifactId>
 		    <version>${org.springframework.integration.version}</version>
 		</dependency>
-		
+
 		<dependency>
 		    <groupId>org.springframework.statemachine</groupId>
 		    <artifactId>spring-statemachine-core</artifactId>
@@ -802,7 +824,7 @@
 		    <artifactId>spring-statemachine-data-redis</artifactId>
 		    <version>${org.springframework.statemachine.version}</version>
 		</dependency>
-		
+
 		<!-- tomcat -->
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
@@ -819,7 +841,7 @@
 			<artifactId>tomcat-embed-websocket</artifactId>
 			<version>${org.apache.tomcat.version}</version>
 		</dependency>
-		
+
 		<!-- rabbitmq -->
 		<dependency>
 			<groupId>com.rabbitmq</groupId>
@@ -831,7 +853,7 @@
 			<artifactId>spring-boot-starter-amqp</artifactId>
 			<version>${org.springframework.boot.version}</version>
 		</dependency>
-		<!-- pulsar -->    
+		<!-- pulsar -->
 		<dependency>
             <groupId>org.apache.pulsar</groupId>
             <artifactId>pulsar-client</artifactId>
@@ -885,7 +907,7 @@
 		    <artifactId>jakarta.json-api</artifactId>
 		    <version>${jakarta.json.version}</version>
 		</dependency>
-		
+
 	</dependencies>
 
 	<build>
@@ -893,7 +915,7 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<version>${org.springframework.boot.version}</version>
+				<version>2.7.8</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -929,7 +951,7 @@
 					</includes>
 				</configuration>
 			</plugin>
-			
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
@@ -972,8 +994,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			
-			
+
 			<plugin>
 				<groupId>com.spotify</groupId>
 				<artifactId>docker-maven-plugin</artifactId>
@@ -988,7 +1009,7 @@
 					</buildArgs>
 				</configuration>
 			</plugin>
-			
+
 		</plugins>
 	</build>
 
