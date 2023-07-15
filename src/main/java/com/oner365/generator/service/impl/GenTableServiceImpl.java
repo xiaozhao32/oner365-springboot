@@ -178,13 +178,9 @@ public class GenTableServiceImpl implements IGenTableService {
     Map<String, String> dataMap = new LinkedHashMap<>();
     // 查询表信息
     GenTable table = genTableMapper.selectGenTableById(tableId);
-    // 查询列信息
-    List<GenTableColumn> columns = table.getColumns();
-    setPkColumn(table, columns);
+    setPkColumn(table, table.getColumns());
     VelocityInitializer.initVelocity();
-
     VelocityContext context = VelocityUtils.prepareContext(table);
-
     // 获取模板列表
     List<String> templates = VelocityUtils.getTemplateList(table.getTplCategory());
     // 渲染模板
@@ -223,14 +219,9 @@ public class GenTableServiceImpl implements IGenTableService {
   public Boolean generatorCode(String tableName) {
     // 查询表信息
     GenTable table = genTableMapper.selectGenTableByName(tableName);
-    // 查询列信息
-    List<GenTableColumn> columns = table.getColumns();
-    setPkColumn(table, columns);
-
+    setPkColumn(table, table.getColumns());
     VelocityInitializer.initVelocity();
-
     VelocityContext context = VelocityUtils.prepareContext(table);
-
     // 获取模板列表
     List<String> templates = VelocityUtils.getTemplateList(table.getTplCategory());
     // 渲染模板
@@ -303,14 +294,9 @@ public class GenTableServiceImpl implements IGenTableService {
   private void generatorCode(String tableName, ZipOutputStream zip) {
     // 查询表信息
     GenTable table = genTableMapper.selectGenTableByName(tableName);
-    // 查询列信息
-    List<GenTableColumn> columns = table.getColumns();
-    setPkColumn(table, columns);
-
+    setPkColumn(table, table.getColumns());
     VelocityInitializer.initVelocity();
-
     VelocityContext context = VelocityUtils.prepareContext(table);
-
     // 获取模板列表
     List<String> templates = VelocityUtils.getTemplateList(table.getTplCategory());
     // 渲染模板
