@@ -12,7 +12,8 @@ server:
     threads:
       max: 800
       min-spare: 30
-
+  shutdown: graceful
+  
 spring:
 
   # database

@@ -263,5 +263,10 @@
     "name": "queue.type",
     "type": "java.lang.String",
     "description": "A description for 'queue.type'."
+  },
+  {
+    "name": "management.endpoints.web.exposure.base-path",
+    "type": "java.lang.String",
+    "description": "A description for 'management.endpoints.web.exposure.base-path'."
   }
 ]}
