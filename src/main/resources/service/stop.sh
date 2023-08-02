@@ -19,7 +19,7 @@ function exec() {
 	        kill -9 $tpid
 	        sleep 15
 	    fi
-	    rm -r tpid
+	    rm -f tpid
 	fi
 }
 

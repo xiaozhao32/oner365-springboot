@@ -25,7 +25,7 @@ if [ -f tpid ];then
         kill -9 $tpid
         sleep 15
     fi
-    rm -r tpid
+    rm -f tpid
 fi
  
 #4核8G配置jvm(根据服务器做调整，翻倍即可)
