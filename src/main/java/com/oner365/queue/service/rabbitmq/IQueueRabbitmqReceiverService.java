@@ -18,7 +18,7 @@ import com.oner365.monitor.dto.InvokeParamDto;
 import com.oner365.monitor.dto.SysTaskDto;
 import com.oner365.monitor.exception.TaskException;
 import com.oner365.queue.condition.RabbitmqCondition;
-import com.oner365.queue.constants.RabbitmqConstants;
+import com.oner365.queue.constants.QueueConstants;
 import com.rabbitmq.client.Channel;
 
 /**
@@ -40,9 +40,9 @@ public interface IQueueRabbitmqReceiverService extends BaseService {
    */
   @RabbitListener(
       bindings = @QueueBinding(
-          value = @Queue(value = RabbitmqConstants.MESSAGE_QUEUE_NAME, autoDelete = "false"),
-          exchange = @Exchange(value = RabbitmqConstants.MESSAGE_QUEUE_TYPE),
-          key = RabbitmqConstants.MESSAGE_QUEUE_KEY
+          value = @Queue(value = QueueConstants.MESSAGE_QUEUE_NAME, autoDelete = "false"),
+          exchange = @Exchange(value = QueueConstants.MESSAGE_QUEUE_TYPE),
+          key = QueueConstants.MESSAGE_QUEUE_KEY
       ),
       ackMode = "MANUAL"
   )
@@ -54,9 +54,9 @@ public interface IQueueRabbitmqReceiverService extends BaseService {
    */
   @RabbitListener(
       bindings = @QueueBinding(
-          value = @Queue(value = RabbitmqConstants.ROUTE_QUEUE_NAME, autoDelete = "false"),
-          exchange = @Exchange(value = RabbitmqConstants.ROUTE_QUEUE_TYPE, type = ExchangeTypes.FANOUT),
-          key = RabbitmqConstants.ROUTE_QUEUE_KEY
+          value = @Queue(value = QueueConstants.ROUTE_QUEUE_NAME, autoDelete = "false"),
+          exchange = @Exchange(value = QueueConstants.ROUTE_QUEUE_TYPE, type = ExchangeTypes.FANOUT),
+          key = QueueConstants.ROUTE_QUEUE_KEY
       )
   )
   void syncRoute(String gatewayIp);
@@ -68,9 +68,9 @@ public interface IQueueRabbitmqReceiverService extends BaseService {
    */
   @RabbitListener(
       bindings = @QueueBinding(
-          value = @Queue(value = RabbitmqConstants.SCHEDULE_TASK_QUEUE_NAME, autoDelete = "false"), 
-          exchange = @Exchange(value = RabbitmqConstants.SCHEDULE_TASK_QUEUE_TYPE, type = ExchangeTypes.FANOUT), 
-          key = RabbitmqConstants.SCHEDULE_TASK_QUEUE_KEY)
+          value = @Queue(value = QueueConstants.SCHEDULE_TASK_QUEUE_NAME, autoDelete = "false"), 
+          exchange = @Exchange(value = QueueConstants.SCHEDULE_TASK_QUEUE_TYPE, type = ExchangeTypes.FANOUT), 
+          key = QueueConstants.SCHEDULE_TASK_QUEUE_KEY)
   )
   void scheduleTask(InvokeParamDto invokeParamDto);
   
@@ -83,9 +83,9 @@ public interface IQueueRabbitmqReceiverService extends BaseService {
    */
   @RabbitListener(
       bindings = @QueueBinding(
-          value = @Queue(value = RabbitmqConstants.TASK_UPDATE_STATUS_QUEUE_NAME, autoDelete = "false"), 
-          exchange = @Exchange(value = RabbitmqConstants.TASK_UPDATE_STATUS_QUEUE_TYPE, type = ExchangeTypes.FANOUT), 
-          key = RabbitmqConstants.TASK_UPDATE_STATUS_QUEUE_KEY
+          value = @Queue(value = QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME, autoDelete = "false"), 
+          exchange = @Exchange(value = QueueConstants.TASK_UPDATE_STATUS_QUEUE_TYPE, type = ExchangeTypes.FANOUT), 
+          key = QueueConstants.TASK_UPDATE_STATUS_QUEUE_KEY
       )
   )
   void updateTaskExecuteStatus(UpdateTaskExecuteStatusDto updateTask) throws SchedulerException, TaskException;
@@ -97,9 +97,9 @@ public interface IQueueRabbitmqReceiverService extends BaseService {
    */
   @RabbitListener(
       bindings = @QueueBinding(
-          value = @Queue(value = RabbitmqConstants.SAVE_TASK_LOG_QUEUE_NAME, autoDelete = "false"), 
-          exchange = @Exchange(value = RabbitmqConstants.SAVE_TASK_LOG_QUEUE_TYPE, type = ExchangeTypes.FANOUT), 
-          key = RabbitmqConstants.SAVE_TASK_LOG_QUEUE_KEY
+          value = @Queue(value = QueueConstants.SAVE_TASK_LOG_QUEUE_NAME, autoDelete = "false"), 
+          exchange = @Exchange(value = QueueConstants.SAVE_TASK_LOG_QUEUE_TYPE, type = ExchangeTypes.FANOUT), 
+          key = QueueConstants.SAVE_TASK_LOG_QUEUE_KEY
       )
   )
   void saveExecuteTaskLog(SysTaskDto sysTask);

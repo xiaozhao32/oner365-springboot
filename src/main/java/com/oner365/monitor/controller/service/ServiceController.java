@@ -22,6 +22,7 @@ import com.oner365.deploy.entity.ServerEntity;
 import com.oner365.deploy.service.DeployService;
 import com.oner365.deploy.utils.DeployMethod;
 import com.oner365.monitor.dto.ServiceInfoDto;
+import com.oner365.queue.service.IQueueSendService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -41,6 +42,9 @@ public class ServiceController extends BaseController {
 
   @Resource
   private DeployService deployService;
+  
+  @Resource
+  private IQueueSendService queueSendService;
 
   /**
    * 基本信息
@@ -76,6 +80,7 @@ public class ServiceController extends BaseController {
   @ApiOperationSupport(order = 2)
   @GetMapping("/refresh")
   public String refreshConfig() {
+    queueSendService.syncRoute();
     return ResultEnum.SUCCESS.getName();
   }
 

@@ -21,7 +21,7 @@ import com.oner365.monitor.dto.InvokeParamDto;
 import com.oner365.monitor.dto.SysTaskDto;
 import com.oner365.queue.condition.PulsarCondition;
 import com.oner365.queue.config.properties.PulsarProperties;
-import com.oner365.queue.constants.PulsarConstants;
+import com.oner365.queue.constants.QueueConstants;
 import com.oner365.queue.service.IQueueSendService;
 import com.oner365.util.DataUtils;
 
@@ -54,11 +54,10 @@ public class PulsarSendServiceImpl implements IQueueSendService {
 
   @Override
   public void sendMessage(JSONObject data) {
-    try (Producer<JSONObject> producer = createProducer(PulsarConstants.MESSAGE_QUEUE_NAME,
+    try (Producer<JSONObject> producer = createProducer(QueueConstants.MESSAGE_QUEUE_NAME,
         Schema.JSON(JSONObject.class))) {
       MessageId messageId = producer.send(data);
-      logger.info("Pulsar sendMessage: {} topic: {} messageId: {}", data, PulsarConstants.MESSAGE_QUEUE_NAME,
-          messageId);
+      logger.info("Pulsar sendMessage: {} topic: {} messageId: {}", data, QueueConstants.MESSAGE_QUEUE_NAME, messageId);
     } catch (PulsarClientException e) {
       logger.error("Pulsar sendMessage error:", e);
     }
@@ -66,10 +65,10 @@ public class PulsarSendServiceImpl implements IQueueSendService {
 
   @Override
   public void syncRoute() {
-    try (Producer<String> producer = createProducer(PulsarConstants.ROUTE_QUEUE_NAME, Schema.STRING)) {
+    try (Producer<String> producer = createProducer(QueueConstants.ROUTE_QUEUE_NAME, Schema.STRING)) {
       String data = DataUtils.getLocalhost();
       MessageId messageId = producer.send(data);
-      logger.info("Pulsar syncRoute: {} topic: {} messageId: {}", data, PulsarConstants.MESSAGE_QUEUE_NAME, messageId);
+      logger.info("Pulsar syncRoute: {} topic: {} messageId: {}", data, QueueConstants.MESSAGE_QUEUE_NAME, messageId);
     } catch (PulsarClientException e) {
       logger.error("Pulsar syncRoute error:", e);
     }
@@ -77,11 +76,11 @@ public class PulsarSendServiceImpl implements IQueueSendService {
 
   @Override
   public void pullTask(InvokeParamDto data) {
-    try (Producer<InvokeParamDto> producer = createProducer(PulsarConstants.SCHEDULE_TASK_QUEUE_NAME,
+    try (Producer<InvokeParamDto> producer = createProducer(QueueConstants.SCHEDULE_TASK_QUEUE_NAME,
         Schema.JSON(InvokeParamDto.class))) {
       MessageId messageId = producer.send(data);
-      logger.info("Pulsar syncRoute: {} topic: {} messageId: {}", data,
-          PulsarConstants.SCHEDULE_TASK_QUEUE_NAME, messageId);
+      logger.info("Pulsar syncRoute: {} topic: {} messageId: {}", data, QueueConstants.SCHEDULE_TASK_QUEUE_NAME,
+          messageId);
     } catch (PulsarClientException e) {
       logger.error("Pulsar pullTask error:", e);
     }
@@ -89,11 +88,11 @@ public class PulsarSendServiceImpl implements IQueueSendService {
 
   @Override
   public void updateTaskExecuteStatus(UpdateTaskExecuteStatusDto data) {
-    try (Producer<UpdateTaskExecuteStatusDto> producer = createProducer(PulsarConstants.TASK_UPDATE_STATUS_QUEUE_NAME,
+    try (Producer<UpdateTaskExecuteStatusDto> producer = createProducer(QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME,
         Schema.JSON(UpdateTaskExecuteStatusDto.class))) {
       MessageId messageId = producer.send(data);
       logger.info("Pulsar updateTaskExecuteStatus: {} topic: {} messageId: {}", data,
-          PulsarConstants.TASK_UPDATE_STATUS_QUEUE_NAME, messageId);
+          QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME, messageId);
     } catch (PulsarClientException e) {
       logger.error("Pulsar updateTaskExecuteStatus error:", e);
     }
@@ -101,11 +100,11 @@ public class PulsarSendServiceImpl implements IQueueSendService {
 
   @Override
   public void saveExecuteTaskLog(SysTaskDto data) {
-    try (Producer<SysTaskDto> producer = createProducer(PulsarConstants.SAVE_TASK_LOG_QUEUE_NAME,
+    try (Producer<SysTaskDto> producer = createProducer(QueueConstants.SAVE_TASK_LOG_QUEUE_NAME,
         Schema.JSON(SysTaskDto.class))) {
       MessageId messageId = producer.send(data);
       logger.info("Pulsar saveExecuteTaskLog: {} topic: {} messageId: {}", data,
-          PulsarConstants.SAVE_TASK_LOG_QUEUE_NAME, messageId);
+          QueueConstants.SAVE_TASK_LOG_QUEUE_NAME, messageId);
     } catch (PulsarClientException e) {
       logger.error("Pulsar saveExecuteTaskLog error:", e);
     }

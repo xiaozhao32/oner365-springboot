@@ -27,7 +27,7 @@ public class PulsarRouteListener implements MessageListener<String> {
 
   private static final long serialVersionUID = 1L;
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(PulsarRouteListener.class);
+  private final Logger logger = LoggerFactory.getLogger(PulsarRouteListener.class);
 
   @Resource
   private PulsarProperties pulsarProperties;
@@ -39,15 +39,14 @@ public class PulsarRouteListener implements MessageListener<String> {
   public void received(Consumer<String> consumer, Message<String> msg) {
     try {
       String data = String.valueOf(msg.getData());
-      LOGGER.info("Pulsar consumer data: {}, topic: {}", data, consumer.getTopic());
+      logger.info("Pulsar consumer data: {}, topic: {}", data, consumer.getTopic());
       consumer.acknowledge(msg);
-      
-      // business
-      dynamicRouteService.refreshRoute();
-      
     } catch (PulsarClientException e) {
       consumer.negativeAcknowledge(msg);
     }
+    // business
+    dynamicRouteService.refreshRoute();
+
   }
 
 }

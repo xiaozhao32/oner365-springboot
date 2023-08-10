@@ -33,11 +33,6 @@ public class MqttProperties {
   private String clientId;
 
   /**
-   * topic
-   */
-  private String defaultTopic;
-
-  /**
    * 构造方法
    */
   public MqttProperties() {
@@ -98,20 +93,6 @@ public class MqttProperties {
    */
   public void setClientId(String clientId) {
     this.clientId = clientId;
-  }
-
-  /**
-   * @return the defaultTopic
-   */
-  public String getDefaultTopic() {
-    return defaultTopic;
-  }
-
-  /**
-   * @param defaultTopic the defaultTopic to set
-   */
-  public void setDefaultTopic(String defaultTopic) {
-    this.defaultTopic = defaultTopic;
   }
 
 }

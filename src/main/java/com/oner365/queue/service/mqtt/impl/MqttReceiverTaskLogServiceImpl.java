@@ -1,65 +1,54 @@
-package com.oner365.queue.service.pulsar.listener;
+package com.oner365.queue.service.mqtt.impl;
 
 import javax.annotation.Resource;
 
-import org.apache.pulsar.client.api.Consumer;
-import org.apache.pulsar.client.api.Message;
-import org.apache.pulsar.client.api.MessageListener;
-import org.apache.pulsar.client.api.PulsarClientException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Conditional;
-import org.springframework.stereotype.Component;
+import org.springframework.integration.annotation.ServiceActivator;
+import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSON;
 import com.oner365.monitor.constants.ScheduleConstants;
 import com.oner365.monitor.dto.SysTaskDto;
 import com.oner365.monitor.enums.TaskStatusEnum;
 import com.oner365.monitor.service.ISysTaskLogService;
 import com.oner365.monitor.vo.SysTaskLogVo;
-import com.oner365.queue.condition.PulsarCondition;
-import com.oner365.queue.config.properties.PulsarProperties;
+import com.oner365.queue.condition.MqttCondition;
+import com.oner365.queue.constants.MqttConstants;
+import com.oner365.queue.service.mqtt.IMqttReceiverTaskLogService;
 import com.oner365.util.DataUtils;
 
 /**
- * pulsar SysTaskDto listener
+ * MQTT 接收实现
  * 
  * @author zhaoyong
  *
  */
-@Component
-@Conditional(PulsarCondition.class)
-public class PulsarTaskLogListener implements MessageListener<SysTaskDto> {
+@Service
+@Conditional(MqttCondition.class)
+public class MqttReceiverTaskLogServiceImpl implements IMqttReceiverTaskLogService {
 
-  private static final long serialVersionUID = 1L;
-
-  private final Logger logger = LoggerFactory.getLogger(PulsarTaskLogListener.class);
-
-  @Resource
-  private PulsarProperties pulsarProperties;
+  private final Logger logger = LoggerFactory.getLogger(MqttReceiverTaskLogServiceImpl.class);
 
   @Resource
   private ISysTaskLogService sysTaskLogService;
-
+  
   @Override
-  public void received(Consumer<SysTaskDto> consumer, Message<SysTaskDto> msg) {
-    try {
-      String data = String.valueOf(msg.getData());
-      logger.info("Pulsar consumer data: {}, topic: {}", data, consumer.getTopic());
-      consumer.acknowledge(msg);
-    } catch (PulsarClientException e) {
-      consumer.negativeAcknowledge(msg);
-    }
+  @ServiceActivator(inputChannel = MqttConstants.IN_BOUND_CHANNEL, outputChannel = MqttConstants.OUT_BOUND_CHANNEL)
+  public void message(Object message) {
+    logger.info("Mqtt receive saveExecuteTaskLog: {}", message);
+    
     // business
-    SysTaskDto sysTask = msg.getValue();
+    SysTaskDto sysTask = JSON.parseObject(message.toString(), SysTaskDto.class);
     if (sysTask != null) {
       saveExecuteTaskLog(sysTask);
     }
-
   }
-
+  
   public void saveExecuteTaskLog(SysTaskDto sysTask) {
     logger.info("saveExecuteTaskLog :{}", sysTask);
-
+    
     long time = System.currentTimeMillis();
     SysTaskLogVo taskLog = new SysTaskLogVo();
     taskLog.setExecuteIp(DataUtils.getLocalhost());

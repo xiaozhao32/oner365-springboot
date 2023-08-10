@@ -6,6 +6,9 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 import org.springframework.lang.NonNull;
 
+import com.oner365.common.constants.PublicConstants;
+import com.oner365.common.enums.QueueEnum;
+
 /**
  * MQTT Condition
  * 
@@ -17,9 +20,9 @@ public class MqttCondition implements Condition {
   @Override
   public boolean matches(ConditionContext conditionContext, @NonNull AnnotatedTypeMetadata metadata) {
     Environment environment = conditionContext.getEnvironment();
-    String type = environment.getProperty("mqtt.enabled");
+    String type = environment.getProperty(PublicConstants.QUEUE_TYPE);
     // 是否开启
-    return type != null && type.equalsIgnoreCase(Boolean.TRUE.toString());
+    return type != null && type.equalsIgnoreCase(QueueEnum.MQTT.name());
   }
 
 }

@@ -21,7 +21,7 @@ import com.oner365.monitor.dto.InvokeParamDto;
 import com.oner365.monitor.dto.SysTaskDto;
 import com.oner365.queue.condition.PulsarCondition;
 import com.oner365.queue.config.properties.PulsarProperties;
-import com.oner365.queue.constants.PulsarConstants;
+import com.oner365.queue.constants.QueueConstants;
 import com.oner365.queue.service.pulsar.listener.PulsarInvokeParamListener;
 import com.oner365.queue.service.pulsar.listener.PulsarMessageListener;
 import com.oner365.queue.service.pulsar.listener.PulsarRouteListener;
@@ -37,58 +37,58 @@ import com.oner365.queue.service.pulsar.listener.PulsarTaskLogListener;
 @Configuration
 @Conditional(PulsarCondition.class)
 public class PulsarConsumer {
-  
+
   @Resource
   private PulsarProperties pulsarProperties;
-  
+
   @Resource
   private PulsarClient pulsarClient;
-  
+
   @Resource
   private PulsarMessageListener pulsarMessageListener;
-  
+
   @Resource
   private PulsarRouteListener pulsarRouteListener;
-  
+
   @Resource
   private PulsarInvokeParamListener pulsarInvokeParamListener;
-  
+
   @Resource
   private PulsarTaskExecuteStatusListener pulsarTaskExecuteStatusListener;
-  
+
   @Resource
   private PulsarTaskLogListener pulsarTaskLogListener;
-  
+
   @Bean("getMessageConsumer")
   Consumer<JSONObject> getMessageConsumer() {
-    return createConsumer(PulsarConstants.MESSAGE_QUEUE_NAME, pulsarProperties.getSubscription(),
-        pulsarMessageListener, Schema.JSON(JSONObject.class));
+    return createConsumer(QueueConstants.MESSAGE_QUEUE_NAME, pulsarProperties.getSubscription(), pulsarMessageListener,
+        Schema.JSON(JSONObject.class));
   }
-  
+
   @Bean("getRouteConsumer")
   Consumer<String> getRouteConsumer() {
-    return createConsumer(PulsarConstants.ROUTE_QUEUE_NAME, pulsarProperties.getSubscription(),
-        pulsarRouteListener, Schema.STRING);
+    return createConsumer(QueueConstants.ROUTE_QUEUE_NAME, pulsarProperties.getSubscription(), pulsarRouteListener,
+        Schema.STRING);
   }
-  
+
   @Bean("getInvokeParamConsumer")
   Consumer<InvokeParamDto> getInvokeParamConsumer() {
-    return createConsumer(PulsarConstants.SCHEDULE_TASK_QUEUE_NAME, pulsarProperties.getSubscription(),
+    return createConsumer(QueueConstants.SCHEDULE_TASK_QUEUE_NAME, pulsarProperties.getSubscription(),
         pulsarInvokeParamListener, Schema.JSON(InvokeParamDto.class));
   }
-  
+
   @Bean("getTaskExecuteStatusConsumer")
   Consumer<UpdateTaskExecuteStatusDto> getTaskExecuteStatusConsumer() {
-    return createConsumer(PulsarConstants.TASK_UPDATE_STATUS_QUEUE_NAME, pulsarProperties.getSubscription(),
+    return createConsumer(QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME, pulsarProperties.getSubscription(),
         pulsarTaskExecuteStatusListener, Schema.JSON(UpdateTaskExecuteStatusDto.class));
   }
-  
+
   @Bean("getTaskLogConsumer")
   Consumer<SysTaskDto> getTaskLogConsumer() {
-    return createConsumer(PulsarConstants.SAVE_TASK_LOG_QUEUE_NAME, pulsarProperties.getSubscription(),
+    return createConsumer(QueueConstants.SAVE_TASK_LOG_QUEUE_NAME, pulsarProperties.getSubscription(),
         pulsarTaskLogListener, Schema.JSON(SysTaskDto.class));
   }
-  
+
   public <T> Consumer<T> createConsumer(String topic, String subscription, MessageListener<T> messageListener,
       Schema<T> schema) {
     try {

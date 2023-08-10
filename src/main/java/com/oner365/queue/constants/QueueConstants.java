@@ -3,11 +3,11 @@ package com.oner365.queue.constants;
 import com.oner365.common.constants.PublicConstants;
 
 /**
- * rabbitmq 常量设置
+ * 队列常量设置
  * 
  * @author zhaoyong
  */
-public class RabbitmqConstants extends PublicConstants {
+public class QueueConstants extends PublicConstants {
 
     /**
      * message队列
@@ -44,7 +44,7 @@ public class RabbitmqConstants extends PublicConstants {
     public static final String SAVE_TASK_LOG_QUEUE_TYPE = SAVE_TASK_LOG_QUEUE_NAME + "." + MQ_FANOUT;
     public static final String SAVE_TASK_LOG_QUEUE_KEY = SAVE_TASK_LOG_QUEUE_NAME + "." + MQ_KEY;
     
-    private RabbitmqConstants() {
+    private QueueConstants() {
     }
 
 }

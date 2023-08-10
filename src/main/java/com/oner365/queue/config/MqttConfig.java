@@ -1,12 +1,10 @@
 package com.oner365.queue.config;
 
-import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
 
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
@@ -25,6 +23,7 @@ import com.oner365.common.enums.QueueEnum;
 import com.oner365.queue.condition.MqttCondition;
 import com.oner365.queue.config.properties.MqttProperties;
 import com.oner365.queue.constants.MqttConstants;
+import com.oner365.queue.constants.QueueConstants;
 
 /**
  * MQTT config
@@ -36,15 +35,12 @@ import com.oner365.queue.constants.MqttConstants;
 @Conditional(MqttCondition.class)
 @EnableConfigurationProperties({ MqttProperties.class })
 public class MqttConfig {
-  
+
   private final Logger logger = LoggerFactory.getLogger(MqttConfig.class);
 
   @Resource
   private MqttProperties mqttProperties;
 
-  @Resource
-  private RabbitAdmin rabbitAdmin;
-  
   public MqttConfig() {
     logger.info("Queue Type: {}", QueueEnum.MQTT);
   }
@@ -65,7 +61,9 @@ public class MqttConfig {
   MqttPahoMessageDrivenChannelAdapter adapter() {
     // clientId不能重复
     return new MqttPahoMessageDrivenChannelAdapter(mqttProperties.getClientId() + MqttConstants.CHANNEL_ADAPTER,
-        mqttPahoClientFactory(), mqttProperties.getDefaultTopic());
+        mqttPahoClientFactory(), QueueConstants.MESSAGE_QUEUE_NAME, QueueConstants.ROUTE_QUEUE_NAME,
+        QueueConstants.SAVE_TASK_LOG_QUEUE_NAME, QueueConstants.SCHEDULE_TASK_QUEUE_NAME,
+        QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME);
   }
 
   @Bean
@@ -84,7 +82,6 @@ public class MqttConfig {
     MqttPahoMessageHandler handler = new MqttPahoMessageHandler(
         mqttProperties.getClientId() + MqttConstants.CHANNEL_PRODUCER, mqttPahoClientFactory());
     handler.setAsync(true);
-    handler.setDefaultTopic(mqttProperties.getDefaultTopic());
     return handler;
   }
 
@@ -97,14 +94,5 @@ public class MqttConfig {
   MessageChannel mqttInboundChannel() {
     return new DirectChannel();
   }
-
-  @PreDestroy
-  public void destroy() {
-
-    rabbitAdmin.deleteQueue(MqttConstants.SUBCRIPTION + mqttProperties.getClientId() + MqttConstants.CHANNEL_PRODUCER
-        + MqttConstants.QOS_NAME + MqttConstants.QOS);
-    rabbitAdmin.deleteQueue(MqttConstants.SUBCRIPTION + mqttProperties.getClientId() + MqttConstants.CHANNEL_ADAPTER
-        + MqttConstants.QOS_NAME + MqttConstants.QOS);
-
-  }
+  
 }

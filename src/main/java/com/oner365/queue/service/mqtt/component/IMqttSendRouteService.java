@@ -1,24 +1,23 @@
-package com.oner365.queue.service.mqtt;
+package com.oner365.queue.service.mqtt.component;
 
 import org.springframework.context.annotation.Conditional;
 import org.springframework.integration.annotation.MessagingGateway;
 import org.springframework.integration.mqtt.support.MqttHeaders;
 import org.springframework.messaging.handler.annotation.Header;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.oner365.queue.condition.MqttCondition;
 import com.oner365.queue.constants.MqttConstants;
 
 /**
- * MQTT 发送者
- *
+ * Mqtt message service
+ * 
  * @author zhaoyong
- *
  */
-@Component
+@Service
 @Conditional(MqttCondition.class)
-@MessagingGateway(defaultRequestChannel = MqttConstants.OUT_BOUND_CHANNEL)
-public interface IMqttSendService {
+@MessagingGateway(defaultRequestChannel = MqttConstants.IN_BOUND_CHANNEL)
+public interface IMqttSendRouteService {
 
   /**
    * 发送消息 默认topic

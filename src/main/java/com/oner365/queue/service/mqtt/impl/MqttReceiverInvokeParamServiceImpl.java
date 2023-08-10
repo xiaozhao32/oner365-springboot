@@ -1,19 +1,16 @@
-package com.oner365.queue.service.pulsar.listener;
+package com.oner365.queue.service.mqtt.impl;
 
 import javax.annotation.Resource;
 
-import org.apache.pulsar.client.api.Consumer;
-import org.apache.pulsar.client.api.Message;
-import org.apache.pulsar.client.api.MessageListener;
-import org.apache.pulsar.client.api.PulsarClientException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Conditional;
-import org.springframework.stereotype.Component;
+import org.springframework.integration.annotation.ServiceActivator;
+import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.oner365.common.enums.StatusEnum;
-import com.oner365.common.service.BaseService;
 import com.oner365.monitor.constants.ScheduleConstants;
 import com.oner365.monitor.dto.InvokeParamDto;
 import com.oner365.monitor.dto.SysTaskDto;
@@ -22,28 +19,24 @@ import com.oner365.monitor.service.ISysTaskLogService;
 import com.oner365.monitor.service.ISysTaskService;
 import com.oner365.monitor.vo.SysTaskLogVo;
 import com.oner365.monitor.vo.SysTaskVo;
-import com.oner365.queue.condition.PulsarCondition;
-import com.oner365.queue.config.properties.PulsarProperties;
+import com.oner365.queue.condition.MqttCondition;
+import com.oner365.queue.constants.MqttConstants;
+import com.oner365.queue.service.mqtt.IMqttReceiverInvokeParamService;
 import com.oner365.util.DataUtils;
 import com.oner365.util.DateUtil;
 
 /**
- * pulsar InvokeParamDto listener
+ * MQTT 接收实现
  * 
  * @author zhaoyong
  *
  */
-@Component
-@Conditional(PulsarCondition.class)
-public class PulsarInvokeParamListener implements MessageListener<InvokeParamDto>, BaseService {
+@Service
+@Conditional(MqttCondition.class)
+public class MqttReceiverInvokeParamServiceImpl implements IMqttReceiverInvokeParamService {
 
-  private static final long serialVersionUID = 1L;
-
-  private final Logger logger = LoggerFactory.getLogger(PulsarInvokeParamListener.class);
-
-  @Resource
-  private PulsarProperties pulsarProperties;
-
+  private final Logger logger = LoggerFactory.getLogger(MqttReceiverInvokeParamServiceImpl.class);
+  
   @Resource
   private ISysTaskLogService sysTaskLogService;
 
@@ -51,22 +44,17 @@ public class PulsarInvokeParamListener implements MessageListener<InvokeParamDto
   private ISysTaskService sysTaskService;
 
   @Override
-  public void received(Consumer<InvokeParamDto> consumer, Message<InvokeParamDto> msg) {
-    try {
-      String data = String.valueOf(msg.getData());
-      logger.info("Pulsar consumer data: {}, topic: {}", data, consumer.getTopic());
-      consumer.acknowledge(msg);
-    } catch (PulsarClientException e) {
-      consumer.negativeAcknowledge(msg);
-    }
+  @ServiceActivator(inputChannel = MqttConstants.IN_BOUND_CHANNEL, outputChannel = MqttConstants.OUT_BOUND_CHANNEL)
+  public void message(Object message) {
+    logger.info("Mqtt receive taskExecute: {}", message);
+    
     // bussiness
-    InvokeParamDto dto = msg.getValue();
+    InvokeParamDto dto = JSON.parseObject(message.toString(), InvokeParamDto.class);
     if (dto != null && ScheduleConstants.SCHEDULE_SERVER_NAME.equals(dto.getTaskServerName())) {
       taskExecute(dto.getConcurrent(), dto.getTaskId(), dto.getTaskParam());
     }
-
   }
-
+  
   private void taskExecute(String concurrent, String taskId, JSONObject param) {
     SysTaskDto sysTask = sysTaskService.selectTaskById(taskId);
     if (sysTask != null) {
@@ -83,7 +71,7 @@ public class PulsarInvokeParamListener implements MessageListener<InvokeParamDto
       saveExecuteTaskLog(sysTask);
     }
   }
-
+  
   private StatusEnum execute(String taskId, JSONObject param, SysTaskDto sysTask) {
     try {
       logger.info("taskId:{}", taskId);
@@ -92,7 +80,7 @@ public class PulsarInvokeParamListener implements MessageListener<InvokeParamDto
       int day = param.getInteger("day");
       String time = DateUtil.nextDay(day - 2 * day, DateUtil.FULL_TIME_FORMAT);
       sysTaskLogService.deleteTaskLogByCreateTime(time);
-
+      
       sysTask.setExecuteStatus(StatusEnum.YES);
       sysTaskService.save(convert(sysTask, SysTaskVo.class));
       return StatusEnum.YES;
@@ -101,10 +89,10 @@ public class PulsarInvokeParamListener implements MessageListener<InvokeParamDto
       return StatusEnum.NO;
     }
   }
-
+  
   public void saveExecuteTaskLog(SysTaskDto sysTask) {
     logger.info("saveExecuteTaskLog :{}", sysTask);
-
+    
     long time = System.currentTimeMillis();
     SysTaskLogVo taskLog = new SysTaskLogVo();
     taskLog.setExecuteIp(DataUtils.getLocalhost());

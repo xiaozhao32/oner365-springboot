@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Component;
 
 import com.oner365.queue.condition.RabbitmqCondition;
-import com.oner365.queue.constants.RabbitmqConstants;
+import com.oner365.queue.constants.QueueConstants;
 import com.oner365.sys.constants.SysMessageConstants;
 
 @Component
@@ -31,20 +31,20 @@ public class RabbitmqRunner implements ApplicationRunner {
 
   @PreDestroy
   public void destroy() {
-    rabbitAdmin.deleteQueue(RabbitmqConstants.MESSAGE_QUEUE_NAME);
-    rabbitAdmin.deleteQueue(RabbitmqConstants.SAVE_TASK_LOG_QUEUE_NAME);
-    rabbitAdmin.deleteQueue(RabbitmqConstants.SCHEDULE_TASK_QUEUE_NAME);
-    rabbitAdmin.deleteQueue(RabbitmqConstants.ROUTE_QUEUE_NAME);
+    rabbitAdmin.deleteQueue(QueueConstants.MESSAGE_QUEUE_NAME);
+    rabbitAdmin.deleteQueue(QueueConstants.SAVE_TASK_LOG_QUEUE_NAME);
+    rabbitAdmin.deleteQueue(QueueConstants.SCHEDULE_TASK_QUEUE_NAME);
+    rabbitAdmin.deleteQueue(QueueConstants.ROUTE_QUEUE_NAME);
     rabbitAdmin.deleteQueue(SysMessageConstants.QUEUE_NAME);
-    rabbitAdmin.deleteQueue(RabbitmqConstants.TASK_UPDATE_STATUS_QUEUE_NAME);
+    rabbitAdmin.deleteQueue(QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME);
     logger.info("Destroy Rabbitmq queue.");
 
-    rabbitAdmin.deleteExchange(RabbitmqConstants.MESSAGE_QUEUE_TYPE);
-    rabbitAdmin.deleteExchange(RabbitmqConstants.SAVE_TASK_LOG_QUEUE_TYPE);
-    rabbitAdmin.deleteExchange(RabbitmqConstants.SCHEDULE_TASK_QUEUE_TYPE);
-    rabbitAdmin.deleteExchange(RabbitmqConstants.ROUTE_QUEUE_TYPE);
+    rabbitAdmin.deleteExchange(QueueConstants.MESSAGE_QUEUE_TYPE);
+    rabbitAdmin.deleteExchange(QueueConstants.SAVE_TASK_LOG_QUEUE_TYPE);
+    rabbitAdmin.deleteExchange(QueueConstants.SCHEDULE_TASK_QUEUE_TYPE);
+    rabbitAdmin.deleteExchange(QueueConstants.ROUTE_QUEUE_TYPE);
     rabbitAdmin.deleteExchange(SysMessageConstants.QUEUE_TYPE);
-    rabbitAdmin.deleteExchange(RabbitmqConstants.TASK_UPDATE_STATUS_QUEUE_TYPE);
+    rabbitAdmin.deleteExchange(QueueConstants.TASK_UPDATE_STATUS_QUEUE_TYPE);
     logger.info("Destroy Rabbitmq exchange.");
   }
 

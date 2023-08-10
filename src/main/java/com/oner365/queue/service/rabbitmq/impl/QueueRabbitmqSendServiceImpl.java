@@ -14,7 +14,7 @@ import com.oner365.api.dto.UpdateTaskExecuteStatusDto;
 import com.oner365.monitor.dto.InvokeParamDto;
 import com.oner365.monitor.dto.SysTaskDto;
 import com.oner365.queue.condition.RabbitmqCondition;
-import com.oner365.queue.constants.RabbitmqConstants;
+import com.oner365.queue.constants.QueueConstants;
 import com.oner365.queue.service.IQueueSendService;
 import com.oner365.queue.service.rabbitmq.callback.QueueRabbitmqConfirmCallback;
 import com.oner365.util.DataUtils;
@@ -44,35 +44,35 @@ public class QueueRabbitmqSendServiceImpl implements IQueueSendService {
     // 是否回调确认
     rabbitTemplate.setConfirmCallback(confirmCallback);
 
-    rabbitTemplate.convertSendAndReceive(RabbitmqConstants.MESSAGE_QUEUE_TYPE, RabbitmqConstants.MESSAGE_QUEUE_KEY,
+    rabbitTemplate.convertSendAndReceive(QueueConstants.MESSAGE_QUEUE_TYPE, QueueConstants.MESSAGE_QUEUE_KEY,
         data, new CorrelationData(DateUtil.getCurrentTime()));
   }
 
   @Override
   public void syncRoute() {
     logger.info("Rabbitmq syncRoute: {}", DataUtils.getLocalhost());
-    rabbitTemplate.convertAndSend(RabbitmqConstants.ROUTE_QUEUE_TYPE, RabbitmqConstants.ROUTE_QUEUE_KEY,
+    rabbitTemplate.convertAndSend(QueueConstants.ROUTE_QUEUE_TYPE, QueueConstants.ROUTE_QUEUE_KEY,
         DataUtils.getLocalhost());
   }
 
   @Override
   public void pullTask(InvokeParamDto data) {
     logger.info("Rabbitmq pullTask: {}", data);
-    rabbitTemplate.convertAndSend(RabbitmqConstants.SCHEDULE_TASK_QUEUE_TYPE, RabbitmqConstants.SCHEDULE_TASK_QUEUE_KEY,
+    rabbitTemplate.convertAndSend(QueueConstants.SCHEDULE_TASK_QUEUE_TYPE, QueueConstants.SCHEDULE_TASK_QUEUE_KEY,
         data);
   }
 
   @Override
   public void updateTaskExecuteStatus(UpdateTaskExecuteStatusDto data) {
     logger.info("Rabbitmq updateTaskExecuteStatus push: {}", data);
-    rabbitTemplate.convertAndSend(RabbitmqConstants.TASK_UPDATE_STATUS_QUEUE_TYPE,
-        RabbitmqConstants.TASK_UPDATE_STATUS_QUEUE_KEY, data);
+    rabbitTemplate.convertAndSend(QueueConstants.TASK_UPDATE_STATUS_QUEUE_TYPE,
+        QueueConstants.TASK_UPDATE_STATUS_QUEUE_KEY, data);
   }
 
   @Override
   public void saveExecuteTaskLog(SysTaskDto data) {
     logger.info("Rabbitmq saveExecuteTaskLog push: {}", data);
-    rabbitTemplate.convertAndSend(RabbitmqConstants.SAVE_TASK_LOG_QUEUE_TYPE, RabbitmqConstants.SAVE_TASK_LOG_QUEUE_KEY,
+    rabbitTemplate.convertAndSend(QueueConstants.SAVE_TASK_LOG_QUEUE_TYPE, QueueConstants.SAVE_TASK_LOG_QUEUE_KEY,
         data);
   }
 
