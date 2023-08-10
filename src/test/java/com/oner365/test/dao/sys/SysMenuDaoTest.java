@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.oner365.sys.dao.ISysMenuDao;
 import com.oner365.sys.entity.SysMenu;
@@ -23,6 +24,9 @@ class SysMenuDaoTest extends BaseDaoTest {
   
   @Resource
   private ISysMenuDao dao;
+  
+  @Resource
+  private JdbcTemplate jdbcTemplate;
   
   @Test
   void findMenuByTypeCode() {
