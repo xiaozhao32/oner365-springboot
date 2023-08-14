@@ -21,6 +21,7 @@ import com.oner365.monitor.vo.SysTaskLogVo;
 import com.oner365.monitor.vo.SysTaskVo;
 import com.oner365.queue.condition.MqttCondition;
 import com.oner365.queue.constants.MqttConstants;
+import com.oner365.queue.constants.QueueConstants;
 import com.oner365.queue.service.mqtt.IMqttReceiverInvokeParamService;
 import com.oner365.util.DataUtils;
 import com.oner365.util.DateUtil;
@@ -44,7 +45,10 @@ public class MqttReceiverInvokeParamServiceImpl implements IMqttReceiverInvokePa
   private ISysTaskService sysTaskService;
 
   @Override
-  @ServiceActivator(inputChannel = MqttConstants.IN_BOUND_CHANNEL, outputChannel = MqttConstants.OUT_BOUND_CHANNEL)
+  @ServiceActivator(
+       inputChannel = MqttConstants.IN_BOUND_CHANNEL + QueueConstants.SCHEDULE_TASK_QUEUE_NAME, 
+       outputChannel = MqttConstants.OUT_BOUND_CHANNEL + QueueConstants.SCHEDULE_TASK_QUEUE_NAME
+  )
   public void message(Object message) {
     logger.info("Mqtt receive taskExecute: {}", message);
     

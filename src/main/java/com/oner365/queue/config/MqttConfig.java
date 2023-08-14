@@ -67,31 +67,147 @@ public class MqttConfig {
   }
 
   @Bean
-  MessageProducer mqttInbound(MqttPahoMessageDrivenChannelAdapter adapter) {
+  MessageProducer messageInbound(MqttPahoMessageDrivenChannelAdapter adapter) {
     // 入站投递的通道
-    adapter.setOutputChannel(mqttInboundChannel());
+    adapter.setOutputChannel(messageInboundChannel());
     adapter.setCompletionTimeout(MqttConstants.COMPLETION_TIMEOUT);
     adapter.setQos(MqttConstants.QOS);
     return adapter;
   }
 
   @Bean
-  @ServiceActivator(inputChannel = MqttConstants.OUT_BOUND_CHANNEL)
-  MessageHandler mqttOutbound() {
-    // clientId不能重复
+  @ServiceActivator(inputChannel = MqttConstants.OUT_BOUND_CHANNEL + QueueConstants.MESSAGE_QUEUE_NAME)
+  MessageHandler messageOutbound() {
     MqttPahoMessageHandler handler = new MqttPahoMessageHandler(
         mqttProperties.getClientId() + MqttConstants.CHANNEL_PRODUCER, mqttPahoClientFactory());
     handler.setAsync(true);
+    handler.setDefaultTopic(QueueConstants.MESSAGE_QUEUE_NAME);
     return handler;
   }
 
-  @Bean(name = MqttConstants.OUT_BOUND_CHANNEL)
-  MessageChannel mqttOutboundChannel() {
+  @Bean(name = MqttConstants.OUT_BOUND_CHANNEL + QueueConstants.MESSAGE_QUEUE_NAME)
+  MessageChannel messageOutboundChannel() {
     return new DirectChannel();
   }
 
-  @Bean(name = MqttConstants.IN_BOUND_CHANNEL)
-  MessageChannel mqttInboundChannel() {
+  @Bean(name = MqttConstants.IN_BOUND_CHANNEL + QueueConstants.MESSAGE_QUEUE_NAME)
+  MessageChannel messageInboundChannel() {
+    return new DirectChannel();
+  }
+  
+  @Bean
+  MessageProducer routeInbound(MqttPahoMessageDrivenChannelAdapter adapter) {
+    // 入站投递的通道
+    adapter.setOutputChannel(routeInboundChannel());
+    adapter.setCompletionTimeout(MqttConstants.COMPLETION_TIMEOUT);
+    adapter.setQos(MqttConstants.QOS);
+    return adapter;
+  }
+  
+  @Bean
+  @ServiceActivator(inputChannel = MqttConstants.OUT_BOUND_CHANNEL + QueueConstants.ROUTE_QUEUE_NAME)
+  MessageHandler routeOutbound() {
+    MqttPahoMessageHandler handler = new MqttPahoMessageHandler(
+        mqttProperties.getClientId() + MqttConstants.CHANNEL_PRODUCER, mqttPahoClientFactory());
+    handler.setAsync(true);
+    handler.setDefaultTopic(QueueConstants.ROUTE_QUEUE_NAME);
+    return handler;
+  }
+
+  @Bean(name = MqttConstants.OUT_BOUND_CHANNEL + QueueConstants.ROUTE_QUEUE_NAME)
+  MessageChannel routeOutboundChannel() {
+    return new DirectChannel();
+  }
+
+  @Bean(name = MqttConstants.IN_BOUND_CHANNEL + QueueConstants.ROUTE_QUEUE_NAME)
+  MessageChannel routeInboundChannel() {
+    return new DirectChannel();
+  }
+  
+  @Bean
+  MessageProducer saveTaskLogInbound(MqttPahoMessageDrivenChannelAdapter adapter) {
+    // 入站投递的通道
+    adapter.setOutputChannel(saveTaskLogInboundChannel());
+    adapter.setCompletionTimeout(MqttConstants.COMPLETION_TIMEOUT);
+    adapter.setQos(MqttConstants.QOS);
+    return adapter;
+  }
+  
+  @Bean
+  @ServiceActivator(inputChannel = MqttConstants.OUT_BOUND_CHANNEL + QueueConstants.SAVE_TASK_LOG_QUEUE_NAME)
+  MessageHandler saveTaskLogOutbound() {
+    MqttPahoMessageHandler handler = new MqttPahoMessageHandler(
+        mqttProperties.getClientId() + MqttConstants.CHANNEL_PRODUCER, mqttPahoClientFactory());
+    handler.setAsync(true);
+    handler.setDefaultTopic(QueueConstants.SAVE_TASK_LOG_QUEUE_NAME);
+    return handler;
+  }
+
+  @Bean(name = MqttConstants.OUT_BOUND_CHANNEL + QueueConstants.SAVE_TASK_LOG_QUEUE_NAME)
+  MessageChannel saveTaskLogOutboundChannel() {
+    return new DirectChannel();
+  }
+
+  @Bean(name = MqttConstants.IN_BOUND_CHANNEL + QueueConstants.SAVE_TASK_LOG_QUEUE_NAME)
+  MessageChannel saveTaskLogInboundChannel() {
+    return new DirectChannel();
+  }
+  
+  @Bean
+  MessageProducer scheduleTaskInbound(MqttPahoMessageDrivenChannelAdapter adapter) {
+    // 入站投递的通道
+    adapter.setOutputChannel(scheduleTaskInboundChannel());
+    adapter.setCompletionTimeout(MqttConstants.COMPLETION_TIMEOUT);
+    adapter.setQos(MqttConstants.QOS);
+    return adapter;
+  }
+  
+  @Bean
+  @ServiceActivator(inputChannel = MqttConstants.OUT_BOUND_CHANNEL + QueueConstants.SCHEDULE_TASK_QUEUE_NAME)
+  MessageHandler scheduleTaskOutbound() {
+    MqttPahoMessageHandler handler = new MqttPahoMessageHandler(
+        mqttProperties.getClientId() + MqttConstants.CHANNEL_PRODUCER, mqttPahoClientFactory());
+    handler.setAsync(true);
+    handler.setDefaultTopic(QueueConstants.SCHEDULE_TASK_QUEUE_NAME);
+    return handler;
+  }
+
+  @Bean(name = MqttConstants.OUT_BOUND_CHANNEL + QueueConstants.SCHEDULE_TASK_QUEUE_NAME)
+  MessageChannel scheduleTaskOutboundChannel() {
+    return new DirectChannel();
+  }
+
+  @Bean(name = MqttConstants.IN_BOUND_CHANNEL + QueueConstants.SCHEDULE_TASK_QUEUE_NAME)
+  MessageChannel scheduleTaskInboundChannel() {
+    return new DirectChannel();
+  }
+  
+  @Bean
+  MessageProducer updateStatusInbound(MqttPahoMessageDrivenChannelAdapter adapter) {
+    // 入站投递的通道
+    adapter.setOutputChannel(updateStatusInboundChannel());
+    adapter.setCompletionTimeout(MqttConstants.COMPLETION_TIMEOUT);
+    adapter.setQos(MqttConstants.QOS);
+    return adapter;
+  }
+  
+  @Bean
+  @ServiceActivator(inputChannel = MqttConstants.OUT_BOUND_CHANNEL + QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME)
+  MessageHandler updateStatusOutbound() {
+    MqttPahoMessageHandler handler = new MqttPahoMessageHandler(
+        mqttProperties.getClientId() + MqttConstants.CHANNEL_PRODUCER, mqttPahoClientFactory());
+    handler.setAsync(true);
+    handler.setDefaultTopic(QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME);
+    return handler;
+  }
+
+  @Bean(name = MqttConstants.OUT_BOUND_CHANNEL + QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME)
+  MessageChannel updateStatusOutboundChannel() {
+    return new DirectChannel();
+  }
+
+  @Bean(name = MqttConstants.IN_BOUND_CHANNEL + QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME)
+  MessageChannel updateStatusInboundChannel() {
     return new DirectChannel();
   }
   

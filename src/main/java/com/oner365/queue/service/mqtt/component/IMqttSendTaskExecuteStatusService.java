@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.oner365.queue.condition.MqttCondition;
 import com.oner365.queue.constants.MqttConstants;
+import com.oner365.queue.constants.QueueConstants;
 
 /**
  * Mqtt message service
@@ -16,7 +17,7 @@ import com.oner365.queue.constants.MqttConstants;
  */
 @Service
 @Conditional(MqttCondition.class)
-@MessagingGateway(defaultRequestChannel = MqttConstants.IN_BOUND_CHANNEL)
+@MessagingGateway(defaultRequestChannel = MqttConstants.IN_BOUND_CHANNEL + QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME)
 public interface IMqttSendTaskExecuteStatusService {
 
   /**

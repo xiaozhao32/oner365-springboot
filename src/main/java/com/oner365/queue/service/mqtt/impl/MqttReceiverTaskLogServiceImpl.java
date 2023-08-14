@@ -16,6 +16,7 @@ import com.oner365.monitor.service.ISysTaskLogService;
 import com.oner365.monitor.vo.SysTaskLogVo;
 import com.oner365.queue.condition.MqttCondition;
 import com.oner365.queue.constants.MqttConstants;
+import com.oner365.queue.constants.QueueConstants;
 import com.oner365.queue.service.mqtt.IMqttReceiverTaskLogService;
 import com.oner365.util.DataUtils;
 
@@ -35,7 +36,10 @@ public class MqttReceiverTaskLogServiceImpl implements IMqttReceiverTaskLogServi
   private ISysTaskLogService sysTaskLogService;
   
   @Override
-  @ServiceActivator(inputChannel = MqttConstants.IN_BOUND_CHANNEL, outputChannel = MqttConstants.OUT_BOUND_CHANNEL)
+  @ServiceActivator(
+      inputChannel = MqttConstants.IN_BOUND_CHANNEL + QueueConstants.SAVE_TASK_LOG_QUEUE_NAME, 
+      outputChannel = MqttConstants.OUT_BOUND_CHANNEL + QueueConstants.SAVE_TASK_LOG_QUEUE_NAME
+  )
   public void message(Object message) {
     logger.info("Mqtt receive saveExecuteTaskLog: {}", message);
     

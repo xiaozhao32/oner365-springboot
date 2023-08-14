@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.oner365.queue.condition.MqttCondition;
 import com.oner365.queue.constants.MqttConstants;
+import com.oner365.queue.constants.QueueConstants;
 import com.oner365.queue.service.mqtt.IMqttReceiverMessageService;
 
 /**
@@ -23,7 +24,10 @@ public class MqttReceiverMessageServiceImpl implements IMqttReceiverMessageServi
   private final Logger logger = LoggerFactory.getLogger(MqttReceiverMessageServiceImpl.class);
 
   @Override
-  @ServiceActivator(inputChannel = MqttConstants.IN_BOUND_CHANNEL, outputChannel = MqttConstants.OUT_BOUND_CHANNEL)
+  @ServiceActivator(
+      inputChannel = MqttConstants.IN_BOUND_CHANNEL + QueueConstants.MESSAGE_QUEUE_NAME, 
+      outputChannel = MqttConstants.OUT_BOUND_CHANNEL + QueueConstants.MESSAGE_QUEUE_NAME
+  )
   public void message(Object message) {
     logger.info("Mqtt receive message: {}", message);
   }

@@ -15,6 +15,7 @@ import com.oner365.monitor.service.ISysTaskService;
 import com.oner365.monitor.vo.SysTaskVo;
 import com.oner365.queue.condition.MqttCondition;
 import com.oner365.queue.constants.MqttConstants;
+import com.oner365.queue.constants.QueueConstants;
 import com.oner365.queue.service.mqtt.IMqttReceiverTaskExecuteStatusService;
 
 /**
@@ -33,7 +34,10 @@ public class MqttReceiverTaskExecuteStatusServiceImpl implements IMqttReceiverTa
   private ISysTaskService sysTaskService;
   
   @Override
-  @ServiceActivator(inputChannel = MqttConstants.IN_BOUND_CHANNEL, outputChannel = MqttConstants.OUT_BOUND_CHANNEL)
+  @ServiceActivator(
+      inputChannel = MqttConstants.IN_BOUND_CHANNEL + QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME, 
+      outputChannel = MqttConstants.OUT_BOUND_CHANNEL + QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME
+  )
   public void message(Object message) {
     logger.info("Mqtt receive setExecuteStatus: {}", message);
     

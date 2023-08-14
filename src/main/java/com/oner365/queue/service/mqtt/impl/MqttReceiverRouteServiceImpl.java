@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.oner365.gateway.service.DynamicRouteService;
 import com.oner365.queue.condition.MqttCondition;
 import com.oner365.queue.constants.MqttConstants;
+import com.oner365.queue.constants.QueueConstants;
 import com.oner365.queue.service.mqtt.IMqttReceiverRouteService;
 
 /**
@@ -29,7 +30,10 @@ public class MqttReceiverRouteServiceImpl implements IMqttReceiverRouteService {
   private DynamicRouteService dynamicRouteService;
 
   @Override
-  @ServiceActivator(inputChannel = MqttConstants.IN_BOUND_CHANNEL, outputChannel = MqttConstants.OUT_BOUND_CHANNEL)
+  @ServiceActivator(
+      inputChannel = MqttConstants.IN_BOUND_CHANNEL + QueueConstants.ROUTE_QUEUE_NAME, 
+      outputChannel = MqttConstants.OUT_BOUND_CHANNEL + QueueConstants.ROUTE_QUEUE_NAME
+  )
   public void message(Object message) {
     logger.info("Mqtt receive syncRoute: {}", message);
     // business
