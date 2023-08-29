@@ -37,7 +37,6 @@ import com.oner365.controller.BaseController;
 import com.oner365.files.dto.SysFileStorageDto;
 import com.oner365.files.service.IFileStorageService;
 import com.oner365.files.storage.IFileStorageClient;
-import com.oner365.files.vo.DownloadVo;
 import com.oner365.util.DataUtils;
 import com.oner365.util.DateUtil;
 
@@ -128,16 +127,16 @@ public class FileStorageController extends BaseController {
   }
 
   /**
-   * 文件流下载
+   * 文件下载地址
    *
-   * @param fileUrl url 开头从组名开始
-   * @return byte[]
+   * @param path url 开头从组名开始
+   * @return 文件下载地址
    */
-  @ApiOperation("4.文件下载 - byte[]流方式")
+  @ApiOperation("4.文件下载 - 提供下载地址")
   @ApiOperationSupport(order = 4)
-  @GetMapping("/byte/download")
-  public byte[] downloadFile(@RequestParam("fileUrl") String fileUrl) {
-    return fileStorageClient.download(fileUrl);
+  @GetMapping("/path")
+  public String downloadPath(@RequestParam("path") String path) {
+    return fileStorageClient.downloadPath(path);
   }
 
   /**
@@ -166,39 +165,13 @@ public class FileStorageController extends BaseController {
   }
 
   /**
-   * 文件流下载
-   *
-   * @param downloadVo 文件
-   * @return byte[]
-   */
-  @ApiOperation("7.文件分段下载 - ResponseData方式")
-  @ApiOperationSupport(order = 7)
-  @PostMapping("/part/download")
-  public ResponseData<byte[]> downloadFilePart(@RequestBody DownloadVo downloadVo) {
-      return ResponseData.success(fileStorageClient.download(downloadVo.getFileUrl(),downloadVo.getOffset(),downloadVo.getFileSize()));
-  }
-
-  /**
-   * 文件流下载
-   *
-   * @param downloadVo 文件
-   * @return byte[]
-   */
-  @ApiOperation("8.文件分段下载 - byte[]流方式")
-  @ApiOperationSupport(order = 8)
-  @PostMapping("/part/byte/download")
-  public byte[] downloadFilePartByte(@RequestBody DownloadVo downloadVo) {
-      return fileStorageClient.download(downloadVo.getFileUrl(),downloadVo.getOffset(),downloadVo.getFileSize());
-  }
-
-  /**
    * 获取文件信息
    *
    * @param id 主键
    * @return SysFileStorageDto
    */
-  @ApiOperation("9.获取文件信息")
-  @ApiOperationSupport(order = 9)
+  @ApiOperation("7.获取文件信息")
+  @ApiOperationSupport(order = 7)
   @PostMapping("/info/{id}")
   public ResponseData<SysFileStorageDto> getFileInfo(@PathVariable String id) {
     SysFileStorageDto entity = fileStorageClient.getFile(id);

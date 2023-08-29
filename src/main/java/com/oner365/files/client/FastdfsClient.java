@@ -62,13 +62,6 @@ public class FastdfsClient implements IFileStorageClient {
   @Resource
   private IFileStorageService fileStorageService;
 
-  /**
-   * 上传文件
-   *
-   * @param file 文件对象
-   *
-   * @return 文件访问地址
-   */
   @Override
   public String uploadFile(MultipartFile file, String directory) {
     try (InputStream in = file.getInputStream()) {
@@ -83,12 +76,6 @@ public class FastdfsClient implements IFileStorageClient {
     return null;
   }
 
-  /**
-   * 上传文件
-   *
-   * @param file 文件对象
-   * @return 文件访问地址
-   */
   @Override
   public String uploadFile(File file, String directory) {
     try (FileInputStream inputStream = new FileInputStream(file)) {
@@ -163,24 +150,25 @@ public class FastdfsClient implements IFileStorageClient {
     return fdfsWebServer.getWebServerUrl() + PublicConstants.DELIMITER + storePath.getFullPath();
   }
 
-  /**
-   * 下载文件
-   *
-   * @param fileUrl 文件url
-   * @return byte[]
-   */
   @Override
-  public byte[] download(String fileUrl) {
-    String group = fileUrl.substring(0, fileUrl.indexOf(PublicConstants.DELIMITER));
-    String downloadPath = fileUrl.substring(fileUrl.indexOf(PublicConstants.DELIMITER) + 1);
+  public byte[] download(String path) {
+    String group = path.substring(0, path.indexOf(PublicConstants.DELIMITER));
+    String downloadPath = path.substring(path.indexOf(PublicConstants.DELIMITER) + 1);
     return fastFileStorageClient.downloadFile(group, downloadPath, new DownloadByteArray());
   }
+  
+  @Override
+  public String downloadPath(String path) {
+    // 负载下载地址路径
+    return null;
+  }
+  
+  @Override
+  public Long getFileSize(String path) {
+    // 文件大小
+    return 0L;
+  }
 
-  /**
-   * 删除文件
-   *
-   * @param fileUrl 文件访问地址
-   */
   @Override
   public Boolean deleteFile(String fileUrl) {
     if (DataUtils.isEmpty(fileUrl)) {
@@ -204,13 +192,6 @@ public class FastdfsClient implements IFileStorageClient {
   @Override
   public StorageEnum getName() {
     return StorageEnum.FDFS;
-  }
-
-  @Override
-  public byte[] download(String fileUrl, long offset, long fileSize) {
-    String group = fileUrl.substring(0, fileUrl.indexOf(PublicConstants.DELIMITER));
-    String downloadPath = fileUrl.substring(fileUrl.indexOf(PublicConstants.DELIMITER) + 1);
-    return fastFileStorageClient.downloadFile(group, downloadPath, offset, fileSize, new DownloadByteArray());
   }
 
   public List<SysFileStorageDto> findList(String fileDirectory) {

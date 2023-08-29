@@ -35,18 +35,34 @@ public interface IFileStorageClient {
   /**
    * 下载文件
    *
-   * @param fileUrl 文件url
-   * @return byte[]
+   * @param path 文件url
+   * @return 文件流 byte[]
    */
-  byte[] download(String fileUrl);
+  byte[] download(String path);
+  
+  /**
+   * 下载文件
+   *
+   * @param path 文件url
+   * @return 负载下载地址
+   */
+  String downloadPath(String path);
+
+  /**
+   * 获取文件大小
+   * 
+   * @param path
+   * @return Long
+   */
+  Long getFileSize(String path);
 
   /**
    * 删除文件
    *
-   * @param fileUrl 文件访问地址
+   * @param path 文件访问地址
    * @return Boolean
    */
-  Boolean deleteFile(String fileUrl);
+  Boolean deleteFile(String path);
 
   /**
    * 获取文件存储方式
@@ -56,21 +72,11 @@ public interface IFileStorageClient {
   StorageEnum getName();
 
   /**
-   * 下载文件
-   *
-   * @param fileUrl  文件url
-   * @param offSet   其实位置
-   * @param fileSize 每次获取大小
-   * @return byte[]
-   */
-  byte[] download(String fileUrl, long offSet, long fileSize);
-
-  /**
    * 获取文件
    * 
    * @param id 主键
    * @return SysFileStorageDto
    */
   SysFileStorageDto getFile(String id);
-  
+
 }
