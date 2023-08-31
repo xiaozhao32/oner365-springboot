@@ -3,18 +3,18 @@ package com.oner365.monitor.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
+import com.vladmihalcea.hibernate.type.json.JsonType;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -24,7 +24,6 @@ import com.oner365.monitor.enums.MisfirePolicyEnum;
 import com.oner365.monitor.enums.TaskStatusEnum;
 import com.oner365.monitor.util.CronUtils;
 import com.oner365.util.DataUtils;
-import com.vladmihalcea.hibernate.type.json.JsonStringType;
 
 /**
  * 定时任务调度表 nt_sys_task
@@ -33,7 +32,6 @@ import com.vladmihalcea.hibernate.type.json.JsonStringType;
  */
 @Entity
 @Table(name = "nt_sys_task")
-@TypeDef(name = "json", typeClass = JsonStringType.class)
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler" })
 public class SysTask implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -67,8 +65,8 @@ public class SysTask implements Serializable {
   /**
    * 调用目标参数
    */
-  @Type(type = "json")
-  @Column(name = "invoke_param", columnDefinition = "json")
+  @Type(value = JsonType.class)
+  @Column(name = "invoke_param", columnDefinition = "VARCHAR2")
   private InvokeParam invokeParam;
 
   /**

@@ -2,7 +2,7 @@ package com.oner365.statemachine.config;
 
 import java.util.EnumSet;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.statemachine.config.EnableStateMachine;

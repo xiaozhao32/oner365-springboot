@@ -2,7 +2,7 @@ package com.oner365.test.util;
 
 import java.io.IOException;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpHost;

@@ -1,7 +1,7 @@
 package com.oner365.common.xss;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequestWrapper;
 
 import com.oner365.util.html.EscapeUtil;
 

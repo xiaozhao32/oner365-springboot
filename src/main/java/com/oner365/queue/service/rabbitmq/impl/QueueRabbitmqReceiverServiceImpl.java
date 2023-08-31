@@ -3,7 +3,7 @@ package com.oner365.queue.service.rabbitmq.impl;
 import java.io.IOException;
 import java.util.Optional;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import org.quartz.SchedulerException;
 import org.slf4j.Logger;

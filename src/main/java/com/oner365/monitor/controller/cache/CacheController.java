@@ -26,7 +26,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import redis.clients.jedis.Jedis;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * 缓存监控
@@ -57,7 +57,7 @@ public class CacheController extends BaseController {
   public CacheInfoDto index() {
     Properties info = (Properties) redisTemplate.execute((RedisCallback<Object>) RedisServerCommands::info);
     Properties commandStats = (Properties) redisTemplate
-            .execute((RedisCallback<Object>) connection -> connection.info("commandstats"));
+            .execute((RedisCallback<Object>) connection -> connection.serverCommands().info("commandstats"));
     Long dbSize = (Long) redisTemplate.execute((RedisCallback<Object>) RedisServerCommands::dbSize);
 
     CacheInfoDto result = new CacheInfoDto();

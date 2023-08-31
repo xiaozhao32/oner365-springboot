@@ -37,9 +37,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.persistence.Column;
+import jakarta.persistence.JoinColumn;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections4.map.LRUMap;
 import org.apache.commons.fileupload.FileItem;

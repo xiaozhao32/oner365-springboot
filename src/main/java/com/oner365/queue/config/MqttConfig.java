@@ -1,6 +1,6 @@
 package com.oner365.queue.config;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.slf4j.Logger;

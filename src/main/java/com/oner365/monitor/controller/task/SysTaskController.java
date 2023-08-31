@@ -2,7 +2,7 @@ package com.oner365.monitor.controller.task;
 
 import java.util.List;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import org.quartz.SchedulerException;
 import org.springframework.http.ResponseEntity;

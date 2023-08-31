@@ -3,15 +3,14 @@ package com.oner365.sys.controller.auth;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-import javax.annotation.Resource;
 import javax.imageio.ImageIO;
 
-import org.springframework.util.Base64Utils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,6 +43,7 @@ import com.oner365.util.RequestUtils;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import jakarta.annotation.Resource;
 import springfox.documentation.annotations.ApiIgnore;
 
 /**
@@ -134,7 +134,7 @@ public class AuthController extends BaseController {
       ImageIO.write(image, "jpg", stream);
 
       result.setUuid(uuid);
-      result.setImg(Base64Utils.encodeToString(stream.toByteArray()));
+      result.setImg(Base64.getEncoder().encodeToString(stream.toByteArray()));
     } catch (IOException e) {
       logger.error("Error captchaImage: ", e);
     }

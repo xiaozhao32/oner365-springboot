@@ -1,6 +1,6 @@
 package com.oner365.statemachine.controller;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
@@ -68,7 +68,7 @@ public class OrderController extends BaseController {
     result.setId(order.getId());
     try {
       // 流程开始
-      stateMachine.start();
+      stateMachine.startReactively();
       // 已支付
       boolean payResult = sendEvent(order, OrderEventEnum.PAY);
       // 收货
@@ -83,7 +83,7 @@ public class OrderController extends BaseController {
       logger.error("getOrderVo error", e);
     } finally {
       // 流程结束
-      stateMachine.stop();
+      stateMachine.stopReactively();
     }
     return result;
   }
@@ -108,6 +108,7 @@ public class OrderController extends BaseController {
    * @param order 订单对象
    * @param enums 事件类型
    */
+  @SuppressWarnings("deprecation")
   private synchronized boolean sendEvent(Order order, OrderEventEnum enums) {
     logger.info("--- 发送事件 {} 订单:{} ---", enums, order.getId());
     // 持久化订单id

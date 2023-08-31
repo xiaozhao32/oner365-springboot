@@ -2,7 +2,7 @@ package com.oner365.test.util;
 
 import java.io.File;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

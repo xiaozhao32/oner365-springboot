@@ -14,7 +14,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.core.log.LogFormatUtils;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.util.StreamUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -131,7 +130,7 @@ public class CommonsMultipartFile implements MultipartFile, Serializable {
             throw new IllegalStateException("File has been moved - cannot be read again");
         }
         InputStream inputStream = this.fileItem.getInputStream();
-        return (inputStream != null ? inputStream : StreamUtils.emptyInput());
+        return (inputStream != null ? inputStream : InputStream.nullInputStream());
     }
 
     @Override

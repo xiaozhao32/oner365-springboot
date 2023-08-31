@@ -2,7 +2,7 @@ package com.oner365.test.util;
 
 import java.util.ArrayList;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import javax.sql.DataSource;
 
 import org.junit.jupiter.api.Assertions;

@@ -7,7 +7,7 @@ import java.io.InputStream;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import org.apache.http.entity.ContentType;
 import org.junit.jupiter.api.Assertions;

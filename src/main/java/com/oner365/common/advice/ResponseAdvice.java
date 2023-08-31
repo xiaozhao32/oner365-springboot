@@ -5,8 +5,8 @@ import java.util.Base64;
 import java.util.Collection;
 import java.util.Iterator;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

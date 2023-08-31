@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpHost;
@@ -90,7 +90,7 @@ public class ElasticsearchInfoController extends BaseController {
       result.setNumberOfDataNodes(healthResponse.numberOfDataNodes());
       result.setActiveShards(healthResponse.activeShards());
       result.setStatus(healthResponse.status());
-      result.setTaskMaxWaitingTime(healthResponse.taskMaxWaitingInQueueMillis());
+      result.setTaskMaxWaitingTime(String.valueOf(healthResponse.taskMaxWaitingInQueueMillis()));
 
       // 索引信息
       List<ClusterDto> clusterList = new ArrayList<>();

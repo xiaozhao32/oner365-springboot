@@ -1,7 +1,7 @@
 package com.oner365.common.xss;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 import com.oner365.util.DataUtils;
 

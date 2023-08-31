@@ -1,6 +1,6 @@
 package com.oner365.queue.service.pulsar.listener;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import org.apache.pulsar.client.api.Consumer;
 import org.apache.pulsar.client.api.Message;
