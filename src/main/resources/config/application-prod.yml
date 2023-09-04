@@ -67,7 +67,7 @@ spring:
         
     redis:
       repositories:
-        enabled: false
+        enabled: true
 
     elasticsearch:
       repositories:
@@ -90,7 +90,6 @@ spring:
 
   # redis
   redis:
-    enable: true
     host: 192.168.213.128
     port: 6379
     password:

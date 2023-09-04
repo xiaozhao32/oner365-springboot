@@ -10,12 +10,6 @@
     "description": "Token Expire minute time."
   },
   {
-    "name": "spring.redis.enable",
-    "type": "java.lang.Boolean",
-    "defaultValue": false,
-    "description": "Redis Cache enabled."
-  },
-  {
     "name": "fdfs.storage.path",
     "type": "java.lang.String",
     "description": "Fastdfs storage path."
