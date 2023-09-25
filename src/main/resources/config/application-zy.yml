@@ -48,6 +48,7 @@ spring:
       web-stat-filter:
         enabled: true
         exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+      use-ping-method: false
 
   # servlet file
   servlet:
@@ -68,6 +69,18 @@ spring:
     redis:
       repositories:
         enabled: false
+        
+      host: localhost
+      port: 6379
+      password:
+      database: 1
+      timeout: 10s
+      lettuce:
+        pool:
+          min-idle: 0
+          max-idle: 8
+          max-active: 8
+          max-wait: -1ms
 
     elasticsearch:
       repositories:
@@ -89,21 +102,6 @@ spring:
         concurrency: 2
         max-concurrency: 10
         default-requeue-rejected: true
-
-  # redis
-  redis:
-    enable: true
-    host: localhost
-    port: 6379
-    password:
-    database: 1
-    timeout: 10s
-    lettuce:
-      pool:
-        min-idle: 0
-        max-idle: 8
-        max-active: 8
-        max-wait: -1ms
 
 
   jpa:
@@ -203,41 +201,12 @@ local:
     # 上传地址
   upload: /Users/zhaoyong/Downloads
 
-# FastDFS
-fdfs:
-  connect-timeout: 60
-  so-timeout: 1500
-  tracker-list: 192.168.213.131:22122
-  thumb-image:
-    height: 150
-    width: 150
-  web-server-url: http://192.168.213.131
-  ip: 192.168.213.131
-  port: 22
-  user: root
-  password: 1234
-  storage:
-    # 用于文件路径展示
-    path: /data/fastdfs-storage/data
-  pool:
-    #连接池最大数量
-    max-total: 200
-    #每个tracker地址的最大连接数
-    max-total-per-key: 50
-    #连接耗尽时等待获取连接的最大毫秒数
-    max-wait-millis: 5000
-
 # file minio
 minio:
   username: root
   password: e8818da9cc9
   url: http://localhost:9001
   bucket: ${spring.application.name}
-
-# druid
-druid:
-  mysql:
-    use-ping-method: false
 
 # swagger
 swagger:

@@ -46,6 +46,7 @@ class RateLimiterTest extends BaseUtilsTest {
       Assertions.assertNotEquals(0, d);
     }).forEach(executorService::execute);
     executorService.shutdown();
+    executorService.close();
   }
 
 }

@@ -48,6 +48,7 @@ spring:
       web-stat-filter:
         enabled: true
         exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+      use-ping-method: false
 
   # servlet file
   servlet:
@@ -68,6 +69,18 @@ spring:
     redis:
       repositories:
         enabled: false
+        
+      host: 192.168.213.128
+      port: 6379
+      password:
+      database: 1
+      timeout: 10s
+      lettuce:
+        pool:
+          min-idle: 0
+          max-idle: 8
+          max-active: 8
+          max-wait: -1ms
 
     elasticsearch:
       repositories:
@@ -87,21 +100,6 @@ spring:
       simple:
         concurrency: 2
         max-concurrency: 10
-
-  # redis
-  redis:
-    enable: true
-    host: 192.168.213.128
-    port: 6379
-    password:
-    database: 1
-    timeout: 10s
-    lettuce:
-      pool:
-        min-idle: 0
-        max-idle: 8
-        max-active: 8
-        max-wait: -1ms
 
 
   jpa:
@@ -231,11 +229,6 @@ minio:
   password: e8818da9cc9
   url: http://192.168.213.128:9001
   bucket: ${spring.application.name}
-
-# druid
-druid:
-  mysql:
-    use-ping-method: false
 
 # swagger
 swagger:

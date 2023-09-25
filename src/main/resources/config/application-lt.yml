@@ -47,6 +47,7 @@ spring:
       web-stat-filter:
         enabled: true
         exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+      use-ping-method: false
 
   # servlet file
   servlet:
@@ -67,6 +68,19 @@ spring:
     redis:
       repositories:
         enabled: false
+      #哨兵模式配置
+      password: 1qazXSW@
+      sentinel:
+        master: mymaster
+        nodes: 192.168.33.41:26379,192.168.33.43:26379,192.168.33.44:26379
+      database: 1
+      timeout: 10s
+      lettuce:
+        pool:
+          min-idle: 0
+          max-idle: 8
+          max-active: 8
+          max-wait: -1ms
 
     elasticsearch:
       repositories:
@@ -86,27 +100,6 @@ spring:
       simple:
         concurrency: 10
         max-concurrency: 30
-
-  # redis
-  redis:
-    enable: true
-#    host: localhost
-#    port: 6379
-#    password: 
-    #哨兵模式配置
-    password: 1qazXSW@
-    sentinel:
-      master: mymaster
-      nodes: 192.168.33.41:26379,192.168.33.43:26379,192.168.33.44:26379
-    database: 1
-    timeout: 10s
-    lettuce:
-      pool:
-        min-idle: 0
-        max-idle: 8
-        max-active: 8
-        max-wait: -1ms
-
 
   jpa:
     open-in-view: true
@@ -236,11 +229,6 @@ minio:
   password: e8818da9cc9
   url: http://192.168.33.44:9002
   bucket: ${spring.application.name}
-
-# druid
-druid:
-  mysql:
-    use-ping-method: false
 
 # swagger
 swagger:
