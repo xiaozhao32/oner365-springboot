@@ -41,12 +41,6 @@
     "description": "Fastdfs user password."
   },
   {
-    "name": "druid.mysql.use-ping-method",
-    "type": "java.lang.Boolean",
-    "defaultValue": true,
-    "description": "druid MySQL warn discard long time none received connection."
-  },
-  {
     "name": "ignore.whites",
     "type": "java.util.List",
     "description": "A description for 'ignore.whites'."
@@ -242,12 +236,6 @@
     "name": "mqtt.client-id",
     "type": "java.lang.String",
     "description": "A description for 'mqtt.client-id'."
-  },
-  {
-    "name": "mqtt.enabled",
-    "type": "java.lang.Boolean",
-    "defaultValue": false,
-    "description": "A description for 'mqtt.enabled'."
   },
   {
     "name": "logging.logstash.enabled",

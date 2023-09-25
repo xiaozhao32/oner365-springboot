@@ -41,8 +41,8 @@ spring:
       stat-view-servlet:
         enabled: true
         allow: 127.0.0.1
-        login-username: root
-        login-password: 1234
+        login-username: ${spring.datasource.username}
+        login-password: ${spring.datasource.password}
         reset-enable: false 
       web-stat-filter:
         enabled: true
@@ -146,6 +146,10 @@ ignore:
     - /csrf
     - /doc.html
     - /client
+    - /favicon.ico
+    - /error
+    - /monitoring
+    - /druid
 #客户端接口加密传输白名单，白名单内则需要报文加密操作
 #需要加密报文接口，统一增加sign请求头，以传递对称加密密钥
 #privateKey为约定私钥，此私钥给报文对称加密key解密，客户端用公钥加密
@@ -175,7 +179,6 @@ queue:
   type: rabbitmq
         
 mqtt:
-  enabled: false
   uri: tcp://localhost:1883
   username: admin
   password: admin123
