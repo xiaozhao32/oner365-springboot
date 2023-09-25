@@ -4,8 +4,8 @@ import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
@@ -29,7 +29,7 @@ public class RabbitAdminConfig {
   private final Logger logger = LoggerFactory.getLogger(RabbitAdminConfig.class);
 
   @Resource
-  private ConnectionFactory connectionFactory;
+  private RabbitTemplate rabbitTemplate;
   
   public RabbitAdminConfig() {
     logger.info("Queue Type: {}", QueueEnum.RABBITMQ);
@@ -37,7 +37,7 @@ public class RabbitAdminConfig {
 
   @Bean
   RabbitAdmin rabbitAdmin() {
-    RabbitAdmin rabbitAdmin = new RabbitAdmin(connectionFactory);
+    RabbitAdmin rabbitAdmin = new RabbitAdmin(rabbitTemplate);
     rabbitAdmin.setAutoStartup(true);
     return rabbitAdmin;
   }

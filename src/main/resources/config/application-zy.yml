@@ -48,6 +48,7 @@ spring:
       web-stat-filter:
         enabled: true
         exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+      use-ping-method: false
 
   # servlet file
   servlet:
@@ -150,6 +151,7 @@ ignore:
     - /csrf
     - /doc.html
     - /client
+    - /druid
 #客户端接口加密传输白名单，白名单内则需要报文加密操作
 #需要加密报文接口，统一增加sign请求头，以传递对称加密密钥
 #privateKey为约定私钥，此私钥给报文对称加密key解密，客户端用公钥加密
@@ -178,7 +180,6 @@ queue:
   type: rabbitmq
         
 mqtt:
-  enabled: true
   uri: tcp://localhost:1883
   username: admin
   password: admin123
@@ -232,11 +233,6 @@ minio:
   password: e8818da9cc9
   url: http://localhost:9001
   bucket: ${spring.application.name}
-
-# druid
-druid:
-  mysql:
-    use-ping-method: false
 
 # swagger
 swagger:
