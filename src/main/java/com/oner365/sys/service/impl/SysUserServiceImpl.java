@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -222,19 +223,23 @@ public class SysUserServiceImpl implements ISysUserService {
   }
 
   private void setName(SysUser entity) {
-    List<String> roleList = userRoleDao.findUserRoleByUserId(entity.getId());
-    entity.setRoles(roleList);
-    entity
-        .setRoleNameList(roleList.stream().map(s -> sysRoleDao.getReferenceById(s).getRoleName()).collect(Collectors.toList()));
+    try (var executor = Executors.newCachedThreadPool()) {
+      List<String> roleList = userRoleDao.findUserRoleByUserId(entity.getId());
+      entity.setRoles(roleList);
+      entity.setRoleNameList(roleList.stream().map(s -> sysRoleDao.getReferenceById(s).getRoleName()).collect(Collectors.toList()));
+    }
 
-    List<String> jobList = userJobDao.findUserJobByUserId(entity.getId());
-    entity.setJobs(jobList);
-    entity.setJobNameList(jobList.stream().map(s -> sysJobDao.getReferenceById(s).getJobName()).collect(Collectors.toList()));
+    try (var executor = Executors.newCachedThreadPool()) {
+      List<String> jobList = userJobDao.findUserJobByUserId(entity.getId());
+      entity.setJobs(jobList);
+      entity.setJobNameList(jobList.stream().map(s -> sysJobDao.getReferenceById(s).getJobName()).collect(Collectors.toList()));
+    }
 
-    List<String> orgList = userOrgDao.findUserOrgByUserId(entity.getId());
-    entity.setOrgs(orgList);
-    entity.setOrgNameList(
-        orgList.stream().map(s -> sysOrganizationDao.getReferenceById(s).getOrgName()).collect(Collectors.toList()));
+    try (var executor = Executors.newCachedThreadPool()) {
+      List<String> orgList = userOrgDao.findUserOrgByUserId(entity.getId());
+      entity.setOrgs(orgList);
+      entity.setOrgNameList(orgList.stream().map(s -> sysOrganizationDao.getReferenceById(s).getOrgName()).collect(Collectors.toList()));
+    }
   }
 
   @Override
@@ -255,42 +260,54 @@ public class SysUserServiceImpl implements ISysUserService {
       SysUser entity = userDao.save(convert(vo, SysUser.class));
 
       // 删除用户角色关联
-      userRoleDao.deleteUserRoleByUserId(entity.getId());
-      roles.forEach(id -> {
-        SysRole sysRole = sysRoleDao.getReferenceById(id);
-        SysUserRole sysUserRole = new SysUserRole();
-        sysUserRole.setSysRole(sysRole);
-        sysUserRole.setSysUser(entity);
-        userRoleDao.save(sysUserRole);
-      });
+      try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
+        executor.submit(() -> {
+          userRoleDao.deleteUserRoleByUserId(entity.getId());
+          roles.forEach(id -> {
+            SysRole sysRole = sysRoleDao.getReferenceById(id);
+            SysUserRole sysUserRole = new SysUserRole();
+            sysUserRole.setSysRole(sysRole);
+            sysUserRole.setSysUser(entity);
+            userRoleDao.save(sysUserRole);
+          });
+        });
+      }
 
       // 删除用户职位关联
-      userJobDao.deleteUserJobByUserId(entity.getId());
-      jobs.forEach(id -> {
-        SysJob sysJob = sysJobDao.getReferenceById(id);
-        SysUserJob sysUserJob = new SysUserJob();
-        sysUserJob.setSysJob(sysJob);
-        sysUserJob.setSysUser(entity);
-        sysUserJob.setPositionOrder(1);
-        sysUserJob.setStatus(StatusEnum.YES);
-        sysUserJob.setCreateTime(time);
-        sysUserJob.setUpdateTime(time);
-        userJobDao.save(sysUserJob);
-      });
+      try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
+        executor.submit(() -> {
+          userJobDao.deleteUserJobByUserId(entity.getId());
+          jobs.forEach(id -> {
+            SysJob sysJob = sysJobDao.getReferenceById(id);
+            SysUserJob sysUserJob = new SysUserJob();
+            sysUserJob.setSysJob(sysJob);
+            sysUserJob.setSysUser(entity);
+            sysUserJob.setPositionOrder(1);
+            sysUserJob.setStatus(StatusEnum.YES);
+            sysUserJob.setCreateTime(time);
+            sysUserJob.setUpdateTime(time);
+            userJobDao.save(sysUserJob);
+          });
+        });
+      }
 
       // 删除用户单位关联
-      userOrgDao.deleteUserOrgByUserId(entity.getId());
-      orgs.forEach(id -> {
-        SysOrganization sysOrg = sysOrganizationDao.getReferenceById(id);
-        SysUserOrg sysUserOrg = new SysUserOrg();
-        sysUserOrg.setSysOrganization(sysOrg);
-        sysUserOrg.setSysUser(entity);
-        sysUserOrg.setPositionOrder(1);
-        sysUserOrg.setStatus(StatusEnum.YES);
-        sysUserOrg.setCreateTime(time);
-        sysUserOrg.setUpdateTime(time);
-        userOrgDao.save(sysUserOrg);
-      });
+      try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
+        executor.submit(() -> {
+          userOrgDao.deleteUserOrgByUserId(entity.getId());
+          orgs.forEach(id -> {
+            SysOrganization sysOrg = sysOrganizationDao.getReferenceById(id);
+            SysUserOrg sysUserOrg = new SysUserOrg();
+            sysUserOrg.setSysOrganization(sysOrg);
+            sysUserOrg.setSysUser(entity);
+            sysUserOrg.setPositionOrder(1);
+            sysUserOrg.setStatus(StatusEnum.YES);
+            sysUserOrg.setCreateTime(time);
+            sysUserOrg.setUpdateTime(time);
+            userOrgDao.save(sysUserOrg);
+          });
+        });
+      }
       entity.setRoles(roles);
       entity.setJobs(jobs);
       entity.setOrgs(orgs);
