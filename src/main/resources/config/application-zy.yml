@@ -88,8 +88,7 @@ spring:
 
   # rabbitmq
   rabbitmq:
-    host: localhost
-    port: 5672
+    addresses: localhost:5672
     uri: http://localhost:15672
     virtual-host: /
     username: admin
