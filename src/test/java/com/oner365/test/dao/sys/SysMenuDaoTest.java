@@ -1,6 +1,7 @@
 package com.oner365.test.dao.sys;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -34,6 +35,11 @@ class SysMenuDaoTest extends BaseDaoTest {
     List<SysMenu> result = dao.findMenuByTypeCode(typeCode);
     logger.info("result:{}", result.size());
     Assertions.assertNotEquals(0, result.size());
+    
+    String sql = "select m.* from nt_sys_menu m, nt_sys_menu_type t where m.menu_type_id=t.id and m.status=1 and t.type_code=?";
+    List<Map<String, Object>> resultList = jdbcTemplate.queryForList(sql, typeCode);
+    logger.info("result:{}", resultList.size());
+    Assertions.assertNotEquals(0, resultList.size());
   }
 
 }
