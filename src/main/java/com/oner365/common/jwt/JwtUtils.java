@@ -91,7 +91,7 @@ public class JwtUtils {
     try {
       return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
     } catch (ExpiredJwtException e) {
-      LOGGER.error("token: {}, 已过期: ", token, e);
+      LOGGER.error("token: {}, 已过期: ", token);
       return e.getClaims();
     } catch (MalformedJwtException e) {
       LOGGER.error("token: {}, 解密失败: ", token, e);

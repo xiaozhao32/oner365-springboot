@@ -5,6 +5,7 @@ import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Conditional;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
@@ -48,6 +49,7 @@ public class MqttSendServiceImpl implements IQueueSendService {
   @Resource
   private IMqttSendTaskExecuteStatusService taskExecuteStatusService;
   
+  @Async
   @Override
   public void sendMessage(JSONObject message) {
     if (!message.isEmpty()) {
@@ -56,24 +58,28 @@ public class MqttSendServiceImpl implements IQueueSendService {
     }
   }
 
+  @Async
   @Override
   public void syncRoute() {
     logger.info("Mqtt send syncRoute topic: {}", QueueConstants.ROUTE_QUEUE_NAME);
     routeService.sendMessage(QueueConstants.ROUTE_QUEUE_NAME, QueueConstants.ROUTE_QUEUE_NAME);
   }
 
+  @Async
   @Override
   public void pullTask(InvokeParamDto data) {
     logger.info("Mqtt send pullTask: {} topic: {}", data, QueueConstants.SCHEDULE_TASK_QUEUE_NAME);
     invokeParamService.sendMessage(QueueConstants.SCHEDULE_TASK_QUEUE_NAME, JSON.toJSONString(data));
   }
 
+  @Async
   @Override
   public void updateTaskExecuteStatus(UpdateTaskExecuteStatusDto data) {
     logger.info("Mqtt send updateTaskExecuteStatus: {} topic: {}", data, QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME);
     taskExecuteStatusService.sendMessage(QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME, JSON.toJSONString(data));
   }
 
+  @Async
   @Override
   public void saveExecuteTaskLog(SysTaskDto data) {
     logger.info("Mqtt send saveExecuteTaskLog: {} topic: {}", data, QueueConstants.SAVE_TASK_LOG_QUEUE_NAME);

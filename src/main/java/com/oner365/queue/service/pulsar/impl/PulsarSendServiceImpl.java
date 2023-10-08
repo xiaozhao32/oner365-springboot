@@ -12,6 +12,7 @@ import org.apache.pulsar.client.api.Schema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Conditional;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
@@ -52,6 +53,7 @@ public class PulsarSendServiceImpl implements IQueueSendService {
     }
   }
 
+  @Async
   @Override
   public void sendMessage(JSONObject data) {
     try (Producer<JSONObject> producer = createProducer(QueueConstants.MESSAGE_QUEUE_NAME,
@@ -63,6 +65,7 @@ public class PulsarSendServiceImpl implements IQueueSendService {
     }
   }
 
+  @Async
   @Override
   public void syncRoute() {
     try (Producer<String> producer = createProducer(QueueConstants.ROUTE_QUEUE_NAME, Schema.STRING)) {
@@ -74,6 +77,7 @@ public class PulsarSendServiceImpl implements IQueueSendService {
     }
   }
 
+  @Async
   @Override
   public void pullTask(InvokeParamDto data) {
     try (Producer<InvokeParamDto> producer = createProducer(QueueConstants.SCHEDULE_TASK_QUEUE_NAME,
@@ -86,6 +90,7 @@ public class PulsarSendServiceImpl implements IQueueSendService {
     }
   }
 
+  @Async
   @Override
   public void updateTaskExecuteStatus(UpdateTaskExecuteStatusDto data) {
     try (Producer<UpdateTaskExecuteStatusDto> producer = createProducer(QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME,
@@ -98,6 +103,7 @@ public class PulsarSendServiceImpl implements IQueueSendService {
     }
   }
 
+  @Async
   @Override
   public void saveExecuteTaskLog(SysTaskDto data) {
     try (Producer<SysTaskDto> producer = createProducer(QueueConstants.SAVE_TASK_LOG_QUEUE_NAME,

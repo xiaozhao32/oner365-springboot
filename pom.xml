@@ -46,12 +46,14 @@
 		<org.springframework.security.version>5.8.7</org.springframework.security.version>
 		<org.springframework.boot.version>2.7.16</org.springframework.boot.version>
 		<org.springframework.version>5.3.30</org.springframework.version>
+		<org.springframework.kafka.version>2.9.12</org.springframework.kafka.version>
 
 		<org.apache.logging.log4j.version>2.20.0</org.apache.logging.log4j.version>
 		<org.apache.httpclient.version>4.5.14</org.apache.httpclient.version>
 		<org.apache.httpcore.version>4.4.16</org.apache.httpcore.version>
 		<org.apache.tomcat.version>9.0.80</org.apache.tomcat.version>
 		<org.apache.pulsar.version>3.0.0</org.apache.pulsar.version>
+		<org.apache.kafka.version>3.6.0</org.apache.kafka.version>
 		<org.apache.poi.version>5.2.3</org.apache.poi.version>
 
 		<org.hibernate.validator.version>6.2.5.Final</org.hibernate.validator.version>
@@ -596,6 +598,12 @@
 			<artifactId>jackson-module-parameter-names</artifactId>
 			<version>${com.fasterxml.jackson.version}</version>
 		</dependency>
+		
+		<dependency>
+		    <groupId>com.fasterxml.jackson.module</groupId>
+		    <artifactId>jackson-module-scala_2.13</artifactId>
+		    <version>${com.fasterxml.jackson.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>com.fasterxml.jackson.datatype</groupId>
@@ -624,6 +632,12 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.dataformat</groupId>
 			<artifactId>jackson-dataformat-cbor</artifactId>
+			<version>${com.fasterxml.jackson.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-csv</artifactId>
 			<version>${com.fasterxml.jackson.version}</version>
 		</dependency>
 
@@ -865,6 +879,24 @@
 				</exclusion>
 			</exclusions>
         </dependency>
+        
+        <!-- kafka -->    
+		<dependency>
+		    <groupId>org.springframework.kafka</groupId>
+		    <artifactId>spring-kafka</artifactId>
+		    <version>${org.springframework.kafka.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.kafka</groupId>
+		    <artifactId>kafka_2.13</artifactId>
+		    <version>${org.apache.kafka.version}</version>
+		</dependency>
+				
+		<dependency>
+		    <groupId>org.apache.kafka</groupId>
+		    <artifactId>kafka-clients</artifactId>
+		    <version>${org.apache.kafka.version}</version>
+		</dependency>
 
 		<!-- elasticsearch -->
 		<dependency>

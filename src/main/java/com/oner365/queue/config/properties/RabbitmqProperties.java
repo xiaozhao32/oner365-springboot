@@ -1,14 +1,12 @@
 package com.oner365.queue.config.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * rabbitmq配置
  * 
  * @author zhaoyong
  */
-@Configuration
 @ConfigurationProperties(prefix = "spring.rabbitmq")
 public class RabbitmqProperties {
   

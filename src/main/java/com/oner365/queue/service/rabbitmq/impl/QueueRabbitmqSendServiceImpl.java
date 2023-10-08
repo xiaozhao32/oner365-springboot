@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.context.annotation.Conditional;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
@@ -38,6 +39,7 @@ public class QueueRabbitmqSendServiceImpl implements IQueueSendService {
   @Resource
   private QueueRabbitmqConfirmCallback confirmCallback;
 
+  @Async
   @Override
   public void sendMessage(JSONObject data) {
     logger.info("Rabbitmq sendMessage: {}", data);
@@ -48,6 +50,7 @@ public class QueueRabbitmqSendServiceImpl implements IQueueSendService {
         data, new CorrelationData(DateUtil.getCurrentTime()));
   }
 
+  @Async
   @Override
   public void syncRoute() {
     logger.info("Rabbitmq syncRoute: {}", DataUtils.getLocalhost());
@@ -55,6 +58,7 @@ public class QueueRabbitmqSendServiceImpl implements IQueueSendService {
         DataUtils.getLocalhost());
   }
 
+  @Async
   @Override
   public void pullTask(InvokeParamDto data) {
     logger.info("Rabbitmq pullTask: {}", data);
@@ -62,6 +66,7 @@ public class QueueRabbitmqSendServiceImpl implements IQueueSendService {
         data);
   }
 
+  @Async
   @Override
   public void updateTaskExecuteStatus(UpdateTaskExecuteStatusDto data) {
     logger.info("Rabbitmq updateTaskExecuteStatus push: {}", data);
@@ -69,6 +74,7 @@ public class QueueRabbitmqSendServiceImpl implements IQueueSendService {
         QueueConstants.TASK_UPDATE_STATUS_QUEUE_KEY, data);
   }
 
+  @Async
   @Override
   public void saveExecuteTaskLog(SysTaskDto data) {
     logger.info("Rabbitmq saveExecuteTaskLog push: {}", data);
