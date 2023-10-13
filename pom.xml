@@ -51,7 +51,7 @@
 		<org.apache.logging.log4j.version>2.20.0</org.apache.logging.log4j.version>
 		<org.apache.httpclient.version>4.5.14</org.apache.httpclient.version>
 		<org.apache.httpcore.version>4.4.16</org.apache.httpcore.version>
-		<org.apache.tomcat.version>9.0.80</org.apache.tomcat.version>
+		<org.apache.tomcat.version>9.0.81</org.apache.tomcat.version>
 		<org.apache.pulsar.version>3.0.0</org.apache.pulsar.version>
 		<org.apache.kafka.version>3.6.0</org.apache.kafka.version>
 		<org.apache.poi.version>5.2.3</org.apache.poi.version>
@@ -60,7 +60,7 @@
 		<org.hibernate.version>5.6.15.Final</org.hibernate.version>
 		<javax.servlet.version>4.0.1</javax.servlet.version>
 
-		<org.mybatis.spring.boot.version>2.3.0</org.mybatis.spring.boot.version>
+		<org.mybatis.spring.boot.version>2.3.1</org.mybatis.spring.boot.version>
 		<org.mybatis.version>3.5.13</org.mybatis.version>
 
 		<org.bouncycastle.version>1.70</org.bouncycastle.version>
@@ -86,7 +86,7 @@
 		<com.alibaba.druid.version>1.2.17</com.alibaba.druid.version>
 
 		<com.fasterxml.jackson.version>2.15.2</com.fasterxml.jackson.version>
-		<com.google.code.gson.version>2.9.1</com.google.code.gson.version>
+		<com.google.code.gson.version>2.10.1</com.google.code.gson.version>
 		<com.google.guava.version>32.1.1-jre</com.google.guava.version>
 		<com.google.protobuf.version>3.22.4</com.google.protobuf.version>
 		<com.github.xiaoymin.version>3.0.3</com.github.xiaoymin.version>
@@ -94,7 +94,7 @@
 		<com.github.tobato.version>1.27.2</com.github.tobato.version>
 		<com.github.oshi.version>6.2.2</com.github.oshi.version>
 		<com.vladmihalcea.version>2.21.1</com.vladmihalcea.version>
-		<com.rabbitmq.version>5.18.0</com.rabbitmq.version>
+		<com.rabbitmq.version>5.19.0</com.rabbitmq.version>
 		<com.belerweb.version>2.5.1</com.belerweb.version>
 		<com.auth0.version>3.19.1</com.auth0.version>
 
