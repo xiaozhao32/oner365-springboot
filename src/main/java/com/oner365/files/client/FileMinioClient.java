@@ -88,8 +88,8 @@ public class FileMinioClient implements IFileStorageClient {
           .bucket(minioProperties.getBucket()).object(path).stream(inputStream, file.length(), -1).build());
       String result = writeResponse.object();
       logger.info("file path: {}", result);
-      SysFileStorageVo vo = saveFileStorage(result, file.getName(), file.length());
-      return vo.getFilePath();
+      saveFileStorage(result, file.getName(), file.length());
+      return result;
     } catch (Exception e) {
       logger.error("uploadFile File Error:", e);
     }
