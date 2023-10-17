@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
@@ -12,6 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.oner365.common.constants.PublicConstants;
@@ -25,6 +29,7 @@ import com.oner365.sys.enums.MessageTypeEnum;
  */
 @Entity
 @Table(name = "nt_sys_message")
+@EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler" })
 public class SysMessage implements Serializable {
 
@@ -97,12 +102,14 @@ public class SysMessage implements Serializable {
   /**
    * 创建时间 create_time
    */
+  @CreatedDate
   @Column(name = "create_time", updatable = false)
   private LocalDateTime createTime;
 
   /**
    * 更新时间 update_time
    */
+  @LastModifiedDate
   @Column(name = "update_time", insertable = false)
   private LocalDateTime updateTime;
 

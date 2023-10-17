@@ -5,12 +5,16 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.oner365.common.constants.PublicConstants;
@@ -23,6 +27,7 @@ import com.oner365.monitor.enums.TaskStatusEnum;
  */
 @Entity
 @Table(name = "nt_sys_task_log")
+@EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler" })
 public class SysTaskLog implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -111,12 +116,14 @@ public class SysTaskLog implements Serializable {
   /**
    * 创建时间
    */
+  @CreatedDate
   @Column(name = "create_time", updatable = false)
   private Date createTime;
 
   /**
    * 更新时间
    */
+  @LastModifiedDate
   @Column(name = "update_time", updatable = true)
   private Date updateTime;
 

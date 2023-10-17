@@ -1,6 +1,5 @@
 package com.oner365.sys.service.impl;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -116,12 +115,10 @@ public class SysRoleServiceImpl implements ISysRoleService {
   public SysRoleDto save(SysRoleVo vo) {
     if (DataUtils.isEmpty(vo.getId())) {
       vo.setStatus(StatusEnum.YES);
-      vo.setCreateTime(LocalDateTime.now());
     }
     if (DataUtils.isEmpty(vo.getRoleCode())) {
       vo.setRoleCode(String.valueOf(System.currentTimeMillis()));
     }
-    vo.setUpdateTime(LocalDateTime.now());
     SysRole entity = roleDao.save(convert(vo, SysRole.class));
     return convert(entity, SysRoleDto.class);
   }

@@ -62,6 +62,7 @@ public class MqttReceiverTaskLogServiceImpl implements IMqttReceiverTaskLogServi
     taskLog.setTaskGroup(sysTask.getTaskGroup());
     taskLog.setTaskName(sysTask.getTaskName());
     taskLog.setInvokeTarget(sysTask.getInvokeTarget());
+    taskLog.setCreateUser(sysTask.getCreateUser());
     sysTaskLogService.addTaskLog(taskLog);
   }
 

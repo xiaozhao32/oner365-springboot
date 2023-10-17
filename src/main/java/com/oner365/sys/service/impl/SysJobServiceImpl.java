@@ -1,6 +1,5 @@
 package com.oner365.sys.service.impl;
 
-import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -93,9 +92,7 @@ public class SysJobServiceImpl implements ISysJobService {
   public SysJobDto save(SysJobVo vo) {
     if (DataUtils.isEmpty(vo.getId())) {
       vo.setStatus(StatusEnum.YES);
-      vo.setCreateTime(LocalDateTime.now());
     }
-    vo.setUpdateTime(LocalDateTime.now());
     SysJob entity = dao.save(convert(vo, SysJob.class));
     return convert(entity, SysJobDto.class);
   }
@@ -115,7 +112,6 @@ public class SysJobServiceImpl implements ISysJobService {
     Optional<SysJob> optional = dao.findById(id);
     if (optional.isPresent()) {
       optional.get().setStatus(status);
-      optional.get().setUpdateTime(LocalDateTime.now());
       dao.save(optional.get());
       return Boolean.TRUE;
     }

@@ -37,7 +37,6 @@ import com.oner365.monitor.util.ScheduleUtils;
 import com.oner365.monitor.vo.SysTaskVo;
 import com.oner365.queue.service.IQueueSendService;
 import com.oner365.util.DataUtils;
-import com.oner365.util.DateUtil;
 
 /**
  * 定时任务调度信息 服务层
@@ -197,7 +196,6 @@ public class SysTaskServiceImpl implements ISysTaskService {
     boolean isAdd = DataUtils.isEmpty(task.getId());
     if (isAdd && DataUtils.isEmpty(task.getStatus())) {
       task.setStatus(TaskStatusEnum.PAUSE);
-      task.setCreateTime(DateUtil.getDate());
     }
     SysTask entity = dao.save(convert(task, SysTask.class));
     if (isAdd) {

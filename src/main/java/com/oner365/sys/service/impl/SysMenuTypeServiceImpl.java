@@ -1,6 +1,5 @@
 package com.oner365.sys.service.impl;
 
-import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -93,9 +92,6 @@ public class SysMenuTypeServiceImpl implements ISysMenuTypeService {
   public SysMenuTypeDto save(SysMenuTypeVo vo) {
     if (DataUtils.isEmpty(vo.getId())) {
       vo.setStatus(StatusEnum.YES);
-      vo.setCreateTime(LocalDateTime.now());
-    } else {
-      vo.setUpdateTime(LocalDateTime.now());
     }
     SysMenuType entity = dao.save(convert(vo, SysMenuType.class));
     return convert(entity, SysMenuTypeDto.class);

@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -15,6 +16,10 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -34,6 +39,7 @@ import com.vladmihalcea.hibernate.type.json.JsonStringType;
 @Entity
 @Table(name = "nt_sys_task")
 @TypeDef(name = "json", typeClass = JsonStringType.class)
+@EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler" })
 public class SysTask implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -113,18 +119,21 @@ public class SysTask implements Serializable {
   /**
    * 创建人
    */
+  @CreatedBy
   @Column(name = "create_user", length = 32)
   private String createUser;
 
   /**
    * 创建时间
    */
+  @CreatedDate
   @Column(name = "create_time", updatable = false)
   private Date createTime;
 
   /**
    * 更新时间
    */
+  @LastModifiedDate
   @Column(name = "update_time", updatable = true)
   private Date updateTime;
 

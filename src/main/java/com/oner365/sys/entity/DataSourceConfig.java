@@ -5,11 +5,15 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.oner365.common.constants.PublicConstants;
@@ -21,6 +25,7 @@ import com.oner365.common.constants.PublicConstants;
  */
 @Entity
 @Table(name = "nt_data_source_config")
+@EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler" })
 public class DataSourceConfig implements Serializable {
 
@@ -97,12 +102,14 @@ public class DataSourceConfig implements Serializable {
   /**
    * 创建时间
    */
+  @CreatedDate
   @Column(name = "create_time")
   private LocalDateTime createTime;
 
   /**
    * 更新时间
    */
+  @LastModifiedDate
   @Column(name = "update_time")
   private LocalDateTime updateTime;
 

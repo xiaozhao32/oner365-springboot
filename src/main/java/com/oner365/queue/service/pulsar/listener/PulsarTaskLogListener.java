@@ -69,6 +69,7 @@ public class PulsarTaskLogListener implements MessageListener<SysTaskDto> {
     taskLog.setTaskGroup(sysTask.getTaskGroup());
     taskLog.setTaskName(sysTask.getTaskName());
     taskLog.setInvokeTarget(sysTask.getInvokeTarget());
+    taskLog.setCreateUser(sysTask.getCreateUser());
     sysTaskLogService.addTaskLog(taskLog);
   }
 

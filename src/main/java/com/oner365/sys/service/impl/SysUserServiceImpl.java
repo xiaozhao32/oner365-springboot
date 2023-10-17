@@ -245,7 +245,6 @@ public class SysUserServiceImpl implements ISysUserService {
     try {
       LocalDateTime time = LocalDateTime.now();
       vo.setActiveStatus(StatusEnum.YES);
-      vo.setCreateTime(time);
       vo.setLastTime(time);
 
       List<String> roles = vo.getRoles();
@@ -273,8 +272,6 @@ public class SysUserServiceImpl implements ISysUserService {
         sysUserJob.setSysUser(entity);
         sysUserJob.setPositionOrder(1);
         sysUserJob.setStatus(StatusEnum.YES);
-        sysUserJob.setCreateTime(time);
-        sysUserJob.setUpdateTime(time);
         userJobDao.save(sysUserJob);
       });
 
@@ -287,8 +284,6 @@ public class SysUserServiceImpl implements ISysUserService {
         sysUserOrg.setSysUser(entity);
         sysUserOrg.setPositionOrder(1);
         sysUserOrg.setStatus(StatusEnum.YES);
-        sysUserOrg.setCreateTime(time);
-        sysUserOrg.setUpdateTime(time);
         userOrgDao.save(sysUserOrg);
       });
       entity.setRoles(roles);

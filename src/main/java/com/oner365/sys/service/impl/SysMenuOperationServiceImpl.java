@@ -1,6 +1,5 @@
 package com.oner365.sys.service.impl;
 
-import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -93,9 +92,7 @@ public class SysMenuOperationServiceImpl implements ISysMenuOperationService {
   public SysMenuOperationDto save(SysMenuOperationVo vo) {
     if (DataUtils.isEmpty(vo.getId())) {
       vo.setStatus(StatusEnum.YES);
-      vo.setCreateTime(LocalDateTime.now());
     }
-    vo.setUpdateTime(LocalDateTime.now());
     SysMenuOperation entity = menuOperationDao.save(convert(vo, SysMenuOperation.class));
     return convert(entity, SysMenuOperationDto.class);
   }
@@ -142,7 +139,6 @@ public class SysMenuOperationServiceImpl implements ISysMenuOperationService {
     Optional<SysMenuOperation> optional = menuOperationDao.findById(id);
     if (optional.isPresent()) {
       optional.get().setStatus(status);
-      optional.get().setUpdateTime(LocalDateTime.now());
       menuOperationDao.save(optional.get());
       return Boolean.TRUE;
     }

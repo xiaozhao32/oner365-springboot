@@ -5,10 +5,14 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.oner365.common.enums.StorageEnum;
@@ -21,6 +25,7 @@ import com.oner365.common.enums.StorageEnum;
  */
 @Entity
 @Table(name = "nt_sys_fastdfs_file")
+@EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler" })
 public class SysFileStorage implements Serializable {
 
@@ -78,6 +83,7 @@ public class SysFileStorage implements Serializable {
   /**
    * 创建时间 create_time
    */
+  @CreatedDate
   @Column(name = "create_time")
   private Date createTime;
 

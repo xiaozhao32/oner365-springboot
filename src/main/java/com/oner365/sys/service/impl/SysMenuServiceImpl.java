@@ -1,6 +1,5 @@
 package com.oner365.sys.service.impl;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -86,8 +85,6 @@ public class SysMenuServiceImpl implements ISysMenuService {
       @CacheEvict(value = CACHE_ROLE_NAME, allEntries = true) })
   public SysMenuDto save(SysMenuVo vo) {
     try {
-      vo.setCreateTime(LocalDateTime.now());
-      vo.setUpdateTime(LocalDateTime.now());
 
       SysMenu menu = menuDao.save(convert(vo, SysMenu.class));
 

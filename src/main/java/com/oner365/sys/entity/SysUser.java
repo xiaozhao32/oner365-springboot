@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -14,6 +15,8 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.oner365.common.constants.PublicConstants;
@@ -28,6 +31,7 @@ import com.oner365.sys.enums.SysUserTypeEnum;
  */
 @Entity
 @Table(name = "nt_sys_user")
+@EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler" })
 public class SysUser implements Serializable {
 
@@ -97,6 +101,7 @@ public class SysUser implements Serializable {
   /**
    * 创建时间
    */
+  @CreatedDate
   @Column(name = "create_time", updatable = false)
   private LocalDateTime createTime;
 
