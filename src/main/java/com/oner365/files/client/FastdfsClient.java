@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -95,7 +96,7 @@ public class FastdfsClient implements IFileStorageClient {
     SysFileStorageVo entity = new SysFileStorageVo();
     entity.setFastdfsUrl(PublicConstants.FILE_HTTP + fileFdfsProperties.getIp());
     entity.setId(StringUtils.replace(url, entity.getFastdfsUrl() + PublicConstants.DELIMITER, ""));
-    entity.setCreateTime(DateUtil.getDate());
+    entity.setCreateTime(LocalDateTime.now());
     entity.setDirectory(false);
     entity.setFileStorage(getName());
     entity.setFilePath(url);
@@ -207,7 +208,7 @@ public class FastdfsClient implements IFileStorageClient {
     return vector.stream().map(entry -> {
       SysFileStorageDto fastdfsFile = new SysFileStorageDto();
       fastdfsFile.setId(StringUtils.replace(directory, fileFdfsProperties.getPath(), "group1") + PublicConstants.DELIMITER + entry.filename);
-      fastdfsFile.setCreateTime(new Date(entry.attributes.mtime * 1000L));
+      fastdfsFile.setCreateTime(DateUtil.dateToLocalDateTime(new Date(entry.attributes.mtime * 1000L)));
       fastdfsFile.setFileName(entry.filename);
       fastdfsFile.setDirectory(entry.attributes.isDirectory());
       fastdfsFile.setFileSuffix(DataUtils.getExtension(entry.filename));

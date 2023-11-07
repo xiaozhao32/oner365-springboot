@@ -1,7 +1,7 @@
 package com.oner365.files.entity;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -85,7 +85,7 @@ public class SysFileStorage implements Serializable {
    */
   @CreatedDate
   @Column(name = "create_time")
-  private Date createTime;
+  private LocalDateTime createTime;
 
   /**
    * 是否目录 is_directory
@@ -170,14 +170,14 @@ public class SysFileStorage implements Serializable {
   /**
    * @return the createTime
    */
-  public Date getCreateTime() {
+  public LocalDateTime getCreateTime() {
     return createTime;
   }
 
   /**
    * @param createTime the createTime to set
    */
-  public void setCreateTime(Date createTime) {
+  public void setCreateTime(LocalDateTime createTime) {
     this.createTime = createTime;
   }
 

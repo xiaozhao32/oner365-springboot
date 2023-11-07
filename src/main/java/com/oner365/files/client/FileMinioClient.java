@@ -3,6 +3,7 @@ package com.oner365.files.client;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
@@ -24,7 +25,6 @@ import com.oner365.files.storage.IFileStorageClient;
 import com.oner365.files.storage.condition.MinioStorageCondition;
 import com.oner365.files.vo.SysFileStorageVo;
 import com.oner365.util.DataUtils;
-import com.oner365.util.DateUtil;
 
 import io.minio.GetObjectArgs;
 import io.minio.GetObjectResponse;
@@ -162,7 +162,7 @@ public class FileMinioClient implements IFileStorageClient {
     SysFileStorageVo entity = new SysFileStorageVo();
     entity.setFastdfsUrl(minioProperties.getUrl() + PublicConstants.DELIMITER + minioProperties.getBucket());
     entity.setId(url);
-    entity.setCreateTime(DateUtil.getDate());
+    entity.setCreateTime(LocalDateTime.now());
     entity.setDirectory(false);
     entity.setFileStorage(getName());
     entity.setFilePath(entity.getFastdfsUrl() + PublicConstants.DELIMITER + entity.getId());
