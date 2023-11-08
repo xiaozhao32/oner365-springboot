@@ -1,5 +1,7 @@
 package com.oner365.queue.service.kafka.listener;
 
+import java.util.Optional;
+
 import javax.annotation.Resource;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -9,7 +11,6 @@ import org.springframework.context.annotation.Conditional;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
-import com.google.common.base.Optional;
 import com.oner365.gateway.service.DynamicRouteService;
 import com.oner365.queue.condition.KafkaCondition;
 import com.oner365.queue.constants.QueueConstants;
@@ -24,7 +25,7 @@ import com.oner365.queue.constants.QueueConstants;
 public class KafkaRouteListener {
 
   private final Logger logger = LoggerFactory.getLogger(KafkaRouteListener.class);
-  
+
   @Resource
   private DynamicRouteService dynamicRouteService;
 
@@ -36,12 +37,10 @@ public class KafkaRouteListener {
   @KafkaListener(id = QueueConstants.ROUTE_QUEUE_NAME, topics = { QueueConstants.ROUTE_QUEUE_NAME })
   public void listener(ConsumerRecord<String, ?> record) {
     Optional<?> kafkaMessage = Optional.of(record.value());
-    if (kafkaMessage.isPresent()) {
-      Object message = kafkaMessage.get();
-      logger.info("Kafka Route received: {}", message);
-      
-      // business
-      dynamicRouteService.refreshRoute();
-    }
+    Object message = kafkaMessage.get();
+    logger.info("Kafka Route received: {}", message);
+
+    // business
+    dynamicRouteService.refreshRoute();
   }
 }

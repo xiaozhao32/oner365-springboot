@@ -1,7 +1,6 @@
 package com.oner365.test.dao.sys;
 
 import java.io.FileOutputStream;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -22,7 +21,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
@@ -61,15 +59,15 @@ class SysMenuDaoTest extends BaseDaoTest {
     logger.info("result:{}", resultList.size());
     Assertions.assertNotEquals(0, resultList.size());
   }
-  
+
   @Test
   void testGetById() {
-    SysUserDto result = jdbcTemplate.queryForObject("SELECT * FROM nt_sys_user where id='1' ", 
+    SysUserDto result = jdbcTemplate.queryForObject("SELECT * FROM nt_sys_user where id='1' ",
         BeanPropertyRowMapper.newInstance(SysUserDto.class));
     logger.info("result:{}", JSON.toJSONString(result));
   }
-  
-//  @Test  
+
+//  @Test
   void testInsert() {
     String sql = "insert into nt_test_date(name, phone, price, description, test_date, status, create_time, update_time) values(?,?,?,?,?,?,?,?)";
     String result = insertAutoIncrementId(sql,
@@ -79,33 +77,30 @@ class SysMenuDaoTest extends BaseDaoTest {
 
   public String insertAutoIncrementId(String sql, Object[] params) {
     KeyHolder keyHolder = new GeneratedKeyHolder();
-    jdbcTemplate.update(new PreparedStatementCreator() {
-      @Override
-      public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
-        PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-        IntStream.range(0, params.length).forEach( i -> {
-          try {
-            ps.setObject(i+1, params[i]);
-          } catch (SQLException e) {
-            logger.error("insertAutoIncrementId error", e);
-          }
-        });
-        return ps;
-      }
+    jdbcTemplate.update(connection -> {
+      PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+      IntStream.range(0, params.length).forEach( i -> {
+        try {
+          ps.setObject(i+1, params[i]);
+        } catch (SQLException e) {
+          logger.error("insertAutoIncrementId error", e);
+        }
+      });
+      return ps;
     }, keyHolder);
     return keyHolder.getKey().toString();
   }
-  
+
 //  @Test
   void testExportPage() {
     // 分页信息
     int size = 10000;
     int total = countSysUser();
     int page = total / size + 1;
-    
+
     // 文件信息
     String filePath = System.getProperty("user.dir") + "/src/test/java/com/oner365/test/dao/sys/SysUser.xlsx";
-    logger.info("file path: {}/{}", filePath);
+    logger.info("file path: {}", filePath);
     String[] titleKeys = new String[] { "编号", "用户标识", "用户名称", "姓名", "性别", "邮箱", "电话", "备注", "状态", "创建时间", "最后登录时间",
         "最后登录ip" };
     String[] columnNames = { "id", "userCode", "userName", "realName", "sex", "email", "phone", "remark", "status",
@@ -125,7 +120,7 @@ class SysMenuDaoTest extends BaseDaoTest {
     }
 
   }
-  
+
   public int countSysUser() {
     return jdbcTemplate.queryForObject("SELECT COUNT(1) FROM nt_sys_user", Integer.class);
   }

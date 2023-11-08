@@ -259,7 +259,7 @@
 			<artifactId>poi-ooxml</artifactId>
 			<version>${org.apache.poi.version}</version>
 		</dependency>
-		
+
 		<dependency>
 		    <groupId>org.bouncycastle</groupId>
 		    <artifactId>bcprov-jdk15on</artifactId>
@@ -598,7 +598,7 @@
 			<artifactId>jackson-module-parameter-names</artifactId>
 			<version>${com.fasterxml.jackson.version}</version>
 		</dependency>
-		
+
 		<dependency>
 		    <groupId>com.fasterxml.jackson.module</groupId>
 		    <artifactId>jackson-module-scala_2.13</artifactId>
@@ -634,7 +634,7 @@
 			<artifactId>jackson-dataformat-cbor</artifactId>
 			<version>${com.fasterxml.jackson.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.fasterxml.jackson.dataformat</groupId>
 			<artifactId>jackson-dataformat-csv</artifactId>
@@ -879,8 +879,8 @@
 				</exclusion>
 			</exclusions>
         </dependency>
-        
-        <!-- kafka -->    
+
+        <!-- kafka -->
 		<dependency>
 		    <groupId>org.springframework.kafka</groupId>
 		    <artifactId>spring-kafka</artifactId>
@@ -891,7 +891,7 @@
 		    <artifactId>kafka_2.13</artifactId>
 		    <version>${org.apache.kafka.version}</version>
 		</dependency>
-				
+
 		<dependency>
 		    <groupId>org.apache.kafka</groupId>
 		    <artifactId>kafka-clients</artifactId>
@@ -983,7 +983,7 @@
 					</includes>
 				</configuration>
 			</plugin>
-			
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>

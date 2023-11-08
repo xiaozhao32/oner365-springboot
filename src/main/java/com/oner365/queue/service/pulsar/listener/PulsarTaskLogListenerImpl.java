@@ -1,5 +1,7 @@
 package com.oner365.queue.service.pulsar.listener;
 
+import java.util.Arrays;
+
 import javax.annotation.Resource;
 
 import org.apache.pulsar.client.api.Consumer;
@@ -9,33 +11,30 @@ import org.apache.pulsar.client.api.PulsarClientException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Conditional;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
+import com.oner365.common.service.BaseService;
 import com.oner365.monitor.constants.ScheduleConstants;
 import com.oner365.monitor.dto.SysTaskDto;
 import com.oner365.monitor.enums.TaskStatusEnum;
 import com.oner365.monitor.service.ISysTaskLogService;
 import com.oner365.monitor.vo.SysTaskLogVo;
 import com.oner365.queue.condition.PulsarCondition;
-import com.oner365.queue.config.properties.PulsarProperties;
 import com.oner365.util.DataUtils;
 
 /**
  * pulsar SysTaskDto listener
- * 
+ *
  * @author zhaoyong
  *
  */
-@Component
+@Service
 @Conditional(PulsarCondition.class)
-public class PulsarTaskLogListener implements MessageListener<SysTaskDto> {
+public class PulsarTaskLogListenerImpl implements MessageListener<SysTaskDto>, BaseService {
 
   private static final long serialVersionUID = 1L;
 
-  private final Logger logger = LoggerFactory.getLogger(PulsarTaskLogListener.class);
-
-  @Resource
-  private PulsarProperties pulsarProperties;
+  private final Logger logger = LoggerFactory.getLogger(PulsarTaskLogListenerImpl.class);
 
   @Resource
   private ISysTaskLogService sysTaskLogService;
@@ -43,7 +42,7 @@ public class PulsarTaskLogListener implements MessageListener<SysTaskDto> {
   @Override
   public void received(Consumer<SysTaskDto> consumer, Message<SysTaskDto> msg) {
     try {
-      String data = String.valueOf(msg.getData());
+      String data = Arrays.toString(msg.getData());
       logger.info("Pulsar consumer data: {}, topic: {}", data, consumer.getTopic());
       consumer.acknowledge(msg);
     } catch (PulsarClientException e) {

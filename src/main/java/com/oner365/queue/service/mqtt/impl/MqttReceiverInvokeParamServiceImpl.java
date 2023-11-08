@@ -52,7 +52,7 @@ public class MqttReceiverInvokeParamServiceImpl implements IMqttReceiverInvokePa
   public void message(Object message) {
     logger.info("Mqtt receive taskExecute: {}", message);
     
-    // bussiness
+    // business
     InvokeParamDto dto = JSON.parseObject(message.toString(), InvokeParamDto.class);
     if (dto != null && ScheduleConstants.SCHEDULE_SERVER_NAME.equals(dto.getTaskServerName())) {
       taskExecute(dto.getConcurrent(), dto.getTaskId(), dto.getTaskParam());

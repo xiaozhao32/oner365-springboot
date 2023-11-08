@@ -1,5 +1,7 @@
 package com.oner365.queue.service.pulsar.listener;
 
+import java.util.Arrays;
+
 import javax.annotation.Resource;
 
 import org.apache.pulsar.client.api.Consumer;
@@ -9,7 +11,7 @@ import org.apache.pulsar.client.api.PulsarClientException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Conditional;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.oner365.common.enums.StatusEnum;
@@ -29,17 +31,17 @@ import com.oner365.util.DateUtil;
 
 /**
  * pulsar InvokeParamDto listener
- * 
+ *
  * @author zhaoyong
  *
  */
-@Component
+@Service
 @Conditional(PulsarCondition.class)
-public class PulsarInvokeParamListener implements MessageListener<InvokeParamDto>, BaseService {
+public class PulsarInvokeParamListenerImpl implements MessageListener<InvokeParamDto>, BaseService {
 
   private static final long serialVersionUID = 1L;
 
-  private final Logger logger = LoggerFactory.getLogger(PulsarInvokeParamListener.class);
+  private final Logger logger = LoggerFactory.getLogger(PulsarInvokeParamListenerImpl.class);
 
   @Resource
   private PulsarProperties pulsarProperties;
@@ -53,13 +55,13 @@ public class PulsarInvokeParamListener implements MessageListener<InvokeParamDto
   @Override
   public void received(Consumer<InvokeParamDto> consumer, Message<InvokeParamDto> msg) {
     try {
-      String data = String.valueOf(msg.getData());
+      String data = Arrays.toString(msg.getData());
       logger.info("Pulsar consumer data: {}, topic: {}", data, consumer.getTopic());
       consumer.acknowledge(msg);
     } catch (PulsarClientException e) {
       consumer.negativeAcknowledge(msg);
     }
-    // bussiness
+    // business
     InvokeParamDto dto = msg.getValue();
     if (dto != null && ScheduleConstants.SCHEDULE_SERVER_NAME.equals(dto.getTaskServerName())) {
       taskExecute(dto.getConcurrent(), dto.getTaskId(), dto.getTaskParam());

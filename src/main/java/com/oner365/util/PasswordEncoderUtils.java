@@ -18,7 +18,7 @@ import org.springframework.util.Assert;
 
 /**
  * 加密方式工具类
- * 
+ *
  * @author zhaoyong
  *
  */
@@ -27,11 +27,13 @@ public class PasswordEncoderUtils {
 
   /**
    * 加密方式枚举
-   * 
+   *
    * @author zhaoyong
    *
    */
   public enum Encoder {
+
+    /** 加密类型 */
     BCRYPT, LDAP, MD4, MD5, NOOP, PBKDF2, SCRYPT, SHA1, SHA256, SHA, ARGON2
   }
 
@@ -40,12 +42,12 @@ public class PasswordEncoderUtils {
 
   /**
    * 加密方式
-   * 
+   *
    * @param encoding 加密方式枚举
    * @return PasswordEncoder
    */
   public static PasswordEncoder getDelegatingPasswordEncoder(PasswordEncoderUtils.Encoder encoding) {
-    Map<String, PasswordEncoder> encoders = new HashMap<>();
+    Map<String, PasswordEncoder> encoders = new HashMap<>(12);
     encoders.put(Encoder.BCRYPT.name(), new BCryptPasswordEncoder());
     encoders.put(Encoder.LDAP.name(), new LdapShaPasswordEncoder());
     encoders.put(Encoder.MD4.name(), new Md4PasswordEncoder());

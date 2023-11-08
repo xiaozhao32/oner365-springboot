@@ -21,14 +21,13 @@ import com.oner365.common.exception.ProjectRuntimeException;
 import com.oner365.monitor.dto.InvokeParamDto;
 import com.oner365.monitor.dto.SysTaskDto;
 import com.oner365.queue.condition.PulsarCondition;
-import com.oner365.queue.config.properties.PulsarProperties;
 import com.oner365.queue.constants.QueueConstants;
 import com.oner365.queue.service.IQueueSendService;
 import com.oner365.util.DataUtils;
 
 /**
  * pulsar service impl
- * 
+ *
  * @author zhaoyong
  *
  */
@@ -37,9 +36,6 @@ import com.oner365.util.DataUtils;
 public class PulsarSendServiceImpl implements IQueueSendService {
 
   private final Logger logger = LoggerFactory.getLogger(PulsarSendServiceImpl.class);
-
-  @Resource
-  private PulsarProperties pulsarProperties;
 
   @Resource
   private PulsarClient pulsarClient;

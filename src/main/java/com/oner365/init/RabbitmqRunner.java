@@ -15,18 +15,23 @@ import com.oner365.queue.condition.RabbitmqCondition;
 import com.oner365.queue.constants.QueueConstants;
 import com.oner365.sys.constants.SysMessageConstants;
 
+/**
+ * Rabbitmq Admin
+ *
+ * @author zhaoyong
+ */
 @Component
 @Conditional(RabbitmqCondition.class)
 public class RabbitmqRunner implements ApplicationRunner {
-  
+
   private final Logger logger = LoggerFactory.getLogger(RabbitmqRunner.class);
-  
+
   @Resource
   private RabbitAdmin rabbitAdmin;
-  
+
   @Override
   public void run(ApplicationArguments args) throws Exception {
-    
+
   }
 
   @PreDestroy
@@ -48,5 +53,5 @@ public class RabbitmqRunner implements ApplicationRunner {
     logger.info("Destroy Rabbitmq exchange.");
   }
 
-  
+
 }

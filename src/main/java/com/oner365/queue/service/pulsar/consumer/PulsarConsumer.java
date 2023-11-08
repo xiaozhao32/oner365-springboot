@@ -22,15 +22,10 @@ import com.oner365.monitor.dto.SysTaskDto;
 import com.oner365.queue.condition.PulsarCondition;
 import com.oner365.queue.config.properties.PulsarProperties;
 import com.oner365.queue.constants.QueueConstants;
-import com.oner365.queue.service.pulsar.listener.PulsarInvokeParamListener;
-import com.oner365.queue.service.pulsar.listener.PulsarMessageListener;
-import com.oner365.queue.service.pulsar.listener.PulsarRouteListener;
-import com.oner365.queue.service.pulsar.listener.PulsarTaskExecuteStatusListener;
-import com.oner365.queue.service.pulsar.listener.PulsarTaskLogListener;
 
 /**
  * pulsar consumer
- * 
+ *
  * @author zhaoyong
  *
  */
@@ -45,19 +40,19 @@ public class PulsarConsumer {
   private PulsarClient pulsarClient;
 
   @Resource
-  private PulsarMessageListener pulsarMessageListener;
+  private MessageListener<JSONObject> pulsarMessageListener;
 
   @Resource
-  private PulsarRouteListener pulsarRouteListener;
+  private MessageListener<String> pulsarRouteListener;
 
   @Resource
-  private PulsarInvokeParamListener pulsarInvokeParamListener;
+  private MessageListener<InvokeParamDto> pulsarInvokeParamListener;
 
   @Resource
-  private PulsarTaskExecuteStatusListener pulsarTaskExecuteStatusListener;
+  private MessageListener<UpdateTaskExecuteStatusDto> pulsarTaskExecuteStatusListener;
 
   @Resource
-  private PulsarTaskLogListener pulsarTaskLogListener;
+  private MessageListener<SysTaskDto> pulsarTaskLogListener;
 
   @Bean("getMessageConsumer")
   Consumer<JSONObject> getMessageConsumer() {
