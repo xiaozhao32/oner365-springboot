@@ -18,12 +18,6 @@ public class CommonProperties {
   private boolean redisEnabled;
 
   /**
-   * elasticsearch地址
-   */
-  @Value("${spring.elasticsearch.uris}")
-  private String uris;
-  
-  /**
    * 项目名称
    */
   @Value("${spring.application.name}")
@@ -59,14 +53,6 @@ public class CommonProperties {
 
   public void setRedisEnabled(boolean redisEnabled) {
     this.redisEnabled = redisEnabled;
-  }
-
-  public String getUris() {
-    return uris;
-  }
-
-  public void setUris(String uris) {
-    this.uris = uris;
   }
 
   public String getServiceId() {

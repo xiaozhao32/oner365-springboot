@@ -59,6 +59,8 @@ spring:
 
   # elasticsearch
   elasticsearch:
+    username: elastic
+    password: oner365
     uris: http://localhost:9200
 
   data:
