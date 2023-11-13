@@ -10,6 +10,7 @@ import com.oner365.generator.entity.GenTableColumn;
 import com.oner365.generator.mapper.GenTableColumnMapper;
 import com.oner365.generator.service.IGenTableColumnService;
 import com.oner365.util.ConvertString;
+import com.oner365.util.DateUtil;
 
 /**
  * 业务字段 服务层实现
@@ -40,6 +41,7 @@ public class GenTableColumnServiceImpl implements IGenTableColumnService {
      */
     @Override
     public Boolean insertGenTableColumn(GenTableColumn genTableColumn) {
+        genTableColumn.setCreateTime(DateUtil.getDate());
         int result = genTableColumnMapper.insertGenTableColumn(genTableColumn);
         if (result > 0) {
           return Boolean.TRUE;
@@ -55,6 +57,7 @@ public class GenTableColumnServiceImpl implements IGenTableColumnService {
      */
     @Override
     public Boolean updateGenTableColumn(GenTableColumn genTableColumn) {
+        genTableColumn.setUpdateTime(DateUtil.getDate());
         int result = genTableColumnMapper.updateGenTableColumn(genTableColumn);
         if (result > 0) {
           return Boolean.TRUE;
