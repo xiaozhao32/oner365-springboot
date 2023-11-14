@@ -101,11 +101,11 @@
 		<io.projectreactor.core.version>3.5.6</io.projectreactor.core.version>
 		<io.projectreactor.netty.version>1.1.6</io.projectreactor.netty.version>
 		<io.jsonwebtoken.version>0.9.1</io.jsonwebtoken.version>
-		<io.netty.version>4.1.97.Final</io.netty.version>
+		<io.netty.version>4.1.100.Final</io.netty.version>
 		<io.minio.version>8.5.4</io.minio.version>
 
 		<net.logstash.logback.version>7.2</net.logstash.logback.version>
-		<net.bytebuddy.version>1.12.23</net.bytebuddy.version>
+		<net.bytebuddy.version>1.14.8</net.bytebuddy.version>
 		<net.minidev.version>2.4.11</net.minidev.version>
 		<net.sf.jopt.version>5.0.4</net.sf.jopt.version>
 		<cn.smallbun.screw.version>1.0.5</cn.smallbun.screw.version>
@@ -190,6 +190,11 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-exec</artifactId>
 			<version>1.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+    		<artifactId>commons-compress</artifactId>
+    		<version>1.23.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.ant</groupId>
