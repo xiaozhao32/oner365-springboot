@@ -249,6 +249,9 @@ knife4j:
 webclient:
   ssl:
     enable: true
+  response:
+    body: 
+      size: 209715200
 
 #部署目录
 deploy:
