@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.reactive.ClientHttpConnector;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
+import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import io.netty.handler.ssl.SslContextBuilder;
@@ -31,6 +32,8 @@ public class WebClientConfig {
    */
   @Value("${webclient.ssl.enable:false}")
   private boolean enable;
+  @Value("${webclient.max-in-memory-size:209715200}")
+  private int maxInMemorySize;
 
   @Bean
   WebClient webClient() {
@@ -44,7 +47,8 @@ public class WebClientConfig {
         }
       }));
     }
-    return WebClient.builder().clientConnector(httpConnector).build();
+    return WebClient.builder().clientConnector(httpConnector).exchangeStrategies(ExchangeStrategies.builder()
+        .codecs(configurer -> configurer.defaultCodecs().maxInMemorySize(maxInMemorySize)).build()).build();
   }
 
 }

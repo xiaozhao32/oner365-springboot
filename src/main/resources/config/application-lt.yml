@@ -253,6 +253,7 @@ knife4j:
 webclient:
   ssl:
     enable: true
+  max-in-memory-size: 209715200
 
 #部署目录
 deploy:
