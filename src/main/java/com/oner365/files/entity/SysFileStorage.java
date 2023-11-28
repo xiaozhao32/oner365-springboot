@@ -1,17 +1,21 @@
 package com.oner365.files.entity;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.oner365.common.enums.StorageEnum;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.oner365.common.enums.StorageEnum;
 
 /**
  * 文件对象
@@ -21,6 +25,7 @@ import com.oner365.common.enums.StorageEnum;
  */
 @Entity
 @Table(name = "nt_sys_fastdfs_file")
+@EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler" })
 public class SysFileStorage implements Serializable {
 
@@ -78,8 +83,9 @@ public class SysFileStorage implements Serializable {
   /**
    * 创建时间 create_time
    */
+  @CreatedDate
   @Column(name = "create_time")
-  private Date createTime;
+  private LocalDateTime createTime;
 
   /**
    * 是否目录 is_directory
@@ -164,14 +170,14 @@ public class SysFileStorage implements Serializable {
   /**
    * @return the createTime
    */
-  public Date getCreateTime() {
+  public LocalDateTime getCreateTime() {
     return createTime;
   }
 
   /**
    * @param createTime the createTime to set
    */
-  public void setCreateTime(Date createTime) {
+  public void setCreateTime(LocalDateTime createTime) {
     this.createTime = createTime;
   }
 

@@ -3,18 +3,22 @@ package com.oner365.monitor.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.oner365.common.constants.PublicConstants;
 import com.oner365.monitor.enums.TaskStatusEnum;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 /**
  * 定时任务调度日志表 nt_sys_task_log
@@ -23,6 +27,7 @@ import com.oner365.monitor.enums.TaskStatusEnum;
  */
 @Entity
 @Table(name = "nt_sys_task_log")
+@EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler" })
 public class SysTaskLog implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -111,12 +116,14 @@ public class SysTaskLog implements Serializable {
   /**
    * 创建时间
    */
+  @CreatedDate
   @Column(name = "create_time", updatable = false)
   private Date createTime;
 
   /**
    * 更新时间
    */
+  @LastModifiedDate
   @Column(name = "update_time", updatable = true)
   private Date updateTime;
 

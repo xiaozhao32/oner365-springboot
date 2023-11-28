@@ -12,10 +12,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.context.annotation.Conditional;
 
 import com.alibaba.fastjson.JSONObject;
-import com.oner365.api.dto.UpdateTaskExecuteStatusDto;
 import com.oner365.common.service.BaseService;
-import com.oner365.monitor.dto.InvokeParamDto;
-import com.oner365.monitor.dto.SysTaskDto;
 import com.oner365.monitor.exception.TaskException;
 import com.oner365.queue.condition.RabbitmqCondition;
 import com.oner365.queue.constants.QueueConstants;
@@ -64,7 +61,7 @@ public interface IQueueRabbitmqReceiverService extends BaseService {
   /**
    * 定时任务监听
    * 
-   * @param invokeParamDto 参数对象
+   * @param data 参数对象
    */
   @RabbitListener(
       bindings = @QueueBinding(
@@ -72,12 +69,12 @@ public interface IQueueRabbitmqReceiverService extends BaseService {
           exchange = @Exchange(value = QueueConstants.SCHEDULE_TASK_QUEUE_TYPE, type = ExchangeTypes.FANOUT), 
           key = QueueConstants.SCHEDULE_TASK_QUEUE_KEY)
   )
-  void scheduleTask(InvokeParamDto invokeParamDto);
+  void scheduleTask(String data);
   
   /**
    * 更新任务执行状态
    * 
-   * @param updateTask 任务对象
+   * @param data 任务对象
    * @throws SchedulerException SchedulerException
    * @throws TaskException      TaskException
    */
@@ -88,12 +85,12 @@ public interface IQueueRabbitmqReceiverService extends BaseService {
           key = QueueConstants.TASK_UPDATE_STATUS_QUEUE_KEY
       )
   )
-  void updateTaskExecuteStatus(UpdateTaskExecuteStatusDto updateTask) throws SchedulerException, TaskException;
+  void updateTaskExecuteStatus(String data) throws SchedulerException, TaskException;
 
   /**
    * 保存任务执行日志
    * 
-   * @param sysTask 任务对象
+   * @param data 任务对象
    */
   @RabbitListener(
       bindings = @QueueBinding(
@@ -102,5 +99,5 @@ public interface IQueueRabbitmqReceiverService extends BaseService {
           key = QueueConstants.SAVE_TASK_LOG_QUEUE_KEY
       )
   )
-  void saveExecuteTaskLog(SysTaskDto sysTask);
+  void saveExecuteTaskLog(String data);
 }

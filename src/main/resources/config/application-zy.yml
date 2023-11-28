@@ -5,13 +5,13 @@ server:
     context-path: /
   tomcat:
     uri-encoding: UTF-8
-    #最大连接数（最大30000）默认值200
-    max-connections: 15000
-    #当tomcat连接数已达最大，接受排队的请求个数默认值100
-    accept-count: 1500
+    #最大连接数（15000）默认值 8192
+    max-connections: 8192
+    #当tomcat连接数已达最大 (1500)，接受排队的请求个数默认值100
+    accept-count: 100
     threads:
-      max: 800
-      min-spare: 30
+      max: 200
+      min-spare: 10
   shutdown: graceful
   
 spring:
@@ -59,6 +59,8 @@ spring:
 
   # elasticsearch
   elasticsearch:
+    username: elastic
+    password: oner365
     uris: http://localhost:9200
 
   data:
@@ -68,7 +70,7 @@ spring:
         
     redis:
       repositories:
-        enabled: false
+        enabled: true
         
       host: localhost
       port: 6379
@@ -98,10 +100,9 @@ spring:
 
     listener:
       simple:
-        concurrency: 2
-        max-concurrency: 10
+        concurrency: 1
+        max-concurrency: 5
         default-requeue-rejected: true
-
 
   jpa:
     open-in-view: true
@@ -117,7 +118,7 @@ spring:
         allow-core-thread-timeout: false
         max-size: 60
         core-size: 10
-        queue-capacity: 100
+        queue-capacity: 60
         keep-alive: 90s
 
 # mybatis
@@ -228,9 +229,8 @@ knife4j:
 webclient:
   ssl:
     enable: true
-  response:
-    body: 
-      size: 209715200
+  max-in-memory-size: 209715200
+
 #部署目录
 deploy:
   local:

@@ -5,6 +5,7 @@ import java.util.List;
 
 import jakarta.annotation.Resource;
 
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -37,6 +38,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @EnableSwagger2
 @Configuration
+@EnableConfigurationProperties({ SwaggerProperties.class })
 public class SwaggerConfig implements WebMvcConfigurer {
 
   @Resource

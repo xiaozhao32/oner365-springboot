@@ -5,15 +5,20 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.oner365.common.enums.StatusEnum;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.oner365.common.enums.StatusEnum;
 
 /**
  * 菜单对象
@@ -22,6 +27,7 @@ import com.oner365.common.enums.StatusEnum;
  */
 @Entity
 @Table(name = "nt_sys_menu")
+@EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler" })
 public class SysMenu implements Serializable {
 
@@ -94,12 +100,14 @@ public class SysMenu implements Serializable {
   /**
    * 创建时间 create_time
    */
+  @CreatedDate
   @Column(name = "create_time", updatable = false)
   private LocalDateTime createTime;
 
   /**
    * 更新时间 update_time
    */
+  @LastModifiedDate
   @Column(name = "update_time", insertable = false)
   private LocalDateTime updateTime;
 

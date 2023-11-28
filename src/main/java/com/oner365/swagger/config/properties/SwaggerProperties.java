@@ -1,14 +1,12 @@
 package com.oner365.swagger.config.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * 项目配置
  * 
  * @author zhaoyong
  */
-@Configuration
 @ConfigurationProperties(prefix = "swagger")
 public class SwaggerProperties {
     

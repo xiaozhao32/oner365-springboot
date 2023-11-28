@@ -10,12 +10,6 @@
     "description": "Token Expire minute time."
   },
   {
-    "name": "spring.redis.enable",
-    "type": "java.lang.Boolean",
-    "defaultValue": false,
-    "description": "Redis Cache enabled."
-  },
-  {
     "name": "fdfs.storage.path",
     "type": "java.lang.String",
     "description": "Fastdfs storage path."
@@ -256,5 +250,10 @@
     "name": "management.endpoints.web.exposure.base-path",
     "type": "java.lang.String",
     "description": "A description for 'management.endpoints.web.exposure.base-path'."
+  },
+  {
+    "name": "webclient.max-in-memory-size",
+    "type": "java.lang.Integer",
+    "description": "A description for 'webclient.max-in-memory-size'."
   }
 ]}

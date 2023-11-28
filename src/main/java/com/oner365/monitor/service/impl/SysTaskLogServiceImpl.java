@@ -23,8 +23,6 @@ import com.oner365.monitor.entity.SysTaskLog;
 import com.oner365.monitor.mapper.SysTaskLogMapper;
 import com.oner365.monitor.service.ISysTaskLogService;
 import com.oner365.monitor.vo.SysTaskLogVo;
-import com.oner365.util.DataUtils;
-import com.oner365.util.DateUtil;
 
 /**
  * 定时任务调度日志信息 服务层
@@ -76,9 +74,6 @@ public class SysTaskLogServiceImpl implements ISysTaskLogService {
 
   @Override
   public Boolean addTaskLog(SysTaskLogVo vo) {
-    if (DataUtils.isEmpty(vo.getId())) {
-      vo.setCreateTime(DateUtil.getDate());
-    }
     dao.save(convert(vo, SysTaskLog.class));
     return Boolean.TRUE;
   }

@@ -3,22 +3,26 @@ package com.oner365.sys.entity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.oner365.common.constants.PublicConstants;
+import com.oner365.common.enums.StatusEnum;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.hibernate.annotations.GenericGenerator;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.oner365.common.constants.PublicConstants;
-import com.oner365.common.enums.StatusEnum;
 
 /**
  * 基础权限--用户部门职位nt_sys_user_job
@@ -27,6 +31,7 @@ import com.oner365.common.enums.StatusEnum;
  */
 @Entity
 @Table(name = "nt_sys_user_job")
+@EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler" })
 public class SysUserJob implements Serializable {
 
@@ -70,12 +75,14 @@ public class SysUserJob implements Serializable {
     /**
      * 创建时间 create_time
      */
+    @CreatedDate
     @Column(name = "create_time", updatable = false)
     private LocalDateTime createTime;
 
     /**
      * 更新时间 update_time
      */
+    @LastModifiedDate
     @Column(name = "update_time", updatable = true)
     private LocalDateTime updateTime;
 

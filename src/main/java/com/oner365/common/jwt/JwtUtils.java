@@ -22,7 +22,11 @@ import com.oner365.util.RsaUtils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -87,9 +91,16 @@ public class JwtUtils {
     try {
       return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
     } catch (ExpiredJwtException e) {
-      LOGGER.error("token: {}, 已过期: {}", token, e.getMessage());
+      LOGGER.error("token: {}, 已过期: ", token);
       return e.getClaims();
+    } catch (MalformedJwtException e) {
+      LOGGER.error("token: {}, 解密失败: ", token, e);
+    } catch (UnsupportedJwtException e) {
+      LOGGER.error("token: {}, 格式错误: ", token, e);
+    } catch (SignatureException e) {
+      LOGGER.error("token: {}, 验证失败: ", token, e);
     }
+    return null;
   }
 
   /**

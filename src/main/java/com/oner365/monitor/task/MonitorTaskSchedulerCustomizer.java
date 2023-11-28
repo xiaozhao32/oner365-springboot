@@ -2,7 +2,7 @@ package com.oner365.monitor.task;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.task.TaskSchedulerCustomizer;
+import org.springframework.boot.task.ThreadPoolTaskSchedulerCustomizer;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ErrorHandler;
@@ -14,7 +14,7 @@ import org.springframework.util.ErrorHandler;
  * 
  */
 @Component
-public class MonitorTaskSchedulerCustomizer implements TaskSchedulerCustomizer {
+public class MonitorTaskSchedulerCustomizer implements ThreadPoolTaskSchedulerCustomizer {
     
     private final Logger logger = LoggerFactory.getLogger(MonitorTaskSchedulerCustomizer.class);
 

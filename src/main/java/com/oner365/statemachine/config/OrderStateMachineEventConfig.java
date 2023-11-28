@@ -7,7 +7,7 @@ import org.springframework.messaging.Message;
 import org.springframework.statemachine.annotation.OnTransition;
 import org.springframework.statemachine.annotation.OnTransitionEnd;
 import org.springframework.statemachine.annotation.OnTransitionStart;
-import org.springframework.statemachine.annotation.WithStateMachine;
+import org.springframework.statemachine.config.EnableWithStateMachine;
 
 import com.oner365.statemachine.constants.StatemachineConstants;
 import com.oner365.statemachine.entity.Order;
@@ -21,7 +21,7 @@ import com.oner365.statemachine.enums.OrderStateEnum;
  *
  */
 @Configuration
-@WithStateMachine
+@EnableWithStateMachine
 public class OrderStateMachineEventConfig {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(OrderStateMachineEventConfig.class);

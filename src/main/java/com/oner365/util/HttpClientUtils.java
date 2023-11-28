@@ -118,7 +118,7 @@ public class HttpClientUtils {
 
   public static String httpsPost(String path, Map<String, String> headers, String body)
       throws IOException, KeyManagementException, NoSuchAlgorithmException {
-	URL url = URI.create(path).toURL();
+    URL url = URI.create(path).toURL();
     HostnameVerifier ignoreHostnameVerifier = (s, sslSession) -> {
       LOGGER.warn("WARNING: Hostname is not matched for cert.");
       return true;

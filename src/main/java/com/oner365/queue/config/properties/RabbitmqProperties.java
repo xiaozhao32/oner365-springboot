@@ -15,7 +15,7 @@ public class RabbitmqProperties {
   /**
    * 地址
    */
-  private String host;
+  private String addresses;
   
   /**
    * 账号
@@ -41,12 +41,12 @@ public class RabbitmqProperties {
     super();
   }
 
-  public String getHost() {
-    return host;
+  public String getAddresses() {
+    return addresses;
   }
 
-  public void setHost(String host) {
-    this.host = host;
+  public void setAddresses(String addresses) {
+    this.addresses = addresses;
   }
 
   public String getUsername() {

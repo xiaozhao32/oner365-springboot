@@ -12,6 +12,7 @@ import org.springframework.amqp.core.Message;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.oner365.api.dto.UpdateTaskExecuteStatusDto;
 import com.oner365.common.enums.StatusEnum;
@@ -76,7 +77,8 @@ public class QueueRabbitmqReceiverServiceImpl implements IQueueRabbitmqReceiverS
   }
 
   @Override
-  public void scheduleTask(InvokeParamDto invokeParamDto) {
+  public void scheduleTask(String data) {
+    InvokeParamDto invokeParamDto = JSON.parseObject(data, InvokeParamDto.class);
     if (ScheduleConstants.SCHEDULE_SERVER_NAME.equals(invokeParamDto.getTaskServerName())) {
       taskExecute(invokeParamDto.getConcurrent(), invokeParamDto.getTaskId(), invokeParamDto.getTaskParam());
     }
@@ -95,7 +97,7 @@ public class QueueRabbitmqReceiverServiceImpl implements IQueueRabbitmqReceiverS
         }
         logger.info("taskExecute  concurrent : {}", concurrent);
       }
-      saveExecuteTaskLog(sysTask);
+      saveExecuteTaskLog(JSON.toJSONString(sysTask));
     }
   }
   
@@ -118,8 +120,10 @@ public class QueueRabbitmqReceiverServiceImpl implements IQueueRabbitmqReceiverS
   }
 
   @Override
-  public void updateTaskExecuteStatus(UpdateTaskExecuteStatusDto updateTask) throws SchedulerException, TaskException {
-    logger.info("updateTaskExecuteStatus :{}", updateTask);
+  public void updateTaskExecuteStatus(String data) throws SchedulerException, TaskException {
+    logger.info("updateTaskExecuteStatus :{}", data);
+    UpdateTaskExecuteStatusDto updateTask = JSON.parseObject(data, UpdateTaskExecuteStatusDto.class);
+    
     SysTaskDto sysTask = sysTaskService.selectTaskById(updateTask.getTaskId());
     if (sysTask != null) {
       sysTask.setExecuteStatus(updateTask.getExecuteStatus());
@@ -128,8 +132,9 @@ public class QueueRabbitmqReceiverServiceImpl implements IQueueRabbitmqReceiverS
   }
 
   @Override
-  public void saveExecuteTaskLog(SysTaskDto sysTask) {
-    logger.info("saveExecuteTaskLog :{}", sysTask);
+  public void saveExecuteTaskLog(String data) {
+    logger.info("saveExecuteTaskLog :{}", data);
+    SysTaskDto sysTask = JSON.parseObject(data, SysTaskDto.class);
     
     long time = System.currentTimeMillis();
     SysTaskLogVo taskLog = new SysTaskLogVo();
@@ -140,6 +145,7 @@ public class QueueRabbitmqReceiverServiceImpl implements IQueueRabbitmqReceiverS
     taskLog.setTaskGroup(sysTask.getTaskGroup());
     taskLog.setTaskName(sysTask.getTaskName());
     taskLog.setInvokeTarget(sysTask.getInvokeTarget());
+    taskLog.setCreateUser(sysTask.getCreateUser());
     sysTaskLogService.addTaskLog(taskLog);
   }
 
