@@ -57,7 +57,7 @@
 		<org.apache.poi.version>5.2.5</org.apache.poi.version>
 
 		<org.hibernate.validator.version>8.0.1.Final</org.hibernate.validator.version>
-		<org.hibernate.version>6.2.9.Final</org.hibernate.version>
+		<org.hibernate.version>6.3.1.Final</org.hibernate.version>
 		<jakarta.servlet.version>6.0.0</jakarta.servlet.version>
 		<jakarta.xml.version>4.0.1</jakarta.xml.version>
 
