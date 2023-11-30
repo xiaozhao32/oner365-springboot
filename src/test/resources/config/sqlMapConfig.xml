@@ -13,6 +13,12 @@
 			</dataSource>
 		</environment>
 	</environments>
+	
+	<databaseIdProvider type="DB_VENDOR">
+		<property name="MySQL" value="mysql" />	
+		<property name="Oracle" value="oracle" />	
+		<property name="PostgreSQL" value="postgres" />	
+	</databaseIdProvider>
 
 	<mappers>
 		<mapper resource="mapper/GenTableColumnMapper.xml" />
