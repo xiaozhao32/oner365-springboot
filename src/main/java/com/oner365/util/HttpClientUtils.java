@@ -130,7 +130,7 @@ public class HttpClientUtils {
     connection.setDoOutput(true);
     connection.setDoInput(true);
     connection.setRequestProperty(HTTP.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM_VALUE);
-    headers.keySet().forEach(key -> connection.setRequestProperty(key, headers.get(key)));
+    headers.entrySet().forEach(map -> connection.setRequestProperty(map.getKey(), map.getValue()));
     connection.setRequestMethod(HttpMethod.POST.name());
     connection.setUseCaches(false);
     connection.setAllowUserInteraction(true);

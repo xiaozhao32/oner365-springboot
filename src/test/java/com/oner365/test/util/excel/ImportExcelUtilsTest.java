@@ -99,8 +99,8 @@ class ImportExcelUtilsTest extends BaseUtilsTest {
 
       });
       Assertions.assertNotNull(map);
-      logger.info("map size :{}",map.keySet().size());
-      map.keySet().forEach(key -> logger.info("map:{}",map.get(key)));
+      logger.info("map size :{}",map.entrySet().size());
+      map.entrySet().forEach(m -> logger.info("map:{}", m.getValue()));
     }
 
    void getMap(List<String> list, String filed, int i, Map<String, String> map) {
@@ -138,7 +138,7 @@ class ImportExcelUtilsTest extends BaseUtilsTest {
        });
        if (!DataUtils.isEmpty(map)) {
          final StringBuilder distinctInfo = new StringBuilder();
-         map.keySet().forEach(key -> distinctInfo.append(map.get(key)).append(","));
+         map.entrySet().forEach(m -> distinctInfo.append(m.getKey()).append(","));
          logger.error("distinctInfo :{}", distinctInfo);
        }
      }catch(Exception e) {
