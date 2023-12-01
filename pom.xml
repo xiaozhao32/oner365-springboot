@@ -108,6 +108,7 @@
 		<net.logstash.logback.version>7.4</net.logstash.logback.version>
 		<net.bytebuddy.version>1.14.10</net.bytebuddy.version>
 		<net.minidev.version>2.5.0</net.minidev.version>
+		
 		<net.sf.jopt.version>5.0.4</net.sf.jopt.version>
 		<cn.smallbun.screw.version>1.0.5</cn.smallbun.screw.version>
 		<redis.clients.version>5.1.0</redis.clients.version>
