@@ -30,6 +30,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.oner365.common.auth.AuthUser;
 import com.oner365.common.cache.RedisCache;
 import com.oner365.common.cache.constants.CacheConstants;
@@ -62,24 +63,24 @@ public class JwtAuthFilter implements Filter {
     String authToken = httpRequest.getHeader(HttpHeaders.AUTHORIZATION);
     if (!DataUtils.isEmpty(authToken)) {
       // 获取缓存
-      String tokenInfo = redisCache.getCacheObject(CacheConstants.CACHE_TOKEN_NAME + authToken.hashCode());
-      if (tokenInfo == null) {
-        tokenInfo = JwtUtils.getUsernameFromToken(authToken, tokenProperties.getSecret());
+      JSONObject authUser = redisCache.getCacheObject(CacheConstants.CACHE_TOKEN_NAME + authToken.hashCode());
+      if (authUser == null) {
+        String tokenInfo = JwtUtils.getUsernameFromToken(authToken, tokenProperties.getSecret());
         if (tokenInfo != null) {
-          redisCache.setCacheObject(CacheConstants.CACHE_TOKEN_NAME + authToken.hashCode(), tokenInfo,
+          authUser = JSON.parseObject(tokenInfo);
+          redisCache.setCacheObject(CacheConstants.CACHE_TOKEN_NAME + authToken.hashCode(), authUser,
               PublicConstants.EXPIRE_TIME, TimeUnit.MINUTES);
-          setHttpRequest(httpRequest, tokenInfo, authToken);
+          setHttpRequest(httpRequest, new AuthUser(authUser), authToken);
         }
       } else {
-        setHttpRequest(httpRequest, tokenInfo, authToken);
+        setHttpRequest(httpRequest, new AuthUser(authUser), authToken);
       }
     }
     RequestUtils.setHttpRequest(httpRequest);
     chain.doFilter(request, response);
   }
 
-  private void setHttpRequest(HttpServletRequest httpRequest, String tokenInfo, String authToken) {
-    AuthUser authUser = new AuthUser(JSON.parseObject(tokenInfo));
+  private void setHttpRequest(HttpServletRequest httpRequest, AuthUser authUser, String authToken) {
     httpRequest.setAttribute(RequestUtils.AUTH_USER, authUser);
     if (authToken != null) {
       httpRequest.setAttribute(RequestUtils.ACCESS_TOKEN, authToken);
