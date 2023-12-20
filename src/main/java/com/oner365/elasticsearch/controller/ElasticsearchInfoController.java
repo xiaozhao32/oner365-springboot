@@ -1,5 +1,6 @@
 package com.oner365.elasticsearch.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -83,7 +84,7 @@ public class ElasticsearchInfoController extends BaseController {
       credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(
           elasticsearchProperties.getUsername(), elasticsearchProperties.getPassword()));
     }
-    
+
     HttpClientConfigCallback httpClientConfigCallback = httpClientBuilder -> httpClientBuilder
         .setDefaultHeaders(
             Collections.singleton(new BasicHeader(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON.toString())))
@@ -97,63 +98,80 @@ public class ElasticsearchInfoController extends BaseController {
       ElasticsearchClient client = new ElasticsearchClient(transport);
       HealthResponse healthResponse = client.cluster().health();
 
-      TransportClientDto result = new TransportClientDto();
-      result.setHostname(StringUtils.substringBefore(uri, PublicConstants.COLON));
-      result.setPort(Integer.parseInt(StringUtils.substringAfter(uri, PublicConstants.COLON)));
-      result.setClusterName(healthResponse.clusterName());
-      result.setNumberOfDataNodes(healthResponse.numberOfDataNodes());
-      result.setActiveShards(healthResponse.activeShards());
-      result.setStatus(healthResponse.status());
-      result.setTaskMaxWaitingTime(healthResponse.taskMaxWaitingInQueueMillis());
-
-      // 索引信息
       List<ClusterDto> clusterList = new ArrayList<>();
-      GetAliasResponse aliasResponse = client.indices().getAlias();
-      Map<String, IndexAliases> aliasMap = aliasResponse.result();
-
-      List<List<NodeShard>> shards = client.searchShards().shards();
-
-      Map<String, ShardRoutingState> stateMap = new HashMap<>(10);
-      Map<String, Integer> shardsMap = new HashMap<>(10);
-      shards.forEach(list -> {
-        for (NodeShard shard : list) {
-          stateMap.put(shard.index(), shard.state());
-          shardsMap.merge(shard.index(), 1, Integer::sum);
-        }
-      });
-
-      aliasMap.forEach((key, value) -> {
-
-        ClusterDto clusterDto = new ClusterDto();
-        clusterDto.setIndex(key);
-        clusterDto.setNumberOfShards(shardsMap.get(key));
-        clusterDto.setNumberOfReplicas(1);
-        clusterDto.setStatus(stateMap.get(key));
-
-        clusterList.add(clusterDto);
-      });
-      result.setClusterList(clusterList);
-
-      // mapping信息
-      GetMappingResponse mappingResponse = client.indices().getMapping();
-      Map<String, IndexMappingRecord> mappings = mappingResponse.result();
-      clusterList.forEach(cluster -> {
-        IndexMappingRecord mappingRecord = mappings.get(cluster.getIndex());
-        List<ClusterMappingDto> mappingList = new ArrayList<>();
-        if (mappingRecord != null) {
-          mappingRecord.mappings().properties().forEach((key, value) -> {
-            ClusterMappingDto mapping = new ClusterMappingDto();
-            mapping.setName(key);
-            mapping.setType(value._get().getClass().getSimpleName());
-            mappingList.add(mapping);
-          });
-        }
-        cluster.setMappingList(mappingList);
-      });
-      return result;
+      setAliasMap(client, clusterList);
+      setMappingList(client, clusterList);
+      return builder(clusterList, healthResponse, uri);
     } catch (Exception e) {
       logger.error("index error:", e);
     }
     return null;
+  }
+
+  /**
+   * 返回结果对象
+   */
+  private TransportClientDto builder(List<ClusterDto> clusterList, HealthResponse healthResponse, String uri) {
+    TransportClientDto result = new TransportClientDto();
+    result.setHostname(StringUtils.substringBefore(uri, PublicConstants.COLON));
+    result.setPort(Integer.parseInt(StringUtils.substringAfter(uri, PublicConstants.COLON)));
+    result.setClusterName(healthResponse.clusterName());
+    result.setNumberOfDataNodes(healthResponse.numberOfDataNodes());
+    result.setActiveShards(healthResponse.activeShards());
+    result.setStatus(healthResponse.status());
+    result.setTaskMaxWaitingTime(healthResponse.taskMaxWaitingInQueueMillis());
+    result.setClusterList(clusterList);
+    return result;
+  }
+
+  /**
+   * 索引信息
+   */
+  private void setAliasMap(ElasticsearchClient client, List<ClusterDto> clusterList) throws IOException {
+    GetAliasResponse aliasResponse = client.indices().getAlias();
+    Map<String, IndexAliases> aliasMap = aliasResponse.result();
+
+    List<List<NodeShard>> shards = client.searchShards().shards();
+
+    Map<String, ShardRoutingState> stateMap = new HashMap<>(10);
+    Map<String, Integer> shardsMap = new HashMap<>(10);
+    shards.forEach(list -> {
+      for (NodeShard shard : list) {
+        stateMap.put(shard.index(), shard.state());
+        shardsMap.merge(shard.index(), 1, Integer::sum);
+      }
+    });
+
+    aliasMap.forEach((key, value) -> {
+
+      ClusterDto clusterDto = new ClusterDto();
+      clusterDto.setIndex(key);
+      clusterDto.setNumberOfShards(shardsMap.get(key));
+      clusterDto.setNumberOfReplicas(1);
+      clusterDto.setStatus(stateMap.get(key));
+
+      clusterList.add(clusterDto);
+    });
+  }
+
+  /**
+   * mapping
+   */
+  private void setMappingList(ElasticsearchClient client, List<ClusterDto> clusterList) throws IOException {
+    GetMappingResponse mappingResponse = client.indices().getMapping();
+    Map<String, IndexMappingRecord> mappings = mappingResponse.result();
+    clusterList.forEach(cluster -> {
+      IndexMappingRecord mappingRecord = mappings.get(cluster.getIndex());
+      List<ClusterMappingDto> mappingList = new ArrayList<>();
+      if (mappingRecord != null) {
+        mappingRecord.mappings().properties().forEach((key, value) -> {
+          ClusterMappingDto mapping = new ClusterMappingDto();
+          mapping.setName(key);
+          mapping.setType(value._get().getClass().getSimpleName());
+          mappingList.add(mapping);
+        });
+      }
+      cluster.setMappingList(mappingList);
+    });
   }
 }
