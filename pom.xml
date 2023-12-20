@@ -352,6 +352,11 @@
 			<artifactId>byte-buddy</artifactId>
 			<version>${net.bytebuddy.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>net.bytebuddy</groupId>
+			<artifactId>byte-buddy-agent</artifactId>
+			<version>${net.bytebuddy.version}</version>
+		</dependency>
 
 		<!-- jopt-simple -->
 		<dependency>

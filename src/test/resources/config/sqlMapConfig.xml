@@ -12,6 +12,15 @@
 				<property name="password" value="1234" />
 			</dataSource>
 		</environment>
+		<environment id="postgres">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="org.postgresql.Driver" />
+				<property name="url" value="jdbc:postgresql://localhost:5432/oner365?characterEncodeing=utf8&amp;TimeZone=Asia/Shanghai" />
+				<property name="username" value="postgres" />
+				<property name="password" value="1234" />
+			</dataSource>
+		</environment>
 	</environments>
 	
 	<databaseIdProvider type="DB_VENDOR">
