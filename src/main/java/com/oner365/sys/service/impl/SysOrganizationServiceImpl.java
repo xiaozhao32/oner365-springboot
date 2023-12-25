@@ -1,6 +1,5 @@
 package com.oner365.sys.service.impl;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -127,16 +126,11 @@ public class SysOrganizationServiceImpl implements ISysOrganizationService {
     if (DataUtils.isEmpty(vo.getId())) {
       vo.setId(vo.getOrgCode());
       vo.setStatus(StatusEnum.YES);
-      vo.setCreateTime(LocalDateTime.now());
     }
-
-    vo.setUpdateTime(LocalDateTime.now());
 
     DataSourceConfigVo dataSourceConfigVo = vo.getDataSourceConfigVo();
     if (dataSourceConfigVo != null) {
       dataSourceConfigVo.setDsType(DataSourceConstants.DS_TYPE_DB);
-      dataSourceConfigVo.setCreateTime(LocalDateTime.now());
-      dataSourceConfigVo.setUpdateTime(LocalDateTime.now());
       vo.setDataSourceConfigVo(dataSourceConfigVo);
     }
     SysOrganization po = convert(vo, SysOrganization.class);

@@ -161,7 +161,7 @@ public class ExportExcelUtils {
    * @param columnName 字段名称
    * @param objectList 列表数据
    */
-  private static void export(Workbook workbook, String sheetName, String[] columnName, String[] titleKey,
+  public static void export(Workbook workbook, String sheetName, String[] columnName, String[] titleKey,
       List<?> objectList) {
     try {
       Sheet sheet = workbook.createSheet(sheetName);

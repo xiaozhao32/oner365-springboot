@@ -40,7 +40,7 @@ class HttpClientUtilsTest extends BaseUtilsTest {
     @Test
     void test() throws IOException {
         String uri = rabbitmqProperties.getUri();
-        HttpHost target = new HttpHost(rabbitmqProperties.getHost(), Integer.parseInt(StringUtils.substringAfterLast(uri, ":")),
+        HttpHost target = new HttpHost(StringUtils.substringBefore(rabbitmqProperties.getAddresses(), ":"), Integer.parseInt(StringUtils.substringAfterLast(uri, ":")),
             StringUtils.substringBefore(uri, ":"));
         CredentialsProvider credsProvider = new BasicCredentialsProvider();
         credsProvider.setCredentials(

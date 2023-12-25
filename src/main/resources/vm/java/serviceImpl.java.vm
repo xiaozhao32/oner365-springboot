@@ -1,6 +1,5 @@
 package ${packageName}.service.impl;
 
-import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -99,9 +98,7 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service {
     public ${ClassName}Dto save(${ClassName}Vo vo) {
         if (DataUtils.isEmpty(vo.getId())) {
             vo.setStatus(StatusEnum.YES);
-            vo.setCreateTime(LocalDateTime.now());
         }
-        vo.setUpdateTime(LocalDateTime.now());
         ${ClassName} entity = dao.save(convert(vo, ${ClassName}.class));
     	return convert(entity, ${ClassName}Dto.class);
     }
@@ -121,7 +118,6 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service {
       Optional<${ClassName}> optional = dao.findById(id);
       if (optional.isPresent()) {
         optional.get().setStatus(status);
-        optional.get().setUpdateTime(LocalDateTime.now());
         dao.save(optional.get());
         return Boolean.TRUE;
       }

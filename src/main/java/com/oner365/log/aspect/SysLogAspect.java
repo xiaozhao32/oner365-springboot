@@ -1,10 +1,8 @@
 package com.oner365.log.aspect;
 
-import com.alibaba.fastjson.JSON;
-import com.oner365.log.event.SysLogEvent;
-import com.oner365.log.util.SysLogUtils;
-import com.oner365.sys.vo.SysLogVo;
-import com.oner365.util.DataUtils;
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -14,9 +12,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpMethod;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.stream.Collectors;
+import com.alibaba.fastjson.JSON;
+import com.oner365.log.event.SysLogEvent;
+import com.oner365.log.util.SysLogUtils;
+import com.oner365.sys.vo.SysLogVo;
+import com.oner365.util.DataUtils;
 
 /**
  * SysLog Aspect日志拦截器 使用时@sysLog("名称")
@@ -55,7 +55,6 @@ public class SysLogAspect {
       
       SysLogVo entity = SysLogUtils.getSysLog();
       entity.setOperationName(sysLog.value());
-      entity.setCreateTime(LocalDateTime.now());
       if (HttpMethod.PUT.name().equals(methodName) || HttpMethod.POST.name().equals(methodName)) {
         String params = getParams(point.getArgs());
         entity.setOperationContext(StringUtils.substring(params, 0, 2000));

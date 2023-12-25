@@ -4,8 +4,8 @@
 ---
 
 <p align="center">
-	<a href="https://spring.io/projects/spring-framework" target="_blank"><img src="https://shields.io/badge/Spring%20Framework-6.0.12-blue" alt="Spring Framework 6.0.12"></a>
-    <a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://shields.io/badge/Spring%20Boot-3.1.4-blue" alt="Spring Boot 3.1.4"></a>
+	<a href="https://spring.io/projects/spring-framework" target="_blank"><img src="https://shields.io/badge/Spring%20Framework-6.1.1-blue" alt="Spring Framework 6.1.1"></a>
+    <a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://shields.io/badge/Spring%20Boot-3.2.0-blue" alt="Spring Boot 3.2.0"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue" alt="License Apache 2.0"></a>
     <a href="https://www.oracle.com/java/technologies/javase-downloads.html" target="_blank"><img src="https://img.shields.io/badge/JDK-21-green" alt="Java 21"></a>
 </p>

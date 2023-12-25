@@ -17,7 +17,7 @@ import jakarta.annotation.Resource;
 
 /**
  * Rabbit admin config
- * 
+ *
  * @author zhaoyong
  *
  */
@@ -25,13 +25,12 @@ import jakarta.annotation.Resource;
 @Conditional(RabbitmqCondition.class)
 @EnableConfigurationProperties({ RabbitmqProperties.class })
 public class RabbitAdminConfig {
-  
-  private final Logger logger = LoggerFactory.getLogger(RabbitAdminConfig.class);
 
   @Resource
   private RabbitTemplate rabbitTemplate;
   
   public RabbitAdminConfig() {
+    Logger logger = LoggerFactory.getLogger(RabbitAdminConfig.class);
     logger.info("Queue Type: {}", QueueEnum.RABBITMQ);
   }
 
@@ -41,5 +40,5 @@ public class RabbitAdminConfig {
     rabbitAdmin.setAutoStartup(true);
     return rabbitAdmin;
   }
-  
+
 }

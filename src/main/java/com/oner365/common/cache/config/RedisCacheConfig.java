@@ -46,7 +46,7 @@ import redis.clients.jedis.Jedis;
 
 /**
  * Redis Cache Config
- * 
+ *
  * @author zhaoyong
  *
  */
@@ -66,9 +66,9 @@ public class RedisCacheConfig implements CachingConfigurer {
   }
 
   @Bean
-  RedisTemplate<String, Serializable> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+  RedisTemplate<String, Serializable> redisTemplate(RedisConnectionFactory connectionFactory) {
     RedisTemplate<String, Serializable> redisTemplate = new RedisTemplate<>();
-    redisTemplate.setConnectionFactory(redisConnectionFactory);
+    redisTemplate.setConnectionFactory(connectionFactory);
     FastJsonRedisSerializer<Object> serializer = new FastJsonRedisSerializer<>(Object.class);
     redisTemplate.setValueSerializer(serializer);
     redisTemplate.setKeySerializer(new StringRedisSerializer());
@@ -96,21 +96,20 @@ public class RedisCacheConfig implements CachingConfigurer {
         .readFrom(ReadFrom.REPLICA_PREFERRED).clientOptions(clusterClientOptions).build();
     return new LettuceConnectionFactory(redisClusterConfiguration, lettuceClientConfiguration);
   }
-  
+
   @Bean
   @ConditionalOnProperty(value = { "spring.redis.sentinel.enable" }, havingValue = "true")
   LettuceConnectionFactory redisSentinelConnectionFactory(RedisProperties redisProperties) {
     RedisSentinelConfiguration redisSentinelConfiguration = new RedisSentinelConfiguration(
-        redisProperties.getSentinel().getMaster(), new HashSet<String>(redisProperties.getSentinel().getNodes()));
+        redisProperties.getSentinel().getMaster(), new HashSet<>(redisProperties.getSentinel().getNodes()));
     if (!ObjectUtils.isEmpty(redisProperties.getPassword())) {
       redisSentinelConfiguration.setPassword(redisProperties.getPassword());
     }
-    GenericObjectPoolConfig<Object> poolConfig = new GenericObjectPoolConfig<Object>();
+    GenericObjectPoolConfig<Object> poolConfig = new GenericObjectPoolConfig<>();
     LettuceClientConfiguration lettuceClientConfiguration = LettucePoolingClientConfiguration.builder()
         .poolConfig(poolConfig).build();
     return new LettuceConnectionFactory(redisSentinelConfiguration, lettuceClientConfiguration);
   }
-
 
   @Bean
   @Override

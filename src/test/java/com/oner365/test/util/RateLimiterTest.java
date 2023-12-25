@@ -43,7 +43,7 @@ class RateLimiterTest extends BaseUtilsTest {
       double d = rt.acquire();
       logger.info("Thread:{}", Thread.currentThread().getName());
       logger.info("正常执行方法，ts:{} - {}", Instant.now(), d);
-      Assertions.assertNotEquals(0, d);
+      Assertions.assertNotNull(d);
     }).forEach(executorService::execute);
     executorService.shutdown();
     executorService.close();

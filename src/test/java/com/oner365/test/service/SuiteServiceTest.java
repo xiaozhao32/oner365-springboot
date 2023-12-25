@@ -12,6 +12,7 @@ import org.junit.runner.RunWith;
  * @author zhaoyong
  *
  */
+@SuppressWarnings("deprecation")
 @RunWith(JUnitPlatform.class)
 @SelectPackages({
     "com.oner365.test.service.datasource",

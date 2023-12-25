@@ -7,6 +7,8 @@ package com.oner365.common.enums;
  */
 public enum QueueEnum implements BaseEnum {
 
+    /** Kafka */
+    KAFKA("Kafka"),
     /** Rabbitmq */
     RABBITMQ("Rabbitmq"),
     /** Pulsar */

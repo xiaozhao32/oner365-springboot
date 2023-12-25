@@ -1,6 +1,5 @@
 package com.oner365.sys.service.impl;
 
-import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -28,7 +27,6 @@ import com.oner365.sys.entity.SysMessage;
 import com.oner365.sys.enums.MessageStatusEnum;
 import com.oner365.sys.service.ISysMessageService;
 import com.oner365.sys.vo.SysMessageVo;
-import com.oner365.util.DataUtils;
 
 /**
  * 消息接口实现类
@@ -89,10 +87,6 @@ public class SysMessageServiceImpl implements ISysMessageService {
   @Transactional(rollbackFor = ProjectRuntimeException.class)
   @CacheEvict(value = CACHE_NAME, allEntries = true)
   public SysMessageDto save(SysMessageVo vo) {
-    if (DataUtils.isEmpty(vo.getId())) {
-      vo.setCreateTime(LocalDateTime.now());
-    }
-    vo.setUpdateTime(LocalDateTime.now());
     SysMessage entity = dao.save(convert(vo, SysMessage.class));
     return convert(entity, SysMessageDto.class);
   }
@@ -112,7 +106,6 @@ public class SysMessageServiceImpl implements ISysMessageService {
     Optional<SysMessage> optional = dao.findById(id);
     if (optional.isPresent()) {
       optional.get().setStatus(status);
-      optional.get().setUpdateTime(LocalDateTime.now());
       dao.save(optional.get());
       return Boolean.TRUE;
     }

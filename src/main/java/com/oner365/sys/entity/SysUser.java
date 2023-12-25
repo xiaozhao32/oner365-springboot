@@ -5,21 +5,24 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
-
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.oner365.common.constants.PublicConstants;
 import com.oner365.common.enums.StatusEnum;
 import com.oner365.sys.enums.SysUserSexEnum;
 import com.oner365.sys.enums.SysUserTypeEnum;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 /**
  * 系统用户
@@ -28,6 +31,7 @@ import com.oner365.sys.enums.SysUserTypeEnum;
  */
 @Entity
 @Table(name = "nt_sys_user")
+@EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler" })
 public class SysUser implements Serializable {
 
@@ -97,6 +101,7 @@ public class SysUser implements Serializable {
   /**
    * 创建时间
    */
+  @CreatedDate
   @Column(name = "create_time", updatable = false)
   private LocalDateTime createTime;
 

@@ -27,7 +27,7 @@ import com.oner365.queue.constants.QueueConstants;
 
 /**
  * MQTT config
- * 
+ *
  * @author zhaoyong
  *
  */
@@ -36,12 +36,11 @@ import com.oner365.queue.constants.QueueConstants;
 @EnableConfigurationProperties({ MqttProperties.class })
 public class MqttConfig {
 
-  private final Logger logger = LoggerFactory.getLogger(MqttConfig.class);
-
   @Resource
   private MqttProperties mqttProperties;
 
   public MqttConfig() {
+    Logger logger = LoggerFactory.getLogger(MqttConfig.class);
     logger.info("Queue Type: {}", QueueEnum.MQTT);
   }
 
@@ -94,7 +93,7 @@ public class MqttConfig {
   MessageChannel messageInboundChannel() {
     return new DirectChannel();
   }
-  
+
   @Bean
   MessageProducer routeInbound(MqttPahoMessageDrivenChannelAdapter adapter) {
     // 入站投递的通道
@@ -103,7 +102,7 @@ public class MqttConfig {
     adapter.setQos(MqttConstants.QOS);
     return adapter;
   }
-  
+
   @Bean
   @ServiceActivator(inputChannel = MqttConstants.OUT_BOUND_CHANNEL + QueueConstants.ROUTE_QUEUE_NAME)
   MessageHandler routeOutbound() {
@@ -123,7 +122,7 @@ public class MqttConfig {
   MessageChannel routeInboundChannel() {
     return new DirectChannel();
   }
-  
+
   @Bean
   MessageProducer saveTaskLogInbound(MqttPahoMessageDrivenChannelAdapter adapter) {
     // 入站投递的通道
@@ -132,7 +131,7 @@ public class MqttConfig {
     adapter.setQos(MqttConstants.QOS);
     return adapter;
   }
-  
+
   @Bean
   @ServiceActivator(inputChannel = MqttConstants.OUT_BOUND_CHANNEL + QueueConstants.SAVE_TASK_LOG_QUEUE_NAME)
   MessageHandler saveTaskLogOutbound() {
@@ -152,7 +151,7 @@ public class MqttConfig {
   MessageChannel saveTaskLogInboundChannel() {
     return new DirectChannel();
   }
-  
+
   @Bean
   MessageProducer scheduleTaskInbound(MqttPahoMessageDrivenChannelAdapter adapter) {
     // 入站投递的通道
@@ -161,7 +160,7 @@ public class MqttConfig {
     adapter.setQos(MqttConstants.QOS);
     return adapter;
   }
-  
+
   @Bean
   @ServiceActivator(inputChannel = MqttConstants.OUT_BOUND_CHANNEL + QueueConstants.SCHEDULE_TASK_QUEUE_NAME)
   MessageHandler scheduleTaskOutbound() {
@@ -181,7 +180,7 @@ public class MqttConfig {
   MessageChannel scheduleTaskInboundChannel() {
     return new DirectChannel();
   }
-  
+
   @Bean
   MessageProducer updateStatusInbound(MqttPahoMessageDrivenChannelAdapter adapter) {
     // 入站投递的通道
@@ -190,7 +189,7 @@ public class MqttConfig {
     adapter.setQos(MqttConstants.QOS);
     return adapter;
   }
-  
+
   @Bean
   @ServiceActivator(inputChannel = MqttConstants.OUT_BOUND_CHANNEL + QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME)
   MessageHandler updateStatusOutbound() {
@@ -210,5 +209,5 @@ public class MqttConfig {
   MessageChannel updateStatusInboundChannel() {
     return new DirectChannel();
   }
-  
+
 }

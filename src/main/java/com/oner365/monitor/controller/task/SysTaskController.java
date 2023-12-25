@@ -29,7 +29,6 @@ import com.oner365.monitor.exception.TaskException;
 import com.oner365.monitor.service.ISysTaskService;
 import com.oner365.monitor.util.CronUtils;
 import com.oner365.monitor.vo.SysTaskVo;
-import com.oner365.util.DateUtil;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -113,7 +112,6 @@ public class SysTaskController extends BaseController {
       return ResponseResult.error("cron表达式不正确");
     }
     sysTaskVo.setCreateUser(authUser.getUserName());
-    sysTaskVo.setUpdateTime(DateUtil.getDate());
     Boolean result = taskService.updateTask(sysTaskVo);
     return ResponseResult.success(result);
   }

@@ -2,7 +2,7 @@ package com.oner365.files.util;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import org.apache.commons.io.FileUtils;
@@ -101,7 +101,7 @@ public class FileLocalUploadUtils {
         fileEntity.setFileSuffix(DataUtils.getExtension(file.getOriginalFilename()));
         fileEntity.setSize(DataUtils.convertFileSize(file.getSize()));
         fileEntity.setDirectory(false);
-        fileEntity.setCreateTime(new Timestamp(System.currentTimeMillis()));
+        fileEntity.setCreateTime(LocalDateTime.now());
         return fileEntity;
     }
 

@@ -5,22 +5,26 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.oner365.common.enums.StatusEnum;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
-
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.oner365.common.enums.StatusEnum;
 
 /**
  * 机构表 - nt_sys_organization
@@ -30,6 +34,7 @@ import com.oner365.common.enums.StatusEnum;
  */
 @Entity
 @Table(name = "nt_sys_organization")
+@EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler" })
 public class SysOrganization implements Serializable {
 
@@ -111,12 +116,14 @@ public class SysOrganization implements Serializable {
   /**
    * 更新时间update_time
    */
+  @LastModifiedDate
   @Column(name = "update_time", insertable = false)
   private LocalDateTime updateTime;
 
   /**
    * 创建时间 create_time
    */
+  @CreatedDate
   @Column(name = "create_time", updatable = false)
   private LocalDateTime createTime;
 

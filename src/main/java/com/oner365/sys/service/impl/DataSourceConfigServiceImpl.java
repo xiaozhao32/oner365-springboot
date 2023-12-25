@@ -1,6 +1,5 @@
 package com.oner365.sys.service.impl;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 import jakarta.annotation.Resource;
@@ -27,7 +26,6 @@ import com.oner365.sys.dto.DataSourceConfigDto;
 import com.oner365.sys.entity.DataSourceConfig;
 import com.oner365.sys.service.IDataSourceConfigService;
 import com.oner365.sys.vo.DataSourceConfigVo;
-import com.oner365.util.DataUtils;
 
 /**
  * 数据源设置实现类
@@ -86,9 +84,6 @@ public class DataSourceConfigServiceImpl implements IDataSourceConfigService {
   @Transactional(rollbackFor = ProjectRuntimeException.class)
   @CacheEvict(value = CACHE_NAME, allEntries = true)
   public DataSourceConfigDto save(DataSourceConfigVo vo) {
-    if (DataUtils.isEmpty(vo.getId())) {
-      vo.setCreateTime(LocalDateTime.now());
-    }
     String driverName = null;
     String url = null;
     if (DataSourceConstants.DB_TYPE_MYSQL.equals(vo.getDbType())) {
@@ -100,7 +95,6 @@ public class DataSourceConfigServiceImpl implements IDataSourceConfigService {
     }
     vo.setDriverName(driverName);
     vo.setUrl(url);
-    vo.setUpdateTime(LocalDateTime.now());
     DataSourceConfig entity = dao.save(convert(vo, DataSourceConfig.class));
     return convert(entity, DataSourceConfigDto.class);
   }

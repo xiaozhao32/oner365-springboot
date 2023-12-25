@@ -3,18 +3,12 @@ package com.oner365.monitor.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
-
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
-import com.vladmihalcea.hibernate.type.json.JsonType;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -24,6 +18,17 @@ import com.oner365.monitor.enums.MisfirePolicyEnum;
 import com.oner365.monitor.enums.TaskStatusEnum;
 import com.oner365.monitor.util.CronUtils;
 import com.oner365.util.DataUtils;
+import com.vladmihalcea.hibernate.type.json.JsonType;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 /**
  * 定时任务调度表 nt_sys_task
@@ -32,6 +37,7 @@ import com.oner365.util.DataUtils;
  */
 @Entity
 @Table(name = "nt_sys_task")
+@EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler" })
 public class SysTask implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -111,18 +117,21 @@ public class SysTask implements Serializable {
   /**
    * 创建人
    */
+  @CreatedBy
   @Column(name = "create_user", length = 32)
   private String createUser;
 
   /**
    * 创建时间
    */
+  @CreatedDate
   @Column(name = "create_time", updatable = false)
   private Date createTime;
 
   /**
    * 更新时间
    */
+  @LastModifiedDate
   @Column(name = "update_time", updatable = true)
   private Date updateTime;
 

@@ -3,20 +3,24 @@ package com.oner365.sys.entity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.oner365.common.constants.PublicConstants;
 import com.oner365.sys.enums.MessageStatusEnum;
 import com.oner365.sys.enums.MessageTypeEnum;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 /**
  * 消息对象
@@ -25,6 +29,7 @@ import com.oner365.sys.enums.MessageTypeEnum;
  */
 @Entity
 @Table(name = "nt_sys_message")
+@EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler" })
 public class SysMessage implements Serializable {
 
@@ -97,12 +102,14 @@ public class SysMessage implements Serializable {
   /**
    * 创建时间 create_time
    */
+  @CreatedDate
   @Column(name = "create_time", updatable = false)
   private LocalDateTime createTime;
 
   /**
    * 更新时间 update_time
    */
+  @LastModifiedDate
   @Column(name = "update_time", insertable = false)
   private LocalDateTime updateTime;
 

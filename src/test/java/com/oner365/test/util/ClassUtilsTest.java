@@ -2,6 +2,7 @@
 package com.oner365.test.util;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,13 +26,13 @@ class ClassUtilsTest extends BaseUtilsTest {
   void test() {
 //       BaseEnum.class.;
     Reflections ref = new Reflections("com.oner365.common.enums");
-    List<Class<? extends BaseEnum>> childList = ref.getSubTypesOf(BaseEnum.class).stream().collect(Collectors.toList());
+    List<Class<? extends BaseEnum>> childList = new ArrayList<>(ref.getSubTypesOf(BaseEnum.class));
     Assertions.assertNotEquals(0, childList.size());
-    childList.stream().forEach(clazz -> {
+    childList.forEach(clazz -> {
       try {
         List<Field> fieldList = Arrays.asList(clazz.getDeclaredFields());
         fieldList = fieldList.stream().filter(field -> !field.getGenericType().getTypeName().contains("[")).collect(Collectors.toList());
-        fieldList.stream().forEach(field -> {
+        fieldList.forEach(field -> {
           if(ClassesUtil.isEnum(field.getGenericType().getTypeName())) {
             logger.info("Enum name:{}", field.getName());
           }

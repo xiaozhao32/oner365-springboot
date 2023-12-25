@@ -68,7 +68,7 @@ spring:
         
     redis:
       repositories:
-        enabled: false
+        enabled: true
         
       host: 192.168.213.128
       port: 6379
@@ -100,11 +100,13 @@ spring:
         concurrency: 2
         max-concurrency: 10
 
-
   jpa:
     open-in-view: true
   freemarker:
     check-template-location: false
+  mvc:
+    pathmatch:
+      matching-strategy: ant-path-matcher
 
   # 线程池
   task:
@@ -250,9 +252,8 @@ knife4j:
 webclient:
   ssl:
     enable: true
-  response:
-    body: 
-      size: 209715200
+  max-in-memory-size: 209715200
+
 #部署目录
 deploy:
   local:

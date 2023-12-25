@@ -36,8 +36,8 @@ public class WebClientConfig {
   /**
    * 设置response body体大小
    */
-  @Value("${webclient.response.body.size}")
-  private int responseBodySize;
+  @Value("${webclient.max-in-memory-size:209715200}")
+  private int maxInMemorySize;
   
   @Bean
   WebClient webClient() {
@@ -52,7 +52,7 @@ public class WebClientConfig {
       }));
     }
     return WebClient.builder().clientConnector(httpConnector).exchangeStrategies(ExchangeStrategies.builder()
-        .codecs(configurer -> configurer.defaultCodecs().maxInMemorySize(responseBodySize)).build()).build();
+        .codecs(configurer -> configurer.defaultCodecs().maxInMemorySize(maxInMemorySize)).build()).build();
   }
 
 }

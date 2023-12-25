@@ -2,7 +2,6 @@ package com.oner365.interceptor;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -153,7 +152,6 @@ public class TokenInterceptor implements HandlerInterceptor {
     // 除get请求一律保存日志
     if (!HttpMethod.GET.matches(methodName)) {
       SysLogVo sysLog = new SysLogVo();
-      sysLog.setCreateTime(LocalDateTime.now());
       sysLog.setMethodName(methodName);
       sysLog.setOperationIp(ip);
       sysLog.setOperationPath(uri);
