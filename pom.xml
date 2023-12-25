@@ -60,8 +60,8 @@
 		<org.hibernate.version>5.6.15.Final</org.hibernate.version>
 		<javax.servlet.version>4.0.1</javax.servlet.version>
 
-		<org.mybatis.spring.boot.version>2.3.1</org.mybatis.spring.boot.version>
-		<org.mybatis.version>3.5.14</org.mybatis.version>
+		<org.mybatis.spring.boot.version>2.3.2</org.mybatis.spring.boot.version>
+		<org.mybatis.version>3.5.15</org.mybatis.version>
 
 		<org.bouncycastle.version>1.70</org.bouncycastle.version>
 		<org.elasticsearch.version>7.17.7</org.elasticsearch.version>
@@ -691,17 +691,20 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<version>${org.springframework.boot.version}</version>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.junit.platform</groupId>
 			<artifactId>junit-platform-runner</artifactId>
 			<version>${org.junit.platform.version}</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 		    <groupId>junit</groupId>
 		    <artifactId>junit</artifactId>
 		    <version>${junit.version}</version>
+		    <scope>test</scope>
 		</dependency>
 
 		<!-- spring data -->
@@ -966,7 +969,6 @@
 				<configuration>
 					<source>${java.version}</source>
 					<target>${java.version}</target>
-					<skip>true</skip>
 					<encoding>${project.build.sourceEncoding}</encoding>
 				</configuration>
 			</plugin>
