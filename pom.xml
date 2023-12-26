@@ -44,7 +44,7 @@
 		<org.springframework.integration.version>6.2.0</org.springframework.integration.version>
 		<org.springframework.statemachine.version>3.2.1</org.springframework.statemachine.version>
 		<org.springframework.security.version>6.2.0</org.springframework.security.version>
-		<org.springframework.boot.version>3.2.0</org.springframework.boot.version>
+		<org.springframework.boot.version>3.2.1</org.springframework.boot.version>
 		<org.springframework.version>6.1.1</org.springframework.version>
 		<org.springframework.kafka.version>3.1.0</org.springframework.kafka.version>
 
@@ -62,7 +62,7 @@
 		<jakarta.xml.version>4.0.1</jakarta.xml.version>
 
 		<org.mybatis.spring.boot.version>3.0.3</org.mybatis.spring.boot.version>
-		<org.mybatis.version>3.5.14</org.mybatis.version>
+		<org.mybatis.version>3.5.15</org.mybatis.version>
 
 		<org.bouncycastle.version>1.70</org.bouncycastle.version>
 		<org.elasticsearch.version>8.11.1</org.elasticsearch.version>
@@ -362,6 +362,11 @@
 		<dependency>
 			<groupId>net.bytebuddy</groupId>
 			<artifactId>byte-buddy</artifactId>
+			<version>${net.bytebuddy.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.bytebuddy</groupId>
+			<artifactId>byte-buddy-agent</artifactId>
 			<version>${net.bytebuddy.version}</version>
 		</dependency>
 
@@ -693,12 +698,14 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<version>${org.springframework.boot.version}</version>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.junit.platform</groupId>
 			<artifactId>junit-platform-runner</artifactId>
 			<version>${org.junit.platform.version}</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
             <groupId>org.junit.platform</groupId>
@@ -709,6 +716,7 @@
 		    <groupId>junit</groupId>
 		    <artifactId>junit</artifactId>
 		    <version>${junit.version}</version>
+		    <scope>test</scope>
 		</dependency>
 
 		<!-- spring data -->
@@ -958,7 +966,6 @@
 				<configuration>
 					<source>${java.version}</source>
 					<target>${java.version}</target>
-					<skip>true</skip>
 					<encoding>${project.build.sourceEncoding}</encoding>
 					<compilerArgs>
 						<arg>-parameters</arg>
