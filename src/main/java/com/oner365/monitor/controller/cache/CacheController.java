@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import com.oner365.common.ResponseResult;
 import com.oner365.common.enums.ResultEnum;
 import com.oner365.controller.BaseController;
 import com.oner365.monitor.dto.CacheCommandStatsDto;
@@ -24,9 +25,8 @@ import com.oner365.util.JedisUtils;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import redis.clients.jedis.Jedis;
-
 import jakarta.annotation.Resource;
+import redis.clients.jedis.Jedis;
 
 /**
  * 缓存监控
@@ -109,19 +109,19 @@ public class CacheController extends BaseController {
    * 清理缓存
    *
    * @param index db
-   * @return String
+   * @return 是否成功
    */
   @ApiOperation("3.清除缓存")
   @ApiOperationSupport(order = 3)
   @GetMapping("/clean")
-  public String clean(int index) {
+  public ResponseResult<String> clean(int index) {
     try (Jedis jedis = JedisUtils.getJedis(redisProperties)) {
       if (jedis.isConnected()) {
         jedis.select(index);
         jedis.flushDB();
       }
     }
-    return ResultEnum.SUCCESS.getName();
+    return ResponseResult.success(ResultEnum.SUCCESS.getName());
   }
 
 }

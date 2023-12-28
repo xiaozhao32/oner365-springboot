@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import com.oner365.common.ResponseResult;
 import com.oner365.common.cache.GuavaCache;
 import com.oner365.common.cache.RedisCache;
 import com.oner365.common.constants.PublicConstants;
@@ -84,12 +85,12 @@ public class ApiController extends BaseController {
   /**
    * 测试guava cache
    *
-   * @return String
+   * @return ResponseResult<String>
    */
   @ApiOperation("2.测试Guava Cache")
   @ApiOperationSupport(order = 2)
   @GetMapping("/cache/guava/test")
-  public String testGuavaCache() {
+  public ResponseResult<String> testGuavaCache() {
     String sequence1 = snowflakeSequence.nextNo();
     logger.info("sequence1: {}", sequence1);
     String sequence2 = rangeSequence.nextNo();
@@ -103,7 +104,7 @@ public class ApiController extends BaseController {
     logger.info("cache:{}", guavaCache.getCache(key));
     guavaCache.removeCache(key);
 
-    return ResultEnum.SUCCESS.getName();
+    return ResponseResult.success(ResultEnum.SUCCESS.getName());
   }
 
   /**

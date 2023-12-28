@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
-import com.oner365.common.ResponseData;
 import com.oner365.common.ResponseResult;
 import com.oner365.common.auth.AuthUser;
 import com.oner365.common.auth.annotation.CurrentUser;
@@ -89,12 +88,12 @@ public class SysUserController extends BaseController {
    * 获取信息
    *
    * @param id 编号
-   * @return ResponseData<SysUserInfoVo>
+   * @return SysUserInfoVo
    */
   @ApiOperation("2.按id查询")
   @ApiOperationSupport(order = 2)
   @GetMapping("/get/{id}")
-  public ResponseData<SysUserInfoVo> get(@PathVariable String id) {
+  public SysUserInfoVo get(@PathVariable String id) {
     SysUserDto sysUser = sysUserService.getById(id);
 
     SysUserInfoVo result = new SysUserInfoVo();
@@ -108,7 +107,7 @@ public class SysUserController extends BaseController {
     result.setRoleList(sysRoleService.findList(data));
     result.setJobList(sysJobService.findList(data));
 
-    return ResponseData.success(result);
+    return result;
   }
 
   /**
@@ -129,36 +128,37 @@ public class SysUserController extends BaseController {
    *
    * @param authUser 登录对象
    * @param file     文件
-   * @return String
+   * @return ResponseResult<String>
    */
   @ApiOperation("4.上传头像")
   @ApiOperationSupport(order = 4)
   @PostMapping("/avatar")
-  public String avatar(@ApiIgnore @CurrentUser AuthUser authUser, @RequestParam("avatarfile") MultipartFile file) {
+  public ResponseResult<String> avatar(@ApiIgnore @CurrentUser AuthUser authUser, @RequestParam("avatarfile") MultipartFile file) {
     if (!file.isEmpty()) {
       String fileUrl = fileStorageClient.uploadFile(file, "avatar");
       SysUserDto sysUserDto =sysUserService.updateAvatar(authUser.getId(), fileUrl);
-      return sysUserDto.getAvatar();
+      return ResponseResult.success(sysUserDto.getAvatar());
     }
-    return "";
+    return ResponseResult.error("上传文件不能为空!");
   }
-
+  
   /**
    * 更新个人信息
    *
    * @param authUser  登录对象
    * @param sysUserVo 对象
-   * @return ResponseData
+   * @return ResponseResult
    */
   @ApiOperation("5.更新个人信息")
   @ApiOperationSupport(order = 5)
   @PostMapping("/update/profile")
-  public SysUserDto updateUserProfile(@ApiIgnore @CurrentUser AuthUser authUser, @RequestBody SysUserVo sysUserVo) {
+  public ResponseResult<SysUserDto> updateUserProfile(@ApiIgnore @CurrentUser AuthUser authUser, @RequestBody SysUserVo sysUserVo) {
     if (sysUserVo != null) {
       sysUserVo.setId(authUser.getId());
-      return sysUserService.updateUserProfile(sysUserVo);
+      SysUserDto result = sysUserService.updateUserProfile(sysUserVo);
+      return ResponseResult.success(result);
     }
-    return null;
+    return ResponseResult.error("个人信息不能为空!");
   }
 
   /**
@@ -198,7 +198,7 @@ public class SysUserController extends BaseController {
    *
    * @param authUser         登录对象
    * @param modifyPasswordVo 请求参数
-   * @return Boolean
+   * @return ResponseResult<Boolean>
    */
   @ApiOperation("8.修改密码")
   @ApiOperationSupport(order = 8)

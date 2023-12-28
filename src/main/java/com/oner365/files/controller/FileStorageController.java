@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
-import com.oner365.common.ResponseData;
 import com.oner365.common.ResponseResult;
 import com.oner365.common.constants.PublicConstants;
 import com.oner365.common.enums.StorageEnum;
@@ -135,8 +134,9 @@ public class FileStorageController extends BaseController {
   @ApiOperation("4.文件下载 - 提供下载地址")
   @ApiOperationSupport(order = 4)
   @GetMapping("/path")
-  public String downloadPath(@RequestParam("path") String path) {
-    return fileStorageClient.downloadPath(path);
+  public ResponseResult<String> downloadPath(@RequestParam("path") String path) {
+    String result = fileStorageClient.downloadPath(path);
+    return ResponseResult.success(result);
   }
 
   /**
@@ -173,9 +173,8 @@ public class FileStorageController extends BaseController {
   @ApiOperation("7.获取文件信息")
   @ApiOperationSupport(order = 7)
   @PostMapping("/info/{id}")
-  public ResponseData<SysFileStorageDto> getFileInfo(@PathVariable String id) {
-    SysFileStorageDto entity = fileStorageClient.getFile(id);
-    return ResponseData.success(entity);
+  public SysFileStorageDto getFileInfo(@PathVariable String id) {
+    return fileStorageClient.getFile(id);
   }
 
 }
