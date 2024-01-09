@@ -53,12 +53,13 @@ public class PasswordEncoderUtils {
     encoders.put(Encoder.MD4.name(), new Md4PasswordEncoder());
     encoders.put(Encoder.MD5.name(), new MessageDigestPasswordEncoder("MD5"));
     encoders.put(Encoder.NOOP.name(), NoOpPasswordEncoder.getInstance());
-    encoders.put(Encoder.PBKDF2.name(), new Pbkdf2PasswordEncoder());
-    encoders.put(Encoder.SCRYPT.name(), new SCryptPasswordEncoder());
     encoders.put(Encoder.SHA1.name(), new MessageDigestPasswordEncoder("SHA-1"));
     encoders.put(Encoder.SHA256.name(), new MessageDigestPasswordEncoder("SHA-256"));
     encoders.put(Encoder.SHA.name(), new StandardPasswordEncoder());
-    encoders.put(Encoder.ARGON2.name(), new Argon2PasswordEncoder());
+    
+    encoders.put(Encoder.PBKDF2.name(), Pbkdf2PasswordEncoder.defaultsForSpringSecurity_v5_8());
+    encoders.put(Encoder.SCRYPT.name(), SCryptPasswordEncoder.defaultsForSpringSecurity_v5_8());
+    encoders.put(Encoder.ARGON2.name(), Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8());
 
     Assert.isTrue(encoders.containsKey(encoding.name()), encoding + " is not found in idToPasswordEncoder");
 

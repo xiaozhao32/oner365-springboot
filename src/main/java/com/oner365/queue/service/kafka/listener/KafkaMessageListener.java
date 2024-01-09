@@ -26,11 +26,11 @@ public class KafkaMessageListener {
   /**
    * 监听服务
    *
-   * @param record 参数
+   * @param consumerRecord 参数
    */
   @KafkaListener(id = QueueConstants.MESSAGE_QUEUE_NAME, topics = { QueueConstants.MESSAGE_QUEUE_NAME })
-  public void listener(ConsumerRecord<String, ?> record) {
-    Optional<?> kafkaMessage = Optional.of(record.value());
+  public void listener(ConsumerRecord<String, ?> consumerRecord) {
+    Optional<?> kafkaMessage = Optional.of(consumerRecord.value());
     Object message = kafkaMessage.get();
     logger.info("Kafka Message received: {}", message);
   }

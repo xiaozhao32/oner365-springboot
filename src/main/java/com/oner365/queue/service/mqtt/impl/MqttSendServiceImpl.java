@@ -53,7 +53,7 @@ public class MqttSendServiceImpl implements IQueueSendService {
   @Override
   public void sendMessage(JSONObject message) {
     if (!message.isEmpty()) {
-      logger.info("Mqtt send message: {} topic: {}", message.toJSONString(), QueueConstants.MESSAGE_QUEUE_NAME);
+      logger.info("Mqtt send message: {} topic: {}", message, QueueConstants.MESSAGE_QUEUE_NAME);
       messageService.sendMessage(QueueConstants.MESSAGE_QUEUE_NAME, message.toJSONString());
     }
   }
