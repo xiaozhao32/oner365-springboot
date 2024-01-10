@@ -48,7 +48,8 @@ public class PasswordEncoderUtils {
    */
   public static PasswordEncoder getDelegatingPasswordEncoder(PasswordEncoderUtils.Encoder encoding) {
     Map<String, PasswordEncoder> encoders = new HashMap<>(12);
-    encoders.put(Encoder.BCRYPT.name(), new BCryptPasswordEncoder());
+    
+    // This PasswordEncoder is not secure. Instead use an adaptive one way
     encoders.put(Encoder.LDAP.name(), new LdapShaPasswordEncoder());
     encoders.put(Encoder.MD4.name(), new Md4PasswordEncoder());
     encoders.put(Encoder.MD5.name(), new MessageDigestPasswordEncoder("MD5"));
@@ -57,6 +58,7 @@ public class PasswordEncoderUtils {
     encoders.put(Encoder.SHA256.name(), new MessageDigestPasswordEncoder("SHA-256"));
     encoders.put(Encoder.SHA.name(), new StandardPasswordEncoder());
     
+    encoders.put(Encoder.BCRYPT.name(), new BCryptPasswordEncoder());
     encoders.put(Encoder.PBKDF2.name(), Pbkdf2PasswordEncoder.defaultsForSpringSecurity_v5_8());
     encoders.put(Encoder.SCRYPT.name(), SCryptPasswordEncoder.defaultsForSpringSecurity_v5_8());
     encoders.put(Encoder.ARGON2.name(), Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8());
