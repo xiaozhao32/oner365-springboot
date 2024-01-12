@@ -8,7 +8,7 @@ import java.util.List;
  * Excel数据对象
  * @author zhaoyong
  */
-public class ExcelData<T> implements Serializable {
+public class ExcelData<T extends Serializable> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -129,7 +129,7 @@ public class ExcelData<T> implements Serializable {
      * @param message 消息
      * @return ResponseData
      */
-    public static <T> ExcelData<T> error(int code, String message) {
+    public static <T extends Serializable> ExcelData<T> error(int code, String message) {
       ExcelData<T> excelData = new ExcelData<>();
       excelData.setCode(code);
       excelData.setMessage(message);

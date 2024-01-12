@@ -29,7 +29,7 @@ public class PulsarRouteListenerImpl implements MessageListener<String>, BaseSer
 
   private static final long serialVersionUID = 1L;
 
-  private final Logger logger = LoggerFactory.getLogger(PulsarRouteListenerImpl.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(PulsarRouteListenerImpl.class);
 
   @Resource
   private DynamicRouteService dynamicRouteService;
@@ -38,7 +38,7 @@ public class PulsarRouteListenerImpl implements MessageListener<String>, BaseSer
   public void received(Consumer<String> consumer, Message<String> msg) {
     try {
       String data = Arrays.toString(msg.getData());
-      logger.info("Pulsar consumer data: {}, topic: {}", data, consumer.getTopic());
+      LOGGER.info("Pulsar consumer data: {}, topic: {}", data, consumer.getTopic());
       consumer.acknowledge(msg);
     } catch (PulsarClientException e) {
       consumer.negativeAcknowledge(msg);

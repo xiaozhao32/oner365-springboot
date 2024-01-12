@@ -127,7 +127,7 @@ public class FileMinioClient implements IFileStorageClient {
     try {
       StatObjectResponse objectResponse = minioClient
           .statObject(StatObjectArgs.builder().bucket(minioProperties.getBucket()).object(path).build());
-      logger.info("file path: {}, contentType: {}, size: {}", path, objectResponse.contentType(), objectResponse.size());
+      logger.info("file path: {}, size: {}", path, objectResponse.size());
       return objectResponse.size();
     } catch (Exception e) {
       logger.error("statObject error:", e);

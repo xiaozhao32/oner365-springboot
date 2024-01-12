@@ -16,6 +16,7 @@ import java.nio.charset.Charset;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,6 +48,7 @@ import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.ssl.SSLContextBuilder;
+import org.apache.http.ssl.TrustStrategy;
 import org.apache.http.util.EntityUtils;
 import org.apache.logging.log4j.util.Strings;
 import org.slf4j.Logger;
@@ -172,21 +174,25 @@ public class HttpClientUtils {
 
   public static class MyX509TrustManager implements X509TrustManager {
 
+    private X509TrustManager trustManager;
+
+    private TrustStrategy trustStrategy;
+
     @Override
-    public void checkClientTrusted(X509Certificate[] arg0, String arg1) throws java.security.cert.CertificateException {
-      // checkClientTrusted
-      LOGGER.info("checkClientTrusted: {}", arg1);
+    public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+      this.trustManager.checkClientTrusted(chain, authType);
     }
 
     @Override
-    public void checkServerTrusted(X509Certificate[] arg0, String arg1) throws java.security.cert.CertificateException {
-      // checkServerTrusted
-      LOGGER.info("checkServerTrusted: {}", arg1);
+    public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+      if (!this.trustStrategy.isTrusted(chain, authType)) {
+        this.trustManager.checkServerTrusted(chain, authType);
+      }
     }
 
     @Override
     public X509Certificate[] getAcceptedIssuers() {
-      return new X509Certificate[0];
+      return this.trustManager.getAcceptedIssuers();
     }
 
   }
