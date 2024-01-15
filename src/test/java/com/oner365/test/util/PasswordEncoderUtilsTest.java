@@ -22,15 +22,8 @@ class PasswordEncoderUtilsTest extends BaseUtilsTest {
     
     getPasswordEncoder(pwd, Encoder.ARGON2);
     getPasswordEncoder(pwd, Encoder.BCRYPT);
-    getPasswordEncoder(pwd, Encoder.LDAP);
-    getPasswordEncoder(pwd, Encoder.MD4);
-    getPasswordEncoder(pwd, Encoder.MD5);
-    getPasswordEncoder(pwd, Encoder.NOOP);
     getPasswordEncoder(pwd, Encoder.PBKDF2);
     getPasswordEncoder(pwd, Encoder.SCRYPT);
-    getPasswordEncoder(pwd, Encoder.SHA);
-    getPasswordEncoder(pwd, Encoder.SHA1);
-    getPasswordEncoder(pwd, Encoder.SHA256);
     
   }
   

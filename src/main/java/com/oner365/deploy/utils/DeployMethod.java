@@ -27,6 +27,11 @@ public class DeployMethod {
   private static final String FILE_LIB = "lib";
   private static final String FILE_TARGET = "target";
   private static final String FILE_RESOURCES = "resources";
+  
+  private static final String PARAM_SERVICE_NAME = "SERVICE_NAME=";
+  private static final String PARAM_VERSION = "VERSION=";
+  private static final String PARAM_ACTIVE = "ACTIVE=";
+  private static final String PARAM_RESOURCE_NAME = "RESOURCE_NAME";
 
   private DeployMethod() {
   }
@@ -105,9 +110,9 @@ public class DeployMethod {
         String readFile = shUrl.getPath();
         String writeFile = targetPath + File.separator + "start.sh";
         Map<String, Object> items = new HashMap<>(3);
-        items.put("SERVICE_NAME=", "SERVICE_NAME=" + projectName);
-        items.put("VERSION=", "VERSION=" + deployEntity.getVersion());
-        items.put("ACTIVE=", "ACTIVE=" + deployEntity.getActive());
+        items.put(PARAM_SERVICE_NAME, PARAM_SERVICE_NAME + projectName);
+        items.put(PARAM_VERSION, PARAM_VERSION + deployEntity.getVersion());
+        items.put(PARAM_ACTIVE, PARAM_ACTIVE + deployEntity.getActive());
         DataUtils.replaceContextFileCreate(readFile, writeFile, items);
       }
       URL stopUrl = DeployMethod.class.getResource("/service/stop.sh");
@@ -115,7 +120,7 @@ public class DeployMethod {
         String readFile = stopUrl.getPath();
         String writeFile = targetPath + File.separator + "stop.sh";
         Map<String, Object> items = new HashMap<>(3);
-        items.put("SERVICE_NAME=", "SERVICE_NAME=" + projectName);
+        items.put(PARAM_SERVICE_NAME, PARAM_SERVICE_NAME + projectName);
         DataUtils.replaceContextFileCreate(readFile, writeFile, items);
       }
 
@@ -125,7 +130,7 @@ public class DeployMethod {
         String readFile = batUrl.getPath();
         String writeFile = targetPath + File.separator + "start.bat";
         Map<String, Object> items = new HashMap<>(1);
-        items.put("RESOURCE_NAME", projectName + "-" + deployEntity.getVersion() + "." + deployEntity.getSuffix());
+        items.put(PARAM_RESOURCE_NAME, projectName + "-" + deployEntity.getVersion() + "." + deployEntity.getSuffix());
         DataUtils.replaceContextFileCreate(readFile, writeFile, items);
       }
     });
