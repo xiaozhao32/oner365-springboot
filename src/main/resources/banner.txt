@@ -6,4 +6,8 @@ ${AnsiColor.BRIGHT_RED}
    {======|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""| 
   ./o--000'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-' 
 
-Spring Boot Version: ${spring-boot.version}${spring-boot.formatted-version}
+    Application: ${spring.application.name} Version: ${project.version}
+    Profile: ${spring.profiles.active}
+
+    Spring Boot Version: ${spring-boot.version}${spring-boot.formatted-version}
+    Java Version: ${java.version}
