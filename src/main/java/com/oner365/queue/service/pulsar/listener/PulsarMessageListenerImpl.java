@@ -27,13 +27,13 @@ public class PulsarMessageListenerImpl implements MessageListener<JSONObject>, B
 
   private static final long serialVersionUID = 1L;
 
-  private final Logger logger = LoggerFactory.getLogger(PulsarMessageListenerImpl.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(PulsarMessageListenerImpl.class);
 
   @Override
   public void received(Consumer<JSONObject> consumer, Message<JSONObject> msg) {
     try {
       String data = Arrays.toString(msg.getData());
-      logger.info("Pulsar consumer data: {}, topic: {}", data, consumer.getTopic());
+      LOGGER.info("Pulsar consumer data: {}, topic: {}", data, consumer.getTopic());
       consumer.acknowledge(msg);
     } catch (PulsarClientException e) {
       consumer.negativeAcknowledge(msg);

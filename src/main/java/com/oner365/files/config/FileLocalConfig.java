@@ -1,5 +1,7 @@
 package com.oner365.files.config;
 
+import jakarta.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -21,9 +23,12 @@ import com.oner365.files.storage.condition.LocalStorageCondition;
 public class FileLocalConfig {
   
   private static final Logger LOGGER = LoggerFactory.getLogger(FileLocalConfig.class);
+  
+  @Resource
+  private FileLocalProperties fileLocalProperties;
 
   public FileLocalConfig() {
-    LOGGER.info("Storage Type: {}", StorageEnum.LOCAL);
+    LOGGER.info("Storage Type: {}, Properties: {}", StorageEnum.LOCAL, fileLocalProperties);
   }
   
 }

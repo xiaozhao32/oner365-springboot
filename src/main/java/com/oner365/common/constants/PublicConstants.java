@@ -70,12 +70,12 @@ public class PublicConstants {
     /**
      * 枚举集合
      */
-    public static Map<String, String> initEnumMap = new HashMap<>();
+    public static final Map<String, String> initEnumMap = new HashMap<>();
 
     /**
      * Constructor
      */
-    public PublicConstants() {
+    protected PublicConstants() {
         super();
     }
 }

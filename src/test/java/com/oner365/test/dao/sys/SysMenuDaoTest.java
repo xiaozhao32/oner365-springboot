@@ -64,6 +64,7 @@ class SysMenuDaoTest extends BaseDaoTest {
   void testGetById() {
     SysUserDto result = jdbcTemplate.queryForObject("SELECT * FROM nt_sys_user where id='1' ",
         BeanPropertyRowMapper.newInstance(SysUserDto.class));
+    Assertions.assertNotNull(result);
     logger.info("result:{}", JSON.toJSONString(result));
   }
 

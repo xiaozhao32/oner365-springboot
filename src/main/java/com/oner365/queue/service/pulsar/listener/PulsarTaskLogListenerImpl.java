@@ -34,7 +34,7 @@ public class PulsarTaskLogListenerImpl implements MessageListener<SysTaskDto>, B
 
   private static final long serialVersionUID = 1L;
 
-  private final Logger logger = LoggerFactory.getLogger(PulsarTaskLogListenerImpl.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(PulsarTaskLogListenerImpl.class);
 
   @Resource
   private ISysTaskLogService sysTaskLogService;
@@ -43,7 +43,7 @@ public class PulsarTaskLogListenerImpl implements MessageListener<SysTaskDto>, B
   public void received(Consumer<SysTaskDto> consumer, Message<SysTaskDto> msg) {
     try {
       String data = Arrays.toString(msg.getData());
-      logger.info("Pulsar consumer data: {}, topic: {}", data, consumer.getTopic());
+      LOGGER.info("Pulsar consumer data: {}, topic: {}", data, consumer.getTopic());
       consumer.acknowledge(msg);
     } catch (PulsarClientException e) {
       consumer.negativeAcknowledge(msg);
@@ -57,7 +57,7 @@ public class PulsarTaskLogListenerImpl implements MessageListener<SysTaskDto>, B
   }
 
   public void saveExecuteTaskLog(SysTaskDto sysTask) {
-    logger.info("saveExecuteTaskLog :{}", sysTask);
+    LOGGER.info("saveExecuteTaskLog :{}", sysTask);
 
     long time = System.currentTimeMillis();
     SysTaskLogVo taskLog = new SysTaskLogVo();

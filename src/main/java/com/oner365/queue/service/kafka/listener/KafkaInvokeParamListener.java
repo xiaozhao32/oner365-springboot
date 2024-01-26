@@ -47,11 +47,11 @@ public class KafkaInvokeParamListener {
   /**
    * 监听服务
    *
-   * @param record 参数
+   * @param consumerRecord 参数
    */
   @KafkaListener(id = QueueConstants.SCHEDULE_TASK_QUEUE_NAME, topics = { QueueConstants.SCHEDULE_TASK_QUEUE_NAME })
-  public void listener(ConsumerRecord<String, ?> record) {
-    Optional<?> kafkaMessage = Optional.of(record.value());
+  public void listener(ConsumerRecord<String, ?> consumerRecord) {
+    Optional<?> kafkaMessage = Optional.of(consumerRecord.value());
     Object message = kafkaMessage.get();
     logger.info("Kafka pullTask received: {}", message);
 

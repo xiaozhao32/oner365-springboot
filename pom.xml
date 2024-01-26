@@ -41,32 +41,29 @@
 		<java.version>21</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		<org.springframework.integration.version>6.2.0</org.springframework.integration.version>
+		<org.springframework.integration.version>6.2.1</org.springframework.integration.version>
 		<org.springframework.statemachine.version>3.2.1</org.springframework.statemachine.version>
-		<org.springframework.security.version>6.2.0</org.springframework.security.version>
-		<org.springframework.boot.version>3.2.1</org.springframework.boot.version>
-		<org.springframework.version>6.1.2</org.springframework.version>
+		<org.springframework.security.version>6.2.1</org.springframework.security.version>
+		<org.springframework.boot.version>3.2.2</org.springframework.boot.version>
+		<org.springframework.version>6.1.3</org.springframework.version>
 		<org.springframework.kafka.version>3.1.0</org.springframework.kafka.version>
 
 		<org.apache.logging.log4j.version>2.21.1</org.apache.logging.log4j.version>
 		<org.apache.httpclient.version>4.5.14</org.apache.httpclient.version>
 		<org.apache.httpcore.version>4.4.16</org.apache.httpcore.version>
-		<org.apache.tomcat.version>10.1.17</org.apache.tomcat.version>
-		<org.apache.pulsar.version>3.1.1</org.apache.pulsar.version>
-		<org.apache.kafka.version>3.6.0</org.apache.kafka.version>
+		<org.apache.tomcat.version>10.1.18</org.apache.tomcat.version>
+		<org.apache.pulsar.version>3.1.2</org.apache.pulsar.version>
+		<org.apache.kafka.version>3.6.1</org.apache.kafka.version>
 		<org.apache.poi.version>5.2.5</org.apache.poi.version>
 
 		<org.hibernate.validator.version>8.0.1.Final</org.hibernate.validator.version>
 		<org.hibernate.version>6.3.1.Final</org.hibernate.version>
-		<jakarta.servlet.version>6.0.0</jakarta.servlet.version>
-		<jakarta.xml.version>4.0.1</jakarta.xml.version>
-
 		<org.mybatis.spring.boot.version>3.0.3</org.mybatis.spring.boot.version>
 		<org.mybatis.version>3.5.15</org.mybatis.version>
 
 		<org.bouncycastle.version>1.76</org.bouncycastle.version>
-		<org.elasticsearch.version>8.11.1</org.elasticsearch.version>
-		<org.slf4j.version>2.0.7</org.slf4j.version>
+		<org.elasticsearch.version>8.11.4</org.elasticsearch.version>
+		<org.slf4j.version>2.0.11</org.slf4j.version>
 		<ch.qos.logback.version>1.4.14</ch.qos.logback.version>
 
 		<org.jetbrains.kotlin.version>1.9.0</org.jetbrains.kotlin.version>
@@ -84,9 +81,9 @@
 		<com.mysql.version>8.0.32</com.mysql.version>
 
 		<com.alibaba.fastjson.version>1.2.83</com.alibaba.fastjson.version>
-		<com.alibaba.druid.version>1.2.20</com.alibaba.druid.version>
+		<com.alibaba.druid.version>1.2.21</com.alibaba.druid.version>
 
-		<com.fasterxml.jackson.version>2.16.0</com.fasterxml.jackson.version>
+		<com.fasterxml.jackson.version>2.16.1</com.fasterxml.jackson.version>
 		<com.google.code.gson.version>2.10.1</com.google.code.gson.version>
 		<com.google.guava.version>33.0.0-jre</com.google.guava.version>
 		<com.google.protobuf.version>3.22.4</com.google.protobuf.version>
@@ -95,24 +92,28 @@
 		<com.github.tobato.version>1.27.2</com.github.tobato.version>
 		<com.github.oshi.version>6.2.2</com.github.oshi.version>
 		<com.vladmihalcea.version>2.21.1</com.vladmihalcea.version>
-		<com.rabbitmq.version>5.19.0</com.rabbitmq.version>
+		<com.rabbitmq.version>5.20.0</com.rabbitmq.version>
 		<com.belerweb.version>2.5.1</com.belerweb.version>
 		<com.auth0.version>3.19.1</com.auth0.version>
 
 		<io.projectreactor.core.version>3.6.0</io.projectreactor.core.version>
 		<io.projectreactor.netty.version>1.1.6</io.projectreactor.netty.version>
 		<io.jsonwebtoken.version>0.9.1</io.jsonwebtoken.version>
-		<io.netty.version>4.1.101.Final</io.netty.version>
+		<io.netty.version>4.1.106.Final</io.netty.version>
 		<io.minio.version>8.5.7</io.minio.version>
 
 		<net.logstash.logback.version>7.4</net.logstash.logback.version>
 		<net.bytebuddy.version>1.14.10</net.bytebuddy.version>
 		<net.minidev.version>2.5.0</net.minidev.version>
-		
 		<net.sf.jopt.version>5.0.4</net.sf.jopt.version>
+		
+		<jakarta.annotation.version>2.1.1</jakarta.annotation.version>
+		<jakarta.servlet.version>6.0.0</jakarta.servlet.version>
+		<jakarta.json.version>2.1.3</jakarta.json.version>
+		<jakarta.xml.version>4.0.1</jakarta.xml.version>
+		
 		<cn.smallbun.screw.version>1.0.5</cn.smallbun.screw.version>
 		<redis.clients.version>5.1.0</redis.clients.version>
-		<jakarta.json.version>2.1.3</jakarta.json.version>
 		<joda.time.version>2.12.5</joda.time.version>
 		<junit.version>4.13.2</junit.version>
 
@@ -126,6 +127,16 @@
 		    <artifactId>jakarta.servlet-api</artifactId>
 		    <version>${jakarta.servlet.version}</version>
 		    <scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.annotation</groupId>
+			<artifactId>jakarta.annotation-api</artifactId>
+			<version>${jakarta.annotation.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>jakarta.json</groupId>
+		    <artifactId>jakarta.json-api</artifactId>
+		    <version>${jakarta.json.version}</version>
 		</dependency>
 		<dependency>
 		    <groupId>jakarta.xml.bind</groupId>
@@ -201,7 +212,7 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-pool2</artifactId>
-			<version>2.11.1</version>
+			<version>2.12.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -211,7 +222,7 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
     		<artifactId>commons-compress</artifactId>
-    		<version>1.23.0</version>
+    		<version>1.25.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.ant</groupId>
@@ -949,11 +960,6 @@
 			<artifactId>spring-boot-starter-data-elasticsearch</artifactId>
 			<version>${org.springframework.boot.version}</version>
 		</dependency>
-		<dependency>
-		    <groupId>jakarta.json</groupId>
-		    <artifactId>jakarta.json-api</artifactId>
-		    <version>${jakarta.json.version}</version>
-		</dependency>
 
 	</dependencies>
 
@@ -1064,8 +1070,12 @@
 				<version>1.2.2</version>
 				<configuration>
 					<imageName>${project.artifactId}</imageName>
+					<imageTags>
+						<imageTag>${project.version}</imageTag>
+					</imageTags>
+					
 					<dockerDirectory>./</dockerDirectory>
-					<dockerHost>http://172.16.80.211:2375</dockerHost>
+					<dockerHost>http://172.16.80.132:2375</dockerHost>
 					<buildArgs>
 						<JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
 		                <OUT_DIRECTORY>target</OUT_DIRECTORY>

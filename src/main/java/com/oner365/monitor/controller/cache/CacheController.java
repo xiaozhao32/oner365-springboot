@@ -55,7 +55,7 @@ public class CacheController extends BaseController {
   @ApiOperationSupport(order = 1)
   @GetMapping("/index")
   public CacheInfoDto index() {
-    Properties info = (Properties) redisTemplate.execute((RedisCallback<Object>) RedisServerCommands::info);
+    Properties info = redisTemplate.execute((RedisCallback<Properties>) RedisServerCommands::info);
     Properties commandStats = (Properties) redisTemplate
             .execute((RedisCallback<Object>) connection -> connection.serverCommands().info("commandstats"));
     Long dbSize = (Long) redisTemplate.execute((RedisCallback<Object>) RedisServerCommands::dbSize);
