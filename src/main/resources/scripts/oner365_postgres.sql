@@ -206,7 +206,7 @@ CREATE TABLE "public"."nt_gateway_route" (
   "predicates" varchar(255) COLLATE "pg_catalog"."default",
   "route_order" int4 NOT NULL,
   "uri" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
-  "status" int2
+  "status" int4
 )
 ;
 ALTER TABLE "public"."nt_gateway_route" OWNER TO "postgres";
@@ -240,7 +240,7 @@ CREATE TABLE "public"."nt_sys_dict_item" (
   "dict_item_name" varchar(32) COLLATE "pg_catalog"."default",
   "dict_item_order" int4,
   "parent_id" varchar(255) COLLATE "pg_catalog"."default",
-  "status" int2
+  "status" int4
 )
 ;
 ALTER TABLE "public"."nt_sys_dict_item" OWNER TO "postgres";
@@ -279,7 +279,7 @@ CREATE TABLE "public"."nt_sys_dict_item_type" (
   "dict_type_code" varchar(32) COLLATE "pg_catalog"."default" NOT NULL,
   "dict_item_type_des" varchar(255) COLLATE "pg_catalog"."default",
   "dict_item_type_order" int4,
-  "status" int2
+  "status" int4
 )
 ;
 ALTER TABLE "public"."nt_sys_dict_item_type" OWNER TO "postgres";
@@ -340,7 +340,7 @@ CREATE TABLE "public"."nt_sys_job" (
   "job_logo_url" varchar(32) COLLATE "pg_catalog"."default",
   "job_order" int4 NOT NULL,
   "parent_id" varchar(32) COLLATE "pg_catalog"."default",
-  "status" int2 NOT NULL,
+  "status" int4 NOT NULL,
   "create_time" timestamp(6) NOT NULL,
   "update_time" timestamp(6)
 )
@@ -460,7 +460,7 @@ CREATE TABLE "public"."nt_sys_menu" (
   "menu_order" int4 NOT NULL,
   "menu_description" varchar(255) COLLATE "pg_catalog"."default",
   "icon" varchar(255) COLLATE "pg_catalog"."default",
-  "status" int2,
+  "status" int4,
   "create_time" timestamp(6),
   "update_time" timestamp(6),
   "another_name" varchar(32) COLLATE "pg_catalog"."default"
@@ -540,7 +540,7 @@ CREATE TABLE "public"."nt_sys_menu_type" (
   "id" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
   "type_code" varchar(32) COLLATE "pg_catalog"."default" NOT NULL,
   "type_name" varchar(32) COLLATE "pg_catalog"."default" NOT NULL,
-  "status" int2,
+  "status" int4,
   "create_time" timestamp(6),
   "update_time" timestamp(6)
 )
@@ -575,7 +575,7 @@ CREATE TABLE "public"."nt_sys_message" (
   "context" varchar(255) COLLATE "pg_catalog"."default",
   "send_user" varchar(32) COLLATE "pg_catalog"."default",
   "receive_user" varchar(32) COLLATE "pg_catalog"."default",
-  "status" int2,
+  "status" int4,
   "create_time" timestamp(6),
   "update_time" timestamp(6)
 )
@@ -611,7 +611,7 @@ CREATE TABLE "public"."nt_sys_operation" (
   "id" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
   "operation_type" varchar(32) COLLATE "pg_catalog"."default" NOT NULL,
   "operation_name" varchar(32) COLLATE "pg_catalog"."default" NOT NULL,
-  "status" int2,
+  "status" int4,
   "create_time" timestamp(6),
   "update_time" timestamp(6)
 )
@@ -655,7 +655,7 @@ CREATE TABLE "public"."nt_sys_organization" (
   "org_logo_url" varchar(64) COLLATE "pg_catalog"."default",
   "org_type" varchar(32) COLLATE "pg_catalog"."default",
   "create_user" varchar(64) COLLATE "pg_catalog"."default",
-  "status" int2 NOT NULL,
+  "status" int4 NOT NULL,
   "create_time" timestamp(6),
   "update_time" timestamp(6),
   "business_name" varchar(32) COLLATE "pg_catalog"."default",
@@ -706,7 +706,7 @@ CREATE TABLE "public"."nt_sys_role" (
   "role_code" varchar(32) COLLATE "pg_catalog"."default",
   "role_name" varchar(32) COLLATE "pg_catalog"."default" NOT NULL,
   "role_des" varchar(32) COLLATE "pg_catalog"."default",
-  "status" int2,
+  "status" int4,
   "create_time" timestamp(6),
   "update_time" timestamp(6)
 )
@@ -845,10 +845,10 @@ CREATE TABLE "public"."nt_sys_task" (
   "invoke_param" varchar COLLATE "pg_catalog"."default",
   "cron_expression" varchar(255) COLLATE "pg_catalog"."default",
   "invoke_target" varchar(1000) COLLATE "pg_catalog"."default" NOT NULL,
-  "misfire_policy" int2,
+  "misfire_policy" int4,
   "remark" varchar(500) COLLATE "pg_catalog"."default",
-  "execute_status" int2,
-  "status" int2,
+  "execute_status" int4,
+  "status" int4,
   "create_time" timestamp(6),
   "create_user" varchar(32) COLLATE "pg_catalog"."default",
   "update_time" timestamp(6)
@@ -897,7 +897,7 @@ CREATE TABLE "public"."nt_sys_task_log" (
   "remark" varchar(500) COLLATE "pg_catalog"."default",
   "start_time" timestamp(6),
   "stop_time" timestamp(6),
-  "status" int2,
+  "status" int4,
   "create_time" timestamp(6),
   "create_user" varchar(32) COLLATE "pg_catalog"."default",
   "update_time" timestamp(6)
@@ -943,8 +943,8 @@ CREATE TABLE "public"."nt_sys_user" (
   "password" varchar(32) COLLATE "pg_catalog"."default" NOT NULL,
   "real_name" varchar(32) COLLATE "pg_catalog"."default",
   "avatar" varchar(255) COLLATE "pg_catalog"."default",
-  "sex" int2,
-  "user_type" int2,
+  "sex" int4,
+  "user_type" int4,
   "email" varchar(32) COLLATE "pg_catalog"."default",
   "id_card" varchar(32) COLLATE "pg_catalog"."default",
   "last_ip" varchar(32) COLLATE "pg_catalog"."default",
@@ -952,10 +952,10 @@ CREATE TABLE "public"."nt_sys_user" (
   "phone" varchar(32) COLLATE "pg_catalog"."default",
   "user_code" varchar(32) COLLATE "pg_catalog"."default",
   "id_type" varchar(8) COLLATE "pg_catalog"."default",
-  "status" int2,
+  "status" int4,
   "remark" varchar(255) COLLATE "pg_catalog"."default",
   "is_admin" varchar(8) COLLATE "pg_catalog"."default",
-  "active_status" int2,
+  "active_status" int4,
   "default_password" varchar(32) COLLATE "pg_catalog"."default",
   "create_time" timestamp(6)
 )
@@ -999,7 +999,7 @@ DROP TABLE IF EXISTS "public"."nt_sys_user_job";
 CREATE TABLE "public"."nt_sys_user_job" (
   "id" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
   "position_order" int4 NOT NULL,
-  "status" int2 NOT NULL,
+  "status" int4 NOT NULL,
   "create_time" timestamp(6),
   "update_time" timestamp(6),
   "job_id" varchar(255) COLLATE "pg_catalog"."default",
@@ -1032,7 +1032,7 @@ DROP TABLE IF EXISTS "public"."nt_sys_user_org";
 CREATE TABLE "public"."nt_sys_user_org" (
   "id" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
   "position_order" int4 NOT NULL,
-  "status" int2 NOT NULL,
+  "status" int4 NOT NULL,
   "create_time" timestamp(6),
   "update_time" timestamp(6),
   "org_id" varchar(255) COLLATE "pg_catalog"."default",
