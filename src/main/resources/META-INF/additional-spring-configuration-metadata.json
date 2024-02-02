@@ -255,5 +255,10 @@
     "name": "webclient.max-in-memory-size",
     "type": "java.lang.Integer",
     "description": "A description for 'webclient.max-in-memory-size'."
+  },
+  {
+	 "name": "spring.mail.properties.mail.smtp.auth",
+	 "type": "java.lang.Boolean",
+	 "description": "A description for 'mail.smtp.auth'."
   }
 ]}
