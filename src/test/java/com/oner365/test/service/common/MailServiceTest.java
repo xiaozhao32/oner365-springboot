@@ -2,10 +2,6 @@ package com.oner365.test.service.common;
 
 import java.io.File;
 
-import javax.annotation.Resource;
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -18,6 +14,10 @@ import org.thymeleaf.context.Context;
 
 import com.oner365.common.config.properties.DefaultFileProperties;
 import com.oner365.test.service.BaseServiceTest;
+
+import jakarta.annotation.Resource;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 
 /**
  * 单元测试 - 邮件
