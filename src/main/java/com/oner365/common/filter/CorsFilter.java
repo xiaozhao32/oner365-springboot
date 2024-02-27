@@ -24,7 +24,7 @@ import org.springframework.http.HttpHeaders;
  *
  */
 @Order(1)
-@WebFilter(filterName = "corsFilter", urlPatterns = { "/*" })
+@WebFilter(filterName = "corsFilter", urlPatterns = { "/*" }, asyncSupported = true)
 public class CorsFilter implements Filter {
 
     @Override

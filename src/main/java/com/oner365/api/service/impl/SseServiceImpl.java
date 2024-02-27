@@ -6,13 +6,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.MediaType;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
-import com.alibaba.fastjson.JSON;
-import com.oner365.api.dto.Message;
 import com.oner365.api.service.SseService;
 
 /**
@@ -25,50 +21,63 @@ public class SseServiceImpl implements SseService {
 
   private final Logger logger = LoggerFactory.getLogger(SseServiceImpl.class);
 
-  private static Map<String, SseEmitter> sseEmitterMap = new ConcurrentHashMap<>();
+  private static Map<String, SseEmitter> subscribeMap = new ConcurrentHashMap<>();
 
-  @Async
   @Override
-  public SseEmitter connect(String uuid) {
+  public SseEmitter subscribe(String id) {
     SseEmitter sseEmitter = new SseEmitter();
     try {
-      sseEmitter.send(SseEmitter.event().comment("welcome"));
+      sseEmitter.send(SseEmitter.event().reconnectTime(1000).data("welcome: " + id));
+      subscribeMap.put(id, sseEmitter);
     } catch (IOException e) {
       logger.error("SseEmitter connect error", e);
     }
 
     // 连接断开
     sseEmitter.onCompletion(() -> {
-      sseEmitterMap.remove(uuid);
+      subscribeMap.remove(id);
     });
 
     // 连接超时
     sseEmitter.onTimeout(() -> {
-      sseEmitterMap.remove(uuid);
+      subscribeMap.remove(id);
     });
 
     // 连接报错
     sseEmitter.onError((throwable) -> {
-      sseEmitterMap.remove(uuid);
+      subscribeMap.remove(id);
     });
-
-    sseEmitterMap.put(uuid, sseEmitter);
     return sseEmitter;
   }
 
   @Override
-  public void sendMessage(Message message) {
-    logger.info("SseEmitter Map:{}", sseEmitterMap);
-    logger.info("SseEmitter Message:{}", JSON.toJSONString(message));
-    message.setTotal(sseEmitterMap.size());
+  public Boolean push(String id, String data) {
+    try {
+      SseEmitter sseEmitter = subscribeMap.get(id);
 
-    sseEmitterMap.forEach((uuid, sseEmitter) -> {
-      try {
-        sseEmitter.send(message, MediaType.APPLICATION_JSON);
-      } catch (IOException e) {
-        e.printStackTrace();
+      if (sseEmitter != null) {
+        sseEmitter.send(SseEmitter.event().name("message").data(data));
+        return Boolean.TRUE;
       }
-    });
+    } catch (Exception e) {
+      logger.error("SseEmitter push error", e);
+    }
+    return Boolean.FALSE;
+  }
+
+  @Override
+  public Boolean close(String id) {
+    try {
+      SseEmitter sseEmitter = subscribeMap.get(id);
+      if (sseEmitter != null) {
+        sseEmitter.complete();
+        subscribeMap.remove(id);
+        return Boolean.TRUE;
+      }
+    } catch (Exception e) {
+      logger.error("SseEmitter close error", e);
+    }
+    return Boolean.FALSE;
   }
 
 }
