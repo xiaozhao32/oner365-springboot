@@ -6,14 +6,11 @@ import javax.annotation.Resource;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
-import com.oner365.api.dto.Message;
 import com.oner365.api.service.SseService;
 import com.oner365.controller.BaseController;
 
@@ -34,28 +31,44 @@ public class SseEmitterController extends BaseController {
   private SseService sseService;
 
   /**
-   * 创建SSE连接
+   * 订阅
    *
    * @return SseEmitter
    */
-  @ApiOperation("1.创建SSE连接")
+  @ApiOperation("1.订阅")
   @ApiOperationSupport(order = 1)
-  @GetMapping(path = "/connect", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-  public SseEmitter sse() {
+  @GetMapping(path = "/subscribe", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+  public SseEmitter subscribe() {
     String uuid = UUID.randomUUID().toString();
-    logger.info("新用户连接：{}", uuid);
-    return sseService.connect(uuid);
+    logger.info("新用户连接: {}", uuid);
+    return sseService.subscribe(uuid);
   }
 
   /**
-   * 广播消息
+   * 发送消息
    *
-   * @param message 消息体
+   * @param id   主键uuid
+   * @param data 消息体
+   * @return 是否成功
    */
   @ApiOperation("2.广播消息")
   @ApiOperationSupport(order = 2)
-  @PostMapping("/send")
-  public void sendMessage(@RequestBody Message message) {
-    sseService.sendMessage(message);
+  @GetMapping(path = "/push")
+  public Boolean push(String id, String data) {
+    return sseService.push(id, data);
+  }
+
+  /**
+   * 关闭连接
+   *
+   * @param id 主键uuid
+   * @return 是否成功
+   */
+  @ApiOperation("3.关闭连接")
+  @ApiOperationSupport(order = 3)
+  @GetMapping("/close")
+  public Boolean close(String id) {
+    logger.info("关闭连接: {}", id);
+    return sseService.close(id);
   }
 }
