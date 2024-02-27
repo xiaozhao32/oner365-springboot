@@ -3,14 +3,14 @@ package com.oner365.api.task;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import javax.annotation.Resource;
-
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import com.oner365.api.dto.Message;
 import com.oner365.api.service.SseService;
 import com.oner365.util.DateUtil;
+
+import jakarta.annotation.Resource;
 
 /**
  * Message Task

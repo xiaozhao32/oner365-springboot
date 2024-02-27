@@ -2,8 +2,6 @@ package com.oner365.api.controller;
 
 import java.util.UUID;
 
-import javax.annotation.Resource;
-
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +17,7 @@ import com.oner365.controller.BaseController;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import jakarta.annotation.Resource;
 
 /**
  * SSE Emitter 接口测试
