@@ -25,30 +25,30 @@ public class SseServiceImpl implements SseService {
 
   @Override
   public SseEmitter subscribe(String id) {
-    SseEmitter sseEmitter = new SseEmitter();
-    try {
+     SseEmitter sseEmitter = new SseEmitter();
+     try {
       sseEmitter.send(SseEmitter.event().reconnectTime(1000).data("welcome: " + id));
       subscribeMap.put(id, sseEmitter);
-    } catch (IOException e) {
-      logger.error("SseEmitter connect error", e);
-    }
-
-    // 连接断开
-    sseEmitter.onCompletion(() -> {
+     } catch (IOException e) {
+       logger.error("SseEmitter connect error", e);
+     }
+ 
+     // 连接断开
+     sseEmitter.onCompletion(() -> {
       subscribeMap.remove(id);
-    });
-
-    // 连接超时
-    sseEmitter.onTimeout(() -> {
+     });
+ 
+     // 连接超时
+     sseEmitter.onTimeout(() -> {
       subscribeMap.remove(id);
-    });
-
-    // 连接报错
-    sseEmitter.onError((throwable) -> {
+     });
+ 
+     // 连接报错
+     sseEmitter.onError((throwable) -> {
       subscribeMap.remove(id);
-    });
-    return sseEmitter;
-  }
+     });
+     return sseEmitter;
+   }
 
   @Override
   public Boolean push(String id, String data) {

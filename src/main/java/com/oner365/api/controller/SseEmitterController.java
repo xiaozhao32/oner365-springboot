@@ -60,7 +60,7 @@ public class SseEmitterController extends BaseController {
   /**
    * 关闭连接
    *
-   * @param id   主键uuid
+   * @param id 主键uuid
    * @return 是否成功
    */
   @ApiOperation("3.关闭连接")
