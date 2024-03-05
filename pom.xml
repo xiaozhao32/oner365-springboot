@@ -48,7 +48,7 @@
 		<org.springframework.version>5.3.31</org.springframework.version>
 		<org.springframework.kafka.version>2.9.13</org.springframework.kafka.version>
 
-		<org.apache.logging.log4j.version>2.21.1</org.apache.logging.log4j.version>
+		<org.apache.logging.log4j.version>2.23.0</org.apache.logging.log4j.version>
 		<org.apache.httpclient.version>4.5.14</org.apache.httpclient.version>
 		<org.apache.httpcore.version>4.4.16</org.apache.httpcore.version>
 		<org.apache.tomcat.version>9.0.85</org.apache.tomcat.version>
@@ -77,10 +77,10 @@
 		<org.quartz.version>2.3.2</org.quartz.version>
 		<org.yaml.version>2.2</org.yaml.version>
 
-		<org.postgresql.version>42.5.4</org.postgresql.version>
+		<org.postgresql.version>42.5.5</org.postgresql.version>
 		<com.oracle.version>21.9.0.0</com.oracle.version>
 		<com.dameng.version>8.1.1.49</com.dameng.version>
-		<com.mysql.version>8.0.32</com.mysql.version>
+		<com.mysql.version>8.3.0</com.mysql.version>
 
 		<com.alibaba.fastjson.version>1.2.83</com.alibaba.fastjson.version>
 		<com.alibaba.druid.version>1.2.21</com.alibaba.druid.version>
@@ -99,7 +99,7 @@
 		<com.auth0.version>3.19.1</com.auth0.version>
 
 		<io.projectreactor.core.version>3.5.6</io.projectreactor.core.version>
-		<io.projectreactor.netty.version>1.1.6</io.projectreactor.netty.version>
+		<io.projectreactor.netty.version>1.1.13</io.projectreactor.netty.version>
 		<io.jsonwebtoken.version>0.9.1</io.jsonwebtoken.version>
 		<io.netty.version>4.1.106.Final</io.netty.version>
 		<io.minio.version>8.5.4</io.minio.version>
@@ -194,13 +194,19 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
     		<artifactId>commons-compress</artifactId>
-    		<version>1.25.0</version>
+    		<version>1.26.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.ant</groupId>
 			<artifactId>ant</artifactId>
-			<version>1.10.12</version>
+			<version>1.10.14</version>
 		</dependency>
+		<dependency>
+		    <groupId>xerces</groupId>
+		    <artifactId>xercesImpl</artifactId>
+		    <version>2.12.2</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.apache.velocity</groupId>
 		  	<artifactId>velocity-engine-core</artifactId>
