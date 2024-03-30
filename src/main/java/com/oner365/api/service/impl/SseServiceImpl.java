@@ -21,39 +21,33 @@ public class SseServiceImpl implements SseService {
 
   private final Logger logger = LoggerFactory.getLogger(SseServiceImpl.class);
 
-  private static Map<String, SseEmitter> subscribeMap = new ConcurrentHashMap<>();
+  private static final Map<String, SseEmitter> SUBSCRIBE_MAP = new ConcurrentHashMap<>();
 
   @Override
   public SseEmitter subscribe(String id) {
      SseEmitter sseEmitter = new SseEmitter();
      try {
       sseEmitter.send(SseEmitter.event().reconnectTime(1000).data("welcome: " + id));
-      subscribeMap.put(id, sseEmitter);
+       SUBSCRIBE_MAP.put(id, sseEmitter);
      } catch (IOException e) {
        logger.error("SseEmitter connect error", e);
      }
  
      // 连接断开
-     sseEmitter.onCompletion(() -> {
-      subscribeMap.remove(id);
-     });
+     sseEmitter.onCompletion(() -> SUBSCRIBE_MAP.remove(id));
  
      // 连接超时
-     sseEmitter.onTimeout(() -> {
-      subscribeMap.remove(id);
-     });
+     sseEmitter.onTimeout(() -> SUBSCRIBE_MAP.remove(id));
  
      // 连接报错
-     sseEmitter.onError((throwable) -> {
-      subscribeMap.remove(id);
-     });
+     sseEmitter.onError((throwable) -> SUBSCRIBE_MAP.remove(id));
      return sseEmitter;
    }
 
   @Override
   public Boolean push(String id, String data) {
     try {
-      SseEmitter sseEmitter = subscribeMap.get(id);
+      SseEmitter sseEmitter = SUBSCRIBE_MAP.get(id);
 
       if (sseEmitter != null) {
         sseEmitter.send(SseEmitter.event().name("message").data(data));
@@ -68,10 +62,10 @@ public class SseServiceImpl implements SseService {
   @Override
   public Boolean close(String id) {
     try {
-      SseEmitter sseEmitter = subscribeMap.get(id);
+      SseEmitter sseEmitter = SUBSCRIBE_MAP.get(id);
       if (sseEmitter != null) {
         sseEmitter.complete();
-        subscribeMap.remove(id);
+        SUBSCRIBE_MAP.remove(id);
         return Boolean.TRUE;
       }
     } catch (Exception e) {
