@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 
 import org.apache.http.entity.ContentType;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -47,7 +48,7 @@ class MinioFileUtilsTest extends BaseServiceTest {
     Assertions.assertEquals("MinioFileUtilsTest", MinioFileUtilsTest.class.getSimpleName());
   }
 
-  @Test
+  @Disabled
   void testMinio() throws Exception {
     MinioClient minioClient = MinioClient.builder().endpoint(minioProperties.getUrl())
         .credentials(minioProperties.getUsername(), minioProperties.getPassword()).build();

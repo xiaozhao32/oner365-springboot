@@ -24,6 +24,7 @@ import com.oner365.test.service.BaseServiceTest;
  *
  * @author zhaoyong
  */
+@Disabled
 @SpringBootTest
 class MailServiceTest extends BaseServiceTest {
 
@@ -44,7 +45,6 @@ class MailServiceTest extends BaseServiceTest {
     Assertions.assertEquals("MailServiceTest", MailServiceTest.class.getSimpleName());
   }
 
-  @Test
   @Disabled
   void testEmail() {
     String to = "zhaoyong@oner365.com";

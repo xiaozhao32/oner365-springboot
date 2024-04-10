@@ -52,7 +52,7 @@
 		<org.apache.httpclient.version>4.5.14</org.apache.httpclient.version>
 		<org.apache.httpcore.version>4.4.16</org.apache.httpcore.version>
 		<org.apache.tomcat.version>9.0.85</org.apache.tomcat.version>
-		<org.apache.pulsar.version>3.0.0</org.apache.pulsar.version>
+		<org.apache.pulsar.version>3.2.1</org.apache.pulsar.version>
 		<org.apache.kafka.version>3.6.0</org.apache.kafka.version>
 		<org.apache.poi.version>5.2.5</org.apache.poi.version>
 
@@ -70,7 +70,7 @@
 
 		<org.jetbrains.kotlin.version>1.9.0</org.jetbrains.kotlin.version>
 		<org.junit.platform.version>1.7.2</org.junit.platform.version>
-		<org.javassist.version>3.29.2-GA</org.javassist.version>
+		<org.javassist.version>3.30.2-GA</org.javassist.version>
 		<org.freemarker.version>2.3.32</org.freemarker.version>
 		<org.reflections.version>0.10.2</org.reflections.version>
 		<org.codehaus.version>3.1.10</org.codehaus.version>
