@@ -2,12 +2,14 @@ package com.oner365.queue.controller;
 
 import javax.annotation.Resource;
 
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import com.oner365.common.constants.PublicConstants;
 import com.oner365.controller.BaseController;
 import com.oner365.queue.service.IQueueSendService;
 
@@ -24,9 +26,12 @@ import io.swagger.annotations.ApiOperation;
 @Api(tags = "队列测试")
 @RequestMapping("/queue")
 public class QueueTestController extends BaseController {
-  
+
   @Resource
   private IQueueSendService service;
+  
+  @Resource
+  private RedisTemplate<String, Object> redisTemplate;
 
   /**
    * 测试发送
@@ -42,6 +47,18 @@ public class QueueTestController extends BaseController {
     json.put("data", data);
     service.sendMessage(json);
     service.syncRoute();
+    return json;
+  }
+
+  @ApiOperation("2.测试订阅")
+  @ApiOperationSupport(order = 2)
+  @GetMapping("/subscribe")
+  public JSONObject subscribe(String data) {
+    // 订阅
+    redisTemplate.convertAndSend(PublicConstants.NAME, data);
+    
+    JSONObject json = new JSONObject();
+    json.put("data", data);
     return json;
   }
 }
