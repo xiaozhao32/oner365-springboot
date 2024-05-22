@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.oner365.api.dto.UpdateTaskExecuteStatusDto;
+import com.oner365.common.cache.RedisCache;
 import com.oner365.monitor.dto.InvokeParamDto;
 import com.oner365.monitor.dto.SysTaskDto;
 import com.oner365.queue.condition.RabbitmqCondition;
@@ -33,6 +34,9 @@ import com.oner365.util.DateUtil;
 public class QueueRabbitmqSendServiceImpl implements IQueueSendService {
 
   private final Logger logger = LoggerFactory.getLogger(QueueRabbitmqSendServiceImpl.class);
+  
+  @Resource
+  private RedisCache redisCache;
 
   @Resource
   private RabbitTemplate rabbitTemplate;
@@ -43,44 +47,54 @@ public class QueueRabbitmqSendServiceImpl implements IQueueSendService {
   @Async
   @Override
   public void sendMessage(JSONObject data) {
-    logger.info("Rabbitmq sendMessage: {}", data);
-    // 是否回调确认
-    rabbitTemplate.setConfirmCallback(confirmCallback);
-
-    rabbitTemplate.convertSendAndReceive(QueueConstants.MESSAGE_QUEUE_TYPE, QueueConstants.MESSAGE_QUEUE_KEY,
-        data, new CorrelationData(DateUtil.getCurrentTime()));
+    if (redisCache.lock(QueueConstants.MESSAGE_QUEUE_NAME, QueueConstants.QUEUE_LOCK_TIME_SECOND)) {
+      logger.info("Rabbitmq sendMessage: {}", data);
+      // 是否回调确认
+      rabbitTemplate.setConfirmCallback(confirmCallback);
+  
+      rabbitTemplate.convertSendAndReceive(QueueConstants.MESSAGE_QUEUE_TYPE, QueueConstants.MESSAGE_QUEUE_KEY,
+          data, new CorrelationData(DateUtil.getCurrentTime()));
+    }
   }
 
   @Async
   @Override
   public void syncRoute() {
-    logger.info("Rabbitmq syncRoute: {}", DataUtils.getLocalhost());
-    rabbitTemplate.convertAndSend(QueueConstants.ROUTE_QUEUE_TYPE, QueueConstants.ROUTE_QUEUE_KEY,
-        DataUtils.getLocalhost());
+    if (redisCache.lock(QueueConstants.ROUTE_QUEUE_NAME, QueueConstants.QUEUE_LOCK_TIME_SECOND)) {
+      logger.info("Rabbitmq syncRoute: {}", DataUtils.getLocalhost());
+      rabbitTemplate.convertAndSend(QueueConstants.ROUTE_QUEUE_TYPE, QueueConstants.ROUTE_QUEUE_KEY,
+          DataUtils.getLocalhost());
+    }
   }
 
   @Async
   @Override
   public void pullTask(InvokeParamDto data) {
-    logger.info("Rabbitmq pullTask: {}", data);
-    rabbitTemplate.convertAndSend(QueueConstants.SCHEDULE_TASK_QUEUE_TYPE, QueueConstants.SCHEDULE_TASK_QUEUE_KEY,
-        JSON.toJSONString(data));
+    if (redisCache.lock(QueueConstants.SCHEDULE_TASK_QUEUE_NAME, QueueConstants.QUEUE_LOCK_TIME_SECOND)) {
+      logger.info("Rabbitmq pullTask: {}", data);
+      rabbitTemplate.convertAndSend(QueueConstants.SCHEDULE_TASK_QUEUE_TYPE, QueueConstants.SCHEDULE_TASK_QUEUE_KEY,
+          JSON.toJSONString(data));
+    }
   }
 
   @Async
   @Override
   public void updateTaskExecuteStatus(UpdateTaskExecuteStatusDto data) {
-    logger.info("Rabbitmq updateTaskExecuteStatus push: {}", data);
-    rabbitTemplate.convertAndSend(QueueConstants.TASK_UPDATE_STATUS_QUEUE_TYPE,
-        QueueConstants.TASK_UPDATE_STATUS_QUEUE_KEY, JSON.toJSONString(data));
+    if (redisCache.lock(QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME, QueueConstants.QUEUE_LOCK_TIME_SECOND)) {
+      logger.info("Rabbitmq updateTaskExecuteStatus push: {}", data);
+      rabbitTemplate.convertAndSend(QueueConstants.TASK_UPDATE_STATUS_QUEUE_TYPE,
+          QueueConstants.TASK_UPDATE_STATUS_QUEUE_KEY, JSON.toJSONString(data));
+    }
   }
 
   @Async
   @Override
   public void saveExecuteTaskLog(SysTaskDto data) {
-    logger.info("Rabbitmq saveExecuteTaskLog push: {}", data);
-    rabbitTemplate.convertAndSend(QueueConstants.SAVE_TASK_LOG_QUEUE_TYPE, QueueConstants.SAVE_TASK_LOG_QUEUE_KEY,
-        JSON.toJSONString(data));
+    if (redisCache.lock(QueueConstants.SAVE_TASK_LOG_QUEUE_NAME, QueueConstants.QUEUE_LOCK_TIME_SECOND)) {
+      logger.info("Rabbitmq saveExecuteTaskLog push: {}", data);
+      rabbitTemplate.convertAndSend(QueueConstants.SAVE_TASK_LOG_QUEUE_TYPE, QueueConstants.SAVE_TASK_LOG_QUEUE_KEY,
+          JSON.toJSONString(data));
+    }
   }
 
 }
