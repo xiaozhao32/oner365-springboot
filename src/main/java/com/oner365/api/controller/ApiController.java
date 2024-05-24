@@ -6,13 +6,14 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-import jakarta.annotation.Resource;
-
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,6 +36,7 @@ import com.oner365.util.DateUtil;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import jakarta.annotation.Resource;
 
 /**
  * API 接口测试
@@ -60,6 +62,9 @@ public class ApiController extends BaseController {
 
   @Resource
   private RangeSequence rangeSequence;
+
+  @Resource
+  private MessageSource messageSource;
 
   /**
    * 测试分库分表
@@ -171,5 +176,23 @@ public class ApiController extends BaseController {
     logger.info("test5 lock:{}", b2);
 
     return json;
+  }
+
+  /**
+   * 测试redis
+   *
+   * @return JSONObject
+   */
+  @ApiOperation("4.测试国际化")
+  @ApiOperationSupport(order = 4)
+  @GetMapping("/i18n/messages")
+  public JSONObject testMessages() {
+    Locale locale = LocaleContextHolder.getLocale();
+    String name = messageSource.getMessage("hello", null, locale);
+    
+    JSONObject result = new JSONObject();
+    result.put("language", locale.toLanguageTag());
+    result.put("name", name);
+    return result;
   }
 }
