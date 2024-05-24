@@ -5,12 +5,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.oner365.common.constants.PublicConstants;
 import com.oner365.common.enums.StatusEnum;
 import com.oner365.sys.enums.SysUserSexEnum;
 import com.oner365.sys.enums.SysUserTypeEnum;
@@ -20,6 +18,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
@@ -44,8 +43,7 @@ public class SysUser implements Serializable {
    * 主键
    */
   @Id
-  @GeneratedValue(generator = "generator")
-  @GenericGenerator(name = "generator", strategy = PublicConstants.UUID)
+  @GeneratedValue(strategy = GenerationType.UUID)
   private String id;
 
   /**

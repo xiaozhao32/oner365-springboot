@@ -2,17 +2,16 @@ package com.oner365.sys.entity;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.hibernate.annotations.GenericGenerator;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.oner365.common.constants.PublicConstants;
 
 /**
  * 基础权限--角色菜单操作表nt_sys_role_menu_oper
@@ -30,8 +29,7 @@ public class SysRoleMenuOper implements Serializable {
      * 编号 id
      */
     @Id
-    @GeneratedValue(generator = "generator")
-    @GenericGenerator(name = "generator", strategy = PublicConstants.UUID)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
     /**

@@ -3,7 +3,6 @@ package com.oner365.monitor.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -12,19 +11,19 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.oner365.common.constants.PublicConstants;
 import com.oner365.common.enums.StatusEnum;
 import com.oner365.monitor.enums.MisfirePolicyEnum;
 import com.oner365.monitor.enums.TaskStatusEnum;
 import com.oner365.monitor.util.CronUtils;
 import com.oner365.util.DataUtils;
-import com.vladmihalcea.hibernate.type.json.JsonType;
 
+import io.hypersistence.utils.hibernate.type.json.JsonType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -46,8 +45,7 @@ public class SysTask implements Serializable {
    * 任务ID
    */
   @Id
-  @GeneratedValue(generator = "generator")
-  @GenericGenerator(name = "generator", strategy = PublicConstants.UUID)
+  @GeneratedValue(strategy = GenerationType.UUID)
   private String id;
 
   /**

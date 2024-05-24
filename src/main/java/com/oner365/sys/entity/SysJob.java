@@ -3,14 +3,12 @@ package com.oner365.sys.entity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.google.common.base.MoreObjects;
-import com.oner365.common.constants.PublicConstants;
 import com.oner365.common.enums.StatusEnum;
 
 import jakarta.persistence.Column;
@@ -18,6 +16,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
@@ -39,8 +38,7 @@ public class SysJob implements Serializable {
    * 编号 id
    */
   @Id
-  @GeneratedValue(generator = "generator")
-  @GenericGenerator(name = "generator", strategy = PublicConstants.UUID)
+  @GeneratedValue(strategy = GenerationType.UUID)
   private String id;
 
   /**
