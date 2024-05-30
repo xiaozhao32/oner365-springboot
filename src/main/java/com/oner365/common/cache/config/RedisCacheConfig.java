@@ -7,11 +7,13 @@ import java.util.HashSet;
 
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.apache.logging.log4j.util.Strings;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties.Jedis;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurer;
@@ -42,7 +44,6 @@ import com.oner365.util.DataUtils;
 import io.lettuce.core.ReadFrom;
 import io.lettuce.core.cluster.ClusterClientOptions;
 import io.lettuce.core.cluster.ClusterTopologyRefreshOptions;
-import redis.clients.jedis.Jedis;
 
 /**
  * Redis Cache Config
@@ -78,10 +79,20 @@ public class RedisCacheConfig implements CachingConfigurer {
     redisTemplate.afterPropertiesSet();
     return redisTemplate;
   }
+  
+  @Bean
+  GenericObjectPoolConfig<LettuceClientConfiguration> poolConfig(RedisProperties redisProperties) {
+    GenericObjectPoolConfig<LettuceClientConfiguration> config = new GenericObjectPoolConfig<>();
+    config.setMinIdle(redisProperties.getLettuce().getPool().getMinIdle());
+    config.setMaxIdle(redisProperties.getLettuce().getPool().getMaxIdle());
+    config.setMaxTotal(redisProperties.getLettuce().getPool().getMaxActive());
+    config.setMaxWait(redisProperties.getLettuce().getPool().getMaxWait());
+    return config;
+  }
 
   @Bean
-  @ConditionalOnProperty(value = { "spring.redis.cluster.enable" }, havingValue = "true")
-  LettuceConnectionFactory redisClusterConnectionFactory(RedisProperties redisProperties) {
+  @ConditionalOnProperty(value = { "spring.data.redis.mode" }, havingValue = "cluster")
+  RedisConnectionFactory redisClusterConnectionFactory(RedisProperties redisProperties) {
     RedisClusterConfiguration redisClusterConfiguration = new RedisClusterConfiguration(
         redisProperties.getCluster().getNodes());
     if (!DataUtils.isEmpty(redisProperties.getPassword())) {
@@ -98,14 +109,17 @@ public class RedisCacheConfig implements CachingConfigurer {
   }
 
   @Bean
-  @ConditionalOnProperty(value = { "spring.redis.sentinel.enable" }, havingValue = "true")
-  LettuceConnectionFactory redisSentinelConnectionFactory(RedisProperties redisProperties) {
+  @ConditionalOnProperty(value = { "spring.data.redis.mode" }, havingValue = "sentinel")
+  RedisConnectionFactory redisSentinelConnectionFactory(RedisProperties redisProperties,
+      @Qualifier("poolConfig") GenericObjectPoolConfig<LettuceClientConfiguration> poolConfig) {
     RedisSentinelConfiguration redisSentinelConfiguration = new RedisSentinelConfiguration(
         redisProperties.getSentinel().getMaster(), new HashSet<>(redisProperties.getSentinel().getNodes()));
+    if (!ObjectUtils.isEmpty(redisProperties.getSentinel().getPassword())) {
+      redisSentinelConfiguration.setSentinelPassword(redisProperties.getSentinel().getPassword());
+    }
     if (!ObjectUtils.isEmpty(redisProperties.getPassword())) {
       redisSentinelConfiguration.setPassword(redisProperties.getPassword());
     }
-    GenericObjectPoolConfig<Object> poolConfig = new GenericObjectPoolConfig<>();
     LettuceClientConfiguration lettuceClientConfiguration = LettucePoolingClientConfiguration.builder()
         .poolConfig(poolConfig).build();
     return new LettuceConnectionFactory(redisSentinelConfiguration, lettuceClientConfiguration);
