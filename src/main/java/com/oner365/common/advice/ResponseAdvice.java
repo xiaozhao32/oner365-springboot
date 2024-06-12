@@ -82,7 +82,7 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
     }
     
     if (body == null) {
-      return null;
+      return ResponseData.error("服务异常, 请联系管理员系统日志!");
     }
     // 默认返回
     if (body instanceof String) {
