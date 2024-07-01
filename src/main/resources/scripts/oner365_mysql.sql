@@ -292,6 +292,23 @@ INSERT INTO `nt_sys_job` VALUES ('ff8080817cbb7ffa017cbb80c1d70003', '前台', '
 COMMIT;
 
 -- ----------------------------
+-- Records of nt_sys_config
+-- ----------------------------
+DROP TABLE IF EXISTS `nt_sys_config`;
+CREATE TABLE `nt_sys_config` (
+  `id` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键',
+  `config_name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '配置名称',
+  `config_value` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '配置内容',
+  `status` int NOT NULL COMMENT '状态',
+  `create_user` varchar(32) COMMENT '创建人',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` varchar(32) COMMENT '更新人',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `uk_config_name` (`config_name`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='系统配置表';
+
+-- ----------------------------
 -- Table structure for nt_sys_log
 -- ----------------------------
 DROP TABLE IF EXISTS `nt_sys_log`;
@@ -348,6 +365,7 @@ INSERT INTO `nt_sys_menu` VALUES ('1014', '1', '用户管理', '101', 'system/us
 INSERT INTO `nt_sys_menu` VALUES ('1015', '1', '字典管理', '101', 'system/dict/index', '/dict', 15, '字典管理', 'dict', 1, '2020-09-05 20:30:00', '2020-09-05 20:30:00', NULL);
 INSERT INTO `nt_sys_menu` VALUES ('1016', '1', '菜单管理', '101', 'system/menu/index', '/menu', 16, '菜单管理', 'tree-table', 1, '2020-09-05 20:30:00', '2020-09-05 20:30:00', NULL);
 INSERT INTO `nt_sys_menu` VALUES ('1017', '1', '菜单操作管理', '101', 'system/operation/index', '/operation', 17, NULL, 'list', 1, '2022-06-08 14:03:32', '2022-06-08 14:43:25', NULL);
+INSERT INTO `nt_sys_menu` VALUES ('1018', '1', '配置管理', '101', 'system/config/index', '/config', 18, NULL, 'list', 1, '2022-06-08 14:03:32', '2022-06-08 14:43:25', NULL);
 INSERT INTO `nt_sys_menu` VALUES ('201', '1', '系统监控', '-1', 'Layout', '/monitor', 2, '系统监控', 'monitor', 1, '2020-09-03 17:20:13', '2020-09-17 20:57:13', NULL);
 INSERT INTO `nt_sys_menu` VALUES ('2011', '1', '服务监控', '201', 'monitor/service/index', '/service', 21, '服务监控', 'druid', 1, '2020-09-03 17:21:32', '2020-09-17 20:57:02', NULL);
 INSERT INTO `nt_sys_menu` VALUES ('2012', '1', '服务器监控', '201', 'monitor/server/index', '/server', 22, '服务器监控', 'server', 1, '2020-09-03 17:22:24', '2020-09-12 17:27:11', NULL);
@@ -562,6 +580,7 @@ INSERT INTO `nt_sys_role_menu` VALUES ('111014', '1014', '1', '1');
 INSERT INTO `nt_sys_role_menu` VALUES ('111015', '1015', '1', '1');
 INSERT INTO `nt_sys_role_menu` VALUES ('111016', '1016', '1', '1');
 INSERT INTO `nt_sys_role_menu` VALUES ('111017', '1017', '1', '1');
+INSERT INTO `nt_sys_role_menu` VALUES ('111018', '1018', '1', '1');
 INSERT INTO `nt_sys_role_menu` VALUES ('11201', '201', '1', '1');
 INSERT INTO `nt_sys_role_menu` VALUES ('112011', '2011', '1', '1');
 INSERT INTO `nt_sys_role_menu` VALUES ('112012', '2012', '1', '1');
@@ -586,6 +605,8 @@ INSERT INTO `nt_sys_role_menu` VALUES ('ff80808172a150110172a159d9c4000011013', 
 INSERT INTO `nt_sys_role_menu` VALUES ('ff80808172a150110172a159d9c4000011014', '1014', 'ff80808172a150110172a159d9c40000', '1');
 INSERT INTO `nt_sys_role_menu` VALUES ('ff80808172a150110172a159d9c4000011015', '1015', 'ff80808172a150110172a159d9c40000', '1');
 INSERT INTO `nt_sys_role_menu` VALUES ('ff80808172a150110172a159d9c4000011016', '1016', 'ff80808172a150110172a159d9c40000', '1');
+INSERT INTO `nt_sys_role_menu` VALUES ('ff80808172a150110172a159d9c4000011017', '1017', 'ff80808172a150110172a159d9c40000', '1');
+INSERT INTO `nt_sys_role_menu` VALUES ('ff80808172a150110172a159d9c4000011018', '1018', 'ff80808172a150110172a159d9c40000', '1');
 INSERT INTO `nt_sys_role_menu` VALUES ('ff80808172a150110172a159d9c400001201', '201', 'ff80808172a150110172a159d9c40000', '1');
 INSERT INTO `nt_sys_role_menu` VALUES ('ff80808172a150110172a159d9c4000012011', '2011', 'ff80808172a150110172a159d9c40000', '1');
 INSERT INTO `nt_sys_role_menu` VALUES ('ff80808172a150110172a159d9c4000012012', '2012', 'ff80808172a150110172a159d9c40000', '1');
