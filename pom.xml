@@ -83,7 +83,7 @@
 		<com.mysql.version>8.3.0</com.mysql.version>
 
 		<com.alibaba.fastjson.version>1.2.83</com.alibaba.fastjson.version>
-		<com.alibaba.druid.version>1.2.21</com.alibaba.druid.version>
+		<com.alibaba.druid.version>1.2.23</com.alibaba.druid.version>
 
 		<com.fasterxml.jackson.version>2.16.1</com.fasterxml.jackson.version>
 		<com.google.code.gson.version>2.10.1</com.google.code.gson.version>
