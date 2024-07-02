@@ -18,8 +18,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.oner365.common.constants.PublicConstants;
-import com.oner365.common.enums.StatusEnum;
+import com.oner365.data.commons.constants.PublicConstants;
+import com.oner365.data.commons.enums.StatusEnum;
 
 /**
  * 基础权限--角色表nt_sys_role

@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.oner365.common.service.BaseService;
+import com.oner365.data.jpa.service.BaseService;
 import com.oner365.queue.condition.PulsarCondition;
 
 /**

@@ -1,6 +1,6 @@
 package com.oner365.queue.constants;
 
-import com.oner365.common.constants.PublicConstants;
+import com.oner365.data.commons.constants.PublicConstants;
 
 /**
  * mqtt 常量设置

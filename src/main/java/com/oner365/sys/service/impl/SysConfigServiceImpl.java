@@ -14,23 +14,23 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.oner365.common.cache.annotation.GeneratorCache;
-import com.oner365.common.cache.annotation.RedisCacheAble;
-import com.oner365.common.constants.PublicConstants;
-import com.oner365.common.enums.StatusEnum;
-import com.oner365.common.exception.ProjectRuntimeException;
-import com.oner365.common.page.PageInfo;
-import com.oner365.common.query.Criteria;
-import com.oner365.common.query.QueryCriteriaBean;
-import com.oner365.common.query.QueryUtils;
-import com.oner365.common.query.Restrictions;
+import com.oner365.data.commons.constants.PublicConstants;
+import com.oner365.data.commons.enums.StatusEnum;
+import com.oner365.data.commons.exception.ProjectRuntimeException;
+import com.oner365.data.commons.util.DataUtils;
+import com.oner365.data.jpa.page.PageInfo;
+import com.oner365.data.jpa.query.Criteria;
+import com.oner365.data.jpa.query.QueryCriteriaBean;
+import com.oner365.data.jpa.query.QueryUtils;
+import com.oner365.data.jpa.query.Restrictions;
+import com.oner365.data.redis.annotation.GeneratorCache;
+import com.oner365.data.redis.annotation.RedisCacheAble;
 import com.oner365.sys.constants.SysConstants;
 import com.oner365.sys.dao.ISysConfigDao;
 import com.oner365.sys.dto.SysConfigDto;
 import com.oner365.sys.entity.SysConfig;
 import com.oner365.sys.service.ISysConfigService;
 import com.oner365.sys.vo.SysConfigVo;
-import com.oner365.util.DataUtils;
 
 /**
  * nt_sys_config Service 实现类

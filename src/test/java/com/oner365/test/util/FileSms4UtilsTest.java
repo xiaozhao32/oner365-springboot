@@ -8,8 +8,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.oner365.common.config.properties.DefaultFileProperties;
-import com.oner365.util.FileSms4Utils;
+import com.oner365.data.commons.config.properties.DefaultFileProperties;
+import com.oner365.data.commons.util.FileSms4Utils;
 
 /**
  * 工具类测试

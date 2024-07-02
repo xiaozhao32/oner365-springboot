@@ -14,7 +14,7 @@ import org.springframework.web.reactive.function.BodyInserters;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.oner365.common.constants.PublicConstants;
+import com.oner365.data.commons.constants.PublicConstants;
 import com.oner365.sys.entity.SysJob;
 import com.oner365.test.controller.BaseControllerTest;
 

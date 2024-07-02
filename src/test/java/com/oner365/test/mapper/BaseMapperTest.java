@@ -9,7 +9,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.oner365.common.exception.ProjectRuntimeException;
+import com.oner365.data.commons.exception.ProjectRuntimeException;
 import com.oner365.test.BaseTest;
 
 /**

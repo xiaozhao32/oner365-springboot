@@ -15,7 +15,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.oner365.common.constants.PublicConstants;
+import com.oner365.data.commons.constants.PublicConstants;
 
 /**
  * 系统日志对象

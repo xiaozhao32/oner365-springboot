@@ -14,8 +14,10 @@ import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.oner365.common.enums.StatusEnum;
-import com.oner365.common.service.BaseService;
+import com.oner365.data.commons.enums.StatusEnum;
+import com.oner365.data.commons.util.DateUtil;
+import com.oner365.data.jpa.service.BaseService;
+import com.oner365.data.web.utils.HttpClientUtils;
 import com.oner365.monitor.constants.ScheduleConstants;
 import com.oner365.monitor.dto.InvokeParamDto;
 import com.oner365.monitor.dto.SysTaskDto;
@@ -26,8 +28,6 @@ import com.oner365.monitor.vo.SysTaskLogVo;
 import com.oner365.monitor.vo.SysTaskVo;
 import com.oner365.queue.condition.PulsarCondition;
 import com.oner365.queue.config.properties.PulsarProperties;
-import com.oner365.util.DataUtils;
-import com.oner365.util.DateUtil;
 
 /**
  * pulsar InvokeParamDto listener
@@ -109,7 +109,7 @@ public class PulsarInvokeParamListenerImpl implements MessageListener<InvokePara
 
     long time = System.currentTimeMillis();
     SysTaskLogVo taskLog = new SysTaskLogVo();
-    taskLog.setExecuteIp(DataUtils.getLocalhost());
+    taskLog.setExecuteIp(HttpClientUtils.getLocalhost());
     taskLog.setExecuteServerName(ScheduleConstants.SCHEDULE_SERVER_NAME);
     taskLog.setStatus(TaskStatusEnum.NORMAL);
     taskLog.setTaskMessage("执行时间：" + (System.currentTimeMillis() - time) + "毫秒");

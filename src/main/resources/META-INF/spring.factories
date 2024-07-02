@@ -4,7 +4,7 @@ com.oner365.log.config.ApplicationLoggerInitializer,com.oner365.elasticsearch.co
 
 # HandlerMethodArgumentResolver
 org.springframework.web.method.support.HandlerMethodArgumentResolver=\
-com.oner365.common.resolver.CurrentUserMethodArgumentResolver
+com.oner365.data.web.resolver.CurrentUserMethodArgumentResolver
 
 # HandlerInterceptor
 org.springframework.web.servlet.HandlerInterceptor=\

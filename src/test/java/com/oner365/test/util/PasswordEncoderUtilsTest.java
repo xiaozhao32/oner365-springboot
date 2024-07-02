@@ -4,8 +4,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.oner365.util.PasswordEncoderUtils;
-import com.oner365.util.PasswordEncoderUtils.Encoder;
+import com.oner365.data.commons.util.PasswordEncoderUtils;
+import com.oner365.data.commons.util.PasswordEncoderUtils.Encoder;
 
 /**
  * 工具类测试

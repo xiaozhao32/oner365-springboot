@@ -1,9 +1,10 @@
 package com.oner365.test.util;
 
-import com.oner365.deploy.utils.DeployUtils;
-import com.oner365.util.ClassesUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import com.oner365.data.commons.util.ClassesUtil;
+import com.oner365.deploy.utils.DeployUtils;
 
 /**
  * 工具类测试

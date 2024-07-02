@@ -1,7 +1,7 @@
 package com.oner365.deploy.utils;
 
 import ch.ethz.ssh2.*;
-import com.oner365.common.exception.ProjectRuntimeException;
+import com.oner365.data.commons.exception.ProjectRuntimeException;
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecuteResultHandler;
 import org.apache.commons.exec.DefaultExecutor;

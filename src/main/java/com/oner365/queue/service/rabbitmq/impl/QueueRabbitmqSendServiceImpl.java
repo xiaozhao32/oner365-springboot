@@ -13,15 +13,15 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.oner365.api.dto.UpdateTaskExecuteStatusDto;
-import com.oner365.common.cache.RedisCache;
+import com.oner365.data.commons.util.DateUtil;
+import com.oner365.data.redis.RedisCache;
+import com.oner365.data.web.utils.HttpClientUtils;
 import com.oner365.monitor.dto.InvokeParamDto;
 import com.oner365.monitor.dto.SysTaskDto;
 import com.oner365.queue.condition.RabbitmqCondition;
 import com.oner365.queue.constants.QueueConstants;
 import com.oner365.queue.service.IQueueSendService;
 import com.oner365.queue.service.rabbitmq.callback.QueueRabbitmqConfirmCallback;
-import com.oner365.util.DataUtils;
-import com.oner365.util.DateUtil;
 
 /**
  * rabbitmq 发送队列实现类
@@ -61,9 +61,9 @@ public class QueueRabbitmqSendServiceImpl implements IQueueSendService {
   @Override
   public void syncRoute() {
     if (redisCache.lock(QueueConstants.ROUTE_QUEUE_NAME, QueueConstants.QUEUE_LOCK_TIME_SECOND)) {
-      logger.info("Rabbitmq syncRoute: {}", DataUtils.getLocalhost());
+      logger.info("Rabbitmq syncRoute: {}", HttpClientUtils.getLocalhost());
       rabbitTemplate.convertAndSend(QueueConstants.ROUTE_QUEUE_TYPE, QueueConstants.ROUTE_QUEUE_KEY,
-          DataUtils.getLocalhost());
+          HttpClientUtils.getLocalhost());
     }
   }
 

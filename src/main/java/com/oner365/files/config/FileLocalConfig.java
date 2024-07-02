@@ -8,7 +8,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 
-import com.oner365.common.enums.StorageEnum;
+import com.oner365.data.commons.enums.StorageEnum;
 import com.oner365.files.config.properties.FileLocalProperties;
 import com.oner365.files.storage.condition.LocalStorageCondition;
 

@@ -3,7 +3,7 @@ package com.oner365.test.util;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import com.oner365.util.Md5Util;
+import com.oner365.data.commons.util.Md5Util;
 
 /**
  * 工具类测试

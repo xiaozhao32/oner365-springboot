@@ -3,7 +3,7 @@ package com.oner365.test.util;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import com.oner365.util.DesensitizationUtils;
+import com.oner365.data.commons.util.DesensitizationUtils;
 
 /**
  * 工具类测试

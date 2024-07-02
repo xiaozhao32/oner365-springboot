@@ -22,17 +22,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
-import com.oner365.common.auth.AuthUser;
-import com.oner365.common.auth.annotation.CurrentUser;
-import com.oner365.common.constants.PublicConstants;
-import com.oner365.common.page.PageInfo;
-import com.oner365.controller.BaseController;
+import com.oner365.data.commons.auth.AuthUser;
+import com.oner365.data.commons.auth.annotation.CurrentUser;
+import com.oner365.data.commons.constants.PublicConstants;
+import com.oner365.data.commons.util.ConvertString;
+import com.oner365.data.jpa.page.PageInfo;
+import com.oner365.data.web.controller.BaseController;
 import com.oner365.generator.dto.GenTableInfoDto;
 import com.oner365.generator.entity.GenTable;
 import com.oner365.generator.entity.GenTableColumn;
 import com.oner365.generator.service.IGenTableColumnService;
 import com.oner365.generator.service.IGenTableService;
-import com.oner365.util.ConvertString;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

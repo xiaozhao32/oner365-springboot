@@ -13,8 +13,8 @@ ARG OUT_DIRECTORY
 
 COPY ${OUT_DIRECTORY}/lib /root/oner365-springboot/lib/
 COPY ${OUT_DIRECTORY}/resources /root/oner365-springboot/resources/
-COPY ${JAR_FILE} /root/oner365-springboot/oner365-springboot-2.0.2.jar
-ENTRYPOINT ["java","-Dspring.profiles.active=dev","-jar","oner365-springboot-2.0.2.jar"]
+COPY ${JAR_FILE} /root/oner365-springboot/oner365-springboot-2.1.0.jar
+ENTRYPOINT ["java","-Dspring.profiles.active=dev","-jar","oner365-springboot-2.1.0.jar"]
 
 # 本地执行
 # mvn clean package -Dmaven.test.skip=true docker:build

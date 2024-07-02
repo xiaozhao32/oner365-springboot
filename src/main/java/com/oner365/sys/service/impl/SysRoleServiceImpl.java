@@ -18,16 +18,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONArray;
-import com.oner365.common.cache.annotation.GeneratorCache;
-import com.oner365.common.cache.annotation.RedisCacheAble;
-import com.oner365.common.constants.PublicConstants;
-import com.oner365.common.enums.StatusEnum;
-import com.oner365.common.exception.ProjectRuntimeException;
-import com.oner365.common.page.PageInfo;
-import com.oner365.common.query.Criteria;
-import com.oner365.common.query.QueryCriteriaBean;
-import com.oner365.common.query.QueryUtils;
-import com.oner365.common.query.Restrictions;
+import com.oner365.data.commons.constants.PublicConstants;
+import com.oner365.data.commons.enums.StatusEnum;
+import com.oner365.data.commons.exception.ProjectRuntimeException;
+import com.oner365.data.commons.util.DataUtils;
+import com.oner365.data.jpa.page.PageInfo;
+import com.oner365.data.jpa.query.Criteria;
+import com.oner365.data.jpa.query.QueryCriteriaBean;
+import com.oner365.data.jpa.query.QueryUtils;
+import com.oner365.data.jpa.query.Restrictions;
+import com.oner365.data.redis.annotation.GeneratorCache;
+import com.oner365.data.redis.annotation.RedisCacheAble;
 import com.oner365.sys.constants.SysConstants;
 import com.oner365.sys.dao.ISysRoleDao;
 import com.oner365.sys.dao.ISysRoleMenuDao;
@@ -43,7 +44,6 @@ import com.oner365.sys.entity.SysRoleMenu;
 import com.oner365.sys.service.ISysMenuService;
 import com.oner365.sys.service.ISysRoleService;
 import com.oner365.sys.vo.SysRoleVo;
-import com.oner365.util.DataUtils;
 
 /**
  * 系统角色接口实现类

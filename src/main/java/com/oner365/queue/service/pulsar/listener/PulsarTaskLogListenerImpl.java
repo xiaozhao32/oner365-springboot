@@ -13,14 +13,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Service;
 
-import com.oner365.common.service.BaseService;
+import com.oner365.data.jpa.service.BaseService;
+import com.oner365.data.web.utils.HttpClientUtils;
 import com.oner365.monitor.constants.ScheduleConstants;
 import com.oner365.monitor.dto.SysTaskDto;
 import com.oner365.monitor.enums.TaskStatusEnum;
 import com.oner365.monitor.service.ISysTaskLogService;
 import com.oner365.monitor.vo.SysTaskLogVo;
 import com.oner365.queue.condition.PulsarCondition;
-import com.oner365.util.DataUtils;
 
 /**
  * pulsar SysTaskDto listener
@@ -61,7 +61,7 @@ public class PulsarTaskLogListenerImpl implements MessageListener<SysTaskDto>, B
 
     long time = System.currentTimeMillis();
     SysTaskLogVo taskLog = new SysTaskLogVo();
-    taskLog.setExecuteIp(DataUtils.getLocalhost());
+    taskLog.setExecuteIp(HttpClientUtils.getLocalhost());
     taskLog.setExecuteServerName(ScheduleConstants.SCHEDULE_SERVER_NAME);
     taskLog.setStatus(TaskStatusEnum.NORMAL);
     taskLog.setTaskMessage("执行时间：" + (System.currentTimeMillis() - time) + "毫秒");

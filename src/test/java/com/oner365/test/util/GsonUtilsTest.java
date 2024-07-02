@@ -3,8 +3,8 @@ package com.oner365.test.util;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import com.oner365.data.commons.util.GsonUtils;
 import com.oner365.sys.entity.SysJob;
-import com.oner365.util.GsonUtils;
 
 /**
  * 工具类测试

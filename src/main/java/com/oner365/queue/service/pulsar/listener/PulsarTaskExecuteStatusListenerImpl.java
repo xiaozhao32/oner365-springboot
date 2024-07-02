@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Service;
 
 import com.oner365.api.dto.UpdateTaskExecuteStatusDto;
-import com.oner365.common.service.BaseService;
+import com.oner365.data.jpa.service.BaseService;
 import com.oner365.monitor.dto.SysTaskDto;
 import com.oner365.monitor.service.ISysTaskService;
 import com.oner365.monitor.vo.SysTaskVo;

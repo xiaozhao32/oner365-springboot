@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Service;
 
-import com.oner365.common.service.BaseService;
+import com.oner365.data.jpa.service.BaseService;
 import com.oner365.gateway.service.DynamicRouteService;
 import com.oner365.queue.condition.PulsarCondition;
 

@@ -6,7 +6,7 @@ import java.util.Properties;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.runtime.RuntimeConstants;
 
-import com.oner365.common.exception.ProjectRuntimeException;
+import com.oner365.data.commons.exception.ProjectRuntimeException;
 
 /**
  * VelocityInitializer
