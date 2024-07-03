@@ -12,7 +12,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import com.oner365.datasource.constants.DataSourceConstants;
+import com.oner365.data.datasource.constants.DataSourceConstants;
 import com.oner365.datasource.dynamic.DynamicDataSource;
 
 /**

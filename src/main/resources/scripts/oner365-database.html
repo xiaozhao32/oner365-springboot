@@ -41,7 +41,7 @@
 			<h2 style='text-align:center; line-height:50px;'>数据库设计文档</h2>
 			<div>
 				<b>数据库名：oner365</b><br>
-				<b>文档版本：2.0.2</b><br>
+				<b>文档版本：2.1.0</b><br>
 				<b>文档描述：Oner365 project</b><br>
 			</div>
 			<table cellspacing='1'>
@@ -86,6 +86,7 @@
 				<tr><td style='text-align:center;'>36</td><td><a href='#QRTZ_SIMPLE_TRIGGERS'>QRTZ_SIMPLE_TRIGGERS</a></td><td></td></tr>
 				<tr><td style='text-align:center;'>37</td><td><a href='#QRTZ_SIMPROP_TRIGGERS'>QRTZ_SIMPROP_TRIGGERS</a></td><td></td></tr>
 				<tr><td style='text-align:center;'>38</td><td><a href='#QRTZ_TRIGGERS'>QRTZ_TRIGGERS</a></td><td></td></tr>
+				<tr><td style='text-align:center;'>39</td><td><a href='#nt_sys_config'>nt_sys_config</a></td><td>系统配置</td></tr>
 			</table>
 			<a name='gen_table'></a>
 			<div style='margin-top:30px;'>
@@ -872,6 +873,26 @@
 				<tr><td style='text-align:center;'>14</td><td>calendar_name</td><td align='center'>varchar</td><td align='center'>200</td><td align='center'>0</td><td align='center'>Y</td><td align='center'>N</td><td align='center'></td><td align='center'></td></tr>
 				<tr><td style='text-align:center;'>15</td><td>misfire_instr</td><td align='center'>smallint</td><td align='center'>6</td><td align='center'>0</td><td align='center'>Y</td><td align='center'>N</td><td align='center'></td><td align='center'></td></tr>
 				<tr><td style='text-align:center;'>16</td><td>job_data</td><td align='center'>blob</td><td align='center'>65535</td><td align='center'>0</td><td align='center'>Y</td><td align='center'>N</td><td align='center'></td><td align='center'></td></tr>
+			</table>
+			<a name='nt_sys_config'></a>
+			<div style='margin-top:30px;'>
+				<a href='#index'                                         style='float:right; margin-top:6px;'>返回目录</a>
+				<b>表名：nt_sys_config</b>
+			</div>
+			<div>说明：系统配置</div>
+			<div>数据列：</div>
+			<table cellspacing='1'>
+				<thead>
+					<tr><td style='width:40px; '>序号</td><td>名称</td><td>数据类型</td><td>长度</td><td>小数位</td><td>允许空值</td><td>主键</td><td>默认值</td><td>说明</td></tr>
+				</thead>
+				<tr><td style='text-align:center;'>1</td><td>id</td><td align='center'>varchar</td><td align='center'>64</td><td align='center'>0</td><td align='center'>N</td><td align='center'>Y</td><td align='center'></td><td align='center'>主键</td></tr>
+				<tr><td style='text-align:center;'>2</td><td>config_name</td><td align='center'>varchar</td><td align='center'>32</td><td align='center'>0</td><td align='center'>N</td><td align='center'>N</td><td align='center'></td><td align='center'>配置名称</td></tr>
+				<tr><td style='text-align:center;'>3</td><td>config_value</td><td align='center'>varchar</td><td align='center'>255</td><td align='center'>0</td><td align='center'>Y</td><td align='center'>N</td><td align='center'></td><td align='center'>配置内容</td></tr>
+				<tr><td style='text-align:center;'>4</td><td>status</td><td align='center'>int</td><td align='center'>10</td><td align='center'>0</td><td align='center'>N</td><td align='center'>N</td><td align='center'></td><td align='center'>状态</td></tr>
+				<tr><td style='text-align:center;'>5</td><td>create_user</td><td align='center'>varchar</td><td align='center'>32</td><td align='center'>0</td><td align='center'>Y</td><td align='center'>N</td><td align='center'></td><td align='center'>创建人</td></tr>
+				<tr><td style='text-align:center;'>6</td><td>create_time</td><td align='center'>datetime</td><td align='center'>19</td><td align='center'>0</td><td align='center'>N</td><td align='center'>N</td><td align='center'></td><td align='center'>创建时间</td></tr>
+				<tr><td style='text-align:center;'>7</td><td>update_user</td><td align='center'>varchar</td><td align='center'>32</td><td align='center'>0</td><td align='center'>Y</td><td align='center'>N</td><td align='center'></td><td align='center'>更新人</td></tr>
+				<tr><td style='text-align:center;'>8</td><td>update_time</td><td align='center'>datetime</td><td align='center'>19</td><td align='center'>0</td><td align='center'>Y</td><td align='center'>N</td><td align='center'></td><td align='center'>更新时间</td></tr>
 			</table>
 		</div>
 		<footer></footer>

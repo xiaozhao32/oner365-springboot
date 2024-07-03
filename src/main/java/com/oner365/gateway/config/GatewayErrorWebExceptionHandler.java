@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.oner365.common.ResponseData;
+import com.oner365.data.commons.reponse.ResponseData;
 import com.oner365.gateway.entity.GatewayError;
 
 /**

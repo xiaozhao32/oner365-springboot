@@ -12,7 +12,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.oner365.common.constants.PublicConstants;
+import com.oner365.data.commons.constants.PublicConstants;
 import com.oner365.swagger.config.properties.SwaggerProperties;
 
 import io.swagger.models.auth.In;

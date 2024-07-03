@@ -9,7 +9,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.oner365.common.enums.StatusEnum;
+import com.oner365.data.commons.enums.StatusEnum;
 import com.oner365.sys.enums.SysUserSexEnum;
 import com.oner365.sys.enums.SysUserTypeEnum;
 

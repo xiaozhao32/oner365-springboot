@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.oner365.common.cache.RedisCache;
+import com.oner365.data.redis.RedisCache;
 import com.oner365.test.service.BaseServiceTest;
 
 /**

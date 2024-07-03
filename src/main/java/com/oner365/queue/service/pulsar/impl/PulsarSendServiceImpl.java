@@ -17,14 +17,14 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.oner365.api.dto.UpdateTaskExecuteStatusDto;
-import com.oner365.common.cache.RedisCache;
-import com.oner365.common.exception.ProjectRuntimeException;
+import com.oner365.data.commons.exception.ProjectRuntimeException;
+import com.oner365.data.redis.RedisCache;
+import com.oner365.data.web.utils.HttpClientUtils;
 import com.oner365.monitor.dto.InvokeParamDto;
 import com.oner365.monitor.dto.SysTaskDto;
 import com.oner365.queue.condition.PulsarCondition;
 import com.oner365.queue.constants.QueueConstants;
 import com.oner365.queue.service.IQueueSendService;
-import com.oner365.util.DataUtils;
 
 /**
  * pulsar service impl
@@ -72,7 +72,7 @@ public class PulsarSendServiceImpl implements IQueueSendService {
   public void syncRoute() {
     if (redisCache.lock(QueueConstants.ROUTE_QUEUE_NAME, QueueConstants.QUEUE_LOCK_TIME_SECOND)) {
       try (Producer<String> producer = createProducer(QueueConstants.ROUTE_QUEUE_NAME, Schema.STRING)) {
-        String data = DataUtils.getLocalhost();
+        String data = HttpClientUtils.getLocalhost();
         MessageId messageId = producer.send(data);
         logger.info("Pulsar syncRoute: {} topic: {} messageId: {}", data, QueueConstants.MESSAGE_QUEUE_NAME, messageId);
       } catch (PulsarClientException e) {

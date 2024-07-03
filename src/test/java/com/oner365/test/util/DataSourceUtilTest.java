@@ -9,7 +9,7 @@ import org.junit.Ignore;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import com.oner365.datasource.util.DataSourceUtil;
+import com.oner365.data.datasource.util.DataSourceUtil;
 
 /**
  * 工具类测试

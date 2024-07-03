@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import com.oner365.common.config.properties.DefaultFileProperties;
-import com.oner365.common.constants.PublicConstants;
+import com.oner365.data.commons.config.properties.DefaultFileProperties;
+import com.oner365.data.commons.constants.PublicConstants;
 import com.oner365.datasource.dynamic.DynamicDataSource;
 import com.oner365.swagger.config.properties.SwaggerProperties;
 import com.zaxxer.hikari.HikariConfig;

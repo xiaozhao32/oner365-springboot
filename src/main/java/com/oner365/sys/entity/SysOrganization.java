@@ -14,7 +14,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.oner365.common.enums.StatusEnum;
+import com.oner365.data.commons.enums.StatusEnum;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

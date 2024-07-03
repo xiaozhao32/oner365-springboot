@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.oner365.util.GeneTransFormUtils;
+import com.oner365.data.commons.util.GeneTransFormUtils;
 
 /**
  * 工具类测试

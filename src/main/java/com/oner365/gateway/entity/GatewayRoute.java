@@ -3,18 +3,18 @@ package com.oner365.gateway.entity;
 import java.io.Serializable;
 import java.util.List;
 
+import org.hibernate.annotations.Type;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.oner365.data.commons.enums.StatusEnum;
+
+import io.hypersistence.utils.hibernate.type.json.JsonType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
-
-import org.hibernate.annotations.Type;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.oner365.common.enums.StatusEnum;
-import io.hypersistence.utils.hibernate.type.json.JsonType;
 
 /**
  * Gateway的路由定义模型

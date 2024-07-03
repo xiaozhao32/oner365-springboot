@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.alibaba.fastjson.JSON;
-import com.oner365.common.config.properties.AccessTokenProperties;
+import com.oner365.data.commons.config.properties.AccessTokenProperties;
 import com.oner365.test.service.BaseServiceTest;
 
 /**

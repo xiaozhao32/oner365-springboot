@@ -15,11 +15,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.oner365.common.enums.StatusEnum;
-import com.oner365.common.exception.ProjectRuntimeException;
-import com.oner365.common.page.PageInfo;
-import com.oner365.common.query.QueryCriteriaBean;
-import com.oner365.common.query.QueryUtils;
+import com.oner365.data.commons.enums.StatusEnum;
+import com.oner365.data.commons.exception.ProjectRuntimeException;
+import com.oner365.data.commons.util.DataUtils;
+import com.oner365.data.jpa.page.PageInfo;
+import com.oner365.data.jpa.query.QueryCriteriaBean;
+import com.oner365.data.jpa.query.QueryUtils;
 import com.oner365.gateway.constants.GatewayConstants;
 import com.oner365.gateway.dao.IGatewayRouteDao;
 import com.oner365.gateway.dto.GatewayRouteDto;
@@ -29,7 +30,6 @@ import com.oner365.gateway.entity.GatewayRoute;
 import com.oner365.gateway.service.DynamicRouteService;
 import com.oner365.gateway.vo.GatewayRouteVo;
 import com.oner365.queue.service.IQueueSendService;
-import com.oner365.util.DataUtils;
 
 /**
  * 动态路由服务实现类

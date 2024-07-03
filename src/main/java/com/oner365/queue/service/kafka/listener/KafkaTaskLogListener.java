@@ -10,6 +10,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
+import com.oner365.data.web.utils.HttpClientUtils;
 import com.oner365.monitor.constants.ScheduleConstants;
 import com.oner365.monitor.dto.SysTaskDto;
 import com.oner365.monitor.enums.TaskStatusEnum;
@@ -17,7 +18,6 @@ import com.oner365.monitor.service.ISysTaskLogService;
 import com.oner365.monitor.vo.SysTaskLogVo;
 import com.oner365.queue.condition.KafkaCondition;
 import com.oner365.queue.constants.QueueConstants;
-import com.oner365.util.DataUtils;
 
 import jakarta.annotation.Resource;
 
@@ -58,7 +58,7 @@ public class KafkaTaskLogListener {
 
     long time = System.currentTimeMillis();
     SysTaskLogVo taskLog = new SysTaskLogVo();
-    taskLog.setExecuteIp(DataUtils.getLocalhost());
+    taskLog.setExecuteIp(HttpClientUtils.getLocalhost());
     taskLog.setExecuteServerName(ScheduleConstants.SCHEDULE_SERVER_NAME);
     taskLog.setStatus(TaskStatusEnum.NORMAL);
     taskLog.setTaskMessage("执行时间：" + (System.currentTimeMillis() - time) + "毫秒");

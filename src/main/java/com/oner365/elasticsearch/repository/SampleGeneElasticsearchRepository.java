@@ -11,11 +11,11 @@ import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
 import org.springframework.data.elasticsearch.repository.support.SimpleElasticsearchRepository;
 import org.springframework.stereotype.Repository;
 
-import com.oner365.common.query.QueryCriteriaBean;
-import com.oner365.common.query.QueryUtils;
+import com.oner365.data.commons.util.DataUtils;
+import com.oner365.data.jpa.query.QueryCriteriaBean;
+import com.oner365.data.jpa.query.QueryUtils;
 import com.oner365.elasticsearch.entity.SampleGene;
 import com.oner365.elasticsearch.repository.entity.SampleGeneElasticsearchEntityInformation;
-import com.oner365.util.DataUtils;
 
 /**
  * SampleGeneElasticsearchRepository

@@ -7,7 +7,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.oner365.common.enums.StorageEnum;
+import com.oner365.data.commons.enums.StorageEnum;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

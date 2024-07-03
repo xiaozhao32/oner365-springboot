@@ -3,7 +3,7 @@ package com.oner365.sys.entity;
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.oner365.common.enums.StatusEnum;
+import com.oner365.data.commons.enums.StatusEnum;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

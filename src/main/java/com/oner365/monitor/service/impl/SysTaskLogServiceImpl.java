@@ -14,9 +14,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import com.oner365.common.page.PageInfo;
-import com.oner365.common.query.QueryCriteriaBean;
-import com.oner365.common.query.QueryUtils;
+import com.oner365.data.jpa.page.PageInfo;
+import com.oner365.data.jpa.query.QueryCriteriaBean;
+import com.oner365.data.jpa.query.QueryUtils;
 import com.oner365.monitor.dao.ISysTaskLogDao;
 import com.oner365.monitor.dto.SysTaskLogDto;
 import com.oner365.monitor.entity.SysTaskLog;

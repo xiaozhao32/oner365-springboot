@@ -13,13 +13,13 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.oner365.api.dto.UpdateTaskExecuteStatusDto;
-import com.oner365.common.cache.RedisCache;
+import com.oner365.data.redis.RedisCache;
+import com.oner365.data.web.utils.HttpClientUtils;
 import com.oner365.monitor.dto.InvokeParamDto;
 import com.oner365.monitor.dto.SysTaskDto;
 import com.oner365.queue.condition.KafkaCondition;
 import com.oner365.queue.constants.QueueConstants;
 import com.oner365.queue.service.IQueueSendService;
-import com.oner365.util.DataUtils;
 
 import jakarta.annotation.Resource;
 
@@ -61,8 +61,8 @@ public class KafkaSendServiceImpl implements IQueueSendService {
   @Override
   public void syncRoute() {
     if (redisCache.lock(QueueConstants.ROUTE_QUEUE_NAME, QueueConstants.QUEUE_LOCK_TIME_SECOND)) {
-      logger.info("Kafka syncRoute: {}", DataUtils.getLocalhost());
-      kafkaTemplate.send(QueueConstants.ROUTE_QUEUE_NAME, DataUtils.getLocalhost());
+      logger.info("Kafka syncRoute: {}", HttpClientUtils.getLocalhost());
+      kafkaTemplate.send(QueueConstants.ROUTE_QUEUE_NAME, HttpClientUtils.getLocalhost());
     }
   }
 

@@ -21,14 +21,14 @@ import org.springframework.lang.NonNull;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import com.alibaba.fastjson.JSON;
-import com.oner365.common.ResponseData;
-import com.oner365.common.config.properties.AccessTokenProperties;
-import com.oner365.common.config.properties.IgnoreWhiteProperties;
-import com.oner365.common.constants.PublicConstants;
-import com.oner365.common.jwt.JwtUtils;
+import com.oner365.data.commons.config.properties.AccessTokenProperties;
+import com.oner365.data.commons.config.properties.IgnoreWhiteProperties;
+import com.oner365.data.commons.constants.PublicConstants;
+import com.oner365.data.commons.reponse.ResponseData;
+import com.oner365.data.commons.util.JwtUtils;
+import com.oner365.data.web.utils.HttpClientUtils;
 import com.oner365.log.event.SysLogEvent;
 import com.oner365.sys.vo.SysLogVo;
-import com.oner365.util.DataUtils;
 
 /**
  * Token拦截器
@@ -144,7 +144,7 @@ public class TokenInterceptor implements HandlerInterceptor {
    */
   private void requestLog(HttpServletRequest request) {
     // 请求ip
-    String ip = DataUtils.getIpAddress(request);
+    String ip = HttpClientUtils.getIpAddress(request);
     // 请求地址
     String uri = request.getRequestURI();
     // 请求方法

@@ -1,6 +1,6 @@
 package com.oner365.queue.service.mqtt;
 
-import com.oner365.common.service.BaseService;
+import com.oner365.data.jpa.service.BaseService;
 
 /**
  * MQTT 接收者

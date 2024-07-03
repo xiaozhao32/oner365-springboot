@@ -6,8 +6,8 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 import org.springframework.lang.NonNull;
 
-import com.oner365.common.constants.PublicConstants;
-import com.oner365.common.enums.QueueEnum;
+import com.oner365.data.commons.constants.PublicConstants;
+import com.oner365.data.commons.enums.QueueEnum;
 
 /**
  * Kafka Condition

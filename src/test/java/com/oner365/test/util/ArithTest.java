@@ -1,8 +1,9 @@
 package com.oner365.test.util;
 
-import com.oner365.util.Arith;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import com.oner365.data.commons.util.Arith;
 
 /**
  * 工具类测试

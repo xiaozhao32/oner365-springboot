@@ -12,7 +12,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.context.annotation.Conditional;
 
 import com.alibaba.fastjson.JSONObject;
-import com.oner365.common.service.BaseService;
+import com.oner365.data.jpa.service.BaseService;
 import com.oner365.monitor.exception.TaskException;
 import com.oner365.queue.condition.RabbitmqCondition;
 import com.oner365.queue.constants.QueueConstants;

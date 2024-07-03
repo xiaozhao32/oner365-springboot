@@ -15,7 +15,9 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.oner365.api.dto.UpdateTaskExecuteStatusDto;
-import com.oner365.common.enums.StatusEnum;
+import com.oner365.data.commons.enums.StatusEnum;
+import com.oner365.data.commons.util.DateUtil;
+import com.oner365.data.web.utils.HttpClientUtils;
 import com.oner365.gateway.service.DynamicRouteService;
 import com.oner365.monitor.constants.ScheduleConstants;
 import com.oner365.monitor.dto.InvokeParamDto;
@@ -28,8 +30,6 @@ import com.oner365.monitor.vo.SysTaskLogVo;
 import com.oner365.monitor.vo.SysTaskVo;
 import com.oner365.queue.condition.RabbitmqCondition;
 import com.oner365.queue.service.rabbitmq.IQueueRabbitmqReceiverService;
-import com.oner365.util.DataUtils;
-import com.oner365.util.DateUtil;
 import com.rabbitmq.client.Channel;
 
 /**
@@ -138,7 +138,7 @@ public class QueueRabbitmqReceiverServiceImpl implements IQueueRabbitmqReceiverS
     
     long time = System.currentTimeMillis();
     SysTaskLogVo taskLog = new SysTaskLogVo();
-    taskLog.setExecuteIp(DataUtils.getLocalhost());
+    taskLog.setExecuteIp(HttpClientUtils.getLocalhost());
     taskLog.setExecuteServerName(ScheduleConstants.SCHEDULE_SERVER_NAME);
     taskLog.setStatus(TaskStatusEnum.NORMAL);
     taskLog.setTaskMessage("执行时间：" + (System.currentTimeMillis() - time) + "毫秒");

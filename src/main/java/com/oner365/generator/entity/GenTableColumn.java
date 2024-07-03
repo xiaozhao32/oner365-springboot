@@ -10,7 +10,7 @@ import jakarta.validation.constraints.NotBlank;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.oner365.util.DataUtils;
+import com.oner365.data.commons.util.DataUtils;
 
 /**
  * 代码生成业务字段表 gen_table_column

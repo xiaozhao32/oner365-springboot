@@ -32,25 +32,12 @@ spring:
     username: root
     password: Nqsky1130
 
-    druid:
-      test-while-idle: true
-      initial-size: 1
-      max-active: 10
-      min-idle: 1
-      
-      # druid 监控
-      filters: stat, slf4j
-      stat-view-servlet:
-        enabled: true
-        allow: 127.0.0.1
-        login-username: ${spring.datasource.username}
-        login-password: ${spring.datasource.password}
-        reset-enable: false 
-      web-stat-filter:
-        enabled: true
-        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
-      use-ping-method: false
-
+  sql:
+    init:
+      mode: embedded
+      schema-locations:
+      - classpath:scripts/oner365_postgres.sql
+ 
   # servlet file
   servlet:
     multipart:
@@ -79,24 +66,22 @@ spring:
     redis:
       repositories:
         enabled: false
+      host: 172.16.80.211
+      port: 32360
+      password: 1234
+      database: 2
+      timeout: 10s
+      lettuce:
+        pool:
+          min-idle: 0
+          max-idle: 8
+          max-active: 8
+          max-wait: -1ms
 
     elasticsearch:
       repositories:
         enabled: false
   
-  redis:
-    host: 172.16.80.211
-    port: 32360
-    password: 1234
-    database: 2
-    timeout: 10s
-    lettuce:
-      pool:
-        min-idle: 0
-        max-idle: 8
-        max-active: 8
-        max-wait: -1ms
-        
   # rabbitmq
   rabbitmq:
     addresses: 172.16.80.211:31157
@@ -202,7 +187,7 @@ ignore:
   whites:
     - /api
     - /system/auth
-    - /files/storage/download
+    - /system/file/download
     - /swagger
     - /webjars
     - /v3
@@ -243,7 +228,7 @@ logging:
   level:
     web: warn
     org:
-      springframework: error
+      springframework: info
       elasticsearch: error
   # logstash
   logstash:
@@ -292,7 +277,7 @@ minio:
 # swagger
 swagger:
   name: ${spring.application.name}
-  version: 2.0.2
+  version: 2.1.0
   url: https://www.oner365.com
   email: service@oner365.com
   description: Oner365 project
@@ -314,7 +299,7 @@ deploy:
   local:
     location: /Users/zhaoyong/Documents/git/oner365
     name: /Users/zhaoyong/Documents/deploy/springboot
-    version: 2.0.2
+    version: ${swagger.version}
     suffix: jar
     active: zy
     projects:

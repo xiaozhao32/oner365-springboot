@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.stereotype.Component;
 
-import com.oner365.util.RequestUtils;
+import com.oner365.data.web.utils.RequestUtils;
 
 /**
  * 审计功能 - 操作人

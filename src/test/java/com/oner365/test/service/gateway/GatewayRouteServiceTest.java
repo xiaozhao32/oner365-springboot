@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.alibaba.fastjson.JSON;
-import com.oner365.common.page.PageInfo;
-import com.oner365.common.query.QueryCriteriaBean;
+import com.oner365.data.jpa.page.PageInfo;
+import com.oner365.data.jpa.query.QueryCriteriaBean;
 import com.oner365.gateway.dto.GatewayRouteDto;
 import com.oner365.gateway.service.DynamicRouteService;
 import com.oner365.test.service.BaseServiceTest;

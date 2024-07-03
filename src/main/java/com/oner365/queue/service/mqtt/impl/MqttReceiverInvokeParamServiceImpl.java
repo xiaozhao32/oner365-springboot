@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.oner365.common.enums.StatusEnum;
+import com.oner365.data.commons.enums.StatusEnum;
+import com.oner365.data.commons.util.DateUtil;
+import com.oner365.data.web.utils.HttpClientUtils;
 import com.oner365.monitor.constants.ScheduleConstants;
 import com.oner365.monitor.dto.InvokeParamDto;
 import com.oner365.monitor.dto.SysTaskDto;
@@ -23,8 +25,6 @@ import com.oner365.queue.condition.MqttCondition;
 import com.oner365.queue.constants.MqttConstants;
 import com.oner365.queue.constants.QueueConstants;
 import com.oner365.queue.service.mqtt.IMqttReceiverInvokeParamService;
-import com.oner365.util.DataUtils;
-import com.oner365.util.DateUtil;
 
 /**
  * MQTT 接收实现
@@ -99,7 +99,7 @@ public class MqttReceiverInvokeParamServiceImpl implements IMqttReceiverInvokePa
     
     long time = System.currentTimeMillis();
     SysTaskLogVo taskLog = new SysTaskLogVo();
-    taskLog.setExecuteIp(DataUtils.getLocalhost());
+    taskLog.setExecuteIp(HttpClientUtils.getLocalhost());
     taskLog.setExecuteServerName(ScheduleConstants.SCHEDULE_SERVER_NAME);
     taskLog.setStatus(TaskStatusEnum.NORMAL);
     taskLog.setTaskMessage("执行时间：" + (System.currentTimeMillis() - time) + "毫秒");

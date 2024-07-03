@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
-import com.oner365.common.constants.PublicConstants;
-import com.oner365.controller.BaseController;
+import com.oner365.data.commons.constants.PublicConstants;
+import com.oner365.data.web.controller.BaseController;
 import com.oner365.queue.service.IQueueSendService;
 
 import io.swagger.annotations.Api;

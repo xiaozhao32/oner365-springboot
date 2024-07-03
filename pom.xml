@@ -6,7 +6,7 @@
 
 	<groupId>com.oner365</groupId>
 	<artifactId>oner365-springboot</artifactId>
-	<version>2.0.2</version>
+	<version>2.1.0</version>
 	<packaging>jar</packaging>
 
 	<name>oner365-springboot</name>
@@ -81,7 +81,7 @@
 		<com.mysql.version>8.3.0</com.mysql.version>
 
 		<com.alibaba.fastjson.version>1.2.83</com.alibaba.fastjson.version>
-		<com.alibaba.druid.version>1.2.23</com.alibaba.druid.version>
+		<com.alibaba.druid.version>1.2.21</com.alibaba.druid.version>
 
 		<com.fasterxml.jackson.version>2.17.1</com.fasterxml.jackson.version>
 		<com.google.code.gson.version>2.10.1</com.google.code.gson.version>
@@ -122,6 +122,7 @@
 	</properties>
 
 	<dependencies>
+		
 		<!-- javax.servlet -->
 		<dependency>
 			<groupId>jakarta.servlet</groupId>

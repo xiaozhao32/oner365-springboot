@@ -12,7 +12,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import com.oner365.common.config.properties.DefaultFileProperties;
+import com.oner365.data.commons.config.properties.DefaultFileProperties;
 import com.oner365.test.service.BaseServiceTest;
 
 import jakarta.annotation.Resource;

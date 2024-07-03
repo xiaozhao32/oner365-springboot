@@ -14,9 +14,9 @@ import org.springframework.web.reactive.function.BodyInserter;
 import org.springframework.web.reactive.function.BodyInserters;
 
 import com.alibaba.fastjson.JSONObject;
-import com.oner365.common.ResponseData;
-import com.oner365.common.cache.RedisCache;
-import com.oner365.common.enums.ResultEnum;
+import com.oner365.data.commons.enums.ResultEnum;
+import com.oner365.data.commons.reponse.ResponseData;
+import com.oner365.data.redis.RedisCache;
 import com.oner365.sys.dto.LoginUserDto;
 import com.oner365.test.BaseTest;
 

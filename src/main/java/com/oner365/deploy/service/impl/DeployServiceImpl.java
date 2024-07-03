@@ -8,7 +8,7 @@ import jakarta.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
-import com.oner365.common.constants.PublicConstants;
+import com.oner365.data.commons.constants.PublicConstants;
 import com.oner365.deploy.config.properties.LocalDeployProperties;
 import com.oner365.deploy.config.properties.ServerDeployProperties;
 import com.oner365.deploy.entity.DeployEntity;

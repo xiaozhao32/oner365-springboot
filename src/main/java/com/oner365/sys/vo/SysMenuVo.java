@@ -7,7 +7,7 @@ import java.util.List;
 
 import jakarta.validation.constraints.NotBlank;
 
-import com.oner365.common.enums.StatusEnum;
+import com.oner365.data.commons.enums.StatusEnum;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

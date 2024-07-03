@@ -7,8 +7,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.oner365.data.web.utils.HttpClientUtils;
 import com.oner365.sys.vo.SysLogVo;
-import com.oner365.util.DataUtils;
 
 /**
  * SysLog对象
@@ -30,7 +30,7 @@ public final class SysLogUtils {
         HttpServletRequest request = ((ServletRequestAttributes) Objects
                 .requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
         SysLogVo sysLog = new SysLogVo();
-        sysLog.setOperationIp(DataUtils.getIpAddress(request));
+        sysLog.setOperationIp(HttpClientUtils.getIpAddress(request));
         sysLog.setOperationPath(request.getRequestURI());
         sysLog.setMethodName(request.getMethod());
         return sysLog;

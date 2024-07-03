@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
-import com.oner365.common.ResponseData;
-import com.oner365.controller.BaseController;
+import com.oner365.data.commons.reponse.ResponseData;
+import com.oner365.data.web.controller.BaseController;
 import com.oner365.sys.dto.LoginUserDto;
 import com.oner365.sys.vo.LoginUserVo;
 
