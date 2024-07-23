@@ -30,8 +30,8 @@ import com.oner365.sys.service.ISysRoleService;
 import com.oner365.sys.vo.SysRoleVo;
 import com.oner365.sys.vo.check.CheckRoleNameVo;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 
 /**
  * 角色管理
@@ -39,7 +39,7 @@ import io.swagger.annotations.ApiOperation;
  * @author zhaoyong
  */
 @RestController
-@Api(tags = "系统管理 - 角色")
+@Tag(name = "系统管理 - 角色")
 @RequestMapping("/system/role")
 public class SysRoleController extends BaseController {
 
@@ -52,7 +52,7 @@ public class SysRoleController extends BaseController {
    * @param data 查询参数
    * @return PageInfo<SysRoleDto>
    */
-  @ApiOperation("1.获取列表")
+  @Operation(summary = "1.获取列表")
   @ApiOperationSupport(order = 1)
   @PostMapping("/list")
   public PageInfo<SysRoleDto> pageList(@RequestBody QueryCriteriaBean data) {
@@ -65,7 +65,7 @@ public class SysRoleController extends BaseController {
    * @param id 编号
    * @return SysRoleDto
    */
-  @ApiOperation("2.按id查询")
+  @Operation(summary = "2.按id查询")
   @ApiOperationSupport(order = 2)
   @GetMapping("/get/{id}")
   public SysRoleDto get(@PathVariable String id) {
@@ -79,7 +79,7 @@ public class SysRoleController extends BaseController {
    * @param status 状态
    * @return Boolean
    */
-  @ApiOperation("3.修改状态")
+  @Operation(summary = "3.修改状态")
   @ApiOperationSupport(order = 3)
   @PostMapping("/status/{id}")
   public Boolean editStatus(@PathVariable String id, @RequestParam("status") StatusEnum status) {
@@ -92,7 +92,7 @@ public class SysRoleController extends BaseController {
    * @param checkRoleNameVo 查询参数
    * @return Boolean
    */
-  @ApiOperation("4.判断角色名称存在")
+  @Operation(summary = "4.判断角色名称存在")
   @ApiOperationSupport(order = 4)
   @PostMapping("/check")
   public Boolean checkRoleName(@Validated @RequestBody CheckRoleNameVo checkRoleNameVo) {
@@ -108,7 +108,7 @@ public class SysRoleController extends BaseController {
    * @param sysRoleVo 参数
    * @return ResponseResult<Boolean>
    */
-  @ApiOperation("5.保存")
+  @Operation(summary = "5.保存")
   @ApiOperationSupport(order = 5)
   @PutMapping("/save")
   public ResponseResult<Boolean> save(@Validated @RequestBody SysRoleVo sysRoleVo) {
@@ -131,7 +131,7 @@ public class SysRoleController extends BaseController {
    * @param ids 编号
    * @return List<Boolean>
    */
-  @ApiOperation("6.删除")
+  @Operation(summary = "6.删除")
   @ApiOperationSupport(order = 6)
   @DeleteMapping("/delete")
   public List<Boolean> delete(@RequestBody String... ids) {
@@ -144,7 +144,7 @@ public class SysRoleController extends BaseController {
    * @param data 参数
    * @return ResponseEntity<byte[]>
    */
-  @ApiOperation("7.导出")
+  @Operation(summary = "7.导出")
   @ApiOperationSupport(order = 7)
   @PostMapping("/export")
   public ResponseEntity<byte[]> export(@RequestBody QueryCriteriaBean data) {

@@ -5,15 +5,14 @@ import java.time.LocalDateTime;
 
 import com.google.common.base.MoreObjects;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * 数据源配置 DataSourceConfig
  * 
  * @author zhaoyong
  */
-@ApiModel(value = "数据源配置")
+@Schema(name = "数据源配置")
 public class DataSourceConfigDto implements Serializable {
 
   /**
@@ -24,79 +23,79 @@ public class DataSourceConfigDto implements Serializable {
   /**
    * 主键 id
    */
-  @ApiModelProperty(value = "主键")
+  @Schema(name = "主键")
   private String id;
 
   /**
    * 连接名
    */
-  @ApiModelProperty(value = "连接名称", required = true)
+  @Schema(name = "连接名称", required = true)
   private String connectName;
 
   /**
    * 数据库类型：mysql、oracle
    */
-  @ApiModelProperty(value = "数据库类型")
+  @Schema(name = "数据库类型")
   private String dbType;
 
   /**
    * 数据源类型: ds, cache
    */
-  @ApiModelProperty(value = "数据源类型")
+  @Schema(name = "数据源类型")
   private String dsType;
 
   /**
    * 数据库连接地址
    */
-  @ApiModelProperty(value = "数据库ip")
+  @Schema(name = "数据库ip")
   private String ip;
 
   /**
    * 驱动名称
    */
-  @ApiModelProperty(value = "驱动名称")
+  @Schema(name = "驱动名称")
   private String driverName;
 
   /**
    * 地址
    */
-  @ApiModelProperty(value = "数据库地址")
+  @Schema(name = "数据库地址")
   private String url;
 
   /**
    * 数据库名
    */
-  @ApiModelProperty(value = "数据库名称")
+  @Schema(name = "数据库名称")
   private String dbName;
 
   /**
    * 端口
    */
-  @ApiModelProperty(value = "端口")
+  @Schema(name = "端口")
   private int port;
 
   /**
    * 用户名
    */
-  @ApiModelProperty(value = "账号")
+  @Schema(name = "账号")
   private String userName;
 
   /**
    * 密码
    */
-  @ApiModelProperty(value = "密码")
+  @Schema(name = "密码")
   private String password;
 
   /**
    * 创建时间
    */
-  @ApiModelProperty(value = "创建时间")
+  @Schema(name = "创建时间")
   private LocalDateTime createTime;
 
   /**
    * 更新时间
    */
-  @ApiModelProperty(value = "更新时间")
+  @Schema(name = "更新时间")
   private LocalDateTime updateTime;
 
   /**

@@ -8,15 +8,14 @@ import com.oner365.data.commons.enums.StatusEnum;
 import com.oner365.gateway.entity.GatewayFilter;
 import com.oner365.gateway.entity.GatewayPredicate;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Gateway的路由定义模型
  * 
  * @author zhaoyong
  */
-@ApiModel(value = "路由信息")
+@Schema(name = "路由信息")
 public class GatewayRouteDto implements Serializable {
 
   /**
@@ -27,43 +26,43 @@ public class GatewayRouteDto implements Serializable {
   /**
    * 路由的Id
    */
-  @ApiModelProperty(value = "主键")
+  @Schema(name = "主键")
   private String id;
 
   /**
    * 路由断言集合配置
    */
-  @ApiModelProperty(value = "断言集合")
+  @Schema(name = "断言集合")
   private List<GatewayPredicate> predicates;
 
   /**
    * 路由过滤器集合配置
    */
-  @ApiModelProperty(value = "过滤器集合")
+  @Schema(name = "过滤器集合")
   private List<GatewayFilter> filters;
 
   /**
    * 路由规则转发的目标uri
    */
-  @ApiModelProperty(value = "转发地址", required = true)
+  @Schema(name = "转发地址", required = true)
   private String uri;
 
   /**
    * 路由执行的顺序
    */
-  @ApiModelProperty(value = "执行顺序", required = true)
+  @Schema(name = "执行顺序", required = true)
   private Integer routeOrder = 0;
 
   /**
    * 路由状态 1：可用 0：不可用
    */
-  @ApiModelProperty(value = "路由状态", required = true)
+  @Schema(name = "路由状态", required = true)
   private StatusEnum status;
 
   /**
    * 界面使用的谓词
    */
-  @ApiModelProperty(value = "表达式")
+  @Schema(name = "表达式")
   private String pattern;
 
   public GatewayRouteDto() {

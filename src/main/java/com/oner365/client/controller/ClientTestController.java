@@ -12,8 +12,8 @@ import com.oner365.data.web.controller.BaseController;
 import com.oner365.sys.dto.LoginUserDto;
 import com.oner365.sys.vo.LoginUserVo;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 
 /**
  * 测试加密body
@@ -21,7 +21,7 @@ import io.swagger.annotations.ApiOperation;
  * @author liutao
  */
 @RestController
-@Api(tags = "加密传输body测试")
+@Tag(name = "加密传输body测试")
 @RequestMapping("/client")
 public class ClientTestController extends BaseController {
 
@@ -32,7 +32,7 @@ public class ClientTestController extends BaseController {
    * @return ResponseData
    */
   @PostMapping("/login")
-  @ApiOperation("1.登录")
+  @Operation(summary = "1.登录")
   @ApiOperationSupport(order = 1)
   public ResponseData<LoginUserDto> login(@RequestBody LoginUserVo loginUserVo) {
     if (logger.isDebugEnabled()) {

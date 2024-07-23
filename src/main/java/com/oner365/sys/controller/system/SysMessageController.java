@@ -32,8 +32,8 @@ import com.oner365.sys.enums.MessageTypeEnum;
 import com.oner365.sys.service.ISysMessageService;
 import com.oner365.sys.vo.SysMessageVo;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 
 /**
  * 消息通知
@@ -41,7 +41,7 @@ import io.swagger.annotations.ApiOperation;
  * @author zhaoyong
  */
 @RestController
-@Api(tags = "系统管理 - 消息")
+@Tag(name = "系统管理 - 消息")
 @RequestMapping("/system/message")
 public class SysMessageController extends BaseController {
 
@@ -54,7 +54,7 @@ public class SysMessageController extends BaseController {
    * @param messageType 消息类型
    * @return ResponseResult<Boolean>
    */
-  @ApiOperation("1.刷新")
+  @Operation(summary = "1.刷新")
   @ApiOperationSupport(order = 1)
   @GetMapping("/refresh")
   public ResponseResult<Boolean> refresh(@RequestParam("messageType") MessageTypeEnum messageType) {
@@ -74,7 +74,7 @@ public class SysMessageController extends BaseController {
    * @param data 查询对象
    * @return PageInfo<SysMessageDto>
    */
-  @ApiOperation("2.获取列表")
+  @Operation(summary = "2.获取列表")
   @ApiOperationSupport(order = 2)
   @PostMapping("/list")
   public PageInfo<SysMessageDto> pageList(@RequestBody QueryCriteriaBean data) {
@@ -87,7 +87,7 @@ public class SysMessageController extends BaseController {
    * @param id 编号
    * @return SysMessageDto
    */
-  @ApiOperation("3.按id查询")
+  @Operation(summary = "3.按id查询")
   @ApiOperationSupport(order = 3)
   @GetMapping("/get/{id}")
   public SysMessageDto get(@PathVariable String id) {
@@ -101,7 +101,7 @@ public class SysMessageController extends BaseController {
    * @param status 状态
    * @return Boolean
    */
-  @ApiOperation("4.修改状态")
+  @Operation(summary = "4.修改状态")
   @ApiOperationSupport(order = 4)
   @PostMapping("/status/{id}")
   public Boolean editStatus(@PathVariable String id, @RequestParam("status") MessageStatusEnum status) {
@@ -114,7 +114,7 @@ public class SysMessageController extends BaseController {
    * @param sysMessageVo 消息对象
    * @return ResponseResult<SysMessageDto>
    */
-  @ApiOperation("5.保存")
+  @Operation(summary = "5.保存")
   @ApiOperationSupport(order = 5)
   @PutMapping("/save")
   public ResponseResult<SysMessageDto> save(@Validated @RequestBody SysMessageVo sysMessageVo) {
@@ -131,7 +131,7 @@ public class SysMessageController extends BaseController {
    * @param ids 编号
    * @return List<Boolean>
    */
-  @ApiOperation("6.删除")
+  @Operation(summary = "6.删除")
   @ApiOperationSupport(order = 6)
   @DeleteMapping("/delete")
   public List<Boolean> delete(@RequestBody String... ids) {
@@ -144,7 +144,7 @@ public class SysMessageController extends BaseController {
    * @param data 查询参数
    * @return ResponseEntity<byte[]>
    */
-  @ApiOperation("7.导出")
+  @Operation(summary = "7.导出")
   @ApiOperationSupport(order = 7)
   @PostMapping("/export")
   public ResponseEntity<byte[]> export(@RequestBody QueryCriteriaBean data) {

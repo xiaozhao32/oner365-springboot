@@ -4,8 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * 登录数据对象
@@ -13,7 +12,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @author zhaoyong
  *
  */
-@ApiModel(value = "登录数据对象")
+@Schema(name = "登录数据对象")
 public class LoginUserDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -21,55 +20,55 @@ public class LoginUserDto implements Serializable {
     /**
      * token
      */
-    @ApiModelProperty(value = "token")
+    @Schema(name = "token")
     private String accessToken;
     
     /**
      * token有效期
      */
-    @ApiModelProperty(value = "token有效期")
+    @Schema(name = "token有效期")
     private Long expireTime;
     
     /**
      * 账号id
      */
-    @ApiModelProperty(value = "账号id")
+    @Schema(name = "账号id")
     private String userId;
     
     /**
      * 真实姓名
      */
-    @ApiModelProperty(value = "真实姓名")
+    @Schema(name = "真实姓名")
     private String realName;
     
     /**
      * 是否管理员
      */
-    @ApiModelProperty(value = "是否管理员")
+    @Schema(name = "是否管理员")
     private String isAdmin;
     
     /**
      * 头像
      */
-    @ApiModelProperty(value = "头像")
+    @Schema(name = "头像")
     private String avatar;
     
     /**
      * 角色信息
      */
-    @ApiModelProperty(value = "角色信息")
+    @Schema(name = "角色信息")
     private List<String> roles = new ArrayList<>();
     
     /**
      * 职位信息
      */
-    @ApiModelProperty(value = "职位信息")
+    @Schema(name = "职位信息")
     private List<String> jobs = new ArrayList<>();
     
     /**
      * 机构信息
      */
-    @ApiModelProperty(value = "机构信息")
+    @Schema(name = "机构信息")
     private List<String> orgs = new ArrayList<>();
 
     /**

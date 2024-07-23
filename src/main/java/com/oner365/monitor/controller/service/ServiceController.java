@@ -25,8 +25,8 @@ import com.oner365.deploy.utils.DeployMethod;
 import com.oner365.monitor.dto.ServiceInfoDto;
 import com.oner365.queue.service.IQueueSendService;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 
 /**
  * 服务监控
@@ -34,7 +34,7 @@ import io.swagger.annotations.ApiOperation;
  * @author zhaoyong
  */
 @RestController
-@Api(tags = "监控 - 服务信息")
+@Tag(name = "监控 - 服务信息")
 @RequestMapping("/monitor/service")
 public class ServiceController extends BaseController {
 
@@ -52,7 +52,7 @@ public class ServiceController extends BaseController {
    *
    * @return List<List<ServiceInfoDto>>
    */
-  @ApiOperation("1.首页")
+  @Operation(summary = "1.首页")
   @ApiOperationSupport(order = 1)
   @GetMapping("/index")
   public List<List<ServiceInfoDto>> index() {
@@ -77,7 +77,7 @@ public class ServiceController extends BaseController {
    *
    * @return ResponseResult<String>
    */
-  @ApiOperation("2.动态刷新配置")
+  @Operation(summary = "2.动态刷新配置")
   @ApiOperationSupport(order = 2)
   @GetMapping("/refresh")
   public ResponseResult<String> refreshConfig() {
@@ -90,7 +90,7 @@ public class ServiceController extends BaseController {
    *
    * @return JSONObject
    */
-  @ApiOperation("3.配置信息")
+  @Operation(summary = "3.配置信息")
   @ApiOperationSupport(order = 3)
   @PostMapping("/info")
   public JSONObject getActuatorEnv() {
@@ -107,7 +107,7 @@ public class ServiceController extends BaseController {
    *
    * @return ResponseResult<String>
    */
-  @ApiOperation("4.上传服务")
+  @Operation(summary = "4.上传服务")
   @ApiOperationSupport(order = 4)
   @PostMapping("/upload")
   public ResponseResult<String> uploadService() {
@@ -127,7 +127,7 @@ public class ServiceController extends BaseController {
    *
    * @return ResponseResult<String>
    */
-  @ApiOperation("5.重启服务")
+  @Operation(summary = "5.重启服务")
   @ApiOperationSupport(order = 5)
   @PostMapping("/reset")
   public ResponseResult<String> resetService() {

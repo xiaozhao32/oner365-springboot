@@ -24,8 +24,8 @@ import com.oner365.elasticsearch.dto.SampleLocationDto;
 import com.oner365.elasticsearch.service.ISampleLocationElasticsearchService;
 import com.oner365.elasticsearch.vo.SampleLocationVo;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 
 /**
  * SampleLocation Controller
@@ -34,7 +34,7 @@ import io.swagger.annotations.ApiOperation;
  *
  */
 @RestController
-@Api(tags = "Elasticsearch 坐标信息")
+@Tag(name = "Elasticsearch 坐标信息")
 @RequestMapping("/elasticsearch/sample/location")
 public class SampleLocationController extends BaseController {
 
@@ -47,7 +47,7 @@ public class SampleLocationController extends BaseController {
    * @param data 查询条件参数
    * @return PageInfo<SampleLocationDto>
    */
-  @ApiOperation("1.获取列表")
+  @Operation(summary = "1.获取列表")
   @ApiOperationSupport(order = 1)
   @PostMapping("/list")
   public PageInfo<SampleLocationDto> pageList(@RequestBody QueryCriteriaBean data) {
@@ -60,7 +60,7 @@ public class SampleLocationController extends BaseController {
    * @param id 编号
    * @return SampleLocationDto
    */
-  @ApiOperation("2.按id查询")
+  @Operation(summary = "2.按id查询")
   @ApiOperationSupport(order = 2)
   @GetMapping("/get/{id}")
   public SampleLocationDto get(@PathVariable("id") String id) {
@@ -73,7 +73,7 @@ public class SampleLocationController extends BaseController {
    * @param sampleLocationVo 坐标对象
    * @return ResponseResult<SampleLocationDto>
    */
-  @ApiOperation("3.保存")
+  @Operation(summary = "3.保存")
   @ApiOperationSupport(order = 3)
   @PutMapping("/save")
   public ResponseResult<SampleLocationDto> save(@RequestBody SampleLocationVo sampleLocationVo) {
@@ -90,7 +90,7 @@ public class SampleLocationController extends BaseController {
    * @param ids 编号
    * @return Integer
    */
-  @ApiOperation("4.删除")
+  @Operation(summary = "4.删除")
   @ApiOperationSupport(order = 4)
   @DeleteMapping("/delete")
   public List<Boolean> delete(@RequestBody String... ids) {

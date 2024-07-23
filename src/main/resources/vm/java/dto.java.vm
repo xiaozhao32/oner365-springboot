@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 #end
 
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.annotations.ApiModelProperty;
 #if($column.javaType != 'StatusEnum')
 import com.oner365.common.enums.StatusEnum;
@@ -22,7 +22,7 @@ import com.oner365.common.enums.StatusEnum;
  * 
  * @author ${author}
  */
-@ApiModel(value = "${functionName}")
+@Schema(name = "${functionName}")
 public class ${ClassName}Dto implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -30,9 +30,9 @@ public class ${ClassName}Dto implements Serializable {
 #foreach ($column in $columns)
     /** $column.columnComment */
 #if($column.columnName == 'id')
-    @ApiModelProperty(value = "$column.columnComment")
+    @Schema(name = "$column.columnComment")
 #else
-    @ApiModelProperty(value = "$column.columnComment", required =#if($column.isRequired == '1') true#else false#end)
+    @Schema(name = "$column.columnComment", required =#if($column.isRequired == '1') true#else false#end)
 #end
 #if($column.javaType == 'json')
     private String $column.javaField;

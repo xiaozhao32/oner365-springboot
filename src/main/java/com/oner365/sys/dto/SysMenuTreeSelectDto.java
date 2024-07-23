@@ -4,8 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * 菜单树权限
@@ -13,7 +12,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @author zhaoyong
  *
  */
-@ApiModel(value = "菜单树权限")
+@Schema(name = "菜单树权限")
 public class SysMenuTreeSelectDto implements Serializable {
 
   /**
@@ -24,13 +23,13 @@ public class SysMenuTreeSelectDto implements Serializable {
   /**
    * 菜单列表
    */
-  @ApiModelProperty(value = "菜单列表")
+  @Schema(name = "菜单列表")
   private List<TreeSelect> menus = new ArrayList<>();
 
   /**
    * 选中权限集合
    */
-  @ApiModelProperty(value = "选中权限集合")
+  @Schema(name = "选中权限集合")
   private List<String> checkedKeys = new ArrayList<>();
 
   public SysMenuTreeSelectDto() {

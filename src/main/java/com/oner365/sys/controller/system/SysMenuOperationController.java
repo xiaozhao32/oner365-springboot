@@ -30,8 +30,8 @@ import com.oner365.sys.service.ISysMenuOperationService;
 import com.oner365.sys.vo.SysMenuOperationVo;
 import com.oner365.sys.vo.check.CheckCodeVo;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 
 /**
  * 菜单操作权限
@@ -40,7 +40,7 @@ import io.swagger.annotations.ApiOperation;
  *
  */
 @RestController
-@Api(tags = "系统管理 - 菜单操作权限")
+@Tag(name = "系统管理 - 菜单操作权限")
 @RequestMapping("/system/menu/operation")
 public class SysMenuOperationController extends BaseController {
 
@@ -53,7 +53,7 @@ public class SysMenuOperationController extends BaseController {
    * @param data 查询参数
    * @return PageInfo<SysMenuOperationDto>
    */
-  @ApiOperation("1.获取列表")
+  @Operation(summary = "1.获取列表")
   @ApiOperationSupport(order = 1)
   @PostMapping("/list")
   public PageInfo<SysMenuOperationDto> pageList(@RequestBody QueryCriteriaBean data) {
@@ -66,7 +66,7 @@ public class SysMenuOperationController extends BaseController {
    * @param id 编号
    * @return SysMenuOperationDto
    */
-  @ApiOperation("2.按id查询")
+  @Operation(summary = "2.按id查询")
   @ApiOperationSupport(order = 2)
   @GetMapping("/get/{id}")
   public SysMenuOperationDto getById(@PathVariable String id) {
@@ -80,7 +80,7 @@ public class SysMenuOperationController extends BaseController {
    * @param status 状态
    * @return Boolean
    */
-  @ApiOperation("3.修改状态")
+  @Operation(summary = "3.修改状态")
   @ApiOperationSupport(order = 3)
   @PostMapping("/status/{id}")
   public Boolean editStatus(@PathVariable String id, @RequestParam("status") StatusEnum status) {
@@ -93,7 +93,7 @@ public class SysMenuOperationController extends BaseController {
    * @param checkCodeVo 查询参数
    * @return Boolean
    */
-  @ApiOperation("4.判断是否存在")
+  @Operation(summary = "4.判断是否存在")
   @ApiOperationSupport(order = 4)
   @PostMapping("/check")
   public Boolean checkCode(@Validated @RequestBody CheckCodeVo checkCodeVo) {
@@ -109,7 +109,7 @@ public class SysMenuOperationController extends BaseController {
    * @param sysMenuOperationVo 操作对象
    * @return ResponseResult<SysMenuOperationDto>
    */
-  @ApiOperation("5.保存")
+  @Operation(summary = "5.保存")
   @ApiOperationSupport(order = 5)
   @PutMapping("/save")
   public ResponseResult<SysMenuOperationDto> save(@Validated @RequestBody SysMenuOperationVo sysMenuOperationVo) {
@@ -126,7 +126,7 @@ public class SysMenuOperationController extends BaseController {
    * @param ids 编号
    * @return List<Boolean>
    */
-  @ApiOperation("6.删除")
+  @Operation(summary = "6.删除")
   @ApiOperationSupport(order = 6)
   @DeleteMapping("/delete")
   public List<Boolean> delete(@RequestBody String... ids) {
@@ -139,7 +139,7 @@ public class SysMenuOperationController extends BaseController {
    * @param data 查询参数
    * @return ResponseEntity<byte[]>
    */
-  @ApiOperation("7.导出")
+  @Operation(summary = "7.导出")
   @ApiOperationSupport(order = 7)
   @PostMapping("/export")
   public ResponseEntity<byte[]> export(@RequestBody QueryCriteriaBean data) {

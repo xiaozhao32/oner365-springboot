@@ -5,7 +5,7 @@ import java.util.Date;
 
 import com.oner365.monitor.enums.TaskStatusEnum;
 
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * SysTaskLog
@@ -13,7 +13,7 @@ import io.swagger.annotations.ApiModel;
  * @author zhaoyong
  *
  */
-@ApiModel(value = "定时任务日志")
+@Schema(name = "定时任务日志")
 public class SysTaskLogDto implements Serializable {
   private static final long serialVersionUID = 1L;
 

@@ -4,15 +4,14 @@ import java.io.Serializable;
 
 import com.oner365.statemachine.enums.OrderEventEnum;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * 状态机订单对象
  * 
  * @author zhaoyong
  */
-@ApiModel(value = "状态机订单对象")
+@Schema(name = "状态机订单对象")
 public class OrderVo implements Serializable {
 
   /**
@@ -23,31 +22,31 @@ public class OrderVo implements Serializable {
   /**
    * 订单号
    */
-  @ApiModelProperty(value = "订单号")
+  @Schema(name = "订单号")
   private int id;
 
   /**
    * 支付状态
    */
-  @ApiModelProperty(value = "支付状态")
+  @Schema(name = "支付状态")
   private OrderEventEnum payState;
   
   /**
    * 接收状态
    */
-  @ApiModelProperty(value = "接收状态")
+  @Schema(name = "接收状态")
   private OrderEventEnum receiveState;
   
   /**
    * 支付结果
    */
-  @ApiModelProperty(value = "支付结果")
+  @Schema(name = "支付结果")
   private boolean payResult;
   
   /**
    * 接收结果
    */
-  @ApiModelProperty(value = "接收结果")
+  @Schema(name = "接收结果")
   private boolean receiveResult;
   
   public OrderVo() {

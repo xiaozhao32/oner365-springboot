@@ -2,8 +2,6 @@ package com.oner365.queue.service.pulsar.impl;
 
 import java.util.concurrent.TimeUnit;
 
-import jakarta.annotation.Resource;
-
 import org.apache.pulsar.client.api.MessageId;
 import org.apache.pulsar.client.api.Producer;
 import org.apache.pulsar.client.api.PulsarClient;
@@ -15,7 +13,6 @@ import org.springframework.context.annotation.Conditional;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSONObject;
 import com.oner365.api.dto.UpdateTaskExecuteStatusDto;
 import com.oner365.data.commons.exception.ProjectRuntimeException;
 import com.oner365.data.redis.RedisCache;
@@ -25,6 +22,8 @@ import com.oner365.monitor.dto.SysTaskDto;
 import com.oner365.queue.condition.PulsarCondition;
 import com.oner365.queue.constants.QueueConstants;
 import com.oner365.queue.service.IQueueSendService;
+
+import jakarta.annotation.Resource;
 
 /**
  * pulsar service impl
@@ -55,10 +54,10 @@ public class PulsarSendServiceImpl implements IQueueSendService {
 
   @Async
   @Override
-  public void sendMessage(JSONObject data) {
+  public void sendMessage(byte[] data) {
     if (redisCache.lock(QueueConstants.MESSAGE_QUEUE_NAME, QueueConstants.QUEUE_LOCK_TIME_SECOND)) {
-      try (Producer<JSONObject> producer = createProducer(QueueConstants.MESSAGE_QUEUE_NAME,
-          Schema.JSON(JSONObject.class))) {
+      try (Producer<byte[]> producer = createProducer(QueueConstants.MESSAGE_QUEUE_NAME,
+          Schema.JSON(byte[].class))) {
         MessageId messageId = producer.send(data);
         logger.info("Pulsar sendMessage: {} topic: {} messageId: {}", data, QueueConstants.MESSAGE_QUEUE_NAME, messageId);
       } catch (PulsarClientException e) {

@@ -5,8 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import jakarta.annotation.Resource;
-
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -45,9 +43,10 @@ import com.oner365.sys.vo.SysUserInfoVo;
 import com.oner365.sys.vo.SysUserVo;
 import com.oner365.sys.vo.check.CheckUserNameVo;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import springfox.documentation.annotations.ApiIgnore;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
 
 /**
  * 用户管理
@@ -55,7 +54,7 @@ import springfox.documentation.annotations.ApiIgnore;
  * @author zhaoyong
  */
 @RestController
-@Api(tags = "系统管理 - 用户")
+@Tag(name = "系统管理 - 用户")
 @RequestMapping("/system/user")
 public class SysUserController extends BaseController {
 
@@ -77,7 +76,7 @@ public class SysUserController extends BaseController {
    * @param data 查询参数
    * @return PageInfo<SysUserDto>
    */
-  @ApiOperation("1.用户列表")
+  @Operation(summary = "1.用户列表")
   @ApiOperationSupport(order = 1)
   @PostMapping("/list")
   public PageInfo<SysUserDto> pageList(@RequestBody QueryCriteriaBean data) {
@@ -90,7 +89,7 @@ public class SysUserController extends BaseController {
    * @param id 编号
    * @return SysUserInfoVo
    */
-  @ApiOperation("2.按id查询")
+  @Operation(summary = "2.按id查询")
   @ApiOperationSupport(order = 2)
   @GetMapping("/get/{id}")
   public SysUserInfoVo get(@PathVariable String id) {
@@ -116,10 +115,10 @@ public class SysUserController extends BaseController {
    * @param authUser 登录对象
    * @return SysUserDto
    */
-  @ApiOperation("3.个人信息")
+  @Operation(summary = "3.个人信息")
   @ApiOperationSupport(order = 3)
   @GetMapping("/profile")
-  public SysUserDto profile(@ApiIgnore @CurrentUser AuthUser authUser) {
+  public SysUserDto profile(@Parameter(hidden = true) @CurrentUser AuthUser authUser) {
     return sysUserService.getById(authUser.getId());
   }
 
@@ -130,10 +129,10 @@ public class SysUserController extends BaseController {
    * @param file     文件
    * @return ResponseResult<String>
    */
-  @ApiOperation("4.上传头像")
+  @Operation(summary = "4.上传头像")
   @ApiOperationSupport(order = 4)
   @PostMapping("/avatar")
-  public ResponseResult<String> avatar(@ApiIgnore @CurrentUser AuthUser authUser, @RequestParam("avatarfile") MultipartFile file) {
+  public ResponseResult<String> avatar(@Parameter(hidden = true) @CurrentUser AuthUser authUser, @RequestParam("avatarfile") MultipartFile file) {
     if (!file.isEmpty()) {
       String fileUrl = fileStorageClient.uploadFile(file, "avatar");
       SysUserDto sysUserDto =sysUserService.updateAvatar(authUser.getId(), fileUrl);
@@ -149,10 +148,10 @@ public class SysUserController extends BaseController {
    * @param sysUserVo 对象
    * @return ResponseResult
    */
-  @ApiOperation("5.更新个人信息")
+  @Operation(summary = "5.更新个人信息")
   @ApiOperationSupport(order = 5)
   @PostMapping("/update/profile")
-  public ResponseResult<SysUserDto> updateUserProfile(@ApiIgnore @CurrentUser AuthUser authUser, @RequestBody SysUserVo sysUserVo) {
+  public ResponseResult<SysUserDto> updateUserProfile(@Parameter(hidden = true) @CurrentUser AuthUser authUser, @RequestBody SysUserVo sysUserVo) {
     if (sysUserVo != null) {
       sysUserVo.setId(authUser.getId());
       SysUserDto result = sysUserService.updateUserProfile(sysUserVo);
@@ -167,7 +166,7 @@ public class SysUserController extends BaseController {
    * @param checkUserNameVo 查询参数
    * @return Boolean
    */
-  @ApiOperation("6.判断是否存在")
+  @Operation(summary = "6.判断是否存在")
   @ApiOperationSupport(order = 6)
   @PostMapping("/check")
   public Boolean checkUserName(@Validated @RequestBody CheckUserNameVo checkUserNameVo) {
@@ -183,7 +182,7 @@ public class SysUserController extends BaseController {
    * @param resetPasswordVo 查询参数
    * @return Boolean
    */
-  @ApiOperation("7.重置密码")
+  @Operation(summary = "7.重置密码")
   @ApiOperationSupport(order = 7)
   @PostMapping("/reset")
   public Boolean resetPassword(@Validated @RequestBody ResetPasswordVo resetPasswordVo) {
@@ -200,10 +199,10 @@ public class SysUserController extends BaseController {
    * @param modifyPasswordVo 请求参数
    * @return ResponseResult<Boolean>
    */
-  @ApiOperation("8.修改密码")
+  @Operation(summary = "8.修改密码")
   @ApiOperationSupport(order = 8)
   @PostMapping("/update/password")
-  public ResponseResult<Boolean> editPassword(@ApiIgnore @CurrentUser AuthUser authUser,
+  public ResponseResult<Boolean> editPassword(@Parameter(hidden = true) @CurrentUser AuthUser authUser,
       @Validated @RequestBody ModifyPasswordVo modifyPasswordVo) {
     if (modifyPasswordVo != null) {
       String oldPassword = DigestUtils.md5Hex(modifyPasswordVo.getOldPassword()).toUpperCase();
@@ -225,7 +224,7 @@ public class SysUserController extends BaseController {
    * @param status 状态
    * @return Boolean
    */
-  @ApiOperation("9.修改状态")
+  @Operation(summary = "9.修改状态")
   @ApiOperationSupport(order = 9)
   @PostMapping("/status/{id}")
   public Boolean editStatus(@PathVariable String id, @RequestParam("status") StatusEnum status) {
@@ -238,7 +237,7 @@ public class SysUserController extends BaseController {
    * @param sysUserVo 用户对象
    * @return ResponseResult<SysUserDto>
    */
-  @ApiOperation("10.保存")
+  @Operation(summary = "10.保存")
   @ApiOperationSupport(order = 10)
   @PutMapping("/save")
   public ResponseResult<SysUserDto> save(@Validated @RequestBody SysUserVo sysUserVo) {
@@ -256,7 +255,7 @@ public class SysUserController extends BaseController {
    * @param ids 编号
    * @return List<Boolean>
    */
-  @ApiOperation("11.删除")
+  @Operation(summary = "11.删除")
   @ApiOperationSupport(order = 11)
   @DeleteMapping("/delete")
   public List<Boolean> delete(@RequestBody String... ids) {
@@ -269,7 +268,7 @@ public class SysUserController extends BaseController {
    * @param data 参数
    * @return ResponseEntity<byte[]>
    */
-  @ApiOperation("12.导出")
+  @Operation(summary = "12.导出")
   @ApiOperationSupport(order = 12)
   @PostMapping("/export")
   public ResponseEntity<byte[]> export(@RequestBody QueryCriteriaBean data) {

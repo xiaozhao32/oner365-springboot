@@ -21,8 +21,8 @@ import com.oner365.data.web.controller.BaseController;
 import com.oner365.elasticsearch.dto.ApplicationLogDto;
 import com.oner365.elasticsearch.service.IApplicationLogElasticsearchService;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 
 /**
  * Elasticsearch Controller
@@ -31,7 +31,7 @@ import io.swagger.annotations.ApiOperation;
  *
  */
 @RestController
-@Api(tags = "ApplicationLog 应用日志")
+@Tag(name = "ApplicationLog 应用日志")
 @RequestMapping("/elasticsearch/application/log")
 public class ApplicationLogController extends BaseController {
 
@@ -44,7 +44,7 @@ public class ApplicationLogController extends BaseController {
    * @param data 查询条件参数
    * @return PageInfo<ApplicationLogDto>
    */
-  @ApiOperation("1.获取列表")
+  @Operation(summary = "1.获取列表")
   @ApiOperationSupport(order = 1)
   @PostMapping("/list")
   public PageInfo<ApplicationLogDto> pageList(@RequestBody QueryCriteriaBean data) {
@@ -57,7 +57,7 @@ public class ApplicationLogController extends BaseController {
    * @param id 编号
    * @return ApplicationLogDto
    */
-  @ApiOperation("2.按id查询")
+  @Operation(summary = "2.按id查询")
   @ApiOperationSupport(order = 2)
   @GetMapping("/get/{id}")
   public ApplicationLogDto get(@PathVariable("id") String id) {
@@ -70,7 +70,7 @@ public class ApplicationLogController extends BaseController {
    * @param ids 编号
    * @return Integer
    */
-  @ApiOperation("3.删除")
+  @Operation(summary = "3.删除")
   @ApiOperationSupport(order = 3)
   @DeleteMapping("/delete")
   public List<Boolean> delete(@RequestBody String... ids) {

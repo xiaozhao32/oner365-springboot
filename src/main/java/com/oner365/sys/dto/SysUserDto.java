@@ -9,15 +9,14 @@ import com.oner365.data.commons.enums.StatusEnum;
 import com.oner365.sys.enums.SysUserSexEnum;
 import com.oner365.sys.enums.SysUserTypeEnum;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * 系统用户
  *
  * @author zhaoyong
  */
-@ApiModel(value = "用户信息")
+@Schema(name = "用户信息")
 public class SysUserDto implements Serializable {
 
   /**
@@ -28,157 +27,157 @@ public class SysUserDto implements Serializable {
   /**
    * 主键
    */
-  @ApiModelProperty(value = "主键")
+  @Schema(name = "主键")
   private String id;
 
   /**
    * 用户标识
    */
-  @ApiModelProperty(value = "用户标识")
+  @Schema(name = "用户标识")
   private String userCode;
 
   /**
    * 账号
    */
-  @ApiModelProperty(value = "账号", required = true)
+  @Schema(name = "账号", required = true)
   private String userName;
 
   /**
    * 密码
    */
-  @ApiModelProperty(value = "密码", required = true)
+  @Schema(name = "密码", required = true)
   private String password;
 
   /**
    * 真实姓名
    */
-  @ApiModelProperty(value = "真实姓名")
+  @Schema(name = "真实姓名")
   private String realName;
 
   /**
    * 头像
    */
-  @ApiModelProperty(value = "头像")
+  @Schema(name = "头像")
   private String avatar;
 
   /**
    * 性别
    */
-  @ApiModelProperty(value = "性别")
+  @Schema(name = "性别")
   private SysUserSexEnum sex;
 
   /**
    * 状态
    */
-  @ApiModelProperty(value = "状态")
+  @Schema(name = "状态")
   private StatusEnum status;
 
   /**
    * 最后登录时间
    */
-  @ApiModelProperty(value = "最后登录时间")
+  @Schema(name = "最后登录时间")
   private LocalDateTime lastTime;
 
   /**
    * 创建时间
    */
-  @ApiModelProperty(value = "创建时间")
+  @Schema(name = "创建时间")
   private LocalDateTime createTime;
 
   /**
    * 最后登录ip
    */
-  @ApiModelProperty(value = "最后登录ip")
+  @Schema(name = "最后登录ip")
   private String lastIp;
 
   /**
    * 邮箱
    */
-  @ApiModelProperty(value = "邮箱")
+  @Schema(name = "邮箱")
   private String email;
 
   /**
    * 电话
    */
-  @ApiModelProperty(value = "电话")
+  @Schema(name = "电话")
   private String phone;
 
   /**
    * 身份证
    */
-  @ApiModelProperty(value = "身份证")
+  @Schema(name = "身份证")
   private String idCard;
 
   /**
    * 是否管理员
    */
-  @ApiModelProperty(value = "是否管理员")
+  @Schema(name = "是否管理员")
   private String isAdmin;
 
   /**
    * 默认密码
    */
-  @ApiModelProperty(value = "默认密码")
+  @Schema(name = "默认密码")
   private String defaultPassword;
 
   /**
    * 状态
    */
-  @ApiModelProperty(value = "状态")
+  @Schema(name = "状态")
   private StatusEnum activeStatus;
 
   /**
    * 用户类型
    */
-  @ApiModelProperty(value = "用户类型")
+  @Schema(name = "用户类型")
   private SysUserTypeEnum userType;
 
   /**
    * 证件类型
    */
-  @ApiModelProperty(value = "证件类型")
+  @Schema(name = "证件类型")
   private String idType;
 
   /**
    * 备注
    */
-  @ApiModelProperty(value = "备注")
+  @Schema(name = "备注")
   private String remark;
 
   /**
    * 角色ID
    */
-  @ApiModelProperty(value = "角色ID列表")
+  @Schema(name = "角色ID列表")
   private List<String> roles = new ArrayList<>();
 
   /**
    * 角色名称列表
    */
-  @ApiModelProperty(value = "角色名称列表")
+  @Schema(name = "角色名称列表")
   private List<String> roleNameList = new ArrayList<>();
 
   /**
    * 职位ID
    */
-  @ApiModelProperty(value = "职位ID列表")
+  @Schema(name = "职位ID列表")
   private List<String> jobs = new ArrayList<>();
 
   /**
    * 职位名称列表
    */
-  @ApiModelProperty(value = "职位名称列表")
+  @Schema(name = "职位名称列表")
   private List<String> jobNameList = new ArrayList<>();
 
   /**
    * 机构ID
    */
-  @ApiModelProperty(value = "机构ID列表")
+  @Schema(name = "机构ID列表")
   private List<String> orgs = new ArrayList<>();
 
   /**
    * 机构名称列表
    */
-  @ApiModelProperty(value = "机构名称列表")
+  @Schema(name = "机构名称列表")
   private List<String> orgNameList = new ArrayList<>();
 
   /**

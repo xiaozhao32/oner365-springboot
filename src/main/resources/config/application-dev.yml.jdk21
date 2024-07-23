@@ -153,6 +153,9 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant-path-matcher
+  web:
+    resources:
+      static-locations: [classpath:/META-INF/resources/, classpath:/resources/, classpath:/static/, classpath:/META-INF/webjars/]
 
   # 线程池
   task:
@@ -281,12 +284,58 @@ swagger:
   url: https://www.oner365.com
   email: service@oner365.com
   description: Oner365 project
+  
+springdoc:
+  swagger-ui:
+    enabled: true
+    tags-sorter: alpha
+    path: /swagger-ui.html
+  
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+    
+  group-configs:
+    - group: api
+      display-name: Api(对外接口)
+      paths-to-match: /**
+      packages-to-scan: com.oner365.api
+    - group: sys
+      display-name: System(系统管理)
+      paths-to-match: /**
+      packages-to-scan: com.oner365.sys
+    - group: monitor
+      display-name: Monitor(监控中心)
+      paths-to-match: /**
+      packages-to-scan: com.oner365.monitor
+    - group: elasticsearch
+      display-name: Elasticsearch(索引查询)
+      paths-to-match: /**
+      packages-to-scan: com.oner365.elasticsearch
+    - group: gateway
+      display-name: Cloud 专用(网关管理)
+      paths-to-match: /**
+      packages-to-scan: com.oner365.gateway
+    - group: files
+      display-name: Files(文件中心)
+      paths-to-match: /**
+      packages-to-scan: com.oner365.files
+    - group: queue
+      display-name: Queue(队列)
+      paths-to-match: /**
+      packages-to-scan: com.oner365.queue
+    - group: statemachine
+      display-name: State(状态转换)
+      paths-to-match: /**
+      packages-to-scan: com.oner365.statemachine
 
 # knife4j
 knife4j:
   enable: true
   # 生产环境需要屏蔽
   production: false
+  setting:
+    language: ZH_CN
   
 # 是否跳过ssl验证 true验证，false跳过验证
 webclient:

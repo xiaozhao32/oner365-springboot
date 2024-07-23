@@ -8,8 +8,8 @@ import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.data.web.controller.BaseController;
 import com.oner365.monitor.entity.Server;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 
 /**
  * 服务器监控
@@ -17,14 +17,14 @@ import io.swagger.annotations.ApiOperation;
  * @author zhaoyong
  */
 @RestController
-@Api(tags = "监控 - 服务器信息")
+@Tag(name = "监控 - 服务器信息")
 @RequestMapping("/monitor/server")
 public class ServerController extends BaseController {
 
   /**
    * 当前服务器信息
    */
-  @ApiOperation("1.首页")
+  @Operation(summary = "1.首页")
   @ApiOperationSupport(order = 1)
   @GetMapping("/index")
   public Server index() {

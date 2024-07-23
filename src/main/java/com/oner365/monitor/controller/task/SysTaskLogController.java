@@ -20,8 +20,8 @@ import com.oner365.data.web.controller.BaseController;
 import com.oner365.monitor.dto.SysTaskLogDto;
 import com.oner365.monitor.service.ISysTaskLogService;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 
 /**
  * 调度日志操作处理
@@ -29,7 +29,7 @@ import io.swagger.annotations.ApiOperation;
  * @author zhaoyong
  */
 @RestController
-@Api(tags = "监控 - 定时任务日志")
+@Tag(name = "监控 - 定时任务日志")
 @RequestMapping("/monitor/taskLog")
 public class SysTaskLogController extends BaseController {
 
@@ -42,7 +42,7 @@ public class SysTaskLogController extends BaseController {
    * @param data 查询参数
    * @return PageInfo<SysTaskLogDto>
    */
-  @ApiOperation("1.获取列表")
+  @Operation(summary = "1.获取列表")
   @ApiOperationSupport(order = 1)
   @PostMapping("/list")
   public PageInfo<SysTaskLogDto> pageList(@RequestBody QueryCriteriaBean data) {
@@ -55,7 +55,7 @@ public class SysTaskLogController extends BaseController {
    * @param id 主键
    * @return SysTaskLogDto
    */
-  @ApiOperation("2.按id查询")
+  @Operation(summary = "2.按id查询")
   @ApiOperationSupport(order = 2)
   @GetMapping("/{id}")
   public SysTaskLogDto getInfo(@PathVariable String id) {
@@ -67,7 +67,7 @@ public class SysTaskLogController extends BaseController {
    * 
    * @return Boolean
    */
-  @ApiOperation("3.清除任务日志")
+  @Operation(summary = "3.清除任务日志")
   @ApiOperationSupport(order = 3)
   @DeleteMapping("/clean")
   public Boolean clean() {
@@ -80,7 +80,7 @@ public class SysTaskLogController extends BaseController {
    * @param ids 主键
    * @return List<Boolean>
    */
-  @ApiOperation("4.删除任务日志")
+  @Operation(summary = "4.删除任务日志")
   @ApiOperationSupport(order = 4)
   @DeleteMapping("/delete")
   public List<Boolean> remove(@RequestBody String... ids) {
@@ -93,7 +93,7 @@ public class SysTaskLogController extends BaseController {
    * @param data 查询参数
    * @return ResponseEntity<byte[]>
    */
-  @ApiOperation("5.导出")
+  @Operation(summary = "5.导出")
   @ApiOperationSupport(order = 5)
   @PostMapping("/export")
   public ResponseEntity<byte[]> export(@RequestBody QueryCriteriaBean data) {

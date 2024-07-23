@@ -4,8 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * 菜单树
@@ -13,7 +12,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @author zhaoyong
  *
  */
-@ApiModel(value = "菜单树信息")
+@Schema(name = "菜单树信息")
 public class SysMenuTreeDto implements Serializable {
 
   /**
@@ -24,67 +23,67 @@ public class SysMenuTreeDto implements Serializable {
   /**
    * 主键
    */
-  @ApiModelProperty(value = "主键")
+  @Schema(name = "主键")
   private String id;
   
   /**
    * 菜单名称
    */
-  @ApiModelProperty(value = "菜单名称")
+  @Schema(name = "菜单名称")
   private String name;
   
   /**
    * 路径
    */
-  @ApiModelProperty(value = "路径")
+  @Schema(name = "路径")
   private String path;
   
   /**
    * 模块
    */
-  @ApiModelProperty(value = "模块")
+  @Schema(name = "模块")
   private String component;
   
   /**
    * 是否父级
    */
-  @ApiModelProperty(value = "是否父级")
+  @Schema(name = "是否父级")
   private Boolean parent;
   
   /**
    * 是否隐藏
    */
-  @ApiModelProperty(value = "是否隐藏")
+  @Schema(name = "是否隐藏")
   private Boolean hidden;
   
   /**
    * 是否显示
    */
-  @ApiModelProperty(value = "是否显示")
+  @Schema(name = "是否显示")
   private Boolean alwaysShow;
   
   /**
    * 重定向
    */
-  @ApiModelProperty(value = "重定向")
+  @Schema(name = "重定向")
   private String redirect;
   
   /**
    * 图标对象
    */
-  @ApiModelProperty(value = "图标对象")
+  @Schema(name = "图标对象")
   private SysMenuIconDto meta;
   
   /**
    * 是否扩展
    */
-  @ApiModelProperty(value = "是否扩展")
+  @Schema(name = "是否扩展")
   private Boolean expand = false;
   
   /**
    * 子节点
    */
-  @ApiModelProperty(value = "子节点")
+  @Schema(name = "子节点")
   private List<SysMenuTreeDto> children = new ArrayList<>();
   
   public SysMenuTreeDto() {

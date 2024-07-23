@@ -29,8 +29,8 @@ import com.oner365.monitor.enums.RabbitmqTypeEnum;
 import com.oner365.queue.condition.RabbitmqCondition;
 import com.oner365.queue.config.properties.RabbitmqProperties;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import reactor.core.publisher.Mono;
 
 /**
@@ -40,7 +40,7 @@ import reactor.core.publisher.Mono;
  *
  */
 @RestController
-@Api(tags = "监控 - Rabbitmq")
+@Tag(name = "监控 - Rabbitmq")
 @RequestMapping("/monitor/rabbitmq")
 @Conditional(RabbitmqCondition.class)
 public class RabbitmqController extends BaseController {
@@ -56,7 +56,7 @@ public class RabbitmqController extends BaseController {
    *
    * @return JSONObject
    */
-  @ApiOperation("1.首页")
+  @Operation(summary = "1.首页")
   @ApiOperationSupport(order = 1)
   @GetMapping("/index")
   public JSONObject index() {
@@ -72,7 +72,7 @@ public class RabbitmqController extends BaseController {
    * @param name      名称
    * @return JSONObject
    */
-  @ApiOperation("2.获取队列列表")
+  @Operation(summary = "2.获取队列列表")
   @ApiOperationSupport(order = 2)
   @GetMapping("/list/{type}")
   public JSONObject list(@PathVariable("type") RabbitmqTypeEnum type, @RequestParam("pageIndex") int pageIndex,
@@ -88,7 +88,7 @@ public class RabbitmqController extends BaseController {
    * @param name 名称
    * @return JSONObject
    */
-  @ApiOperation("3.删除不同类型的队列")
+  @Operation(summary = "3.删除不同类型的队列")
   @ApiOperationSupport(order = 3)
   @DeleteMapping("/delete/{type}/{name}")
   public JSONObject delete(@PathVariable("type") String type, @PathVariable("name") String name) {

@@ -2,10 +2,8 @@ package com.oner365.sys.vo.check;
 
 import java.io.Serializable;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
-
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 
 /**
  * 检测字典编码
@@ -13,7 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @author zhaoyong
  *
  */
-@ApiModel(value = "检测字典编码")
+@Schema(name = "检测字典编码")
 public class CheckCodeVo implements Serializable {
 
     /**
@@ -24,13 +22,13 @@ public class CheckCodeVo implements Serializable {
     /**
      * 主键 id
      */
-    @ApiModelProperty(value = "主键")
+    @Schema(name = "主键")
     private String id;
     
     /**
      * 编码
      */
-    @ApiModelProperty(value = "编码", required = true)
+    @Schema(name = "编码", required = true)
     @NotBlank(message = "检测编码不能为空")
     private String code;
     

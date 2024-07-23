@@ -7,14 +7,13 @@ import com.google.common.base.MoreObjects;
 import com.oner365.sys.enums.MessageStatusEnum;
 import com.oner365.sys.enums.MessageTypeEnum;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * 消息对象
  * @author zhaoyong
  */
-@ApiModel(value = "系统消息")
+@Schema(name = "系统消息")
 public class SysMessageDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -22,73 +21,73 @@ public class SysMessageDto implements Serializable {
     /**
      * 主键ID
      */
-    @ApiModelProperty(value = "主键")
+    @Schema(name = "主键")
     private String id;
 
     /**
      * 队列类型
      */
-    @ApiModelProperty(value = "队列类型", required = true)
+    @Schema(name = "队列类型", required = true)
     private String queueType;
 
     /**
      * 队列标识
      */
-    @ApiModelProperty(value = "队列标识")
+    @Schema(name = "队列标识")
     private String queueKey;
 
     /**
      * 消息类型
      */
-    @ApiModelProperty(value = "消息类型")
+    @Schema(name = "消息类型")
     private MessageTypeEnum messageType;
 
     /**
      * 消息名称
      */
-    @ApiModelProperty(value = "消息名称")
+    @Schema(name = "消息名称")
     private String messageName;
 
     /**
      * 类型ID
      */
-    @ApiModelProperty(value = "类型id")
+    @Schema(name = "类型id")
     private String typeId;
 
     /**
      * 消息内容
      */
-    @ApiModelProperty(value = "消息内容")
+    @Schema(name = "消息内容")
     private String context;
 
     /**
      * 发送者
      */
-    @ApiModelProperty(value = "发送者")
+    @Schema(name = "发送者")
     private String sendUser;
 
     /**
      * 接收者
      */
-    @ApiModelProperty(value = "接收者")
+    @Schema(name = "接收者")
     private String receiveUser;
     
     /**
      * 状态
      */
-    @ApiModelProperty(value = "状态")
+    @Schema(name = "状态")
     private MessageStatusEnum status;
 
     /**
      * 创建时间 create_time
      */
-    @ApiModelProperty(value = "创建时间")
+    @Schema(name = "创建时间")
     private LocalDateTime createTime;
 
     /**
      * 更新时间 update_time
      */
-    @ApiModelProperty(value = "更新时间")
+    @Schema(name = "更新时间")
     private LocalDateTime updateTime;
 
     /**

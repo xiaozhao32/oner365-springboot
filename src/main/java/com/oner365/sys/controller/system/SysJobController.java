@@ -29,8 +29,8 @@ import com.oner365.sys.dto.SysJobDto;
 import com.oner365.sys.service.ISysJobService;
 import com.oner365.sys.vo.SysJobVo;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 
 /**
  * 用户职位信息
@@ -38,7 +38,7 @@ import io.swagger.annotations.ApiOperation;
  * @author zhaoyong
  */
 @RestController
-@Api(tags = "系统管理 - 用户职位")
+@Tag(name = "系统管理 - 用户职位")
 @RequestMapping("/system/job")
 public class SysJobController extends BaseController {
 
@@ -51,7 +51,7 @@ public class SysJobController extends BaseController {
    * @param data 查询参数
    * @return Page<SysJobDto>
    */
-  @ApiOperation("1.获取列表")
+  @Operation(summary = "1.获取列表")
   @ApiOperationSupport(order = 1)
   @PostMapping("/list")
   public PageInfo<SysJobDto> pageList(@RequestBody QueryCriteriaBean data) {
@@ -64,7 +64,7 @@ public class SysJobController extends BaseController {
    * @param id 编号
    * @return SysJobDto
    */
-  @ApiOperation("2.按id查询")
+  @Operation(summary = "2.按id查询")
   @ApiOperationSupport(order = 2)
   @GetMapping("/get/{id}")
   public SysJobDto get(@PathVariable String id) {
@@ -78,7 +78,7 @@ public class SysJobController extends BaseController {
    * @param status 状态
    * @return Boolean
    */
-  @ApiOperation("3.修改状态")
+  @Operation(summary = "3.修改状态")
   @ApiOperationSupport(order = 3)
   @PostMapping("/status/{id}")
   public Boolean editStatus(@PathVariable String id, @RequestParam("status") StatusEnum status) {
@@ -91,7 +91,7 @@ public class SysJobController extends BaseController {
    * @param sysJobVo 职位对象
    * @return ResponseResult<SysJobDto>
    */
-  @ApiOperation("4.保存")
+  @Operation(summary = "4.保存")
   @ApiOperationSupport(order = 4)
   @PutMapping("/save")
   public ResponseResult<SysJobDto> save(@Validated @RequestBody SysJobVo sysJobVo) {
@@ -108,7 +108,7 @@ public class SysJobController extends BaseController {
    * @param ids 编号
    * @return List<Integer>
    */
-  @ApiOperation("5.删除")
+  @Operation(summary = "5.删除")
   @ApiOperationSupport(order = 5)
   @DeleteMapping("/delete")
   public List<Boolean> delete(@RequestBody String... ids) {
@@ -121,7 +121,7 @@ public class SysJobController extends BaseController {
    * @param data 查询参数
    * @return ResponseEntity<byte[]>
    */
-  @ApiOperation("6.导出")
+  @Operation(summary = "6.导出")
   @ApiOperationSupport(order = 6)
   @PostMapping("/export")
   public ResponseEntity<byte[]> export(@RequestBody QueryCriteriaBean data) {

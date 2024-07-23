@@ -5,15 +5,14 @@ import java.io.Serializable;
 import com.google.common.base.MoreObjects;
 import com.oner365.data.commons.enums.StatusEnum;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * 字典类型 SysDictItemType
  * 
  * @author zhaoyong
  */
-@ApiModel(value = "字典类型")
+@Schema(name = "字典类型")
 public class SysDictItemTypeDto implements Serializable {
 
     /**
@@ -24,37 +23,37 @@ public class SysDictItemTypeDto implements Serializable {
     /**
      * 编号 id
      */
-    @ApiModelProperty(value = "主键")
+    @Schema(name = "主键")
     private String id;
 
     /**
      * 类型名称 type_name
      */
-    @ApiModelProperty(value = "类型名称", required = true)
+    @Schema(name = "类型名称", required = true)
     private String typeName;
 
     /**
      * 类型编码 type_code
      */
-    @ApiModelProperty(value = "类型编码", required = true)
+    @Schema(name = "类型编码", required = true)
     private String typeCode;
 
     /**
      * 类型描述 type_des
      */
-    @ApiModelProperty(value = "类型描述")
+    @Schema(name = "类型描述")
     private String typeDes;
 
     /**
      * 排序 type_order
      */
-    @ApiModelProperty(value = "排序")
+    @Schema(name = "排序")
     private Integer typeOrder;
 
     /**
      * 状态 status
      */
-    @ApiModelProperty(value = "状态")
+    @Schema(name = "状态")
     private StatusEnum status;
 
     /**

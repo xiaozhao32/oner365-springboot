@@ -20,8 +20,8 @@ import com.oner365.statemachine.enums.OrderEventEnum;
 import com.oner365.statemachine.enums.OrderStateEnum;
 import com.oner365.statemachine.vo.OrderVo;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 
 /**
  * 订单状态机
@@ -30,7 +30,7 @@ import io.swagger.annotations.ApiOperation;
  *
  */
 @RestController
-@Api(tags = "订单状态机")
+@Tag(name = "订单状态机")
 @RequestMapping("/statemachine/order")
 public class OrderController extends BaseController {
 
@@ -45,7 +45,7 @@ public class OrderController extends BaseController {
    *
    * @return String
    */
-  @ApiOperation("1.测试")
+  @Operation(summary = "1.测试")
   @ApiOperationSupport(order = 1)
   @GetMapping("/test")
   public ResponseResult<OrderVo> index(Integer orderId) {

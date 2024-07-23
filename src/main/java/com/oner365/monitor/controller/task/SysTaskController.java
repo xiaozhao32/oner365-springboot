@@ -2,8 +2,6 @@ package com.oner365.monitor.controller.task;
 
 import java.util.List;
 
-import jakarta.annotation.Resource;
-
 import org.quartz.SchedulerException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -30,9 +28,10 @@ import com.oner365.monitor.service.ISysTaskService;
 import com.oner365.monitor.util.CronUtils;
 import com.oner365.monitor.vo.SysTaskVo;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import springfox.documentation.annotations.ApiIgnore;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
 
 /**
  * 调度任务信息操作处理
@@ -40,7 +39,7 @@ import springfox.documentation.annotations.ApiIgnore;
  * @author zhaoyong
  */
 @RestController
-@Api(tags = "监控 - 定时任务")
+@Tag(name = "监控 - 定时任务")
 @RequestMapping("/monitor/task")
 public class SysTaskController extends BaseController {
 
@@ -53,7 +52,7 @@ public class SysTaskController extends BaseController {
    * @param data 查询参数
    * @return PageInfo<SysTaskDto>
    */
-  @ApiOperation("1.获取列表")
+  @Operation(summary = "1.获取列表")
   @ApiOperationSupport(order = 1)
   @PostMapping("/list")
   public PageInfo<SysTaskDto> pageList(@RequestBody QueryCriteriaBean data) {
@@ -66,7 +65,7 @@ public class SysTaskController extends BaseController {
    * @param id 主键
    * @return SysTask
    */
-  @ApiOperation("2.按id查询")
+  @Operation(summary = "2.按id查询")
   @ApiOperationSupport(order = 2)
   @GetMapping("/{id}")
   public SysTaskDto getInfo(@PathVariable String id) {
@@ -81,10 +80,10 @@ public class SysTaskController extends BaseController {
    * @return ResponseResult<Boolean>
    * @throws SchedulerException, TaskException 异常
    */
-  @ApiOperation("3.新增定时任务")
+  @Operation(summary = "3.新增定时任务")
   @ApiOperationSupport(order = 3)
   @PostMapping
-  public ResponseResult<Boolean> add(@Validated @RequestBody SysTaskVo sysTaskVo, @ApiIgnore @CurrentUser AuthUser authUser)
+  public ResponseResult<Boolean> add(@Validated @RequestBody SysTaskVo sysTaskVo, @Parameter(hidden = true) @CurrentUser AuthUser authUser)
       throws SchedulerException, TaskException {
     if (sysTaskVo == null || !CronUtils.isValid(sysTaskVo.getCronExpression())) {
       return ResponseResult.error("cron表达式不正确");
@@ -103,10 +102,10 @@ public class SysTaskController extends BaseController {
    * @return ResponseResult<Boolean>
    * @throws SchedulerException, TaskException 异常
    */
-  @ApiOperation("4.修改定时任务")
+  @Operation(summary = "4.修改定时任务")
   @ApiOperationSupport(order = 4)
   @PutMapping
-  public ResponseResult<Boolean> edit(@RequestBody SysTaskVo sysTaskVo, @ApiIgnore @CurrentUser AuthUser authUser)
+  public ResponseResult<Boolean> edit(@RequestBody SysTaskVo sysTaskVo, @Parameter(hidden = true) @CurrentUser AuthUser authUser)
       throws SchedulerException, TaskException {
     if (sysTaskVo == null || !CronUtils.isValid(sysTaskVo.getCronExpression())) {
       return ResponseResult.error("cron表达式不正确");
@@ -123,7 +122,7 @@ public class SysTaskController extends BaseController {
    * @return ResponseResult<Boolean>
    * @throws SchedulerException 异常
    */
-  @ApiOperation("5.修改状态")
+  @Operation(summary = "5.修改状态")
   @ApiOperationSupport(order = 5)
   @PutMapping("/status")
   public ResponseResult<Boolean> changeStatus(@RequestBody SysTaskVo sysTaskVo)
@@ -142,7 +141,7 @@ public class SysTaskController extends BaseController {
    * @return ResponseResult<Boolean>
    * @throws SchedulerException 异常
    */
-  @ApiOperation("6.立即执行一次")
+  @Operation(summary = "6.立即执行一次")
   @ApiOperationSupport(order = 6)
   @PutMapping("/run")
   public ResponseResult<Boolean> run(@RequestBody SysTaskVo sysTaskVo) throws SchedulerException {
@@ -159,7 +158,7 @@ public class SysTaskController extends BaseController {
    * @param ids 主键
    * @return List<Boolean>
    */
-  @ApiOperation("7.删除定时任务")
+  @Operation(summary = "7.删除定时任务")
   @ApiOperationSupport(order = 7)
   @DeleteMapping("/delete")
   public List<Boolean> remove(@RequestBody String... ids) {
@@ -172,7 +171,7 @@ public class SysTaskController extends BaseController {
    * @param data 查询参数
    * @return ResponseEntity<byte[]>
    */
-  @ApiOperation("8.导出")
+  @Operation(summary = "8.导出")
   @ApiOperationSupport(order = 8)
   @PostMapping("/export")
   public ResponseEntity<byte[]> export(@RequestBody QueryCriteriaBean data) {

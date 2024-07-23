@@ -34,8 +34,8 @@ import com.oner365.data.web.sequence.sequence.RangeSequence;
 import com.oner365.data.web.sequence.sequence.SnowflakeSequence;
 import com.oner365.datasource.dynamic.DynamicDataSource;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 
 /**
@@ -44,7 +44,7 @@ import jakarta.annotation.Resource;
  * @author zhaoyong
  */
 @RestController
-@Api(tags = "API公共接口")
+@Tag(name = "API公共接口")
 @RequestMapping("/api")
 public class ApiController extends BaseController {
 
@@ -73,7 +73,7 @@ public class ApiController extends BaseController {
    * @param userId  用户id
    * @return List<Map<String, String>>
    */
-  @ApiOperation("1.测试分库分表")
+  @Operation(summary = "1.测试分库分表")
   @ApiOperationSupport(order = 1)
   @GetMapping("/sharding/test")
   public List<Map<String, String>> testDataSource(@RequestParam Integer orderId, @RequestParam Integer userId) {
@@ -92,7 +92,7 @@ public class ApiController extends BaseController {
    *
    * @return ResponseResult<String>
    */
-  @ApiOperation("2.测试Guava Cache")
+  @Operation(summary = "2.测试Guava Cache")
   @ApiOperationSupport(order = 2)
   @GetMapping("/cache/guava/test")
   public ResponseResult<String> testGuavaCache() {
@@ -117,7 +117,7 @@ public class ApiController extends BaseController {
    *
    * @return JSONObject
    */
-  @ApiOperation("3.测试Redis Cache")
+  @Operation(summary = "3.测试Redis Cache")
   @ApiOperationSupport(order = 3)
   @GetMapping("/cache/redis/test")
   public JSONObject testRedisCache() {
@@ -183,7 +183,7 @@ public class ApiController extends BaseController {
    *
    * @return JSONObject
    */
-  @ApiOperation("4.测试国际化")
+  @Operation(summary = "4.测试国际化")
   @ApiOperationSupport(order = 4)
   @GetMapping("/i18n/messages")
   public JSONObject testMessages() {

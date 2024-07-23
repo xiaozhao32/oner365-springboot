@@ -1,7 +1,5 @@
 package com.oner365.queue.service.mqtt.impl;
 
-import jakarta.annotation.Resource;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Conditional;
@@ -9,7 +7,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.oner365.api.dto.UpdateTaskExecuteStatusDto;
 import com.oner365.data.redis.RedisCache;
 import com.oner365.monitor.dto.InvokeParamDto;
@@ -22,6 +19,8 @@ import com.oner365.queue.service.mqtt.component.IMqttSendMessageService;
 import com.oner365.queue.service.mqtt.component.IMqttSendRouteService;
 import com.oner365.queue.service.mqtt.component.IMqttSendTaskExecuteStatusService;
 import com.oner365.queue.service.mqtt.component.IMqttSendTaskLogService;
+
+import jakarta.annotation.Resource;
 
 /**
  * MQTT 接收实现
@@ -55,10 +54,10 @@ public class MqttSendServiceImpl implements IQueueSendService {
   
   @Async
   @Override
-  public void sendMessage(JSONObject message) {
-    if (!message.isEmpty() && redisCache.lock(QueueConstants.MESSAGE_QUEUE_NAME, QueueConstants.QUEUE_LOCK_TIME_SECOND)) {
+  public void sendMessage(byte[] message) {
+    if (message != null && redisCache.lock(QueueConstants.MESSAGE_QUEUE_NAME, QueueConstants.QUEUE_LOCK_TIME_SECOND)) {
       logger.info("Mqtt send message: {} topic: {}", message, QueueConstants.MESSAGE_QUEUE_NAME);
-      messageService.sendMessage(QueueConstants.MESSAGE_QUEUE_NAME, message.toJSONString());
+      messageService.sendMessage(QueueConstants.MESSAGE_QUEUE_NAME, String.valueOf(message));
     }
   }
 

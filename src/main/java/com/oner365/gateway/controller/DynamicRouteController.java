@@ -26,8 +26,8 @@ import com.oner365.gateway.dto.GatewayRouteDto;
 import com.oner365.gateway.service.DynamicRouteService;
 import com.oner365.gateway.vo.GatewayRouteVo;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 
 /**
  * 动态路由控制
@@ -36,7 +36,7 @@ import io.swagger.annotations.ApiOperation;
  *
  */
 @RestController
-@Api(tags = "动态路由控制")
+@Tag(name = "动态路由控制")
 @RequestMapping("/route")
 public class DynamicRouteController extends BaseController {
 
@@ -49,7 +49,7 @@ public class DynamicRouteController extends BaseController {
    * @param data 查询参数
    * @return PageInfo<GatewayRouteDto>
    */
-  @ApiOperation("1.获取列表")
+  @Operation(summary = "1.获取列表")
   @ApiOperationSupport(order = 1)
   @PostMapping("/list")
   public PageInfo<GatewayRouteDto> pageList(@RequestBody QueryCriteriaBean data) {
@@ -62,7 +62,7 @@ public class DynamicRouteController extends BaseController {
    * @param id 编号
    * @return GatewayRouteDto
    */
-  @ApiOperation("2.按id查询")
+  @Operation(summary = "2.按id查询")
   @ApiOperationSupport(order = 2)
   @GetMapping("/get/{id}")
   public GatewayRouteDto get(@PathVariable String id) {
@@ -75,7 +75,7 @@ public class DynamicRouteController extends BaseController {
    * @param gatewayRouteVo 路由对象
    * @return ResponseResult<GatewayRouteDto>
    */
-  @ApiOperation("3.添加路由")
+  @Operation(summary = "3.添加路由")
   @ApiOperationSupport(order = 3)
   @PostMapping("/add")
   public ResponseResult<GatewayRouteDto> add(@Validated @RequestBody GatewayRouteVo gatewayRouteVo) {
@@ -91,7 +91,7 @@ public class DynamicRouteController extends BaseController {
    *
    * @return List<GatewayRouteDto>
    */
-  @ApiOperation("4.刷新路由")
+  @Operation(summary = "4.刷新路由")
   @ApiOperationSupport(order = 4)
   @GetMapping("/refresh")
   public List<GatewayRouteDto> refresh() {
@@ -104,7 +104,7 @@ public class DynamicRouteController extends BaseController {
    * @param gatewayRouteVo 路由对象
    * @return ResponseResult<GatewayRouteDto>
    */
-  @ApiOperation("5.更新路由")
+  @Operation(summary = "5.更新路由")
   @ApiOperationSupport(order = 5)
   @PostMapping("/update")
   public ResponseResult<GatewayRouteDto> update(@Validated @RequestBody GatewayRouteVo gatewayRouteVo) {
@@ -122,7 +122,7 @@ public class DynamicRouteController extends BaseController {
    * @param status 状态
    * @return ResponseResult<Boolean>
    */
-  @ApiOperation("6.更新状态")
+  @Operation(summary = "6.更新状态")
   @ApiOperationSupport(order = 6)
   @GetMapping("/status/{id}/{status}")
   public ResponseResult<Boolean> editStatus(@PathVariable String id, @PathVariable StatusEnum status) {
@@ -136,7 +136,7 @@ public class DynamicRouteController extends BaseController {
    * @param ids 编号
    * @return ResponseResult<Boolean>
    */
-  @ApiOperation("7.删除路由")
+  @Operation(summary = "7.删除路由")
   @ApiOperationSupport(order = 7)
   @DeleteMapping("/delete")
   public List<Boolean> delete(@RequestBody String... ids) {

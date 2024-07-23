@@ -5,18 +5,16 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.validation.constraints.NotBlank;
-
 import com.oner365.data.commons.enums.StatusEnum;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 
 /**
  * 菜单对象
  * @author zhaoyong
  */
-@ApiModel(value = "菜单信息")
+@Schema(name = "菜单信息")
 public class SysMenuVo implements Serializable {
 
     /**
@@ -27,82 +25,82 @@ public class SysMenuVo implements Serializable {
     /**
      * 主键 id
      */
-    @ApiModelProperty(value = "主键")
+    @Schema(name = "主键")
     private String id;
 
     /**
      * 菜单类别 menu_type_id
      */
-    @ApiModelProperty(value = "菜单类别", required = true)
+    @Schema(name = "菜单类别", required = true)
     @NotBlank(message = "菜单类别不能为空")
     private String menuTypeId;
 
     /**
      * 菜单名称 menu_name
      */
-    @ApiModelProperty(value = "菜单名称", required = true)
+    @Schema(name = "菜单名称", required = true)
     @NotBlank(message = "菜单名称不能为空")
     private String menuName;
 
     /**
      * 别称 another_name
      */
-    @ApiModelProperty(value = "别称")
+    @Schema(name = "别称")
     private String anotherName;
 
     /**
      * 父级 parent_id
      */
-    @ApiModelProperty(value = "上级id", required = true)
+    @Schema(name = "上级id", required = true)
     @NotBlank(message = "菜单上级id不能为空")
     private String parentId;
 
     /**
      * 排序 menu_order
      */
-    @ApiModelProperty(value = "排序")
+    @Schema(name = "排序")
     private Integer menuOrder;
 
     /**
      * 地址 path
      */
-    @ApiModelProperty(value = "地址")
+    @Schema(name = "地址")
     private String path;
 
     /**
      * 组件 component
      */
-    @ApiModelProperty(value = "组件")
+    @Schema(name = "组件")
     private String component;
 
     /**
      * 菜单描述 menu_description
      */
-    @ApiModelProperty(value = "菜单描述")
+    @Schema(name = "菜单描述")
     private String menuDescription;
 
     /**
      * 状态 status
      */
-    @ApiModelProperty(value = "状态")
+    @Schema(name = "状态")
     private StatusEnum status;
 
     /**
      * 创建时间 create_time
      */
-    @ApiModelProperty(value = "创建时间")
+    @Schema(name = "创建时间")
     private LocalDateTime createTime;
 
     /**
      * 更新时间 update_time
      */
-    @ApiModelProperty(value = "更新时间")
+    @Schema(name = "更新时间")
     private LocalDateTime updateTime;
 
     /**
      * 图标
      */
-    @ApiModelProperty(value = "图标")
+    @Schema(name = "图标")
     private String icon;
     
     private List<SysMenuVo> children = new ArrayList<>();

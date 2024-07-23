@@ -4,8 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * 菜单详情对象
@@ -13,7 +12,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @author zhaoyong
  *
  */
-@ApiModel(value = "菜单详情")
+@Schema(name = "菜单详情")
 public class SysMenuInfoDto implements Serializable {
 
   /**
@@ -24,19 +23,19 @@ public class SysMenuInfoDto implements Serializable {
   /**
    * 菜单对象
    */
-  @ApiModelProperty(value = "菜单对象")
+  @Schema(name = "菜单对象")
   private SysMenuDto sysMenu;
   
   /**
    * 菜单列表
    */
-  @ApiModelProperty(value = "菜单列表")
+  @Schema(name = "菜单列表")
   private List<String> menuOperList = new ArrayList<>();
   
   /**
    * 操作列表
    */
-  @ApiModelProperty(value = "操作列表")
+  @Schema(name = "操作列表")
   private List<SysMenuOperationDto> operationList = new ArrayList<>();
   
   public SysMenuInfoDto() {

@@ -6,14 +6,13 @@ import java.time.LocalDateTime;
 import com.google.common.base.MoreObjects;
 import com.oner365.data.commons.enums.StatusEnum;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * 操作对象
  * @author zhaoyong
  */
-@ApiModel(value = "菜单操作")
+@Schema(name = "菜单操作")
 public class SysMenuOperationDto implements Serializable {
 
     /**
@@ -24,37 +23,37 @@ public class SysMenuOperationDto implements Serializable {
     /**
      * 编号 id
      */
-    @ApiModelProperty(value = "主键")
+    @Schema(name = "主键")
     private String id;
 
     /**
      * 操作名称
      */
-    @ApiModelProperty(value = "操作名称", required = true)
+    @Schema(name = "操作名称", required = true)
     private String operationName;
 
     /**
      * 操作类型
      */
-    @ApiModelProperty(value = "操作类型")
+    @Schema(name = "操作类型")
     private String operationType;
 
     /**
      * 状态 status
      */
-    @ApiModelProperty(value = "状态")
+    @Schema(name = "状态")
     private StatusEnum status;
 
     /**
      * 创建时间 create_time
      */
-    @ApiModelProperty(value = "创建时间")
+    @Schema(name = "创建时间")
     private LocalDateTime createTime;
 
     /**
      * 更新时间 update_time
      */
-    @ApiModelProperty(value = "更新时间")
+    @Schema(name = "更新时间")
     private LocalDateTime updateTime;
 
     /**

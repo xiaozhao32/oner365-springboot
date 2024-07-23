@@ -2,10 +2,8 @@ package com.oner365.sys.vo;
 
 import java.io.Serializable;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
-
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 
 /**
  * 修改密码对象
@@ -13,7 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @author zhaoyong
  *
  */
-@ApiModel(value = "修改密码对象")
+@Schema(name = "修改密码对象")
 public class ModifyPasswordVo implements Serializable {
 
     /**
@@ -24,14 +22,14 @@ public class ModifyPasswordVo implements Serializable {
     /**
      * 旧密码 oldPassword
      */
-    @ApiModelProperty(value = "旧密码", required = true)
+    @Schema(name = "旧密码", required = true)
     @NotBlank(message = "旧密码不能为空")
     private String oldPassword;
 
     /**
      * 新密码 password
      */
-    @ApiModelProperty(value = "新密码", required = true)
+    @Schema(name = "新密码", required = true)
     @NotBlank(message = "新密码不能为空")
     private String password;
 

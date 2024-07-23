@@ -4,10 +4,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import jakarta.annotation.Resource;
-import jakarta.servlet.ServletOutputStream;
-import jakarta.servlet.http.HttpServletResponse;
-
 import org.apache.commons.io.IOUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -34,9 +30,12 @@ import com.oner365.generator.entity.GenTableColumn;
 import com.oner365.generator.service.IGenTableColumnService;
 import com.oner365.generator.service.IGenTableService;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import springfox.documentation.annotations.ApiIgnore;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * 代码生成 操作处理
@@ -44,7 +43,7 @@ import springfox.documentation.annotations.ApiIgnore;
  * @author zhaoyong
  */
 @RestController
-@Api(tags = "代码生成")
+@Tag(name = "代码生成")
 @RequestMapping("/generator/gen")
 public class GeneratorController extends BaseController {
 
@@ -57,7 +56,7 @@ public class GeneratorController extends BaseController {
   /**
    * 查询代码生成列表
    */
-  @ApiOperation("1.生成列表")
+  @Operation(summary = "1.生成列表")
   @ApiOperationSupport(order = 1)
   @PostMapping("/list")
   public PageInfo<GenTable> genList(@RequestBody GenTable genTable) {
@@ -68,7 +67,7 @@ public class GeneratorController extends BaseController {
   /**
    * 查询数据库列表
    */
-  @ApiOperation("2.查询数据库列表")
+  @Operation(summary = "2.查询数据库列表")
   @ApiOperationSupport(order = 2)
   @PostMapping("/db/list")
   public PageInfo<GenTable> dataList(@RequestBody GenTable genTable) {
@@ -79,7 +78,7 @@ public class GeneratorController extends BaseController {
   /**
    * 查询数据表字段列表
    */
-  @ApiOperation("3.查询字段列表")
+  @Operation(summary = "3.查询字段列表")
   @ApiOperationSupport(order = 3)
   @GetMapping(value = "/column/{tableId}")
   public PageInfo<GenTableColumn> columnList(@PathVariable Long tableId) {
@@ -90,7 +89,7 @@ public class GeneratorController extends BaseController {
   /**
    * 获取生成信息
    */
-  @ApiOperation("4.获取生成信息")
+  @Operation(summary = "4.获取生成信息")
   @ApiOperationSupport(order = 4)
   @GetMapping(value = "/{tableId}")
   public GenTableInfoDto getInfo(@PathVariable Long tableId) {
@@ -102,7 +101,7 @@ public class GeneratorController extends BaseController {
   /**
    * 修改保存代码生成业务
    */
-  @ApiOperation("5.保存生成信息")
+  @Operation(summary = "5.保存生成信息")
   @ApiOperationSupport(order = 5)
   @PutMapping
   public Boolean updateGenTable(@Validated @RequestBody GenTable genTable) {
@@ -113,7 +112,7 @@ public class GeneratorController extends BaseController {
   /**
    * 预览代码
    */
-  @ApiOperation("6.预览代码")
+  @Operation(summary = "6.预览代码")
   @ApiOperationSupport(order = 6)
   @GetMapping("/preview/{tableId}")
   public Map<String, String> preview(@PathVariable("tableId") Long tableId) {
@@ -123,7 +122,7 @@ public class GeneratorController extends BaseController {
   /**
    * 生成代码（下载方式）
    */
-  @ApiOperation("7.生成代码下载")
+  @Operation(summary = "7.生成代码下载")
   @ApiOperationSupport(order = 7)
   @GetMapping("/download/{tableName}")
   public void download(HttpServletResponse response, @PathVariable("tableName") String tableName) {
@@ -134,7 +133,7 @@ public class GeneratorController extends BaseController {
   /**
    * 生成代码（自定义路径）
    */
-  @ApiOperation("8.生成代码")
+  @Operation(summary = "8.生成代码")
   @ApiOperationSupport(order = 8)
   @GetMapping("/code/{tableName}")
   public Boolean genCode(@PathVariable("tableName") String tableName) {
@@ -144,7 +143,7 @@ public class GeneratorController extends BaseController {
   /**
    * 同步数据库
    */
-  @ApiOperation("9.同步数据库")
+  @Operation(summary = "9.同步数据库")
   @ApiOperationSupport(order = 9)
   @GetMapping("/sync/{tableName}")
   public Boolean syncDb(@PathVariable("tableName") String tableName) {
@@ -154,7 +153,7 @@ public class GeneratorController extends BaseController {
   /**
    * 批量生成代码
    */
-  @ApiOperation("10.批量生成代码")
+  @Operation(summary = "10.批量生成代码")
   @ApiOperationSupport(order = 10)
   @GetMapping("/batch")
   public void batchGenCode(HttpServletResponse response, String tables) {
@@ -166,7 +165,7 @@ public class GeneratorController extends BaseController {
   /**
    * 删除代码生成
    */
-  @ApiOperation("11.删除代码生成")
+  @Operation(summary = "11.删除代码生成")
   @ApiOperationSupport(order = 11)
   @DeleteMapping("/{tableIds}")
   public Boolean remove(@PathVariable Long[] tableIds) {
@@ -176,10 +175,10 @@ public class GeneratorController extends BaseController {
   /**
    * 导入表结构（保存）
    */
-  @ApiOperation("12.导入表结构")
+  @Operation(summary = "12.导入表结构")
   @ApiOperationSupport(order = 12)
   @PostMapping("/import")
-  public Boolean importTableSave(@ApiIgnore @CurrentUser AuthUser authUser, String tables) {
+  public Boolean importTableSave(@Parameter(hidden = true) @CurrentUser AuthUser authUser, String tables) {
     String operName = authUser == null ? null : authUser.getUserName();
     String[] tableNames = ConvertString.toStrArray(tables);
     // 查询表信息

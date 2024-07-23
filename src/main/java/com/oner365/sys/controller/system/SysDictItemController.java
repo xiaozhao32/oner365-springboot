@@ -39,8 +39,8 @@ import com.oner365.sys.vo.SysDictItemVo;
 import com.oner365.sys.vo.check.CheckCodeVo;
 import com.oner365.sys.vo.check.CheckTypeCodeVo;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 
 /**
  * 字典信息
@@ -48,7 +48,7 @@ import io.swagger.annotations.ApiOperation;
  * @author zhaoyong
  */
 @RestController
-@Api(tags = "系统管理 - 字典信息")
+@Tag(name = "系统管理 - 字典信息")
 @RequestMapping("/system/dict")
 public class SysDictItemController extends BaseController {
 
@@ -64,7 +64,7 @@ public class SysDictItemController extends BaseController {
    * @param data 查询参数
    * @return PageInfo<SysDictItemTypeDto>
    */
-  @ApiOperation("1.获取类别列表")
+  @Operation(summary = "1.获取类别列表")
   @ApiOperationSupport(order = 1)
   @PostMapping("/type/list")
   public PageInfo<SysDictItemTypeDto> pageTypeList(@RequestBody QueryCriteriaBean data) {
@@ -77,7 +77,7 @@ public class SysDictItemController extends BaseController {
    * @param codes 参数
    * @return List<SysDictItemTypeDto>
    */
-  @ApiOperation("2.获取类别列表")
+  @Operation(summary = "2.获取类别列表")
   @ApiOperationSupport(order = 2)
   @PostMapping("/type/codes/list")
   public List<SysDictItemTypeDto> findListByCode(@RequestBody String... codes) {
@@ -90,7 +90,7 @@ public class SysDictItemController extends BaseController {
    * @param id 编号
    * @return SysDictItemTypeDto
    */
-  @ApiOperation("3.按id查询类别")
+  @Operation(summary = "3.按id查询类别")
   @ApiOperationSupport(order = 3)
   @GetMapping("/type/get/{id}")
   public SysDictItemTypeDto getTypeById(@PathVariable String id) {
@@ -103,7 +103,7 @@ public class SysDictItemController extends BaseController {
    * @param checkCodeVo 查询参数
    * @return Boolean
    */
-  @ApiOperation("4.判断字典类别是否存在")
+  @Operation(summary = "4.判断字典类别是否存在")
   @ApiOperationSupport(order = 4)
   @PostMapping("/type/check")
   public Boolean checkTypeCode(@Validated @RequestBody CheckCodeVo checkCodeVo) {
@@ -119,7 +119,7 @@ public class SysDictItemController extends BaseController {
    * @param typeId 类型id
    * @return List<SysDictItemDto>
    */
-  @ApiOperation("5.按类别id查询列表")
+  @Operation(summary = "5.按类别id查询列表")
   @ApiOperationSupport(order = 5)
   @GetMapping("/item/type/{typeId}")
   public List<SysDictItemDto> findTypeInfoById(@PathVariable String typeId) {
@@ -137,7 +137,7 @@ public class SysDictItemController extends BaseController {
    * @param typeIds 字典参数
    * @return Map<String, Object>
    */
-  @ApiOperation("6.按类别编码查询字典列表")
+  @Operation(summary = "6.按类别编码查询字典列表")
   @ApiOperationSupport(order = 6)
   @PostMapping("/item/type/ids")
   public Map<String, Object> findItemByTypeIds(@RequestBody String... typeIds) {
@@ -161,7 +161,7 @@ public class SysDictItemController extends BaseController {
    * @param status 状态
    * @return Boolean
    */
-  @ApiOperation("7.修改类别状态")
+  @Operation(summary = "7.修改类别状态")
   @ApiOperationSupport(order = 7)
   @PostMapping("/type/status/{id}")
   public Boolean editTypeStatus(@PathVariable String id, @RequestParam("status") StatusEnum status) {
@@ -174,7 +174,7 @@ public class SysDictItemController extends BaseController {
    * @param sysDictItemTypeVo 字典类别对象
    * @return ResponseResult<SysDictItemTypeDto>
    */
-  @ApiOperation("8.字典类别保存")
+  @Operation(summary = "8.字典类别保存")
   @ApiOperationSupport(order = 8)
   @PutMapping("/type/save")
   public ResponseResult<SysDictItemTypeDto> saveDictItemType(@Validated @RequestBody SysDictItemTypeVo sysDictItemTypeVo) {
@@ -191,7 +191,7 @@ public class SysDictItemController extends BaseController {
    * @param ids 字典编号
    * @return List<Boolean>
    */
-  @ApiOperation("9.删除字典类别")
+  @Operation(summary = "9.删除字典类别")
   @ApiOperationSupport(order = 9)
   @DeleteMapping("/type/delete")
   public List<Boolean> deleteItemType(@RequestBody String... ids) {
@@ -204,7 +204,7 @@ public class SysDictItemController extends BaseController {
    * @param data 参数
    * @return ResponseEntity<byte[]>
    */
-  @ApiOperation("10.导出字典类别")
+  @Operation(summary = "10.导出字典类别")
   @ApiOperationSupport(order = 10)
   @PostMapping("/type/export")
   public ResponseEntity<byte[]> exportItemType(@RequestBody QueryCriteriaBean data) {
@@ -223,7 +223,7 @@ public class SysDictItemController extends BaseController {
    * @param data 查询参数
    * @return PageInfo<SysDictItemDto>
    */
-  @ApiOperation("11.获取字典列表")
+  @Operation(summary = "11.获取字典列表")
   @ApiOperationSupport(order = 11)
   @PostMapping("/item/list")
   public PageInfo<SysDictItemDto> pageItemList(@RequestBody QueryCriteriaBean data) {
@@ -236,7 +236,7 @@ public class SysDictItemController extends BaseController {
    * @param id 字典编号
    * @return SysDictItemDto
    */
-  @ApiOperation("12.按id查询字典")
+  @Operation(summary = "12.按id查询字典")
   @ApiOperationSupport(order = 12)
   @GetMapping("/item/get/{id}")
   public SysDictItemDto getItemById(@PathVariable String id) {
@@ -249,7 +249,7 @@ public class SysDictItemController extends BaseController {
    * @param checkTypeCodeVo 查询参数
    * @return Boolean
    */
-  @ApiOperation("13.判断字典是否存在")
+  @Operation(summary = "13.判断字典是否存在")
   @ApiOperationSupport(order = 13)
   @PostMapping("/item/check")
   public Boolean checkCode(@Validated @RequestBody CheckTypeCodeVo checkTypeCodeVo) {
@@ -267,7 +267,7 @@ public class SysDictItemController extends BaseController {
    * @param status 状态
    * @return Boolean
    */
-  @ApiOperation("14.修改字典状态")
+  @Operation(summary = "14.修改字典状态")
   @ApiOperationSupport(order = 14)
   @PostMapping("/item/status/{id}")
   public Boolean editItemStatus(@PathVariable String id, @RequestParam("status") StatusEnum status) {
@@ -280,7 +280,7 @@ public class SysDictItemController extends BaseController {
    * @param sysDictItemVo 字典对象
    * @return ResponseResult<SysDictItemDto>
    */
-  @ApiOperation("15.保存字典")
+  @Operation(summary = "15.保存字典")
   @ApiOperationSupport(order = 15)
   @PutMapping("/item/save")
   public ResponseResult<SysDictItemDto> saveDictItem(@Validated @RequestBody SysDictItemVo sysDictItemVo) {
@@ -297,7 +297,7 @@ public class SysDictItemController extends BaseController {
    * @param ids 编号
    * @return List<Boolean>
    */
-  @ApiOperation("16.删除字典")
+  @Operation(summary = "16.删除字典")
   @ApiOperationSupport(order = 16)
   @DeleteMapping("/item/delete")
   public List<Boolean> deleteItem(@RequestBody String... ids) {
@@ -310,7 +310,7 @@ public class SysDictItemController extends BaseController {
    * @param data 查询参数
    * @return ResponseEntity<byte[]>
    */
-  @ApiOperation("17.导出字典")
+  @Operation(summary = "17.导出字典")
   @ApiOperationSupport(order = 17)
   @PostMapping("/item/export")
   public ResponseEntity<byte[]> exportItem(@RequestBody QueryCriteriaBean data) {

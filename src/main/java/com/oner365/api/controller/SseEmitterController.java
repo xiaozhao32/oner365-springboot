@@ -12,8 +12,8 @@ import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.api.service.SseService;
 import com.oner365.data.web.controller.BaseController;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
 
 /**
@@ -22,7 +22,7 @@ import jakarta.annotation.Resource;
  * @author zhaoyong
  */
 @RestController
-@Api(tags = "SSE Emitter公共接口")
+@Tag(name = "SSE Emitter公共接口")
 @RequestMapping("/sse/emitter")
 public class SseEmitterController extends BaseController {
 
@@ -34,7 +34,7 @@ public class SseEmitterController extends BaseController {
    *
    * @return SseEmitter
    */
-  @ApiOperation("1.订阅")
+  @Operation(summary = "1.订阅")
   @ApiOperationSupport(order = 1)
   @GetMapping(path = "/subscribe", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
   public SseEmitter subscribe() {
@@ -50,7 +50,7 @@ public class SseEmitterController extends BaseController {
    * @param data 消息体
    * @return 是否成功
    */
-  @ApiOperation("2.广播消息")
+  @Operation(summary = "2.广播消息")
   @ApiOperationSupport(order = 2)
   @GetMapping(path = "/push")
   public Boolean push(String id, String data) {
@@ -63,7 +63,7 @@ public class SseEmitterController extends BaseController {
    * @param id 主键uuid
    * @return 是否成功
    */
-  @ApiOperation("3.关闭连接")
+  @Operation(summary = "3.关闭连接")
   @ApiOperationSupport(order = 3)
   @GetMapping("/close")
   public Boolean close(String id) {

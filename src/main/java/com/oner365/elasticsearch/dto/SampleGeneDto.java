@@ -7,15 +7,14 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.MoreObjects;
 import com.oner365.elasticsearch.enums.GeneTypeEnum;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * SampleGene
  *
  * @author zhaoyong
  */
-@ApiModel(value = "基因信息")
+@Schema(name = "基因信息")
 public class SampleGeneDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -23,43 +22,43 @@ public class SampleGeneDto implements Serializable {
     /**
      * 主键
      */
-    @ApiModelProperty(value = "主键")
+    @Schema(name = "主键")
     private String id;
 
     /**
      * 基因类型 (格式: 1:X 2:Y)
      */
-    @ApiModelProperty(value = "基因类型")
+    @Schema(name = "基因类型")
     private GeneTypeEnum geneType;
 
     /**
      * 人员编号
      */
-    @ApiModelProperty(value = "人员编号")
+    @Schema(name = "人员编号")
     private String personCode;
 
     /**
      * 实验室编号
      */
-    @ApiModelProperty(value = "实验室编号")
+    @Schema(name = "实验室编号")
     private String initServerNo;
 
     /**
      * 基因型信息 (格式: {key:value} )
      */
-    @ApiModelProperty(value = "基因型信息")
+    @Schema(name = "基因型信息")
     private JSONObject geneInfo;
 
     /**
      * 比对的基因型信息 (过滤空值)
      */
-    @ApiModelProperty(value = "比对基因型")
+    @Schema(name = "比对基因型")
     private JSONObject matchJson;
 
     /**
      * 页面使用的基因型 {key:value} 转换成 {"name":key, "value":value} 格式
      */
-    @ApiModelProperty(value = "基因型集合")
+    @Schema(name = "基因型集合")
     private JSONArray geneList;
 
     /**

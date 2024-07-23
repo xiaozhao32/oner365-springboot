@@ -5,8 +5,7 @@ import java.util.Date;
 
 import com.oner365.elasticsearch.dto.GeoPoint;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * 坐标信息
@@ -14,7 +13,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @author zhaoyong
  *
  */
-@ApiModel(value = "坐标信息")
+@Schema(name = "坐标信息")
 public class SampleLocationVo implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -22,31 +21,31 @@ public class SampleLocationVo implements Serializable {
   /**
    * 主键
    */
-  @ApiModelProperty(value = "主键")
+  @Schema(name = "主键")
   private String id;
 
   /**
    * 坐标名称
    */
-  @ApiModelProperty(value = "坐标名称")
+  @Schema(name = "坐标名称")
   private String locationName;
 
   /**
    * 坐标信息
    */
-  @ApiModelProperty(value = "坐标信息")
+  @Schema(name = "坐标信息")
   private GeoPoint locationPoint;
 
   /**
    * 坐标描述
    */
-  @ApiModelProperty(value = "坐标描述")
+  @Schema(name = "坐标描述")
   private String locationDesc;
 
   /**
    * 创建时间
    */
-  @ApiModelProperty(value = "创建时间")
+  @Schema(name = "创建时间")
   private Date createTime;
 
   /**

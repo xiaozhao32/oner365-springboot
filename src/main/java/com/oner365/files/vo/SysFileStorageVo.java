@@ -3,20 +3,18 @@ package com.oner365.files.vo;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-
 import com.oner365.data.commons.enums.StorageEnum;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * 文件对象
  * @author zhaoyong
  *
  */
-@ApiModel(value = "文件对象")
+@Schema(name = "文件对象")
 public class SysFileStorageVo implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -24,63 +22,63 @@ public class SysFileStorageVo implements Serializable {
     /**
      * 主键 id
      */
-    @ApiModelProperty(value = "主键")
+    @Schema(name = "主键")
     private String id;
 
     /**
      * 文件名称 file_name
      */
-    @ApiModelProperty(value = "文件名称")
+    @Schema(name = "文件名称")
     @NotBlank(message = "文件名称不能为空")
     private String fileName;
 
     /**
      * 显示名称 display_name
      */
-    @ApiModelProperty(value = "显示名称")
+    @Schema(name = "显示名称")
     private String displayName;
     
     /**
      * 存储方式
      */
-    @ApiModelProperty(value = "存储方式")
+    @Schema(name = "存储方式")
     @NotNull(message = "存储方式不能为空")
     private StorageEnum fileStorage;
 
     /**
      * 文件路径 file_path
      */
-    @ApiModelProperty(value = "文件路径")
+    @Schema(name = "文件路径")
     private String filePath;
 
     /**
      * 文件地址 fastdfs_url
      */
-    @ApiModelProperty(value = "文件地址")
+    @Schema(name = "文件地址")
     private String fastdfsUrl;
 
     /**
      * 文件后缀 file_suffix
      */
-    @ApiModelProperty(value = "文件后缀")
+    @Schema(name = "文件后缀")
     private String fileSuffix;
 
     /**
      * 文件大小 file_size
      */
-    @ApiModelProperty(value = "文件大小")
+    @Schema(name = "文件大小")
     private String size;
 
     /**
      * 创建时间 create_time
      */
-    @ApiModelProperty(value = "创建时间")
+    @Schema(name = "创建时间")
     private LocalDateTime createTime;
 
     /**
      * 是否目录 is_directory
      */
-    @ApiModelProperty(value = "是否目录")
+    @Schema(name = "是否目录")
     private boolean isDirectory;
 
     /**

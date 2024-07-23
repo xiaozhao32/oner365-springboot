@@ -5,49 +5,48 @@ import java.time.LocalDateTime;
 
 import com.oner365.data.commons.enums.StatusEnum;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * nt_sys_config 对象 nt_sys_config
  * 
  * @author zhaoyong
  */
-@ApiModel(value = "nt_sys_config")
+@Schema(name = "nt_sys_config")
 public class SysConfigDto implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
   /** 主键 */
-  @ApiModelProperty(value = "主键")
+  @Schema(name = "主键")
   private String id;
 
   /** 配置名称 */
-  @ApiModelProperty(value = "配置名称", required = true)
+  @Schema(name = "配置名称", required = true)
   private String configName;
 
   /** 配置内容 */
-  @ApiModelProperty(value = "配置内容", required = false)
+  @Schema(name = "配置内容", required = false)
   private String configValue;
 
   /** 状态 */
-  @ApiModelProperty(value = "状态", required = true)
+  @Schema(name = "状态", required = true)
   private StatusEnum status;
 
   /** 创建时间 */
-  @ApiModelProperty(value = "创建时间", required = true)
+  @Schema(name = "创建时间", required = true)
   private LocalDateTime createTime;
 
   /** 更新时间 */
-  @ApiModelProperty(value = "更新时间", required = false)
+  @Schema(name = "更新时间", required = false)
   private LocalDateTime updateTime;
 
   /** 创建人 */
-  @ApiModelProperty(value = "创建人")
+  @Schema(name = "创建人")
   private String createUser;
 
   /** 修改人 */
-  @ApiModelProperty(value = "修改人")
+  @Schema(name = "修改人")
   private String updateUser;
 
   public void setId(String id) {

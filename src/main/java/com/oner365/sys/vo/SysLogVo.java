@@ -5,15 +5,14 @@ import java.time.LocalDateTime;
 
 import com.google.common.base.MoreObjects;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * 系统日志对象
  * 
  * @author zhaoyong
  */
-@ApiModel(value = "系统日志")
+@Schema(name = "系统日志")
 public class SysLogVo implements Serializable {
 
     /**
@@ -24,43 +23,43 @@ public class SysLogVo implements Serializable {
     /**
      * 编号 id
      */
-    @ApiModelProperty(value = "主键")
+    @Schema(name = "主键")
     private String id;
 
     /**
      * 操作ip
      */
-    @ApiModelProperty(value = "操作ip")
+    @Schema(name = "操作ip")
     private String operationIp;
 
     /**
      * 请求方式
      */
-    @ApiModelProperty(value = "请求方式")
+    @Schema(name = "请求方式")
     private String methodName;
 
     /**
      * 操作名称
      */
-    @ApiModelProperty(value = "操作名称")
+    @Schema(name = "操作名称")
     private String operationName;
 
     /**
      * 请求地址
      */
-    @ApiModelProperty(value = "请求地址")
+    @Schema(name = "请求地址")
     private String operationPath;
 
     /**
      * 请求内容
      */
-    @ApiModelProperty(value = "请求内容")
+    @Schema(name = "请求内容")
     private String operationContext;
 
     /**
      * 创建时间 create_time
      */
-    @ApiModelProperty(value = "创建时间")
+    @Schema(name = "创建时间")
     private LocalDateTime createTime;
 
     /**

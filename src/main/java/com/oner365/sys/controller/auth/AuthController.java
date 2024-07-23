@@ -43,10 +43,10 @@ import com.oner365.sys.service.ISysRoleService;
 import com.oner365.sys.service.ISysUserService;
 import com.oner365.sys.vo.LoginUserVo;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
-import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 认证登录接口
@@ -54,7 +54,7 @@ import springfox.documentation.annotations.ApiIgnore;
  * @author zhaoyong
  */
 @RestController
-@Api(tags = "用户认证")
+@Tag(name = "用户认证")
 @RequestMapping("/system/auth")
 public class AuthController extends BaseController {
 
@@ -77,7 +77,7 @@ public class AuthController extends BaseController {
    * @return ResponseData<LoginUserDto>
    */
   @PostMapping("/login")
-  @ApiOperation("1.登录")
+  @Operation(summary = "1.登录")
   @ApiOperationSupport(order = 1)
   public ResponseData<LoginUserDto> login(@Validated @RequestBody LoginUserVo loginUserVo) {
     // 验证码
@@ -117,7 +117,7 @@ public class AuthController extends BaseController {
    *
    * @return CaptchaImageDto
    */
-  @ApiOperation("2.获取验证码")
+  @Operation(summary = "2.获取验证码")
   @ApiOperationSupport(order = 2)
   @GetMapping("/captcha")
   public CaptchaImageDto captchaImage() {
@@ -149,10 +149,10 @@ public class AuthController extends BaseController {
    *
    * @return List<SysMenuTreeDto>
    */
-  @ApiOperation("3.获取菜单权限")
+  @Operation(summary = "3.获取菜单权限")
   @ApiOperationSupport(order = 3)
   @GetMapping("/menu")
-  public List<SysMenuTreeDto> findMenuByRoles(@ApiIgnore @CurrentUser AuthUser user) {
+  public List<SysMenuTreeDto> findMenuByRoles(@Parameter(hidden = true) @CurrentUser AuthUser user) {
     try {
       if (user != null && !user.getRoleList().isEmpty() && !DataUtils.isEmpty(user.getMenuType())) {
         return sysRoleService.findMenuByRoles(user.getRoleList(), user.getMenuType());
@@ -169,10 +169,10 @@ public class AuthController extends BaseController {
    * @param menuId 菜单id
    * @return List<SysMenuOperDto>
    */
-  @ApiOperation("4.获取菜单操作权限")
+  @Operation(summary = "4.获取菜单操作权限")
   @ApiOperationSupport(order = 4)
   @GetMapping("/menu/operation/{menuId}")
-  public List<SysMenuOperDto> findMenuOperByRoles(@ApiIgnore @CurrentUser AuthUser user,
+  public List<SysMenuOperDto> findMenuOperByRoles(@Parameter(hidden = true) @CurrentUser AuthUser user,
       @PathVariable String menuId) {
     try {
       if (user != null && !user.getRoleList().isEmpty()) {
@@ -189,10 +189,10 @@ public class AuthController extends BaseController {
    *
    * @return ResponseResult<String>
    */
-  @ApiOperation("5.退出登录")
+  @Operation(summary = "5.退出登录")
   @ApiOperationSupport(order = 5)
   @PostMapping("/logout")
-  public ResponseResult<String> logout(@ApiIgnore @CurrentUser AuthUser authUser) {
+  public ResponseResult<String> logout(@Parameter(hidden = true) @CurrentUser AuthUser authUser) {
     if (authUser != null) {
       String key = CacheConstants.CACHE_LOGIN_NAME + authUser.getUserName();
       redisCache.deleteObject(key);

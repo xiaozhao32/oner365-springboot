@@ -2,8 +2,7 @@ package com.oner365.sys.dto;
 
 import java.io.Serializable;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * 获取验证码
@@ -11,7 +10,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @author zhaoyong
  *
  */
-@ApiModel(value = "验证码")
+@Schema(name = "验证码")
 public class CaptchaImageDto implements Serializable {
 
   /**
@@ -22,13 +21,13 @@ public class CaptchaImageDto implements Serializable {
   /**
    * uuid
    */
-  @ApiModelProperty(value = "验证码标识")
+  @Schema(name = "验证码标识")
   private String uuid;
   
   /**
    * img base64
    */
-  @ApiModelProperty(value = "验证码图片")
+  @Schema(name = "验证码图片")
   private String img;
   
   public CaptchaImageDto() {

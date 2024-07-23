@@ -5,15 +5,14 @@ import java.time.LocalDateTime;
 
 import org.springframework.boot.logging.LogLevel;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Application Log
  *
  * @author zhaoyong
  */
-@ApiModel(value = "应用日志")
+@Schema(name = "应用日志")
 public class ApplicationLogDto implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -21,49 +20,49 @@ public class ApplicationLogDto implements Serializable {
   /**
    * 主键
    */
-  @ApiModelProperty(value = "主键")
+  @Schema(name = "主键")
   private String id;
 
   /**
    * 线程名称
    */
-  @ApiModelProperty(value = "线程名称")
+  @Schema(name = "线程名称")
   private String threadName;
   
   /**
    * 版本
    */
-  @ApiModelProperty(value = "版本")
+  @Schema(name = "版本")
   private String version;
   
   /**
    * 消息内容
    */
-  @ApiModelProperty(value = "消息内容")
+  @Schema(name = "消息内容")
   private String message;
   
   /**
    * 日志级别
    */
-  @ApiModelProperty(value = "日志级别")
+  @Schema(name = "日志级别")
   private LogLevel level;
   
   /**
    * 类名称
    */
-  @ApiModelProperty(value = "类名称")
+  @Schema(name = "类名称")
   private String loggerName;
   
   /**
    * 项目名称
    */
-  @ApiModelProperty(value = "项目名称")
+  @Schema(name = "项目名称")
   private String projectName;
   
   /**
    * 创建时间
    */
-  @ApiModelProperty(value = "创建时间")
+  @Schema(name = "创建时间")
   private LocalDateTime createTime;
   
   /**

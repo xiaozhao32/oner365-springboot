@@ -28,8 +28,8 @@ import com.oner365.sys.service.ISysConfigService;
 import com.oner365.sys.vo.SysConfigVo;
 import com.oner365.sys.vo.check.CheckConfigNameVo;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
 
 /**
@@ -38,7 +38,7 @@ import jakarta.annotation.Resource;
  * @author zhaoyong
  */
 @RestController
-@Api(tags = "系统管理 - 系统配置")
+@Tag(name = "系统管理 - 系统配置")
 @RequestMapping("/system/config")
 public class SysConfigController extends BaseController {
 
@@ -51,7 +51,7 @@ public class SysConfigController extends BaseController {
    * @param data 查询参数
    * @return PageInfo<SysConfigDto>
    */
-  @ApiOperation("1.获取列表")
+  @Operation(summary = "1.获取列表")
   @ApiOperationSupport(order = 1)
   @PostMapping("/list")
   public PageInfo<SysConfigDto> pageList(@RequestBody QueryCriteriaBean data) {
@@ -64,7 +64,7 @@ public class SysConfigController extends BaseController {
    * @param id 编号
    * @return SysConfigDto
    */
-  @ApiOperation("2.按id查询")
+  @Operation(summary = "2.按id查询")
   @ApiOperationSupport(order = 2)
   @GetMapping("/get/{id}")
   public SysConfigDto get(@PathVariable String id) {
@@ -78,7 +78,7 @@ public class SysConfigController extends BaseController {
    * @param status 状态
    * @return Boolean
    */
-  @ApiOperation("3.修改状态")
+  @Operation(summary = "3.修改状态")
   @ApiOperationSupport(order = 3)
   @PostMapping("/status/{id}")
   public Boolean editStatus(@PathVariable String id, @RequestParam("status") StatusEnum status) {
@@ -91,7 +91,7 @@ public class SysConfigController extends BaseController {
    * @param sysConfigVo 对象
    * @return ResponseResult<SysConfigDto>
    */
-  @ApiOperation("4.保存")
+  @Operation(summary = "4.保存")
   @ApiOperationSupport(order = 4)
   @PutMapping("/save")
   public ResponseResult<SysConfigDto> save(@RequestBody SysConfigVo sysConfigVo) {
@@ -108,7 +108,7 @@ public class SysConfigController extends BaseController {
    * @param ids 编号
    * @return List<Boolean>
    */
-  @ApiOperation("5.删除")
+  @Operation(summary = "5.删除")
   @ApiOperationSupport(order = 5)
   @DeleteMapping("/delete")
   public List<Boolean> delete(@RequestBody String... ids) {
@@ -121,7 +121,7 @@ public class SysConfigController extends BaseController {
    * @param data 参数
    * @return ResponseEntity<byte[]>
    */
-  @ApiOperation("6.导出")
+  @Operation(summary = "6.导出")
   @ApiOperationSupport(order = 6)
   @PostMapping("/export")
   public ResponseEntity<byte[]> export(@RequestBody QueryCriteriaBean data) {
@@ -140,7 +140,7 @@ public class SysConfigController extends BaseController {
    * @param checkConfigNameVo 查询参数
    * @return Boolean
    */
-  @ApiOperation("7.判断是否存在")
+  @Operation(summary = "7.判断是否存在")
   @ApiOperationSupport(order = 7)
   @PostMapping("/check")
   public Boolean checkConfigName(@Validated @RequestBody CheckConfigNameVo checkConfigNameVo) {

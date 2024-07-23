@@ -9,8 +9,8 @@ import com.oner365.data.commons.enums.ResultEnum;
 import com.oner365.data.commons.reponse.ResponseResult;
 import com.oner365.data.web.controller.BaseController;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 
 /**
  * 首页信息
@@ -19,7 +19,7 @@ import io.swagger.annotations.ApiOperation;
  *
  */
 @RestController
-@Api(tags = "监控 - 门户信息")
+@Tag(name = "监控 - 门户信息")
 @RequestMapping("/monitor/dashboard")
 public class DashboardController extends BaseController {
 
@@ -28,7 +28,7 @@ public class DashboardController extends BaseController {
    * 
    * @return ResponseResult<String>
    */
-  @ApiOperation("1.首页")
+  @Operation(summary = "1.首页")
   @ApiOperationSupport(order = 1)
   @GetMapping("/index")
   public ResponseResult<String> index() {

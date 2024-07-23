@@ -2,15 +2,14 @@ package com.oner365.files.vo;
 
 import java.io.Serializable;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * 下载信息
  *
  * @author liutao
  */
-@ApiModel(value = "下载信息")
+@Schema(name = "下载信息")
 public class DownloadVo implements Serializable {
 
   /**
@@ -18,13 +17,13 @@ public class DownloadVo implements Serializable {
    */
   private static final long serialVersionUID = 1L;
 
-  @ApiModelProperty(value = "主键")
+  @Schema(name = "主键")
   private String fileUrl;
 
-  @ApiModelProperty(value = "开始")
+  @Schema(name = "开始")
   private long offset;
 
-  @ApiModelProperty(value = "结束")
+  @Schema(name = "结束")
   private long fileSize;
 
   public DownloadVo() {

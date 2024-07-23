@@ -9,7 +9,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.oner365.api.dto.UpdateTaskExecuteStatusDto;
 import com.oner365.data.commons.util.DateUtil;
 import com.oner365.data.redis.RedisCache;
@@ -46,7 +45,7 @@ public class QueueRabbitmqSendServiceImpl implements IQueueSendService {
 
   @Async
   @Override
-  public void sendMessage(JSONObject data) {
+  public void sendMessage(byte[] data) {
     if (redisCache.lock(QueueConstants.MESSAGE_QUEUE_NAME, QueueConstants.QUEUE_LOCK_TIME_SECOND)) {
       logger.info("Rabbitmq sendMessage: {}", data);
       // 是否回调确认

@@ -11,8 +11,8 @@ import com.oner365.data.commons.constants.PublicConstants;
 import com.oner365.data.web.controller.BaseController;
 import com.oner365.queue.service.IQueueSendService;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
 
 /**
@@ -22,7 +22,7 @@ import jakarta.annotation.Resource;
  *
  */
 @RestController
-@Api(tags = "队列测试")
+@Tag(name = "队列测试")
 @RequestMapping("/queue")
 public class QueueTestController extends BaseController {
 
@@ -38,18 +38,18 @@ public class QueueTestController extends BaseController {
    * @param data 参数
    * @return JSONObject
    */
-  @ApiOperation("1.测试发送")
+  @Operation(summary = "1.测试发送")
   @ApiOperationSupport(order = 1)
   @GetMapping("/send")
   public JSONObject send(String data) {
     JSONObject json = new JSONObject();
     json.put("data", data);
-    service.sendMessage(json);
+    service.sendMessage(json.toJSONString().getBytes());
     service.syncRoute();
     return json;
   }
 
-  @ApiOperation("2.测试订阅")
+  @Operation(summary = "2.测试订阅")
   @ApiOperationSupport(order = 2)
   @GetMapping("/subscribe")
   public JSONObject subscribe(String data) {

@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSONObject;
 import com.oner365.data.jpa.service.BaseService;
 import com.oner365.queue.condition.PulsarCondition;
 
@@ -23,14 +22,14 @@ import com.oner365.queue.condition.PulsarCondition;
  */
 @Service
 @Conditional(PulsarCondition.class)
-public class PulsarMessageListenerImpl implements MessageListener<JSONObject>, BaseService {
+public class PulsarMessageListenerImpl implements MessageListener<byte[]>, BaseService {
 
   private static final long serialVersionUID = 1L;
 
   private static final Logger LOGGER = LoggerFactory.getLogger(PulsarMessageListenerImpl.class);
 
   @Override
-  public void received(Consumer<JSONObject> consumer, Message<JSONObject> msg) {
+  public void received(Consumer<byte[]> consumer, Message<byte[]> msg) {
     try {
       String data = Arrays.toString(msg.getData());
       LOGGER.info("Pulsar consumer data: {}, topic: {}", data, consumer.getTopic());

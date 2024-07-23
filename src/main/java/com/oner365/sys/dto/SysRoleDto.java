@@ -7,15 +7,14 @@ import com.alibaba.fastjson.JSONArray;
 import com.google.common.base.MoreObjects;
 import com.oner365.data.commons.enums.StatusEnum;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * 基础权限--角色表nt_sys_role
  *
  * @author liutao
  */
-@ApiModel(value = "角色信息")
+@Schema(name = "角色信息")
 public class SysRoleDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -23,55 +22,55 @@ public class SysRoleDto implements Serializable {
     /**
      * 编号 id
      */
-    @ApiModelProperty(value = "主键")
+    @Schema(name = "主键")
     private String id;
 
     /**
      * 角色标识 role_code
      */
-    @ApiModelProperty(value = "角色标识")
+    @Schema(name = "角色标识")
     private String roleCode;
 
     /**
      * 角色名称 role_name
      */
-    @ApiModelProperty(value = "角色名称", required = true)
+    @Schema(name = "角色名称", required = true)
     private String roleName;
 
     /**
      * 角色描述 role_des
      */
-    @ApiModelProperty(value = "角色描述")
+    @Schema(name = "角色描述")
     private String roleDes;
 
     /**
      * 状态 status
      */
-    @ApiModelProperty(value = "状态")
+    @Schema(name = "状态")
     private StatusEnum status;
 
     /**
      * 创建时间 create_time
      */
-    @ApiModelProperty(value = "创建时间")
+    @Schema(name = "创建时间")
     private LocalDateTime createTime;
 
     /**
      * 更新时间 update_time
      */
-    @ApiModelProperty(value = "更新时间")
+    @Schema(name = "更新时间")
     private LocalDateTime updateTime;
     
     /**
      * 菜单id
      */
-    @ApiModelProperty(value = "菜单id")
+    @Schema(name = "菜单id")
     private JSONArray menuIds;
     
     /**
      * 菜单类型
      */
-    @ApiModelProperty(value = "菜单类型")
+    @Schema(name = "菜单类型")
     private String menuType;
 
     /**

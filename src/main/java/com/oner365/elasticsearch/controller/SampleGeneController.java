@@ -27,8 +27,8 @@ import com.oner365.elasticsearch.dto.SampleGeneDto;
 import com.oner365.elasticsearch.service.ISampleGeneElasticsearchService;
 import com.oner365.elasticsearch.vo.SampleGeneVo;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 
 /**
  * Elasticsearch Controller
@@ -37,7 +37,7 @@ import io.swagger.annotations.ApiOperation;
  *
  */
 @RestController
-@Api(tags = "Elasticsearch 基因型信息")
+@Tag(name = "Elasticsearch 基因型信息")
 @RequestMapping("/elasticsearch/sample/gene")
 public class SampleGeneController extends BaseController {
 
@@ -50,7 +50,7 @@ public class SampleGeneController extends BaseController {
    * @param data 查询条件参数
    * @return PageInfo<SampleGeneDto>
    */
-  @ApiOperation("1.获取列表")
+  @Operation(summary = "1.获取列表")
   @ApiOperationSupport(order = 1)
   @PostMapping("/list")
   public PageInfo<SampleGeneDto> pageList(@RequestBody QueryCriteriaBean data) {
@@ -63,7 +63,7 @@ public class SampleGeneController extends BaseController {
    * @param id 编号
    * @return SampleGeneDto
    */
-  @ApiOperation("2.按id查询")
+  @Operation(summary = "2.按id查询")
   @ApiOperationSupport(order = 2)
   @GetMapping("/get/{id}")
   public SampleGeneDto get(@PathVariable("id") String id) {
@@ -81,7 +81,7 @@ public class SampleGeneController extends BaseController {
    * @param sampleGeneVo 基因对象
    * @return ResponseResult<SampleGeneDto>
    */
-  @ApiOperation("3.保存")
+  @Operation(summary = "3.保存")
   @ApiOperationSupport(order = 3)
   @PutMapping("/save")
   public ResponseResult<SampleGeneDto> save(@RequestBody SampleGeneVo sampleGeneVo) {
@@ -105,7 +105,7 @@ public class SampleGeneController extends BaseController {
    * @param ids 编号
    * @return Integer
    */
-  @ApiOperation("4.删除")
+  @Operation(summary = "4.删除")
   @ApiOperationSupport(order = 4)
   @DeleteMapping("/delete")
   public List<Boolean> delete(@RequestBody String... ids) {

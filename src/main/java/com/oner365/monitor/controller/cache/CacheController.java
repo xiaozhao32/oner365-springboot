@@ -23,8 +23,8 @@ import com.oner365.monitor.dto.CacheCommandStatsDto;
 import com.oner365.monitor.dto.CacheInfoDto;
 import com.oner365.monitor.dto.CacheJedisInfoDto;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
 import redis.clients.jedis.Jedis;
 
@@ -34,7 +34,7 @@ import redis.clients.jedis.Jedis;
  * @author zhaoyong
  */
 @RestController
-@Api(tags = "监控 - 缓存")
+@Tag(name = "监控 - 缓存")
 @RequestMapping("/monitor/cache")
 public class CacheController extends BaseController {
 
@@ -51,7 +51,7 @@ public class CacheController extends BaseController {
    *
    * @return CacheInfoDto
    */
-  @ApiOperation("1.首页")
+  @Operation(summary = "1.首页")
   @ApiOperationSupport(order = 1)
   @GetMapping("/index")
   public CacheInfoDto index() {
@@ -83,7 +83,7 @@ public class CacheController extends BaseController {
    *
    * @return List<CacheJedisInfoDto>
    */
-  @ApiOperation("2.缓存列表")
+  @Operation(summary = "2.缓存列表")
   @ApiOperationSupport(order = 2)
   @GetMapping("/list")
   public List<CacheJedisInfoDto> cacheList() {
@@ -111,7 +111,7 @@ public class CacheController extends BaseController {
    * @param index db
    * @return 是否成功
    */
-  @ApiOperation("3.清除缓存")
+  @Operation(summary = "3.清除缓存")
   @ApiOperationSupport(order = 3)
   @GetMapping("/clean")
   public ResponseResult<String> clean(int index) {

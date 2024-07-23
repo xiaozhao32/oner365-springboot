@@ -45,8 +45,8 @@ import co.elastic.clients.elasticsearch.indices.stats.ShardRoutingState;
 import co.elastic.clients.json.jackson.JacksonJsonpMapper;
 import co.elastic.clients.transport.ElasticsearchTransport;
 import co.elastic.clients.transport.rest_client.RestClientTransport;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 
 /**
  * Elasticsearch 信息
@@ -55,7 +55,7 @@ import io.swagger.annotations.ApiOperation;
  *
  */
 @RestController
-@Api(tags = "Elasticsearch 信息")
+@Tag(name = "Elasticsearch 信息")
 @RequestMapping("/elasticsearch/info")
 public class ElasticsearchInfoController extends BaseController {
 
@@ -67,7 +67,7 @@ public class ElasticsearchInfoController extends BaseController {
    *
    * @return TransportClientDto
    */
-  @ApiOperation("1.首页")
+  @Operation(summary = "1.首页")
   @ApiOperationSupport(order = 1)
   @GetMapping("/index")
   public TransportClientDto index() {

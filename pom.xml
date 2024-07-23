@@ -87,7 +87,7 @@
 		<com.google.code.gson.version>2.10.1</com.google.code.gson.version>
 		<com.google.guava.version>33.2.0-jre</com.google.guava.version>
 		<com.google.protobuf.version>3.25.3</com.google.protobuf.version>
-		<com.github.xiaoymin.version>3.0.3</com.github.xiaoymin.version>
+		<com.github.xiaoymin.version>4.5.0</com.github.xiaoymin.version>
 		<com.github.penggle.version>2.3.2</com.github.penggle.version>
 		<com.github.tobato.version>1.27.2</com.github.tobato.version>
 		<com.github.oshi.version>6.2.2</com.github.oshi.version>
@@ -432,14 +432,8 @@
 		<!-- Swagger -->
 		<dependency>
 		    <groupId>com.github.xiaoymin</groupId>
-		    <artifactId>knife4j-spring-boot-starter</artifactId>
+		    <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
 		    <version>${com.github.xiaoymin.version}</version>
-		    <exclusions>
-		    	<exclusion>
-		    		<groupId>javax.validation</groupId>
-		    		<artifactId>validation-api</artifactId>
-		    	</exclusion>
-		    </exclusions>
 		</dependency>
 
 		<!-- jwt -->

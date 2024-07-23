@@ -4,8 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import jakarta.annotation.Resource;
-
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,9 +32,10 @@ import com.oner365.sys.service.ISysMenuOperationService;
 import com.oner365.sys.service.ISysMenuService;
 import com.oner365.sys.vo.SysMenuVo;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import springfox.documentation.annotations.ApiIgnore;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
 
 /**
  * 系统菜单
@@ -44,7 +43,7 @@ import springfox.documentation.annotations.ApiIgnore;
  * @author zhaoyong
  */
 @RestController
-@Api(tags = "系统管理 - 菜单")
+@Tag(name = "系统管理 - 菜单")
 @RequestMapping("/system/menus")
 public class SysMenuController extends BaseController {
 
@@ -60,7 +59,7 @@ public class SysMenuController extends BaseController {
    * @param data 查询对象
    * @return List<SysMenuDto>
    */
-  @ApiOperation("1.获取列表")
+  @Operation(summary = "1.获取列表")
   @ApiOperationSupport(order = 1)
   @PostMapping("/list")
   public List<SysMenuDto> list(@RequestBody QueryCriteriaBean data) {
@@ -73,7 +72,7 @@ public class SysMenuController extends BaseController {
    * @param id 编号
    * @return SysMenuInfoDto
    */
-  @ApiOperation("2.按id查询")
+  @Operation(summary = "2.按id查询")
   @ApiOperationSupport(order = 2)
   @GetMapping("/get/{id}")
   public SysMenuInfoDto get(@PathVariable String id) {
@@ -91,7 +90,7 @@ public class SysMenuController extends BaseController {
    * @param status 状态
    * @return Boolean
    */
-  @ApiOperation("3.修改状态")
+  @Operation(summary = "3.修改状态")
   @ApiOperationSupport(order = 3)
   @PostMapping("/status/{id}")
   public Boolean editStatus(@PathVariable String id, @RequestParam("status") StatusEnum status) {
@@ -105,10 +104,10 @@ public class SysMenuController extends BaseController {
    * @param sysMenuVo 菜单对象
    * @return List<TreeSelect>
    */
-  @ApiOperation("4.获取树型列表")
+  @Operation(summary = "4.获取树型列表")
   @ApiOperationSupport(order = 4)
   @PostMapping("/tree")
-  public List<TreeSelect> treeSelect(@RequestBody SysMenuVo sysMenuVo, @ApiIgnore @CurrentUser AuthUser authUser) {
+  public List<TreeSelect> treeSelect(@RequestBody SysMenuVo sysMenuVo, @Parameter(hidden = true) @CurrentUser AuthUser authUser) {
     List<SysMenuDto> menus;
     if (SysConstants.DEFAULT_ROLE.equals(authUser.getIsAdmin())) {
       menus = menuService.selectList(sysMenuVo);
@@ -127,11 +126,11 @@ public class SysMenuController extends BaseController {
    * @param roleId    String
    * @return SysMenuTreeSelectDto
    */
-  @ApiOperation("5.获取权限")
+  @Operation(summary = "5.获取权限")
   @ApiOperationSupport(order = 5)
   @PostMapping("/role/{roleId}")
   public SysMenuTreeSelectDto roleMenuTreeSelect(@RequestBody SysMenuVo sysMenuVo, @PathVariable("roleId") String roleId,
-      @ApiIgnore @CurrentUser AuthUser authUser) {
+      @Parameter(hidden = true) @CurrentUser AuthUser authUser) {
     List<SysMenuDto> menus;
     if (SysConstants.DEFAULT_ROLE.equals(authUser.getIsAdmin())) {
       menus = menuService.selectList(sysMenuVo);
@@ -151,7 +150,7 @@ public class SysMenuController extends BaseController {
    * @param sysMenuVo 菜单对象
    * @return ResponseResult<SysMenuDto>
    */
-  @ApiOperation("6.保存")
+  @Operation(summary = "6.保存")
   @ApiOperationSupport(order = 6)
   @PutMapping("/save")
   public ResponseResult<SysMenuDto> save(@Validated @RequestBody SysMenuVo sysMenuVo) {
@@ -168,7 +167,7 @@ public class SysMenuController extends BaseController {
    * @param ids 编号
    * @return List<Boolean>
    */
-  @ApiOperation("7.删除")
+  @Operation(summary = "7.删除")
   @ApiOperationSupport(order = 7)
   @DeleteMapping("/delete")
   public List<Boolean> delete(@RequestBody String... ids) {
