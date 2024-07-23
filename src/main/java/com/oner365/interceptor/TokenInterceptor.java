@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,13 +12,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.lang.NonNull;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import com.alibaba.fastjson.JSON;
@@ -36,29 +36,19 @@ import com.oner365.sys.vo.SysLogVo;
  * @author zhaoyong
  *
  */
-@Order(3)
-@Configuration
+@Component
 public class TokenInterceptor implements HandlerInterceptor {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(TokenInterceptor.class);
 
-  private final ApplicationEventPublisher publisher;
+  @Resource
+  private ApplicationEventPublisher publisher;
 
-  private final IgnoreWhiteProperties ignoreWhiteProperties;
+  @Resource
+  private IgnoreWhiteProperties ignoreWhiteProperties;
   
-  private final AccessTokenProperties tokenProperties;
-
-  /**
-   * Constructor
-   *
-   * @param publisher ApplicationEventPublisher
-   */
-  public TokenInterceptor(ApplicationEventPublisher publisher, 
-      IgnoreWhiteProperties ignoreWhiteProperties, AccessTokenProperties tokenProperties) {
-    this.publisher = publisher;
-    this.ignoreWhiteProperties = ignoreWhiteProperties;
-    this.tokenProperties = tokenProperties;
-  }
+  @Resource
+  private AccessTokenProperties tokenProperties;
 
   /**
    * Handler
