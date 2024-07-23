@@ -54,10 +54,10 @@ public class QueueRabbitmqReceiverServiceImpl implements IQueueRabbitmqReceiverS
   private ISysTaskService sysTaskService;
 
   @Override
-  public void message(JSONObject msg, Channel channel, Message message) throws IOException {
+  public void message(byte[] msg, Channel channel, Message message) throws IOException {
     try {
-      Optional<JSONObject> optional = Optional.ofNullable(msg);
-      optional.ifPresent(s -> logger.info("Message: {}", s));
+      Optional<byte[]> optional = Optional.ofNullable(msg);
+      optional.ifPresent(s -> logger.info("Message: {}", new String(s)));
       channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
     } catch (IOException e) {
       if (Boolean.TRUE.equals(message.getMessageProperties().getRedelivered())) {

@@ -44,10 +44,10 @@ public class KafkaSendServiceImpl implements IQueueSendService {
   @Override
   public void sendMessage(byte[] data) {
     if (redisCache.lock(QueueConstants.MESSAGE_QUEUE_NAME, QueueConstants.QUEUE_LOCK_TIME_SECOND)) {
-      logger.info("Kafka sendMessage: {}", String.valueOf(data));
+      logger.info("Kafka sendMessage: {}", new String(data));
       try {
         CompletableFuture<SendResult<String, Object>> future = kafkaTemplate.send(QueueConstants.MESSAGE_QUEUE_NAME,
-            String.valueOf(data));
+            new String(data));
         SendResult<String, Object> result = future.get();
         logger.info("Kafka future: {}", JSON.toJSONString(result.getProducerRecord()));
       } catch (Exception e) {

@@ -28,7 +28,7 @@ public class MqttReceiverMessageServiceImpl implements IMqttReceiverMessageServi
       inputChannel = MqttConstants.IN_BOUND_CHANNEL + QueueConstants.MESSAGE_QUEUE_NAME, 
       outputChannel = MqttConstants.OUT_BOUND_CHANNEL + QueueConstants.MESSAGE_QUEUE_NAME
   )
-  public void message(Object message) {
+  public void message(String message) {
     logger.info("Mqtt receive message: {}", message);
   }
 

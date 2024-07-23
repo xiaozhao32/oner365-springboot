@@ -15,5 +15,5 @@ public interface IMqttReceiverMessageService extends BaseService {
    *
    * @param message 消息内容
    */
-  void message(Object message);
+  void message(String message);
 }
