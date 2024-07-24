@@ -36,7 +36,7 @@ pipeline {
 
         stage('Docker Build') {
             steps {
-            	// TODO
+            	sh 'mvn clean package -Dmaven.test.skip=true docker:build'
                 echo '通过 docker 制作自定义镜像 - SUCCESS'
             }            
         }
