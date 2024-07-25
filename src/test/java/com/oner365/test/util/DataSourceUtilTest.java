@@ -5,11 +5,11 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.Ignore;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import com.oner365.datasource.util.DataSourceUtil;
+import com.oner365.data.datasource.util.DataSourceUtil;
 
 /**
  * 工具类测试
@@ -25,7 +25,7 @@ class DataSourceUtilTest extends BaseUtilsTest {
     }
 
     @Test
-    @Disabled
+    @Ignore("需要连接达梦数据库")
     void testDriver() {
         // 达梦数据库 创建账户和表空间
         String driverName = "dm.jdbc.driver.DmDriver";

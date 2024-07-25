@@ -23,12 +23,12 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.oner365.common.constants.PublicConstants;
-import com.oner365.common.enums.StatusEnum;
+import com.oner365.data.commons.constants.PublicConstants;
+import com.oner365.data.commons.enums.StatusEnum;
+import com.oner365.data.commons.util.DataUtils;
 import com.oner365.monitor.enums.MisfirePolicyEnum;
 import com.oner365.monitor.enums.TaskStatusEnum;
 import com.oner365.monitor.util.CronUtils;
-import com.oner365.util.DataUtils;
 import com.vladmihalcea.hibernate.type.json.JsonStringType;
 
 /**

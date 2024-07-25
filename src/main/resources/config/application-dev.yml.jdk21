@@ -1,0 +1,324 @@
+# server
+server:
+  port: 8704
+  servlet:
+    context-path: /
+  tomcat:
+    uri-encoding: UTF-8
+    #最大连接数（最大30000）默认值200
+    max-connections: 15000
+    #当tomcat连接数已达最大，接受排队的请求个数默认值100
+    accept-count: 1500
+    threads:
+      max: 800
+      min-spare: 30
+  shutdown: graceful
+
+spring:
+
+  # database
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+
+    # mysql
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://172.16.80.211:31979/oner365?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=GMT%2B8
+#    username: root
+#    password: Nationsky1@3
+
+    # postgres
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://172.16.80.211:32621/root?characterEncodeing=utf8&TimeZone=Asia/Shanghai
+    username: root
+    password: Nqsky1130
+
+  sql:
+    init:
+      mode: embedded
+      schema-locations:
+      - classpath:scripts/oner365_postgres.sql
+ 
+  # servlet file
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 1024MB
+      max-request-size: 1024MB
+      
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+    locale: zh_CN
+    serialization:
+      indent-output: false
+
+  # elasticsearch
+  elasticsearch:
+    username: elastic
+    password: elastic
+    uris: http://172.16.80.211:32458
+
+  data:
+    jpa:
+      repositories:
+        enabled: true
+        
+    redis:
+      repositories:
+        enabled: false
+      host: 172.16.80.211
+      port: 32360
+      password: 1234
+      database: 2
+      timeout: 10s
+      lettuce:
+        pool:
+          min-idle: 0
+          max-idle: 8
+          max-active: 8
+          max-wait: -1ms
+
+    elasticsearch:
+      repositories:
+        enabled: false
+  
+  # rabbitmq
+  rabbitmq:
+    addresses: 172.16.80.211:31157
+    uri: http://172.16.80.211:30487
+    virtual-host: /
+    username: admin
+    password: admin123
+    connection-timeout: 60s
+    publisher-confirm-type: CORRELATED
+
+    listener:
+      simple:
+        concurrency: 1
+        max-concurrency: 3
+        prefetch: 10
+        default-requeue-rejected: true
+  
+  # kafka
+  kafka:
+    bootstrap-servers: 172.16.80.211:32081 
+    listener:
+      missing-topics-fatal: false
+      concurrency: 1
+      poll-timeout: 1500
+      
+    template:
+      default-topic: ${spring.application.name}
+      
+    producer:
+      retries: 0
+      acks: 1
+      batch-size: 16384
+      buffer-memory: 33554432
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer   
+      properties:
+        linger:
+          ms: 0     
+      
+    consumer:
+      group-id: ${spring.application.name}
+      enable-auto-commit: true
+      auto-offset-reset: latest
+      auto-commit-interval: 5s
+      heartbeat-interval: 3s
+      max-poll-records: 100
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        session:
+          timeout:
+            ms: 6000
+        request:
+          timeout:
+            ms: 30000
+        max:
+          poll:
+            interval:
+              ms: 600000
+
+  jpa:
+    open-in-view: true
+  freemarker:
+    check-template-location: false
+  thymeleaf:
+    check-template-location: false
+  messages:
+    basename: i18n/messages
+  mvc:
+    pathmatch:
+      matching-strategy: ant-path-matcher
+
+  # 线程池
+  task:
+    scheduling:
+      thread-name-prefix: SyncDataTask-
+    execution:
+      pool:
+        allow-core-thread-timeout: false
+        max-size: 60
+        core-size: 2
+        queue-capacity: 100
+        keep-alive: 90s
+
+# mybatis
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.oner365.**.entity
+
+# Access Token
+token:
+  secret: test
+  expire-time: 60
+
+# 雪花算法生成id
+sequence:
+  snowflake:
+    datacenterId: 1
+    workerId: 1
+
+# 白名单
+ignore:
+  whites:
+    - /api
+    - /system/auth
+    - /system/file/download
+    - /swagger
+    - /webjars
+    - /v3
+    - /csrf
+    - /doc.html
+    - /client
+    - /favicon.ico
+    - /error
+    - /monitoring
+    - /druid
+#客户端接口加密传输白名单，白名单内则需要报文加密操作
+#需要加密报文接口，统一增加sign请求头，以传递对称加密密钥
+#privateKey为约定私钥，此私钥给报文对称加密key解密，客户端用公钥加密
+client:
+  privateKey: MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCKDjkNMFARP3qpLC5CY1JfwLaMyEyjjLSyz51xirpOlJQbGEDqbVXQlKuX4HXJj6D4nCMB/qsOoQuL1XVTvzr8BBFKgwbhrWuethLQ88494FEpDg9RqJo3zCLoLVJ31kOdIUTcUqBF4xQW+8Zicf/wmWb0tqcrWYoZMwWegVGSpsg3eO99mVk07LkXbJ02XJk3YpqPN046JsJ9AUQTanYEn8uIubMaWeHcb9sb+raWiGnA+i1G+dVf9Jt7bgRQ7NSORCpiK1weT9vVit4arPQi7hIIDcBLNv4e09OmHSHF5aqSEHH+lbBVhhJ8CEZ/9zxY3mP4X1KLY9lmaignuXvRAgMBAAECggEAE/hKuGWsr1IHZEFHz8KeP8uYnHS84UuRN+xgUfRHTuafJew0N7TpHOrkh2uonidwmYW8aqV0CQGysd+GwT6AQcQ03Bpn/G0hjCu6PQ+HXdv84XtvK9i/tiKJShyEOWF9FlWhqF0rYfCfD1QMNmFXLG6EPhHNzK9/EnYW8f6y1gujtxLqyJmwITWfrfsFWkwWzEANJ09DD12rHjyhCPDrEY8GFTPFBUX3cbmeNWiQxV+vLCs/7V6sU2hb0AI8FdHQM0yC91GLvWWpLFP4rgdd6sk1rtJKYv05CbKDGPFtJzbTUp5Fa+j5YMvgw2aJfj6cGfRqmOXx9nLu5ddgJFp3gQKBgQC85rql0xuLT1qPGnDGuPVGXZXtl7keuU9+NRcLk1R6avoKLhdYZxEBQwBOkdh7y49Jj5a0oKM0p0+mP7NOqBAiMLDoZu4KRqqaTsfUjFBisAsm3RXnAJL2hKkReF08hEdw6xvflAaZriPOZ6ABiqO5viETOhejKGJvMeaeHIJSbQKBgQC7F/afVh4U5MR50sjDjSKYZ4x5yLXbuCA4E9uM0bGihwMXb/i1MLg5LnhofP0e+uub4E98TjwCh0MdnyhYHZO7FbmK5br4ADjYevUFnQz2D/dt3g+Uc0QAgJRFAHnztpnWBYj8bg8Nv6dayGHfSxa9yE8D6GRXIFW9W3JPnS8QdQKBgBZ6wqVvLOz0IYu8EsWjRxT7mBbxIkeEt/AF81seSkRTLLQ/benIQh7LUWMIOiHpRID1hHK0Vxex/WmEVRs8Jsda0gKmFRfF9xFr5J3noL1Nw9X5I10dFWAew1vf3gCQoUvPvr5piCuLrJkofcMRM5CsDpWSKTPyX1xqLM6OB/g1AoGABIfRBgy8z762b0jGac3aH5yqTyyoErkDtrfsYh2V0py4W3HvsNuMKn5Qlh8otf5XhD/LTPRMCbeizW3UOUYGFMqy4oUroOPIfJ2Fn2wtKyw5zqRI9kxQQj7a2Ezppxgt43vg1FQJ80hH0i/2BsU3uMLH/w06mM2EpgA35Wul/x0CgYAatVZkES4dGsvOaqmb3pn3580+V/RxREkoiL3ZEEarh9Ua7DJ7//N6bDctwcqMvna75J9b7cfCy/mnWMX+vsvq3V78g/7demPhjqTU8uCVknnhx2lEn0rz4B2jtUIDsaeX26Xg2JjxXr5CmxaIT+BqeBPvTxi84V2jsLcogzIwBw==
+  whites:
+    - /client/login
+    
+management:
+  server:
+    port: 50000
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  endpoints:
+    web:
+      exposure:
+        base-path: /actuator
+        include:
+        - health
+        - shutdown
+
+# Logger
+logging:
+  file:
+    path: /Users/zhaoyong/Downloads/logs
+  level:
+    web: warn
+    org:
+      springframework: info
+      elasticsearch: error
+  # logstash
+  logstash:
+    enabled: false
+    addresses: 172.16.80.211:32522
+   
+# 队列方式    
+queue:
+  # rabbitmq rocketmq kafka pulsar activemq mqtt
+  type: rabbitmq
+
+pulsar:
+  url: localhost:6650
+  subscription: test-listener
+  
+mqtt:
+  uri: tcp://172.16.80.132:1883
+  username: nqsky
+  password: Nqsky1130
+  client-id: oner365-client
+
+# 文件上传下载地址
+file:
+  # 存储方式为 local fdfs minio
+  storage: minio
+  # excel后缀
+  excel:
+    suffix: xlsx
+  # 通用文件下载路径
+  download: /Users/zhaoyong/Downloads
+  
+# 上传存储到本地
+local:
+  # 本地配置web访问地址, fdfs使用 fdfs.web-server-url
+  web: http://localhost/uploads
+    # 上传地址
+  upload: /Users/zhaoyong/Downloads/logs
+
+# file minio
+minio:
+  username: nqsky
+  password: Nqsky1130
+  url: http://172.16.80.211:31923
+  bucket: testminio
+
+# swagger
+swagger:
+  name: ${spring.application.name}
+  version: 2.1.0
+  url: https://www.oner365.com
+  email: service@oner365.com
+  description: Oner365 project
+
+# knife4j
+knife4j:
+  enable: true
+  # 生产环境需要屏蔽
+  production: false
+  
+# 是否跳过ssl验证 true验证，false跳过验证
+webclient:
+  ssl:
+    enable: true
+  max-in-memory-size: 209715200  
+
+#部署目录
+deploy:
+  local:
+    location: /Users/zhaoyong/Documents/git/oner365
+    name: /Users/zhaoyong/Documents/deploy/springboot
+    version: ${swagger.version}
+    suffix: jar
+    active: zy
+    projects:
+      - oner365-springboot
+    libs:
+
+  server:
+    deploy: false
+    name: /root/oner365-springboot
+    servers:
+    - 192.168.213.128:22@root:1234
+
+# 代码生成
+gen:
+  # 作者
+  author: zhaoyong
+  # 默认生成包路径 system 需改成自己的模块名称 如 system monitor tool
+  packageName: com.oner365.demo
+  # 自动去除表前缀，默认是false
+  autoRemovePre: true
+  # 表前缀（生成类名不会包含表前缀，多个用逗号分隔）
+  tablePrefix: nt_

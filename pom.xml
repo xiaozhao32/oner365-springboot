@@ -6,7 +6,7 @@
 
 	<groupId>com.oner365</groupId>
 	<artifactId>oner365-springboot</artifactId>
-	<version>2.0.2</version>
+	<version>2.1.0</version>
 	<packaging>jar</packaging>
 
 	<name>oner365-springboot</name>
@@ -41,18 +41,18 @@
 		<java.version>1.8</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		<org.springframework.integration.version>5.5.19</org.springframework.integration.version>
+		<org.springframework.integration.version>5.5.20</org.springframework.integration.version>
 		<org.springframework.statemachine.version>2.5.1</org.springframework.statemachine.version>
-		<org.springframework.security.version>5.8.7</org.springframework.security.version>
+		<org.springframework.security.version>5.8.9</org.springframework.security.version>
 		<org.springframework.boot.version>2.7.18</org.springframework.boot.version>
 		<org.springframework.version>5.3.31</org.springframework.version>
-		<org.springframework.kafka.version>2.9.12</org.springframework.kafka.version>
+		<org.springframework.kafka.version>2.9.13</org.springframework.kafka.version>
 
-		<org.apache.logging.log4j.version>2.21.1</org.apache.logging.log4j.version>
+		<org.apache.logging.log4j.version>2.23.0</org.apache.logging.log4j.version>
 		<org.apache.httpclient.version>4.5.14</org.apache.httpclient.version>
 		<org.apache.httpcore.version>4.4.16</org.apache.httpcore.version>
-		<org.apache.tomcat.version>9.0.83</org.apache.tomcat.version>
-		<org.apache.pulsar.version>3.0.0</org.apache.pulsar.version>
+		<org.apache.tomcat.version>9.0.85</org.apache.tomcat.version>
+		<org.apache.pulsar.version>3.2.1</org.apache.pulsar.version>
 		<org.apache.kafka.version>3.6.0</org.apache.kafka.version>
 		<org.apache.poi.version>5.2.5</org.apache.poi.version>
 
@@ -70,22 +70,22 @@
 
 		<org.jetbrains.kotlin.version>1.9.0</org.jetbrains.kotlin.version>
 		<org.junit.platform.version>1.7.2</org.junit.platform.version>
-		<org.javassist.version>3.29.2-GA</org.javassist.version>
+		<org.javassist.version>3.30.2-GA</org.javassist.version>
 		<org.freemarker.version>2.3.32</org.freemarker.version>
 		<org.reflections.version>0.10.2</org.reflections.version>
 		<org.codehaus.version>3.1.10</org.codehaus.version>
 		<org.quartz.version>2.3.2</org.quartz.version>
 		<org.yaml.version>2.2</org.yaml.version>
 
-		<org.postgresql.version>42.5.4</org.postgresql.version>
+		<org.postgresql.version>42.5.5</org.postgresql.version>
 		<com.oracle.version>21.9.0.0</com.oracle.version>
 		<com.dameng.version>8.1.1.49</com.dameng.version>
-		<com.mysql.version>8.0.32</com.mysql.version>
+		<com.mysql.version>8.3.0</com.mysql.version>
 
 		<com.alibaba.fastjson.version>1.2.83</com.alibaba.fastjson.version>
-		<com.alibaba.druid.version>1.2.20</com.alibaba.druid.version>
+		<com.alibaba.druid.version>1.2.21</com.alibaba.druid.version>
 
-		<com.fasterxml.jackson.version>2.16.0</com.fasterxml.jackson.version>
+		<com.fasterxml.jackson.version>2.16.1</com.fasterxml.jackson.version>
 		<com.google.code.gson.version>2.10.1</com.google.code.gson.version>
 		<com.google.guava.version>32.1.1-jre</com.google.guava.version>
 		<com.google.protobuf.version>3.22.4</com.google.protobuf.version>
@@ -98,10 +98,10 @@
 		<com.belerweb.version>2.5.1</com.belerweb.version>
 		<com.auth0.version>3.19.1</com.auth0.version>
 
-		<io.projectreactor.core.version>3.5.6</io.projectreactor.core.version>
-		<io.projectreactor.netty.version>1.1.6</io.projectreactor.netty.version>
+		<io.projectreactor.core.version>3.5.12</io.projectreactor.core.version>
+		<io.projectreactor.netty.version>1.1.13</io.projectreactor.netty.version>
 		<io.jsonwebtoken.version>0.9.1</io.jsonwebtoken.version>
-		<io.netty.version>4.1.101.Final</io.netty.version>
+		<io.netty.version>4.1.106.Final</io.netty.version>
 		<io.minio.version>8.5.4</io.minio.version>
 
 		<net.logstash.logback.version>7.2</net.logstash.logback.version>
@@ -115,9 +115,39 @@
 		<junit.version>4.13.2</junit.version>
 
 		<org.apache.maven.plugins.version>3.3.0</org.apache.maven.plugins.version>
+		<docker.host>172.16.80.132:2375</docker.host>
+		<docker.harbor>172.16.80.211:30002</docker.harbor>
 	</properties>
 
 	<dependencies>
+		
+		<!-- oner365 -->
+		<dependency>
+			<groupId>com.oner365.data</groupId>
+			<artifactId>oner365-data-commons</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.oner365.data</groupId>
+			<artifactId>oner365-data-datasource</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.oner365.data</groupId>
+			<artifactId>oner365-data-jpa</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.oner365.data</groupId>
+			<artifactId>oner365-data-redis</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.oner365.data</groupId>
+			<artifactId>oner365-data-web</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		
 		<!-- javax.servlet -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -169,7 +199,7 @@
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>2.13.0</version>
+			<version>2.15.1</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-lang</groupId>
@@ -179,12 +209,12 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>3.12.0</version>
+			<version>3.14.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-pool2</artifactId>
-			<version>2.11.1</version>
+			<version>2.12.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -194,13 +224,19 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
     		<artifactId>commons-compress</artifactId>
-    		<version>1.23.0</version>
+    		<version>1.26.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.ant</groupId>
 			<artifactId>ant</artifactId>
-			<version>1.10.12</version>
+			<version>1.10.14</version>
 		</dependency>
+		<dependency>
+		    <groupId>xerces</groupId>
+		    <artifactId>xercesImpl</artifactId>
+		    <version>2.12.2</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.apache.velocity</groupId>
 		  	<artifactId>velocity-engine-core</artifactId>
@@ -685,6 +721,18 @@
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 			<version>${org.springframework.boot.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+			<version>${org.springframework.boot.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-thymeleaf</artifactId>
+		    <version>${org.springframework.boot.version}</version>
+		</dependency>
 
 		<!-- spring test -->
 		<dependency>
@@ -1059,12 +1107,23 @@
 				<version>1.2.2</version>
 				<configuration>
 					<imageName>${project.artifactId}</imageName>
+					<imageTags>
+						<imageTag>${project.version}</imageTag>
+					</imageTags>
+					
+					<!-- docker deploy -->
 					<dockerDirectory>./</dockerDirectory>
-					<dockerHost>http://172.16.80.211:2375</dockerHost>
+					<dockerHost>http://${docker.host}</dockerHost>
 					<buildArgs>
 						<JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
 		                <OUT_DIRECTORY>target</OUT_DIRECTORY>
 					</buildArgs>
+					
+					<!-- docker harbor -->
+					<serverId>harbor</serverId>
+	                <registryUrl>http://${docker.harbor}</registryUrl>
+	                <imageName>${docker.harbor}/library/${project.artifactId}:${project.version}</imageName>
+	                <pushImage>true</pushImage>
 				</configuration>
 			</plugin>
 

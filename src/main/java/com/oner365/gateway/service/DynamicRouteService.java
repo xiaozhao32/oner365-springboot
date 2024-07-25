@@ -3,10 +3,10 @@ package com.oner365.gateway.service;
 import java.util.List;
 import java.util.Map;
 
-import com.oner365.common.enums.StatusEnum;
-import com.oner365.common.page.PageInfo;
-import com.oner365.common.query.QueryCriteriaBean;
-import com.oner365.common.service.BaseService;
+import com.oner365.data.commons.enums.StatusEnum;
+import com.oner365.data.jpa.page.PageInfo;
+import com.oner365.data.jpa.query.QueryCriteriaBean;
+import com.oner365.data.jpa.service.BaseService;
 import com.oner365.gateway.dto.GatewayRouteDto;
 import com.oner365.gateway.vo.GatewayRouteVo;
 

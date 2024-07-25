@@ -14,8 +14,10 @@ import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.oner365.common.enums.StatusEnum;
-import com.oner365.common.service.BaseService;
+import com.oner365.data.commons.enums.StatusEnum;
+import com.oner365.data.commons.util.DateUtil;
+import com.oner365.data.jpa.service.BaseService;
+import com.oner365.data.web.utils.HttpClientUtils;
 import com.oner365.monitor.constants.ScheduleConstants;
 import com.oner365.monitor.dto.InvokeParamDto;
 import com.oner365.monitor.dto.SysTaskDto;
@@ -26,8 +28,6 @@ import com.oner365.monitor.vo.SysTaskLogVo;
 import com.oner365.monitor.vo.SysTaskVo;
 import com.oner365.queue.condition.PulsarCondition;
 import com.oner365.queue.config.properties.PulsarProperties;
-import com.oner365.util.DataUtils;
-import com.oner365.util.DateUtil;
 
 /**
  * pulsar InvokeParamDto listener
@@ -41,7 +41,7 @@ public class PulsarInvokeParamListenerImpl implements MessageListener<InvokePara
 
   private static final long serialVersionUID = 1L;
 
-  private final Logger logger = LoggerFactory.getLogger(PulsarInvokeParamListenerImpl.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(PulsarInvokeParamListenerImpl.class);
 
   @Resource
   private PulsarProperties pulsarProperties;
@@ -56,7 +56,7 @@ public class PulsarInvokeParamListenerImpl implements MessageListener<InvokePara
   public void received(Consumer<InvokeParamDto> consumer, Message<InvokeParamDto> msg) {
     try {
       String data = Arrays.toString(msg.getData());
-      logger.info("Pulsar consumer data: {}, topic: {}", data, consumer.getTopic());
+      LOGGER.info("Pulsar consumer data: {}, topic: {}", data, consumer.getTopic());
       consumer.acknowledge(msg);
     } catch (PulsarClientException e) {
       consumer.negativeAcknowledge(msg);
@@ -73,14 +73,14 @@ public class PulsarInvokeParamListenerImpl implements MessageListener<InvokePara
     SysTaskDto sysTask = sysTaskService.selectTaskById(taskId);
     if (sysTask != null) {
       if (ScheduleConstants.SCHEDULE_CONCURRENT.equals(concurrent)) {
-        logger.info("taskExecute  concurrent : {} , update sysTask  executeStatus = 0", concurrent);
+        LOGGER.info("taskExecute  concurrent : {} , update sysTask  executeStatus = 0", concurrent);
         execute(taskId, param, sysTask);
 
       } else {
         if (!StatusEnum.NO.equals(sysTask.getExecuteStatus())) {
           execute(taskId, param, sysTask);
         }
-        logger.info("taskExecute  concurrent : {}", concurrent);
+        LOGGER.info("taskExecute  concurrent : {}", concurrent);
       }
       saveExecuteTaskLog(sysTask);
     }
@@ -88,7 +88,7 @@ public class PulsarInvokeParamListenerImpl implements MessageListener<InvokePara
 
   private StatusEnum execute(String taskId, JSONObject param, SysTaskDto sysTask) {
     try {
-      logger.info("taskId:{}", taskId);
+      LOGGER.info("taskId:{}", taskId);
       sysTask.setExecuteStatus(StatusEnum.NO);
       sysTaskService.save(convert(sysTask, SysTaskVo.class));
       int day = param.getInteger("day");
@@ -99,17 +99,17 @@ public class PulsarInvokeParamListenerImpl implements MessageListener<InvokePara
       sysTaskService.save(convert(sysTask, SysTaskVo.class));
       return StatusEnum.YES;
     } catch (Exception e) {
-      logger.error("update sysTask Exception:", e);
+      LOGGER.error("update sysTask Exception:", e);
       return StatusEnum.NO;
     }
   }
 
   public void saveExecuteTaskLog(SysTaskDto sysTask) {
-    logger.info("saveExecuteTaskLog :{}", sysTask);
+    LOGGER.info("saveExecuteTaskLog :{}", sysTask);
 
     long time = System.currentTimeMillis();
     SysTaskLogVo taskLog = new SysTaskLogVo();
-    taskLog.setExecuteIp(DataUtils.getLocalhost());
+    taskLog.setExecuteIp(HttpClientUtils.getLocalhost());
     taskLog.setExecuteServerName(ScheduleConstants.SCHEDULE_SERVER_NAME);
     taskLog.setStatus(TaskStatusEnum.NORMAL);
     taskLog.setTaskMessage("执行时间：" + (System.currentTimeMillis() - time) + "毫秒");

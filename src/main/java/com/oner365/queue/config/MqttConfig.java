@@ -19,7 +19,7 @@ import org.springframework.integration.mqtt.outbound.MqttPahoMessageHandler;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHandler;
 
-import com.oner365.common.enums.QueueEnum;
+import com.oner365.data.commons.enums.QueueEnum;
 import com.oner365.queue.condition.MqttCondition;
 import com.oner365.queue.config.properties.MqttProperties;
 import com.oner365.queue.constants.MqttConstants;

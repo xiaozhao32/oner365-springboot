@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 #if($column.javaType != 'StatusEnum')
 import javax.persistence.Enumerated;
 #end
@@ -35,18 +36,10 @@ import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 #end
 
-#if($column.columnName == 'create_user')
 import org.springframework.data.annotation.CreatedBy;
-#end
-#if($column.columnName == 'create_time')
 import org.springframework.data.annotation.CreatedDate;
-#end
-#if($column.columnName == 'update_user')
 import org.springframework.data.annotation.LastModifiedBy;
-#end
-#if($column.columnName == 'update_time')
 import org.springframework.data.annotation.LastModifiedDate;
-#end
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

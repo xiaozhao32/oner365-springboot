@@ -11,8 +11,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.reflections.Reflections;
 
-import com.oner365.common.enums.BaseEnum;
-import com.oner365.util.ClassesUtil;
+import com.oner365.data.commons.enums.BaseEnum;
+import com.oner365.data.commons.util.ClassesUtil;
 
 /**
  * 工具类测试
@@ -25,7 +25,7 @@ class ClassUtilsTest extends BaseUtilsTest {
   @Test
   void test() {
 //       BaseEnum.class.;
-    Reflections ref = new Reflections("com.oner365.common.enums");
+    Reflections ref = new Reflections("com.oner365.data.commons.enums");
     List<Class<? extends BaseEnum>> childList = new ArrayList<>(ref.getSubTypesOf(BaseEnum.class));
     Assertions.assertNotEquals(0, childList.size());
     childList.forEach(clazz -> {

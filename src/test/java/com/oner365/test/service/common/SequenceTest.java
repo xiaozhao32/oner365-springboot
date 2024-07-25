@@ -8,8 +8,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.oner365.common.sequence.sequence.RangeSequence;
-import com.oner365.common.sequence.sequence.SnowflakeSequence;
+import com.oner365.data.web.sequence.sequence.RangeSequence;
+import com.oner365.data.web.sequence.sequence.SnowflakeSequence;
 import com.oner365.test.service.BaseServiceTest;
 
 /**

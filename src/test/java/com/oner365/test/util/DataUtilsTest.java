@@ -1,9 +1,10 @@
 package com.oner365.test.util;
 
-import com.oner365.util.DataUtils;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import com.oner365.data.commons.util.DataUtils;
 
 /**
  * 工具类测试

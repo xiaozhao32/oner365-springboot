@@ -242,7 +242,7 @@ minio:
 # swagger
 swagger:
   name: ${spring.application.name}
-  version: 2.0.2
+  version: 2.1.0
   url: https://www.oner365.com
   email: service@oner365.com
   description: Oner365 project
@@ -263,7 +263,7 @@ deploy:
   local:
     location: /Users/taoliu/gitee
     name: /Users/taoliu/gitee/deploy/springboot
-    version: 2.0.2
+    version: ${swagger.version}
     suffix: jar
     projects:
     - oner365-springboot

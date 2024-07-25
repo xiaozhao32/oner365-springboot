@@ -1,11 +1,11 @@
 package com.oner365.test.util;
 
+import java.util.Map;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import com.oner365.util.RsaUtils;
-
-import java.util.Map;
+import com.oner365.data.commons.util.RsaUtils;
 
 /**
  * 工具类测试

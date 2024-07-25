@@ -1,6 +1,6 @@
 package com.oner365.sys.constants;
 
-import com.oner365.common.constants.PublicConstants;
+import com.oner365.data.commons.constants.PublicConstants;
 
 /**
  * 系统用户常量
@@ -53,6 +53,7 @@ public class SysConstants extends PublicConstants {
     public static final String ITEM_ORDER = "itemOrder";
     public static final String CAPTCHA_IMAGE = "CaptchaImage";
     public static final String OPERATION_TYPE = "operationType";
+    public static final String CONFIG_NAME = "configName";
     
     public static final String OPER_ID = "operId";
     public static final String OPER_NAME = "operName";

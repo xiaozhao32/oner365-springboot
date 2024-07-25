@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.alibaba.fastjson.JSON;
-import com.oner365.common.query.AttributeBean;
-import com.oner365.common.query.QueryCriteriaBean;
+import com.oner365.data.jpa.query.AttributeBean;
+import com.oner365.data.jpa.query.QueryCriteriaBean;
 import com.oner365.sys.dto.SysMessageDto;
 import com.oner365.sys.enums.MessageTypeEnum;
 import com.oner365.sys.service.ISysMessageService;

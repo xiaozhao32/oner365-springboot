@@ -5,13 +5,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
+import com.oner365.data.commons.util.Arith;
+import com.oner365.data.commons.util.DataUtils;
+import com.oner365.data.web.utils.HttpClientUtils;
 import com.oner365.monitor.entity.server.Cpu;
 import com.oner365.monitor.entity.server.Jvm;
 import com.oner365.monitor.entity.server.Mem;
 import com.oner365.monitor.entity.server.Sys;
 import com.oner365.monitor.entity.server.SysFile;
-import com.oner365.util.Arith;
-import com.oner365.util.DataUtils;
 
 import oshi.SystemInfo;
 import oshi.hardware.CentralProcessor;
@@ -153,8 +154,8 @@ public class Server implements Serializable {
    */
   private void setSysInfo() {
     Properties props = System.getProperties();
-    sys.setComputerName(DataUtils.getHostName());
-    sys.setComputerIp(DataUtils.getLocalhost());
+    sys.setComputerName(HttpClientUtils.getHostName());
+    sys.setComputerIp(HttpClientUtils.getLocalhost());
     sys.setOsName(props.getProperty("os.name"));
     sys.setOsArch(props.getProperty("os.arch"));
     sys.setUserDir(props.getProperty("user.dir"));

@@ -31,7 +31,7 @@ public class RabbitmqRunner implements ApplicationRunner {
 
   @Override
   public void run(ApplicationArguments args) throws Exception {
-
+    // rabbitmq init config
   }
 
   @PreDestroy

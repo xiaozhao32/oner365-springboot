@@ -18,7 +18,7 @@ import com.oner365.test.controller.BaseControllerTest;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class MqttTestControllerTest extends BaseControllerTest {
 
-  private static final String PATH = "/mqtt";
+  private static final String PATH = "/queue";
 
   @RepeatedTest(2)
   void send() {

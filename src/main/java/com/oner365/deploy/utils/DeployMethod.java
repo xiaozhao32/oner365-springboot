@@ -2,16 +2,23 @@ package com.oner365.deploy.utils;
 
 import java.io.File;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.oner365.common.constants.PublicConstants;
+import com.oner365.data.commons.constants.PublicConstants;
+import com.oner365.data.commons.util.DataUtils;
 import com.oner365.deploy.entity.DeployEntity;
 import com.oner365.deploy.entity.DeployServer;
 import com.oner365.deploy.entity.ServerEntity;
-import com.oner365.util.DataUtils;
 
 import ch.ethz.ssh2.Connection;
 
@@ -27,6 +34,11 @@ public class DeployMethod {
   private static final String FILE_LIB = "lib";
   private static final String FILE_TARGET = "target";
   private static final String FILE_RESOURCES = "resources";
+  
+  private static final String PARAM_SERVICE_NAME = "SERVICE_NAME=";
+  private static final String PARAM_VERSION = "VERSION=";
+  private static final String PARAM_ACTIVE = "ACTIVE=";
+  private static final String PARAM_RESOURCE_NAME = "RESOURCE_NAME";
 
   private DeployMethod() {
   }
@@ -105,9 +117,9 @@ public class DeployMethod {
         String readFile = shUrl.getPath();
         String writeFile = targetPath + File.separator + "start.sh";
         Map<String, Object> items = new HashMap<>(3);
-        items.put("SERVICE_NAME=", "SERVICE_NAME=" + projectName);
-        items.put("VERSION=", "VERSION=" + deployEntity.getVersion());
-        items.put("ACTIVE=", "ACTIVE=" + deployEntity.getActive());
+        items.put(PARAM_SERVICE_NAME, PARAM_SERVICE_NAME + projectName);
+        items.put(PARAM_VERSION, PARAM_VERSION + deployEntity.getVersion());
+        items.put(PARAM_ACTIVE, PARAM_ACTIVE + deployEntity.getActive());
         DataUtils.replaceContextFileCreate(readFile, writeFile, items);
       }
       URL stopUrl = DeployMethod.class.getResource("/service/stop.sh");
@@ -115,7 +127,7 @@ public class DeployMethod {
         String readFile = stopUrl.getPath();
         String writeFile = targetPath + File.separator + "stop.sh";
         Map<String, Object> items = new HashMap<>(3);
-        items.put("SERVICE_NAME=", "SERVICE_NAME=" + projectName);
+        items.put(PARAM_SERVICE_NAME, PARAM_SERVICE_NAME + projectName);
         DataUtils.replaceContextFileCreate(readFile, writeFile, items);
       }
 
@@ -125,7 +137,7 @@ public class DeployMethod {
         String readFile = batUrl.getPath();
         String writeFile = targetPath + File.separator + "start.bat";
         Map<String, Object> items = new HashMap<>(1);
-        items.put("RESOURCE_NAME", projectName + "-" + deployEntity.getVersion() + "." + deployEntity.getSuffix());
+        items.put(PARAM_RESOURCE_NAME, projectName + "-" + deployEntity.getVersion() + "." + deployEntity.getSuffix());
         DataUtils.replaceContextFileCreate(readFile, writeFile, items);
       }
     });
@@ -190,8 +202,6 @@ public class DeployMethod {
       }
       // 准备执行的命令
       commands.add("chmod 750 " + targetRoot + PublicConstants.DELIMITER + projectName + PublicConstants.DELIMITER + "*.sh");
-      // 是否启动 需要执行过以下命令才可以启动 ln -s $JAVA_HOME/bin/java /bin/java
-//      commands.add(targetRoot + PublicConstants.DELIMITER + "start.sh");
     });
     return commands;
   }

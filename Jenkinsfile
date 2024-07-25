@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-def branchName = "oner365-springboot-2.0.2"
+def branchName = "oner365-springboot-2.1.0"
 def credentialsId = "gitee auth id"
 def gitUrl = "https://gitee.com/xiaozhao32/oner365-springboot.git"
 
@@ -36,7 +36,7 @@ pipeline {
 
         stage('Docker Build') {
             steps {
-            	// TODO
+            	sh 'mvn clean package -Dmaven.test.skip=true docker:build'
                 echo '通过 docker 制作自定义镜像 - SUCCESS'
             }            
         }

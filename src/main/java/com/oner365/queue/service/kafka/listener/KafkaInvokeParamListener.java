@@ -13,7 +13,9 @@ import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.oner365.common.enums.StatusEnum;
+import com.oner365.data.commons.enums.StatusEnum;
+import com.oner365.data.commons.util.DateUtil;
+import com.oner365.data.web.utils.HttpClientUtils;
 import com.oner365.monitor.constants.ScheduleConstants;
 import com.oner365.monitor.dto.InvokeParamDto;
 import com.oner365.monitor.dto.SysTaskDto;
@@ -24,8 +26,6 @@ import com.oner365.monitor.vo.SysTaskLogVo;
 import com.oner365.monitor.vo.SysTaskVo;
 import com.oner365.queue.condition.KafkaCondition;
 import com.oner365.queue.constants.QueueConstants;
-import com.oner365.util.DataUtils;
-import com.oner365.util.DateUtil;
 
 /**
  * Kafka 监听服务
@@ -47,11 +47,11 @@ public class KafkaInvokeParamListener {
   /**
    * 监听服务
    *
-   * @param record 参数
+   * @param consumerRecord 参数
    */
   @KafkaListener(id = QueueConstants.SCHEDULE_TASK_QUEUE_NAME, topics = { QueueConstants.SCHEDULE_TASK_QUEUE_NAME })
-  public void listener(ConsumerRecord<String, ?> record) {
-    Optional<?> kafkaMessage = Optional.of(record.value());
+  public void listener(ConsumerRecord<String, ?> consumerRecord) {
+    Optional<?> kafkaMessage = Optional.of(consumerRecord.value());
     Object message = kafkaMessage.get();
     logger.info("Kafka pullTask received: {}", message);
 
@@ -102,7 +102,7 @@ public class KafkaInvokeParamListener {
 
     long time = System.currentTimeMillis();
     SysTaskLogVo taskLog = new SysTaskLogVo();
-    taskLog.setExecuteIp(DataUtils.getLocalhost());
+    taskLog.setExecuteIp(HttpClientUtils.getLocalhost());
     taskLog.setExecuteServerName(ScheduleConstants.SCHEDULE_SERVER_NAME);
     taskLog.setStatus(TaskStatusEnum.NORMAL);
     taskLog.setTaskMessage("执行时间：" + (System.currentTimeMillis() - time) + "毫秒");

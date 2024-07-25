@@ -5,9 +5,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
-import com.oner365.common.ResponseResult;
-import com.oner365.common.enums.ResultEnum;
-import com.oner365.controller.BaseController;
+import com.oner365.data.commons.enums.ResultEnum;
+import com.oner365.data.commons.reponse.ResponseResult;
+import com.oner365.data.web.controller.BaseController;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

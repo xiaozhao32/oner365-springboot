@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 
-import com.oner365.common.enums.QueueEnum;
+import com.oner365.data.commons.enums.QueueEnum;
 import com.oner365.queue.condition.KafkaCondition;
 import com.oner365.queue.config.properties.KafkaProperties;
 

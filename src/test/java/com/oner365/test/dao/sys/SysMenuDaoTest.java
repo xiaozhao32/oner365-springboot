@@ -25,12 +25,12 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
 import com.alibaba.fastjson.JSON;
+import com.oner365.data.commons.util.DateUtil;
+import com.oner365.data.commons.util.excel.ExportExcelUtils;
 import com.oner365.sys.dao.ISysMenuDao;
 import com.oner365.sys.dto.SysUserDto;
 import com.oner365.sys.entity.SysMenu;
 import com.oner365.test.dao.BaseDaoTest;
-import com.oner365.util.DateUtil;
-import com.oner365.util.excel.ExportExcelUtils;
 
 /**
  * Test SysMenuDao
@@ -64,6 +64,7 @@ class SysMenuDaoTest extends BaseDaoTest {
   void testGetById() {
     SysUserDto result = jdbcTemplate.queryForObject("SELECT * FROM nt_sys_user where id='1' ",
         BeanPropertyRowMapper.newInstance(SysUserDto.class));
+    Assertions.assertNotNull(result);
     logger.info("result:{}", JSON.toJSONString(result));
   }
 

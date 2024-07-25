@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.oner365.util.DataUtils;
+import com.oner365.data.commons.util.DataUtils;
 
 /**
  * 代码生成业务字段表 gen_table_column
@@ -90,7 +90,7 @@ public class GenTableColumn implements Serializable {
     private Date updateTime;
 
     /** 请求参数 */
-    private Map<String, Object> params = new HashMap<>();
+    private Map<String, Serializable> params = new HashMap<>();
 
     public void setColumnId(Long columnId) {
         this.columnId = columnId;
@@ -401,14 +401,14 @@ public class GenTableColumn implements Serializable {
     /**
      * @return the params
      */
-    public Map<String, Object> getParams() {
+    public Map<String, Serializable> getParams() {
         return params;
     }
 
     /**
      * @param params the params to set
      */
-    public void setParams(Map<String, Object> params) {
+    public void setParams(Map<String, Serializable> params) {
         this.params = params;
     }
 

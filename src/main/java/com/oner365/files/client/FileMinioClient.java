@@ -16,15 +16,15 @@ import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.oner365.common.constants.PublicConstants;
-import com.oner365.common.enums.StorageEnum;
+import com.oner365.data.commons.constants.PublicConstants;
+import com.oner365.data.commons.enums.StorageEnum;
+import com.oner365.data.commons.util.DataUtils;
 import com.oner365.files.config.properties.MinioProperties;
 import com.oner365.files.dto.SysFileStorageDto;
 import com.oner365.files.service.IFileStorageService;
 import com.oner365.files.storage.IFileStorageClient;
 import com.oner365.files.storage.condition.MinioStorageCondition;
 import com.oner365.files.vo.SysFileStorageVo;
-import com.oner365.util.DataUtils;
 
 import io.minio.GetObjectArgs;
 import io.minio.GetObjectResponse;
@@ -68,7 +68,7 @@ public class FileMinioClient implements IFileStorageClient {
           .putObject(PutObjectArgs.builder().bucket(minioProperties.getBucket()).object(path)
               .stream(inputStream, file.getSize(), -1).contentType(file.getContentType()).build());
       String result = writeResponse.object();
-      logger.info("file path: {}", result);
+      logger.info("uploadFile path: {}", result);
       saveFileStorage(result, file.getOriginalFilename(), file.getSize());
       return result;
     } catch (Exception e) {
@@ -87,7 +87,7 @@ public class FileMinioClient implements IFileStorageClient {
       ObjectWriteResponse writeResponse = minioClient.putObject(PutObjectArgs.builder()
           .bucket(minioProperties.getBucket()).object(path).stream(inputStream, file.length(), -1).build());
       String result = writeResponse.object();
-      logger.info("file path: {}", result);
+      logger.info("uploadFile path: {}", result);
       saveFileStorage(result, file.getName(), file.length());
       return result;
     } catch (Exception e) {
@@ -127,9 +127,7 @@ public class FileMinioClient implements IFileStorageClient {
     try {
       StatObjectResponse objectResponse = minioClient
           .statObject(StatObjectArgs.builder().bucket(minioProperties.getBucket()).object(path).build());
-      logger.info("file path: {}", path);
-      logger.info("file contentType: {}", objectResponse.contentType());
-      logger.info("file size: {}", objectResponse.size());
+      logger.info("file path: {}, size: {}", path, objectResponse.size());
       return objectResponse.size();
     } catch (Exception e) {
       logger.error("statObject error:", e);
