@@ -88,18 +88,26 @@ public class CacheController extends BaseController {
   @GetMapping("/list")
   public List<CacheJedisInfoDto> cacheList() {
     List<CacheJedisInfoDto> result = new ArrayList<>();
-    try (Jedis jedis = JedisUtils.getJedis(redisProperties)) {
-      if (jedis.isConnected()) {
-        IntStream.range(0, DB_LENGTH).forEach(i -> {
-          jedis.select(i);
-          if (jedis.dbSize() != 0L) {
-            CacheJedisInfoDto dto = new CacheJedisInfoDto();
-            dto.setName("DB" + i);
-            dto.setIndex(i);
-            dto.setSize(jedis.dbSize());
-            result.add(dto);
-          }
-        });
+    if (redisProperties.getCluster() != null) {
+        CacheJedisInfoDto dto = new CacheJedisInfoDto();
+        dto.setName("Cluster");
+        dto.setIndex(0);
+        dto.setSize(redisTemplate.execute(RedisServerCommands::dbSize));
+        result.add(dto);
+    } else {
+      try (Jedis jedis = JedisUtils.getJedis(redisProperties)) {
+        if (jedis.isConnected()) {
+          IntStream.range(0, DB_LENGTH).forEach(i -> {
+            jedis.select(i);
+            if (jedis.dbSize() != 0L) {
+              CacheJedisInfoDto dto = new CacheJedisInfoDto();
+              dto.setName("DB" + i);
+              dto.setIndex(i);
+              dto.setSize(jedis.dbSize());
+              result.add(dto);
+            }
+          });
+        }
       }
     }
     return result;
@@ -109,16 +117,24 @@ public class CacheController extends BaseController {
    * 清理缓存
    *
    * @param index db
+   * @param nodes 
    * @return 是否成功
    */
   @Operation(summary = "3.清除缓存")
   @ApiOperationSupport(order = 3)
   @GetMapping("/clean")
   public ResponseResult<String> clean(int index) {
-    try (Jedis jedis = JedisUtils.getJedis(redisProperties)) {
-      if (jedis.isConnected()) {
-        jedis.select(index);
-        jedis.flushDB();
+    if (redisProperties.getCluster() != null) {
+      redisTemplate.execute((RedisCallback<Properties>)connection -> {
+        connection.serverCommands().flushAll();
+        return null;
+      });
+    } else {
+      try (Jedis jedis = JedisUtils.getJedis(redisProperties)) {
+        if (jedis.isConnected()) {
+          jedis.select(index);
+          jedis.flushDB();
+        }
       }
     }
     return ResponseResult.success(ResultEnum.SUCCESS.getName());

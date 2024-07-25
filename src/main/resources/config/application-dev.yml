@@ -241,7 +241,7 @@ logging:
 # 队列方式    
 queue:
   # rabbitmq rocketmq kafka pulsar activemq mqtt
-  type: kafka
+  type: rabbitmq
 
 pulsar:
   url: localhost:6650
