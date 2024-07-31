@@ -10,3 +10,6 @@ spring:
       - zy
       - prod
       - dev
+
+logging:
+  config: classpath:logback-spring.xml
