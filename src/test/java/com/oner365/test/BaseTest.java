@@ -10,7 +10,7 @@ import org.springframework.test.context.ActiveProfiles;
  * @author zhaoyong
  *
  */
-@ActiveProfiles("lt")
+@ActiveProfiles("dev")
 public abstract class BaseTest {
 
     public final Logger logger = LoggerFactory.getLogger(this.getClass());
