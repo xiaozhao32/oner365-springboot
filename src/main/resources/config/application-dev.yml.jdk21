@@ -31,6 +31,22 @@ spring:
     url: jdbc:postgresql://172.16.80.211:32621/root?characterEncodeing=utf8&TimeZone=Asia/Shanghai
     username: root
     password: Nqsky1130
+    
+    druid:
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      initial-size: 1
+      max-active: 10
+      min-idle: 1
+      max-wait: 100
+      min-evictable-idle-time-millis: 60000
+      max-pool-prepared-statement-per-connection-size: 50
+      pool-prepared-statements: true
+      time-between-eviction-runs-millis: -1
+      remove-abandoned: true
+      remove-abandoned-timeout: 120
+      log-abandoned: true
 
   sql:
     init:
@@ -210,8 +226,6 @@ client:
     - /client/login
     
 management:
-  server:
-    port: 50000
   endpoint:
     health:
       probes:
