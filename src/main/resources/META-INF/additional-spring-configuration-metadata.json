@@ -66,7 +66,7 @@
   },
   {
     "name": "file.storage",
-    "type": "java.lang.String",
+    "type": "com.oner365.data.commons.enums.StorageEnum",
     "defaultValue": "local",
     "description": "include: [local, minio, fdfs]. "
   },
@@ -246,7 +246,7 @@
   },
   {
     "name": "queue.type",
-    "type": "java.lang.String",
+    "type": "com.oner365.data.commons.enums.QueueEnum",
     "defaultValue": "rabbitmq",
     "description": "include: [rabbitmq,rocketmq,kafka,pulsar,activemq,mqtt]. "
   },
@@ -267,7 +267,7 @@
   },
   {
     "name": "spring.data.redis.mode",
-    "type": "java.lang.String",
+    "type": "com.oner365.data.redis.enums.RedisMode",
     "defaultValue": "default",
     "description": "include: [default, cluster, sentinel]. "
   }
