@@ -35,21 +35,21 @@ public class SysTaskVo implements Serializable {
    * 任务名称
    */
   @ApiModelProperty(value = "任务名称", required = true)
-  @NotBlank(message = "任务名称不能为空")
+  @NotBlank(message = "{monitor.vo.task.taskName.message}")
   private String taskName;
 
   /**
    * 任务组名
    */
   @ApiModelProperty(value = "任务组", required = true)
-  @NotBlank(message = "任务组不能为空")
+  @NotBlank(message = "{monitor.vo.task.taskGroup.message}")
   private String taskGroup;
 
   /**
    * 调用目标字符串
    */
   @ApiModelProperty(value = "调用目标", required = true)
-  @NotBlank(message = "调用目标不能为空")
+  @NotBlank(message = "{monitor.vo.task.invokeTarget.message}")
   private String invokeTarget;
 
   /**

@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -34,27 +35,42 @@ public class GatewayErrorWebExceptionHandler {
   }
 
   /**
+   * 请求参数异常处理
+   * 
+   * @param request 请求对象
+   * @param e       异常
+   * @return ResponseData
+   */
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  public ResponseData<GatewayError> handleMethodArgumentNotValidException(HttpServletRequest request,
+      MethodArgumentNotValidException e) {
+    LOGGER.error("[参数异常] 请求路径:{}, 异常信息:{}", request.getRequestURI(), e.getMessage());
+    GatewayError result = getErrorAttributes(request, e.getBindingResult().getFieldError().getDefaultMessage());
+    return ResponseData.error(result, HttpStatus.INTERNAL_SERVER_ERROR.value(), ERROR_MESSAGE);
+  }
+
+  /**
    * 异常处理
    * 
    * @param request 请求对象
    * @param e       异常
    * @return ResponseData
    */
-  @ExceptionHandler(value = Exception.class)
+  @ExceptionHandler(Exception.class)
   public ResponseData<GatewayError> exceptionHandler(HttpServletRequest request, Exception e) {
     LOGGER.error("[网关异常] 请求路径:{}, 异常信息:{}", request.getRequestURI(), e.getMessage());
-    GatewayError result = getErrorAttributes(request, e);
+    GatewayError result = getErrorAttributes(request, e.getMessage());
     return ResponseData.error(result, HttpStatus.INTERNAL_SERVER_ERROR.value(), ERROR_MESSAGE);
   }
 
-  private GatewayError getErrorAttributes(HttpServletRequest request, Exception error) {
+  private GatewayError getErrorAttributes(HttpServletRequest request, String message) {
     GatewayError result = new GatewayError();
     result.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
     result.setMethod(request.getMethod());
     result.setPath(request.getRequestURI());
 
     result.setMessage(ERROR_MESSAGE);
-    result.setResult(error.getMessage());
+    result.setResult(message);
     return result;
   }
 }

@@ -48,7 +48,7 @@ public class GatewayRouteVo implements Serializable {
      * 路由规则转发的目标uri
      */
     @ApiModelProperty(value = "转发地址", required = true)
-    @NotBlank(message = "路由地址不能为空")
+    @NotBlank(message = "{gateway.vo.route.uri.message}")
     private String uri;
 
     /**
@@ -61,7 +61,7 @@ public class GatewayRouteVo implements Serializable {
      * 路由状态 1：可用 0：不可用
      */
     @ApiModelProperty(value = "路由状态", required = true)
-    @NotNull(message = "路由状态不能为空")
+    @NotNull(message = "{gateway.vo.route.status.message}")
     private StatusEnum status;
 
     /**

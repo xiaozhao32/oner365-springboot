@@ -25,14 +25,14 @@ public class ModifyPasswordVo implements Serializable {
      * 旧密码 oldPassword
      */
     @ApiModelProperty(value = "旧密码", required = true)
-    @NotBlank(message = "旧密码不能为空")
+    @NotBlank(message = "{system.vo.modify.oldPassword.message}")
     private String oldPassword;
 
     /**
      * 新密码 password
      */
     @ApiModelProperty(value = "新密码", required = true)
-    @NotBlank(message = "新密码不能为空")
+    @NotBlank(message = "{system.vo.modify.newPassword.message}")
     private String password;
 
     /**

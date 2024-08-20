@@ -31,7 +31,7 @@ public class CheckUserNameVo implements Serializable {
      * 用户名称
      */
     @ApiModelProperty(value = "用户名称", required = true)
-    @NotBlank(message = "用户名称不能为空")
+    @NotBlank(message = "{system.vo.check.userName.message}")
     private String userName;
     
     /**

@@ -31,7 +31,7 @@ public class CheckOrgCodeVo implements Serializable {
      * 编码
      */
     @ApiModelProperty(value = "编码", required = true)
-    @NotBlank(message = "机构编码不能为空")
+    @NotBlank(message = "{system.vo.check.org.code.message}")
     private String code;
     
     /**

@@ -34,14 +34,14 @@ public class SysMenuVo implements Serializable {
      * 菜单类别 menu_type_id
      */
     @ApiModelProperty(value = "菜单类别", required = true)
-    @NotBlank(message = "菜单类别不能为空")
+    @NotBlank(message = "{system.vo.menu.menuTypeId.message}")
     private String menuTypeId;
 
     /**
      * 菜单名称 menu_name
      */
     @ApiModelProperty(value = "菜单名称", required = true)
-    @NotBlank(message = "菜单名称不能为空")
+    @NotBlank(message = "{system.vo.menu.menuName.message}")
     private String menuName;
 
     /**
@@ -54,7 +54,7 @@ public class SysMenuVo implements Serializable {
      * 父级 parent_id
      */
     @ApiModelProperty(value = "上级id", required = true)
-    @NotBlank(message = "菜单上级id不能为空")
+    @NotBlank(message = "{system.vo.menu.parentId.message}")
     private String parentId;
 
     /**
