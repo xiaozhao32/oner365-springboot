@@ -9,6 +9,7 @@ import com.oner365.gateway.entity.GatewayFilter;
 import com.oner365.gateway.entity.GatewayPredicate;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 
 /**
  * Gateway的路由定义模型
@@ -44,19 +45,19 @@ public class GatewayRouteDto implements Serializable {
   /**
    * 路由规则转发的目标uri
    */
-  @Schema(name = "转发地址", required = true)
+  @Schema(name = "转发地址", requiredMode = RequiredMode.REQUIRED)
   private String uri;
 
   /**
    * 路由执行的顺序
    */
-  @Schema(name = "执行顺序", required = true)
+  @Schema(name = "执行顺序", requiredMode = RequiredMode.REQUIRED)
   private Integer routeOrder = 0;
 
   /**
    * 路由状态 1：可用 0：不可用
    */
-  @Schema(name = "路由状态", required = true)
+  @Schema(name = "路由状态", requiredMode = RequiredMode.REQUIRED)
   private StatusEnum status;
 
   /**

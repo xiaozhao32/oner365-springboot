@@ -8,6 +8,7 @@ import com.google.common.base.MoreObjects;
 import com.oner365.data.commons.enums.StatusEnum;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import jakarta.validation.constraints.NotBlank;
 
 /**
@@ -29,15 +30,15 @@ public class SysRoleVo implements Serializable {
     /**
      * 角色标识 role_code
      */
-    @Schema(name = "角色标识", required = true)
-    @NotBlank(message = "角色标识不能为空")
+    @Schema(name = "角色标识", requiredMode = RequiredMode.REQUIRED)
+    @NotBlank(message = "{system.vo.role.roleCode.message}")
     private String roleCode;
 
     /**
      * 角色名称 role_name
      */
-    @Schema(name = "角色名称", required = true)
-    @NotBlank(message = "角色名称不能为空")
+    @Schema(name = "角色名称", requiredMode = RequiredMode.REQUIRED)
+    @NotBlank(message = "{system.vo.role.roleName.message}")
     private String roleName;
 
     /**

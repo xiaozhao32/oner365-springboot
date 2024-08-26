@@ -6,6 +6,7 @@ import com.google.common.base.MoreObjects;
 import com.oner365.data.commons.enums.StatusEnum;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 
 /**
  * 字典 SysDictItem
@@ -29,19 +30,19 @@ public class SysDictItemDto implements Serializable {
     /**
      * 字典类型编码 type_id
      */
-    @Schema(name = "字典类型编码", required = true)
+    @Schema(name = "字典类型编码", requiredMode = RequiredMode.REQUIRED)
     private String typeId;
 
     /**
      * 字典编码 item_code
      */
-    @Schema(name = "字典编码", required = true)
+    @Schema(name = "字典编码", requiredMode = RequiredMode.REQUIRED)
     private String itemCode;
 
     /**
      * 字典名称 item_name
      */
-    @Schema(name = "字典名称", required = true)
+    @Schema(name = "字典名称", requiredMode = RequiredMode.REQUIRED)
     private String itemName;
 
     /**

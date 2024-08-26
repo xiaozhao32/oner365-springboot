@@ -3,6 +3,7 @@ package com.oner365.sys.vo.check;
 import java.io.Serializable;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import jakarta.validation.constraints.NotBlank;
 
 /**
@@ -28,8 +29,8 @@ public class CheckCodeVo implements Serializable {
     /**
      * 编码
      */
-    @Schema(name = "编码", required = true)
-    @NotBlank(message = "检测编码不能为空")
+    @Schema(name = "编码", requiredMode = RequiredMode.REQUIRED)
+    @NotBlank(message = "{system.vo.check.code.message}")
     private String code;
     
     /**

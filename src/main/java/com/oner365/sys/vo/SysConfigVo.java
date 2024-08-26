@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import com.oner365.data.commons.enums.StatusEnum;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 
 /**
  * nt_sys_config 对象 nt_sys_config
@@ -22,23 +23,23 @@ public class SysConfigVo implements Serializable {
   private String id;
 
   /** 配置名称 */
-  @Schema(name = "配置名称", required = true)
+  @Schema(name = "配置名称", requiredMode = RequiredMode.REQUIRED)
   private String configName;
 
   /** 配置内容 */
-  @Schema(name = "配置内容", required = false)
+  @Schema(name = "配置内容", requiredMode = RequiredMode.NOT_REQUIRED)
   private String configValue;
 
   /** 状态 */
-  @Schema(name = "状态", required = true)
+  @Schema(name = "状态", requiredMode = RequiredMode.REQUIRED)
   private StatusEnum status;
 
   /** 创建时间 */
-  @Schema(name = "创建时间", required = true)
+  @Schema(name = "创建时间", requiredMode = RequiredMode.REQUIRED)
   private LocalDateTime createTime;
 
   /** 更新时间 */
-  @Schema(name = "更新时间", required = false)
+  @Schema(name = "更新时间", requiredMode = RequiredMode.NOT_REQUIRED)
   private LocalDateTime updateTime;
 
   /** 创建人 */

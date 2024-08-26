@@ -9,6 +9,7 @@ import com.google.common.base.MoreObjects;
 import com.oner365.data.commons.enums.StatusEnum;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -32,8 +33,8 @@ public class SysOrganizationVo implements Serializable {
     /**
      * 机构名称 org_name
      */
-    @Schema(name = "机构名称", required = true)
-    @NotBlank(message = "机构名称不能为空")
+    @Schema(name = "机构名称", requiredMode = RequiredMode.REQUIRED)
+    @NotBlank(message = "{system.vo.org.orgName.message}")
     private String orgName;
 
     /**
@@ -45,8 +46,8 @@ public class SysOrganizationVo implements Serializable {
     /**
      * 机构代码 org_code
      */
-    @Schema(name = "机构代码", required = true)
-    @NotBlank(message = "机构代码不能为空")
+    @Schema(name = "机构代码", requiredMode = RequiredMode.REQUIRED)
+    @NotBlank(message = "{system.vo.org.orgCode.message}")
     private String orgCode;
 
     /**
@@ -94,8 +95,8 @@ public class SysOrganizationVo implements Serializable {
     /**
      * 状态 status
      */
-    @Schema(name = "状态", required = true)
-    @NotNull(message = "机构状态不能为空")
+    @Schema(name = "状态", requiredMode = RequiredMode.REQUIRED)
+    @NotNull(message = "{system.vo.org.status.message}")
     private StatusEnum status;
 
     /**

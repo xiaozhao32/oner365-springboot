@@ -3,6 +3,7 @@ package com.oner365.sys.vo.check;
 import java.io.Serializable;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import jakarta.validation.constraints.NotBlank;
 
 /**
@@ -28,8 +29,8 @@ public class CheckUserNameVo implements Serializable {
     /**
      * 用户名称
      */
-    @Schema(name = "用户名称", required = true)
-    @NotBlank(message = "用户名称不能为空")
+    @Schema(name = "用户名称", requiredMode = RequiredMode.REQUIRED)
+    @NotBlank(message = "{system.vo.check.userName.message}")
     private String userName;
     
     /**

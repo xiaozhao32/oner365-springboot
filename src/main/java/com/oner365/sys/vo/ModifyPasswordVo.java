@@ -3,6 +3,7 @@ package com.oner365.sys.vo;
 import java.io.Serializable;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import jakarta.validation.constraints.NotBlank;
 
 /**
@@ -22,15 +23,15 @@ public class ModifyPasswordVo implements Serializable {
     /**
      * 旧密码 oldPassword
      */
-    @Schema(name = "旧密码", required = true)
-    @NotBlank(message = "旧密码不能为空")
+    @Schema(name = "旧密码", requiredMode = RequiredMode.REQUIRED)
+    @NotBlank(message = "{system.vo.modify.oldPassword.message}")
     private String oldPassword;
 
     /**
      * 新密码 password
      */
-    @Schema(name = "新密码", required = true)
-    @NotBlank(message = "新密码不能为空")
+    @Schema(name = "新密码", requiredMode = RequiredMode.REQUIRED)
+    @NotBlank(message = "{system.vo.modify.newPassword.message}")
     private String password;
 
     /**

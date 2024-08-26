@@ -12,6 +12,7 @@ import com.oner365.monitor.enums.TaskStatusEnum;
 import com.oner365.monitor.util.CronUtils;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 
 /**
  * 定时任务调度表 nt_sys_task
@@ -31,19 +32,19 @@ public class SysTaskDto implements Serializable {
   /**
    * 任务名称
    */
-  @Schema(name = "任务名称", required = true)
+  @Schema(name = "任务名称", requiredMode = RequiredMode.REQUIRED)
   private String taskName;
 
   /**
    * 任务组名
    */
-  @Schema(name = "任务组", required = true)
+  @Schema(name = "任务组", requiredMode = RequiredMode.REQUIRED)
   private String taskGroup;
 
   /**
    * 调用目标字符串
    */
-  @Schema(name = "调用目标", required = true)
+  @Schema(name = "调用目标", requiredMode = RequiredMode.REQUIRED)
   private String invokeTarget;
 
   /**

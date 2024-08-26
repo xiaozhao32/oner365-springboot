@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import com.google.common.base.MoreObjects;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 
 /**
  * 数据源配置 DataSourceConfig
@@ -29,7 +30,7 @@ public class DataSourceConfigDto implements Serializable {
   /**
    * 连接名
    */
-  @Schema(name = "连接名称", required = true)
+  @Schema(name = "连接名称", requiredMode = RequiredMode.REQUIRED)
   private String connectName;
 
   /**

@@ -6,6 +6,7 @@ import java.util.Date;
 import com.oner365.monitor.enums.TaskStatusEnum;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import jakarta.validation.constraints.NotBlank;
 
 /**
@@ -26,22 +27,22 @@ public class SysTaskLogVo implements Serializable {
   /**
    * 任务名称
    */
-  @Schema(name = "任务名称", required = true)
-  @NotBlank(message = "任务名称不能为空")
+  @Schema(name = "任务名称", requiredMode = RequiredMode.REQUIRED)
+  @NotBlank(message = "{monitor.vo.task.taskName.message}")
   private String taskName;
 
   /**
    * 任务组名
    */
-  @Schema(name = "任务组", required = true)
-  @NotBlank(message = "任务组不能为空")
+  @Schema(name = "任务组", requiredMode = RequiredMode.REQUIRED)
+  @NotBlank(message = "{monitor.vo.task.taskGroup.message}")
   private String taskGroup;
 
   /**
    * 调用目标字符串
    */
-  @Schema(name = "调用目标", required = true)
-  @NotBlank(message = "调用目标不能为空")
+  @Schema(name = "调用目标", requiredMode = RequiredMode.REQUIRED)
+  @NotBlank(message = "{monitor.vo.task.invokeTarget.message}")
   private String invokeTarget;
 
   /**

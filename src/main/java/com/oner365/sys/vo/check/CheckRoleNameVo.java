@@ -3,6 +3,7 @@ package com.oner365.sys.vo.check;
 import java.io.Serializable;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import jakarta.validation.constraints.NotBlank;
 
 /**
@@ -28,8 +29,8 @@ public class CheckRoleNameVo implements Serializable {
     /**
      * 角色名称
      */
-    @Schema(name = "角色名称", required = true)
-    @NotBlank(message = "角色名称不能为空")
+    @Schema(name = "角色名称", requiredMode = RequiredMode.REQUIRED)
+    @NotBlank(message = "{system.vo.check.role.name.message}")
     private String roleName;
     
     /**

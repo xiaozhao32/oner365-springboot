@@ -7,6 +7,7 @@ import com.google.common.base.MoreObjects;
 import com.oner365.data.commons.enums.StatusEnum;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import jakarta.validation.constraints.NotBlank;
 
 /**
@@ -30,8 +31,8 @@ public class SysMenuOperationVo implements Serializable {
     /**
      * 操作名称
      */
-    @Schema(name = "操作名称", required = true)
-    @NotBlank(message = "操作名称不能为空")
+    @Schema(name = "操作名称", requiredMode = RequiredMode.REQUIRED)
+    @NotBlank(message = "{system.vo.menuOperation.operationName.message}")
     private String operationName;
 
     /**

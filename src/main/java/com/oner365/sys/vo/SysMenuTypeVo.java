@@ -7,6 +7,7 @@ import com.google.common.base.MoreObjects;
 import com.oner365.data.commons.enums.StatusEnum;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -31,22 +32,22 @@ public class SysMenuTypeVo implements Serializable {
     /**
      * 类型名称
      */
-    @Schema(name = "类型名称", required = true)
-    @NotBlank(message = "菜单类型名称不能为空")
+    @Schema(name = "类型名称", requiredMode = RequiredMode.REQUIRED)
+    @NotBlank(message = "{system.vo.menuType.typeName.message}")
     private String typeName;
 
     /**
      * 类型编码
      */
-    @Schema(name = "类型编码", required = true)
-    @NotBlank(message = "菜单编码不能为空")
+    @Schema(name = "类型编码", requiredMode = RequiredMode.REQUIRED)
+    @NotBlank(message = "{system.vo.menuType.typeCode.message}")
     private String typeCode;
 
     /**
      * 状态
      */
-    @Schema(name = "状态", required = true)
-    @NotNull(message = "菜单状态不能为空")
+    @Schema(name = "状态", requiredMode = RequiredMode.REQUIRED)
+    @NotNull(message = "{system.vo.menuType.status.message}")
     private StatusEnum status;
 
     /**

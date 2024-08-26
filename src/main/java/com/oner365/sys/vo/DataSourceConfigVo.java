@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import com.google.common.base.MoreObjects;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import jakarta.validation.constraints.NotBlank;
 
 /**
@@ -30,8 +31,8 @@ public class DataSourceConfigVo implements Serializable {
     /**
      * 连接名
      */
-    @Schema(name = "连接名称", required = true)
-    @NotBlank(message = "数据源连接名称不能为空")
+    @Schema(name = "连接名称", requiredMode = RequiredMode.REQUIRED)
+    @NotBlank(message = "{datasource.vo.config.connectName.message}")
     private String connectName;
 
     /**

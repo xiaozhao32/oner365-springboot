@@ -7,6 +7,7 @@ import com.google.common.base.MoreObjects;
 import com.oner365.data.commons.enums.StatusEnum;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 
 /**
  * 职位信息 SysJob
@@ -26,13 +27,13 @@ public class SysJobDto implements Serializable {
     /**
      * 职位名称 job_name
      */
-    @Schema(name = "职位名称", required = true)
+    @Schema(name = "职位名称", requiredMode = RequiredMode.REQUIRED)
     private String jobName;
 
     /**
      * 职位名称 parent_id
      */
-    @Schema(name = "职位上级id", required = true)
+    @Schema(name = "职位上级id", requiredMode = RequiredMode.REQUIRED)
     private String parentId;
 
     /**

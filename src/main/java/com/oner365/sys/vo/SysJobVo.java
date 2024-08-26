@@ -7,6 +7,7 @@ import com.google.common.base.MoreObjects;
 import com.oner365.data.commons.enums.StatusEnum;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import jakarta.validation.constraints.NotBlank;
 
 /**
@@ -27,8 +28,8 @@ public class SysJobVo implements Serializable {
     /**
      * 职位名称 job_name
      */
-    @Schema(name = "职位名称", required = true)
-    @NotBlank(message = "职位名称不能为空")
+    @Schema(name = "职位名称", requiredMode = RequiredMode.REQUIRED)
+    @NotBlank(message = "{system.vo.job.jobName.message}")
     private String jobName;
 
     /**

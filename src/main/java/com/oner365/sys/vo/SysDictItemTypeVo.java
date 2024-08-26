@@ -6,6 +6,7 @@ import com.google.common.base.MoreObjects;
 import com.oner365.data.commons.enums.StatusEnum;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import jakarta.validation.constraints.NotBlank;
 
 /**
@@ -30,15 +31,15 @@ public class SysDictItemTypeVo implements Serializable {
     /**
      * 类型名称 type_name
      */
-    @Schema(name = "类型名称", required = true)
-    @NotBlank(message = "字典类型名称不能为空")
+    @Schema(name = "类型名称", requiredMode = RequiredMode.REQUIRED)
+    @NotBlank(message = "{system.vo.dictItemType.typeName.message}")
     private String typeName;
 
     /**
      * 类型编码 type_code
      */
-    @Schema(name = "类型编码", required = true)
-    @NotBlank(message = "字典类型编码不能为空")
+    @Schema(name = "类型编码", requiredMode = RequiredMode.REQUIRED)
+    @NotBlank(message = "{system.vo.dictItemType.typeCode.message}")
     private String typeCode;
 
     /**

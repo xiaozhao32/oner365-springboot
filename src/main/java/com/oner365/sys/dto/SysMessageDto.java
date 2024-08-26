@@ -8,6 +8,7 @@ import com.oner365.sys.enums.MessageStatusEnum;
 import com.oner365.sys.enums.MessageTypeEnum;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 
 /**
  * 消息对象
@@ -27,7 +28,7 @@ public class SysMessageDto implements Serializable {
     /**
      * 队列类型
      */
-    @Schema(name = "队列类型", required = true)
+    @Schema(name = "队列类型", requiredMode = RequiredMode.REQUIRED)
     private String queueType;
 
     /**

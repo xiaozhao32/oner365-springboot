@@ -8,6 +8,7 @@ import com.google.common.base.MoreObjects;
 import com.oner365.data.commons.enums.StatusEnum;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 
 /**
  * 基础权限--角色表nt_sys_role
@@ -34,7 +35,7 @@ public class SysRoleDto implements Serializable {
     /**
      * 角色名称 role_name
      */
-    @Schema(name = "角色名称", required = true)
+    @Schema(name = "角色名称", requiredMode = RequiredMode.REQUIRED)
     private String roleName;
 
     /**

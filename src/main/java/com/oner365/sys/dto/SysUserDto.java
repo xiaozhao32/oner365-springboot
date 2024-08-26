@@ -10,6 +10,7 @@ import com.oner365.sys.enums.SysUserSexEnum;
 import com.oner365.sys.enums.SysUserTypeEnum;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 
 /**
  * 系统用户
@@ -39,13 +40,13 @@ public class SysUserDto implements Serializable {
   /**
    * 账号
    */
-  @Schema(name = "账号", required = true)
+  @Schema(name = "账号", requiredMode = RequiredMode.REQUIRED)
   private String userName;
 
   /**
    * 密码
    */
-  @Schema(name = "密码", required = true)
+  @Schema(name = "密码", requiredMode = RequiredMode.REQUIRED)
   private String password;
 
   /**

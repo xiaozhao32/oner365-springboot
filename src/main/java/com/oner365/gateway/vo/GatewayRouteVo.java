@@ -9,6 +9,7 @@ import com.oner365.gateway.entity.GatewayFilter;
 import com.oner365.gateway.entity.GatewayPredicate;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -45,8 +46,8 @@ public class GatewayRouteVo implements Serializable {
     /**
      * 路由规则转发的目标uri
      */
-    @Schema(name = "转发地址", required = true)
-    @NotBlank(message = "路由地址不能为空")
+    @Schema(name = "转发地址", requiredMode = RequiredMode.REQUIRED)
+    @NotBlank(message = "{gateway.vo.route.uri.message}")
     private String uri;
 
     /**
@@ -58,8 +59,8 @@ public class GatewayRouteVo implements Serializable {
     /**
      * 路由状态 1：可用 0：不可用
      */
-    @Schema(name = "路由状态", required = true)
-    @NotNull(message = "路由状态不能为空")
+    @Schema(name = "路由状态", requiredMode = RequiredMode.REQUIRED)
+    @NotNull(message = "{gateway.vo.route.status.message}")
     private StatusEnum status;
 
     /**

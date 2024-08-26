@@ -7,6 +7,7 @@ import com.google.common.base.MoreObjects;
 import com.oner365.data.commons.enums.StatusEnum;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 
 /**
  * 操作对象
@@ -29,7 +30,7 @@ public class SysMenuOperationDto implements Serializable {
     /**
      * 操作名称
      */
-    @Schema(name = "操作名称", required = true)
+    @Schema(name = "操作名称", requiredMode = RequiredMode.REQUIRED)
     private String operationName;
 
     /**

@@ -10,6 +10,7 @@ import com.oner365.sys.enums.SysUserSexEnum;
 import com.oner365.sys.enums.SysUserTypeEnum;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import jakarta.validation.constraints.NotBlank;
 
 /**
@@ -40,15 +41,15 @@ public class SysUserVo implements Serializable {
   /**
    * 账号
    */
-  @Schema(name = "账号", required = true)
-  @NotBlank(message = "账号不能为空")
+  @Schema(name = "账号", requiredMode = RequiredMode.REQUIRED)
+  @NotBlank(message = "{system.vo.loginUser.userName.message}")
   private String userName;
 
   /**
    * 密码
    */
-  @Schema(name = "密码", required = true)
-  @NotBlank(message = "账号密码不能为空")
+  @Schema(name = "密码", requiredMode = RequiredMode.REQUIRED)
+  @NotBlank(message = "{system.vo.loginUser.password.message}")
   private String password;
 
   /**

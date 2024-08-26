@@ -7,6 +7,7 @@ import com.google.common.base.MoreObjects;
 import com.oner365.data.commons.enums.StatusEnum;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 
 /**
  * 菜单类型对象
@@ -29,19 +30,19 @@ public class SysMenuTypeDto implements Serializable {
     /**
      * 类型名称
      */
-    @Schema(name = "类型名称", required = true)
+    @Schema(name = "类型名称", requiredMode = RequiredMode.REQUIRED)
     private String typeName;
 
     /**
      * 类型编码
      */
-    @Schema(name = "类型编码", required = true)
+    @Schema(name = "类型编码", requiredMode = RequiredMode.REQUIRED)
     private String typeCode;
 
     /**
      * 状态
      */
-    @Schema(name = "状态", required = true)
+    @Schema(name = "状态", requiredMode = RequiredMode.REQUIRED)
     private StatusEnum status;
 
     /**

@@ -1,4 +1,4 @@
-package com.oner365.gateway.entity;
+package com.oner365.data.web.entity;
 
 import java.io.Serializable;
 

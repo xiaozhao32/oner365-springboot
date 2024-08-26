@@ -41,12 +41,12 @@
 		<java.version>21</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		<org.springframework.integration.version>6.3.2</org.springframework.integration.version>
+		<org.springframework.integration.version>6.3.3</org.springframework.integration.version>
 		<org.springframework.statemachine.version>4.0.0</org.springframework.statemachine.version>
-		<org.springframework.security.version>6.3.1</org.springframework.security.version>
-		<org.springframework.boot.version>3.3.2</org.springframework.boot.version>
+		<org.springframework.security.version>6.3.3</org.springframework.security.version>
+		<org.springframework.boot.version>3.3.3</org.springframework.boot.version>
 		<org.springframework.version>6.1.12</org.springframework.version>
-		<org.springframework.kafka.version>3.2.2</org.springframework.kafka.version>
+		<org.springframework.kafka.version>3.2.3</org.springframework.kafka.version>
 
 		<org.apache.logging.log4j.version>2.23.1</org.apache.logging.log4j.version>
 		<org.apache.httpclient.version>4.5.14</org.apache.httpclient.version>
@@ -64,9 +64,9 @@
 		<org.bouncycastle.version>1.78.1</org.bouncycastle.version>
 		<org.elasticsearch.version>8.14.3</org.elasticsearch.version>
 		<org.slf4j.version>2.0.16</org.slf4j.version>
-		<ch.qos.logback.version>1.5.6</ch.qos.logback.version>
+		<ch.qos.logback.version>1.5.7</ch.qos.logback.version>
 
-		<org.jetbrains.kotlin.version>1.9.10</org.jetbrains.kotlin.version>
+		<org.jetbrains.kotlin.version>1.9.25</org.jetbrains.kotlin.version>
 		<org.junit.platform.version>1.10.3</org.junit.platform.version>
 		<org.javassist.version>3.30.2-GA</org.javassist.version>
 		<org.freemarker.version>2.3.32</org.freemarker.version>
@@ -105,12 +105,8 @@
 		<io.minio.version>8.5.11</io.minio.version>
 
 		<net.logstash.logback.version>7.4</net.logstash.logback.version>
-		<net.bytebuddy.version>1.14.15</net.bytebuddy.version>
+		<net.bytebuddy.version>1.14.19</net.bytebuddy.version>
 		<net.minidev.version>2.5.1</net.minidev.version>
-
-		<net.logstash.logback.version>7.2</net.logstash.logback.version>
-		<net.bytebuddy.version>1.14.18</net.bytebuddy.version>
-		<net.minidev.version>2.4.11</net.minidev.version>
 		<net.sf.jopt.version>5.0.4</net.sf.jopt.version>
 		
 		<jakarta.annotation.version>2.1.1</jakarta.annotation.version>

@@ -3,6 +3,7 @@ package com.oner365.sys.vo;
 import java.io.Serializable;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import jakarta.validation.constraints.NotBlank;
 
 /**
@@ -22,15 +23,15 @@ public class LoginUserVo implements Serializable {
     /**
      * 账号 userName
      */
-    @Schema(name = "账号", required = true)
-    @NotBlank(message = "登录账号不能为空")
+    @Schema(name = "账号", requiredMode = RequiredMode.REQUIRED)
+    @NotBlank(message = "{system.vo.loginUser.userName.message}")
     private String userName;
     
     /**
      * 密码 password
      */
-    @Schema(name = "密码", required = true)
-    @NotBlank(message = "登录密码不能为空")
+    @Schema(name = "密码", requiredMode = RequiredMode.REQUIRED)
+    @NotBlank(message = "{system.vo.loginUser.password.message}")
     private String password;
     
     /**

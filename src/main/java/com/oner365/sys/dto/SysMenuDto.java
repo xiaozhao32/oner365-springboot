@@ -9,6 +9,7 @@ import com.google.common.base.MoreObjects;
 import com.oner365.data.commons.enums.StatusEnum;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 
 /**
  * 菜单对象
@@ -31,13 +32,13 @@ public class SysMenuDto implements Serializable {
     /**
      * 菜单类别 menu_type_id
      */
-    @Schema(name = "菜单类别", required = true)
+    @Schema(name = "菜单类别", requiredMode = RequiredMode.REQUIRED)
     private String menuTypeId;
 
     /**
      * 菜单名称 menu_name
      */
-    @Schema(name = "菜单名称", required = true)
+    @Schema(name = "菜单名称", requiredMode = RequiredMode.REQUIRED)
     private String menuName;
 
     /**
@@ -49,7 +50,7 @@ public class SysMenuDto implements Serializable {
     /**
      * 父级 parent_id
      */
-    @Schema(name = "上级id", required = true)
+    @Schema(name = "上级id", requiredMode = RequiredMode.REQUIRED)
     private String parentId;
 
     /**

@@ -3,6 +3,7 @@ package com.oner365.sys.vo;
 import java.io.Serializable;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import jakarta.validation.constraints.NotBlank;
 
 /**
@@ -22,15 +23,15 @@ public class ResetPasswordVo implements Serializable {
     /**
      * 账号 userId
      */
-    @Schema(name = "账号id", required = true)
-    @NotBlank(message = "账号id不能为空")
+    @Schema(name = "账号id", requiredMode = RequiredMode.REQUIRED)
+    @NotBlank(message = "{system.vo.reset.userId.message}")
     private String userId;
 
     /**
      * 密码 password
      */
-    @Schema(name = "密码", required = true)
-    @NotBlank(message = "重置密码不能为空")
+    @Schema(name = "密码", requiredMode = RequiredMode.REQUIRED)
+    @NotBlank(message = "{system.vo.reset.password.message}")
     private String password;
 
     /**
