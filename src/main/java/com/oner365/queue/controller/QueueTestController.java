@@ -45,7 +45,7 @@ public class QueueTestController extends BaseController {
   public JSONObject send(String data) {
     JSONObject json = new JSONObject();
     json.put("data", data);
-    service.sendMessage(json);
+    service.sendMessage(json.toJSONString());
     service.syncRoute();
     return json;
   }

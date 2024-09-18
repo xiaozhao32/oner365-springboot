@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.concurrent.ListenableFuture;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.oner365.api.dto.UpdateTaskExecuteStatusDto;
 import com.oner365.data.redis.RedisCache;
 import com.oner365.data.web.utils.HttpClientUtils;
@@ -42,12 +41,12 @@ public class KafkaSendServiceImpl implements IQueueSendService {
 
   @Async
   @Override
-  public void sendMessage(JSONObject data) {
+  public void sendMessage(String data) {
     if (redisCache.lock(QueueConstants.MESSAGE_QUEUE_NAME, QueueConstants.QUEUE_LOCK_TIME_SECOND)) {
       logger.info("Kafka sendMessage: {}", data);
       try {
         ListenableFuture<SendResult<String, Object>> future = kafkaTemplate.send(QueueConstants.MESSAGE_QUEUE_NAME,
-            data.toJSONString());
+            data);
         SendResult<String, Object> result = future.get();
         logger.info("Kafka future: {}", JSON.toJSONString(result.getProducerRecord()));
       } catch (Exception e) {

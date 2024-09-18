@@ -15,7 +15,6 @@ import org.springframework.context.annotation.Conditional;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSONObject;
 import com.oner365.api.dto.UpdateTaskExecuteStatusDto;
 import com.oner365.data.commons.exception.ProjectRuntimeException;
 import com.oner365.data.redis.RedisCache;
@@ -55,10 +54,10 @@ public class PulsarSendServiceImpl implements IQueueSendService {
 
   @Async
   @Override
-  public void sendMessage(JSONObject data) {
+  public void sendMessage(String data) {
     if (redisCache.lock(QueueConstants.MESSAGE_QUEUE_NAME, QueueConstants.QUEUE_LOCK_TIME_SECOND)) {
-      try (Producer<JSONObject> producer = createProducer(QueueConstants.MESSAGE_QUEUE_NAME,
-          Schema.JSON(JSONObject.class))) {
+      try (Producer<String> producer = createProducer(QueueConstants.MESSAGE_QUEUE_NAME,
+          Schema.JSON(String.class))) {
         MessageId messageId = producer.send(data);
         logger.info("Pulsar sendMessage: {} topic: {} messageId: {}", data, QueueConstants.MESSAGE_QUEUE_NAME, messageId);
       } catch (PulsarClientException e) {

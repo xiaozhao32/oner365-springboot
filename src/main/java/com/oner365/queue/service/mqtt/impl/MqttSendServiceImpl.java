@@ -9,7 +9,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.oner365.api.dto.UpdateTaskExecuteStatusDto;
 import com.oner365.data.redis.RedisCache;
 import com.oner365.monitor.dto.InvokeParamDto;
@@ -55,10 +54,10 @@ public class MqttSendServiceImpl implements IQueueSendService {
   
   @Async
   @Override
-  public void sendMessage(JSONObject message) {
+  public void sendMessage(String message) {
     if (!message.isEmpty() && redisCache.lock(QueueConstants.MESSAGE_QUEUE_NAME, QueueConstants.QUEUE_LOCK_TIME_SECOND)) {
       logger.info("Mqtt send message: {} topic: {}", message, QueueConstants.MESSAGE_QUEUE_NAME);
-      messageService.sendMessage(QueueConstants.MESSAGE_QUEUE_NAME, message.toJSONString());
+      messageService.sendMessage(QueueConstants.MESSAGE_QUEUE_NAME, message);
     }
   }
 
