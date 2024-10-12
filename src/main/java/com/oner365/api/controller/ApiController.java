@@ -70,12 +70,12 @@ public class ApiController extends BaseController {
    *
    * @param orderId 订单id
    * @param userId  用户id
-   * @return List<Map<String, String>>
+   * @return List<Map<String, Object>>
    */
   @Operation(summary = "1.测试分库分表")
   @ApiOperationSupport(order = 1)
   @GetMapping("/sharding/test")
-  public List<Map<String, String>> testDataSource(@RequestParam Integer orderId, @RequestParam Integer userId) {
+  public List<Map<String, Object>> testDataSource(@RequestParam Integer orderId, @RequestParam Integer userId) {
     String sql = "insert into t_order(id, order_id, user_id, status, create_time) " + "values('"
         + snowflakeSequence.nextNo() + "'," + orderId + "," + userId + ",'1','" + DateUtil.getCurrentTime() + "')";
     try (Connection con = dataSource.getConnection()) {

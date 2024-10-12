@@ -45,11 +45,11 @@ class DataSourceUtilTest extends BaseUtilsTest {
         if (isConn) {
 
             try (Connection con = DataSourceUtil.getConnection(driverName, url, userName, password)) {
-                List<Map<String, String>> createTablespaceResult = DataSourceUtil.execute(con, createTablespace);
+                List<Map<String, Object>> createTablespaceResult = DataSourceUtil.execute(con, createTablespace);
                 logger.info("result tablespace:{}", createTablespaceResult);
-                List<Map<String, String>> createUserResult = DataSourceUtil.execute(con, createUser);
+                List<Map<String, Object>> createUserResult = DataSourceUtil.execute(con, createUser);
                 logger.info("result user:{}", createUserResult);
-                List<Map<String, String>> createGrantResult = DataSourceUtil.execute(con, createGrant);
+                List<Map<String, Object>> createGrantResult = DataSourceUtil.execute(con, createGrant);
                 logger.info("result grant:{}", createGrantResult);
             } catch (SQLException e) {
                 logger.error("SQLException:", e);
