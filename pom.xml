@@ -41,82 +41,82 @@
 		<java.version>21</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		<org.springframework.integration.version>6.3.3</org.springframework.integration.version>
+		<org.springframework.integration.version>6.3.4</org.springframework.integration.version>
 		<org.springframework.statemachine.version>4.0.0</org.springframework.statemachine.version>
 		<org.springframework.security.version>6.3.3</org.springframework.security.version>
-		<org.springframework.boot.version>3.3.3</org.springframework.boot.version>
-		<org.springframework.version>6.1.12</org.springframework.version>
-		<org.springframework.kafka.version>3.2.3</org.springframework.kafka.version>
+		<org.springframework.boot.version>3.3.4</org.springframework.boot.version>
+		<org.springframework.version>6.1.13</org.springframework.version>
+		<org.springframework.kafka.version>3.2.4</org.springframework.kafka.version>
 
-		<org.apache.logging.log4j.version>2.23.1</org.apache.logging.log4j.version>
+		<org.apache.logging.log4j.version>2.24.1</org.apache.logging.log4j.version>
 		<org.apache.httpclient.version>4.5.14</org.apache.httpclient.version>
 		<org.apache.httpcore.version>4.4.16</org.apache.httpcore.version>
-		<org.apache.tomcat.version>10.1.28</org.apache.tomcat.version>
-		<org.apache.pulsar.version>3.3.1</org.apache.pulsar.version>
+		<org.apache.tomcat.version>10.1.31</org.apache.tomcat.version>
+		<org.apache.pulsar.version>3.3.2</org.apache.pulsar.version>
 		<org.apache.kafka.version>3.8.0</org.apache.kafka.version>
 		<org.apache.poi.version>5.3.0</org.apache.poi.version>
 
 		<org.hibernate.validator.version>8.0.1.Final</org.hibernate.validator.version>
-		<org.hibernate.version>6.5.2.Final</org.hibernate.version>
+		<org.hibernate.version>6.6.1.Final</org.hibernate.version>
 		<org.mybatis.spring.boot.version>3.0.3</org.mybatis.spring.boot.version>
 		<org.mybatis.version>3.5.16</org.mybatis.version>
 
 		<org.bouncycastle.version>1.78.1</org.bouncycastle.version>
-		<org.elasticsearch.version>8.14.3</org.elasticsearch.version>
+		<org.elasticsearch.version>8.15.2</org.elasticsearch.version>
 		<org.slf4j.version>2.0.16</org.slf4j.version>
-		<ch.qos.logback.version>1.5.7</ch.qos.logback.version>
+		<ch.qos.logback.version>1.5.9</ch.qos.logback.version>
 
-		<org.jetbrains.kotlin.version>1.9.25</org.jetbrains.kotlin.version>
-		<org.junit.platform.version>1.10.3</org.junit.platform.version>
+		<org.jetbrains.kotlin.version>2.0.21</org.jetbrains.kotlin.version>
+		<org.junit.platform.version>1.11.2</org.junit.platform.version>
 		<org.javassist.version>3.30.2-GA</org.javassist.version>
-		<org.freemarker.version>2.3.32</org.freemarker.version>
+		<org.freemarker.version>2.3.33</org.freemarker.version>
 		<org.reflections.version>0.10.2</org.reflections.version>
-		<org.codehaus.version>3.1.10</org.codehaus.version>
+		<org.codehaus.version>3.1.12</org.codehaus.version>
 		<org.quartz.version>2.3.2</org.quartz.version>
 		<org.yaml.version>2.2</org.yaml.version>
 
-		<org.postgresql.version>42.7.3</org.postgresql.version>
-		<com.oracle.version>21.9.0.0</com.oracle.version>
+		<org.postgresql.version>42.7.4</org.postgresql.version>
+		<com.oracle.version>23.2.0.0</com.oracle.version>
 		<com.dameng.version>8.1.1.49</com.dameng.version>
-		<com.mysql.version>8.4.0</com.mysql.version>
+		<com.mysql.version>9.0.0</com.mysql.version>
 
 		<com.alibaba.fastjson.version>1.2.83</com.alibaba.fastjson.version>
-		<com.alibaba.druid.version>1.2.21</com.alibaba.druid.version>
+		<com.alibaba.druid.version>1.2.23</com.alibaba.druid.version>
 
-		<com.fasterxml.jackson.version>2.17.2</com.fasterxml.jackson.version>
-		<com.google.code.gson.version>2.10.1</com.google.code.gson.version>
-		<com.google.guava.version>33.2.1-jre</com.google.guava.version>
-		<com.google.protobuf.version>4.27.3</com.google.protobuf.version>
+		<com.fasterxml.jackson.version>2.18.0</com.fasterxml.jackson.version>
+		<com.google.code.gson.version>2.11.0</com.google.code.gson.version>
+		<com.google.guava.version>33.3.1-jre</com.google.guava.version>
+		<com.google.protobuf.version>4.28.2</com.google.protobuf.version>
 		<com.github.xiaoymin.version>4.5.0</com.github.xiaoymin.version>
 		<com.github.penggle.version>2.3.2</com.github.penggle.version>
 		<com.github.tobato.version>1.27.2</com.github.tobato.version>
 		<com.github.oshi.version>6.2.2</com.github.oshi.version>
 		<com.vladmihalcea.version>2.21.1</com.vladmihalcea.version>
-		<com.rabbitmq.version>5.20.0</com.rabbitmq.version>
+		<com.rabbitmq.version>5.22.0</com.rabbitmq.version>
 		<com.belerweb.version>2.5.1</com.belerweb.version>
-		<com.auth0.version>3.19.1</com.auth0.version>
+		<com.auth0.version>4.4.0</com.auth0.version>
 
-		<io.projectreactor.core.version>3.6.8</io.projectreactor.core.version>
-		<io.projectreactor.netty.version>1.1.19</io.projectreactor.netty.version>
-		<io.hypersistence.version>3.7.5</io.hypersistence.version>
+		<io.projectreactor.core.version>3.6.10</io.projectreactor.core.version>
+		<io.projectreactor.netty.version>1.1.22</io.projectreactor.netty.version>
+		<io.hypersistence.version>3.8.3</io.hypersistence.version>
 		<io.jsonwebtoken.version>0.9.1</io.jsonwebtoken.version>
-		<io.micrometer.version>1.13.3</io.micrometer.version>
-		<io.netty.version>4.1.112.Final</io.netty.version>
-		<io.minio.version>8.5.11</io.minio.version>
+		<io.micrometer.version>1.13.5</io.micrometer.version>
+		<io.netty.version>4.1.114.Final</io.netty.version>
+		<io.minio.version>8.5.12</io.minio.version>
 
-		<net.logstash.logback.version>7.4</net.logstash.logback.version>
-		<net.bytebuddy.version>1.14.19</net.bytebuddy.version>
+		<net.logstash.logback.version>8.0</net.logstash.logback.version>
+		<net.bytebuddy.version>1.15.4</net.bytebuddy.version>
 		<net.minidev.version>2.5.1</net.minidev.version>
 		<net.sf.jopt.version>5.0.4</net.sf.jopt.version>
 		
-		<jakarta.annotation.version>2.1.1</jakarta.annotation.version>
-		<jakarta.servlet.version>6.0.0</jakarta.servlet.version>
+		<jakarta.annotation.version>3.0.0</jakarta.annotation.version>
+		<jakarta.servlet.version>6.1.0</jakarta.servlet.version>
 		<jakarta.json.version>2.1.3</jakarta.json.version>
 		<jakarta.xml.version>4.0.2</jakarta.xml.version>
 		
 		<cn.smallbun.screw.version>1.0.5</cn.smallbun.screw.version>
-		<redis.clients.version>5.1.2</redis.clients.version>
-		<joda.time.version>2.12.7</joda.time.version>
+		<redis.clients.version>5.2.0</redis.clients.version>
+		<joda.time.version>2.13.0</joda.time.version>
 		<junit.version>4.13.2</junit.version>
 
 		<org.apache.maven.plugins.version>3.3.0</org.apache.maven.plugins.version>
@@ -162,7 +162,7 @@
 		<dependency>
 			<groupId>org.glassfish.jaxb</groupId>
     		<artifactId>jaxb-runtime</artifactId>
-    		<version>4.0.2</version>
+    		<version>4.0.5</version>
 		</dependency>
 
 		<!-- fastjson -->
@@ -198,7 +198,7 @@
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
-			<version>1.2</version>
+			<version>1.3.4</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-fileupload</groupId>
@@ -208,7 +208,7 @@
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>2.16.1</version>
+			<version>2.17.0</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-lang</groupId>
@@ -218,7 +218,7 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>3.15.0</version>
+			<version>3.17.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -228,17 +228,17 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-exec</artifactId>
-			<version>1.3</version>
+			<version>1.4.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
     		<artifactId>commons-compress</artifactId>
-    		<version>1.27.0</version>
+    		<version>1.27.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.ant</groupId>
 			<artifactId>ant</artifactId>
-			<version>1.10.14</version>
+			<version>1.10.15</version>
 		</dependency>
 		<dependency>
 		    <groupId>xerces</groupId>
@@ -249,7 +249,7 @@
 		<dependency>
 			<groupId>org.apache.velocity</groupId>
 		  	<artifactId>velocity-engine-core</artifactId>
-		  	<version>2.3</version>
+		  	<version>2.4</version>
 		</dependency>
 		<dependency>
 		  	<groupId>org.apache.velocity.tools</groupId>

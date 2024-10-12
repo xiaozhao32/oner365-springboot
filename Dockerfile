@@ -1,4 +1,4 @@
-FROM jdk:1.8
+FROM jdk:21
 
 VOLUME /root/oner365-springboot
 RUN mkdir -p /root/oner365-springboot

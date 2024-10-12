@@ -57,26 +57,10 @@
         </filter>
     </appender>
 
-	<!-- logstash 远程日志配置 -->
-	<if condition='property("LOGSTASH_ENABLED").equals("true")'>
-	<then>
-		<appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-			<!-- 多个input索引监听修改对应logstash监听端口即可 -->
-			<destination>${LOGSTASH_ADDRESSES}</destination>
-			<encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder" />
-		</appender>
-	</then>
-	</if>
-
 	<!-- 日志输出级别 -->
 	<root level="${LOG_LEVEL}">
 		<appender-ref ref="CONSOLE" />
 		<appender-ref ref="FILE_INFO" />
 		<appender-ref ref="FILE_ERROR" />
-		<if condition='property("LOGSTASH_ENABLED").equals("true")'>
-		<then>
-			<appender-ref ref="LOGSTASH" />
-		</then>
-		</if>
 	</root>
 </configuration>

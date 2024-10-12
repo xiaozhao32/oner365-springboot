@@ -2,12 +2,10 @@ package com.oner365.data.commons.util;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.internal.bind.DateTypeAdapter;
 import com.oner365.data.commons.adapter.LocalDateTimeTypeAdapter;
 import com.oner365.data.commons.adapter.TimestampTypeAdapter;
 
@@ -23,7 +21,6 @@ public class GsonUtils {
 
     protected static final Gson GSON = new GsonBuilder()
             .registerTypeAdapter(Timestamp.class, new TimestampTypeAdapter()).setDateFormat(DateUtil.FULL_TIME_FORMAT)
-            .registerTypeAdapter(Date.class, new DateTypeAdapter()).setDateFormat(DateUtil.FULL_DATE_FORMAT)
             .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeTypeAdapter()).setDateFormat(DateUtil.FULL_TIME_FORMAT)
             .create();
 
