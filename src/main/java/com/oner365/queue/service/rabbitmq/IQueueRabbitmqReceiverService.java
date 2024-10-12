@@ -42,7 +42,7 @@ public interface IQueueRabbitmqReceiverService extends BaseService {
       ),
       ackMode = "MANUAL"
   )
-  void message(byte[] msg, Channel channel, Message message) throws IOException;
+  void message(String msg, Channel channel, Message message) throws IOException;
   
   /**
    * 同步路由数据

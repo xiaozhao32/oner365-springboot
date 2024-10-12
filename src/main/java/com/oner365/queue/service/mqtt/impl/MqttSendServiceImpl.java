@@ -54,10 +54,10 @@ public class MqttSendServiceImpl implements IQueueSendService {
   
   @Async
   @Override
-  public void sendMessage(byte[] message) {
-    if (message != null && redisCache.lock(QueueConstants.MESSAGE_QUEUE_NAME, QueueConstants.QUEUE_LOCK_TIME_SECOND)) {
-      logger.info("Mqtt send message: {} topic: {}", new String(message), QueueConstants.MESSAGE_QUEUE_NAME);
-      messageService.sendMessage(QueueConstants.MESSAGE_QUEUE_NAME, new String(message));
+  public void sendMessage(String message) {
+    if (!message.isEmpty() && redisCache.lock(QueueConstants.MESSAGE_QUEUE_NAME, QueueConstants.QUEUE_LOCK_TIME_SECOND)) {
+      logger.info("Mqtt send message: {} topic: {}", message, QueueConstants.MESSAGE_QUEUE_NAME);
+      messageService.sendMessage(QueueConstants.MESSAGE_QUEUE_NAME, message);
     }
   }
 

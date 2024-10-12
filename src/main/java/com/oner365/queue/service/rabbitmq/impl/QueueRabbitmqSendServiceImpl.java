@@ -45,7 +45,7 @@ public class QueueRabbitmqSendServiceImpl implements IQueueSendService {
 
   @Async
   @Override
-  public void sendMessage(byte[] data) {
+  public void sendMessage(String data) {
     if (redisCache.lock(QueueConstants.MESSAGE_QUEUE_NAME, QueueConstants.QUEUE_LOCK_TIME_SECOND)) {
       logger.info("Rabbitmq sendMessage: {}", data);
       // 是否回调确认

@@ -17,7 +17,7 @@ public interface IQueueSendService {
    * 
    * @param data 消息内容
    */
-  void sendMessage(byte[] data);
+  void sendMessage(String data);
   
   /**
    * 同步路由数据

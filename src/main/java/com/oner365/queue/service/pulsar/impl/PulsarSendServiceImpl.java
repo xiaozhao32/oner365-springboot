@@ -54,10 +54,10 @@ public class PulsarSendServiceImpl implements IQueueSendService {
 
   @Async
   @Override
-  public void sendMessage(byte[] data) {
+  public void sendMessage(String data) {
     if (redisCache.lock(QueueConstants.MESSAGE_QUEUE_NAME, QueueConstants.QUEUE_LOCK_TIME_SECOND)) {
-      try (Producer<byte[]> producer = createProducer(QueueConstants.MESSAGE_QUEUE_NAME,
-          Schema.JSON(byte[].class))) {
+      try (Producer<String> producer = createProducer(QueueConstants.MESSAGE_QUEUE_NAME,
+          Schema.JSON(String.class))) {
         MessageId messageId = producer.send(data);
         logger.info("Pulsar sendMessage: {} topic: {} messageId: {}", data, QueueConstants.MESSAGE_QUEUE_NAME, messageId);
       } catch (PulsarClientException e) {
