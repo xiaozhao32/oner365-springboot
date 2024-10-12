@@ -1,6 +1,5 @@
 package com.oner365.queue.service;
 
-import com.alibaba.fastjson.JSONObject;
 import com.oner365.api.dto.UpdateTaskExecuteStatusDto;
 import com.oner365.monitor.dto.InvokeParamDto;
 import com.oner365.monitor.dto.SysTaskDto;
@@ -18,7 +17,7 @@ public interface IQueueSendService {
    * 
    * @param data 消息内容
    */
-  void sendMessage(JSONObject data);
+  void sendMessage(String data);
   
   /**
    * 同步路由数据

@@ -32,28 +32,28 @@ public class SysMessageVo implements Serializable {
      * 队列类型
      */
     @ApiModelProperty(value = "队列类型", required = true)
-    @NotBlank(message = "队列类型不能为空")
+    @NotBlank(message = "{system.vo.message.queueType.message}")
     private String queueType;
 
     /**
      * 队列标识
      */
     @ApiModelProperty(value = "队列标识", required = true)
-    @NotBlank(message = "队列标识不能为空")
+    @NotBlank(message = "{system.vo.message.queueKey.message}")
     private String queueKey;
 
     /**
      * 消息类型
      */
     @ApiModelProperty(value = "消息类型", required = true)
-    @NotNull(message = "消息类型不能为空")
+    @NotNull(message = "{system.vo.message.messageType.message}")
     private MessageTypeEnum messageType;
 
     /**
      * 消息名称
      */
     @ApiModelProperty(value = "消息名称", required = true)
-    @NotBlank(message = "消息名称不能为空")
+    @NotBlank(message = "{system.vo.message.messageName.message}")
     private String messageName;
 
     /**

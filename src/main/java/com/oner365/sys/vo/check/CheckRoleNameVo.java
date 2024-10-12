@@ -31,7 +31,7 @@ public class CheckRoleNameVo implements Serializable {
      * 角色名称
      */
     @ApiModelProperty(value = "角色名称", required = true)
-    @NotBlank(message = "角色名称不能为空")
+    @NotBlank(message = "{system.vo.check.role.name.message}")
     private String roleName;
     
     /**

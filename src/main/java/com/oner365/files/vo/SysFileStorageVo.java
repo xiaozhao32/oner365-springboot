@@ -31,7 +31,7 @@ public class SysFileStorageVo implements Serializable {
      * 文件名称 file_name
      */
     @ApiModelProperty(value = "文件名称")
-    @NotBlank(message = "文件名称不能为空")
+    @NotBlank(message = "{files.vo.fileStorage.fileName.message}")
     private String fileName;
 
     /**
@@ -44,7 +44,7 @@ public class SysFileStorageVo implements Serializable {
      * 存储方式
      */
     @ApiModelProperty(value = "存储方式")
-    @NotNull(message = "存储方式不能为空")
+    @NotNull(message = "{files.vo.fileStorage.fileStorage.message}")
     private StorageEnum fileStorage;
 
     /**

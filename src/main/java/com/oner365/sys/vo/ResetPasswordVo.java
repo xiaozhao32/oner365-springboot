@@ -25,14 +25,14 @@ public class ResetPasswordVo implements Serializable {
      * 账号 userId
      */
     @ApiModelProperty(value = "账号id", required = true)
-    @NotBlank(message = "账号id不能为空")
+    @NotBlank(message = "{system.vo.reset.userId.message}")
     private String userId;
 
     /**
      * 密码 password
      */
     @ApiModelProperty(value = "密码", required = true)
-    @NotBlank(message = "重置密码不能为空")
+    @NotBlank(message = "{system.vo.reset.password.message}")
     private String password;
 
     /**

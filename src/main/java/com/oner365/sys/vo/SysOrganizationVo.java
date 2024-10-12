@@ -35,7 +35,7 @@ public class SysOrganizationVo implements Serializable {
      * 机构名称 org_name
      */
     @ApiModelProperty(value = "机构名称", required = true)
-    @NotBlank(message = "机构名称不能为空")
+    @NotBlank(message = "{system.vo.org.orgName.message}")
     private String orgName;
 
     /**
@@ -48,7 +48,7 @@ public class SysOrganizationVo implements Serializable {
      * 机构代码 org_code
      */
     @ApiModelProperty(value = "机构代码", required = true)
-    @NotBlank(message = "机构代码不能为空")
+    @NotBlank(message = "{system.vo.org.orgCode.message}")
     private String orgCode;
 
     /**
@@ -97,7 +97,7 @@ public class SysOrganizationVo implements Serializable {
      * 状态 status
      */
     @ApiModelProperty(value = "状态", required = true)
-    @NotNull(message = "机构状态不能为空")
+    @NotNull(message = "{system.vo.org.status.message}")
     private StatusEnum status;
 
     /**

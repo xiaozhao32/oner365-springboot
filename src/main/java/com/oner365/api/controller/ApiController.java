@@ -15,7 +15,6 @@ import java.util.concurrent.TimeUnit;
 import javax.annotation.Resource;
 
 import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -72,12 +71,12 @@ public class ApiController extends BaseController {
    *
    * @param orderId 订单id
    * @param userId  用户id
-   * @return List<Map<String, String>>
+   * @return List<Map<String, Object>>
    */
   @ApiOperation("1.测试分库分表")
   @ApiOperationSupport(order = 1)
   @GetMapping("/sharding/test")
-  public List<Map<String, String>> testDataSource(@RequestParam Integer orderId, @RequestParam Integer userId) {
+  public List<Map<String, Object>> testDataSource(@RequestParam Integer orderId, @RequestParam Integer userId) {
     String sql = "insert into t_order(id, order_id, user_id, status, create_time) " + "values('"
         + snowflakeSequence.nextNo() + "'," + orderId + "," + userId + ",'1','" + DateUtil.getCurrentTime() + "')";
     try (Connection con = dataSource.getConnection()) {
@@ -180,17 +179,19 @@ public class ApiController extends BaseController {
   }
 
   /**
-   * 测试redis
+   * 测试国际化
    *
+   * @param message  国际化内容
+   * @param language 国际化语言
    * @return JSONObject
    */
   @ApiOperation("4.测试国际化")
   @ApiOperationSupport(order = 4)
   @GetMapping("/i18n/messages")
-  public JSONObject testMessages() {
-    Locale locale = LocaleContextHolder.getLocale();
-    String name = messageSource.getMessage("hello", null, locale);
-    
+  public JSONObject testMessages(@RequestParam("message") String message, @RequestParam("language") String language) {
+    Locale locale = new Locale(language);
+    String name = messageSource.getMessage(message, null, locale);
+
     JSONObject result = new JSONObject();
     result.put("language", locale.toLanguageTag());
     result.put("name", name);

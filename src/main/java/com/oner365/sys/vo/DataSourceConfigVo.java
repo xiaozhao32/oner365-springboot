@@ -33,7 +33,7 @@ public class DataSourceConfigVo implements Serializable {
      * 连接名
      */
     @ApiModelProperty(value = "连接名称", required = true)
-    @NotBlank(message = "数据源连接名称不能为空")
+    @NotBlank(message = "{datasource.vo.config.connectName.message}")
     private String connectName;
 
     /**

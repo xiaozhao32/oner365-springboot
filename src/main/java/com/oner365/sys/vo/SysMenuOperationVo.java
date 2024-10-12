@@ -33,7 +33,7 @@ public class SysMenuOperationVo implements Serializable {
      * 操作名称
      */
     @ApiModelProperty(value = "操作名称", required = true)
-    @NotBlank(message = "操作名称不能为空")
+    @NotBlank(message = "{system.vo.menuOperation.operationName.message}")
     private String operationName;
 
     /**

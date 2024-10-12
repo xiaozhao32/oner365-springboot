@@ -31,7 +31,7 @@ public class CheckConfigNameVo implements Serializable {
    * 编码
    */
   @ApiModelProperty(value = "配置名称", required = true)
-  @NotBlank(message = "检测配置名称不能为空")
+  @NotBlank(message = "{system.vo.check.config.name.message}")
   private String configName;
 
   /**

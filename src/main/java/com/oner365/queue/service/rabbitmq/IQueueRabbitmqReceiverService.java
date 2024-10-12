@@ -11,7 +11,6 @@ import org.springframework.amqp.rabbit.annotation.QueueBinding;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.context.annotation.Conditional;
 
-import com.alibaba.fastjson.JSONObject;
 import com.oner365.data.jpa.service.BaseService;
 import com.oner365.monitor.exception.TaskException;
 import com.oner365.queue.condition.RabbitmqCondition;
@@ -43,7 +42,7 @@ public interface IQueueRabbitmqReceiverService extends BaseService {
       ),
       ackMode = "MANUAL"
   )
-  void message(JSONObject msg, Channel channel, Message message) throws IOException;
+  void message(String msg, Channel channel, Message message) throws IOException;
   
   /**
    * 同步路由数据

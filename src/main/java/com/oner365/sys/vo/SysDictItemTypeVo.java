@@ -33,14 +33,14 @@ public class SysDictItemTypeVo implements Serializable {
      * 类型名称 type_name
      */
     @ApiModelProperty(value = "类型名称", required = true)
-    @NotBlank(message = "字典类型名称不能为空")
+    @NotBlank(message = "{system.vo.dictItemType.typeName.message}")
     private String typeName;
 
     /**
      * 类型编码 type_code
      */
     @ApiModelProperty(value = "类型编码", required = true)
-    @NotBlank(message = "字典类型编码不能为空")
+    @NotBlank(message = "{system.vo.dictItemType.typeCode.message}")
     private String typeCode;
 
     /**
