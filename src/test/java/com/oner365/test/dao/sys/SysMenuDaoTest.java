@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
 
-import jakarta.annotation.Resource;
-
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.jupiter.api.Assertions;
@@ -25,12 +23,15 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
 import com.alibaba.fastjson.JSON;
+import com.oner365.data.commons.config.properties.DefaultFileProperties;
 import com.oner365.data.commons.util.DateUtil;
 import com.oner365.data.commons.util.excel.ExportExcelUtils;
 import com.oner365.sys.dao.ISysMenuDao;
 import com.oner365.sys.dto.SysUserDto;
 import com.oner365.sys.entity.SysMenu;
 import com.oner365.test.dao.BaseDaoTest;
+
+import jakarta.annotation.Resource;
 
 /**
  * Test SysMenuDao
@@ -46,6 +47,9 @@ class SysMenuDaoTest extends BaseDaoTest {
 
   @Resource
   private JdbcTemplate jdbcTemplate;
+  
+  @Resource
+  private DefaultFileProperties defaultFileProperties;
 
   @Test
   void findMenuByTypeCode() {
@@ -100,7 +104,7 @@ class SysMenuDaoTest extends BaseDaoTest {
     int page = total / size + 1;
 
     // 文件信息
-    String filePath = System.getProperty("user.dir") + "/src/test/java/com/oner365/test/dao/sys/SysUser.xlsx";
+    String filePath = defaultFileProperties.getDownload() + "/SysUser.xlsx";
     logger.info("file path: {}", filePath);
     String[] titleKeys = new String[] { "编号", "用户标识", "用户名称", "姓名", "性别", "邮箱", "电话", "备注", "状态", "创建时间", "最后登录时间",
         "最后登录ip" };
@@ -111,7 +115,7 @@ class SysMenuDaoTest extends BaseDaoTest {
     try (Workbook workbook = new XSSFWorkbook(); FileOutputStream fos = new FileOutputStream(filePath)) {
       for (int i = 1; i <= page; i++) {
         Page<SysUserDto> dto = pageSysUser(total, i, size);
-        logger.info("page: {}/{}", i, total);
+        logger.info("page: {}/{}, total: {}", i, page, total);
         ExportExcelUtils.export(workbook, "sheet " + i, titleKeys, columnNames, dto.getContent());
       }
       workbook.write(fos);

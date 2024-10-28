@@ -44,8 +44,8 @@
 		<org.springframework.integration.version>6.3.4</org.springframework.integration.version>
 		<org.springframework.statemachine.version>4.0.0</org.springframework.statemachine.version>
 		<org.springframework.security.version>6.3.3</org.springframework.security.version>
-		<org.springframework.boot.version>3.3.4</org.springframework.boot.version>
-		<org.springframework.version>6.1.13</org.springframework.version>
+		<org.springframework.boot.version>3.3.5</org.springframework.boot.version>
+		<org.springframework.version>6.1.14</org.springframework.version>
 		<org.springframework.kafka.version>3.2.4</org.springframework.kafka.version>
 
 		<org.apache.logging.log4j.version>2.24.1</org.apache.logging.log4j.version>
@@ -67,7 +67,7 @@
 		<ch.qos.logback.version>1.5.9</ch.qos.logback.version>
 
 		<org.jetbrains.kotlin.version>2.0.21</org.jetbrains.kotlin.version>
-		<org.junit.platform.version>1.11.2</org.junit.platform.version>
+		<org.junit.platform.version>1.10.5</org.junit.platform.version>
 		<org.javassist.version>3.30.2-GA</org.javassist.version>
 		<org.freemarker.version>2.3.33</org.freemarker.version>
 		<org.reflections.version>0.10.2</org.reflections.version>
