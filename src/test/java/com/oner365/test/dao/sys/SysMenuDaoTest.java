@@ -4,7 +4,6 @@ import java.io.FileOutputStream;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
@@ -72,7 +71,7 @@ class SysMenuDaoTest extends BaseDaoTest {
   void testInsert() {
     String sql = "insert into nt_test_date(name, phone, price, description, test_date, status, create_time, update_time) values(?,?,?,?,?,?,?,?)";
     String result = insertAutoIncrementId(sql,
-        new Object[] { "test", 999, 1.2d, "abc", new Date(), 1, DateUtil.getCurrentTime(), DateUtil.getCurrentTime() });
+        new Object[] { "test", 999, 1.2d, "abc", DateUtil.getDate(), 1, DateUtil.getCurrentTime(), DateUtil.getCurrentTime() });
     logger.info("result:{}", JSON.toJSONString(result));
   }
 
