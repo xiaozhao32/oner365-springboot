@@ -1,8 +1,10 @@
 package com.oner365.test.util;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -24,6 +26,17 @@ class DateUtilsTest extends BaseUtilsTest {
     }
     
     @Test
+    void localDateTest() {
+        LocalDate localDate = LocalDate.now();
+        // localDate -> date
+        Date date = DateUtil.localDateToDate(localDate);
+        logger.info("date: {}", date);
+        // date -> localDate
+        LocalDate result = DateUtil.dateToLocalDate(date);
+        Assertions.assertEquals(localDate, result);
+    }
+    
+    @Test
     void localDateTimeTest() {
         LocalDateTime localDateTime = LocalDateTime.now();
         // localDateTime -> date
@@ -31,6 +44,20 @@ class DateUtilsTest extends BaseUtilsTest {
         logger.info("date: {}", date);
         // date -> localDateTime
         LocalDateTime result = DateUtil.dateToLocalDateTime(date);
-        Assertions.assertNotNull(result);
+        Assertions.assertEquals(localDateTime, result);
+    }
+    
+    @Test
+    void getDialectWeekTest() {
+      List<Map<String, String>> result = DateUtil.getDialectWeek("2021-05-10", "2021-05-21");
+      logger.info("list: {}", result);
+      Assertions.assertEquals(2, result.size());
+    }
+    
+    @Test
+    void formatTest() {
+      String result = DateUtil.format(DateUtil.getDate(), DateUtil.FULL_TIME_FORMAT);
+      logger.info("date: {}", result);
+      Assertions.assertNotNull(result);
     }
 }
