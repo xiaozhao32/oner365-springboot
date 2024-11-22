@@ -22,6 +22,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.regex.Pattern;
+import java.util.stream.IntStream;
 
 import org.apache.commons.collections4.map.LRUMap;
 import org.apache.commons.io.FileUtils;
@@ -450,14 +452,14 @@ public class DataUtils {
     if (str.length == 1) {
       temp.append(str[0].substring(0, 1).toUpperCase()).append(str[0].substring(1));
     } else {
-      for (String s : str) {
-        temp.append(s.substring(0, 1).toUpperCase());
-        temp.append(s.substring(1).toLowerCase());
-      }
+      IntStream.range(0, str.length).forEach(index -> {
+        temp.append(str[index].substring(0, 1).toUpperCase());
+        temp.append(str[index].substring(1).toLowerCase());
+      });
     }
     return temp.toString();
   }
-
+  
   /**
    * 去除下划线替换其他字符 返回首字母大写字符串
    *
@@ -482,11 +484,11 @@ public class DataUtils {
       temp.append(str[0].substring(0, 1).toUpperCase()).append(str[0].substring(1));
       result = temp.toString();
     } else {
-      for (String s : str) {
-        temp.append(s.substring(0, 1).toUpperCase());
-        temp.append(s.substring(1).toLowerCase());
+      IntStream.range(0, str.length).forEach(index -> {
+        temp.append(str[index].substring(0, 1).toUpperCase());
+        temp.append(str[index].substring(1).toLowerCase());
         temp.append(split);
-      }
+      });
       result = temp.substring(0, temp.length() - 1);
     }
     return result;
@@ -519,22 +521,17 @@ public class DataUtils {
   /**
    * 查找指定字符串是否匹配指定字符串列表中的任意一个字符串
    * 
-   * @param str  指定字符串
-   * @param strs 需要检查的字符串数组
+   * @param pattern  指定正则表达式
+   * @param strList 需要检查的字符串数组
    * @return 是否匹配
    */
-  public static boolean matches(String str, List<String> strs) {
-    if (isEmpty(str) || isEmpty(strs)) {
+  public static boolean matches(Pattern pattern, List<String> strList) {
+    if (isEmpty(pattern) || isEmpty(strList)) {
       return false;
     }
-    for (String pattern : strs) {
-      if (isMatch(pattern, str)) {
-        return true;
-      }
-    }
-    return false;
+    return strList.stream().allMatch(s -> pattern.matcher(s).matches());
   }
-
+  
   /**
    * 判断url是否与规则配置: ? 表示单个字符; * 表示一层路径内的任意字符串，不可跨层级; ** 表示任意层路径;
    * 

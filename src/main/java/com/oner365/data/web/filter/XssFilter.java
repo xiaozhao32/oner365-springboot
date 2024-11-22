@@ -57,7 +57,7 @@ public class XssFilter implements Filter {
     if (method == null || method.matches(HttpMethod.GET.name()) || method.matches(HttpMethod.DELETE.name())) {
       return true;
     }
-    return DataUtils.matches(url, EXCLUDES_LIST);
+    return EXCLUDES_LIST.contains(url);
   }
 
 }
