@@ -73,7 +73,7 @@
 		<org.reflections.version>0.10.2</org.reflections.version>
 		<org.codehaus.version>3.1.12</org.codehaus.version>
 		<org.quartz.version>2.3.2</org.quartz.version>
-		<org.yaml.version>2.2</org.yaml.version>
+		<org.yaml.version>2.3</org.yaml.version>
 
 		<org.postgresql.version>42.7.4</org.postgresql.version>
 		<com.oracle.version>23.2.0.0</com.oracle.version>
@@ -100,7 +100,7 @@
 		<io.projectreactor.netty.version>1.2.0</io.projectreactor.netty.version>
 		<io.hypersistence.version>3.8.3</io.hypersistence.version>
 		<io.jsonwebtoken.version>0.9.1</io.jsonwebtoken.version>
-		<io.micrometer.version>1.13.5</io.micrometer.version>
+		<io.micrometer.version>1.14.0</io.micrometer.version>
 		<io.netty.version>4.1.115.Final</io.netty.version>
 		<io.minio.version>8.5.13</io.minio.version>
 
