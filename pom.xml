@@ -44,8 +44,8 @@
 		<org.springframework.integration.version>6.4.0</org.springframework.integration.version>
 		<org.springframework.statemachine.version>4.0.0</org.springframework.statemachine.version>
 		<org.springframework.security.version>6.4.1</org.springframework.security.version>
-		<org.springframework.boot.version>3.3.6</org.springframework.boot.version>
-		<org.springframework.version>6.1.15</org.springframework.version>
+		<org.springframework.boot.version>3.4.0</org.springframework.boot.version>
+		<org.springframework.version>6.2.0</org.springframework.version>
 		<org.springframework.kafka.version>3.3.0</org.springframework.kafka.version>
 
 		<org.apache.logging.log4j.version>2.24.1</org.apache.logging.log4j.version>

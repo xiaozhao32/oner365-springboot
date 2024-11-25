@@ -1,7 +1,6 @@
 package com.oner365.data.web.sequence;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -12,7 +11,6 @@ import com.oner365.data.web.sequence.properties.SequenceSnowflakeProperties;
 import com.oner365.data.web.sequence.range.impl.name.DateBizName;
 import com.oner365.data.web.sequence.range.impl.redis.RedisSeqRangeMgr;
 import com.oner365.data.web.sequence.sequence.RangeSequence;
-import com.oner365.data.web.sequence.sequence.Sequence;
 import com.oner365.data.web.sequence.sequence.SnowflakeSequence;
 import com.oner365.data.web.sequence.sequence.impl.DefaultRangeSequence;
 
@@ -24,7 +22,6 @@ import com.oner365.data.web.sequence.sequence.impl.DefaultRangeSequence;
  */
 @Configuration
 @ComponentScan({ "com.oner365.data.web.sequence" })
-@ConditionalOnMissingBean({ Sequence.class })
 public class SequenceAutoConfiguration {
 
     @Bean
