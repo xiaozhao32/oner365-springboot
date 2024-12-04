@@ -1118,31 +1118,6 @@
 				</configuration>
 			</plugin>
 			
-			<plugin>
-			    <groupId>org.owasp</groupId>
-			    <artifactId>dependency-check-maven</artifactId>
-			    <version>10.0.2</version>
-			    <configuration>
-			        <autoUpdate>true</autoUpdate>
-			        <dataDirectory>/Users/zhaoyong/Documents/checkdata</dataDirectory>
-			        <versionCheckEnabled>false</versionCheckEnabled>
-			        <retireJsForceUpdate>false</retireJsForceUpdate>
-			        <ossindexAnalyzerUseCache>true</ossindexAnalyzerUseCache>
-			        <skipRuntimeScope>true</skipRuntimeScope>
-			        <skipProvidedScope>true</skipProvidedScope>
-			        <skipSystemScope>true</skipSystemScope>
-			        <skipTestScope>true</skipTestScope>
-			    </configuration>
-			    <executions>
-			        <execution>
-			            <goals>
-			                <goal>check</goal>
-			            </goals>
-			        </execution>
-			    </executions>
-			</plugin>
-
-
 		</plugins>
 	</build>
 

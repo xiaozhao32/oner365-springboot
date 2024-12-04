@@ -54,8 +54,8 @@ spring:
 
   # elasticsearch
   elasticsearch:
-    username: elastic
-    password: elastic
+#    username: elastic
+#    password: elastic
     uris: http://172.16.80.211:32458
 
   data:
@@ -65,7 +65,7 @@ spring:
         
     redis:
       repositories:
-        enabled: false
+        enabled: true
       host: 172.16.80.211
       port: 32360
       password: 1234

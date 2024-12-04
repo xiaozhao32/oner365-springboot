@@ -14,6 +14,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.oner365.api.dto.UpdateTaskExecuteStatusDto;
+import com.oner365.data.commons.constants.PublicConstants;
 import com.oner365.data.commons.exception.ProjectRuntimeException;
 import com.oner365.data.redis.RedisCache;
 import com.oner365.data.web.utils.HttpClientUtils;
@@ -55,7 +56,7 @@ public class PulsarSendServiceImpl implements IQueueSendService {
   @Async
   @Override
   public void sendMessage(String data) {
-    if (redisCache.lock(QueueConstants.MESSAGE_QUEUE_NAME, QueueConstants.QUEUE_LOCK_TIME_SECOND)) {
+    if (redisCache.lock(QueueConstants.MESSAGE_QUEUE_NAME, PublicConstants.QUEUE_LOCK_TIME_SECOND)) {
       try (Producer<String> producer = createProducer(QueueConstants.MESSAGE_QUEUE_NAME,
           Schema.JSON(String.class))) {
         MessageId messageId = producer.send(data);
@@ -69,7 +70,7 @@ public class PulsarSendServiceImpl implements IQueueSendService {
   @Async
   @Override
   public void syncRoute() {
-    if (redisCache.lock(QueueConstants.ROUTE_QUEUE_NAME, QueueConstants.QUEUE_LOCK_TIME_SECOND)) {
+    if (redisCache.lock(QueueConstants.ROUTE_QUEUE_NAME, PublicConstants.QUEUE_LOCK_TIME_SECOND)) {
       try (Producer<String> producer = createProducer(QueueConstants.ROUTE_QUEUE_NAME, Schema.STRING)) {
         String data = HttpClientUtils.getLocalhost();
         MessageId messageId = producer.send(data);
@@ -83,7 +84,7 @@ public class PulsarSendServiceImpl implements IQueueSendService {
   @Async
   @Override
   public void pullTask(InvokeParamDto data) {
-    if (redisCache.lock(QueueConstants.SCHEDULE_TASK_QUEUE_NAME, QueueConstants.QUEUE_LOCK_TIME_SECOND)) {
+    if (redisCache.lock(QueueConstants.SCHEDULE_TASK_QUEUE_NAME, PublicConstants.QUEUE_LOCK_TIME_SECOND)) {
       try (Producer<InvokeParamDto> producer = createProducer(QueueConstants.SCHEDULE_TASK_QUEUE_NAME,
           Schema.JSON(InvokeParamDto.class))) {
         MessageId messageId = producer.send(data);
@@ -98,7 +99,7 @@ public class PulsarSendServiceImpl implements IQueueSendService {
   @Async
   @Override
   public void updateTaskExecuteStatus(UpdateTaskExecuteStatusDto data) {
-    if (redisCache.lock(QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME, QueueConstants.QUEUE_LOCK_TIME_SECOND)) {
+    if (redisCache.lock(QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME, PublicConstants.QUEUE_LOCK_TIME_SECOND)) {
       try (Producer<UpdateTaskExecuteStatusDto> producer = createProducer(QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME,
           Schema.JSON(UpdateTaskExecuteStatusDto.class))) {
         MessageId messageId = producer.send(data);
@@ -113,7 +114,7 @@ public class PulsarSendServiceImpl implements IQueueSendService {
   @Async
   @Override
   public void saveExecuteTaskLog(SysTaskDto data) {
-    if (redisCache.lock(QueueConstants.SAVE_TASK_LOG_QUEUE_NAME, QueueConstants.QUEUE_LOCK_TIME_SECOND)) {
+    if (redisCache.lock(QueueConstants.SAVE_TASK_LOG_QUEUE_NAME, PublicConstants.QUEUE_LOCK_TIME_SECOND)) {
       try (Producer<SysTaskDto> producer = createProducer(QueueConstants.SAVE_TASK_LOG_QUEUE_NAME,
           Schema.JSON(SysTaskDto.class))) {
         MessageId messageId = producer.send(data);

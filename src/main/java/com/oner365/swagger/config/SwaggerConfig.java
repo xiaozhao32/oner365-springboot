@@ -50,11 +50,9 @@ public class SwaggerConfig {
     return openApi -> {
       // 全局添加鉴权参数
       if (openApi.getPaths() != null) {
-        openApi.getPaths().forEach((s, pathItem) -> {
-          pathItem.readOperations().forEach(operation -> {
-            operation.addSecurityItem(new SecurityRequirement().addList(HttpHeaders.AUTHORIZATION));
-          });
-        });
+        openApi.getPaths().forEach((s, pathItem) -> 
+          pathItem.readOperations().forEach(operation -> 
+            operation.addSecurityItem(new SecurityRequirement().addList(HttpHeaders.AUTHORIZATION))));
       }
     };
   }
