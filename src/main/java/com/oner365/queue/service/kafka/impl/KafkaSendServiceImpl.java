@@ -13,6 +13,7 @@ import org.springframework.util.concurrent.ListenableFuture;
 
 import com.alibaba.fastjson.JSON;
 import com.oner365.api.dto.UpdateTaskExecuteStatusDto;
+import com.oner365.data.commons.constants.PublicConstants;
 import com.oner365.data.redis.RedisCache;
 import com.oner365.data.web.utils.HttpClientUtils;
 import com.oner365.monitor.dto.InvokeParamDto;
@@ -42,7 +43,7 @@ public class KafkaSendServiceImpl implements IQueueSendService {
   @Async
   @Override
   public void sendMessage(String data) {
-    if (redisCache.lock(QueueConstants.MESSAGE_QUEUE_NAME, QueueConstants.QUEUE_LOCK_TIME_SECOND)) {
+    if (redisCache.lock(QueueConstants.MESSAGE_QUEUE_NAME, PublicConstants.QUEUE_LOCK_TIME_SECOND)) {
       logger.info("Kafka sendMessage: {}", data);
       try {
         ListenableFuture<SendResult<String, Object>> future = kafkaTemplate.send(QueueConstants.MESSAGE_QUEUE_NAME,
@@ -58,7 +59,7 @@ public class KafkaSendServiceImpl implements IQueueSendService {
   @Async
   @Override
   public void syncRoute() {
-    if (redisCache.lock(QueueConstants.ROUTE_QUEUE_NAME, QueueConstants.QUEUE_LOCK_TIME_SECOND)) {
+    if (redisCache.lock(QueueConstants.ROUTE_QUEUE_NAME, PublicConstants.QUEUE_LOCK_TIME_SECOND)) {
       logger.info("Kafka syncRoute: {}", HttpClientUtils.getLocalhost());
       kafkaTemplate.send(QueueConstants.ROUTE_QUEUE_NAME, HttpClientUtils.getLocalhost());
     }
@@ -67,7 +68,7 @@ public class KafkaSendServiceImpl implements IQueueSendService {
   @Async
   @Override
   public void pullTask(InvokeParamDto data) {
-    if (redisCache.lock(QueueConstants.SCHEDULE_TASK_QUEUE_NAME, QueueConstants.QUEUE_LOCK_TIME_SECOND)) {
+    if (redisCache.lock(QueueConstants.SCHEDULE_TASK_QUEUE_NAME, PublicConstants.QUEUE_LOCK_TIME_SECOND)) {
       logger.info("Kafka pullTask: {}", data);
       kafkaTemplate.send(QueueConstants.SCHEDULE_TASK_QUEUE_NAME, JSON.toJSONString(data));
     }
@@ -76,7 +77,7 @@ public class KafkaSendServiceImpl implements IQueueSendService {
   @Async
   @Override
   public void updateTaskExecuteStatus(UpdateTaskExecuteStatusDto data) {
-    if (redisCache.lock(QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME, QueueConstants.QUEUE_LOCK_TIME_SECOND)) {
+    if (redisCache.lock(QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME, PublicConstants.QUEUE_LOCK_TIME_SECOND)) {
       logger.info("Kafka updateTaskExecuteStatus push: {}", data);
       kafkaTemplate.send(QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME, JSON.toJSONString(data));
     }
@@ -85,7 +86,7 @@ public class KafkaSendServiceImpl implements IQueueSendService {
   @Async
   @Override
   public void saveExecuteTaskLog(SysTaskDto data) {
-    if (redisCache.lock(QueueConstants.SAVE_TASK_LOG_QUEUE_NAME, QueueConstants.QUEUE_LOCK_TIME_SECOND)) {
+    if (redisCache.lock(QueueConstants.SAVE_TASK_LOG_QUEUE_NAME, PublicConstants.QUEUE_LOCK_TIME_SECOND)) {
       logger.info("Kafka saveExecuteTaskLog push: {}", data);
       kafkaTemplate.send(QueueConstants.SAVE_TASK_LOG_QUEUE_NAME, JSON.toJSONString(data));
     }
