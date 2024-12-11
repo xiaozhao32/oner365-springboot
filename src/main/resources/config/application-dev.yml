@@ -1,5 +1,6 @@
 # server
 server:
+  address: localhost 
   port: 8704
   servlet:
     context-path: /
@@ -79,6 +80,7 @@ spring:
     redis:
       repositories:
         enabled: false
+      mode: default
 
     elasticsearch:
       repositories:

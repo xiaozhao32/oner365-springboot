@@ -136,10 +136,10 @@ public class ElasticsearchInfoController extends BaseController {
     Map<String, ShardRoutingState> stateMap = new HashMap<>(10);
     Map<String, Integer> shardsMap = new HashMap<>(10);
     shards.forEach(list -> {
-      for (NodeShard shard : list) {
+      list.forEach(shard -> {
         stateMap.put(shard.index(), shard.state());
         shardsMap.merge(shard.index(), 1, Integer::sum);
-      }
+      });
     });
 
     aliasMap.forEach((key, value) -> {
