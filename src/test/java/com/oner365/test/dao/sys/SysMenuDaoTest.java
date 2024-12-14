@@ -108,11 +108,11 @@ class SysMenuDaoTest extends BaseDaoTest {
 
     // 导出文件
     try (Workbook workbook = new XSSFWorkbook(); FileOutputStream fos = new FileOutputStream(filePath)) {
-      for (int i = 1; i <= page; i++) {
+      IntStream.range(1, page).forEach(i->{
         Page<SysUserDto> dto = pageSysUser(total, i, size);
         logger.info("page: {}/{}", i, total);
         ExportExcelUtils.export(workbook, "sheet " + i, titleKeys, columnNames, dto.getContent());
-      }
+      });
       workbook.write(fos);
       fos.flush();
     } catch (Exception e) {

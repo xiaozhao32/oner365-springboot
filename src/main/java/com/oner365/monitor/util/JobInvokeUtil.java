@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -170,11 +171,10 @@ public class JobInvokeUtil {
    */
   public static Class<?>[] getMethodParamsType(List<Object[]> methodParams) {
     Class<?>[] classList = new Class<?>[methodParams.size()];
-    int index = 0;
-    for (Object[] os : methodParams) {
+    IntStream.range(0, methodParams.size()).forEach(index -> {
+      Object[] os = methodParams.get(index);
       classList[index] = (Class<?>) os[1];
-      index++;
-    }
+    });
     return classList;
   }
 
@@ -186,11 +186,10 @@ public class JobInvokeUtil {
    */
   public static Object[] getMethodParamsValue(List<Object[]> methodParams) {
     Object[] classList = new Object[methodParams.size()];
-    int index = 0;
-    for (Object[] os : methodParams) {
+    IntStream.range(0, methodParams.size()).forEach(index -> {
+      Object[] os = methodParams.get(index);
       classList[index] = os[0];
-      index++;
-    }
+    });
     return classList;
   }
 }
