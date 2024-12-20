@@ -55,8 +55,8 @@ spring:
 
   # elasticsearch
   elasticsearch:
-#    username: elastic
-#    password: elastic
+    username: elastic
+    password: elastic
     uris: http://172.16.80.211:32458
 
   data:
