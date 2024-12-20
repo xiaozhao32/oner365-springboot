@@ -45,7 +45,7 @@ public class KafkaSendServiceImpl implements IQueueSendService {
   @Override
   public void sendMessage(String data) {
     if (redisCache.lock(QueueConstants.MESSAGE_QUEUE_NAME, PublicConstants.QUEUE_LOCK_TIME_SECOND)) {
-      logger.info("Kafka sendMessage: {}", new String(data));
+      logger.info("Kafka sendMessage: {}", data);
       try {
         CompletableFuture<SendResult<String, Object>> future = kafkaTemplate.send(QueueConstants.MESSAGE_QUEUE_NAME,
             data);
