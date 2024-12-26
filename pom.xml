@@ -99,7 +99,7 @@
 		<io.projectreactor.core.version>3.7.0</io.projectreactor.core.version>
 		<io.projectreactor.netty.version>1.2.0</io.projectreactor.netty.version>
 		<io.hypersistence.version>3.8.3</io.hypersistence.version>
-		<io.jsonwebtoken.version>0.9.1</io.jsonwebtoken.version>
+		<io.jsonwebtoken.version>0.12.6</io.jsonwebtoken.version>
 		<io.micrometer.version>1.14.2</io.micrometer.version>
 		<io.netty.version>4.1.116.Final</io.netty.version>
 		<io.minio.version>8.5.13</io.minio.version>
