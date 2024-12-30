@@ -159,8 +159,18 @@ spring:
             interval:
               ms: 600000
 
+  sql:
+    init:
+      # 首次运行参数为 embedded 或 always 自动初始化以下脚本
+      mode: never
+      # mysql
+#      schema-locations: classpath:scripts/oner365_mysql.sql
+      # postgres
+      schema-locations: classpath:scripts/oner365_postgres.sql
+      
   jpa:
     open-in-view: true
+    
   freemarker:
     check-template-location: false
   thymeleaf:
