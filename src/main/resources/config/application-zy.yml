@@ -25,31 +25,6 @@ spring:
     username: root
     password: 1234
 
-    # postgres
-#    driver-class-name: org.postgresql.Driver
-#    url: jdbc:postgresql://localhost:5432/oner365
-#    username: postgres
-#    password: 1234
-
-    druid:
-      test-while-idle: true
-      initial-size: 1
-      max-active: 10
-      min-idle: 1
-      
-      # druid 监控
-      filters: stat, slf4j
-      stat-view-servlet:
-        enabled: true
-        allow: 127.0.0.1
-        login-username: ${spring.datasource.username}
-        login-password: ${spring.datasource.password}
-        reset-enable: false 
-      web-stat-filter:
-        enabled: true
-        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
-      use-ping-method: false
-
   # servlet file
   servlet:
     multipart:
@@ -111,6 +86,15 @@ spring:
         max-concurrency: 5
         prefetch: 10
         default-requeue-rejected: true
+
+  sql:
+    init:
+      # 首次运行参数为 embedded 或 always 自动初始化以下脚本
+      mode: never
+      # mysql
+      schema-locations: classpath:scripts/oner365_mysql.sql
+      # postgres
+#      schema-locations: classpath:scripts/oner365_postgres.sql
 
   jpa:
     open-in-view: true
