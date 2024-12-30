@@ -65,18 +65,22 @@
 			<destination>${LOGSTASH_ADDRESSES}</destination>
 			<encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder" />
 		</appender>
+		<!-- 日志输出级别 -->
+		<root level="${LOG_LEVEL}">
+			<appender-ref ref="CONSOLE" />
+			<appender-ref ref="FILE_INFO" />
+			<appender-ref ref="FILE_ERROR" />
+			<appender-ref ref="LOGSTASH" />
+		</root>
 	</then>
+	<else>
+		<!-- 日志输出级别 -->
+		<root level="${LOG_LEVEL}">
+			<appender-ref ref="CONSOLE" />
+			<appender-ref ref="FILE_INFO" />
+			<appender-ref ref="FILE_ERROR" />
+		</root>
+	</else>
 	</if>
 
-	<!-- 日志输出级别 -->
-	<root level="${LOG_LEVEL}">
-		<appender-ref ref="CONSOLE" />
-		<appender-ref ref="FILE_INFO" />
-		<appender-ref ref="FILE_ERROR" />
-		<if condition='property("LOGSTASH_ENABLED").equals("true")'>
-		<then>
-			<appender-ref ref="LOGSTASH" />
-		</then>
-		</if>
-	</root>
 </configuration>
