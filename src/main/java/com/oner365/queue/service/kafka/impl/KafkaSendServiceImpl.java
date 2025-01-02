@@ -1,5 +1,7 @@
 package com.oner365.queue.service.kafka.impl;
 
+import java.util.concurrent.ExecutionException;
+
 import javax.annotation.Resource;
 
 import org.slf4j.Logger;
@@ -50,8 +52,11 @@ public class KafkaSendServiceImpl implements IQueueSendService {
             data);
         SendResult<String, Object> result = future.get();
         logger.info("Kafka future: {}", JSON.toJSONString(result.getProducerRecord()));
-      } catch (Exception e) {
-        logger.error("sendMessage error:", e);
+      } catch (InterruptedException e) {
+        logger.error("sendMessage InterruptedException:", e);
+        Thread.currentThread().interrupt();
+      } catch (ExecutionException e) {
+        logger.error("sendMessage ExecutionException:", e);
       }
     }
   }
