@@ -19,6 +19,8 @@ public class RedisMessageReceiver implements MessageListener {
 
   @Override
   public void onMessage(Message message, byte[] pattern) {
-    LOGGER.info("Redis receiver pattern:{} message: {}", new String(pattern), new String(message.getBody()));
+    String messagePattern = new String(pattern);
+    String messageBody = new String(message.getBody());
+    LOGGER.info("Redis receiver pattern:{} message: {}", messagePattern, messageBody);
   }
 }
