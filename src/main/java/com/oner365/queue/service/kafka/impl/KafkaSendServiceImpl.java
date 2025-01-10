@@ -50,7 +50,7 @@ public class KafkaSendServiceImpl implements IQueueSendService {
         CompletableFuture<SendResult<String, Object>> future = kafkaTemplate.send(QueueConstants.MESSAGE_QUEUE_NAME,
             data);
         SendResult<String, Object> result = future.get();
-        logger.info("Kafka future: {}", JSON.toJSONString(result.getProducerRecord()));
+        logger.info("Kafka future: {}", result.getProducerRecord());
       } catch (InterruptedException e) {
         logger.error("sendMessage InterruptedException:", e);
         Thread.currentThread().interrupt();

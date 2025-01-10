@@ -252,7 +252,7 @@ pulsar:
   subscription: test-listener
   
 mqtt:
-  uri: tcp://172.16.80.132:1883
+  uri: tcp://172.16.80.211:31499
   username: nqsky
   password: Nqsky1130
   client-id: oner365-client

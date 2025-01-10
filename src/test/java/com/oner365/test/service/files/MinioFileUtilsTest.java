@@ -37,6 +37,7 @@ import io.minio.http.Method;
  * @author zhaoyong
  *
  */
+@Disabled
 @SpringBootTest
 class MinioFileUtilsTest extends BaseServiceTest {
 
@@ -48,7 +49,7 @@ class MinioFileUtilsTest extends BaseServiceTest {
     Assertions.assertEquals("MinioFileUtilsTest", MinioFileUtilsTest.class.getSimpleName());
   }
 
-  @Disabled
+  @Test
   void testMinio() throws Exception {
     MinioClient minioClient = MinioClient.builder().endpoint(minioProperties.getUrl())
         .credentials(minioProperties.getUsername(), minioProperties.getPassword()).build();

@@ -39,6 +39,7 @@ class RateLimiterTest extends BaseUtilsTest {
 
     // 每秒产生 10 个令牌（每 100 ms 产生一个）
     RateLimiter rt = RateLimiter.create(TOKEN_NUMBER);
+    Assertions.assertNotNull(rt);
     IntStream.rangeClosed(0, TOKEN_NUMBER).<Runnable>mapToObj(i -> () -> {
       double d = rt.acquire();
       logger.info("Thread:{}", Thread.currentThread().getName());

@@ -45,7 +45,7 @@ class MailServiceTest extends BaseServiceTest {
     Assertions.assertEquals("MailServiceTest", MailServiceTest.class.getSimpleName());
   }
 
-  @Disabled
+  @Test
   void testEmail() {
     String to = "zhaoyong@oner365.com";
     String subject = "test";
@@ -54,7 +54,7 @@ class MailServiceTest extends BaseServiceTest {
     Context context = new Context();
     context.setVariable("username", to);
     String emailContent = templateEngine.process("/mail_template", context);
-
+    Assertions.assertNotNull(emailContent);
     MimeMessage message = sender.createMimeMessage();
     try {
       MimeMessageHelper helper = new MimeMessageHelper(message, true);
