@@ -5,6 +5,7 @@ import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import com.oner365.data.commons.util.DateUtil;
 import com.oner365.generator.entity.GenTable;
 import com.oner365.generator.mapper.GenTableMapper;
 import com.oner365.test.mapper.BaseMapperTest;
@@ -49,6 +50,28 @@ class GenTableMapperTest extends BaseMapperTest {
     GenTable genTable = getMapper(GenTableMapper.class).selectGenTableByName(tableName);
     logger.info("entity:{}", genTable);
     Assertions.assertNotNull(genTable);
+  }
+  
+  @Test
+  void insertGenTable() {
+    GenTable entity = new GenTable();
+    entity.setTableName("testTableName");
+    entity.setTableComment("testTableComment");
+    entity.setClassName("Test");
+    entity.setTplCategory("crud");
+    entity.setPackageName("com.oner365.test");
+    entity.setModuleName("module");
+    entity.setBusinessName("business");
+    entity.setFunctionName("Generator");
+    entity.setFunctionAuthor("oner365");
+    entity.setGenType("0");
+    entity.setGenPath("/");
+    entity.setCreateBy("admin");
+    entity.setCreateTime(DateUtil.getDate());
+    
+    int isCreate = getMapper(GenTableMapper.class).insertGenTable(entity);
+    logger.info("insert success: {} tableId: {}", isCreate, entity.getTableId());
+    Assertions.assertNotEquals(0, isCreate);
   }
   
 }

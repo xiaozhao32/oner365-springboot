@@ -26,7 +26,7 @@ spring:
 
     # postgres
 #    driver-class-name: org.postgresql.Driver
-#    url: jdbc:postgresql://localhost:5432/oner365
+#    url: jdbc:postgresql://localhost:5432/oner365?characterEncodeing=utf8&TimeZone=Asia/Shanghai&stringtype=unspecified
 #    username: postgres
 #    password: 1234
 

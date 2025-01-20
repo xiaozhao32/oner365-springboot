@@ -29,7 +29,7 @@ spring:
 
     # postgres
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://172.16.80.211:32621/root?characterEncodeing=utf8&TimeZone=Asia/Shanghai
+    url: jdbc:postgresql://172.16.80.211:32621/root?characterEncodeing=utf8&TimeZone=Asia/Shanghai&stringtype=unspecified
     username: root
     password: Nqsky1130
 

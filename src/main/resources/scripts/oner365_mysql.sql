@@ -862,13 +862,14 @@ CREATE TABLE `nt_test_date` (
   `id` int NOT NULL AUTO_INCREMENT COMMENT '主键',
   `name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '名称',
   `phone` bigint DEFAULT NULL COMMENT '电话',
+  `price` decimal(10,2) COMMENT '价格',
   `description` text COMMENT '描述',
   `test_date` date DEFAULT NULL COMMENT '测试日期',
   `status` int DEFAULT NULL COMMENT '状态',
   `create_time` timestamp NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` timestamp NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='测试生成框架';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='测试生成框架';
 
 -- ----------------------------
 -- Records of nt_test_date
