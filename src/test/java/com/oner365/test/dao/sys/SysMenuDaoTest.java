@@ -74,6 +74,7 @@ class SysMenuDaoTest extends BaseDaoTest {
         new Object[] { "test", 999, 1.2d, "abc", 1, DateUtil.getCurrentDate(), DateUtil.getCurrentTime(), DateUtil.getCurrentTime() });
     // mysql GENERATED_KEY=id
     // postgres {column=data}
+    Assertions.assertNotNull(result);
     logger.info("result:{}", result);
   }
 
