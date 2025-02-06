@@ -1094,6 +1094,24 @@ INSERT INTO "nt_sys_user_role" VALUES ('ff80808180c1fc800180c1fee208001b', '1', 
 COMMIT;
 
 -- ----------------------------
+-- Table structure for nt_test_date
+-- ----------------------------
+DROP TABLE IF EXISTS "nt_test_date";
+CREATE TABLE "nt_test_date" (
+    "id" serial,
+    "name" varchar(32) COLLATE "pg_catalog"."default" NOT NULL,
+    "price" decimal(10,2),
+    "phone" int8,
+    "description" text,
+    "test_date" date,
+    "status" int4 NOT NULL,
+    "create_time" timestamp(6),
+    "update_time" timestamp(6)
+);
+BEGIN;
+COMMIT;
+
+-- ----------------------------
 -- Table structure for qrtz_blob_triggers
 -- ----------------------------
 DROP TABLE IF EXISTS "qrtz_blob_triggers";

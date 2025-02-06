@@ -71,15 +71,18 @@ class SysMenuDaoTest extends BaseDaoTest {
     logger.info("result:{}", JSON.toJSONString(result));
   }
 
-//  @Test
+  @Test
   void testInsert() {
-    String sql = "insert into nt_test_date(name, phone, price, description, test_date, status, create_time, update_time) values(?,?,?,?,?,?,?,?)";
-    String result = insertAutoIncrementId(sql,
-        new Object[] { "test", 999, 1.2d, "abc", DateUtil.getDate(), 1, DateUtil.getCurrentTime(), DateUtil.getCurrentTime() });
-    logger.info("result:{}", JSON.toJSONString(result));
+    String sql = "insert into nt_test_date(name, phone, price, description, status, test_date, create_time, update_time) values (?,?,?,?,?,?,?,?)";
+    Map<String, Object> result = insertAutoIncrementId(sql,
+        new Object[] { "test", 999, 1.2d, "abc", 1, DateUtil.getCurrentDate(), DateUtil.getCurrentTime(), DateUtil.getCurrentTime() });
+    // mysql GENERATED_KEY=id
+    // postgres {column=data}
+    Assertions.assertNotNull(result);
+    logger.info("result:{}", result);
   }
 
-  public String insertAutoIncrementId(String sql, Object[] params) {
+  public Map<String, Object> insertAutoIncrementId(String sql, Object[] params) {
     KeyHolder keyHolder = new GeneratedKeyHolder();
     jdbcTemplate.update(connection -> {
       PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -92,7 +95,7 @@ class SysMenuDaoTest extends BaseDaoTest {
       });
       return ps;
     }, keyHolder);
-    return keyHolder.getKey().toString();
+    return keyHolder.getKeys();
   }
 
 //  @Test

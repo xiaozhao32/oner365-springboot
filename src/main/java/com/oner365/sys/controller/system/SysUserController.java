@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,6 +24,7 @@ import com.oner365.data.commons.auth.annotation.CurrentUser;
 import com.oner365.data.commons.enums.ErrorInfoEnum;
 import com.oner365.data.commons.enums.StatusEnum;
 import com.oner365.data.commons.reponse.ResponseResult;
+import com.oner365.data.commons.util.Md5Util;
 import com.oner365.data.jpa.page.PageInfo;
 import com.oner365.data.jpa.query.AttributeBean;
 import com.oner365.data.jpa.query.QueryCriteriaBean;
@@ -205,7 +205,7 @@ public class SysUserController extends BaseController {
   public ResponseResult<Boolean> editPassword(@Parameter(hidden = true) @CurrentUser AuthUser authUser,
       @Validated @RequestBody ModifyPasswordVo modifyPasswordVo) {
     if (modifyPasswordVo != null) {
-      String oldPassword = DigestUtils.md5Hex(modifyPasswordVo.getOldPassword()).toUpperCase();
+      String oldPassword = Md5Util.getInstance().getMd5(modifyPasswordVo.getOldPassword()).toUpperCase();
       SysUserDto sysUser = sysUserService.getById(authUser.getId());
 
       if (!oldPassword.equals(sysUser.getPassword())) {
