@@ -79,8 +79,10 @@ public class JwtUtils {
       return Jwts.parser().decryptWith(SECRET_KEY).build().parseEncryptedClaims(token).getPayload();
     } catch (ExpiredJwtException e) {
       LOGGER.error("token: {}, 已过期: {}", token, e.getMessage());
-      return e.getClaims();
+    } catch (Exception e) {
+      LOGGER.error(e.getMessage(), e);
     }
+    return null;
   }
 
   /**

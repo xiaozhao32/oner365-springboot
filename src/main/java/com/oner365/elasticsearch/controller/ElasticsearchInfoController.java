@@ -6,8 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import jakarta.annotation.Resource;
+import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpHost;
@@ -26,17 +25,21 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.reactive.function.client.WebClient;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.data.commons.constants.PublicConstants;
+import com.oner365.data.commons.util.Base64Utils;
+import com.oner365.data.commons.util.DataUtils;
 import com.oner365.data.web.controller.BaseController;
 import com.oner365.elasticsearch.dto.ClusterDto;
 import com.oner365.elasticsearch.dto.ClusterMappingDto;
 import com.oner365.elasticsearch.dto.TransportClientDto;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
-import co.elastic.clients.elasticsearch._types.NodeShard;
-import co.elastic.clients.elasticsearch.cluster.HealthResponse;
+import co.elastic.clients.elasticsearch._types.HealthStatus;
 import co.elastic.clients.elasticsearch.indices.GetAliasResponse;
 import co.elastic.clients.elasticsearch.indices.GetMappingResponse;
 import co.elastic.clients.elasticsearch.indices.get_alias.IndexAliases;
@@ -45,8 +48,11 @@ import co.elastic.clients.elasticsearch.indices.stats.ShardRoutingState;
 import co.elastic.clients.json.jackson.JacksonJsonpMapper;
 import co.elastic.clients.transport.ElasticsearchTransport;
 import co.elastic.clients.transport.rest_client.RestClientTransport;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
+import jakarta.validation.constraints.NotNull;
+import reactor.core.publisher.Mono;
 
 /**
  * Elasticsearch 信息
@@ -61,6 +67,9 @@ public class ElasticsearchInfoController extends BaseController {
 
   @Resource
   private ElasticsearchProperties elasticsearchProperties;
+
+  @Resource
+  private WebClient webClient;
 
   /**
    * Elasticsearch 信息
@@ -92,16 +101,15 @@ public class ElasticsearchInfoController extends BaseController {
             (HttpResponseInterceptor) (response, context) -> response.addHeader("X-Elastic-Product", "Elasticsearch"));
 
     try (RestClient restClient = RestClient.builder(HttpHost.create(elasticsearchProperties.getUris().get(0)))
-        .setHttpClientConfigCallback(httpClientConfigCallback).build()) {
+        .setHttpClientConfigCallback(httpClientConfigCallback).build();
+        ElasticsearchTransport transport = new RestClientTransport(restClient, new JacksonJsonpMapper());
+        ElasticsearchClient client = new ElasticsearchClient(transport)) {
 
-      ElasticsearchTransport transport = new RestClientTransport(restClient, new JacksonJsonpMapper());
-      ElasticsearchClient client = new ElasticsearchClient(transport);
-      HealthResponse healthResponse = client.cluster().health();
-
-      List<ClusterDto> clusterList = new ArrayList<>();
-      setAliasMap(client, clusterList);
-      setMappingList(client, clusterList);
-      return builder(clusterList, healthResponse, uri);
+      TransportClientDto result = new TransportClientDto();
+      setHealth(uri, result);
+      setShards(client, result);
+      setMappingList(client, result.getClusterList());
+      return result;
     } catch (Exception e) {
       logger.error("index error:", e);
     }
@@ -111,51 +119,56 @@ public class ElasticsearchInfoController extends BaseController {
   /**
    * 返回结果对象
    */
-  private TransportClientDto builder(List<ClusterDto> clusterList, HealthResponse healthResponse, String uri) {
-    TransportClientDto result = new TransportClientDto();
+  private void setHealth(String uri, @NotNull TransportClientDto result) {
     result.setHostname(StringUtils.substringBefore(uri, PublicConstants.COLON));
     result.setPort(Integer.parseInt(StringUtils.substringAfter(uri, PublicConstants.COLON)));
-    result.setClusterName(healthResponse.clusterName());
-    result.setNumberOfDataNodes(healthResponse.numberOfDataNodes());
-    result.setActiveShards(healthResponse.activeShards());
-    result.setStatus(healthResponse.status());
-    result.setTaskMaxWaitingTime(String.valueOf(healthResponse.taskMaxWaitingInQueueMillis()));
-    result.setClusterList(clusterList);
-    return result;
+
+    // Elasticsearch health
+    JSONObject healthResponse = request("/_cluster/health");
+    if (healthResponse != null) {
+      result.setClusterName(healthResponse.getString("cluster_name"));
+      result.setNumberOfDataNodes(healthResponse.getInteger("number_of_data_nodes"));
+      result.setActiveShards(healthResponse.getInteger("active_shards"));
+      result.setStatus(HealthStatus.valueOf(DataUtils.builderName(healthResponse.getString("status"))));
+      result.setTaskMaxWaitingTime(healthResponse.getString("task_max_waiting_in_queue_millis"));
+    }
   }
 
   /**
    * 索引信息
    */
-  private void setAliasMap(ElasticsearchClient client, List<ClusterDto> clusterList) throws IOException {
+  private void setShards(@NotNull ElasticsearchClient client, @NotNull TransportClientDto result) throws IOException {
     GetAliasResponse aliasResponse = client.indices().getAlias();
     Map<String, IndexAliases> aliasMap = aliasResponse.result();
-
-    List<List<NodeShard>> shards = client.searchShards().shards();
-
     Map<String, ShardRoutingState> stateMap = new HashMap<>(10);
     Map<String, Integer> shardsMap = new HashMap<>(10);
-    shards.forEach(list -> list.forEach(shard -> {
-      stateMap.put(shard.index(), shard.state());
-      shardsMap.merge(shard.index(), 1, Integer::sum);
-    }));
 
-    aliasMap.forEach((key, value) -> {
-
-      ClusterDto clusterDto = new ClusterDto();
-      clusterDto.setIndex(key);
-      clusterDto.setNumberOfShards(shardsMap.get(key));
-      clusterDto.setNumberOfReplicas(1);
-      clusterDto.setStatus(stateMap.get(key));
-
-      clusterList.add(clusterDto);
-    });
+    // Elasticsearch shards
+    JSONObject shardsResponse = request("/_search_shards");
+    if (shardsResponse != null) {
+      JSONArray shards = shardsResponse.getJSONArray("shards");
+      IntStream.range(0, shards.size()).mapToObj(i -> shards.getJSONArray(i).getJSONObject(0)).forEachOrdered(shard -> {
+        stateMap.put(shard.getString("index"), ShardRoutingState.valueOf(DataUtils.builderName(shard.getString("state").toLowerCase())));
+        shardsMap.merge(shard.getString("index"), 1, Integer::sum);
+      });
+  
+      List<ClusterDto> clusterList = new ArrayList<>();
+      aliasMap.forEach((key, value) -> {
+        ClusterDto clusterDto = new ClusterDto();
+        clusterDto.setIndex(key);
+        clusterDto.setNumberOfShards(shardsMap.get(key));
+        clusterDto.setNumberOfReplicas(1);
+        clusterDto.setStatus(stateMap.get(key));
+        clusterList.add(clusterDto);
+      });
+      result.setClusterList(clusterList);
+    }
   }
 
   /**
    * mapping
    */
-  private void setMappingList(ElasticsearchClient client, List<ClusterDto> clusterList) throws IOException {
+  private void setMappingList(@NotNull ElasticsearchClient client, @NotNull List<ClusterDto> clusterList) throws IOException {
     GetMappingResponse mappingResponse = client.indices().getMapping();
     Map<String, IndexMappingRecord> mappings = mappingResponse.result();
     clusterList.forEach(cluster -> {
@@ -172,4 +185,16 @@ public class ElasticsearchInfoController extends BaseController {
       cluster.setMappingList(mappingList);
     });
   }
+
+  private String getAuthorization() {
+    String auth = elasticsearchProperties.getUsername() + PublicConstants.COLON + elasticsearchProperties.getPassword();
+    return "Basic " + Base64Utils.encodeBase64String(auth.getBytes());
+  }
+
+  private JSONObject request(String uri) {
+    Mono<JSONObject> mono = webClient.get().uri(elasticsearchProperties.getUris().get(0) + uri)
+        .header(HttpHeaders.AUTHORIZATION, getAuthorization()).retrieve().bodyToMono(JSONObject.class);
+    return mono.block();
+  }
+
 }

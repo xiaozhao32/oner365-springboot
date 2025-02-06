@@ -22,7 +22,7 @@ public class Criteria<T> implements Specification<T> {
   private final List<Criterion> criterionList = new ArrayList<>();
 
   @Override
-  public Predicate toPredicate(@NonNull Root<T> root, @NonNull CriteriaQuery<?> query,
+  public Predicate toPredicate(@NonNull Root<T> root, CriteriaQuery<?> query,
       @NonNull CriteriaBuilder builder) {
     if (!criterionList.isEmpty()) {
       List<Predicate> predicates = new ArrayList<>();

@@ -49,7 +49,7 @@ public class CaptchaConfig {
         // 图片样式 水纹com.google.code.kaptcha.impl.WaterRipple
         // 鱼眼com.google.code.kaptcha.impl.FishEyeGimpy
         // 阴影com.google.code.kaptcha.impl.ShadowGimpy
-        properties.setProperty(KAPTCHA_OBSCURIFICATOR_IMPL, "com.google.code.kaptcha.impl.ShadowGimpy");
+        properties.setProperty(KAPTCHA_OBSCURIFICATOR_IMPL, "com.google.code.kaptcha.impl.WaterRipple");
         Config config = new Config(properties);
         defaultKaptcha.setConfig(config);
         return defaultKaptcha;
