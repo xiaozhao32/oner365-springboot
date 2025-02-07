@@ -6,8 +6,26 @@ ${AnsiColor.BRIGHT_RED}
    {======|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""| 
   ./o--000'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-' 
 
-    Application: ${spring.application.name} Version: ${project.version}
-    Profile: ${spring.profiles.active}
-
-    Spring Boot Version: ${spring-boot.version}${spring-boot.formatted-version}
-    Java Version: ${java.version}
+              Uri: ${AnsiColor.BRIGHT_BLUE}http://${server.address}:${server.port}${server.servlet.context-path}${AnsiColor.BRIGHT_RED}
+              
+      Application: ${AnsiColor.BRIGHT_BLUE}${spring.application.name}${AnsiColor.BRIGHT_RED}
+          Version: ${AnsiColor.BRIGHT_BLUE}${project.version}${AnsiColor.BRIGHT_RED}
+          Profile: ${AnsiColor.BRIGHT_BLUE}${spring.profiles.active}${AnsiColor.BRIGHT_RED}
+          
+   Spring Version: ${AnsiColor.BRIGHT_BLUE}${spring-boot.version}${spring-boot.formatted-version}${AnsiColor.BRIGHT_RED}
+     Java Version: ${AnsiColor.BRIGHT_BLUE}${java.version}${AnsiColor.BRIGHT_RED}
+     
+  Database Driver: ${AnsiColor.BRIGHT_BLUE}${spring.datasource.driver-class-name}${AnsiColor.BRIGHT_RED}
+     Database Url: ${AnsiColor.BRIGHT_BLUE}${spring.datasource.url}${AnsiColor.BRIGHT_RED}
+    
+       Redis Type: ${AnsiColor.BRIGHT_BLUE}${spring.data.redis.mode}${AnsiColor.BRIGHT_RED} 
+          default: ${AnsiColor.BRIGHT_BLACK}default${AnsiColor.BRIGHT_RED}  [ 1.default 2.cluster 3.sentinel ]
+    
+       Queue Type: ${AnsiColor.BRIGHT_BLUE}${queue.type}${AnsiColor.BRIGHT_RED} 
+          default: ${AnsiColor.BRIGHT_BLACK}rabbitmq${AnsiColor.BRIGHT_RED} [ 1.rabbitmq 2.rocketmq 3.kafka 4.pulsar 5.activemq 6.mqtt ]
+    
+     Storage Type: ${AnsiColor.BRIGHT_BLUE}${file.storage}${AnsiColor.BRIGHT_RED} 
+          default: ${AnsiColor.BRIGHT_BLACK}local${AnsiColor.BRIGHT_RED}    [ 1.local 2.minio 3.fdfs ]
+    
+    Elasticsearch: ${AnsiColor.BRIGHT_BLUE}${spring.elasticsearch.uris}${AnsiColor.BRIGHT_RED}
+    

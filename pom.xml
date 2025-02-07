@@ -43,7 +43,7 @@
 
 		<org.springframework.integration.version>5.5.20</org.springframework.integration.version>
 		<org.springframework.statemachine.version>2.5.1</org.springframework.statemachine.version>
-		<org.springframework.security.version>5.8.9</org.springframework.security.version>
+		<org.springframework.security.version>5.8.16</org.springframework.security.version>
 		<org.springframework.boot.version>2.7.18</org.springframework.boot.version>
 		<org.springframework.version>5.3.39</org.springframework.version>
 		<org.springframework.kafka.version>2.9.13</org.springframework.kafka.version>
@@ -51,7 +51,7 @@
 		<org.apache.logging.log4j.version>2.23.1</org.apache.logging.log4j.version>
 		<org.apache.httpclient.version>4.5.14</org.apache.httpclient.version>
 		<org.apache.httpcore.version>4.4.16</org.apache.httpcore.version>
-		<org.apache.tomcat.version>9.0.93</org.apache.tomcat.version>
+		<org.apache.tomcat.version>9.0.97</org.apache.tomcat.version>
 		<org.apache.pulsar.version>3.3.1</org.apache.pulsar.version>
 		<org.apache.kafka.version>3.6.0</org.apache.kafka.version>
 		<org.apache.poi.version>5.3.0</org.apache.poi.version>
@@ -100,7 +100,7 @@
 
 		<io.projectreactor.core.version>3.5.12</io.projectreactor.core.version>
 		<io.projectreactor.netty.version>1.1.13</io.projectreactor.netty.version>
-		<io.jsonwebtoken.version>0.9.1</io.jsonwebtoken.version>
+		<io.jsonwebtoken.version>0.12.6</io.jsonwebtoken.version>
 		<io.netty.version>4.1.112.Final</io.netty.version>
 		<io.minio.version>8.5.11</io.minio.version>
 
@@ -1100,6 +1100,23 @@
 					</execution>
 				</executions>
 			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>3.12.1</version>
+				<configuration>
+					<locales>zh_CN</locales>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.maven.doxia</groupId>
+						<artifactId>doxia-site-renderer</artifactId>
+						<version>1.11.1</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+
 
 			<plugin>
 				<groupId>com.spotify</groupId>
