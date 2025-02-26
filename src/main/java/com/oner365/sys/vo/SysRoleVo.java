@@ -2,14 +2,15 @@ package com.oner365.sys.vo;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
-import com.alibaba.fastjson.JSONArray;
 import com.google.common.base.MoreObjects;
 import com.oner365.data.commons.enums.StatusEnum;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 
 /**
  * 基础权限--角色表nt_sys_role
@@ -69,7 +70,8 @@ public class SysRoleVo implements Serializable {
      * 菜单id
      */
     @Schema(name = "菜单id")
-    private JSONArray menuIds;
+    @NotEmpty(message = "{system.vo.role.menuIds.message}")
+    private List<String> menuIds;
     
     /**
      * 菜单类型
@@ -146,19 +148,11 @@ public class SysRoleVo implements Serializable {
         this.updateTime = updateTime;
     }
 
-    /**
-     * toString Method
-     */
-    @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this).add("id", id).toString();
-    }
-
-    public JSONArray getMenuIds() {
+    public List<String> getMenuIds() {
         return menuIds;
     }
 
-    public void setMenuIds(JSONArray menuIds) {
+    public void setMenuIds(List<String> menuIds) {
         this.menuIds = menuIds;
     }
 
@@ -168,5 +162,13 @@ public class SysRoleVo implements Serializable {
 
     public void setMenuType(String menuType) {
         this.menuType = menuType;
+    }
+    
+    /**
+     * toString Method
+     */
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this).add("id", id).toString();
     }
 }
