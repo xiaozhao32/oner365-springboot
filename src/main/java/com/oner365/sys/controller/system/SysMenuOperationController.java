@@ -19,9 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
-import com.oner365.data.commons.enums.ErrorInfoEnum;
 import com.oner365.data.commons.enums.StatusEnum;
-import com.oner365.data.commons.reponse.ResponseResult;
 import com.oner365.data.jpa.page.PageInfo;
 import com.oner365.data.jpa.query.QueryCriteriaBean;
 import com.oner365.data.web.controller.BaseController;
@@ -107,17 +105,13 @@ public class SysMenuOperationController extends BaseController {
    * 保存
    *
    * @param sysMenuOperationVo 操作对象
-   * @return ResponseResult<SysMenuOperationDto>
+   * @return SysMenuOperationDto
    */
   @ApiOperation("5.保存")
   @ApiOperationSupport(order = 5)
   @PutMapping("/save")
-  public ResponseResult<SysMenuOperationDto> save(@Validated @RequestBody SysMenuOperationVo sysMenuOperationVo) {
-    if (sysMenuOperationVo != null) {
-      SysMenuOperationDto entity = menuOperationService.save(sysMenuOperationVo);
-      return ResponseResult.success(entity);
-    }
-    return ResponseResult.error(ErrorInfoEnum.SAVE_ERROR.getName());
+  public SysMenuOperationDto save(@Validated @RequestBody SysMenuOperationVo sysMenuOperationVo) {
+    return menuOperationService.save(sysMenuOperationVo);
   }
 
   /**

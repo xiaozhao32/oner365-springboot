@@ -194,7 +194,7 @@ public class DeployUtils {
     try (ByteArrayOutputStream outStream = new ByteArrayOutputStream()) {
       CommandLine commandLine = CommandLine.parse(command);
 
-      DefaultExecutor exec = new DefaultExecutor();
+      DefaultExecutor exec = DefaultExecutor.builder().get();
       PumpStreamHandler streamHandler = new PumpStreamHandler(outStream);
       exec.setStreamHandler(streamHandler);
       exec.execute(commandLine);
@@ -231,7 +231,7 @@ public class DeployUtils {
     try (ByteArrayOutputStream outStream = new ByteArrayOutputStream()) {
       CommandLine commandLine = CommandLine.parse(command);
 
-      DefaultExecutor exec = new DefaultExecutor();
+      DefaultExecutor exec = DefaultExecutor.builder().get();
       DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
 
       PumpStreamHandler streamHandler = new PumpStreamHandler(outStream);
