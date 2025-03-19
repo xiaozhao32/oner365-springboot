@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
-import com.oner365.data.commons.reponse.ResponseResult;
 import com.oner365.data.commons.util.DataUtils;
 import com.oner365.data.commons.util.GeneTransFormUtils;
 import com.oner365.data.jpa.page.PageInfo;
@@ -79,15 +78,12 @@ public class SampleGeneController extends BaseController {
    * 保存
    *
    * @param sampleGeneVo 基因对象
-   * @return ResponseResult<SampleGeneDto>
+   * @return SampleGeneDto
    */
   @Operation(summary = "3.保存")
   @ApiOperationSupport(order = 3)
   @PutMapping("/save")
-  public ResponseResult<SampleGeneDto> save(@RequestBody SampleGeneVo sampleGeneVo) {
-    if (sampleGeneVo == null) {
-      return ResponseResult.error("基因对象为空!");
-    }
+  public SampleGeneDto save(@RequestBody SampleGeneVo sampleGeneVo) {
     if (!sampleGeneVo.getGeneList().isEmpty()) {
       // 基因型格式转换
       String jsonArray = JSON.toJSONString(sampleGeneVo.getGeneList());
@@ -95,8 +91,7 @@ public class SampleGeneController extends BaseController {
       String s = GeneTransFormUtils.geneTrimString(sampleGeneVo.getGeneInfo().toJSONString());
       sampleGeneVo.setMatchJson(JSON.parseObject(s));
     }
-    SampleGeneDto entity = service.save(sampleGeneVo);
-    return ResponseResult.success(entity);
+    return service.save(sampleGeneVo);
   }
 
   /**

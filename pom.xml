@@ -43,29 +43,44 @@
 
 		<org.springframework.integration.version>6.4.2</org.springframework.integration.version>
 		<org.springframework.statemachine.version>4.0.0</org.springframework.statemachine.version>
-		<org.springframework.security.version>6.4.3</org.springframework.security.version>
+		<org.springframework.security.version>6.4.4</org.springframework.security.version>
 		<org.springframework.boot.version>3.4.3</org.springframework.boot.version>
-		<org.springframework.version>6.2.3</org.springframework.version>
-		<org.springframework.kafka.version>3.3.3</org.springframework.kafka.version>
+		<org.springframework.version>6.2.4</org.springframework.version>
+		<org.springframework.kafka.version>3.3.4</org.springframework.kafka.version>
 		<org.springdoc.version>2.8.5</org.springdoc.version>
 
 		<org.apache.logging.log4j.version>2.24.3</org.apache.logging.log4j.version>
 		<org.apache.httpclient.version>4.5.14</org.apache.httpclient.version>
 		<org.apache.httpcore.version>4.4.16</org.apache.httpcore.version>
-		<org.apache.tomcat.version>10.1.36</org.apache.tomcat.version>
-		<org.apache.pulsar.version>4.0.2</org.apache.pulsar.version>
+		<org.apache.tomcat.version>10.1.39</org.apache.tomcat.version>
+		<org.apache.pulsar.version>4.0.3</org.apache.pulsar.version>
 		<org.apache.kafka.version>3.9.0</org.apache.kafka.version>
 		<org.apache.poi.version>5.4.0</org.apache.poi.version>
+		<org.apache.ant.version>1.10.15</org.apache.ant.version>
+		<org.apache.velocity.version>2.4</org.apache.velocity.version>
+		<org.apache.velocity.tools.version>3.1</org.apache.velocity.tools.version>
+		
+		<commons.collections.version>3.2.2</commons.collections.version>
+		<commons.beanutils.version>1.9.4</commons.beanutils.version>
+		<commons.fileupload.version>1.5</commons.fileupload.version>
+		<commons.compress.version>1.27.1</commons.compress.version>
+		<commons.logging.version>1.3.5</commons.logging.version>
+		<commons.codec.version>1.18.0</commons.codec.version>
+		<commons.pool2.version>2.12.1</commons.pool2.version>
+		<commons.lang3.version>3.17.0</commons.lang3.version>
+		<commons.exec.version>1.4.0</commons.exec.version>
+		<commons.lang.version>2.6</commons.lang.version>
+		<commons.io.version>2.18.0</commons.io.version>
 
 		<org.hibernate.validator.version>8.0.2.Final</org.hibernate.validator.version>
-		<org.hibernate.version>6.6.9.Final</org.hibernate.version>
+		<org.hibernate.version>6.6.11.Final</org.hibernate.version>
 		<org.mybatis.spring.boot.version>3.0.4</org.mybatis.spring.boot.version>
 		<org.mybatis.version>3.5.19</org.mybatis.version>
 
 		<org.bouncycastle.version>1.80</org.bouncycastle.version>
 		<org.elasticsearch.version>8.17.2</org.elasticsearch.version>
-		<org.slf4j.version>2.0.16</org.slf4j.version>
-		<ch.qos.logback.version>1.5.16</ch.qos.logback.version>
+		<org.slf4j.version>2.0.17</org.slf4j.version>
+		<ch.qos.logback.version>1.5.17</ch.qos.logback.version>
 
 		<org.jetbrains.kotlin.version>2.0.21</org.jetbrains.kotlin.version>
 		<org.junit.platform.version>1.11.4</org.junit.platform.version>
@@ -84,10 +99,10 @@
 		<com.alibaba.fastjson.version>1.2.83</com.alibaba.fastjson.version>
 		<com.alibaba.druid.version>1.2.23</com.alibaba.druid.version>
 
-		<com.fasterxml.jackson.version>2.18.2</com.fasterxml.jackson.version>
+		<com.fasterxml.jackson.version>2.18.3</com.fasterxml.jackson.version>
 		<com.google.code.gson.version>2.12.1</com.google.code.gson.version>
 		<com.google.guava.version>33.4.0-jre</com.google.guava.version>
-		<com.google.protobuf.version>4.29.3</com.google.protobuf.version>
+		<com.google.protobuf.version>4.30.1</com.google.protobuf.version>
 		<com.github.xiaoymin.version>4.5.0</com.github.xiaoymin.version>
 		<com.github.penggle.version>2.3.2</com.github.penggle.version>
 		<com.github.tobato.version>1.27.2</com.github.tobato.version>
@@ -97,12 +112,12 @@
 		<com.belerweb.version>2.5.1</com.belerweb.version>
 		<com.auth0.version>4.5.0</com.auth0.version>
 
-		<io.projectreactor.core.version>3.7.3</io.projectreactor.core.version>
-		<io.projectreactor.netty.version>1.2.3</io.projectreactor.netty.version>
+		<io.projectreactor.core.version>3.7.4</io.projectreactor.core.version>
+		<io.projectreactor.netty.version>1.2.4</io.projectreactor.netty.version>
 		<io.hypersistence.version>3.8.3</io.hypersistence.version>
-		<io.jsonwebtoken.version>0.12.6</io.jsonwebtoken.version>
-		<io.micrometer.version>1.14.4</io.micrometer.version>
-		<io.netty.version>4.1.118.Final</io.netty.version>
+		<io.jsonwebtoken.version>0.9.1</io.jsonwebtoken.version>
+		<io.micrometer.version>1.14.5</io.micrometer.version>
+		<io.netty.version>4.1.119.Final</io.netty.version>
 		<io.minio.version>8.5.17</io.minio.version>
 
 		<net.logstash.logback.version>8.0</net.logstash.logback.version>
@@ -119,6 +134,7 @@
 		<redis.clients.version>5.2.0</redis.clients.version>
 		<joda.time.version>2.13.1</joda.time.version>
 		<junit.version>4.13.2</junit.version>
+		<xerces.version>2.12.2</xerces.version>
 
 		<org.apache.maven.plugins.version>3.3.0</org.apache.maven.plugins.version>
 		<docker.host>172.16.80.132:2375</docker.host>
@@ -184,78 +200,78 @@
 		<dependency>
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils</artifactId>
-			<version>1.9.4</version>
+			<version>${commons.beanutils.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
-			<version>1.17.2</version>
+			<version>${commons.codec.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-collections</groupId>
 			<artifactId>commons-collections</artifactId>
-			<version>3.2.2</version>
+			<version>${commons.collections.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
-			<version>1.3.4</version>
+			<version>${commons.logging.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
-			<version>1.5</version>
+			<version>${commons.fileupload.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>2.17.0</version>
+			<version>${commons.io.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
-			<version>2.6</version>
+			<version>${commons.lang.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>3.17.0</version>
+			<version>${commons.lang3.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-pool2</artifactId>
-			<version>2.12.0</version>
+			<version>${commons.pool2.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-exec</artifactId>
-			<version>1.4.0</version>
+			<version>${commons.exec.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
     		<artifactId>commons-compress</artifactId>
-    		<version>1.27.1</version>
+    		<version>${commons.compress.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.ant</groupId>
 			<artifactId>ant</artifactId>
-			<version>1.10.15</version>
+			<version>${org.apache.ant.version}</version>
 		</dependency>
 		<dependency>
 		    <groupId>xerces</groupId>
 		    <artifactId>xercesImpl</artifactId>
-		    <version>2.12.2</version>
+		    <version>${xerces.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.apache.velocity</groupId>
 		  	<artifactId>velocity-engine-core</artifactId>
-		  	<version>2.4</version>
+		  	<version>${org.apache.velocity.version}</version>
 		</dependency>
 		<dependency>
 		  	<groupId>org.apache.velocity.tools</groupId>
 		  	<artifactId>velocity-tools-generic</artifactId>
-		  	<version>3.1</version>
+		  	<version>${org.apache.velocity.tools.version}</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.apache.logging.log4j</groupId>

@@ -20,8 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
-import com.oner365.data.commons.enums.ErrorInfoEnum;
-import com.oner365.data.commons.reponse.ResponseResult;
 import com.oner365.data.jpa.page.PageInfo;
 import com.oner365.data.jpa.query.AttributeBean;
 import com.oner365.data.jpa.query.QueryCriteriaBean;
@@ -52,20 +50,20 @@ public class SysMessageController extends BaseController {
    * 查询结果 有返回 true 并且已读
    * 
    * @param messageType 消息类型
-   * @return ResponseResult<Boolean>
+   * @return Boolean
    */
   @Operation(summary = "1.刷新")
   @ApiOperationSupport(order = 1)
   @GetMapping("/refresh")
-  public ResponseResult<Boolean> refresh(@RequestParam("messageType") MessageTypeEnum messageType) {
+  public Boolean refresh(@RequestParam("messageType") MessageTypeEnum messageType) {
     QueryCriteriaBean data = new QueryCriteriaBean();
     data.setWhereList(Collections.singletonList(new AttributeBean("messageType", messageType)));
     List<SysMessageDto> list = sysMessageService.findList(data);
     if (!list.isEmpty()) {
       list.forEach(entity -> sysMessageService.editStatus(entity.getId(), MessageStatusEnum.READ));
-      return ResponseResult.success(Boolean.TRUE);
+      return Boolean.TRUE;
     }
-    return ResponseResult.success(Boolean.FALSE);
+    return Boolean.FALSE;
   }
   
   /**
@@ -112,17 +110,13 @@ public class SysMessageController extends BaseController {
    * 消息保存
    *
    * @param sysMessageVo 消息对象
-   * @return ResponseResult<SysMessageDto>
+   * @return SysMessageDto
    */
   @Operation(summary = "5.保存")
   @ApiOperationSupport(order = 5)
   @PutMapping("/save")
-  public ResponseResult<SysMessageDto> save(@Validated @RequestBody SysMessageVo sysMessageVo) {
-    if (sysMessageVo != null) {
-      SysMessageDto entity = sysMessageService.save(sysMessageVo);
-      return ResponseResult.success(entity);
-    }
-    return ResponseResult.error(ErrorInfoEnum.SAVE_ERROR.getName());
+  public SysMessageDto save(@Validated @RequestBody SysMessageVo sysMessageVo) {
+    return sysMessageService.save(sysMessageVo);
   }
   
   /**

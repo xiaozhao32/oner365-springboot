@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import javax.annotation.Resource;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
-import com.oner365.common.ResponseResult;
 import com.oner365.common.enums.ErrorInfoEnum;
 import com.oner365.common.enums.StatusEnum;
 import com.oner365.common.page.PageInfo;
@@ -93,17 +93,13 @@ public class ${ClassName}Controller extends BaseController {
      * ${functionName}保存
      *
      * @param ${className}Vo 对象
-     * @return ResponseResult<${ClassName}Dto>
+     * @return ${ClassName}Dto
      */
     @Operation(summary = "4.保存")
     @ApiOperationSupport(order = 4)
     @PutMapping("/save")
-    public ResponseResult<${ClassName}Dto> save(@RequestBody ${ClassName}Vo ${className}Vo) {
-        if (${className}Vo != null) {
-            ${ClassName}Dto entity = ${className}Service.save(${className}Vo);
-            return ResponseResult.success(entity);
-        }
-        return ResponseResult.error(ErrorInfoEnum.SAVE_ERROR.getName());
+    public ${ClassName}Dto save(@Validated @RequestBody ${ClassName}Vo ${className}Vo) {
+        return ${className}Service.save(${className}Vo);
     }
 
     /**

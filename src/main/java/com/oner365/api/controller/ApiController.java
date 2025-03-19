@@ -23,7 +23,6 @@ import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.data.commons.cache.GuavaCache;
 import com.oner365.data.commons.constants.PublicConstants;
 import com.oner365.data.commons.enums.ResultEnum;
-import com.oner365.data.commons.reponse.ResponseResult;
 import com.oner365.data.commons.util.DataUtils;
 import com.oner365.data.commons.util.DateUtil;
 import com.oner365.data.datasource.util.DataSourceUtil;
@@ -89,12 +88,12 @@ public class ApiController extends BaseController {
   /**
    * 测试guava cache
    *
-   * @return ResponseResult<String>
+   * @return String
    */
   @Operation(summary = "2.测试Guava Cache")
   @ApiOperationSupport(order = 2)
   @GetMapping("/cache/guava/test")
-  public ResponseResult<String> testGuavaCache() {
+  public String testGuavaCache() {
     String sequence1 = snowflakeSequence.nextNo();
     logger.info("sequence1: {}", sequence1);
     String sequence2 = rangeSequence.nextNo();
@@ -108,7 +107,7 @@ public class ApiController extends BaseController {
     logger.info("cache:{}", guavaCache.getCache(key));
     guavaCache.removeCache(key);
 
-    return ResponseResult.success(ResultEnum.SUCCESS.getName());
+    return ResultEnum.SUCCESS.getName();
   }
 
   /**

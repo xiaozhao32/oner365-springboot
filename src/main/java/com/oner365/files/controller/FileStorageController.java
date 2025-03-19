@@ -25,7 +25,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.data.commons.constants.PublicConstants;
 import com.oner365.data.commons.enums.StorageEnum;
-import com.oner365.data.commons.reponse.ResponseResult;
 import com.oner365.data.commons.util.DataUtils;
 import com.oner365.data.commons.util.DateUtil;
 import com.oner365.data.jpa.page.PageInfo;
@@ -76,20 +75,19 @@ public class FileStorageController extends BaseController {
    *
    * @param file    File
    * @param dictory 目录
-   * @return ResponseResult<String>
+   * @return String
    */
   @Operation(summary = "2.文件上传")
   @ApiOperationSupport(order = 2)
   @PostMapping("/upload")
-  public ResponseResult<String> uploadFile(
+  public String uploadFile(
       @Parameter(name = "file", description = "文件") @RequestPart("file") MultipartFile file,
       @Parameter(name = "dictory", description = "上传目录") @RequestParam(name = "dictory", required = false) String dictory) {
     String targetDirectory = dictory;
     if (DataUtils.isEmpty(targetDirectory)) {
       targetDirectory = DateUtil.getCurrentDate();
     }
-    String url = fileStorageClient.uploadFile(file, targetDirectory);
-    return ResponseResult.success(url);
+    return fileStorageClient.uploadFile(file, targetDirectory);
   }
 
   /**
@@ -133,9 +131,8 @@ public class FileStorageController extends BaseController {
   @Operation(summary = "4.文件下载 - 提供下载地址")
   @ApiOperationSupport(order = 4)
   @GetMapping("/path")
-  public ResponseResult<String> downloadPath(@RequestParam("path") String path) {
-    String result = fileStorageClient.downloadPath(path);
-    return ResponseResult.success(result);
+  public String downloadPath(@RequestParam("path") String path) {
+    return fileStorageClient.downloadPath(path);
   }
 
   /**

@@ -16,7 +16,6 @@ import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.data.commons.config.properties.CommonProperties;
 import com.oner365.data.commons.constants.PublicConstants;
 import com.oner365.data.commons.enums.ResultEnum;
-import com.oner365.data.commons.reponse.ResponseResult;
 import com.oner365.data.web.controller.BaseController;
 import com.oner365.deploy.entity.DeployEntity;
 import com.oner365.deploy.entity.ServerEntity;
@@ -75,14 +74,14 @@ public class ServiceController extends BaseController {
   /**
    * 动态刷新配置
    *
-   * @return ResponseResult<String>
+   * @return String
    */
   @Operation(summary = "2.动态刷新配置")
   @ApiOperationSupport(order = 2)
   @GetMapping("/refresh")
-  public ResponseResult<String> refreshConfig() {
+  public String refreshConfig() {
     queueSendService.syncRoute();
-    return ResponseResult.success(ResultEnum.SUCCESS.getName());
+    return ResultEnum.SUCCESS.getName();
   }
 
   /**
@@ -105,12 +104,12 @@ public class ServiceController extends BaseController {
   /**
    * 上传服务
    *
-   * @return ResponseResult<String>
+   * @return String
    */
   @Operation(summary = "4.上传服务")
   @ApiOperationSupport(order = 4)
   @PostMapping("/upload")
-  public ResponseResult<String> uploadService() {
+  public String uploadService() {
     DeployEntity deploy = deployService.getDeployEntity();
     ServerEntity server = deployService.getServerEntity();
     logger.info("Deploy project: {}", server);
@@ -119,19 +118,19 @@ public class ServiceController extends BaseController {
     if (Boolean.TRUE.equals(server.getIsDeploy())) {
       DeployMethod.deployServer(deploy, server);
     }
-    return ResponseResult.success(ResultEnum.SUCCESS.getName());
+    return ResultEnum.SUCCESS.getName();
   }
 
   /**
    * 重启服务
    *
-   * @return ResponseResult<String>
+   * @return String
    */
   @Operation(summary = "5.重启服务")
   @ApiOperationSupport(order = 5)
   @PostMapping("/reset")
-  public ResponseResult<String> resetService() {
-    return ResponseResult.success(ResultEnum.SUCCESS.getName());
+  public String resetService() {
+    return ResultEnum.SUCCESS.getName();
   }
 
 }

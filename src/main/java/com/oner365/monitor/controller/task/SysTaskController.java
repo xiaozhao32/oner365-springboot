@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.data.commons.auth.AuthUser;
 import com.oner365.data.commons.auth.annotation.CurrentUser;
-import com.oner365.data.commons.enums.ErrorInfoEnum;
-import com.oner365.data.commons.reponse.ResponseResult;
 import com.oner365.data.jpa.page.PageInfo;
 import com.oner365.data.jpa.query.QueryCriteriaBean;
 import com.oner365.data.web.controller.BaseController;
@@ -77,21 +75,21 @@ public class SysTaskController extends BaseController {
    *
    * @param sysTaskVo 参数
    * @param authUser  登录对象
-   * @return ResponseResult<Boolean>
+   * @return String
    * @throws SchedulerException, TaskException 异常
    */
   @Operation(summary = "3.新增定时任务")
   @ApiOperationSupport(order = 3)
   @PostMapping
-  public ResponseResult<Boolean> add(@Validated @RequestBody SysTaskVo sysTaskVo, @Parameter(hidden = true) @CurrentUser AuthUser authUser)
+  public String add(@Validated @RequestBody SysTaskVo sysTaskVo, @Parameter(hidden = true) @CurrentUser AuthUser authUser)
       throws SchedulerException, TaskException {
     if (sysTaskVo == null || !CronUtils.isValid(sysTaskVo.getCronExpression())) {
-      return ResponseResult.error("cron表达式不正确");
+      return "cron表达式不正确";
     }
     sysTaskVo.setCreateUser(authUser.getUserName());
 
     Boolean result = taskService.save(sysTaskVo);
-    return ResponseResult.success(result);
+    return String.valueOf(result);
   }
 
   /**
@@ -99,57 +97,53 @@ public class SysTaskController extends BaseController {
    *
    * @param sysTaskVo 参数
    * @param authUser  登录对象
-   * @return ResponseResult<Boolean>
+   * @return String
    * @throws SchedulerException, TaskException 异常
    */
   @Operation(summary = "4.修改定时任务")
   @ApiOperationSupport(order = 4)
   @PutMapping
-  public ResponseResult<Boolean> edit(@RequestBody SysTaskVo sysTaskVo, @Parameter(hidden = true) @CurrentUser AuthUser authUser)
+  public String edit(@RequestBody SysTaskVo sysTaskVo, @Parameter(hidden = true) @CurrentUser AuthUser authUser)
       throws SchedulerException, TaskException {
     if (sysTaskVo == null || !CronUtils.isValid(sysTaskVo.getCronExpression())) {
-      return ResponseResult.error("cron表达式不正确");
+      return "cron表达式不正确";
     }
     sysTaskVo.setCreateUser(authUser.getUserName());
     Boolean result = taskService.updateTask(sysTaskVo);
-    return ResponseResult.success(result);
+    return String.valueOf(result);
   }
 
   /**
    * 定时任务状态修改
    *
    * @param sysTaskVo 参数
-   * @return ResponseResult<Boolean>
+   * @return Boolean
    * @throws SchedulerException 异常
    */
   @Operation(summary = "5.修改状态")
   @ApiOperationSupport(order = 5)
   @PutMapping("/status")
-  public ResponseResult<Boolean> changeStatus(@RequestBody SysTaskVo sysTaskVo)
+  public Boolean changeStatus(@RequestBody SysTaskVo sysTaskVo)
       throws SchedulerException {
-    if (sysTaskVo != null) {
-      Boolean result = taskService.changeStatus(sysTaskVo);
-      return ResponseResult.success(result);
-    }
-    return ResponseResult.error(ErrorInfoEnum.SAVE_ERROR.getName());
+    return taskService.changeStatus(sysTaskVo);
   }
 
   /**
    * 定时任务立即执行一次
    *
    * @param sysTaskVo 参数
-   * @return ResponseResult<Boolean>
+   * @return String
    * @throws SchedulerException 异常
    */
   @Operation(summary = "6.立即执行一次")
   @ApiOperationSupport(order = 6)
   @PutMapping("/run")
-  public ResponseResult<Boolean> run(@RequestBody SysTaskVo sysTaskVo) throws SchedulerException {
+  public String run(@RequestBody SysTaskVo sysTaskVo) throws SchedulerException {
     if (sysTaskVo != null) {
       Boolean result = taskService.run(sysTaskVo);
-      return ResponseResult.success(result);
+      return String.valueOf(result);
     }
-    return ResponseResult.error("执行失败");
+    return "执行失败";
   }
 
   /**

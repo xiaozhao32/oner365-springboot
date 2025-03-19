@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.data.commons.enums.ResultEnum;
-import com.oner365.data.commons.reponse.ResponseResult;
 import com.oner365.data.web.controller.BaseController;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -26,12 +25,12 @@ public class DashboardController extends BaseController {
   /**
    * 首页信息
    * 
-   * @return ResponseResult<String>
+   * @return String
    */
   @Operation(summary = "1.首页")
   @ApiOperationSupport(order = 1)
   @GetMapping("/index")
-  public ResponseResult<String> index() {
-    return ResponseResult.success(ResultEnum.SUCCESS.getName());
+  public String index() {
+    return ResultEnum.SUCCESS.getName();
   }
 }
