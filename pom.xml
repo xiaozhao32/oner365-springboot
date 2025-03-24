@@ -44,8 +44,8 @@
 		<org.springframework.integration.version>6.4.2</org.springframework.integration.version>
 		<org.springframework.statemachine.version>4.0.0</org.springframework.statemachine.version>
 		<org.springframework.security.version>6.4.4</org.springframework.security.version>
-		<org.springframework.boot.version>3.4.3</org.springframework.boot.version>
-		<org.springframework.version>6.2.4</org.springframework.version>
+		<org.springframework.boot.version>3.4.4</org.springframework.boot.version>
+		<org.springframework.version>6.2.5</org.springframework.version>
 		<org.springframework.kafka.version>3.3.4</org.springframework.kafka.version>
 		<org.springdoc.version>2.8.5</org.springdoc.version>
 
@@ -80,7 +80,7 @@
 		<org.bouncycastle.version>1.80</org.bouncycastle.version>
 		<org.elasticsearch.version>8.17.2</org.elasticsearch.version>
 		<org.slf4j.version>2.0.17</org.slf4j.version>
-		<ch.qos.logback.version>1.5.17</ch.qos.logback.version>
+		<ch.qos.logback.version>1.5.18</ch.qos.logback.version>
 
 		<org.jetbrains.kotlin.version>2.0.21</org.jetbrains.kotlin.version>
 		<org.junit.platform.version>1.11.4</org.junit.platform.version>
@@ -122,7 +122,7 @@
 
 		<net.logstash.logback.version>8.0</net.logstash.logback.version>
 		<net.bytebuddy.version>1.17.1</net.bytebuddy.version>
-		<net.minidev.version>2.5.1</net.minidev.version>
+		<net.minidev.version>2.5.2</net.minidev.version>
 		<net.sf.jopt.version>5.0.4</net.sf.jopt.version>
 		
 		<jakarta.annotation.version>3.0.0</jakarta.annotation.version>
