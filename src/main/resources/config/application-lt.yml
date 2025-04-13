@@ -117,8 +117,13 @@ spring:
 
   jpa:
     open-in-view: true
+    
   freemarker:
     check-template-location: false
+  thymeleaf:
+    check-template-location: false
+  messages:
+    basename: i18n/messages
   mvc:
     pathmatch:
       matching-strategy: ant-path-matcher
