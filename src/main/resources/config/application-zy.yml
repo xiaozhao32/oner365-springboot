@@ -98,8 +98,13 @@ spring:
 
   jpa:
     open-in-view: true
+    
   freemarker:
     check-template-location: false
+  thymeleaf:
+    check-template-location: false
+  messages:
+    basename: i18n/messages
   mvc:
     pathmatch:
       matching-strategy: ant-path-matcher
@@ -204,7 +209,7 @@ mqtt:
 # 文件上传下载地址
 file:
   # 存储方式为 local fdfs minio
-  storage: minio
+  storage: local
   # excel后缀
   excel:
     suffix: xlsx

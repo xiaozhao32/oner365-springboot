@@ -22,12 +22,12 @@ public class TokenInterceptorConfigurer implements WebMvcConfigurer {
 
   @Resource
   private TokenInterceptor tokenInterceptor;
-  
+
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
-      registry.addInterceptor(tokenInterceptor).addPathPatterns("/**");
+    registry.addInterceptor(tokenInterceptor).addPathPatterns("/**");
   }
-  
+
   @Override
   public void addCorsMappings(CorsRegistry registry) {
     registry.addMapping("/**").allowCredentials(true)

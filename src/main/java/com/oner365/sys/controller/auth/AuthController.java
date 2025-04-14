@@ -89,26 +89,17 @@ public class AuthController extends BaseController {
       }
     }
 
-    // 验证参数
-    String userName = loginUserVo.getUserName();
-    if (DataUtils.isEmpty(userName)) {
-      return ResponseData.error(ErrorInfoEnum.USER_NAME_NOT_NULL.getName());
-    }
-    String password = loginUserVo.getPassword();
-    if (DataUtils.isEmpty(password)) {
-      return ResponseData.error(ErrorInfoEnum.PASSWORD_NOT_NULL.getName());
-    }
     // ip地址
     String ip = HttpClientUtils.getIpAddress(RequestUtils.getHttpRequest());
 
     // 登录
-    LoginUserDto result = sysUserService.login(userName, password, ip);
+    LoginUserDto result = sysUserService.login(loginUserVo.getUserName(), loginUserVo.getPassword(), ip);
 
     // 返回结果
     if (result != null) {
       return ResponseData.success(result);
     }
-    return ResponseData.error(ErrorInfoEnum.USER_NAME_NOT_NULL.getName());
+    return ResponseData.error(ErrorInfoEnum.USER_PASSWORD_ERROR.getName());
   }
 
   /**
