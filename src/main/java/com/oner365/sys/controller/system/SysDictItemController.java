@@ -22,9 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
-import com.oner365.data.commons.enums.ErrorInfoEnum;
 import com.oner365.data.commons.enums.StatusEnum;
-import com.oner365.data.commons.reponse.ResponseResult;
 import com.oner365.data.jpa.page.PageInfo;
 import com.oner365.data.jpa.query.AttributeBean;
 import com.oner365.data.jpa.query.QueryCriteriaBean;
@@ -172,17 +170,13 @@ public class SysDictItemController extends BaseController {
    * 字典类别保存
    *
    * @param sysDictItemTypeVo 字典类别对象
-   * @return ResponseResult<SysDictItemTypeDto>
+   * @return SysDictItemTypeDto
    */
   @ApiOperation("8.字典类别保存")
   @ApiOperationSupport(order = 8)
   @PutMapping("/type/save")
-  public ResponseResult<SysDictItemTypeDto> saveDictItemType(@Validated @RequestBody SysDictItemTypeVo sysDictItemTypeVo) {
-    if (sysDictItemTypeVo != null) {
-      SysDictItemTypeDto entity = sysDictItemTypeService.save(sysDictItemTypeVo);
-      return ResponseResult.success(entity);
-    }
-    return ResponseResult.error(ErrorInfoEnum.SAVE_ERROR.getName());
+  public SysDictItemTypeDto saveDictItemType(@Validated @RequestBody SysDictItemTypeVo sysDictItemTypeVo) {
+    return sysDictItemTypeService.save(sysDictItemTypeVo);
   }
 
   /**
@@ -278,17 +272,13 @@ public class SysDictItemController extends BaseController {
    * 保存字典信息
    *
    * @param sysDictItemVo 字典对象
-   * @return ResponseResult<SysDictItemDto>
+   * @return SysDictItemDto
    */
   @ApiOperation("15.保存字典")
   @ApiOperationSupport(order = 15)
   @PutMapping("/item/save")
-  public ResponseResult<SysDictItemDto> saveDictItem(@Validated @RequestBody SysDictItemVo sysDictItemVo) {
-    if (sysDictItemVo != null) {
-      SysDictItemDto entity = sysDictItemService.save(sysDictItemVo);
-      return ResponseResult.success(entity);
-    }
-    return ResponseResult.error(ErrorInfoEnum.SAVE_ERROR.getName());
+  public SysDictItemDto saveDictItem(@Validated @RequestBody SysDictItemVo sysDictItemVo) {
+    return sysDictItemService.save(sysDictItemVo);
   }
 
   /**

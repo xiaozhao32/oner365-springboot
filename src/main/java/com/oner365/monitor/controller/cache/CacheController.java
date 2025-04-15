@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.data.commons.enums.ResultEnum;
-import com.oner365.data.commons.reponse.ResponseResult;
 import com.oner365.data.redis.util.JedisUtils;
 import com.oner365.data.web.controller.BaseController;
 import com.oner365.monitor.dto.CacheCommandStatsDto;
@@ -123,7 +122,7 @@ public class CacheController extends BaseController {
   @ApiOperation("3.清除缓存")
   @ApiOperationSupport(order = 3)
   @GetMapping("/clean")
-  public ResponseResult<String> clean(int index) {
+  public String clean(int index) {
     if (redisProperties.getCluster() != null) {
       redisTemplate.execute((RedisCallback<Properties>)connection -> {
         connection.flushAll();
@@ -137,7 +136,7 @@ public class CacheController extends BaseController {
         }
       }
     }
-    return ResponseResult.success(ResultEnum.SUCCESS.getName());
+    return ResultEnum.SUCCESS.getName();
   }
 
 }

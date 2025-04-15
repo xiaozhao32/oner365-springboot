@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class RedisKeyExpireListener extends KeyExpirationEventMessageListener {
 
-  private final static Logger logger = LoggerFactory.getLogger(RedisKeyExpireListener.class);
+  private static final Logger logger = LoggerFactory.getLogger(RedisKeyExpireListener.class);
 
   public RedisKeyExpireListener(RedisMessageListenerContainer listenerContainer) {
     super(listenerContainer);

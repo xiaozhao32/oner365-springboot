@@ -19,9 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
-import com.oner365.data.commons.enums.ErrorInfoEnum;
 import com.oner365.data.commons.enums.ResultEnum;
-import com.oner365.data.commons.reponse.ResponseResult;
 import com.oner365.data.commons.util.DateUtil;
 import com.oner365.data.jpa.page.PageInfo;
 import com.oner365.data.jpa.query.QueryCriteriaBean;
@@ -76,17 +74,14 @@ public class SysLogController extends BaseController {
    * 保存
    *
    * @param sysLogVo 菜单类型对象
-   * @return ResponseResult<String>
+   * @return String
    */
   @ApiOperation("3.保存")
   @ApiOperationSupport(order = 3)
   @PutMapping("/save")
-  public ResponseResult<String> save(@RequestBody SysLogVo sysLogVo) {
-    if (sysLogVo != null) {
-      logService.save(sysLogVo);
-      return ResponseResult.success(ResultEnum.SUCCESS.getName());
-    }
-    return ResponseResult.error(ErrorInfoEnum.SAVE_ERROR.getName());
+  public String save(@RequestBody SysLogVo sysLogVo) {
+    logService.save(sysLogVo);
+    return ResultEnum.SUCCESS.getName();
   }
 
   /**

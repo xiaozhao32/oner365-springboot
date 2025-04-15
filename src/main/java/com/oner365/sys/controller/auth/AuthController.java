@@ -28,7 +28,6 @@ import com.oner365.data.commons.constants.PublicConstants;
 import com.oner365.data.commons.enums.ErrorInfoEnum;
 import com.oner365.data.commons.enums.ResultEnum;
 import com.oner365.data.commons.reponse.ResponseData;
-import com.oner365.data.commons.reponse.ResponseResult;
 import com.oner365.data.commons.util.DataUtils;
 import com.oner365.data.redis.RedisCache;
 import com.oner365.data.redis.constants.CacheConstants;
@@ -90,26 +89,17 @@ public class AuthController extends BaseController {
       }
     }
 
-    // 验证参数
-    String userName = loginUserVo.getUserName();
-    if (DataUtils.isEmpty(userName)) {
-      return ResponseData.error(ErrorInfoEnum.USER_NAME_NOT_NULL.getName());
-    }
-    String password = loginUserVo.getPassword();
-    if (DataUtils.isEmpty(password)) {
-      return ResponseData.error(ErrorInfoEnum.PASSWORD_NOT_NULL.getName());
-    }
     // ip地址
     String ip = HttpClientUtils.getIpAddress(RequestUtils.getHttpRequest());
 
     // 登录
-    LoginUserDto result = sysUserService.login(userName, password, ip);
+    LoginUserDto result = sysUserService.login(loginUserVo.getUserName(), loginUserVo.getPassword(), ip);
 
     // 返回结果
     if (result != null) {
       return ResponseData.success(result);
     }
-    return ResponseData.error(ErrorInfoEnum.USER_NAME_NOT_NULL.getName());
+    return ResponseData.error(ErrorInfoEnum.USER_PASSWORD_ERROR.getName());
   }
 
   /**
@@ -187,17 +177,17 @@ public class AuthController extends BaseController {
   /**
    * 退出登录
    *
-   * @return ResponseResult<String>
+   * @return String
    */
   @ApiOperation("5.退出登录")
   @ApiOperationSupport(order = 5)
   @PostMapping("/logout")
-  public ResponseResult<String> logout(@ApiIgnore @CurrentUser AuthUser authUser) {
+  public String logout(@ApiIgnore @CurrentUser AuthUser authUser) {
     if (authUser != null) {
       String key = CacheConstants.CACHE_LOGIN_NAME + authUser.getUserName();
       redisCache.deleteObject(key);
     }
-    return ResponseResult.success(ResultEnum.SUCCESS.getName());
+    return ResultEnum.SUCCESS.getName();
   }
 
 }

@@ -16,9 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
-import com.oner365.data.commons.enums.ErrorInfoEnum;
 import com.oner365.data.commons.enums.StatusEnum;
-import com.oner365.data.commons.reponse.ResponseResult;
 import com.oner365.data.jpa.page.PageInfo;
 import com.oner365.data.jpa.query.QueryCriteriaBean;
 import com.oner365.data.web.controller.BaseController;
@@ -73,17 +71,13 @@ public class DynamicRouteController extends BaseController {
    * 增加路由
    *
    * @param gatewayRouteVo 路由对象
-   * @return ResponseResult<GatewayRouteDto>
+   * @return GatewayRouteDto
    */
   @ApiOperation("3.添加路由")
   @ApiOperationSupport(order = 3)
   @PostMapping("/add")
-  public ResponseResult<GatewayRouteDto> add(@Validated @RequestBody GatewayRouteVo gatewayRouteVo) {
-    if (gatewayRouteVo != null) {
-      GatewayRouteDto result = dynamicRouteService.save(gatewayRouteVo);
-      return ResponseResult.success(result);
-    }
-    return ResponseResult.error(ErrorInfoEnum.SAVE_ERROR.getName());
+  public GatewayRouteDto add(@Validated @RequestBody GatewayRouteVo gatewayRouteVo) {
+    return dynamicRouteService.save(gatewayRouteVo);
   }
 
   /**
@@ -102,17 +96,13 @@ public class DynamicRouteController extends BaseController {
    * 更新路由
    *
    * @param gatewayRouteVo 路由对象
-   * @return ResponseResult<GatewayRouteDto>
+   * @return GatewayRouteDto
    */
   @ApiOperation("5.更新路由")
   @ApiOperationSupport(order = 5)
   @PostMapping("/update")
-  public ResponseResult<GatewayRouteDto> update(@Validated @RequestBody GatewayRouteVo gatewayRouteVo) {
-    if (gatewayRouteVo != null) {
-      GatewayRouteDto result = dynamicRouteService.update(gatewayRouteVo);
-      return ResponseResult.success(result);
-    }
-    return ResponseResult.error(ErrorInfoEnum.UPDATE_ERROR.getName());
+  public GatewayRouteDto update(@Validated @RequestBody GatewayRouteVo gatewayRouteVo) {
+    return dynamicRouteService.update(gatewayRouteVo);
   }
 
   /**
@@ -120,21 +110,20 @@ public class DynamicRouteController extends BaseController {
    *
    * @param id     编号
    * @param status 状态
-   * @return ResponseResult<Boolean>
+   * @return Boolean
    */
   @ApiOperation("6.更新状态")
   @ApiOperationSupport(order = 6)
   @GetMapping("/status/{id}/{status}")
-  public ResponseResult<Boolean> editStatus(@PathVariable String id, @PathVariable StatusEnum status) {
-    Boolean result = dynamicRouteService.editStatus(id, status);
-    return ResponseResult.success(result);
+  public Boolean editStatus(@PathVariable String id, @PathVariable StatusEnum status) {
+    return dynamicRouteService.editStatus(id, status);
   }
 
   /**
    * 删除路由
    *
    * @param ids 编号
-   * @return ResponseResult<Boolean>
+   * @return List<Boolean>
    */
   @ApiOperation("7.删除路由")
   @ApiOperationSupport(order = 7)
