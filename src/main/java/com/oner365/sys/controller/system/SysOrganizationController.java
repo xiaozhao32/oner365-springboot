@@ -23,6 +23,7 @@ import com.oner365.data.commons.auth.annotation.CurrentUser;
 import com.oner365.data.commons.enums.StatusEnum;
 import com.oner365.data.jpa.query.QueryCriteriaBean;
 import com.oner365.data.web.controller.BaseController;
+import com.oner365.log.annotation.SysLog;
 import com.oner365.sys.dto.SysMenuTreeSelectDto;
 import com.oner365.sys.dto.SysOrganizationDto;
 import com.oner365.sys.dto.TreeSelect;
@@ -174,6 +175,7 @@ public class SysOrganizationController extends BaseController {
    */
   @ApiOperation("9.修改状态")
   @ApiOperationSupport(order = 9)
+  @SysLog("修改机构状态")
   @PostMapping("/status/{id}")
   public Boolean editStatus(@PathVariable String id, @RequestParam("status") StatusEnum status) {
     return sysOrgService.editStatus(id, status);
@@ -188,6 +190,7 @@ public class SysOrganizationController extends BaseController {
    */
   @ApiOperation("10.保存")
   @ApiOperationSupport(order = 10)
+  @SysLog("保存机构")
   @PutMapping("/save")
   public SysOrganizationDto save(@Validated @RequestBody SysOrganizationVo sysOrganizationVo,
       @ApiIgnore @CurrentUser AuthUser authUser) {
@@ -203,6 +206,7 @@ public class SysOrganizationController extends BaseController {
    */
   @ApiOperation("11.删除")
   @ApiOperationSupport(order = 11)
+  @SysLog("删除机构")
   @DeleteMapping("/delete")
   public List<Boolean> delete(@RequestBody String... ids) {
     return Arrays.stream(ids).map(id -> sysOrgService.deleteById(id)).collect(Collectors.toList());

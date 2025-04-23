@@ -27,6 +27,7 @@ import com.oner365.data.jpa.page.PageInfo;
 import com.oner365.data.jpa.query.AttributeBean;
 import com.oner365.data.jpa.query.QueryCriteriaBean;
 import com.oner365.data.web.controller.BaseController;
+import com.oner365.log.annotation.SysLog;
 import com.oner365.sys.constants.SysConstants;
 import com.oner365.sys.dto.SysDictItemDto;
 import com.oner365.sys.dto.SysDictItemTypeDto;
@@ -161,6 +162,7 @@ public class SysDictItemController extends BaseController {
    */
   @ApiOperation("7.修改类别状态")
   @ApiOperationSupport(order = 7)
+  @SysLog("修改字典类别状态")
   @PostMapping("/type/status/{id}")
   public Boolean editTypeStatus(@PathVariable String id, @RequestParam("status") StatusEnum status) {
     return sysDictItemTypeService.editStatus(id, status);
@@ -174,6 +176,7 @@ public class SysDictItemController extends BaseController {
    */
   @ApiOperation("8.字典类别保存")
   @ApiOperationSupport(order = 8)
+  @SysLog("字典类别保存")
   @PutMapping("/type/save")
   public SysDictItemTypeDto saveDictItemType(@Validated @RequestBody SysDictItemTypeVo sysDictItemTypeVo) {
     return sysDictItemTypeService.save(sysDictItemTypeVo);
@@ -187,6 +190,7 @@ public class SysDictItemController extends BaseController {
    */
   @ApiOperation("9.删除字典类别")
   @ApiOperationSupport(order = 9)
+  @SysLog("删除字典类别")
   @DeleteMapping("/type/delete")
   public List<Boolean> deleteItemType(@RequestBody String... ids) {
     return Arrays.stream(ids).map(id -> sysDictItemTypeService.deleteById(id)).collect(Collectors.toList());
@@ -263,6 +267,7 @@ public class SysDictItemController extends BaseController {
    */
   @ApiOperation("14.修改字典状态")
   @ApiOperationSupport(order = 14)
+  @SysLog("修改字典状态")
   @PostMapping("/item/status/{id}")
   public Boolean editItemStatus(@PathVariable String id, @RequestParam("status") StatusEnum status) {
     return sysDictItemService.editStatus(id, status);
@@ -276,6 +281,7 @@ public class SysDictItemController extends BaseController {
    */
   @ApiOperation("15.保存字典")
   @ApiOperationSupport(order = 15)
+  @SysLog("保存字典")
   @PutMapping("/item/save")
   public SysDictItemDto saveDictItem(@Validated @RequestBody SysDictItemVo sysDictItemVo) {
     return sysDictItemService.save(sysDictItemVo);
@@ -289,6 +295,7 @@ public class SysDictItemController extends BaseController {
    */
   @ApiOperation("16.删除字典")
   @ApiOperationSupport(order = 16)
+  @SysLog("删除字典")
   @DeleteMapping("/item/delete")
   public List<Boolean> deleteItem(@RequestBody String... ids) {
     return Arrays.stream(ids).map(id -> sysDictItemService.deleteById(id)).collect(Collectors.toList());

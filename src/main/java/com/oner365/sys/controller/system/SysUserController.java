@@ -33,6 +33,7 @@ import com.oner365.data.web.controller.BaseController;
 import com.oner365.data.web.utils.HttpClientUtils;
 import com.oner365.data.web.utils.RequestUtils;
 import com.oner365.files.storage.IFileStorageClient;
+import com.oner365.log.annotation.SysLog;
 import com.oner365.sys.constants.SysConstants;
 import com.oner365.sys.dto.SysUserDto;
 import com.oner365.sys.service.ISysJobService;
@@ -131,6 +132,7 @@ public class SysUserController extends BaseController {
    */
   @ApiOperation("4.上传头像")
   @ApiOperationSupport(order = 4)
+  @SysLog("上传用户头像")
   @PostMapping("/avatar")
   public String avatar(@ApiIgnore @CurrentUser AuthUser authUser, @RequestParam("avatarfile") MultipartFile file) {
     if (!file.isEmpty()) {
@@ -150,6 +152,7 @@ public class SysUserController extends BaseController {
    */
   @ApiOperation("5.更新个人信息")
   @ApiOperationSupport(order = 5)
+  @SysLog("更新用户信息")
   @PostMapping("/update/profile")
   public SysUserDto updateUserProfile(@ApiIgnore @CurrentUser AuthUser authUser, @RequestBody SysUserVo sysUserVo) {
     sysUserVo.setId(authUser.getId());
@@ -180,6 +183,7 @@ public class SysUserController extends BaseController {
    */
   @ApiOperation("7.重置密码")
   @ApiOperationSupport(order = 7)
+  @SysLog("重置密码")
   @PostMapping("/reset")
   public Boolean resetPassword(@Validated @RequestBody ResetPasswordVo resetPasswordVo) {
     if (resetPasswordVo != null) {
@@ -197,6 +201,7 @@ public class SysUserController extends BaseController {
    */
   @ApiOperation("8.修改密码")
   @ApiOperationSupport(order = 8)
+  @SysLog("修改密码")
   @PostMapping("/update/password")
   public String editPassword(@ApiIgnore @CurrentUser AuthUser authUser,
       @Validated @RequestBody ModifyPasswordVo modifyPasswordVo) {
@@ -219,6 +224,7 @@ public class SysUserController extends BaseController {
    */
   @ApiOperation("9.修改状态")
   @ApiOperationSupport(order = 9)
+  @SysLog("修改用户状态")
   @PostMapping("/status/{id}")
   public Boolean editStatus(@PathVariable String id, @RequestParam("status") StatusEnum status) {
     return sysUserService.editStatus(id, status);
@@ -232,6 +238,7 @@ public class SysUserController extends BaseController {
    */
   @ApiOperation("10.保存")
   @ApiOperationSupport(order = 10)
+  @SysLog("保存用户")
   @PutMapping("/save")
   public SysUserDto save(@Validated @RequestBody SysUserVo sysUserVo) {
     sysUserVo.setLastIp(HttpClientUtils.getIpAddress(RequestUtils.getHttpRequest()));
@@ -246,6 +253,7 @@ public class SysUserController extends BaseController {
    */
   @ApiOperation("11.删除")
   @ApiOperationSupport(order = 11)
+  @SysLog("删除用户")
   @DeleteMapping("/delete")
   public List<Boolean> delete(@RequestBody String... ids) {
     return Arrays.stream(ids).map(id -> sysUserService.deleteById(id)).collect(Collectors.toList());

@@ -25,6 +25,7 @@ import com.oner365.data.web.controller.BaseController;
 import com.oner365.elasticsearch.dto.SampleGeneDto;
 import com.oner365.elasticsearch.service.ISampleGeneElasticsearchService;
 import com.oner365.elasticsearch.vo.SampleGeneVo;
+import com.oner365.log.annotation.SysLog;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -82,6 +83,7 @@ public class SampleGeneController extends BaseController {
    */
   @ApiOperation("3.保存")
   @ApiOperationSupport(order = 3)
+  @SysLog("保存基因对象")
   @PutMapping("/save")
   public SampleGeneDto save(@RequestBody SampleGeneVo sampleGeneVo) {
     if (!sampleGeneVo.getGeneList().isEmpty()) {
@@ -102,6 +104,7 @@ public class SampleGeneController extends BaseController {
    */
   @ApiOperation("4.删除")
   @ApiOperationSupport(order = 4)
+  @SysLog("删除基因对象")
   @DeleteMapping("/delete")
   public List<Boolean> delete(@RequestBody String... ids) {
     return Arrays.stream(ids).map(id -> service.deleteById(id)).collect(Collectors.toList());

@@ -23,6 +23,7 @@ import com.oner365.data.commons.enums.StatusEnum;
 import com.oner365.data.jpa.page.PageInfo;
 import com.oner365.data.jpa.query.QueryCriteriaBean;
 import com.oner365.data.web.controller.BaseController;
+import com.oner365.log.annotation.SysLog;
 import com.oner365.sys.dto.SysRoleDto;
 import com.oner365.sys.service.ISysRoleService;
 import com.oner365.sys.vo.SysRoleVo;
@@ -79,6 +80,7 @@ public class SysRoleController extends BaseController {
    */
   @ApiOperation("3.修改状态")
   @ApiOperationSupport(order = 3)
+  @SysLog("修改角色状态")
   @PostMapping("/status/{id}")
   public Boolean editStatus(@PathVariable String id, @RequestParam("status") StatusEnum status) {
     return roleService.editStatus(id, status);
@@ -108,6 +110,7 @@ public class SysRoleController extends BaseController {
    */
   @ApiOperation("5.保存")
   @ApiOperationSupport(order = 5)
+  @SysLog("保存角色")
   @PutMapping("/save")
   public Boolean save(@Validated @RequestBody SysRoleVo sysRoleVo) {
     // 保存角色
@@ -128,6 +131,7 @@ public class SysRoleController extends BaseController {
    */
   @ApiOperation("6.删除")
   @ApiOperationSupport(order = 6)
+  @SysLog("删除角色")
   @DeleteMapping("/delete")
   public List<Boolean> delete(@RequestBody String... ids) {
     return Arrays.stream(ids).map(id -> roleService.deleteById(id)).collect(Collectors.toList());

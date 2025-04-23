@@ -22,6 +22,7 @@ import com.oner365.data.web.controller.BaseController;
 import com.oner365.elasticsearch.dto.SampleLocationDto;
 import com.oner365.elasticsearch.service.ISampleLocationElasticsearchService;
 import com.oner365.elasticsearch.vo.SampleLocationVo;
+import com.oner365.log.annotation.SysLog;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -74,6 +75,7 @@ public class SampleLocationController extends BaseController {
    */
   @ApiOperation("3.保存")
   @ApiOperationSupport(order = 3)
+  @SysLog("保存坐标对象")
   @PutMapping("/save")
   public SampleLocationDto save(@RequestBody SampleLocationVo sampleLocationVo) {
     return service.save(sampleLocationVo);
@@ -87,6 +89,7 @@ public class SampleLocationController extends BaseController {
    */
   @ApiOperation("4.删除")
   @ApiOperationSupport(order = 4)
+  @SysLog("删除坐标对象")
   @DeleteMapping("/delete")
   public List<Boolean> delete(@RequestBody String... ids) {
     return Arrays.stream(ids).map(id -> service.deleteById(id)).collect(Collectors.toList());

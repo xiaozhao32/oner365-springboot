@@ -24,6 +24,7 @@ import com.oner365.data.jpa.page.PageInfo;
 import com.oner365.data.jpa.query.AttributeBean;
 import com.oner365.data.jpa.query.QueryCriteriaBean;
 import com.oner365.data.web.controller.BaseController;
+import com.oner365.log.annotation.SysLog;
 import com.oner365.sys.dto.SysMessageDto;
 import com.oner365.sys.enums.MessageStatusEnum;
 import com.oner365.sys.enums.MessageTypeEnum;
@@ -101,6 +102,7 @@ public class SysMessageController extends BaseController {
    */
   @ApiOperation("4.修改状态")
   @ApiOperationSupport(order = 4)
+  @SysLog("修改消息状态")
   @PostMapping("/status/{id}")
   public Boolean editStatus(@PathVariable String id, @RequestParam("status") MessageStatusEnum status) {
     return sysMessageService.editStatus(id, status);
@@ -114,6 +116,7 @@ public class SysMessageController extends BaseController {
    */
   @ApiOperation("5.保存")
   @ApiOperationSupport(order = 5)
+  @SysLog("保存消息")
   @PutMapping("/save")
   public SysMessageDto save(@Validated @RequestBody SysMessageVo sysMessageVo) {
     return sysMessageService.save(sysMessageVo);
@@ -127,6 +130,7 @@ public class SysMessageController extends BaseController {
    */
   @ApiOperation("6.删除")
   @ApiOperationSupport(order = 6)
+  @SysLog("删除消息")
   @DeleteMapping("/delete")
   public List<Boolean> delete(@RequestBody String... ids) {
     return Arrays.stream(ids).map(id -> sysMessageService.deleteById(id)).collect(Collectors.toList());

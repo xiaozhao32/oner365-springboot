@@ -37,6 +37,7 @@ import com.oner365.data.web.controller.BaseController;
 import com.oner365.files.dto.SysFileStorageDto;
 import com.oner365.files.service.IFileStorageService;
 import com.oner365.files.storage.IFileStorageClient;
+import com.oner365.log.annotation.SysLog;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -80,6 +81,7 @@ public class FileStorageController extends BaseController {
    */
   @ApiOperation("2.文件上传")
   @ApiOperationSupport(order = 2)
+  @SysLog("文件上传")
   @PostMapping("/upload")
   public String uploadFile(
       @ApiParam(name = "file", value = "文件") @RequestPart("file") MultipartFile file,
@@ -100,6 +102,7 @@ public class FileStorageController extends BaseController {
    */
   @ApiOperation("3.文件下载 - 写出")
   @ApiOperationSupport(order = 3)
+  @SysLog("文件下载")
   @GetMapping("/download")
   public void download(@RequestParam("fileUrl") String fileUrl, String filename, HttpServletResponse response) {
     byte[] data = fileStorageClient.download(fileUrl);
@@ -131,6 +134,7 @@ public class FileStorageController extends BaseController {
    */
   @ApiOperation("4.文件下载 - 提供下载地址")
   @ApiOperationSupport(order = 4)
+  @SysLog("文件下载")
   @GetMapping("/path")
   public String downloadPath(@RequestParam("path") String path) {
     return fileStorageClient.downloadPath(path);
@@ -144,6 +148,7 @@ public class FileStorageController extends BaseController {
    */
   @ApiOperation("5.删除文件")
   @ApiOperationSupport(order = 5)
+  @SysLog("文件删除")
   @DeleteMapping("/delete")
   public List<Boolean> delete(@RequestBody String... ids) {
     return Arrays.stream(ids).map(id -> fileStorageClient.deleteFile(id)).collect(Collectors.toList());

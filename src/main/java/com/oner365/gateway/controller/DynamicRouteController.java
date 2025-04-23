@@ -23,6 +23,7 @@ import com.oner365.data.web.controller.BaseController;
 import com.oner365.gateway.dto.GatewayRouteDto;
 import com.oner365.gateway.service.DynamicRouteService;
 import com.oner365.gateway.vo.GatewayRouteVo;
+import com.oner365.log.annotation.SysLog;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -75,6 +76,7 @@ public class DynamicRouteController extends BaseController {
    */
   @ApiOperation("3.添加路由")
   @ApiOperationSupport(order = 3)
+  @SysLog("添加路由")
   @PostMapping("/add")
   public GatewayRouteDto add(@Validated @RequestBody GatewayRouteVo gatewayRouteVo) {
     return dynamicRouteService.save(gatewayRouteVo);
@@ -100,6 +102,7 @@ public class DynamicRouteController extends BaseController {
    */
   @ApiOperation("5.更新路由")
   @ApiOperationSupport(order = 5)
+  @SysLog("更新路由")
   @PostMapping("/update")
   public GatewayRouteDto update(@Validated @RequestBody GatewayRouteVo gatewayRouteVo) {
     return dynamicRouteService.update(gatewayRouteVo);
@@ -114,6 +117,7 @@ public class DynamicRouteController extends BaseController {
    */
   @ApiOperation("6.更新状态")
   @ApiOperationSupport(order = 6)
+  @SysLog("添加路由状态")
   @GetMapping("/status/{id}/{status}")
   public Boolean editStatus(@PathVariable String id, @PathVariable StatusEnum status) {
     return dynamicRouteService.editStatus(id, status);
@@ -127,6 +131,7 @@ public class DynamicRouteController extends BaseController {
    */
   @ApiOperation("7.删除路由")
   @ApiOperationSupport(order = 7)
+  @SysLog("删除路由")
   @DeleteMapping("/delete")
   public List<Boolean> delete(@RequestBody String... ids) {
     return Arrays.stream(ids).map(id -> dynamicRouteService.deleteById(id)).collect(Collectors.toList());
