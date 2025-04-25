@@ -41,18 +41,18 @@
 		<java.version>21</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		<org.springframework.integration.version>6.4.3</org.springframework.integration.version>
+		<org.springframework.integration.version>6.4.4</org.springframework.integration.version>
 		<org.springframework.statemachine.version>4.0.0</org.springframework.statemachine.version>
-		<org.springframework.security.version>6.4.4</org.springframework.security.version>
-		<org.springframework.boot.version>3.4.4</org.springframework.boot.version>
-		<org.springframework.version>6.2.5</org.springframework.version>
+		<org.springframework.security.version>6.4.5</org.springframework.security.version>
+		<org.springframework.boot.version>3.4.5</org.springframework.boot.version>
+		<org.springframework.version>6.2.6</org.springframework.version>
 		<org.springframework.kafka.version>3.3.4</org.springframework.kafka.version>
 		<org.springdoc.version>2.8.6</org.springdoc.version>
 
 		<org.apache.logging.log4j.version>2.24.3</org.apache.logging.log4j.version>
 		<org.apache.httpclient.version>4.5.14</org.apache.httpclient.version>
 		<org.apache.httpcore.version>4.4.16</org.apache.httpcore.version>
-		<org.apache.tomcat.version>10.1.39</org.apache.tomcat.version>
+		<org.apache.tomcat.version>10.1.40</org.apache.tomcat.version>
 		<org.apache.pulsar.version>4.0.3</org.apache.pulsar.version>
 		<org.apache.kafka.version>4.0.0</org.apache.kafka.version>
 		<org.apache.poi.version>5.4.0</org.apache.poi.version>
@@ -73,12 +73,12 @@
 		<commons.io.version>2.18.0</commons.io.version>
 
 		<org.hibernate.validator.version>8.0.2.Final</org.hibernate.validator.version>
-		<org.hibernate.version>6.6.11.Final</org.hibernate.version>
+		<org.hibernate.version>6.6.13.Final</org.hibernate.version>
 		<org.mybatis.spring.boot.version>3.0.4</org.mybatis.spring.boot.version>
 		<org.mybatis.version>3.5.19</org.mybatis.version>
 
 		<org.bouncycastle.version>1.80</org.bouncycastle.version>
-		<org.elasticsearch.version>8.17.2</org.elasticsearch.version>
+		<org.elasticsearch.version>8.17.5</org.elasticsearch.version>
 		<org.slf4j.version>2.0.17</org.slf4j.version>
 		<ch.qos.logback.version>1.5.18</ch.qos.logback.version>
 
@@ -118,7 +118,7 @@
 		<io.projectreactor.netty.version>1.2.4</io.projectreactor.netty.version>
 		<io.hypersistence.version>3.8.3</io.hypersistence.version>
 		<io.jsonwebtoken.version>0.9.1</io.jsonwebtoken.version>
-		<io.micrometer.version>1.14.5</io.micrometer.version>
+		<io.micrometer.version>1.14.6</io.micrometer.version>
 		<io.netty.version>4.1.119.Final</io.netty.version>
 		<io.minio.version>8.5.17</io.minio.version>
 
