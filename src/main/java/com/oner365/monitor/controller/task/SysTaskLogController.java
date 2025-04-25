@@ -17,6 +17,7 @@ import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.data.jpa.page.PageInfo;
 import com.oner365.data.jpa.query.QueryCriteriaBean;
 import com.oner365.data.web.controller.BaseController;
+import com.oner365.log.annotation.SysLog;
 import com.oner365.monitor.dto.SysTaskLogDto;
 import com.oner365.monitor.service.ISysTaskLogService;
 
@@ -69,6 +70,7 @@ public class SysTaskLogController extends BaseController {
    */
   @Operation(summary = "3.清除任务日志")
   @ApiOperationSupport(order = 3)
+  @SysLog("清理定时任务日志")
   @DeleteMapping("/clean")
   public Boolean clean() {
     return taskLogService.cleanTaskLog();
@@ -82,6 +84,7 @@ public class SysTaskLogController extends BaseController {
    */
   @Operation(summary = "4.删除任务日志")
   @ApiOperationSupport(order = 4)
+  @SysLog("删除定时任务日志")
   @DeleteMapping("/delete")
   public List<Boolean> remove(@RequestBody String... ids) {
     return taskLogService.deleteTaskLogByIds(ids);

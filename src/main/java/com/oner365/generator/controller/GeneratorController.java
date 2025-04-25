@@ -29,6 +29,7 @@ import com.oner365.generator.entity.GenTable;
 import com.oner365.generator.entity.GenTableColumn;
 import com.oner365.generator.service.IGenTableColumnService;
 import com.oner365.generator.service.IGenTableService;
+import com.oner365.log.annotation.SysLog;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -103,6 +104,7 @@ public class GeneratorController extends BaseController {
    */
   @Operation(summary = "5.保存生成信息")
   @ApiOperationSupport(order = 5)
+  @SysLog("保存生成信息")
   @PutMapping
   public Boolean updateGenTable(@Validated @RequestBody GenTable genTable) {
     genTableService.validateEdit(genTable);
@@ -167,6 +169,7 @@ public class GeneratorController extends BaseController {
    */
   @Operation(summary = "11.删除代码生成")
   @ApiOperationSupport(order = 11)
+  @SysLog("删除生成代码")
   @DeleteMapping("/{tableIds}")
   public Boolean remove(@PathVariable Long[] tableIds) {
     return genTableService.deleteGenTableByIds(tableIds);

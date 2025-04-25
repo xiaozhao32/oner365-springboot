@@ -23,6 +23,7 @@ import com.oner365.data.commons.enums.StatusEnum;
 import com.oner365.data.jpa.page.PageInfo;
 import com.oner365.data.jpa.query.QueryCriteriaBean;
 import com.oner365.data.web.controller.BaseController;
+import com.oner365.log.annotation.SysLog;
 import com.oner365.sys.dto.SysMenuOperationDto;
 import com.oner365.sys.service.ISysMenuOperationService;
 import com.oner365.sys.vo.SysMenuOperationVo;
@@ -80,6 +81,7 @@ public class SysMenuOperationController extends BaseController {
    */
   @Operation(summary = "3.修改状态")
   @ApiOperationSupport(order = 3)
+  @SysLog("修改菜单操作状态")
   @PostMapping("/status/{id}")
   public Boolean editStatus(@PathVariable String id, @RequestParam("status") StatusEnum status) {
     return menuOperationService.editStatus(id, status);
@@ -109,6 +111,7 @@ public class SysMenuOperationController extends BaseController {
    */
   @Operation(summary = "5.保存")
   @ApiOperationSupport(order = 5)
+  @SysLog("保存菜单操作")
   @PutMapping("/save")
   public SysMenuOperationDto save(@Validated @RequestBody SysMenuOperationVo sysMenuOperationVo) {
     return menuOperationService.save(sysMenuOperationVo);
@@ -122,6 +125,7 @@ public class SysMenuOperationController extends BaseController {
    */
   @Operation(summary = "6.删除")
   @ApiOperationSupport(order = 6)
+  @SysLog("删除菜单操作")
   @DeleteMapping("/delete")
   public List<Boolean> delete(@RequestBody String... ids) {
     return Arrays.stream(ids).map(id -> menuOperationService.deleteById(id)).collect(Collectors.toList());

@@ -3,14 +3,12 @@ package com.oner365.log.aspect;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.http.HttpMethod;
 
 import com.alibaba.fastjson.JSON;
 import com.oner365.data.commons.util.DataUtils;
@@ -55,10 +53,7 @@ public class SysLogAspect {
       
       SysLogVo entity = SysLogUtils.getSysLog();
       entity.setOperationName(sysLog.value());
-      if (HttpMethod.PUT.name().equals(methodName) || HttpMethod.POST.name().equals(methodName)) {
-        String params = getParams(point.getArgs());
-        entity.setOperationContext(StringUtils.substring(params, 0, 2000));
-      }
+      entity.setOperationContext(getParams(point.getArgs()));
       this.publisher.publishEvent(new SysLogEvent(entity));
       return point.proceed();
     } catch (Throwable e) {

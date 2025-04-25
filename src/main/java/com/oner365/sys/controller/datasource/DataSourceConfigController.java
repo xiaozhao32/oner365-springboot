@@ -21,6 +21,7 @@ import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.data.jpa.page.PageInfo;
 import com.oner365.data.jpa.query.QueryCriteriaBean;
 import com.oner365.data.web.controller.BaseController;
+import com.oner365.log.annotation.SysLog;
 import com.oner365.sys.dto.DataSourceConfigDto;
 import com.oner365.sys.service.IDataSourceConfigService;
 import com.oner365.sys.vo.DataSourceConfigVo;
@@ -89,6 +90,7 @@ public class DataSourceConfigController extends BaseController {
    */
   @Operation(summary = "4.保存")
   @ApiOperationSupport(order = 4)
+  @SysLog("数据源保存")
   @PutMapping("/save")
   public DataSourceConfigDto save(@Validated @RequestBody DataSourceConfigVo dataSourceConfigVo) {
     return service.save(dataSourceConfigVo);
@@ -102,6 +104,7 @@ public class DataSourceConfigController extends BaseController {
    */
   @Operation(summary = "5.删除")
   @ApiOperationSupport(order = 5)
+  @SysLog("数据源删除")
   @DeleteMapping("/delete")
   public List<Boolean> delete(@RequestBody String... ids) {
     return Arrays.stream(ids).map(id -> service.deleteById(id)).collect(Collectors.toList());

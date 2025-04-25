@@ -21,6 +21,7 @@ import com.oner365.deploy.entity.DeployEntity;
 import com.oner365.deploy.entity.ServerEntity;
 import com.oner365.deploy.service.DeployService;
 import com.oner365.deploy.utils.DeployMethod;
+import com.oner365.log.annotation.SysLog;
 import com.oner365.monitor.dto.ServiceInfoDto;
 import com.oner365.queue.service.IQueueSendService;
 
@@ -108,6 +109,7 @@ public class ServiceController extends BaseController {
    */
   @Operation(summary = "4.上传服务")
   @ApiOperationSupport(order = 4)
+  @SysLog("上传服务")
   @PostMapping("/upload")
   public String uploadService() {
     DeployEntity deploy = deployService.getDeployEntity();
@@ -128,6 +130,7 @@ public class ServiceController extends BaseController {
    */
   @Operation(summary = "5.重启服务")
   @ApiOperationSupport(order = 5)
+  @SysLog("重启服务")
   @PostMapping("/reset")
   public String resetService() {
     return ResultEnum.SUCCESS.getName();

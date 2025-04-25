@@ -23,6 +23,7 @@ import com.oner365.data.commons.enums.StatusEnum;
 import com.oner365.data.jpa.page.PageInfo;
 import com.oner365.data.jpa.query.QueryCriteriaBean;
 import com.oner365.data.web.controller.BaseController;
+import com.oner365.log.annotation.SysLog;
 import com.oner365.sys.dto.SysJobDto;
 import com.oner365.sys.service.ISysJobService;
 import com.oner365.sys.vo.SysJobVo;
@@ -78,6 +79,7 @@ public class SysJobController extends BaseController {
    */
   @Operation(summary = "3.修改状态")
   @ApiOperationSupport(order = 3)
+  @SysLog("修改职位状态")
   @PostMapping("/status/{id}")
   public Boolean editStatus(@PathVariable String id, @RequestParam("status") StatusEnum status) {
     return sysJobService.editStatus(id, status);
@@ -91,6 +93,7 @@ public class SysJobController extends BaseController {
    */
   @Operation(summary = "4.保存")
   @ApiOperationSupport(order = 4)
+  @SysLog("职位保存")
   @PutMapping("/save")
   public SysJobDto save(@Validated @RequestBody SysJobVo sysJobVo) {
     return sysJobService.save(sysJobVo);
@@ -104,6 +107,7 @@ public class SysJobController extends BaseController {
    */
   @Operation(summary = "5.删除")
   @ApiOperationSupport(order = 5)
+  @SysLog("职位删除")
   @DeleteMapping("/delete")
   public List<Boolean> delete(@RequestBody String... ids) {
     return Arrays.stream(ids).map(id -> sysJobService.deleteById(id)).collect(Collectors.toList());

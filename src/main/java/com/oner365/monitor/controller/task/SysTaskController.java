@@ -20,6 +20,7 @@ import com.oner365.data.commons.auth.annotation.CurrentUser;
 import com.oner365.data.jpa.page.PageInfo;
 import com.oner365.data.jpa.query.QueryCriteriaBean;
 import com.oner365.data.web.controller.BaseController;
+import com.oner365.log.annotation.SysLog;
 import com.oner365.monitor.dto.SysTaskDto;
 import com.oner365.monitor.exception.TaskException;
 import com.oner365.monitor.service.ISysTaskService;
@@ -80,6 +81,7 @@ public class SysTaskController extends BaseController {
    */
   @Operation(summary = "3.新增定时任务")
   @ApiOperationSupport(order = 3)
+  @SysLog("添加定时任务")
   @PostMapping
   public String add(@Validated @RequestBody SysTaskVo sysTaskVo, @Parameter(hidden = true) @CurrentUser AuthUser authUser)
       throws SchedulerException, TaskException {
@@ -102,6 +104,7 @@ public class SysTaskController extends BaseController {
    */
   @Operation(summary = "4.修改定时任务")
   @ApiOperationSupport(order = 4)
+  @SysLog("修改定时任务")
   @PutMapping
   public String edit(@RequestBody SysTaskVo sysTaskVo, @Parameter(hidden = true) @CurrentUser AuthUser authUser)
       throws SchedulerException, TaskException {
@@ -122,6 +125,7 @@ public class SysTaskController extends BaseController {
    */
   @Operation(summary = "5.修改状态")
   @ApiOperationSupport(order = 5)
+  @SysLog("修改定时任务状态")
   @PutMapping("/status")
   public Boolean changeStatus(@RequestBody SysTaskVo sysTaskVo)
       throws SchedulerException {
@@ -137,6 +141,7 @@ public class SysTaskController extends BaseController {
    */
   @Operation(summary = "6.立即执行一次")
   @ApiOperationSupport(order = 6)
+  @SysLog("执行定时任务")
   @PutMapping("/run")
   public String run(@RequestBody SysTaskVo sysTaskVo) throws SchedulerException {
     if (sysTaskVo != null) {
@@ -154,6 +159,7 @@ public class SysTaskController extends BaseController {
    */
   @Operation(summary = "7.删除定时任务")
   @ApiOperationSupport(order = 7)
+  @SysLog("删除定时任务")
   @DeleteMapping("/delete")
   public List<Boolean> remove(@RequestBody String... ids) {
     return taskService.deleteTaskByIds(ids);

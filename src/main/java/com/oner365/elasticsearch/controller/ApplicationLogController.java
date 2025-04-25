@@ -20,6 +20,7 @@ import com.oner365.data.jpa.query.QueryCriteriaBean;
 import com.oner365.data.web.controller.BaseController;
 import com.oner365.elasticsearch.dto.ApplicationLogDto;
 import com.oner365.elasticsearch.service.IApplicationLogElasticsearchService;
+import com.oner365.log.annotation.SysLog;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
@@ -72,6 +73,7 @@ public class ApplicationLogController extends BaseController {
    */
   @Operation(summary = "3.删除")
   @ApiOperationSupport(order = 3)
+  @SysLog("删除应用日志")
   @DeleteMapping("/delete")
   public List<Boolean> delete(@RequestBody String... ids) {
     return Arrays.stream(ids).map(id -> service.deleteById(id)).collect(Collectors.toList());

@@ -33,6 +33,7 @@ import com.oner365.data.redis.constants.CacheConstants;
 import com.oner365.data.web.controller.BaseController;
 import com.oner365.data.web.utils.HttpClientUtils;
 import com.oner365.data.web.utils.RequestUtils;
+import com.oner365.log.annotation.SysLog;
 import com.oner365.sys.constants.SysConstants;
 import com.oner365.sys.dto.CaptchaImageDto;
 import com.oner365.sys.dto.LoginUserDto;
@@ -75,9 +76,10 @@ public class AuthController extends BaseController {
    * @param loginUserVo 登录对象
    * @return ResponseData<LoginUserDto>
    */
-  @PostMapping("/login")
   @Operation(summary = "1.登录")
   @ApiOperationSupport(order = 1)
+  @SysLog("用户登录")
+  @PostMapping("/login")
   public ResponseData<LoginUserDto> login(@Validated @RequestBody LoginUserVo loginUserVo) {
     // 验证码
     if (!DataUtils.isEmpty(loginUserVo.getUuid())) {
@@ -181,6 +183,7 @@ public class AuthController extends BaseController {
    */
   @Operation(summary = "5.退出登录")
   @ApiOperationSupport(order = 5)
+  @SysLog("退出登录")
   @PostMapping("/logout")
   public String logout(@Parameter(hidden = true) @CurrentUser AuthUser authUser) {
     if (authUser != null) {

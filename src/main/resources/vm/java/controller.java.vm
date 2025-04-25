@@ -24,6 +24,7 @@ import com.oner365.common.enums.StatusEnum;
 import com.oner365.common.page.PageInfo;
 import com.oner365.common.query.QueryCriteriaBean;
 import com.oner365.controller.BaseController;
+import com.oner365.log.annotation.SysLog;
 import ${packageName}.dto.${ClassName}Dto;
 import ${packageName}.service.I${ClassName}Service;
 import ${packageName}.vo.${ClassName}Vo;
@@ -84,6 +85,7 @@ public class ${ClassName}Controller extends BaseController {
      */
     @Operation(summary = "3.修改状态")
     @ApiOperationSupport(order = 3)
+    @SysLog("修改状态")
     @PostMapping("/status/{id}")
     public Boolean editStatus(@PathVariable $AttrName id, @RequestParam("status") StatusEnum status) {
       return ${className}Service.editStatus(id, status);
@@ -97,6 +99,7 @@ public class ${ClassName}Controller extends BaseController {
      */
     @Operation(summary = "4.保存")
     @ApiOperationSupport(order = 4)
+    @SysLog("保存")
     @PutMapping("/save")
     public ${ClassName}Dto save(@Validated @RequestBody ${ClassName}Vo ${className}Vo) {
         return ${className}Service.save(${className}Vo);
@@ -110,6 +113,7 @@ public class ${ClassName}Controller extends BaseController {
      */
     @Operation(summary = "5.删除")
     @ApiOperationSupport(order = 5)
+    @SysLog("删除")
     @DeleteMapping("/delete")
     public List<Boolean> delete(@RequestBody $AttrName... ids) {
         return Arrays.stream(ids).map(id -> ${className}Service.deleteById(id)).collect(Collectors.toList());
