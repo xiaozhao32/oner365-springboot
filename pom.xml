@@ -46,7 +46,7 @@
 		<org.springframework.security.version>6.4.5</org.springframework.security.version>
 		<org.springframework.boot.version>3.4.5</org.springframework.boot.version>
 		<org.springframework.version>6.2.6</org.springframework.version>
-		<org.springframework.kafka.version>3.3.4</org.springframework.kafka.version>
+		<org.springframework.kafka.version>3.3.5</org.springframework.kafka.version>
 		<org.springdoc.version>2.8.6</org.springdoc.version>
 
 		<org.apache.logging.log4j.version>2.24.3</org.apache.logging.log4j.version>
@@ -57,7 +57,7 @@
 		<org.apache.kafka.version>4.0.0</org.apache.kafka.version>
 		<org.apache.poi.version>5.4.1</org.apache.poi.version>
 		<org.apache.ant.version>1.10.15</org.apache.ant.version>
-		<org.apache.velocity.version>2.4</org.apache.velocity.version>
+		<org.apache.velocity.version>2.4.1</org.apache.velocity.version>
 		<org.apache.velocity.tools.version>3.1</org.apache.velocity.tools.version>
 		
 		<commons.collections.version>3.2.2</commons.collections.version>
@@ -78,7 +78,7 @@
 		<org.mybatis.version>3.5.19</org.mybatis.version>
 
 		<org.bouncycastle.version>1.80</org.bouncycastle.version>
-		<org.elasticsearch.version>8.17.5</org.elasticsearch.version>
+		<org.elasticsearch.version>8.18.1</org.elasticsearch.version>
 		<org.slf4j.version>2.0.17</org.slf4j.version>
 		<ch.qos.logback.version>1.5.18</ch.qos.logback.version>
 
@@ -96,12 +96,12 @@
 		<org.postgresql.version>42.7.5</org.postgresql.version>
 		<com.oracle.version>23.2.0.0</com.oracle.version>
 		<com.dameng.version>8.1.1.49</com.dameng.version>
-		<com.mysql.version>9.2.0</com.mysql.version>
+		<com.mysql.version>9.3.0</com.mysql.version>
 
 		<com.alibaba.fastjson.version>1.2.83</com.alibaba.fastjson.version>
 		<com.alibaba.druid.version>1.2.23</com.alibaba.druid.version>
 
-		<com.fasterxml.jackson.version>2.18.3</com.fasterxml.jackson.version>
+		<com.fasterxml.jackson.version>2.19.0</com.fasterxml.jackson.version>
 		<com.google.code.gson.version>2.13.1</com.google.code.gson.version>
 		<com.google.guava.version>33.4.8-jre</com.google.guava.version>
 		<com.google.protobuf.version>4.30.2</com.google.protobuf.version>
@@ -114,12 +114,12 @@
 		<com.belerweb.version>2.5.1</com.belerweb.version>
 		<com.auth0.version>4.5.0</com.auth0.version>
 
-		<io.projectreactor.core.version>3.7.4</io.projectreactor.core.version>
-		<io.projectreactor.netty.version>1.2.4</io.projectreactor.netty.version>
-		<io.hypersistence.version>3.8.3</io.hypersistence.version>
+		<io.projectreactor.core.version>3.7.5</io.projectreactor.core.version>
+		<io.projectreactor.netty.version>1.2.5</io.projectreactor.netty.version>
+		<io.hypersistence.version>3.9.10</io.hypersistence.version>
 		<io.jsonwebtoken.version>0.9.1</io.jsonwebtoken.version>
 		<io.micrometer.version>1.14.6</io.micrometer.version>
-		<io.netty.version>4.1.119.Final</io.netty.version>
+		<io.netty.version>4.2.1.Final</io.netty.version>
 		<io.minio.version>8.5.17</io.minio.version>
 
 		<net.logstash.logback.version>8.0</net.logstash.logback.version>
