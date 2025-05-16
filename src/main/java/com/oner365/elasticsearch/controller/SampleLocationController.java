@@ -63,7 +63,7 @@ public class SampleLocationController extends BaseController {
   @ApiOperation("2.按id查询")
   @ApiOperationSupport(order = 2)
   @GetMapping("/get/{id}")
-  public SampleLocationDto get(@PathVariable("id") String id) {
+  public SampleLocationDto get(@PathVariable String id) {
     return service.findById(id);
   }
 

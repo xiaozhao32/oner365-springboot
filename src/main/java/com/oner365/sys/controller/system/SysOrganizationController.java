@@ -112,7 +112,7 @@ public class SysOrganizationController extends BaseController {
   @ApiOperation("5.父级id查询")
   @ApiOperationSupport(order = 5)
   @GetMapping("/parent")
-  public List<SysOrganizationDto> findListByParentId(@RequestParam("parentId") String parentId) {
+  public List<SysOrganizationDto> findListByParentId(@RequestParam String parentId) {
     return sysOrgService.findListByParentId(parentId);
   }
 
@@ -157,7 +157,7 @@ public class SysOrganizationController extends BaseController {
   @ApiOperationSupport(order = 8)
   @PostMapping("/user/{userId}")
   public SysMenuTreeSelectDto userTreeSelect(@RequestBody SysOrganizationVo sysOrganizationVo,
-      @PathVariable("userId") String userId) {
+      @PathVariable String userId) {
     List<SysOrganizationDto> list = sysOrgService.selectList(sysOrganizationVo);
     SysMenuTreeSelectDto result = new SysMenuTreeSelectDto();
 
@@ -177,7 +177,7 @@ public class SysOrganizationController extends BaseController {
   @ApiOperationSupport(order = 9)
   @SysLog("修改机构状态")
   @PostMapping("/status/{id}")
-  public Boolean editStatus(@PathVariable String id, @RequestParam("status") StatusEnum status) {
+  public Boolean editStatus(@PathVariable String id, @RequestParam StatusEnum status) {
     return sysOrgService.editStatus(id, status);
   }
 

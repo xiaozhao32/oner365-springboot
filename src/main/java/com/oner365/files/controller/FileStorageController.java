@@ -85,7 +85,7 @@ public class FileStorageController extends BaseController {
   @PostMapping("/upload")
   public String uploadFile(
       @ApiParam(name = "file", value = "文件") @RequestPart("file") MultipartFile file,
-      @ApiParam(name = "dictory", value = "上传目录") @RequestParam(name = "dictory", required = false) String dictory) {
+      @ApiParam(name = "dictory", value = "上传目录") @RequestParam(required = false) String dictory) {
     String targetDirectory = dictory;
     if (DataUtils.isEmpty(targetDirectory)) {
       targetDirectory = DateUtil.getCurrentDate();
@@ -104,7 +104,7 @@ public class FileStorageController extends BaseController {
   @ApiOperationSupport(order = 3)
   @SysLog("文件下载")
   @GetMapping("/download")
-  public void download(@RequestParam("fileUrl") String fileUrl, String filename, HttpServletResponse response) {
+  public void download(@RequestParam String fileUrl, String filename, HttpServletResponse response) {
     byte[] data = fileStorageClient.download(fileUrl);
     if (data == null) {
       response.setStatus(HttpStatus.SC_NOT_FOUND);
@@ -136,7 +136,7 @@ public class FileStorageController extends BaseController {
   @ApiOperationSupport(order = 4)
   @SysLog("文件下载")
   @GetMapping("/path")
-  public String downloadPath(@RequestParam("path") String path) {
+  public String downloadPath(@RequestParam String path) {
     return fileStorageClient.downloadPath(path);
   }
 

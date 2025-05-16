@@ -102,7 +102,7 @@ public class SysMenuTypeController extends BaseController {
   @ApiOperationSupport(order = 4)
   @SysLog("修改菜单类型状态")
   @PostMapping("/status/{id}")
-  public Boolean editStatus(@PathVariable String id, @RequestParam("status") StatusEnum status) {
+  public Boolean editStatus(@PathVariable String id, @RequestParam StatusEnum status) {
     return menuTypeService.editStatus(id, status);
   }
 

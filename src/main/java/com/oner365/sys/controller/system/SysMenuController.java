@@ -94,7 +94,7 @@ public class SysMenuController extends BaseController {
   @ApiOperationSupport(order = 3)
   @SysLog("修改菜单状态")
   @PostMapping("/status/{id}")
-  public Boolean editStatus(@PathVariable String id, @RequestParam("status") StatusEnum status) {
+  public Boolean editStatus(@PathVariable String id, @RequestParam StatusEnum status) {
     return menuService.editStatus(id, status);
   }
 
@@ -130,7 +130,7 @@ public class SysMenuController extends BaseController {
   @ApiOperation("5.获取权限")
   @ApiOperationSupport(order = 5)
   @PostMapping("/role/{roleId}")
-  public SysMenuTreeSelectDto roleMenuTreeSelect(@RequestBody SysMenuVo sysMenuVo, @PathVariable("roleId") String roleId,
+  public SysMenuTreeSelectDto roleMenuTreeSelect(@RequestBody SysMenuVo sysMenuVo, @PathVariable String roleId,
       @ApiIgnore @CurrentUser AuthUser authUser) {
     List<SysMenuDto> menus;
     if (SysConstants.DEFAULT_ROLE.equals(authUser.getIsAdmin())) {

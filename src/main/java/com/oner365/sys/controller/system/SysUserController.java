@@ -226,7 +226,7 @@ public class SysUserController extends BaseController {
   @ApiOperationSupport(order = 9)
   @SysLog("修改用户状态")
   @PostMapping("/status/{id}")
-  public Boolean editStatus(@PathVariable String id, @RequestParam("status") StatusEnum status) {
+  public Boolean editStatus(@PathVariable String id, @RequestParam StatusEnum status) {
     return sysUserService.editStatus(id, status);
   }
 
