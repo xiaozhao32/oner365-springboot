@@ -186,7 +186,7 @@ public class ApiController extends BaseController {
   @Operation(summary = "4.测试国际化")
   @ApiOperationSupport(order = 4)
   @GetMapping("/i18n/messages")
-  public JSONObject testMessages(@RequestParam("message") String message, @RequestParam("language") String language) {
+  public JSONObject testMessages(@RequestParam String message, @RequestParam String language) {
     Locale locale = Locale.of(language);
     String name = messageSource.getMessage(message, null, locale);
 

@@ -117,7 +117,7 @@ public class GeneratorController extends BaseController {
   @Operation(summary = "6.预览代码")
   @ApiOperationSupport(order = 6)
   @GetMapping("/preview/{tableId}")
-  public Map<String, String> preview(@PathVariable("tableId") Long tableId) {
+  public Map<String, String> preview(@PathVariable Long tableId) {
     return genTableService.previewCode(tableId);
   }
 
@@ -127,7 +127,7 @@ public class GeneratorController extends BaseController {
   @Operation(summary = "7.生成代码下载")
   @ApiOperationSupport(order = 7)
   @GetMapping("/download/{tableName}")
-  public void download(HttpServletResponse response, @PathVariable("tableName") String tableName) {
+  public void download(HttpServletResponse response, @PathVariable String tableName) {
     byte[] data = genTableService.downloadCode(tableName);
     genCode(response, data);
   }
@@ -138,7 +138,7 @@ public class GeneratorController extends BaseController {
   @Operation(summary = "8.生成代码")
   @ApiOperationSupport(order = 8)
   @GetMapping("/code/{tableName}")
-  public Boolean genCode(@PathVariable("tableName") String tableName) {
+  public Boolean genCode(@PathVariable String tableName) {
     return genTableService.generatorCode(tableName);
   }
 
@@ -148,7 +148,7 @@ public class GeneratorController extends BaseController {
   @Operation(summary = "9.同步数据库")
   @ApiOperationSupport(order = 9)
   @GetMapping("/sync/{tableName}")
-  public Boolean syncDb(@PathVariable("tableName") String tableName) {
+  public Boolean syncDb(@PathVariable String tableName) {
     return genTableService.syncDb(tableName);
   }
 

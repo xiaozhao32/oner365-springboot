@@ -61,7 +61,7 @@ public class ApplicationLogController extends BaseController {
   @Operation(summary = "2.按id查询")
   @ApiOperationSupport(order = 2)
   @GetMapping("/get/{id}")
-  public ApplicationLogDto get(@PathVariable("id") String id) {
+  public ApplicationLogDto get(@PathVariable String id) {
     return service.findById(id);
   }
 

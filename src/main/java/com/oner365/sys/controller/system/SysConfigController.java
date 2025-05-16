@@ -81,7 +81,7 @@ public class SysConfigController extends BaseController {
   @ApiOperationSupport(order = 3)
   @SysLog("系统配置修改状态")
   @PostMapping("/status/{id}")
-  public Boolean editStatus(@PathVariable String id, @RequestParam("status") StatusEnum status) {
+  public Boolean editStatus(@PathVariable String id, @RequestParam StatusEnum status) {
     return sysConfigService.editStatus(id, status);
   }
 
