@@ -120,8 +120,7 @@ public class RedisCacheConfig implements CachingConfigurer {
     if (!ObjectUtils.isEmpty(redisProperties.getPassword())) {
       redisSentinelConfiguration.setPassword(redisProperties.getPassword());
     }
-    LettuceClientConfiguration lettuceClientConfiguration = LettucePoolingClientConfiguration.builder()
-        .poolConfig(poolConfig).build();
+    LettuceClientConfiguration lettuceClientConfiguration = LettucePoolingClientConfiguration.defaultConfiguration();
     return new LettuceConnectionFactory(redisSentinelConfiguration, lettuceClientConfiguration);
   }
 
