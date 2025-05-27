@@ -44,7 +44,7 @@
 		<org.springframework.integration.version>6.4.4</org.springframework.integration.version>
 		<org.springframework.statemachine.version>4.0.0</org.springframework.statemachine.version>
 		<org.springframework.security.version>6.4.5</org.springframework.security.version>
-		<org.springframework.boot.version>3.4.5</org.springframework.boot.version>
+		<org.springframework.boot.version>3.4.6</org.springframework.boot.version>
 		<org.springframework.version>6.2.7</org.springframework.version>
 		<org.springframework.kafka.version>3.3.5</org.springframework.kafka.version>
 		<org.springdoc.version>2.8.6</org.springdoc.version>
@@ -52,7 +52,7 @@
 		<org.apache.logging.log4j.version>2.24.3</org.apache.logging.log4j.version>
 		<org.apache.httpclient.version>4.5.14</org.apache.httpclient.version>
 		<org.apache.httpcore.version>4.4.16</org.apache.httpcore.version>
-		<org.apache.tomcat.version>10.1.40</org.apache.tomcat.version>
+		<org.apache.tomcat.version>10.1.41</org.apache.tomcat.version>
 		<org.apache.pulsar.version>4.0.4</org.apache.pulsar.version>
 		<org.apache.kafka.version>4.0.0</org.apache.kafka.version>
 		<org.apache.poi.version>5.4.1</org.apache.poi.version>

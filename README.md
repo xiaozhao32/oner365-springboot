@@ -5,7 +5,7 @@
 
 <p align="center">
 	<a href="https://spring.io/projects/spring-framework" target="_blank"><img src="https://shields.io/badge/Spring%20Framework-6.2.7-blue" alt="Spring Framework 6.2.7"></a>
-    <a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://shields.io/badge/Spring%20Boot-3.4.5-blue" alt="Spring Boot 3.4.5"></a>
+    <a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://shields.io/badge/Spring%20Boot-3.4.6-blue" alt="Spring Boot 3.4.6"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue" alt="License Apache 2.0"></a>
     <a href="https://www.oracle.com/java/technologies/javase-downloads.html" target="_blank"><img src="https://img.shields.io/badge/JDK-21-green" alt="Java 21"></a>
 </p>
