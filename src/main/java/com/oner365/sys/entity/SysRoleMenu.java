@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 @Entity
 @Table(name = "nt_sys_role_menu")
-@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler" })
 public class SysRoleMenu implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -47,7 +47,6 @@ public class SysRoleMenu implements Serializable {
     @Column(name = "menu_id")
     private String menuId;
 
-
     /**
      * Generate constructor
      */
@@ -68,7 +67,6 @@ public class SysRoleMenu implements Serializable {
     public void setId(String id) {
         this.id = id;
     }
-
 
     public String getRoleId() {
         return roleId;
@@ -101,4 +99,5 @@ public class SysRoleMenu implements Serializable {
     public String toString() {
         return new ToStringBuilder(this).append("id", getId()).toString();
     }
+
 }

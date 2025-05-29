@@ -9,25 +9,27 @@ import org.springframework.util.ErrorHandler;
 
 /**
  * 定时任务 异常处理
- * 
+ *
  * @author zhaoyong
- * 
+ *
  */
 @Component
 public class MonitorTaskSchedulerCustomizer implements TaskSchedulerCustomizer {
-    
+
     private final Logger logger = LoggerFactory.getLogger(MonitorTaskSchedulerCustomizer.class);
 
     @Override
     public void customize(ThreadPoolTaskScheduler taskScheduler) {
         taskScheduler.setErrorHandler(new MonitorErrorHandler());
     }
-    
+
     private class MonitorErrorHandler implements ErrorHandler {
+
         @Override
         public void handleError(Throwable throwable) {
             logger.error("ErrorHandler", throwable);
         }
+
     }
 
 }

@@ -1,101 +1,100 @@
 package com.oner365.test.util.excel;
 
 import java.io.Serializable;
+
 /**
-* 读取excel文件数据传输类
-* 
-* @author LT
-*
-*/
-public class BindingAppleDeviceDto implements Serializable{
+ * 读取excel文件数据传输类
+ *
+ * @author LT
+ *
+ */
+public class BindingAppleDeviceDto implements Serializable {
 
-  /**
-   * 
-   */
-  private static final long serialVersionUID = 1L;
-  
-  /**
-  * 资产编号 assetsNo
-  */
-  private String assetsNo;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-  /**
-  * 用户名称 userName
-  */
-  private String userName;
-  
-  /**
-  * 序列号 serialNumber
-  */
-  private String serialNumber;
-  
-  /**
-  * 部门 department
-  */
-  private String department;
-  
-  /**
-  * 工号 jobNumber
-  */
-  private String jobNumber;
-  
-  /**
-  * 电话 phone
-  */
-  private String phone;
-  
-  public BindingAppleDeviceDto() {
-    
-  }
+    /**
+     * 资产编号 assetsNo
+     */
+    private String assetsNo;
 
-  public String getAssetsNo() {
-    return assetsNo;
-  }
+    /**
+     * 用户名称 userName
+     */
+    private String userName;
 
-  public void setAssetsNo(String assetsNo) {
-    this.assetsNo = assetsNo;
-  }
+    /**
+     * 序列号 serialNumber
+     */
+    private String serialNumber;
 
-  public String getUserName() {
-    return userName;
-  }
+    /**
+     * 部门 department
+     */
+    private String department;
 
-  public void setUserName(String userName) {
-    this.userName = userName;
-  }
+    /**
+     * 工号 jobNumber
+     */
+    private String jobNumber;
 
-  public String getSerialNumber() {
-    return serialNumber;
-  }
+    /**
+     * 电话 phone
+     */
+    private String phone;
 
-  public void setSerialNumber(String serialNumber) {
-    this.serialNumber = serialNumber;
-  }
+    public BindingAppleDeviceDto() {
 
-  public String getDepartment() {
-    return department;
-  }
+    }
 
-  public void setDepartment(String department) {
-    this.department = department;
-  }
+    public String getAssetsNo() {
+        return assetsNo;
+    }
 
-  public String getJobNumber() {
-    return jobNumber;
-  }
+    public void setAssetsNo(String assetsNo) {
+        this.assetsNo = assetsNo;
+    }
 
-  public void setJobNumber(String jobNumber) {
-    this.jobNumber = jobNumber;
-  }
+    public String getUserName() {
+        return userName;
+    }
 
-  public String getPhone() {
-    return phone;
-  }
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
-  public void setPhone(String phone) {
-    this.phone = phone;
-  }
-  
-  
-	  
+    public String getSerialNumber() {
+        return serialNumber;
+    }
+
+    public void setSerialNumber(String serialNumber) {
+        this.serialNumber = serialNumber;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public String getJobNumber() {
+        return jobNumber;
+    }
+
+    public void setJobNumber(String jobNumber) {
+        this.jobNumber = jobNumber;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
 }

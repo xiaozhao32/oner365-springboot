@@ -27,50 +27,50 @@ import com.oner365.test.service.BaseServiceTest;
 @SpringBootTest
 class SysRoleServiceTest extends BaseServiceTest {
 
-  @Resource
-  private ISysRoleService service;
+    @Resource
+    private ISysRoleService service;
 
-  @RepeatedTest(value = 2)
-  void findList() {
-    QueryCriteriaBean paramData = new QueryCriteriaBean();
-    List<SysRoleDto> list = service.findList(paramData);
-    logger.info("findList:{}", list.size());
-    Assertions.assertNotEquals(0, list.size());
-  }
+    @RepeatedTest(value = 2)
+    void findList() {
+        QueryCriteriaBean paramData = new QueryCriteriaBean();
+        List<SysRoleDto> list = service.findList(paramData);
+        logger.info("findList:{}", list.size());
+        Assertions.assertNotEquals(0, list.size());
+    }
 
-  @Test
-  void pageList() {
-    QueryCriteriaBean paramData = new QueryCriteriaBean();
-    PageInfo<SysRoleDto> list = service.pageList(paramData);
-    logger.info("pageList:{}", list.getSize());
-    Assertions.assertNotEquals(0, list.getSize());
-  }
+    @Test
+    void pageList() {
+        QueryCriteriaBean paramData = new QueryCriteriaBean();
+        PageInfo<SysRoleDto> list = service.pageList(paramData);
+        logger.info("pageList:{}", list.getSize());
+        Assertions.assertNotEquals(0, list.getSize());
+    }
 
-  @Test
-  void getById() {
-    String id = "1";
-    SysRoleDto entity = service.getById(id);
-    logger.info("getById:{}", JSON.toJSONString(entity));
-    Assertions.assertNotNull(entity);
-  }
+    @Test
+    void getById() {
+        String id = "1";
+        SysRoleDto entity = service.getById(id);
+        logger.info("getById:{}", JSON.toJSONString(entity));
+        Assertions.assertNotNull(entity);
+    }
 
-  @Test
-  void findMenuByRoles() {
-    List<String> roles = new ArrayList<>();
-    roles.add("1");
-    String menuType = "1";
-    List<SysMenuTreeDto> list = service.findMenuByRoles(roles, menuType);
-    logger.info("findMenuByRoles:{}", list.size());
-    Assertions.assertNotEquals(0, list.size());
-  }
+    @Test
+    void findMenuByRoles() {
+        List<String> roles = new ArrayList<>();
+        roles.add("1");
+        String menuType = "1";
+        List<SysMenuTreeDto> list = service.findMenuByRoles(roles, menuType);
+        logger.info("findMenuByRoles:{}", list.size());
+        Assertions.assertNotEquals(0, list.size());
+    }
 
-  @Test
-  void findMenuByRoleId() {
-    String menuType = "1";
-    String roleId = "1";
-    List<String> list = service.findMenuByRoleId(menuType, roleId);
-    logger.info("findMenuByRoleId:{}", list.size());
-    Assertions.assertNotEquals(0, list.size());
-  }
+    @Test
+    void findMenuByRoleId() {
+        String menuType = "1";
+        String roleId = "1";
+        List<String> list = service.findMenuByRoleId(menuType, roleId);
+        logger.info("findMenuByRoleId:{}", list.size());
+        Assertions.assertNotEquals(0, list.size());
+    }
 
 }

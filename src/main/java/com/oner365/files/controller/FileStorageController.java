@@ -53,130 +53,123 @@ import io.swagger.annotations.ApiParam;
 @RequestMapping("/files/storage")
 public class FileStorageController extends BaseController {
 
-  @Resource
-  private IFileStorageClient fileStorageClient;
+    @Resource
+    private IFileStorageClient fileStorageClient;
 
-  @Resource
-  private IFileStorageService fileStorageService;
+    @Resource
+    private IFileStorageService fileStorageService;
 
-  /**
-   * 查询列表
-   *
-   * @param data 查询参数
-   * @return PageInfo<SysFileStorageDto>
-   */
-  @ApiOperation("1.获取列表")
-  @ApiOperationSupport(order = 1)
-  @PostMapping("/list")
-  public PageInfo<SysFileStorageDto> pageList(@RequestBody QueryCriteriaBean data) {
-    return fileStorageService.pageList(data);
-  }
-
-  /**
-   * 文件上传 File 类型
-   *
-   * @param file    File
-   * @param dictory 目录
-   * @return String
-   */
-  @ApiOperation("2.文件上传")
-  @ApiOperationSupport(order = 2)
-  @SysLog("文件上传")
-  @PostMapping("/upload")
-  public String uploadFile(
-      @ApiParam(name = "file", value = "文件") @RequestPart("file") MultipartFile file,
-      @ApiParam(name = "dictory", value = "上传目录") @RequestParam(required = false) String dictory) {
-    String targetDirectory = dictory;
-    if (DataUtils.isEmpty(targetDirectory)) {
-      targetDirectory = DateUtil.getCurrentDate();
-    }
-    return fileStorageClient.uploadFile(file, targetDirectory);
-  }
-
-  /**
-   * 文件下载
-   *
-   * @param fileUrl  url 开头从组名开始
-   * @param filename 文件名称
-   * @param response HttpServletResponse
-   */
-  @ApiOperation("3.文件下载 - 写出")
-  @ApiOperationSupport(order = 3)
-  @SysLog("文件下载")
-  @GetMapping("/download")
-  public void download(@RequestParam String fileUrl, String filename, HttpServletResponse response) {
-    byte[] data = fileStorageClient.download(fileUrl);
-    if (data == null) {
-      response.setStatus(HttpStatus.SC_NOT_FOUND);
-      return;
-    }
-    if (DataUtils.isEmpty(filename)) {
-      filename = StringUtils.substringAfterLast(fileUrl, PublicConstants.DELIMITER);
+    /**
+     * 查询列表
+     * @param data 查询参数
+     * @return PageInfo<SysFileStorageDto>
+     */
+    @ApiOperation("1.获取列表")
+    @ApiOperationSupport(order = 1)
+    @PostMapping("/list")
+    public PageInfo<SysFileStorageDto> pageList(@RequestBody QueryCriteriaBean data) {
+        return fileStorageService.pageList(data);
     }
 
-    // 写出
-    try (ServletOutputStream outputStream = response.getOutputStream()) {
-      response.setCharacterEncoding(Charset.defaultCharset().name());
-      response.setHeader(HttpHeaders.CONTENT_DISPOSITION,
-          "attachment;filename=" + URLEncoder.encode(filename, Charset.defaultCharset().name()));
-      IOUtils.write(data, outputStream);
-    } catch (IOException e) {
-      logger.error("download IOException:", e);
+    /**
+     * 文件上传 File 类型
+     * @param file File
+     * @param dictory 目录
+     * @return String
+     */
+    @ApiOperation("2.文件上传")
+    @ApiOperationSupport(order = 2)
+    @SysLog("文件上传")
+    @PostMapping("/upload")
+    public String uploadFile(@ApiParam(name = "file", value = "文件") @RequestPart("file") MultipartFile file,
+            @ApiParam(name = "dictory", value = "上传目录") @RequestParam(required = false) String dictory) {
+        String targetDirectory = dictory;
+        if (DataUtils.isEmpty(targetDirectory)) {
+            targetDirectory = DateUtil.getCurrentDate();
+        }
+        return fileStorageClient.uploadFile(file, targetDirectory);
     }
 
-  }
+    /**
+     * 文件下载
+     * @param fileUrl url 开头从组名开始
+     * @param filename 文件名称
+     * @param response HttpServletResponse
+     */
+    @ApiOperation("3.文件下载 - 写出")
+    @ApiOperationSupport(order = 3)
+    @SysLog("文件下载")
+    @GetMapping("/download")
+    public void download(@RequestParam String fileUrl, String filename, HttpServletResponse response) {
+        byte[] data = fileStorageClient.download(fileUrl);
+        if (data == null) {
+            response.setStatus(HttpStatus.SC_NOT_FOUND);
+            return;
+        }
+        if (DataUtils.isEmpty(filename)) {
+            filename = StringUtils.substringAfterLast(fileUrl, PublicConstants.DELIMITER);
+        }
 
-  /**
-   * 文件下载地址
-   *
-   * @param path url 开头从组名开始
-   * @return 文件下载地址
-   */
-  @ApiOperation("4.文件下载 - 提供下载地址")
-  @ApiOperationSupport(order = 4)
-  @SysLog("文件下载")
-  @GetMapping("/path")
-  public String downloadPath(@RequestParam String path) {
-    return fileStorageClient.downloadPath(path);
-  }
+        // 写出
+        try (ServletOutputStream outputStream = response.getOutputStream()) {
+            response.setCharacterEncoding(Charset.defaultCharset().name());
+            response.setHeader(HttpHeaders.CONTENT_DISPOSITION,
+                    "attachment;filename=" + URLEncoder.encode(filename, Charset.defaultCharset().name()));
+            IOUtils.write(data, outputStream);
+        }
+        catch (IOException e) {
+            logger.error("download IOException:", e);
+        }
 
-  /**
-   * 删除文件
-   *
-   * @param ids 文件id
-   * @return String
-   */
-  @ApiOperation("5.删除文件")
-  @ApiOperationSupport(order = 5)
-  @SysLog("文件删除")
-  @DeleteMapping("/delete")
-  public List<Boolean> delete(@RequestBody String... ids) {
-    return Arrays.stream(ids).map(id -> fileStorageClient.deleteFile(id)).collect(Collectors.toList());
-  }
+    }
 
-  /**
-   * 获取文件存储方式
-   *
-   * @return StorageEnum
-   */
-  @ApiOperation("6.获取文件存储方式")
-  @ApiOperationSupport(order = 6)
-  @GetMapping("/name")
-  public StorageEnum getStorageName() {
-    return fileStorageClient.getName();
-  }
+    /**
+     * 文件下载地址
+     * @param path url 开头从组名开始
+     * @return 文件下载地址
+     */
+    @ApiOperation("4.文件下载 - 提供下载地址")
+    @ApiOperationSupport(order = 4)
+    @SysLog("文件下载")
+    @GetMapping("/path")
+    public String downloadPath(@RequestParam String path) {
+        return fileStorageClient.downloadPath(path);
+    }
 
-  /**
-   * 获取文件信息
-   *
-   * @param id 主键
-   * @return SysFileStorageDto
-   */
-  @ApiOperation("7.获取文件信息")
-  @ApiOperationSupport(order = 7)
-  @PostMapping("/info/{id}")
-  public SysFileStorageDto getFileInfo(@PathVariable String id) {
-    return fileStorageClient.getFile(id);
-  }
+    /**
+     * 删除文件
+     * @param ids 文件id
+     * @return String
+     */
+    @ApiOperation("5.删除文件")
+    @ApiOperationSupport(order = 5)
+    @SysLog("文件删除")
+    @DeleteMapping("/delete")
+    public List<Boolean> delete(@RequestBody String... ids) {
+        return Arrays.stream(ids).map(id -> fileStorageClient.deleteFile(id)).collect(Collectors.toList());
+    }
+
+    /**
+     * 获取文件存储方式
+     * @return StorageEnum
+     */
+    @ApiOperation("6.获取文件存储方式")
+    @ApiOperationSupport(order = 6)
+    @GetMapping("/name")
+    public StorageEnum getStorageName() {
+        return fileStorageClient.getName();
+    }
+
+    /**
+     * 获取文件信息
+     * @param id 主键
+     * @return SysFileStorageDto
+     */
+    @ApiOperation("7.获取文件信息")
+    @ApiOperationSupport(order = 7)
+    @PostMapping("/info/{id}")
+    public SysFileStorageDto getFileInfo(@PathVariable String id) {
+        return fileStorageClient.getFile(id);
+    }
 
 }

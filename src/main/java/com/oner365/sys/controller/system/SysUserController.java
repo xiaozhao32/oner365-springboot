@@ -59,225 +59,213 @@ import springfox.documentation.annotations.ApiIgnore;
 @RequestMapping("/system/user")
 public class SysUserController extends BaseController {
 
-  @Resource
-  private ISysUserService sysUserService;
+    @Resource
+    private ISysUserService sysUserService;
 
-  @Resource
-  private ISysRoleService sysRoleService;
+    @Resource
+    private ISysRoleService sysRoleService;
 
-  @Resource
-  private ISysJobService sysJobService;
+    @Resource
+    private ISysJobService sysJobService;
 
-  @Resource
-  private IFileStorageClient fileStorageClient;
+    @Resource
+    private IFileStorageClient fileStorageClient;
 
-  /**
-   * 用户列表
-   *
-   * @param data 查询参数
-   * @return PageInfo<SysUserDto>
-   */
-  @ApiOperation("1.用户列表")
-  @ApiOperationSupport(order = 1)
-  @PostMapping("/list")
-  public PageInfo<SysUserDto> pageList(@RequestBody QueryCriteriaBean data) {
-    return sysUserService.pageList(data);
-  }
-
-  /**
-   * 获取信息
-   *
-   * @param id 编号
-   * @return SysUserInfoVo
-   */
-  @ApiOperation("2.按id查询")
-  @ApiOperationSupport(order = 2)
-  @GetMapping("/get/{id}")
-  public SysUserInfoVo get(@PathVariable String id) {
-    SysUserDto sysUser = sysUserService.getById(id);
-
-    SysUserInfoVo result = new SysUserInfoVo();
-    result.setSysUser(sysUser);
-
-    QueryCriteriaBean data = new QueryCriteriaBean();
-    List<AttributeBean> whereList = new ArrayList<>();
-    AttributeBean attribute = new AttributeBean(SysConstants.STATUS, StatusEnum.YES);
-    whereList.add(attribute);
-    data.setWhereList(whereList);
-    result.setRoleList(sysRoleService.findList(data));
-    result.setJobList(sysJobService.findList(data));
-
-    return result;
-  }
-
-  /**
-   * 个人信息
-   *
-   * @param authUser 登录对象
-   * @return SysUserDto
-   */
-  @ApiOperation("3.个人信息")
-  @ApiOperationSupport(order = 3)
-  @GetMapping("/profile")
-  public SysUserDto profile(@ApiIgnore @CurrentUser AuthUser authUser) {
-    return sysUserService.getById(authUser.getId());
-  }
-
-  /**
-   * 上传图片
-   *
-   * @param authUser 登录对象
-   * @param file     文件
-   * @return String
-   */
-  @ApiOperation("4.上传头像")
-  @ApiOperationSupport(order = 4)
-  @SysLog("上传用户头像")
-  @PostMapping("/avatar")
-  public String avatar(@ApiIgnore @CurrentUser AuthUser authUser, @RequestParam("avatarfile") MultipartFile file) {
-    if (!file.isEmpty()) {
-      String fileUrl = fileStorageClient.uploadFile(file, "avatar");
-      SysUserDto sysUserDto =sysUserService.updateAvatar(authUser.getId(), fileUrl);
-      return sysUserDto.getAvatar();
+    /**
+     * 用户列表
+     * @param data 查询参数
+     * @return PageInfo<SysUserDto>
+     */
+    @ApiOperation("1.用户列表")
+    @ApiOperationSupport(order = 1)
+    @PostMapping("/list")
+    public PageInfo<SysUserDto> pageList(@RequestBody QueryCriteriaBean data) {
+        return sysUserService.pageList(data);
     }
-    return null;
-  }
-  
-  /**
-   * 更新个人信息
-   *
-   * @param authUser  登录对象
-   * @param sysUserVo 对象
-   * @return SysUserDto
-   */
-  @ApiOperation("5.更新个人信息")
-  @ApiOperationSupport(order = 5)
-  @SysLog("更新用户信息")
-  @PostMapping("/update/profile")
-  public SysUserDto updateUserProfile(@ApiIgnore @CurrentUser AuthUser authUser, @RequestBody SysUserVo sysUserVo) {
-    sysUserVo.setId(authUser.getId());
-    return sysUserService.updateUserProfile(sysUserVo);
-  }
 
-  /**
-   * 判断用户是否存在
-   *
-   * @param checkUserNameVo 查询参数
-   * @return Boolean
-   */
-  @ApiOperation("6.判断是否存在")
-  @ApiOperationSupport(order = 6)
-  @PostMapping("/check")
-  public Boolean checkUserName(@Validated @RequestBody CheckUserNameVo checkUserNameVo) {
-    if (checkUserNameVo != null) {
-      return sysUserService.checkUserName(checkUserNameVo.getId(), checkUserNameVo.getUserName());
+    /**
+     * 获取信息
+     * @param id 编号
+     * @return SysUserInfoVo
+     */
+    @ApiOperation("2.按id查询")
+    @ApiOperationSupport(order = 2)
+    @GetMapping("/get/{id}")
+    public SysUserInfoVo get(@PathVariable String id) {
+        SysUserDto sysUser = sysUserService.getById(id);
+
+        SysUserInfoVo result = new SysUserInfoVo();
+        result.setSysUser(sysUser);
+
+        QueryCriteriaBean data = new QueryCriteriaBean();
+        List<AttributeBean> whereList = new ArrayList<>();
+        AttributeBean attribute = new AttributeBean(SysConstants.STATUS, StatusEnum.YES);
+        whereList.add(attribute);
+        data.setWhereList(whereList);
+        result.setRoleList(sysRoleService.findList(data));
+        result.setJobList(sysJobService.findList(data));
+
+        return result;
     }
-    return Boolean.FALSE;
-  }
 
-  /**
-   * 重置密码
-   *
-   * @param resetPasswordVo 查询参数
-   * @return Boolean
-   */
-  @ApiOperation("7.重置密码")
-  @ApiOperationSupport(order = 7)
-  @SysLog("重置密码")
-  @PostMapping("/reset")
-  public Boolean resetPassword(@Validated @RequestBody ResetPasswordVo resetPasswordVo) {
-    if (resetPasswordVo != null) {
-      return sysUserService.editPassword(resetPasswordVo.getUserId(), resetPasswordVo.getPassword());
+    /**
+     * 个人信息
+     * @param authUser 登录对象
+     * @return SysUserDto
+     */
+    @ApiOperation("3.个人信息")
+    @ApiOperationSupport(order = 3)
+    @GetMapping("/profile")
+    public SysUserDto profile(@ApiIgnore @CurrentUser AuthUser authUser) {
+        return sysUserService.getById(authUser.getId());
     }
-    return Boolean.FALSE;
-  }
 
-  /**
-   * 修改密码
-   *
-   * @param authUser         登录对象
-   * @param modifyPasswordVo 请求参数
-   * @return Boolean
-   */
-  @ApiOperation("8.修改密码")
-  @ApiOperationSupport(order = 8)
-  @SysLog("修改密码")
-  @PostMapping("/update/password")
-  public String editPassword(@ApiIgnore @CurrentUser AuthUser authUser,
-      @Validated @RequestBody ModifyPasswordVo modifyPasswordVo) {
-    String oldPassword = Md5Util.getInstance().getMd5(modifyPasswordVo.getOldPassword()).toUpperCase();
-    SysUserDto sysUser = sysUserService.getById(authUser.getId());
-
-    if (!oldPassword.equals(sysUser.getPassword())) {
-      return ErrorInfoEnum.PASSWORD_ERROR.getName();
+    /**
+     * 上传图片
+     * @param authUser 登录对象
+     * @param file 文件
+     * @return String
+     */
+    @ApiOperation("4.上传头像")
+    @ApiOperationSupport(order = 4)
+    @SysLog("上传用户头像")
+    @PostMapping("/avatar")
+    public String avatar(@ApiIgnore @CurrentUser AuthUser authUser, @RequestParam("avatarfile") MultipartFile file) {
+        if (!file.isEmpty()) {
+            String fileUrl = fileStorageClient.uploadFile(file, "avatar");
+            SysUserDto sysUserDto = sysUserService.updateAvatar(authUser.getId(), fileUrl);
+            return sysUserDto.getAvatar();
+        }
+        return null;
     }
-    Boolean result = sysUserService.editPassword(authUser.getId(), modifyPasswordVo.getPassword());
-    return String.valueOf(result);
-  }
 
-  /**
-   * 修改用户状态
-   *
-   * @param id     主键
-   * @param status 状态
-   * @return Boolean
-   */
-  @ApiOperation("9.修改状态")
-  @ApiOperationSupport(order = 9)
-  @SysLog("修改用户状态")
-  @PostMapping("/status/{id}")
-  public Boolean editStatus(@PathVariable String id, @RequestParam StatusEnum status) {
-    return sysUserService.editStatus(id, status);
-  }
+    /**
+     * 更新个人信息
+     * @param authUser 登录对象
+     * @param sysUserVo 对象
+     * @return SysUserDto
+     */
+    @ApiOperation("5.更新个人信息")
+    @ApiOperationSupport(order = 5)
+    @SysLog("更新用户信息")
+    @PostMapping("/update/profile")
+    public SysUserDto updateUserProfile(@ApiIgnore @CurrentUser AuthUser authUser, @RequestBody SysUserVo sysUserVo) {
+        sysUserVo.setId(authUser.getId());
+        return sysUserService.updateUserProfile(sysUserVo);
+    }
 
-  /**
-   * 用户保存
-   *
-   * @param sysUserVo 用户对象
-   * @return SysUserDto
-   */
-  @ApiOperation("10.保存")
-  @ApiOperationSupport(order = 10)
-  @SysLog("保存用户")
-  @PutMapping("/save")
-  public SysUserDto save(@Validated @RequestBody SysUserVo sysUserVo) {
-    sysUserVo.setLastIp(HttpClientUtils.getIpAddress(RequestUtils.getHttpRequest()));
-    return sysUserService.saveUser(sysUserVo);
-  }
+    /**
+     * 判断用户是否存在
+     * @param checkUserNameVo 查询参数
+     * @return Boolean
+     */
+    @ApiOperation("6.判断是否存在")
+    @ApiOperationSupport(order = 6)
+    @PostMapping("/check")
+    public Boolean checkUserName(@Validated @RequestBody CheckUserNameVo checkUserNameVo) {
+        if (checkUserNameVo != null) {
+            return sysUserService.checkUserName(checkUserNameVo.getId(), checkUserNameVo.getUserName());
+        }
+        return Boolean.FALSE;
+    }
 
-  /**
-   * 删除用户
-   *
-   * @param ids 编号
-   * @return List<Boolean>
-   */
-  @ApiOperation("11.删除")
-  @ApiOperationSupport(order = 11)
-  @SysLog("删除用户")
-  @DeleteMapping("/delete")
-  public List<Boolean> delete(@RequestBody String... ids) {
-    return Arrays.stream(ids).map(id -> sysUserService.deleteById(id)).collect(Collectors.toList());
-  }
+    /**
+     * 重置密码
+     * @param resetPasswordVo 查询参数
+     * @return Boolean
+     */
+    @ApiOperation("7.重置密码")
+    @ApiOperationSupport(order = 7)
+    @SysLog("重置密码")
+    @PostMapping("/reset")
+    public Boolean resetPassword(@Validated @RequestBody ResetPasswordVo resetPasswordVo) {
+        if (resetPasswordVo != null) {
+            return sysUserService.editPassword(resetPasswordVo.getUserId(), resetPasswordVo.getPassword());
+        }
+        return Boolean.FALSE;
+    }
 
-  /**
-   * 导出Excel
-   *
-   * @param data 参数
-   * @return ResponseEntity<byte[]>
-   */
-  @ApiOperation("12.导出")
-  @ApiOperationSupport(order = 12)
-  @PostMapping("/export")
-  public ResponseEntity<byte[]> export(@RequestBody QueryCriteriaBean data) {
-    List<SysUserDto> list = sysUserService.findList(data);
+    /**
+     * 修改密码
+     * @param authUser 登录对象
+     * @param modifyPasswordVo 请求参数
+     * @return Boolean
+     */
+    @ApiOperation("8.修改密码")
+    @ApiOperationSupport(order = 8)
+    @SysLog("修改密码")
+    @PostMapping("/update/password")
+    public String editPassword(@ApiIgnore @CurrentUser AuthUser authUser,
+            @Validated @RequestBody ModifyPasswordVo modifyPasswordVo) {
+        String oldPassword = Md5Util.getInstance().getMd5(modifyPasswordVo.getOldPassword()).toUpperCase();
+        SysUserDto sysUser = sysUserService.getById(authUser.getId());
 
-    String[] titleKeys = new String[] { "编号", "用户标识", "用户名称", "姓名", "性别", "邮箱", "电话", "备注", "状态", "创建时间", "最后登录时间",
-        "最后登录ip" };
-    String[] columnNames = { "id", "userCode", "userName", "realName", "sex", "email", "phone", "remark", "status",
-        "createTime", "lastTime", "lastIp" };
+        if (!oldPassword.equals(sysUser.getPassword())) {
+            return ErrorInfoEnum.PASSWORD_ERROR.getName();
+        }
+        Boolean result = sysUserService.editPassword(authUser.getId(), modifyPasswordVo.getPassword());
+        return String.valueOf(result);
+    }
 
-    String fileName = SysUserDto.class.getSimpleName() + System.currentTimeMillis();
-    return exportExcel(fileName, titleKeys, columnNames, list);
-  }
+    /**
+     * 修改用户状态
+     * @param id 主键
+     * @param status 状态
+     * @return Boolean
+     */
+    @ApiOperation("9.修改状态")
+    @ApiOperationSupport(order = 9)
+    @SysLog("修改用户状态")
+    @PostMapping("/status/{id}")
+    public Boolean editStatus(@PathVariable String id, @RequestParam StatusEnum status) {
+        return sysUserService.editStatus(id, status);
+    }
+
+    /**
+     * 用户保存
+     * @param sysUserVo 用户对象
+     * @return SysUserDto
+     */
+    @ApiOperation("10.保存")
+    @ApiOperationSupport(order = 10)
+    @SysLog("保存用户")
+    @PutMapping("/save")
+    public SysUserDto save(@Validated @RequestBody SysUserVo sysUserVo) {
+        sysUserVo.setLastIp(HttpClientUtils.getIpAddress(RequestUtils.getHttpRequest()));
+        return sysUserService.saveUser(sysUserVo);
+    }
+
+    /**
+     * 删除用户
+     * @param ids 编号
+     * @return List<Boolean>
+     */
+    @ApiOperation("11.删除")
+    @ApiOperationSupport(order = 11)
+    @SysLog("删除用户")
+    @DeleteMapping("/delete")
+    public List<Boolean> delete(@RequestBody String... ids) {
+        return Arrays.stream(ids).map(id -> sysUserService.deleteById(id)).collect(Collectors.toList());
+    }
+
+    /**
+     * 导出Excel
+     * @param data 参数
+     * @return ResponseEntity<byte[]>
+     */
+    @ApiOperation("12.导出")
+    @ApiOperationSupport(order = 12)
+    @PostMapping("/export")
+    public ResponseEntity<byte[]> export(@RequestBody QueryCriteriaBean data) {
+        List<SysUserDto> list = sysUserService.findList(data);
+
+        String[] titleKeys = new String[] { "编号", "用户标识", "用户名称", "姓名", "性别", "邮箱", "电话", "备注", "状态", "创建时间", "最后登录时间",
+                "最后登录ip" };
+        String[] columnNames = { "id", "userCode", "userName", "realName", "sex", "email", "phone", "remark", "status",
+                "createTime", "lastTime", "lastIp" };
+
+        String fileName = SysUserDto.class.getSimpleName() + System.currentTimeMillis();
+        return exportExcel(fileName, titleKeys, columnNames, list);
+    }
 
 }

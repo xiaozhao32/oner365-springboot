@@ -10,52 +10,52 @@ import com.oner365.sys.constants.SysConstants;
 
 /**
  * ApplicationLog EntityInformation
- * 
+ *
  * @author zhaoyong
  *
  */
 @Repository
 public class ApplicationLogElasticsearchEntityInformation
-    implements ElasticsearchEntityInformation<ApplicationLog, String> {
+        implements ElasticsearchEntityInformation<ApplicationLog, String> {
 
-  @Override
-  public boolean isNew(ApplicationLog entity) {
-    return false;
-  }
+    @Override
+    public boolean isNew(ApplicationLog entity) {
+        return false;
+    }
 
-  @Override
-  public String getId(ApplicationLog entity) {
-    return entity.getId();
-  }
+    @Override
+    public String getId(ApplicationLog entity) {
+        return entity.getId();
+    }
 
-  @Override
-  public Class<String> getIdType() {
-    return String.class;
-  }
+    @Override
+    public Class<String> getIdType() {
+        return String.class;
+    }
 
-  @Override
-  public Class<ApplicationLog> getJavaType() {
-    return ApplicationLog.class;
-  }
+    @Override
+    public Class<ApplicationLog> getJavaType() {
+        return ApplicationLog.class;
+    }
 
-  @Override
-  public String getIdAttribute() {
-    return SysConstants.ID;
-  }
+    @Override
+    public String getIdAttribute() {
+        return SysConstants.ID;
+    }
 
-  @Override
-  public IndexCoordinates getIndexCoordinates() {
-    return IndexCoordinates.of(IndexCoordinates.TYPE);
-  }
+    @Override
+    public IndexCoordinates getIndexCoordinates() {
+        return IndexCoordinates.of(IndexCoordinates.TYPE);
+    }
 
-  @Override
-  public Long getVersion(ApplicationLog entity) {
-    return (long) 2.0;
-  }
+    @Override
+    public Long getVersion(ApplicationLog entity) {
+        return (long) 2.0;
+    }
 
-  @Override
-  public VersionType getVersionType() {
-    return VersionType.EXTERNAL;
-  }
+    @Override
+    public VersionType getVersionType() {
+        return VersionType.EXTERNAL;
+    }
 
 }

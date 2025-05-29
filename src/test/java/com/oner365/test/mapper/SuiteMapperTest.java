@@ -13,13 +13,12 @@ import org.junit.runner.RunWith;
  *
  */
 @RunWith(JUnitPlatform.class)
-@SelectPackages({
-    "com.oner365.test.mapper.sys"
-})
+@SelectPackages({ "com.oner365.test.mapper.sys" })
 class SuiteMapperTest {
 
     @Test
     void test() {
-      Assertions.assertEquals("SuiteMapperTest", SuiteMapperTest.class.getSimpleName());
+        Assertions.assertEquals("SuiteMapperTest", SuiteMapperTest.class.getSimpleName());
     }
+
 }

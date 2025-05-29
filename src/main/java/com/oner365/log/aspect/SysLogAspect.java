@@ -23,52 +23,56 @@ import com.oner365.sys.vo.SysLogVo;
  */
 @Aspect
 public class SysLogAspect {
-  private static final Logger LOGGER = LoggerFactory.getLogger(SysLogAspect.class);
 
-  private final ApplicationEventPublisher publisher;
+    private static final Logger LOGGER = LoggerFactory.getLogger(SysLogAspect.class);
 
-  /**
-   * Constructor
-   *
-   * @param publisher ApplicationEventPublisher
-   */
-  public SysLogAspect(ApplicationEventPublisher publisher) {
-    super();
-    this.publisher = publisher;
-  }
+    private final ApplicationEventPublisher publisher;
 
-  /**
-   * Aspect around
-   *
-   * @param point  ProceedingJoinPoint
-   * @param sysLog SysLog
-   * @return Object
-   */
-  @Around("@annotation(sysLog)")
-  public Object around(ProceedingJoinPoint point, com.oner365.log.annotation.SysLog sysLog) {
-    try {
-      String className = point.getTarget().getClass().getName();
-      String methodName = point.getSignature().getName();
-      LOGGER.debug("[Class]:{},[Method]:{}", className, methodName);
-      
-      SysLogVo entity = SysLogUtils.getSysLog();
-      entity.setOperationName(sysLog.value());
-      entity.setOperationContext(getParams(point.getArgs()));
-      this.publisher.publishEvent(new SysLogEvent(entity));
-      return point.proceed();
-    } catch (Throwable e) {
-      LOGGER.error("SysLogAspect error:", e);
+    /**
+     * Constructor
+     * @param publisher ApplicationEventPublisher
+     */
+    public SysLogAspect(ApplicationEventPublisher publisher) {
+        super();
+        this.publisher = publisher;
     }
-    return null;
-  }
 
-  private String getParams(Object[] paramsArray) {
-    String params = "";
-    if (!DataUtils.isEmpty(paramsArray)) {
-      params = Arrays.stream(paramsArray).filter(o -> !DataUtils.isEmpty(o))
-              .map(JSON::toJSON).filter(jsonObj -> !DataUtils.isEmpty(jsonObj))
-              .map(jsonObj -> jsonObj.toString() + " ").collect(Collectors.joining());
+    /**
+     * Aspect around
+     * @param point ProceedingJoinPoint
+     * @param sysLog SysLog
+     * @return Object
+     */
+    @Around("@annotation(sysLog)")
+    public Object around(ProceedingJoinPoint point, com.oner365.log.annotation.SysLog sysLog) {
+        try {
+            String className = point.getTarget().getClass().getName();
+            String methodName = point.getSignature().getName();
+            LOGGER.debug("[Class]:{},[Method]:{}", className, methodName);
+
+            SysLogVo entity = SysLogUtils.getSysLog();
+            entity.setOperationName(sysLog.value());
+            entity.setOperationContext(getParams(point.getArgs()));
+            this.publisher.publishEvent(new SysLogEvent(entity));
+            return point.proceed();
+        }
+        catch (Throwable e) {
+            LOGGER.error("SysLogAspect error:", e);
+        }
+        return null;
     }
-    return params.trim();
-  }
+
+    private String getParams(Object[] paramsArray) {
+        String params = "";
+        if (!DataUtils.isEmpty(paramsArray)) {
+            params = Arrays.stream(paramsArray)
+                .filter(o -> !DataUtils.isEmpty(o))
+                .map(JSON::toJSON)
+                .filter(jsonObj -> !DataUtils.isEmpty(jsonObj))
+                .map(jsonObj -> jsonObj.toString() + " ")
+                .collect(Collectors.joining());
+        }
+        return params.trim();
+    }
+
 }

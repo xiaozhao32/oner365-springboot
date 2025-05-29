@@ -58,139 +58,137 @@ import springfox.documentation.annotations.ApiIgnore;
 @RequestMapping("/system/auth")
 public class AuthController extends BaseController {
 
-  @Resource
-  private ISysUserService sysUserService;
+    @Resource
+    private ISysUserService sysUserService;
 
-  @Resource
-  private ISysRoleService sysRoleService;
+    @Resource
+    private ISysRoleService sysRoleService;
 
-  @Resource
-  private RedisCache redisCache;
-  
-  @Resource(name = "captchaProducer")
-  private Producer producer;
+    @Resource
+    private RedisCache redisCache;
 
-  /**
-   * 系统登录
-   *
-   * @param loginUserVo 登录对象
-   * @return ResponseData<LoginUserDto>
-   */
-  @ApiOperation("1.登录")
-  @ApiOperationSupport(order = 1)
-  @SysLog("用户登录")
-  @PostMapping("/login")
-  public ResponseData<LoginUserDto> login(@Validated @RequestBody LoginUserVo loginUserVo) {
-    // 验证码
-    if (!DataUtils.isEmpty(loginUserVo.getUuid())) {
-      String verifyKey = SysConstants.CAPTCHA_IMAGE + PublicConstants.COLON + loginUserVo.getUuid();
-      String captcha = redisCache.getCacheObject(verifyKey);
-      redisCache.deleteObject(verifyKey);
-      if (captcha == null || !captcha.equalsIgnoreCase(loginUserVo.getCode())) {
-        return ResponseData.error(ErrorInfoEnum.CAPCHA_ERROR.getName());
-      }
+    @Resource(name = "captchaProducer")
+    private Producer producer;
+
+    /**
+     * 系统登录
+     * @param loginUserVo 登录对象
+     * @return ResponseData<LoginUserDto>
+     */
+    @ApiOperation("1.登录")
+    @ApiOperationSupport(order = 1)
+    @SysLog("用户登录")
+    @PostMapping("/login")
+    public ResponseData<LoginUserDto> login(@Validated @RequestBody LoginUserVo loginUserVo) {
+        // 验证码
+        if (!DataUtils.isEmpty(loginUserVo.getUuid())) {
+            String verifyKey = SysConstants.CAPTCHA_IMAGE + PublicConstants.COLON + loginUserVo.getUuid();
+            String captcha = redisCache.getCacheObject(verifyKey);
+            redisCache.deleteObject(verifyKey);
+            if (captcha == null || !captcha.equalsIgnoreCase(loginUserVo.getCode())) {
+                return ResponseData.error(ErrorInfoEnum.CAPCHA_ERROR.getName());
+            }
+        }
+
+        // ip地址
+        String ip = HttpClientUtils.getIpAddress(RequestUtils.getHttpRequest());
+
+        // 登录
+        LoginUserDto result = sysUserService.login(loginUserVo.getUserName(), loginUserVo.getPassword(), ip);
+
+        // 返回结果
+        if (result != null) {
+            return ResponseData.success(result);
+        }
+        return ResponseData.error(ErrorInfoEnum.USER_PASSWORD_ERROR.getName());
     }
 
-    // ip地址
-    String ip = HttpClientUtils.getIpAddress(RequestUtils.getHttpRequest());
+    /**
+     * 获取验证码
+     * @return CaptchaImageDto
+     */
+    @ApiOperation("2.获取验证码")
+    @ApiOperationSupport(order = 2)
+    @GetMapping("/captcha")
+    public CaptchaImageDto captchaImage() {
+        // 生成随机字串
+        String verifyCode = producer.createText();
+        logger.info("login captcha:{}", verifyCode);
+        // 唯一标识
+        String uuid = UUID.randomUUID().toString();
+        String verifyKey = SysConstants.CAPTCHA_IMAGE + PublicConstants.COLON + uuid;
+        redisCache.setCacheObject(verifyKey, verifyCode, 3, TimeUnit.MINUTES);
 
-    // 登录
-    LoginUserDto result = sysUserService.login(loginUserVo.getUserName(), loginUserVo.getPassword(), ip);
+        CaptchaImageDto result = new CaptchaImageDto();
 
-    // 返回结果
-    if (result != null) {
-      return ResponseData.success(result);
-    }
-    return ResponseData.error(ErrorInfoEnum.USER_PASSWORD_ERROR.getName());
-  }
+        try (ByteArrayOutputStream stream = new ByteArrayOutputStream()) {
+            BufferedImage image = producer.createImage(verifyCode);
+            ImageIO.write(image, "jpg", stream);
 
-  /**
-   * 获取验证码
-   *
-   * @return CaptchaImageDto
-   */
-  @ApiOperation("2.获取验证码")
-  @ApiOperationSupport(order = 2)
-  @GetMapping("/captcha")
-  public CaptchaImageDto captchaImage() {
-    // 生成随机字串
-    String verifyCode = producer.createText();
-    logger.info("login captcha:{}", verifyCode);
-    // 唯一标识
-    String uuid = UUID.randomUUID().toString();
-    String verifyKey = SysConstants.CAPTCHA_IMAGE + PublicConstants.COLON + uuid;
-    redisCache.setCacheObject(verifyKey, verifyCode, 3, TimeUnit.MINUTES);
+            result.setUuid(uuid);
+            result.setImg(Base64Utils.encodeToString(stream.toByteArray()));
+        }
+        catch (IOException e) {
+            logger.error("Error captchaImage: ", e);
+        }
 
-    CaptchaImageDto result = new CaptchaImageDto();
-    
-    try (ByteArrayOutputStream stream = new ByteArrayOutputStream()) {
-      BufferedImage image = producer.createImage(verifyCode);
-      ImageIO.write(image, "jpg", stream);
-
-      result.setUuid(uuid);
-      result.setImg(Base64Utils.encodeToString(stream.toByteArray()));
-    } catch (IOException e) {
-      logger.error("Error captchaImage: ", e);
+        return result;
     }
 
-    return result;
-  }
-
-  /**
-   * 获取左侧菜单
-   *
-   * @return List<SysMenuTreeDto>
-   */
-  @ApiOperation("3.获取菜单权限")
-  @ApiOperationSupport(order = 3)
-  @GetMapping("/menu")
-  public List<SysMenuTreeDto> findMenuByRoles(@ApiIgnore @CurrentUser AuthUser user) {
-    try {
-      if (user != null && !user.getRoleList().isEmpty() && !DataUtils.isEmpty(user.getMenuType())) {
-        return sysRoleService.findMenuByRoles(user.getRoleList(), user.getMenuType());
-      }
-    } catch (Exception e) {
-      logger.error("Error findMenuByRoles: ", e);
+    /**
+     * 获取左侧菜单
+     * @return List<SysMenuTreeDto>
+     */
+    @ApiOperation("3.获取菜单权限")
+    @ApiOperationSupport(order = 3)
+    @GetMapping("/menu")
+    public List<SysMenuTreeDto> findMenuByRoles(@ApiIgnore @CurrentUser AuthUser user) {
+        try {
+            if (user != null && !user.getRoleList().isEmpty() && !DataUtils.isEmpty(user.getMenuType())) {
+                return sysRoleService.findMenuByRoles(user.getRoleList(), user.getMenuType());
+            }
+        }
+        catch (Exception e) {
+            logger.error("Error findMenuByRoles: ", e);
+        }
+        return Collections.emptyList();
     }
-    return Collections.emptyList();
-  }
 
-  /**
-   * 获取菜单对应权限
-   *
-   * @param menuId 菜单id
-   * @return List<SysMenuOperDto>
-   */
-  @ApiOperation("4.获取菜单操作权限")
-  @ApiOperationSupport(order = 4)
-  @GetMapping("/menu/operation/{menuId}")
-  public List<SysMenuOperDto> findMenuOperByRoles(@ApiIgnore @CurrentUser AuthUser user,
-      @PathVariable String menuId) {
-    try {
-      if (user != null && !user.getRoleList().isEmpty()) {
-        return sysRoleService.findMenuOperByRoles(user.getRoleList(), menuId);
-      }
-    } catch (Exception e) {
-      logger.error("Error findMenuOperByRoles: ", e);
+    /**
+     * 获取菜单对应权限
+     * @param menuId 菜单id
+     * @return List<SysMenuOperDto>
+     */
+    @ApiOperation("4.获取菜单操作权限")
+    @ApiOperationSupport(order = 4)
+    @GetMapping("/menu/operation/{menuId}")
+    public List<SysMenuOperDto> findMenuOperByRoles(@ApiIgnore @CurrentUser AuthUser user,
+            @PathVariable String menuId) {
+        try {
+            if (user != null && !user.getRoleList().isEmpty()) {
+                return sysRoleService.findMenuOperByRoles(user.getRoleList(), menuId);
+            }
+        }
+        catch (Exception e) {
+            logger.error("Error findMenuOperByRoles: ", e);
+        }
+        return Collections.emptyList();
     }
-    return Collections.emptyList();
-  }
 
-  /**
-   * 退出登录
-   *
-   * @return String
-   */
-  @ApiOperation("5.退出登录")
-  @ApiOperationSupport(order = 5)
-  @SysLog("退出登录")
-  @PostMapping("/logout")
-  public String logout(@ApiIgnore @CurrentUser AuthUser authUser) {
-    if (authUser != null) {
-      String key = CacheConstants.CACHE_LOGIN_NAME + authUser.getUserName();
-      redisCache.deleteObject(key);
+    /**
+     * 退出登录
+     * @return String
+     */
+    @ApiOperation("5.退出登录")
+    @ApiOperationSupport(order = 5)
+    @SysLog("退出登录")
+    @PostMapping("/logout")
+    public String logout(@ApiIgnore @CurrentUser AuthUser authUser) {
+        if (authUser != null) {
+            String key = CacheConstants.CACHE_LOGIN_NAME + authUser.getUserName();
+            redisCache.deleteObject(key);
+        }
+        return ResultEnum.SUCCESS.getName();
     }
-    return ResultEnum.SUCCESS.getName();
-  }
 
 }

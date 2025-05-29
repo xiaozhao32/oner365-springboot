@@ -14,42 +14,42 @@ import com.oner365.elasticsearch.vo.SampleLocationVo;
 
 /**
  * 坐标信息 - 实现
- * 
+ *
  * @author zhaoyong
  *
  */
 @Service
 public class SampleLocationElasticsearchServiceImpl implements ISampleLocationElasticsearchService {
 
-  private final SampleLocationElasticsearchRepository repository;
+    private final SampleLocationElasticsearchRepository repository;
 
-  public SampleLocationElasticsearchServiceImpl(SampleLocationElasticsearchRepository repository) {
-    this.repository = repository;
-  }
+    public SampleLocationElasticsearchServiceImpl(SampleLocationElasticsearchRepository repository) {
+        this.repository = repository;
+    }
 
-  @Override
-  public PageInfo<SampleLocationDto> pageList(QueryCriteriaBean data) {
-    Page<SampleLocation> pageList = repository.pageList(data);
-    return convert(pageList, SampleLocationDto.class);
-  }
+    @Override
+    public PageInfo<SampleLocationDto> pageList(QueryCriteriaBean data) {
+        Page<SampleLocation> pageList = repository.pageList(data);
+        return convert(pageList, SampleLocationDto.class);
+    }
 
-  @Override
-  public SampleLocationDto save(SampleLocationVo vo) {
-    vo.setCreateTime(DateUtil.getDate());
-    SampleLocation entity = repository.save(convert(vo, SampleLocation.class));
-    return convert(entity, SampleLocationDto.class);
-  }
+    @Override
+    public SampleLocationDto save(SampleLocationVo vo) {
+        vo.setCreateTime(DateUtil.getDate());
+        SampleLocation entity = repository.save(convert(vo, SampleLocation.class));
+        return convert(entity, SampleLocationDto.class);
+    }
 
-  @Override
-  public SampleLocationDto findById(String id) {
-    SampleLocation entity = repository.findById(id).orElse(null);
-    return convert(entity, SampleLocationDto.class);
-  }
+    @Override
+    public SampleLocationDto findById(String id) {
+        SampleLocation entity = repository.findById(id).orElse(null);
+        return convert(entity, SampleLocationDto.class);
+    }
 
-  @Override
-  public Boolean deleteById(String id) {
-    repository.deleteById(id);
-    return Boolean.TRUE;
-  }
+    @Override
+    public Boolean deleteById(String id) {
+        repository.deleteById(id);
+        return Boolean.TRUE;
+    }
 
 }

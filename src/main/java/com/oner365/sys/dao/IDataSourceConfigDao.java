@@ -7,6 +7,7 @@ import com.oner365.sys.entity.DataSourceConfig;
 
 /**
  * 数据源接口
+ *
  * @author zhaoyong
  */
 public interface IDataSourceConfigDao

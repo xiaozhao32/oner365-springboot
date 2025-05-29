@@ -10,13 +10,13 @@ import com.oner365.files.vo.SysFileStorageVo;
 
 /**
  * 文件接口
+ *
  * @author zhaoyong
  */
 public interface IFileStorageService extends BaseService {
 
     /**
      * 查询文件列表
-     *
      * @param data 参数
      * @return PageInfo
      */
@@ -24,7 +24,6 @@ public interface IFileStorageService extends BaseService {
 
     /**
      * 查询列表
-     * 
      * @param data 参数
      * @return List
      */
@@ -32,7 +31,6 @@ public interface IFileStorageService extends BaseService {
 
     /**
      * 查询文件详情
-     *
      * @param id 编号
      * @return SysFileStorage
      */
@@ -40,7 +38,6 @@ public interface IFileStorageService extends BaseService {
 
     /**
      * 保存文件
-     *
      * @param entity 文件对象
      * @return SysFileStorage
      */
@@ -48,7 +45,6 @@ public interface IFileStorageService extends BaseService {
 
     /**
      * 删除文件
-     *
      * @param id 编号
      * @return Boolean
      */

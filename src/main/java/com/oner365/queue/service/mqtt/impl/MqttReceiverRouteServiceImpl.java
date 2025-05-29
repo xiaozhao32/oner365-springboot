@@ -16,7 +16,7 @@ import com.oner365.queue.service.mqtt.IMqttReceiverRouteService;
 
 /**
  * MQTT 接收实现
- * 
+ *
  * @author zhaoyong
  *
  */
@@ -24,20 +24,18 @@ import com.oner365.queue.service.mqtt.IMqttReceiverRouteService;
 @Conditional(MqttCondition.class)
 public class MqttReceiverRouteServiceImpl implements IMqttReceiverRouteService {
 
-  private final Logger logger = LoggerFactory.getLogger(MqttReceiverRouteServiceImpl.class);
+    private final Logger logger = LoggerFactory.getLogger(MqttReceiverRouteServiceImpl.class);
 
-  @Resource
-  private DynamicRouteService dynamicRouteService;
+    @Resource
+    private DynamicRouteService dynamicRouteService;
 
-  @Override
-  @ServiceActivator(
-      inputChannel = MqttConstants.IN_BOUND_CHANNEL + QueueConstants.ROUTE_QUEUE_NAME, 
-      outputChannel = MqttConstants.OUT_BOUND_CHANNEL + QueueConstants.ROUTE_QUEUE_NAME
-  )
-  public void message(Object message) {
-    logger.info("Mqtt receive syncRoute: {}", message);
-    // business
-    dynamicRouteService.refreshRoute();
-  }
+    @Override
+    @ServiceActivator(inputChannel = MqttConstants.IN_BOUND_CHANNEL + QueueConstants.ROUTE_QUEUE_NAME,
+            outputChannel = MqttConstants.OUT_BOUND_CHANNEL + QueueConstants.ROUTE_QUEUE_NAME)
+    public void message(Object message) {
+        logger.info("Mqtt receive syncRoute: {}", message);
+        // business
+        dynamicRouteService.refreshRoute();
+    }
 
 }

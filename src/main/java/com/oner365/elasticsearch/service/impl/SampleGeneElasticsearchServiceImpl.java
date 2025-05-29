@@ -18,47 +18,47 @@ import com.oner365.elasticsearch.vo.SampleGeneVo;
 
 /**
  * SampleGeneElasticsearch实现类
- * 
+ *
  * @author zhaoyong
  */
 @Service
 public class SampleGeneElasticsearchServiceImpl implements ISampleGeneElasticsearchService {
 
-  private final SampleGeneElasticsearchRepository repository;
+    private final SampleGeneElasticsearchRepository repository;
 
-  public SampleGeneElasticsearchServiceImpl(SampleGeneElasticsearchRepository repository) {
-    this.repository = repository;
-  }
+    public SampleGeneElasticsearchServiceImpl(SampleGeneElasticsearchRepository repository) {
+        this.repository = repository;
+    }
 
-  @Override
-  public PageInfo<SampleGeneDto> pageList(QueryCriteriaBean data) {
-    Page<SampleGene> pageList = repository.pageList(data);
-    return convert(pageList, SampleGeneDto.class);
-  }
+    @Override
+    public PageInfo<SampleGeneDto> pageList(QueryCriteriaBean data) {
+        Page<SampleGene> pageList = repository.pageList(data);
+        return convert(pageList, SampleGeneDto.class);
+    }
 
-  @Override
-  public List<SampleGeneDto> saveAll(List<SampleGeneVo> voList) {
-    Iterable<SampleGene> iterable = repository.saveAll(convert(voList, SampleGene.class));
-    List<SampleGene> list = StreamSupport.stream(iterable.spliterator(), false).collect(Collectors.toList());
-    return convert(list, SampleGeneDto.class);
-  }
+    @Override
+    public List<SampleGeneDto> saveAll(List<SampleGeneVo> voList) {
+        Iterable<SampleGene> iterable = repository.saveAll(convert(voList, SampleGene.class));
+        List<SampleGene> list = StreamSupport.stream(iterable.spliterator(), false).collect(Collectors.toList());
+        return convert(list, SampleGeneDto.class);
+    }
 
-  @Override
-  public SampleGeneDto save(SampleGeneVo vo) {
-    SampleGene entity = repository.save(convert(vo, SampleGene.class));
-    return convert(entity, SampleGeneDto.class);
-  }
+    @Override
+    public SampleGeneDto save(SampleGeneVo vo) {
+        SampleGene entity = repository.save(convert(vo, SampleGene.class));
+        return convert(entity, SampleGeneDto.class);
+    }
 
-  @Override
-  public SampleGeneDto findById(String id) {
-    Optional<SampleGene> optional = repository.findById(id);
-    return convert(optional.orElse(null), SampleGeneDto.class);
-  }
+    @Override
+    public SampleGeneDto findById(String id) {
+        Optional<SampleGene> optional = repository.findById(id);
+        return convert(optional.orElse(null), SampleGeneDto.class);
+    }
 
-  @Override
-  public Boolean deleteById(String id) {
-    repository.deleteById(id);
-    return Boolean.TRUE;
-  }
+    @Override
+    public Boolean deleteById(String id) {
+        repository.deleteById(id);
+        return Boolean.TRUE;
+    }
 
 }

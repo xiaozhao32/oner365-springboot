@@ -12,12 +12,12 @@ import com.oner365.sys.vo.SysLogVo;
 
 /**
  * SysLog对象
- * 
+ *
  * @author zhaoyong
  *
  */
 public final class SysLogUtils {
-    
+
     private SysLogUtils() {
         throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
     }
@@ -28,7 +28,7 @@ public final class SysLogUtils {
      */
     public static SysLogVo getSysLog() {
         HttpServletRequest request = ((ServletRequestAttributes) Objects
-                .requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
+            .requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
         SysLogVo sysLog = new SysLogVo();
         sysLog.setOperationIp(HttpClientUtils.getIpAddress(request));
         sysLog.setOperationPath(request.getRequestURI());

@@ -42,118 +42,111 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/system/role")
 public class SysRoleController extends BaseController {
 
-  @Resource
-  private ISysRoleService roleService;
+    @Resource
+    private ISysRoleService roleService;
 
-  /**
-   * 列表
-   *
-   * @param data 查询参数
-   * @return PageInfo<SysRoleDto>
-   */
-  @ApiOperation("1.获取列表")
-  @ApiOperationSupport(order = 1)
-  @PostMapping("/list")
-  public PageInfo<SysRoleDto> pageList(@RequestBody QueryCriteriaBean data) {
-    return roleService.pageList(data);
-  }
-
-  /**
-   * 获取信息
-   *
-   * @param id 编号
-   * @return SysRoleDto
-   */
-  @ApiOperation("2.按id查询")
-  @ApiOperationSupport(order = 2)
-  @GetMapping("/get/{id}")
-  public SysRoleDto get(@PathVariable String id) {
-    return roleService.getById(id);
-  }
-
-  /**
-   * 修改状态
-   *
-   * @param id     主键
-   * @param status 状态
-   * @return Boolean
-   */
-  @ApiOperation("3.修改状态")
-  @ApiOperationSupport(order = 3)
-  @SysLog("修改角色状态")
-  @PostMapping("/status/{id}")
-  public Boolean editStatus(@PathVariable String id, @RequestParam StatusEnum status) {
-    return roleService.editStatus(id, status);
-  }
-
-  /**
-   * 判断是否存在
-   *
-   * @param checkRoleNameVo 查询参数
-   * @return Boolean
-   */
-  @ApiOperation("4.判断角色名称存在")
-  @ApiOperationSupport(order = 4)
-  @PostMapping("/check")
-  public Boolean checkRoleName(@Validated @RequestBody CheckRoleNameVo checkRoleNameVo) {
-    if (checkRoleNameVo != null) {
-      return roleService.checkRoleName(checkRoleNameVo.getId(), checkRoleNameVo.getRoleName());
+    /**
+     * 列表
+     * @param data 查询参数
+     * @return PageInfo<SysRoleDto>
+     */
+    @ApiOperation("1.获取列表")
+    @ApiOperationSupport(order = 1)
+    @PostMapping("/list")
+    public PageInfo<SysRoleDto> pageList(@RequestBody QueryCriteriaBean data) {
+        return roleService.pageList(data);
     }
-    return Boolean.FALSE;
-  }
 
-  /**
-   * 角色权限保存
-   *
-   * @param sysRoleVo 参数
-   * @return Boolean
-   */
-  @ApiOperation("5.保存")
-  @ApiOperationSupport(order = 5)
-  @SysLog("保存角色")
-  @PutMapping("/save")
-  public Boolean save(@Validated @RequestBody SysRoleVo sysRoleVo) {
-    // 保存角色
-    SysRoleDto entity = roleService.save(sysRoleVo);
-    Boolean result = Boolean.FALSE;
-    if (entity != null && sysRoleVo.getMenuType() != null) {
-      // 保存权限
-      result = roleService.saveAuthority(sysRoleVo.getMenuType(), sysRoleVo.getMenuIds(), entity.getId());
+    /**
+     * 获取信息
+     * @param id 编号
+     * @return SysRoleDto
+     */
+    @ApiOperation("2.按id查询")
+    @ApiOperationSupport(order = 2)
+    @GetMapping("/get/{id}")
+    public SysRoleDto get(@PathVariable String id) {
+        return roleService.getById(id);
     }
-    return result;
-  }
 
-  /**
-   * 删除
-   *
-   * @param ids 编号
-   * @return List<Boolean>
-   */
-  @ApiOperation("6.删除")
-  @ApiOperationSupport(order = 6)
-  @SysLog("删除角色")
-  @DeleteMapping("/delete")
-  public List<Boolean> delete(@RequestBody String... ids) {
-    return Arrays.stream(ids).map(id -> roleService.deleteById(id)).collect(Collectors.toList());
-  }
+    /**
+     * 修改状态
+     * @param id 主键
+     * @param status 状态
+     * @return Boolean
+     */
+    @ApiOperation("3.修改状态")
+    @ApiOperationSupport(order = 3)
+    @SysLog("修改角色状态")
+    @PostMapping("/status/{id}")
+    public Boolean editStatus(@PathVariable String id, @RequestParam StatusEnum status) {
+        return roleService.editStatus(id, status);
+    }
 
-  /**
-   * 导出Excel
-   *
-   * @param data 参数
-   * @return ResponseEntity<byte[]>
-   */
-  @ApiOperation("7.导出")
-  @ApiOperationSupport(order = 7)
-  @PostMapping("/export")
-  public ResponseEntity<byte[]> export(@RequestBody QueryCriteriaBean data) {
-    List<SysRoleDto> list = roleService.findList(data);
+    /**
+     * 判断是否存在
+     * @param checkRoleNameVo 查询参数
+     * @return Boolean
+     */
+    @ApiOperation("4.判断角色名称存在")
+    @ApiOperationSupport(order = 4)
+    @PostMapping("/check")
+    public Boolean checkRoleName(@Validated @RequestBody CheckRoleNameVo checkRoleNameVo) {
+        if (checkRoleNameVo != null) {
+            return roleService.checkRoleName(checkRoleNameVo.getId(), checkRoleNameVo.getRoleName());
+        }
+        return Boolean.FALSE;
+    }
 
-    String[] titleKeys = new String[] { "编号", "角色标识", "角色名称", "角色描述", "状态", "创建时间", "更新时间" };
-    String[] columnNames = { "id", "roleCode", "roleName", "roleDes", "status", "createTime", "updateTime" };
+    /**
+     * 角色权限保存
+     * @param sysRoleVo 参数
+     * @return Boolean
+     */
+    @ApiOperation("5.保存")
+    @ApiOperationSupport(order = 5)
+    @SysLog("保存角色")
+    @PutMapping("/save")
+    public Boolean save(@Validated @RequestBody SysRoleVo sysRoleVo) {
+        // 保存角色
+        SysRoleDto entity = roleService.save(sysRoleVo);
+        Boolean result = Boolean.FALSE;
+        if (entity != null && sysRoleVo.getMenuType() != null) {
+            // 保存权限
+            result = roleService.saveAuthority(sysRoleVo.getMenuType(), sysRoleVo.getMenuIds(), entity.getId());
+        }
+        return result;
+    }
 
-    String fileName = SysRoleDto.class.getSimpleName() + System.currentTimeMillis();
-    return exportExcel(fileName, titleKeys, columnNames, list);
-  }
+    /**
+     * 删除
+     * @param ids 编号
+     * @return List<Boolean>
+     */
+    @ApiOperation("6.删除")
+    @ApiOperationSupport(order = 6)
+    @SysLog("删除角色")
+    @DeleteMapping("/delete")
+    public List<Boolean> delete(@RequestBody String... ids) {
+        return Arrays.stream(ids).map(id -> roleService.deleteById(id)).collect(Collectors.toList());
+    }
+
+    /**
+     * 导出Excel
+     * @param data 参数
+     * @return ResponseEntity<byte[]>
+     */
+    @ApiOperation("7.导出")
+    @ApiOperationSupport(order = 7)
+    @PostMapping("/export")
+    public ResponseEntity<byte[]> export(@RequestBody QueryCriteriaBean data) {
+        List<SysRoleDto> list = roleService.findList(data);
+
+        String[] titleKeys = new String[] { "编号", "角色标识", "角色名称", "角色描述", "状态", "创建时间", "更新时间" };
+        String[] columnNames = { "id", "roleCode", "roleName", "roleDes", "status", "createTime", "updateTime" };
+
+        String fileName = SysRoleDto.class.getSimpleName() + System.currentTimeMillis();
+        return exportExcel(fileName, titleKeys, columnNames, list);
+    }
 
 }

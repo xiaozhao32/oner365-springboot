@@ -22,35 +22,36 @@ import com.oner365.test.service.BaseServiceTest;
  */
 @SpringBootTest
 class DeployTest extends BaseServiceTest {
-  
-  @Resource
-  private DeployService deployService;
 
-  /**
-   * 本地部署
-   */
-  @Test
-  void deployNativeTest() {
-    DeployEntity entity = deployService.getDeployEntity();
-    Assertions.assertNotNull(entity);
-    logger.info("Deploy project: {}", entity);
-    // 部署目录
-    DeployMethod.deployNative(entity);
-  }
+    @Resource
+    private DeployService deployService;
 
-  /**
-   * 服务器部署
-   */
-  @Test
-  void deployServerTest() {
-    DeployEntity deploy = deployService.getDeployEntity();
-    ServerEntity server = deployService.getServerEntity();
-    Assertions.assertNotNull(server);
-    logger.info("Deploy project: {}", server);
-    logger.info("Server: {}", server);
-    // 部署服务器开关
-    if (server.getIsDeploy()) {
-      DeployMethod.deployServer(deploy, server);
+    /**
+     * 本地部署
+     */
+    @Test
+    void deployNativeTest() {
+        DeployEntity entity = deployService.getDeployEntity();
+        Assertions.assertNotNull(entity);
+        logger.info("Deploy project: {}", entity);
+        // 部署目录
+        DeployMethod.deployNative(entity);
     }
-  }
+
+    /**
+     * 服务器部署
+     */
+    @Test
+    void deployServerTest() {
+        DeployEntity deploy = deployService.getDeployEntity();
+        ServerEntity server = deployService.getServerEntity();
+        Assertions.assertNotNull(server);
+        logger.info("Deploy project: {}", server);
+        logger.info("Server: {}", server);
+        // 部署服务器开关
+        if (server.getIsDeploy()) {
+            DeployMethod.deployServer(deploy, server);
+        }
+    }
+
 }

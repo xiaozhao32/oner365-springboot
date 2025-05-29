@@ -28,46 +28,48 @@ import com.oner365.test.service.BaseServiceTest;
 @SpringBootTest
 class MailServiceTest extends BaseServiceTest {
 
-  @Resource
-  private JavaMailSender sender;
+    @Resource
+    private JavaMailSender sender;
 
-  @Resource
-  private TemplateEngine templateEngine;
-  
-  @Resource
-  private DefaultFileProperties fileProperties;
+    @Resource
+    private TemplateEngine templateEngine;
 
-  @Value("${spring.mail.username}")
-  private String from;
-  
-  @Test
-  void test() {
-    Assertions.assertEquals("MailServiceTest", MailServiceTest.class.getSimpleName());
-  }
+    @Resource
+    private DefaultFileProperties fileProperties;
 
-  @Test
-  void testEmail() {
-    String to = "zhaoyong@oner365.com";
-    String subject = "test";
-    String attachmentFile = "/1.jpg";
-    
-    Context context = new Context();
-    context.setVariable("username", to);
-    String emailContent = templateEngine.process("/mail_template", context);
-    Assertions.assertNotNull(emailContent);
-    MimeMessage message = sender.createMimeMessage();
-    try {
-      MimeMessageHelper helper = new MimeMessageHelper(message, true);
-      helper.setFrom(from);
-      helper.setTo(to);
-      helper.setSubject(subject);
-      helper.setText(emailContent, true);
-      
-      File file = new File(fileProperties.getDownload() + attachmentFile);
-      helper.addAttachment(file.getName(), file);
-    } catch (MessagingException e) {
-      logger.error("mail error", e);
+    @Value("${spring.mail.username}")
+    private String from;
+
+    @Test
+    void test() {
+        Assertions.assertEquals("MailServiceTest", MailServiceTest.class.getSimpleName());
     }
-    sender.send(message);
-  }
+
+    @Test
+    void testEmail() {
+        String to = "zhaoyong@oner365.com";
+        String subject = "test";
+        String attachmentFile = "/1.jpg";
+
+        Context context = new Context();
+        context.setVariable("username", to);
+        String emailContent = templateEngine.process("/mail_template", context);
+        Assertions.assertNotNull(emailContent);
+        MimeMessage message = sender.createMimeMessage();
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setFrom(from);
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setText(emailContent, true);
+
+            File file = new File(fileProperties.getDownload() + attachmentFile);
+            helper.addAttachment(file.getName(), file);
+        }
+        catch (MessagingException e) {
+            logger.error("mail error", e);
+        }
+        sender.send(message);
+    }
+
 }

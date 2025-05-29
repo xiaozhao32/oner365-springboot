@@ -14,7 +14,7 @@ import com.oner365.test.BaseTest;
 
 /**
  * 单元测试父类 - 服务类
- * 
+ *
  * @author zhaoyong
  *
  */
@@ -22,15 +22,17 @@ import com.oner365.test.BaseTest;
 @Transactional(rollbackFor = ProjectRuntimeException.class)
 public abstract class BaseMapperTest extends BaseTest {
 
-  protected <T> T getMapper(Class<T> clazz) {
-    try (InputStream in = Resources.getResourceAsStream("config/sqlMapConfig.xml")) {
-      SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();
-      SqlSessionFactory factory = builder.build(in);
-      SqlSession session = factory.openSession();
-      return session.getMapper(clazz);
-    } catch (Exception e) {
-      logger.error("mapper error", e);
+    protected <T> T getMapper(Class<T> clazz) {
+        try (InputStream in = Resources.getResourceAsStream("config/sqlMapConfig.xml")) {
+            SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();
+            SqlSessionFactory factory = builder.build(in);
+            SqlSession session = factory.openSession();
+            return session.getMapper(clazz);
+        }
+        catch (Exception e) {
+            logger.error("mapper error", e);
+        }
+        return null;
     }
-    return null;
-  }
+
 }

@@ -45,171 +45,160 @@ import springfox.documentation.annotations.ApiIgnore;
 @RequestMapping("/system/org")
 public class SysOrganizationController extends BaseController {
 
-  @Resource
-  private ISysOrganizationService sysOrgService;
+    @Resource
+    private ISysOrganizationService sysOrgService;
 
-  /**
-   * 获取列表
-   *
-   * @param data 查询对象
-   * @return List<SysOrganizationDto>
-   */
-  @ApiOperation("1.获取列表")
-  @ApiOperationSupport(order = 1)
-  @PostMapping("/list")
-  public List<SysOrganizationDto> findList(@RequestBody QueryCriteriaBean data) {
-    return sysOrgService.findList(data);
-  }
-
-  /**
-   * id查询
-   *
-   * @param id 编号
-   * @return SysOrganizationDto
-   */
-  @ApiOperation("2.按id查询")
-  @ApiOperationSupport(order = 2)
-  @GetMapping("/get/{id}")
-  public SysOrganizationDto get(@PathVariable String id) {
-    return sysOrgService.getById(id);
-  }
-
-  /**
-   * 直接测试数据源是否连接
-   *
-   * @param ds       数据源类型
-   * @param driverName 驱动名称
-   * @param url        ip地址
-   * @param username   账号
-   * @param password   密码
-   * @return boolean
-   */
-  @PostMapping("/connection/{ds}")
-  public boolean isConnection(@PathVariable String ds, @RequestParam String driverName,
-      @RequestParam String url, @RequestParam String username, @RequestParam String password) {
-    return sysOrgService.isConnection(driverName, url, username, password);
-  }
-
-  /**
-   * 判断保存后数据源是否连接
-   *
-   * @param id 编号
-   * @return boolean
-   */
-  @ApiOperation("4.测试连接数据源")
-  @ApiOperationSupport(order = 4)
-  @GetMapping("/connection/check/{id}")
-  public boolean checkConnection(@PathVariable String id) {
-    return sysOrgService.checkConnection(id);
-  }
-
-  /**
-   * 按父级菜单查询
-   *
-   * @param parentId 父级编号
-   * @return List<SysOrganizationDto>
-   */
-  @ApiOperation("5.父级id查询")
-  @ApiOperationSupport(order = 5)
-  @GetMapping("/parent")
-  public List<SysOrganizationDto> findListByParentId(@RequestParam String parentId) {
-    return sysOrgService.findListByParentId(parentId);
-  }
-
-  /**
-   * 判断机构编号是否存在
-   *
-   * @param checkOrgCodeVo 查询参数
-   * @return Boolean
-   */
-  @ApiOperation("6.判断编码是否存在")
-  @ApiOperationSupport(order = 6)
-  @PostMapping("/check")
-  public Boolean checkCode(@Validated @RequestBody CheckOrgCodeVo checkOrgCodeVo) {
-    if (checkOrgCodeVo != null) {
-      return sysOrgService.checkCode(checkOrgCodeVo.getId(), checkOrgCodeVo.getCode(), checkOrgCodeVo.getType());
+    /**
+     * 获取列表
+     * @param data 查询对象
+     * @return List<SysOrganizationDto>
+     */
+    @ApiOperation("1.获取列表")
+    @ApiOperationSupport(order = 1)
+    @PostMapping("/list")
+    public List<SysOrganizationDto> findList(@RequestBody QueryCriteriaBean data) {
+        return sysOrgService.findList(data);
     }
-    return Boolean.FALSE;
-  }
 
-  /**
-   * 获取菜单下拉树列表
-   *
-   * @param sysOrganizationVo 查询对象
-   * @return List<TreeSelect>
-   */
-  @ApiOperation("7.获取树型列表")
-  @ApiOperationSupport(order = 7)
-  @PostMapping("/tree")
-  public List<TreeSelect> treeSelect(@RequestBody SysOrganizationVo sysOrganizationVo) {
-    List<SysOrganizationDto> list = sysOrgService.selectList(sysOrganizationVo);
-    return sysOrgService.buildTreeSelect(list);
-  }
+    /**
+     * id查询
+     * @param id 编号
+     * @return SysOrganizationDto
+     */
+    @ApiOperation("2.按id查询")
+    @ApiOperationSupport(order = 2)
+    @GetMapping("/get/{id}")
+    public SysOrganizationDto get(@PathVariable String id) {
+        return sysOrgService.getById(id);
+    }
 
-  /**
-   * 加载对应角色菜单列表树
-   *
-   * @param sysOrganizationVo 查询对象
-   * @param userId            用户id
-   * @return SysMenuTreeSelectDto
-   */
-  @ApiOperation("8.获取用户权限")
-  @ApiOperationSupport(order = 8)
-  @PostMapping("/user/{userId}")
-  public SysMenuTreeSelectDto userTreeSelect(@RequestBody SysOrganizationVo sysOrganizationVo,
-      @PathVariable String userId) {
-    List<SysOrganizationDto> list = sysOrgService.selectList(sysOrganizationVo);
-    SysMenuTreeSelectDto result = new SysMenuTreeSelectDto();
+    /**
+     * 直接测试数据源是否连接
+     * @param ds 数据源类型
+     * @param driverName 驱动名称
+     * @param url ip地址
+     * @param username 账号
+     * @param password 密码
+     * @return boolean
+     */
+    @PostMapping("/connection/{ds}")
+    public boolean isConnection(@PathVariable String ds, @RequestParam String driverName, @RequestParam String url,
+            @RequestParam String username, @RequestParam String password) {
+        return sysOrgService.isConnection(driverName, url, username, password);
+    }
 
-    result.setCheckedKeys(sysOrgService.selectListByUserId(userId));
-    result.setMenus(sysOrgService.buildTreeSelect(list));
-    return result;
-  }
+    /**
+     * 判断保存后数据源是否连接
+     * @param id 编号
+     * @return boolean
+     */
+    @ApiOperation("4.测试连接数据源")
+    @ApiOperationSupport(order = 4)
+    @GetMapping("/connection/check/{id}")
+    public boolean checkConnection(@PathVariable String id) {
+        return sysOrgService.checkConnection(id);
+    }
 
-  /**
-   * 修改状态
-   *
-   * @param id     主键
-   * @param status 状态
-   * @return Boolean
-   */
-  @ApiOperation("9.修改状态")
-  @ApiOperationSupport(order = 9)
-  @SysLog("修改机构状态")
-  @PostMapping("/status/{id}")
-  public Boolean editStatus(@PathVariable String id, @RequestParam StatusEnum status) {
-    return sysOrgService.editStatus(id, status);
-  }
+    /**
+     * 按父级菜单查询
+     * @param parentId 父级编号
+     * @return List<SysOrganizationDto>
+     */
+    @ApiOperation("5.父级id查询")
+    @ApiOperationSupport(order = 5)
+    @GetMapping("/parent")
+    public List<SysOrganizationDto> findListByParentId(@RequestParam String parentId) {
+        return sysOrgService.findListByParentId(parentId);
+    }
 
-  /**
-   * 机构信息保存
-   *
-   * @param sysOrganizationVo 机构对象
-   * @param authUser          登录对象
-   * @return SysOrganizationDto
-   */
-  @ApiOperation("10.保存")
-  @ApiOperationSupport(order = 10)
-  @SysLog("保存机构")
-  @PutMapping("/save")
-  public SysOrganizationDto save(@Validated @RequestBody SysOrganizationVo sysOrganizationVo,
-      @ApiIgnore @CurrentUser AuthUser authUser) {
-    sysOrganizationVo.setCreateUser(authUser.getId());
-    return sysOrgService.save(sysOrganizationVo);
-  }
+    /**
+     * 判断机构编号是否存在
+     * @param checkOrgCodeVo 查询参数
+     * @return Boolean
+     */
+    @ApiOperation("6.判断编码是否存在")
+    @ApiOperationSupport(order = 6)
+    @PostMapping("/check")
+    public Boolean checkCode(@Validated @RequestBody CheckOrgCodeVo checkOrgCodeVo) {
+        if (checkOrgCodeVo != null) {
+            return sysOrgService.checkCode(checkOrgCodeVo.getId(), checkOrgCodeVo.getCode(), checkOrgCodeVo.getType());
+        }
+        return Boolean.FALSE;
+    }
 
-  /**
-   * 删除
-   *
-   * @param ids 编号
-   * @return List<Boolean>
-   */
-  @ApiOperation("11.删除")
-  @ApiOperationSupport(order = 11)
-  @SysLog("删除机构")
-  @DeleteMapping("/delete")
-  public List<Boolean> delete(@RequestBody String... ids) {
-    return Arrays.stream(ids).map(id -> sysOrgService.deleteById(id)).collect(Collectors.toList());
-  }
+    /**
+     * 获取菜单下拉树列表
+     * @param sysOrganizationVo 查询对象
+     * @return List<TreeSelect>
+     */
+    @ApiOperation("7.获取树型列表")
+    @ApiOperationSupport(order = 7)
+    @PostMapping("/tree")
+    public List<TreeSelect> treeSelect(@RequestBody SysOrganizationVo sysOrganizationVo) {
+        List<SysOrganizationDto> list = sysOrgService.selectList(sysOrganizationVo);
+        return sysOrgService.buildTreeSelect(list);
+    }
+
+    /**
+     * 加载对应角色菜单列表树
+     * @param sysOrganizationVo 查询对象
+     * @param userId 用户id
+     * @return SysMenuTreeSelectDto
+     */
+    @ApiOperation("8.获取用户权限")
+    @ApiOperationSupport(order = 8)
+    @PostMapping("/user/{userId}")
+    public SysMenuTreeSelectDto userTreeSelect(@RequestBody SysOrganizationVo sysOrganizationVo,
+            @PathVariable String userId) {
+        List<SysOrganizationDto> list = sysOrgService.selectList(sysOrganizationVo);
+        SysMenuTreeSelectDto result = new SysMenuTreeSelectDto();
+
+        result.setCheckedKeys(sysOrgService.selectListByUserId(userId));
+        result.setMenus(sysOrgService.buildTreeSelect(list));
+        return result;
+    }
+
+    /**
+     * 修改状态
+     * @param id 主键
+     * @param status 状态
+     * @return Boolean
+     */
+    @ApiOperation("9.修改状态")
+    @ApiOperationSupport(order = 9)
+    @SysLog("修改机构状态")
+    @PostMapping("/status/{id}")
+    public Boolean editStatus(@PathVariable String id, @RequestParam StatusEnum status) {
+        return sysOrgService.editStatus(id, status);
+    }
+
+    /**
+     * 机构信息保存
+     * @param sysOrganizationVo 机构对象
+     * @param authUser 登录对象
+     * @return SysOrganizationDto
+     */
+    @ApiOperation("10.保存")
+    @ApiOperationSupport(order = 10)
+    @SysLog("保存机构")
+    @PutMapping("/save")
+    public SysOrganizationDto save(@Validated @RequestBody SysOrganizationVo sysOrganizationVo,
+            @ApiIgnore @CurrentUser AuthUser authUser) {
+        sysOrganizationVo.setCreateUser(authUser.getId());
+        return sysOrgService.save(sysOrganizationVo);
+    }
+
+    /**
+     * 删除
+     * @param ids 编号
+     * @return List<Boolean>
+     */
+    @ApiOperation("11.删除")
+    @ApiOperationSupport(order = 11)
+    @SysLog("删除机构")
+    @DeleteMapping("/delete")
+    public List<Boolean> delete(@RequestBody String... ids) {
+        return Arrays.stream(ids).map(id -> sysOrgService.deleteById(id)).collect(Collectors.toList());
+    }
 
 }

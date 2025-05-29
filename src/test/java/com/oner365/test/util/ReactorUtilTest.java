@@ -19,27 +19,33 @@ import reactor.netty.http.client.HttpClient;
  */
 class ReactorUtilTest extends BaseUtilsTest {
 
-  @Test
-  void testGetUrl() {
-    String uri = "http://localhost:8704/actuator/health";
-    // GET
-    String result = HttpClient.create().get().uri(uri).responseContent().aggregate().asString().block();
-    logger.info("HttpClient GET : {}", result);
-    Assertions.assertNotNull(result);
-  }
+    @Test
+    void testGetUrl() {
+        String uri = "http://localhost:8704/actuator/health";
+        // GET
+        String result = HttpClient.create().get().uri(uri).responseContent().aggregate().asString().block();
+        logger.info("HttpClient GET : {}", result);
+        Assertions.assertNotNull(result);
+    }
 
-  @Test
-  void testPostUrl() {
-    String uri = "http://localhost:8704/system/auth/login";
-    JSONObject json = new JSONObject();
-    json.put("userName", "admin");
-    json.put("password", "1");
-    // POST
-    String result = HttpClient.create().headers(h -> h.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
-        .post().uri(uri).send(ByteBufFlux.fromString(Mono.just(json.toJSONString()))).responseContent().aggregate()
-        .asString().block();
-    logger.info("HttpClient POST : {}", result);
-    Assertions.assertNotNull(result);
-  }
+    @Test
+    void testPostUrl() {
+        String uri = "http://localhost:8704/system/auth/login";
+        JSONObject json = new JSONObject();
+        json.put("userName", "admin");
+        json.put("password", "1");
+        // POST
+        String result = HttpClient.create()
+            .headers(h -> h.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
+            .post()
+            .uri(uri)
+            .send(ByteBufFlux.fromString(Mono.just(json.toJSONString())))
+            .responseContent()
+            .aggregate()
+            .asString()
+            .block();
+        logger.info("HttpClient POST : {}", result);
+        Assertions.assertNotNull(result);
+    }
 
 }

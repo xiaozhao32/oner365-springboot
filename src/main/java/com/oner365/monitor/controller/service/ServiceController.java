@@ -38,102 +38,98 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/monitor/service")
 public class ServiceController extends BaseController {
 
-  @Resource
-  private CommonProperties commonProperties;
+    @Resource
+    private CommonProperties commonProperties;
 
-  @Resource
-  private DeployService deployService;
-  
-  @Resource
-  private IQueueSendService queueSendService;
+    @Resource
+    private DeployService deployService;
 
-  /**
-   * 基本信息
-   *
-   * @return List<List<ServiceInfoDto>>
-   */
-  @ApiOperation("1.首页")
-  @ApiOperationSupport(order = 1)
-  @GetMapping("/index")
-  public List<List<ServiceInfoDto>> index() {
-    List<List<ServiceInfoDto>> serviceList = new ArrayList<>();
-    List<ServiceInfoDto> serviceInstances = new ArrayList<>();
+    @Resource
+    private IQueueSendService queueSendService;
 
-    // 获取服务中的实例列表
-    ServiceInfoDto serviceInfoDto = new ServiceInfoDto();
-    serviceInfoDto.setServiceId(commonProperties.getServiceId());
-    serviceInfoDto.setHost(commonProperties.getHost());
-    serviceInfoDto.setPort(commonProperties.getPort());
-    serviceInfoDto.setUri(PublicConstants.FILE_HTTP + commonProperties.getHost() + PublicConstants.COLON + commonProperties.getPort());
-    serviceInfoDto.setInstanceId(commonProperties.getServiceId());
-    serviceInfoDto.setScheme(commonProperties.getScheme());
-    serviceInstances.add(serviceInfoDto);
-    serviceList.add(serviceInstances);
-    return serviceList;
-  }
+    /**
+     * 基本信息
+     * @return List<List<ServiceInfoDto>>
+     */
+    @ApiOperation("1.首页")
+    @ApiOperationSupport(order = 1)
+    @GetMapping("/index")
+    public List<List<ServiceInfoDto>> index() {
+        List<List<ServiceInfoDto>> serviceList = new ArrayList<>();
+        List<ServiceInfoDto> serviceInstances = new ArrayList<>();
 
-  /**
-   * 动态刷新配置
-   *
-   * @return String
-   */
-  @ApiOperation("2.动态刷新配置")
-  @ApiOperationSupport(order = 2)
-  @GetMapping("/refresh")
-  public String refreshConfig() {
-    queueSendService.syncRoute();
-    return ResultEnum.SUCCESS.getName();
-  }
-
-  /**
-   * 获取信息
-   *
-   * @return JSONObject
-   */
-  @ApiOperation("3.配置信息")
-  @ApiOperationSupport(order = 3)
-  @PostMapping("/info")
-  public JSONObject getActuatorEnv() {
-    JSONObject result = new JSONObject();
-    JSONArray profiles = new JSONArray();
-    profiles.add(commonProperties.getScheme());
-    result.put("activeProfiles", profiles);
-    result.put("propertySources", null);
-    return result;
-  }
-
-  /**
-   * 上传服务
-   *
-   * @return String
-   */
-  @ApiOperation("4.上传服务")
-  @ApiOperationSupport(order = 4)
-  @SysLog("上传服务")
-  @PostMapping("/upload")
-  public String uploadService() {
-    DeployEntity deploy = deployService.getDeployEntity();
-    ServerEntity server = deployService.getServerEntity();
-    logger.info("Deploy project: {}", server);
-    logger.info("Server: {}", server);
-    // 部署服务器开关
-    if (Boolean.TRUE.equals(server.getIsDeploy())) {
-      DeployMethod.deployServer(deploy, server);
+        // 获取服务中的实例列表
+        ServiceInfoDto serviceInfoDto = new ServiceInfoDto();
+        serviceInfoDto.setServiceId(commonProperties.getServiceId());
+        serviceInfoDto.setHost(commonProperties.getHost());
+        serviceInfoDto.setPort(commonProperties.getPort());
+        serviceInfoDto.setUri(PublicConstants.FILE_HTTP + commonProperties.getHost() + PublicConstants.COLON
+                + commonProperties.getPort());
+        serviceInfoDto.setInstanceId(commonProperties.getServiceId());
+        serviceInfoDto.setScheme(commonProperties.getScheme());
+        serviceInstances.add(serviceInfoDto);
+        serviceList.add(serviceInstances);
+        return serviceList;
     }
-    return ResultEnum.SUCCESS.getName();
-  }
 
-  /**
-   * 重启服务
-   *
-   * @return String
-   */
-  @ApiOperation("5.重启服务")
-  @ApiOperationSupport(order = 5)
-  @SysLog("重启服务")
-  @PostMapping("/reset")
-  public String resetService() {
-    return ResultEnum.SUCCESS.getName();
-  }
+    /**
+     * 动态刷新配置
+     * @return String
+     */
+    @ApiOperation("2.动态刷新配置")
+    @ApiOperationSupport(order = 2)
+    @GetMapping("/refresh")
+    public String refreshConfig() {
+        queueSendService.syncRoute();
+        return ResultEnum.SUCCESS.getName();
+    }
+
+    /**
+     * 获取信息
+     * @return JSONObject
+     */
+    @ApiOperation("3.配置信息")
+    @ApiOperationSupport(order = 3)
+    @PostMapping("/info")
+    public JSONObject getActuatorEnv() {
+        JSONObject result = new JSONObject();
+        JSONArray profiles = new JSONArray();
+        profiles.add(commonProperties.getScheme());
+        result.put("activeProfiles", profiles);
+        result.put("propertySources", null);
+        return result;
+    }
+
+    /**
+     * 上传服务
+     * @return String
+     */
+    @ApiOperation("4.上传服务")
+    @ApiOperationSupport(order = 4)
+    @SysLog("上传服务")
+    @PostMapping("/upload")
+    public String uploadService() {
+        DeployEntity deploy = deployService.getDeployEntity();
+        ServerEntity server = deployService.getServerEntity();
+        logger.info("Deploy project: {}", server);
+        logger.info("Server: {}", server);
+        // 部署服务器开关
+        if (Boolean.TRUE.equals(server.getIsDeploy())) {
+            DeployMethod.deployServer(deploy, server);
+        }
+        return ResultEnum.SUCCESS.getName();
+    }
+
+    /**
+     * 重启服务
+     * @return String
+     */
+    @ApiOperation("5.重启服务")
+    @ApiOperationSupport(order = 5)
+    @SysLog("重启服务")
+    @PostMapping("/reset")
+    public String resetService() {
+        return ResultEnum.SUCCESS.getName();
+    }
 
 }

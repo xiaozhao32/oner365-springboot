@@ -27,48 +27,46 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/sse/emitter")
 public class SseEmitterController extends BaseController {
 
-  @Resource
-  private SseService sseService;
+    @Resource
+    private SseService sseService;
 
-  /**
-   * 订阅
-   *
-   * @return SseEmitter
-   */
-  @ApiOperation("1.订阅")
-  @ApiOperationSupport(order = 1)
-  @GetMapping(path = "/subscribe", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-  public SseEmitter subscribe() {
-    String uuid = UUID.randomUUID().toString();
-    logger.info("新用户连接: {}", uuid);
-    return sseService.subscribe(uuid);
-  }
+    /**
+     * 订阅
+     * @return SseEmitter
+     */
+    @ApiOperation("1.订阅")
+    @ApiOperationSupport(order = 1)
+    @GetMapping(path = "/subscribe", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public SseEmitter subscribe() {
+        String uuid = UUID.randomUUID().toString();
+        logger.info("新用户连接: {}", uuid);
+        return sseService.subscribe(uuid);
+    }
 
-  /**
-   * 发送消息
-   *
-   * @param id   主键uuid
-   * @param data 消息体
-   * @return 是否成功
-   */
-  @ApiOperation("2.广播消息")
-  @ApiOperationSupport(order = 2)
-  @GetMapping(path = "/push")
-  public Boolean push(String id, String data) {
-    return sseService.push(id, data);
-  }
+    /**
+     * 发送消息
+     * @param id 主键uuid
+     * @param data 消息体
+     * @return 是否成功
+     */
+    @ApiOperation("2.广播消息")
+    @ApiOperationSupport(order = 2)
+    @GetMapping(path = "/push")
+    public Boolean push(String id, String data) {
+        return sseService.push(id, data);
+    }
 
-  /**
-   * 关闭连接
-   *
-   * @param id 主键uuid
-   * @return 是否成功
-   */
-  @ApiOperation("3.关闭连接")
-  @ApiOperationSupport(order = 3)
-  @GetMapping("/close")
-  public Boolean close(String id) {
-    logger.info("关闭连接: {}", id);
-    return sseService.close(id);
-  }
+    /**
+     * 关闭连接
+     * @param id 主键uuid
+     * @return 是否成功
+     */
+    @ApiOperation("3.关闭连接")
+    @ApiOperationSupport(order = 3)
+    @GetMapping("/close")
+    public Boolean close(String id) {
+        logger.info("关闭连接: {}", id);
+        return sseService.close(id);
+    }
+
 }

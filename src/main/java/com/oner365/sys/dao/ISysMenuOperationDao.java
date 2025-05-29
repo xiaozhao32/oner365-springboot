@@ -7,9 +7,10 @@ import com.oner365.sys.entity.SysMenuOperation;
 
 /**
  * 菜单操作接口
- * 
+ *
  * @author zhaoyong
  */
-public interface ISysMenuOperationDao extends JpaRepository<SysMenuOperation, String>, JpaSpecificationExecutor<SysMenuOperation> {
+public interface ISysMenuOperationDao
+        extends JpaRepository<SysMenuOperation, String>, JpaSpecificationExecutor<SysMenuOperation> {
 
 }

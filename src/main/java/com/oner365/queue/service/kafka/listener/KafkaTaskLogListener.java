@@ -30,42 +30,42 @@ import com.oner365.queue.constants.QueueConstants;
 @Conditional(KafkaCondition.class)
 public class KafkaTaskLogListener {
 
-  private final Logger logger = LoggerFactory.getLogger(KafkaTaskLogListener.class);
+    private final Logger logger = LoggerFactory.getLogger(KafkaTaskLogListener.class);
 
-  @Resource
-  private ISysTaskLogService sysTaskLogService;
+    @Resource
+    private ISysTaskLogService sysTaskLogService;
 
-  /**
-   * 监听服务
-   *
-   * @param consumerRecord 参数
-   */
-  @KafkaListener(id = QueueConstants.SAVE_TASK_LOG_QUEUE_NAME, topics = { QueueConstants.SAVE_TASK_LOG_QUEUE_NAME })
-  public void listener(ConsumerRecord<String, ?> consumerRecord) {
-    Optional<?> kafkaMessage = Optional.of(consumerRecord.value());
-    Object message = kafkaMessage.get();
-    logger.info("Kafka saveExecuteTaskLog received: {}", message);
+    /**
+     * 监听服务
+     * @param consumerRecord 参数
+     */
+    @KafkaListener(id = QueueConstants.SAVE_TASK_LOG_QUEUE_NAME, topics = { QueueConstants.SAVE_TASK_LOG_QUEUE_NAME })
+    public void listener(ConsumerRecord<String, ?> consumerRecord) {
+        Optional<?> kafkaMessage = Optional.of(consumerRecord.value());
+        Object message = kafkaMessage.get();
+        logger.info("Kafka saveExecuteTaskLog received: {}", message);
 
-    // business
-    SysTaskDto sysTask = JSON.parseObject(message.toString(), SysTaskDto.class);
-    if (sysTask != null) {
-      saveExecuteTaskLog(sysTask);
+        // business
+        SysTaskDto sysTask = JSON.parseObject(message.toString(), SysTaskDto.class);
+        if (sysTask != null) {
+            saveExecuteTaskLog(sysTask);
+        }
     }
-  }
 
-  public void saveExecuteTaskLog(SysTaskDto sysTask) {
-    logger.info("saveExecuteTaskLog :{}", sysTask);
+    public void saveExecuteTaskLog(SysTaskDto sysTask) {
+        logger.info("saveExecuteTaskLog :{}", sysTask);
 
-    long time = System.currentTimeMillis();
-    SysTaskLogVo taskLog = new SysTaskLogVo();
-    taskLog.setExecuteIp(HttpClientUtils.getLocalhost());
-    taskLog.setExecuteServerName(ScheduleConstants.SCHEDULE_SERVER_NAME);
-    taskLog.setStatus(TaskStatusEnum.NORMAL);
-    taskLog.setTaskMessage("执行时间：" + (System.currentTimeMillis() - time) + "毫秒");
-    taskLog.setTaskGroup(sysTask.getTaskGroup());
-    taskLog.setTaskName(sysTask.getTaskName());
-    taskLog.setInvokeTarget(sysTask.getInvokeTarget());
-    taskLog.setCreateUser(sysTask.getCreateUser());
-    sysTaskLogService.addTaskLog(taskLog);
-  }
+        long time = System.currentTimeMillis();
+        SysTaskLogVo taskLog = new SysTaskLogVo();
+        taskLog.setExecuteIp(HttpClientUtils.getLocalhost());
+        taskLog.setExecuteServerName(ScheduleConstants.SCHEDULE_SERVER_NAME);
+        taskLog.setStatus(TaskStatusEnum.NORMAL);
+        taskLog.setTaskMessage("执行时间：" + (System.currentTimeMillis() - time) + "毫秒");
+        taskLog.setTaskGroup(sysTask.getTaskGroup());
+        taskLog.setTaskName(sysTask.getTaskName());
+        taskLog.setInvokeTarget(sysTask.getInvokeTarget());
+        taskLog.setCreateUser(sysTask.getCreateUser());
+        sysTaskLogService.addTaskLog(taskLog);
+    }
+
 }

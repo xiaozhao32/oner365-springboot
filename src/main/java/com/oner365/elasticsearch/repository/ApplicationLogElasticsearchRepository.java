@@ -23,37 +23,39 @@ import com.oner365.elasticsearch.repository.entity.ApplicationLogElasticsearchEn
 
 /**
  * ApplicationLogElasticsearchRepository
- * 
+ *
  * SimpleElasticsearchRepository
- * 
+ *
  * @author zhaoyong
  */
 @Repository
 public class ApplicationLogElasticsearchRepository extends SimpleElasticsearchRepository<ApplicationLog, String> {
 
-  private final ElasticsearchRestTemplate elasticsearchTemplate;
+    private final ElasticsearchRestTemplate elasticsearchTemplate;
 
-  public ApplicationLogElasticsearchRepository(ApplicationLogElasticsearchEntityInformation metadata,
-      ElasticsearchOperations elasticsearchOperations) {
-    super(metadata, elasticsearchOperations);
-    elasticsearchTemplate = (ElasticsearchRestTemplate) super.operations;
-  }
+    public ApplicationLogElasticsearchRepository(ApplicationLogElasticsearchEntityInformation metadata,
+            ElasticsearchOperations elasticsearchOperations) {
+        super(metadata, elasticsearchOperations);
+        elasticsearchTemplate = (ElasticsearchRestTemplate) super.operations;
+    }
 
-  @SuppressWarnings({ "unchecked" })
-  public Page<ApplicationLog> pageList(QueryCriteriaBean data) {
-    BoolQueryBuilder queryBuilder = QueryBuilders.boolQuery();
+    @SuppressWarnings({ "unchecked" })
+    public Page<ApplicationLog> pageList(QueryCriteriaBean data) {
+        BoolQueryBuilder queryBuilder = QueryBuilders.boolQuery();
 
-    data.getWhereList().forEach(entity -> {
-      if (!DataUtils.isEmpty(entity.getVal())) {
-        queryBuilder.filter(QueryBuilders.termQuery(entity.getKey(), entity.getVal()));
-      }
-    });
+        data.getWhereList().forEach(entity -> {
+            if (!DataUtils.isEmpty(entity.getVal())) {
+                queryBuilder.filter(QueryBuilders.termQuery(entity.getKey(), entity.getVal()));
+            }
+        });
 
-    NativeSearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(queryBuilder)
-        .withPageable(QueryUtils.buildPageRequest(data)).withSort(Objects.requireNonNull(QueryUtils.buildSortRequest(data.getOrder()))).build();
-    SearchHits<ApplicationLog> searchHits = elasticsearchTemplate.search(searchQuery, ApplicationLog.class);
-    SearchPage<ApplicationLog> page = SearchHitSupport.searchPageFor(searchHits, searchQuery.getPageable());
-    return (Page<ApplicationLog>) SearchHitSupport.unwrapSearchHits(page);
-  }
+        NativeSearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(queryBuilder)
+            .withPageable(QueryUtils.buildPageRequest(data))
+            .withSort(Objects.requireNonNull(QueryUtils.buildSortRequest(data.getOrder())))
+            .build();
+        SearchHits<ApplicationLog> searchHits = elasticsearchTemplate.search(searchQuery, ApplicationLog.class);
+        SearchPage<ApplicationLog> page = SearchHitSupport.searchPageFor(searchHits, searchQuery.getPageable());
+        return (Page<ApplicationLog>) SearchHitSupport.unwrapSearchHits(page);
+    }
 
 }

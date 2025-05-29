@@ -23,26 +23,26 @@ import com.oner365.test.service.BaseServiceTest;
 @SpringBootTest
 class SysTaskServiceTest extends BaseServiceTest {
 
-  @Resource
-  private ISysTaskService service;
+    @Resource
+    private ISysTaskService service;
 
-  @RepeatedTest(value = 2)
-  void pageList() {
-    QueryCriteriaBean paramData = new QueryCriteriaBean();
-    PageInfo<SysTaskDto> list = service.pageList(paramData);
-    logger.info("pageList:{}", list.getSize());
-    Assertions.assertNotEquals(0, list.getSize());
-  }
-
-  @Test
-  void selectTaskById() {
-    QueryCriteriaBean paramData = new QueryCriteriaBean();
-    PageInfo<SysTaskDto> list = service.pageList(paramData);
-    if (!list.getContent().isEmpty()) {
-      SysTaskDto entity = service.selectTaskById(list.getContent().get(0).getId());
-      logger.info("selectTaskById:{}", JSON.toJSONString(entity));
-      Assertions.assertNotNull(entity);
+    @RepeatedTest(value = 2)
+    void pageList() {
+        QueryCriteriaBean paramData = new QueryCriteriaBean();
+        PageInfo<SysTaskDto> list = service.pageList(paramData);
+        logger.info("pageList:{}", list.getSize());
+        Assertions.assertNotEquals(0, list.getSize());
     }
-  }
+
+    @Test
+    void selectTaskById() {
+        QueryCriteriaBean paramData = new QueryCriteriaBean();
+        PageInfo<SysTaskDto> list = service.pageList(paramData);
+        if (!list.getContent().isEmpty()) {
+            SysTaskDto entity = service.selectTaskById(list.getContent().get(0).getId());
+            logger.info("selectTaskById:{}", JSON.toJSONString(entity));
+            Assertions.assertNotNull(entity);
+        }
+    }
 
 }

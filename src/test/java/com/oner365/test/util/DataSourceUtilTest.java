@@ -35,11 +35,12 @@ class DataSourceUtilTest extends BaseUtilsTest {
         String dataPath = "/opt/dmdbms/data";
         boolean isConn = DataSourceUtil.isConnection(driverName, url, userName, password);
         Assertions.assertTrue(isConn);
-        
+
         String name = "oner365";
         String createTablespace = String.format("create tablespace %s datafile '" + dataPath + "/%s/%s.dbf' size 500",
                 name, name, name);
-        String createUser = String.format("create user %s identified by \"%s\" default tablespace %s", name, password, name);
+        String createUser = String.format("create user %s identified by \"%s\" default tablespace %s", name, password,
+                name);
         String createGrant = String.format("grant \"DBA\",\"PUBLIC\",\"RESOURCE\" to \"%s\" with admin option;", name);
         logger.info("connection {}, url:{}", isConn, url);
         if (isConn) {
@@ -51,10 +52,11 @@ class DataSourceUtilTest extends BaseUtilsTest {
                 logger.info("result user:{}", createUserResult);
                 List<Map<String, Object>> createGrantResult = DataSourceUtil.execute(con, createGrant);
                 logger.info("result grant:{}", createGrantResult);
-            } catch (SQLException e) {
+            }
+            catch (SQLException e) {
                 logger.error("SQLException:", e);
             }
-            
+
         }
     }
 

@@ -11,18 +11,18 @@ import org.springframework.lang.NonNull;
 
 /**
  * minio上传模式
- * 
+ *
  * @author zhaoyong
  *
  */
 public class MinioStorageCondition implements Condition {
 
-  @Override
-  public boolean matches(ConditionContext conditionContext, @NonNull AnnotatedTypeMetadata metadata) {
-    Environment environment = conditionContext.getEnvironment();
-    String type = environment.getProperty(PublicConstants.FILE_STORAGE);
-    // minio上传
-    return type != null && type.equalsIgnoreCase(StorageEnum.MINIO.name());
-  }
+    @Override
+    public boolean matches(ConditionContext conditionContext, @NonNull AnnotatedTypeMetadata metadata) {
+        Environment environment = conditionContext.getEnvironment();
+        String type = environment.getProperty(PublicConstants.FILE_STORAGE);
+        // minio上传
+        return type != null && type.equalsIgnoreCase(StorageEnum.MINIO.name());
+    }
 
 }

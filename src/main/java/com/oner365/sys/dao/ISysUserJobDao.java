@@ -13,9 +13,10 @@ import com.oner365.sys.entity.SysUserJob;
 
 /**
  * 职位接口
+ *
  * @author zhaoyong
  */
-public interface ISysUserJobDao extends JpaRepository<SysUserJob, String>,JpaSpecificationExecutor<SysUserJob>{
+public interface ISysUserJobDao extends JpaRepository<SysUserJob, String>, JpaSpecificationExecutor<SysUserJob> {
 
     /**
      * 查询职位列表
@@ -33,4 +34,5 @@ public interface ISysUserJobDao extends JpaRepository<SysUserJob, String>,JpaSpe
     @Transactional(rollbackFor = ProjectRuntimeException.class)
     @Query(value = "delete from SysUserJob where sysUser.id=?1 ")
     void deleteUserJobByUserId(String userId);
+
 }

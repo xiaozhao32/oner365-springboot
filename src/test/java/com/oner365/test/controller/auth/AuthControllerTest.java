@@ -54,4 +54,5 @@ class AuthControllerTest extends BaseControllerTest {
         // 需要登录 否则返回空
         Assertions.assertNotNull(result);
     }
+
 }

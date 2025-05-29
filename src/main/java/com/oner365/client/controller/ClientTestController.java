@@ -26,23 +26,22 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/client")
 public class ClientTestController extends BaseController {
 
-  /**
-   * 测试系统登录
-   *
-   * @param loginUserVo 登录对象
-   * @return ResponseData
-   */
-  @ApiOperation("1.登录")
-  @ApiOperationSupport(order = 1)
-  @SysLog("用户登录")
-  @PostMapping("/login")
-  public ResponseData<LoginUserDto> login(@RequestBody LoginUserVo loginUserVo) {
-    if (logger.isDebugEnabled()) {
-      logger.debug("result:{}", JSON.toJSONString(loginUserVo));
+    /**
+     * 测试系统登录
+     * @param loginUserVo 登录对象
+     * @return ResponseData
+     */
+    @ApiOperation("1.登录")
+    @ApiOperationSupport(order = 1)
+    @SysLog("用户登录")
+    @PostMapping("/login")
+    public ResponseData<LoginUserDto> login(@RequestBody LoginUserVo loginUserVo) {
+        if (logger.isDebugEnabled()) {
+            logger.debug("result:{}", JSON.toJSONString(loginUserVo));
+        }
+        LoginUserDto dto = new LoginUserDto();
+        dto.setRealName("成功了");
+        return ResponseData.success(dto);
     }
-    LoginUserDto dto = new LoginUserDto();
-    dto.setRealName("成功了");
-    return ResponseData.success(dto);
-  }
 
 }

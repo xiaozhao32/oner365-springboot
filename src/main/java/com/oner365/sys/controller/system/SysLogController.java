@@ -41,94 +41,88 @@ import io.swagger.annotations.ApiOperation;
 @Api(tags = "系统管理 - 日志")
 public class SysLogController extends BaseController {
 
-  @Resource
-  private ISysLogService logService;
+    @Resource
+    private ISysLogService logService;
 
-  /**
-   * 列表
-   *
-   * @param data 查询参数
-   * @return PageInfo<SysLogDto>
-   */
-  @ApiOperation("1.获取列表")
-  @ApiOperationSupport(order = 1)
-  @PostMapping("/list")
-  public PageInfo<SysLogDto> pageList(@RequestBody QueryCriteriaBean data) {
-    return logService.pageList(data);
-  }
+    /**
+     * 列表
+     * @param data 查询参数
+     * @return PageInfo<SysLogDto>
+     */
+    @ApiOperation("1.获取列表")
+    @ApiOperationSupport(order = 1)
+    @PostMapping("/list")
+    public PageInfo<SysLogDto> pageList(@RequestBody QueryCriteriaBean data) {
+        return logService.pageList(data);
+    }
 
-  /**
-   * 获取信息
-   *
-   * @param id 编号
-   * @return SysLogDto
-   */
-  @ApiOperation("2.按id查询")
-  @ApiOperationSupport(order = 2)
-  @GetMapping("/get/{id}")
-  public SysLogDto get(@PathVariable String id) {
-    return logService.getById(id);
-  }
+    /**
+     * 获取信息
+     * @param id 编号
+     * @return SysLogDto
+     */
+    @ApiOperation("2.按id查询")
+    @ApiOperationSupport(order = 2)
+    @GetMapping("/get/{id}")
+    public SysLogDto get(@PathVariable String id) {
+        return logService.getById(id);
+    }
 
-  /**
-   * 保存
-   *
-   * @param sysLogVo 菜单类型对象
-   * @return String
-   */
-  @ApiOperation("3.保存")
-  @ApiOperationSupport(order = 3)
-  @PutMapping("/save")
-  public String save(@RequestBody SysLogVo sysLogVo) {
-    logService.save(sysLogVo);
-    return ResultEnum.SUCCESS.getName();
-  }
+    /**
+     * 保存
+     * @param sysLogVo 菜单类型对象
+     * @return String
+     */
+    @ApiOperation("3.保存")
+    @ApiOperationSupport(order = 3)
+    @PutMapping("/save")
+    public String save(@RequestBody SysLogVo sysLogVo) {
+        logService.save(sysLogVo);
+        return ResultEnum.SUCCESS.getName();
+    }
 
-  /**
-   * 删除
-   *
-   * @param ids 编号
-   * @return List<Boolean>
-   */
-  @ApiOperation("4.删除")
-  @ApiOperationSupport(order = 4)
-  @DeleteMapping("/delete")
-  public List<Boolean> delete(@RequestBody String... ids) {
-    return Arrays.stream(ids).map(id -> logService.deleteById(id)).collect(Collectors.toList());
-  }
+    /**
+     * 删除
+     * @param ids 编号
+     * @return List<Boolean>
+     */
+    @ApiOperation("4.删除")
+    @ApiOperationSupport(order = 4)
+    @DeleteMapping("/delete")
+    public List<Boolean> delete(@RequestBody String... ids) {
+        return Arrays.stream(ids).map(id -> logService.deleteById(id)).collect(Collectors.toList());
+    }
 
-  /**
-   * 按日期删除日志
-   *
-   * @param days 天数
-   * @return Boolean
-   */
-  @ApiOperation("5.删除日志")
-  @ApiOperationSupport(order = 5)
-  @DeleteMapping("/days/delete")
-  public Boolean deleteLog(@RequestParam Integer days) {
-    Date date = DateUtil.getDateAgo(days);
-    return logService.deleteLog(DateUtil.dateToLocalDateTime(date));
-  }
+    /**
+     * 按日期删除日志
+     * @param days 天数
+     * @return Boolean
+     */
+    @ApiOperation("5.删除日志")
+    @ApiOperationSupport(order = 5)
+    @DeleteMapping("/days/delete")
+    public Boolean deleteLog(@RequestParam Integer days) {
+        Date date = DateUtil.getDateAgo(days);
+        return logService.deleteLog(DateUtil.dateToLocalDateTime(date));
+    }
 
-  /**
-   * 导出日志
-   *
-   * @param data 查询参数
-   * @return ResponseEntity<byte[]>
-   */
-  @ApiOperation("6.导出")
-  @ApiOperationSupport(order = 6)
-  @PostMapping("/export")
-  public ResponseEntity<byte[]> exportItem(@RequestBody QueryCriteriaBean data) {
-    List<SysLogDto> list = logService.findList(data);
+    /**
+     * 导出日志
+     * @param data 查询参数
+     * @return ResponseEntity<byte[]>
+     */
+    @ApiOperation("6.导出")
+    @ApiOperationSupport(order = 6)
+    @PostMapping("/export")
+    public ResponseEntity<byte[]> exportItem(@RequestBody QueryCriteriaBean data) {
+        List<SysLogDto> list = logService.findList(data);
 
-    String[] titleKeys = new String[] { "编号", "请求IP", "请求方法", "服务名称", "请求地址", "请求内容", "创建时间" };
-    String[] columnNames = { "id", "operationIp", "methodName", "operationName", "operationPath", "operationContext",
-        "createTime" };
+        String[] titleKeys = new String[] { "编号", "请求IP", "请求方法", "服务名称", "请求地址", "请求内容", "创建时间" };
+        String[] columnNames = { "id", "operationIp", "methodName", "operationName", "operationPath",
+                "operationContext", "createTime" };
 
-    String fileName = SysLogDto.class.getSimpleName() + System.currentTimeMillis();
-    return exportExcel(fileName, titleKeys, columnNames, list);
-  }
+        String fileName = SysLogDto.class.getSimpleName() + System.currentTimeMillis();
+        return exportExcel(fileName, titleKeys, columnNames, list);
+    }
 
 }

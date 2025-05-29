@@ -20,7 +20,7 @@ import com.oner365.queue.service.mqtt.IMqttReceiverTaskExecuteStatusService;
 
 /**
  * MQTT 接收实现
- * 
+ *
  * @author zhaoyong
  *
  */
@@ -28,32 +28,31 @@ import com.oner365.queue.service.mqtt.IMqttReceiverTaskExecuteStatusService;
 @Conditional(MqttCondition.class)
 public class MqttReceiverTaskExecuteStatusServiceImpl implements IMqttReceiverTaskExecuteStatusService {
 
-  private final Logger logger = LoggerFactory.getLogger(MqttReceiverTaskExecuteStatusServiceImpl.class);
+    private final Logger logger = LoggerFactory.getLogger(MqttReceiverTaskExecuteStatusServiceImpl.class);
 
-  @Resource
-  private ISysTaskService sysTaskService;
-  
-  @Override
-  @ServiceActivator(
-      inputChannel = MqttConstants.IN_BOUND_CHANNEL + QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME, 
-      outputChannel = MqttConstants.OUT_BOUND_CHANNEL + QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME
-  )
-  public void message(Object message) {
-    logger.info("Mqtt receive setExecuteStatus: {}", message);
-    
-    // business
-    UpdateTaskExecuteStatusDto updateTask = JSON.parseObject(message.toString(), UpdateTaskExecuteStatusDto.class);
-    if (updateTask != null) {
-      SysTaskDto sysTask = sysTaskService.selectTaskById(updateTask.getTaskId());
-      if (sysTask != null) {
-        sysTask.setExecuteStatus(updateTask.getExecuteStatus());
-        try {
-          sysTaskService.save(convert(sysTask, SysTaskVo.class));
-        } catch (Exception e) {
-          logger.error("save error", e);
+    @Resource
+    private ISysTaskService sysTaskService;
+
+    @Override
+    @ServiceActivator(inputChannel = MqttConstants.IN_BOUND_CHANNEL + QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME,
+            outputChannel = MqttConstants.OUT_BOUND_CHANNEL + QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME)
+    public void message(Object message) {
+        logger.info("Mqtt receive setExecuteStatus: {}", message);
+
+        // business
+        UpdateTaskExecuteStatusDto updateTask = JSON.parseObject(message.toString(), UpdateTaskExecuteStatusDto.class);
+        if (updateTask != null) {
+            SysTaskDto sysTask = sysTaskService.selectTaskById(updateTask.getTaskId());
+            if (sysTask != null) {
+                sysTask.setExecuteStatus(updateTask.getExecuteStatus());
+                try {
+                    sysTaskService.save(convert(sysTask, SysTaskVo.class));
+                }
+                catch (Exception e) {
+                    logger.error("save error", e);
+                }
+            }
         }
-      }
     }
-  }
 
 }

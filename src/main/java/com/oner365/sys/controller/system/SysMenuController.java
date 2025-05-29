@@ -47,130 +47,125 @@ import springfox.documentation.annotations.ApiIgnore;
 @RequestMapping("/system/menus")
 public class SysMenuController extends BaseController {
 
-  @Resource
-  public ISysMenuService menuService;
+    @Resource
+    public ISysMenuService menuService;
 
-  @Resource
-  public ISysMenuOperationService operationService;
+    @Resource
+    public ISysMenuOperationService operationService;
 
-  /**
-   * 获取列表
-   *
-   * @param data 查询对象
-   * @return List<SysMenuDto>
-   */
-  @ApiOperation("1.获取列表")
-  @ApiOperationSupport(order = 1)
-  @PostMapping("/list")
-  public List<SysMenuDto> list(@RequestBody QueryCriteriaBean data) {
-    return menuService.findList(data);
-  }
-
-  /**
-   * 获取菜单
-   *
-   * @param id 编号
-   * @return SysMenuInfoDto
-   */
-  @ApiOperation("2.按id查询")
-  @ApiOperationSupport(order = 2)
-  @GetMapping("/get/{id}")
-  public SysMenuInfoDto get(@PathVariable String id) {
-    SysMenuInfoDto result = new SysMenuInfoDto();
-    result.setSysMenu(menuService.getById(id));
-    result.setMenuOperList(operationService.selectByMenuId(id));
-    result.setOperationList(operationService.findList(new QueryCriteriaBean()));
-    return result;
-  }
-
-  /**
-   * 修改菜单状态
-   *
-   * @param id     主键
-   * @param status 状态
-   * @return Boolean
-   */
-  @ApiOperation("3.修改状态")
-  @ApiOperationSupport(order = 3)
-  @SysLog("修改菜单状态")
-  @PostMapping("/status/{id}")
-  public Boolean editStatus(@PathVariable String id, @RequestParam StatusEnum status) {
-    return menuService.editStatus(id, status);
-  }
-
-  /**
-   * 获取菜单下拉树列表
-   *
-   * @param authUser  登录对象
-   * @param sysMenuVo 菜单对象
-   * @return List<TreeSelect>
-   */
-  @ApiOperation("4.获取树型列表")
-  @ApiOperationSupport(order = 4)
-  @PostMapping("/tree")
-  public List<TreeSelect> treeSelect(@RequestBody SysMenuVo sysMenuVo, @ApiIgnore @CurrentUser AuthUser authUser) {
-    List<SysMenuDto> menus;
-    if (SysConstants.DEFAULT_ROLE.equals(authUser.getIsAdmin())) {
-      menus = menuService.selectList(sysMenuVo);
-    } else {
-      sysMenuVo.setUserId(authUser.getId());
-      menus = menuService.selectListByUserId(sysMenuVo);
+    /**
+     * 获取列表
+     * @param data 查询对象
+     * @return List<SysMenuDto>
+     */
+    @ApiOperation("1.获取列表")
+    @ApiOperationSupport(order = 1)
+    @PostMapping("/list")
+    public List<SysMenuDto> list(@RequestBody QueryCriteriaBean data) {
+        return menuService.findList(data);
     }
-    return menuService.buildTreeSelect(menus);
-  }
 
-  /**
-   * 加载对应角色菜单列表树
-   *
-   * @param authUser  登录对象
-   * @param sysMenuVo 菜单对象
-   * @param roleId    String
-   * @return SysMenuTreeSelectDto
-   */
-  @ApiOperation("5.获取权限")
-  @ApiOperationSupport(order = 5)
-  @PostMapping("/role/{roleId}")
-  public SysMenuTreeSelectDto roleMenuTreeSelect(@RequestBody SysMenuVo sysMenuVo, @PathVariable String roleId,
-      @ApiIgnore @CurrentUser AuthUser authUser) {
-    List<SysMenuDto> menus;
-    if (SysConstants.DEFAULT_ROLE.equals(authUser.getIsAdmin())) {
-      menus = menuService.selectList(sysMenuVo);
-    } else {
-      sysMenuVo.setUserId(authUser.getId());
-      menus = menuService.selectListByUserId(sysMenuVo);
+    /**
+     * 获取菜单
+     * @param id 编号
+     * @return SysMenuInfoDto
+     */
+    @ApiOperation("2.按id查询")
+    @ApiOperationSupport(order = 2)
+    @GetMapping("/get/{id}")
+    public SysMenuInfoDto get(@PathVariable String id) {
+        SysMenuInfoDto result = new SysMenuInfoDto();
+        result.setSysMenu(menuService.getById(id));
+        result.setMenuOperList(operationService.selectByMenuId(id));
+        result.setOperationList(operationService.findList(new QueryCriteriaBean()));
+        return result;
     }
-    SysMenuTreeSelectDto result = new SysMenuTreeSelectDto();
-    result.setCheckedKeys(menuService.selectListByRoleId(roleId, sysMenuVo.getMenuTypeId()));
-    result.setMenus(menuService.buildTreeSelect(menus));
-    return result;
-  }
 
-  /**
-   * 保存菜单
-   *
-   * @param sysMenuVo 菜单对象
-   * @return SysMenuDto
-   */
-  @ApiOperation("6.保存")
-  @ApiOperationSupport(order = 6)
-  @SysLog("保存菜单")
-  @PutMapping("/save")
-  public SysMenuDto save(@Validated @RequestBody SysMenuVo sysMenuVo) {
-    return menuService.save(sysMenuVo);
-  }
+    /**
+     * 修改菜单状态
+     * @param id 主键
+     * @param status 状态
+     * @return Boolean
+     */
+    @ApiOperation("3.修改状态")
+    @ApiOperationSupport(order = 3)
+    @SysLog("修改菜单状态")
+    @PostMapping("/status/{id}")
+    public Boolean editStatus(@PathVariable String id, @RequestParam StatusEnum status) {
+        return menuService.editStatus(id, status);
+    }
 
-  /**
-   * 删除
-   *
-   * @param ids 编号
-   * @return List<Boolean>
-   */
-  @ApiOperation("7.删除")
-  @ApiOperationSupport(order = 7)
-  @SysLog("删除菜单")
-  @DeleteMapping("/delete")
-  public List<Boolean> delete(@RequestBody String... ids) {
-    return Arrays.stream(ids).map(id -> menuService.deleteById(id)).collect(Collectors.toList());
-  }
+    /**
+     * 获取菜单下拉树列表
+     * @param authUser 登录对象
+     * @param sysMenuVo 菜单对象
+     * @return List<TreeSelect>
+     */
+    @ApiOperation("4.获取树型列表")
+    @ApiOperationSupport(order = 4)
+    @PostMapping("/tree")
+    public List<TreeSelect> treeSelect(@RequestBody SysMenuVo sysMenuVo, @ApiIgnore @CurrentUser AuthUser authUser) {
+        List<SysMenuDto> menus;
+        if (SysConstants.DEFAULT_ROLE.equals(authUser.getIsAdmin())) {
+            menus = menuService.selectList(sysMenuVo);
+        }
+        else {
+            sysMenuVo.setUserId(authUser.getId());
+            menus = menuService.selectListByUserId(sysMenuVo);
+        }
+        return menuService.buildTreeSelect(menus);
+    }
+
+    /**
+     * 加载对应角色菜单列表树
+     * @param authUser 登录对象
+     * @param sysMenuVo 菜单对象
+     * @param roleId String
+     * @return SysMenuTreeSelectDto
+     */
+    @ApiOperation("5.获取权限")
+    @ApiOperationSupport(order = 5)
+    @PostMapping("/role/{roleId}")
+    public SysMenuTreeSelectDto roleMenuTreeSelect(@RequestBody SysMenuVo sysMenuVo, @PathVariable String roleId,
+            @ApiIgnore @CurrentUser AuthUser authUser) {
+        List<SysMenuDto> menus;
+        if (SysConstants.DEFAULT_ROLE.equals(authUser.getIsAdmin())) {
+            menus = menuService.selectList(sysMenuVo);
+        }
+        else {
+            sysMenuVo.setUserId(authUser.getId());
+            menus = menuService.selectListByUserId(sysMenuVo);
+        }
+        SysMenuTreeSelectDto result = new SysMenuTreeSelectDto();
+        result.setCheckedKeys(menuService.selectListByRoleId(roleId, sysMenuVo.getMenuTypeId()));
+        result.setMenus(menuService.buildTreeSelect(menus));
+        return result;
+    }
+
+    /**
+     * 保存菜单
+     * @param sysMenuVo 菜单对象
+     * @return SysMenuDto
+     */
+    @ApiOperation("6.保存")
+    @ApiOperationSupport(order = 6)
+    @SysLog("保存菜单")
+    @PutMapping("/save")
+    public SysMenuDto save(@Validated @RequestBody SysMenuVo sysMenuVo) {
+        return menuService.save(sysMenuVo);
+    }
+
+    /**
+     * 删除
+     * @param ids 编号
+     * @return List<Boolean>
+     */
+    @ApiOperation("7.删除")
+    @ApiOperationSupport(order = 7)
+    @SysLog("删除菜单")
+    @DeleteMapping("/delete")
+    public List<Boolean> delete(@RequestBody String... ids) {
+        return Arrays.stream(ids).map(id -> menuService.deleteById(id)).collect(Collectors.toList());
+    }
 
 }

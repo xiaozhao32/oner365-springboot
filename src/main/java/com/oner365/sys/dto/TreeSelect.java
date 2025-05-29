@@ -13,6 +13,7 @@ import com.oner365.data.commons.util.DataUtils;
  * @author zhaoyong
  */
 public class TreeSelect implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     /** 节点ID */
@@ -68,4 +69,5 @@ public class TreeSelect implements Serializable {
     public void setChildren(List<TreeSelect> children) {
         this.children = children;
     }
+
 }

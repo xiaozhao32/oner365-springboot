@@ -14,16 +14,16 @@ import com.oner365.sys.entity.SysJob;
  */
 class GsonUtilsTest extends BaseUtilsTest {
 
-  @Test
-  void objectToBean() {
-    SysJob entity = new SysJob();
-    entity.setId("123");
-    entity.setJobName("jobName");
-    String str = GsonUtils.objectToJson(entity);
-    logger.info("result:{}", str);
-    SysJob result = GsonUtils.jsonToBean(str, SysJob.class);
-    logger.info("result:{}", result);
-    Assertions.assertEquals(entity.getJobName(), result.getJobName());
-  }
+    @Test
+    void objectToBean() {
+        SysJob entity = new SysJob();
+        entity.setId("123");
+        entity.setJobName("jobName");
+        String str = GsonUtils.objectToJson(entity);
+        logger.info("result:{}", str);
+        SysJob result = GsonUtils.jsonToBean(str, SysJob.class);
+        logger.info("result:{}", result);
+        Assertions.assertEquals(entity.getJobName(), result.getJobName());
+    }
 
 }

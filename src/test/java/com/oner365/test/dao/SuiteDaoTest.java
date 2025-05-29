@@ -13,13 +13,12 @@ import org.junit.runner.RunWith;
  *
  */
 @RunWith(JUnitPlatform.class)
-@SelectPackages({
-    "com.oner365.test.dao.sys"
-})
+@SelectPackages({ "com.oner365.test.dao.sys" })
 class SuiteDaoTest {
 
     @Test
     void test() {
-      Assertions.assertEquals("SuiteDaoTest", SuiteDaoTest.class.getSimpleName());
+        Assertions.assertEquals("SuiteDaoTest", SuiteDaoTest.class.getSimpleName());
     }
+
 }

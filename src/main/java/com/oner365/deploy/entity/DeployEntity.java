@@ -8,7 +8,7 @@ import com.alibaba.fastjson.JSON;
 
 /**
  * 部署对象
- * 
+ *
  * @author zhaoyong
  *
  */
@@ -18,16 +18,22 @@ public class DeployEntity implements Serializable {
 
     /** 部署路径 */
     private String name;
+
     /** 项目路径 */
     private String location;
+
     /** 版本 */
     private String version;
+
     /** 部署路径 */
     private String suffix;
+
     /** 部署环境 */
     private String active;
+
     /** 项目名称 */
     private List<String> projects = new ArrayList<>();
+
     /** jar包 */
     private List<String> libs = new ArrayList<>();
 
@@ -85,13 +91,13 @@ public class DeployEntity implements Serializable {
     public void setLibs(List<String> libs) {
         this.libs = libs;
     }
-    
+
     public String getActive() {
-      return active;
+        return active;
     }
 
     public void setActive(String active) {
-      this.active = active;
+        this.active = active;
     }
 
     @Override

@@ -13,9 +13,10 @@ import com.oner365.sys.entity.SysUserRole;
 
 /**
  * 用户角色权限接口
+ *
  * @author zhaoyong
  */
-public interface ISysUserRoleDao extends JpaRepository<SysUserRole, String>,JpaSpecificationExecutor<SysUserRole>{
+public interface ISysUserRoleDao extends JpaRepository<SysUserRole, String>, JpaSpecificationExecutor<SysUserRole> {
 
     /**
      * 查询列表

@@ -10,10 +10,10 @@ import com.oner365.data.jpa.service.BaseService;
  */
 public interface IMqttReceiverInvokeParamService extends BaseService {
 
-  /**
-   * 接收消息
-   *
-   * @param message 消息内容
-   */
-  void message(Object message);
+    /**
+     * 接收消息
+     * @param message 消息内容
+     */
+    void message(Object message);
+
 }

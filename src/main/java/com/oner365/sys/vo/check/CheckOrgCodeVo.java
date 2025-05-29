@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 /**
  * 检测机构编码
- * 
+ *
  * @author zhaoyong
  *
  */
@@ -17,29 +17,29 @@ import io.swagger.annotations.ApiModelProperty;
 public class CheckOrgCodeVo implements Serializable {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1L;
-    
+
     /**
      * 主键 id
      */
     @ApiModelProperty(value = "主键")
     private String id;
-    
+
     /**
      * 编码
      */
     @ApiModelProperty(value = "编码", required = true)
     @NotBlank(message = "{system.vo.check.org.code.message}")
     private String code;
-    
+
     /**
      * 类型
      */
     @ApiModelProperty(value = "类型")
     private String type;
-    
+
     /**
      * 构造方法
      */
@@ -62,7 +62,7 @@ public class CheckOrgCodeVo implements Serializable {
     public void setCode(String code) {
         this.code = code;
     }
-    
+
     public String getType() {
         return type;
     }
