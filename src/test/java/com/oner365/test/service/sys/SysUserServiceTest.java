@@ -26,38 +26,38 @@ import com.oner365.test.service.BaseServiceTest;
 @SpringBootTest
 class SysUserServiceTest extends BaseServiceTest {
 
-  @Resource
-  private ISysUserService service;
+    @Resource
+    private ISysUserService service;
 
-  @RepeatedTest(value = 2)
-  void findList() {
-    QueryCriteriaBean paramData = new QueryCriteriaBean();
-    List<SysUserDto> list = service.findList(paramData);
-    logger.info("findList:{}", list.size());
-    Assertions.assertNotEquals(0, list.size());
-  }
+    @RepeatedTest(value = 2)
+    void findList() {
+        QueryCriteriaBean paramData = new QueryCriteriaBean();
+        List<SysUserDto> list = service.findList(paramData);
+        logger.info("findList:{}", list.size());
+        Assertions.assertNotEquals(0, list.size());
+    }
 
-  @Test
-  void pageList() {
-    QueryCriteriaBean paramData = new QueryCriteriaBean();
-    PageInfo<SysUserDto> list = service.pageList(paramData);
-    logger.info("pageList:{}", list.getSize());
-    Assertions.assertNotEquals(0, list.getSize());
-  }
+    @Test
+    void pageList() {
+        QueryCriteriaBean paramData = new QueryCriteriaBean();
+        PageInfo<SysUserDto> list = service.pageList(paramData);
+        logger.info("pageList:{}", list.getSize());
+        Assertions.assertNotEquals(0, list.getSize());
+    }
 
-  @Test
-  void getById() {
-    String id = "1";
-    SysUserDto entity = service.getById(id);
-    logger.info("getById:{}", JSON.toJSONString(entity));
-    Assertions.assertNotNull(entity);
-  }
+    @Test
+    void getById() {
+        String id = "1";
+        SysUserDto entity = service.getById(id);
+        logger.info("getById:{}", JSON.toJSONString(entity));
+        Assertions.assertNotNull(entity);
+    }
 
-  @Test
-  void login() {
-    LoginUserDto entity = service.login("admin", "1", "localhost");
-    logger.info("login:{}", entity);
-    Assertions.assertNotNull(entity);
-  }
+    @Test
+    void login() {
+        LoginUserDto entity = service.login("admin", "1", "localhost");
+        logger.info("login:{}", entity);
+        Assertions.assertNotNull(entity);
+    }
 
 }

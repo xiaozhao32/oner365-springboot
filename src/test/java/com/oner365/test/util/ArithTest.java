@@ -24,4 +24,5 @@ class ArithTest extends BaseUtilsTest {
         double result = Arith.sub(1d, -2d);
         Assertions.assertEquals(3d, result);
     }
+
 }

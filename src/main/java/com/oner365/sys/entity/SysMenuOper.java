@@ -16,7 +16,7 @@ import jakarta.persistence.Table;
 
 /**
  * 菜单操作权限对象
- * 
+ *
  * @author zhaoyong
  */
 @Entity
@@ -24,51 +24,51 @@ import jakarta.persistence.Table;
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler" })
 public class SysMenuOper implements Serializable {
 
-  /**
-   *
-   */
-  private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.UUID)
-  private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
-  @Column(name = "menu_id", nullable = false, length = 32)
-  private String menuId;
+    @Column(name = "menu_id", nullable = false, length = 32)
+    private String menuId;
 
-  @ManyToOne(cascade = CascadeType.REFRESH)
-  @JoinColumn(name = "operation_id")
-  private SysMenuOperation sysMenuOperation;
+    @ManyToOne(cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "operation_id")
+    private SysMenuOperation sysMenuOperation;
 
-  /**
-   * Constructor
-   */
-  public SysMenuOper() {
-    super();
-  }
+    /**
+     * Constructor
+     */
+    public SysMenuOper() {
+        super();
+    }
 
-  public String getId() {
-    return id;
-  }
+    public String getId() {
+        return id;
+    }
 
-  public void setId(String id) {
-    this.id = id;
-  }
+    public void setId(String id) {
+        this.id = id;
+    }
 
-  public String getMenuId() {
-    return menuId;
-  }
+    public String getMenuId() {
+        return menuId;
+    }
 
-  public void setMenuId(String menuId) {
-    this.menuId = menuId;
-  }
+    public void setMenuId(String menuId) {
+        this.menuId = menuId;
+    }
 
-  public SysMenuOperation getSysMenuOperation() {
-    return sysMenuOperation;
-  }
+    public SysMenuOperation getSysMenuOperation() {
+        return sysMenuOperation;
+    }
 
-  public void setSysMenuOperation(SysMenuOperation sysMenuOperation) {
-    this.sysMenuOperation = sysMenuOperation;
-  }
+    public void setSysMenuOperation(SysMenuOperation sysMenuOperation) {
+        this.sysMenuOperation = sysMenuOperation;
+    }
 
 }

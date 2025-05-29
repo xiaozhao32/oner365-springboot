@@ -18,7 +18,7 @@ import com.oner365.queue.config.properties.PulsarProperties;
 
 /**
  * pulsar config
- * 
+ *
  * @author zhaoyong
  *
  */
@@ -27,33 +27,36 @@ import com.oner365.queue.config.properties.PulsarProperties;
 @EnableConfigurationProperties({ PulsarProperties.class })
 public class PulsarConfig {
 
-  private final Logger logger = LoggerFactory.getLogger(PulsarConfig.class);
+    private final Logger logger = LoggerFactory.getLogger(PulsarConfig.class);
 
-  @Resource
-  private PulsarProperties pulsarProperties;
-  
-  public PulsarConfig() {
-    logger.info("Queue Type: {}", QueueEnum.PULSAR);
-  }
+    @Resource
+    private PulsarProperties pulsarProperties;
 
-  @Bean
-  PulsarClient getPulsarFactory() {
-    PulsarClient client = null;
-    try {
-      client = PulsarClient.builder().serviceUrl("pulsar://" + pulsarProperties.getUrl()).build();
-    } catch (PulsarClientException e) {
-      logger.error("PulsarClient factory error:", e);
+    public PulsarConfig() {
+        logger.info("Queue Type: {}", QueueEnum.PULSAR);
     }
-    return client;
-  }
-  
-  @PreDestroy
-  public void destroy() {
-    try {
-      logger.info("Destroy Pulsar factory.");
-      getPulsarFactory().close();
-    } catch (PulsarClientException e) {
-      logger.error("Destroy Pulsar error:", e);
+
+    @Bean
+    PulsarClient getPulsarFactory() {
+        PulsarClient client = null;
+        try {
+            client = PulsarClient.builder().serviceUrl("pulsar://" + pulsarProperties.getUrl()).build();
+        }
+        catch (PulsarClientException e) {
+            logger.error("PulsarClient factory error:", e);
+        }
+        return client;
     }
-  }
+
+    @PreDestroy
+    public void destroy() {
+        try {
+            logger.info("Destroy Pulsar factory.");
+            getPulsarFactory().close();
+        }
+        catch (PulsarClientException e) {
+            logger.error("Destroy Pulsar error:", e);
+        }
+    }
+
 }

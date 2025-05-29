@@ -46,153 +46,152 @@ import jakarta.annotation.Resource;
 @RequestMapping("/api")
 public class ApiController extends BaseController {
 
-  @Resource
-  private RedisCache redisCache;
+    @Resource
+    private RedisCache redisCache;
 
-  @Resource
-  private DynamicDataSource dataSource;
+    @Resource
+    private DynamicDataSource dataSource;
 
-  @Resource
-  private GuavaCache<Object> guavaCache;
+    @Resource
+    private GuavaCache<Object> guavaCache;
 
-  @Resource
-  private SnowflakeSequence snowflakeSequence;
+    @Resource
+    private SnowflakeSequence snowflakeSequence;
 
-  @Resource
-  private RangeSequence rangeSequence;
+    @Resource
+    private RangeSequence rangeSequence;
 
-  @Resource
-  private MessageSource messageSource;
+    @Resource
+    private MessageSource messageSource;
 
-  /**
-   * 测试分库分表
-   *
-   * @param orderId 订单id
-   * @param userId  用户id
-   * @return List<Map<String, Object>>
-   */
-  @Operation(summary = "1.测试分库分表")
-  @ApiOperationSupport(order = 1)
-  @GetMapping("/sharding/test")
-  public List<Map<String, Object>> testDataSource(@RequestParam Integer orderId, @RequestParam Integer userId) {
-    String sql = "insert into t_order(id, order_id, user_id, status, create_time) " + "values('"
-        + snowflakeSequence.nextNo() + "'," + orderId + "," + userId + ",'1','" + DateUtil.getCurrentTime() + "')";
-    try (Connection con = dataSource.getConnection()) {
-      return DataSourceUtil.execute(con, sql);
-    } catch (Exception e) {
-      logger.error("testDataSource error:", e);
+    /**
+     * 测试分库分表
+     * @param orderId 订单id
+     * @param userId 用户id
+     * @return List<Map<String, Object>>
+     */
+    @Operation(summary = "1.测试分库分表")
+    @ApiOperationSupport(order = 1)
+    @GetMapping("/sharding/test")
+    public List<Map<String, Object>> testDataSource(@RequestParam Integer orderId, @RequestParam Integer userId) {
+        String sql = "insert into t_order(id, order_id, user_id, status, create_time) " + "values('"
+                + snowflakeSequence.nextNo() + "'," + orderId + "," + userId + ",'1','" + DateUtil.getCurrentTime()
+                + "')";
+        try (Connection con = dataSource.getConnection()) {
+            return DataSourceUtil.execute(con, sql);
+        }
+        catch (Exception e) {
+            logger.error("testDataSource error:", e);
+        }
+        return Collections.emptyList();
     }
-    return Collections.emptyList();
-  }
 
-  /**
-   * 测试guava cache
-   *
-   * @return String
-   */
-  @Operation(summary = "2.测试Guava Cache")
-  @ApiOperationSupport(order = 2)
-  @GetMapping("/cache/guava/test")
-  public String testGuavaCache() {
-    String sequence1 = snowflakeSequence.nextNo();
-    logger.info("sequence1: {}", sequence1);
-    String sequence2 = rangeSequence.nextNo();
-    logger.info("sequence2: {}", sequence2);
+    /**
+     * 测试guava cache
+     * @return String
+     */
+    @Operation(summary = "2.测试Guava Cache")
+    @ApiOperationSupport(order = 2)
+    @GetMapping("/cache/guava/test")
+    public String testGuavaCache() {
+        String sequence1 = snowflakeSequence.nextNo();
+        logger.info("sequence1: {}", sequence1);
+        String sequence2 = rangeSequence.nextNo();
+        logger.info("sequence2: {}", sequence2);
 
-    String key = "a1";
-    if (DataUtils.isEmpty(guavaCache.getCache(key))) {
-      guavaCache.setCache(key, Optional.of(111));
+        String key = "a1";
+        if (DataUtils.isEmpty(guavaCache.getCache(key))) {
+            guavaCache.setCache(key, Optional.of(111));
+        }
+        logger.info("cache:{}", guavaCache.getCache(key));
+        logger.info("cache:{}", guavaCache.getCache(key));
+        guavaCache.removeCache(key);
+
+        return ResultEnum.SUCCESS.getName();
     }
-    logger.info("cache:{}", guavaCache.getCache(key));
-    logger.info("cache:{}", guavaCache.getCache(key));
-    guavaCache.removeCache(key);
 
-    return ResultEnum.SUCCESS.getName();
-  }
+    /**
+     * 测试redis
+     * @return JSONObject
+     */
+    @Operation(summary = "3.测试Redis Cache")
+    @ApiOperationSupport(order = 3)
+    @GetMapping("/cache/redis/test")
+    public JSONObject testRedisCache() {
+        String key = "test1";
+        JSONObject value = new JSONObject();
+        value.put("aaa", 111);
+        value.put("bbb", 222);
+        redisCache.setCacheObject(key, value, PublicConstants.EXPIRE_TIME, TimeUnit.MINUTES);
+        JSONObject json = redisCache.getCacheObject(key);
+        logger.info("test1:{}", json);
 
-  /**
-   * 测试redis
-   *
-   * @return JSONObject
-   */
-  @Operation(summary = "3.测试Redis Cache")
-  @ApiOperationSupport(order = 3)
-  @GetMapping("/cache/redis/test")
-  public JSONObject testRedisCache() {
-    String key = "test1";
-    JSONObject value = new JSONObject();
-    value.put("aaa", 111);
-    value.put("bbb", 222);
-    redisCache.setCacheObject(key, value, PublicConstants.EXPIRE_TIME, TimeUnit.MINUTES);
-    JSONObject json = redisCache.getCacheObject(key);
-    logger.info("test1:{}", json);
+        String key2 = "test2";
+        List<Map<String, Object>> dataList = new ArrayList<>();
+        Map<String, Object> m1 = new HashMap<>(3);
+        m1.put("a1", "a11");
+        m1.put("a2", "a22");
+        m1.put("a3", "a33");
+        dataList.add(m1);
+        Map<String, Object> m2 = new HashMap<>(3);
+        m2.put("b1", "b11");
+        m2.put("b2", "b22");
+        m2.put("b3", "b33");
+        dataList.add(m2);
+        Map<String, Object> m3 = new HashMap<>(3);
+        m3.put("c1", "c11");
+        m3.put("c2", "c22");
+        m3.put("c3", "c33");
+        dataList.add(m3);
+        redisCache.deleteObject(key2);
+        redisCache.setCacheList(key2, dataList);
+        redisCache.expire(key2, PublicConstants.EXPIRE_TIME);
+        List<String> list = redisCache.getCacheList(key2);
+        logger.info("test2:{}", list);
 
-    String key2 = "test2";
-    List<Map<String, Object>> dataList = new ArrayList<>();
-    Map<String, Object> m1 = new HashMap<>(3);
-    m1.put("a1", "a11");
-    m1.put("a2", "a22");
-    m1.put("a3", "a33");
-    dataList.add(m1);
-    Map<String, Object> m2 = new HashMap<>(3);
-    m2.put("b1", "b11");
-    m2.put("b2", "b22");
-    m2.put("b3", "b33");
-    dataList.add(m2);
-    Map<String, Object> m3 = new HashMap<>(3);
-    m3.put("c1", "c11");
-    m3.put("c2", "c22");
-    m3.put("c3", "c33");
-    dataList.add(m3);
-    redisCache.deleteObject(key2);
-    redisCache.setCacheList(key2, dataList);
-    redisCache.expire(key2, PublicConstants.EXPIRE_TIME);
-    List<String> list = redisCache.getCacheList(key2);
-    logger.info("test2:{}", list);
+        String key3 = "test3";
+        Map<String, Object> dataMap = new HashMap<>(3);
+        dataMap.put("ddd", dataList);
+        redisCache.setCacheMap(key3, dataMap);
+        redisCache.expire(key3, PublicConstants.EXPIRE_TIME);
+        Map<String, Object> map = redisCache.getCacheMap(key3);
+        logger.info("test3:{}", map);
 
-    String key3 = "test3";
-    Map<String, Object> dataMap = new HashMap<>(3);
-    dataMap.put("ddd", dataList);
-    redisCache.setCacheMap(key3, dataMap);
-    redisCache.expire(key3, PublicConstants.EXPIRE_TIME);
-    Map<String, Object> map = redisCache.getCacheMap(key3);
-    logger.info("test3:{}", map);
+        String key4 = "test4";
+        Set<String> dataSet = new HashSet<>();
+        dataSet.add("aaa");
+        dataSet.add("bbb");
+        redisCache.setCacheSet(key4, dataSet);
+        redisCache.expire(key4, PublicConstants.EXPIRE_TIME);
+        Set<String> set = redisCache.getCacheSet(key4);
+        logger.info("test4:{}", set);
 
-    String key4 = "test4";
-    Set<String> dataSet = new HashSet<>();
-    dataSet.add("aaa");
-    dataSet.add("bbb");
-    redisCache.setCacheSet(key4, dataSet);
-    redisCache.expire(key4, PublicConstants.EXPIRE_TIME);
-    Set<String> set = redisCache.getCacheSet(key4);
-    logger.info("test4:{}", set);
+        String key5 = "test5";
+        boolean b1 = redisCache.lock(key5, 10);
+        logger.info("test5 lock:{}", b1);
+        boolean b2 = redisCache.lock(key5, 10);
+        logger.info("test5 lock:{}", b2);
 
-    String key5 = "test5";
-    boolean b1 = redisCache.lock(key5, 10);
-    logger.info("test5 lock:{}", b1);
-    boolean b2 = redisCache.lock(key5, 10);
-    logger.info("test5 lock:{}", b2);
+        return json;
+    }
 
-    return json;
-  }
+    /**
+     * 测试国际化
+     * @param message 国际化内容
+     * @param language 国际化语言
+     * @return JSONObject
+     */
+    @Operation(summary = "4.测试国际化")
+    @ApiOperationSupport(order = 4)
+    @GetMapping("/i18n/messages")
+    public JSONObject testMessages(@RequestParam String message, @RequestParam String language) {
+        Locale locale = Locale.of(language);
+        String name = messageSource.getMessage(message, null, locale);
 
-  /**
-   * 测试国际化
-   *
-   * @param message  国际化内容
-   * @param language 国际化语言
-   * @return JSONObject
-   */
-  @Operation(summary = "4.测试国际化")
-  @ApiOperationSupport(order = 4)
-  @GetMapping("/i18n/messages")
-  public JSONObject testMessages(@RequestParam String message, @RequestParam String language) {
-    Locale locale = Locale.of(language);
-    String name = messageSource.getMessage(message, null, locale);
+        JSONObject result = new JSONObject();
+        result.put("language", locale.toLanguageTag());
+        result.put("name", name);
+        return result;
+    }
 
-    JSONObject result = new JSONObject();
-    result.put("language", locale.toLanguageTag());
-    result.put("name", name);
-    return result;
-  }
 }

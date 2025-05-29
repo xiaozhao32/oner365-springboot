@@ -14,34 +14,34 @@ import com.oner365.elasticsearch.service.IApplicationLogElasticsearchService;
 
 /**
  * SampleGeneElasticsearch实现类
- * 
+ *
  * @author zhaoyong
  */
 @Service
 public class ApplicationLogElasticsearchServiceImpl implements IApplicationLogElasticsearchService {
 
-  private final ApplicationLogElasticsearchRepository repository;
+    private final ApplicationLogElasticsearchRepository repository;
 
-  public ApplicationLogElasticsearchServiceImpl(ApplicationLogElasticsearchRepository repository) {
-    this.repository = repository;
-  }
+    public ApplicationLogElasticsearchServiceImpl(ApplicationLogElasticsearchRepository repository) {
+        this.repository = repository;
+    }
 
-  @Override
-  public PageInfo<ApplicationLogDto> pageList(QueryCriteriaBean data) {
-    Page<ApplicationLog> pageList = repository.pageList(data);
-    return convert(pageList, ApplicationLogDto.class);
-  }
+    @Override
+    public PageInfo<ApplicationLogDto> pageList(QueryCriteriaBean data) {
+        Page<ApplicationLog> pageList = repository.pageList(data);
+        return convert(pageList, ApplicationLogDto.class);
+    }
 
-  @Override
-  public ApplicationLogDto findById(String id) {
-    Optional<ApplicationLog> optional = repository.findById(id);
-    return convert(optional.orElse(null), ApplicationLogDto.class);
-  }
+    @Override
+    public ApplicationLogDto findById(String id) {
+        Optional<ApplicationLog> optional = repository.findById(id);
+        return convert(optional.orElse(null), ApplicationLogDto.class);
+    }
 
-  @Override
-  public Boolean deleteById(String id) {
-    repository.deleteById(id);
-    return Boolean.TRUE;
-  }
+    @Override
+    public Boolean deleteById(String id) {
+        repository.deleteById(id);
+        return Boolean.TRUE;
+    }
 
 }

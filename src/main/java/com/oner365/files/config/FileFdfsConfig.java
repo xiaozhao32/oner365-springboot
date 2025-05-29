@@ -14,7 +14,7 @@ import com.oner365.files.storage.condition.FdfsStorageCondition;
 
 /**
  * File Fdfs Config
- * 
+ *
  * @author zhaoyong
  */
 @Configuration
@@ -22,13 +22,14 @@ import com.oner365.files.storage.condition.FdfsStorageCondition;
 @EnableConfigurationProperties({ FileFdfsProperties.class })
 public class FileFdfsConfig {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(FileFdfsConfig.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FileFdfsConfig.class);
 
-  @Resource
-  private FileFdfsProperties fileFdfsProperties;
+    @Resource
+    private FileFdfsProperties fileFdfsProperties;
 
-  public FileFdfsConfig() {
-    LOGGER.info("Storage Type: {}", StorageEnum.FDFS);
-    LOGGER.info("init fdfs properties:{}", fileFdfsProperties);
-  }
+    public FileFdfsConfig() {
+        LOGGER.info("Storage Type: {}", StorageEnum.FDFS);
+        LOGGER.info("init fdfs properties:{}", fileFdfsProperties);
+    }
+
 }

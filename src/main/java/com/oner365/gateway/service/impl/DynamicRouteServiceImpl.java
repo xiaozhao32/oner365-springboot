@@ -39,118 +39,123 @@ import com.oner365.queue.service.IQueueSendService;
 @Service
 public class DynamicRouteServiceImpl implements DynamicRouteService {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(DynamicRouteServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DynamicRouteServiceImpl.class);
 
-  @Resource
-  private IGatewayRouteDao gatewayRouteDao;
+    @Resource
+    private IGatewayRouteDao gatewayRouteDao;
 
-  @Resource
-  private IQueueSendService queueSendService;
+    @Resource
+    private IQueueSendService queueSendService;
 
-  protected static Map<String, Integer> predicateMap = new HashMap<>();
+    protected static Map<String, Integer> predicateMap = new HashMap<>();
 
-  @Override
-  public List<GatewayRouteDto> findList() {
-    return convert(gatewayRouteDao.findAll(), GatewayRouteDto.class);
-  }
-
-  @Override
-  public PageInfo<GatewayRouteDto> pageList(QueryCriteriaBean data) {
-    try {
-      Page<GatewayRoute> page = gatewayRouteDao.findAll(QueryUtils.buildCriteria(data), QueryUtils.buildPageRequest(data));
-      return convert(page, GatewayRouteDto.class);
-    } catch (Exception e) {
-      LOGGER.error("Error pageList: ", e);
+    @Override
+    public List<GatewayRouteDto> findList() {
+        return convert(gatewayRouteDao.findAll(), GatewayRouteDto.class);
     }
-    return null;
-  }
 
-  @Override
-  @Transactional(rollbackFor = ProjectRuntimeException.class)
-  public GatewayRouteDto save(GatewayRouteVo gatewayRoute) {
-
-    // Filter
-    GatewayFilter gatewayFilter = new GatewayFilter();
-    gatewayFilter.setName("StripPrefix");
-    Map<String, String> argsFilter = new HashMap<>(10);
-    argsFilter.put("parts", "1");
-    gatewayFilter.setArgs(argsFilter);
-    gatewayRoute.setFilters(Collections.singletonList(gatewayFilter));
-
-    // Predicates
-    GatewayPredicate gatewayPredicate = new GatewayPredicate();
-    gatewayPredicate.setName("Path");
-    Map<String, String> args = new HashMap<>(10);
-    args.put("pattern", gatewayRoute.getPattern());
-    gatewayPredicate.setArgs(args);
-    gatewayRoute.setPredicates(Collections.singletonList(gatewayPredicate));
-
-    // 页面保存信息
-    GatewayRoute entity = gatewayRouteDao.save(convert(gatewayRoute, GatewayRoute.class));
-    return convert(entity, GatewayRouteDto.class);
-  }
-
-  @Override
-  @Transactional(rollbackFor = ProjectRuntimeException.class)
-  public GatewayRouteDto update(GatewayRouteVo gatewayRoute) {
-    deleteById(gatewayRoute.getId());
-    return save(gatewayRoute);
-  }
-
-  @Override
-  @Transactional(rollbackFor = ProjectRuntimeException.class)
-  public Boolean deleteById(String id) {
-    gatewayRouteDao.deleteById(id);
-    queueSendService.syncRoute();
-    return Boolean.TRUE;
-  }
-
-  @Override
-  public List<GatewayRouteDto> refreshRoute() {
-    List<GatewayRouteDto> list = findList();
-    list.forEach(this::mapRoute);
-    return list;
-  }
-
-  @Override
-  public Boolean editStatus(String id, StatusEnum status) {
-    GatewayRoute gatewayRoute = findById(id);
-    if (gatewayRoute != null) {
-      gatewayRoute.setStatus(status);
-      gatewayRouteDao.save(gatewayRoute);
-      queueSendService.syncRoute();
-      return Boolean.TRUE;
+    @Override
+    public PageInfo<GatewayRouteDto> pageList(QueryCriteriaBean data) {
+        try {
+            Page<GatewayRoute> page = gatewayRouteDao.findAll(QueryUtils.buildCriteria(data),
+                    QueryUtils.buildPageRequest(data));
+            return convert(page, GatewayRouteDto.class);
+        }
+        catch (Exception e) {
+            LOGGER.error("Error pageList: ", e);
+        }
+        return null;
     }
-    return Boolean.FALSE;
-  }
 
-  private GatewayRoute findById(String id) {
-    Optional<GatewayRoute> optional = gatewayRouteDao.findById(id);
-    if (optional.isPresent()) {
-      GatewayRoute entity = optional.get();
-      if (!entity.getPredicates().isEmpty()) {
-        String pattern = entity.getPredicates().get(0).getArgs().get("pattern");
-        entity.setPattern(pattern);
-      }
+    @Override
+    @Transactional(rollbackFor = ProjectRuntimeException.class)
+    public GatewayRouteDto save(GatewayRouteVo gatewayRoute) {
+
+        // Filter
+        GatewayFilter gatewayFilter = new GatewayFilter();
+        gatewayFilter.setName("StripPrefix");
+        Map<String, String> argsFilter = new HashMap<>(10);
+        argsFilter.put("parts", "1");
+        gatewayFilter.setArgs(argsFilter);
+        gatewayRoute.setFilters(Collections.singletonList(gatewayFilter));
+
+        // Predicates
+        GatewayPredicate gatewayPredicate = new GatewayPredicate();
+        gatewayPredicate.setName("Path");
+        Map<String, String> args = new HashMap<>(10);
+        args.put("pattern", gatewayRoute.getPattern());
+        gatewayPredicate.setArgs(args);
+        gatewayRoute.setPredicates(Collections.singletonList(gatewayPredicate));
+
+        // 页面保存信息
+        GatewayRoute entity = gatewayRouteDao.save(convert(gatewayRoute, GatewayRoute.class));
+        return convert(entity, GatewayRouteDto.class);
     }
-    return optional.orElse(null);
-  }
 
-  @Override
-  public GatewayRouteDto getById(String id) {
-    return convert(findById(id), GatewayRouteDto.class);
-  }
+    @Override
+    @Transactional(rollbackFor = ProjectRuntimeException.class)
+    public GatewayRouteDto update(GatewayRouteVo gatewayRoute) {
+        deleteById(gatewayRoute.getId());
+        return save(gatewayRoute);
+    }
 
-  @Override
-  public Map<String, Integer> mapRoute(GatewayRouteDto route) {
-    route.getPredicates().stream().filter(predicate -> predicate.getName().equals(GatewayConstants.PREDICATE_NAME))
-        .forEach(predicates -> {
-          String pattern = StringUtils.substring(predicates.getArgs().get(GatewayConstants.PREDICATE_ARGS_PATTERN), 0,
-              predicates.getArgs().get(GatewayConstants.PREDICATE_ARGS_PATTERN).length() - 2);
-          predicateMap.put(pattern,
-              DataUtils.isEmpty(route.getStatus()) ? StatusEnum.NO.ordinal() : route.getStatus().ordinal());
-        });
-    return predicateMap;
-  }
+    @Override
+    @Transactional(rollbackFor = ProjectRuntimeException.class)
+    public Boolean deleteById(String id) {
+        gatewayRouteDao.deleteById(id);
+        queueSendService.syncRoute();
+        return Boolean.TRUE;
+    }
+
+    @Override
+    public List<GatewayRouteDto> refreshRoute() {
+        List<GatewayRouteDto> list = findList();
+        list.forEach(this::mapRoute);
+        return list;
+    }
+
+    @Override
+    public Boolean editStatus(String id, StatusEnum status) {
+        GatewayRoute gatewayRoute = findById(id);
+        if (gatewayRoute != null) {
+            gatewayRoute.setStatus(status);
+            gatewayRouteDao.save(gatewayRoute);
+            queueSendService.syncRoute();
+            return Boolean.TRUE;
+        }
+        return Boolean.FALSE;
+    }
+
+    private GatewayRoute findById(String id) {
+        Optional<GatewayRoute> optional = gatewayRouteDao.findById(id);
+        if (optional.isPresent()) {
+            GatewayRoute entity = optional.get();
+            if (!entity.getPredicates().isEmpty()) {
+                String pattern = entity.getPredicates().get(0).getArgs().get("pattern");
+                entity.setPattern(pattern);
+            }
+        }
+        return optional.orElse(null);
+    }
+
+    @Override
+    public GatewayRouteDto getById(String id) {
+        return convert(findById(id), GatewayRouteDto.class);
+    }
+
+    @Override
+    public Map<String, Integer> mapRoute(GatewayRouteDto route) {
+        route.getPredicates()
+            .stream()
+            .filter(predicate -> predicate.getName().equals(GatewayConstants.PREDICATE_NAME))
+            .forEach(predicates -> {
+                String pattern = StringUtils.substring(
+                        predicates.getArgs().get(GatewayConstants.PREDICATE_ARGS_PATTERN), 0,
+                        predicates.getArgs().get(GatewayConstants.PREDICATE_ARGS_PATTERN).length() - 2);
+                predicateMap.put(pattern,
+                        DataUtils.isEmpty(route.getStatus()) ? StatusEnum.NO.ordinal() : route.getStatus().ordinal());
+            });
+        return predicateMap;
+    }
 
 }

@@ -26,19 +26,19 @@ import com.oner365.test.service.BaseServiceTest;
 @SpringBootTest
 class SysMessageServiceTest extends BaseServiceTest {
 
-  @Resource
-  private ISysMessageService service;
+    @Resource
+    private ISysMessageService service;
 
-  @Test
-  void getById() {
-    QueryCriteriaBean data = new QueryCriteriaBean();
-    data.setWhereList(Collections.singletonList(new AttributeBean("messageType", MessageTypeEnum.DEFAULT)));
-    List<SysMessageDto> list = service.findList(data);
-    if (!list.isEmpty()) {
-      SysMessageDto entity = service.getById(list.get(0).getId());
-      logger.info("getById:{}", JSON.toJSONString(entity));
-      Assertions.assertNotNull(entity);
+    @Test
+    void getById() {
+        QueryCriteriaBean data = new QueryCriteriaBean();
+        data.setWhereList(Collections.singletonList(new AttributeBean("messageType", MessageTypeEnum.DEFAULT)));
+        List<SysMessageDto> list = service.findList(data);
+        if (!list.isEmpty()) {
+            SysMessageDto entity = service.getById(list.get(0).getId());
+            logger.info("getById:{}", JSON.toJSONString(entity));
+            Assertions.assertNotNull(entity);
+        }
     }
-  }
 
 }

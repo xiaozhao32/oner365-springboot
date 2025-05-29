@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * 文件对象
+ *
  * @author zhaoyong
  *
  */
@@ -34,7 +35,7 @@ public class SysFileStorageDto implements Serializable {
      */
     @Schema(name = "显示名称")
     private String displayName;
-    
+
     /**
      * 存储方式
      */
@@ -223,4 +224,5 @@ public class SysFileStorageDto implements Serializable {
     public void setFileStorage(StorageEnum fileStorage) {
         this.fileStorage = fileStorage;
     }
+
 }

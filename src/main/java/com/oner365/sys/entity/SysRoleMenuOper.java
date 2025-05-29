@@ -20,7 +20,7 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "nt_sys_role_menu_oper")
-@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler" })
 public class SysRoleMenuOper implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -56,7 +56,6 @@ public class SysRoleMenuOper implements Serializable {
     @Column(name = "operation_id", nullable = false)
     private String operationId;
 
-
     /**
      * Generate constructor
      */
@@ -77,7 +76,6 @@ public class SysRoleMenuOper implements Serializable {
     public void setId(String id) {
         this.id = id;
     }
-
 
     public String getRoleId() {
         return roleId;
@@ -118,4 +116,5 @@ public class SysRoleMenuOper implements Serializable {
     public String toString() {
         return new ToStringBuilder(this).append("id", getId()).toString();
     }
+
 }

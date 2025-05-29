@@ -18,13 +18,14 @@ import com.oner365.test.controller.BaseControllerTest;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class ElasticsearchInfoControllerTest extends BaseControllerTest {
 
-  private static final String PATH = "/elasticsearch/info";
+    private static final String PATH = "/elasticsearch/info";
 
-  @Test
-  void index() {
-      String url = PATH + "/index";
-      Object result = get(url);
-      logger.info("index:[{}] -> {}", url, result);
-      Assertions.assertNotNull(result);
-  }
+    @Test
+    void index() {
+        String url = PATH + "/index";
+        Object result = get(url);
+        logger.info("index:[{}] -> {}", url, result);
+        Assertions.assertNotNull(result);
+    }
+
 }

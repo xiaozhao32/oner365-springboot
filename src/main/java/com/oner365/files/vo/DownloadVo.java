@@ -12,64 +12,64 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Schema(name = "下载信息")
 public class DownloadVo implements Serializable {
 
-  /**
-   *
-   */
-  private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-  @Schema(name = "主键")
-  private String fileUrl;
+    @Schema(name = "主键")
+    private String fileUrl;
 
-  @Schema(name = "开始")
-  private long offset;
+    @Schema(name = "开始")
+    private long offset;
 
-  @Schema(name = "结束")
-  private long fileSize;
+    @Schema(name = "结束")
+    private long fileSize;
 
-  public DownloadVo() {
-    super();
-  }
+    public DownloadVo() {
+        super();
+    }
 
-  /**
-   * @return the fileUrl
-   */
-  public String getFileUrl() {
-    return fileUrl;
-  }
+    /**
+     * @return the fileUrl
+     */
+    public String getFileUrl() {
+        return fileUrl;
+    }
 
-  /**
-   * @param fileUrl the fileUrl to set
-   */
-  public void setFileUrl(String fileUrl) {
-    this.fileUrl = fileUrl;
-  }
+    /**
+     * @param fileUrl the fileUrl to set
+     */
+    public void setFileUrl(String fileUrl) {
+        this.fileUrl = fileUrl;
+    }
 
-  /**
-   * @return the offset
-   */
-  public long getOffset() {
-    return offset;
-  }
+    /**
+     * @return the offset
+     */
+    public long getOffset() {
+        return offset;
+    }
 
-  /**
-   * @param offset the offset to set
-   */
-  public void setOffset(long offset) {
-    this.offset = offset;
-  }
+    /**
+     * @param offset the offset to set
+     */
+    public void setOffset(long offset) {
+        this.offset = offset;
+    }
 
-  /**
-   * @return the fileSize
-   */
-  public long getFileSize() {
-    return fileSize;
-  }
+    /**
+     * @return the fileSize
+     */
+    public long getFileSize() {
+        return fileSize;
+    }
 
-  /**
-   * @param fileSize the fileSize to set
-   */
-  public void setFileSize(long fileSize) {
-    this.fileSize = fileSize;
-  }
+    /**
+     * @param fileSize the fileSize to set
+     */
+    public void setFileSize(long fileSize) {
+        this.fileSize = fileSize;
+    }
 
 }

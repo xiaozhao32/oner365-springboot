@@ -19,38 +19,38 @@ import com.oner365.elasticsearch.repository.entity.SampleGeneElasticsearchEntity
 
 /**
  * SampleGeneElasticsearchRepository
- * 
+ *
  * SimpleElasticsearchRepository
- * 
+ *
  * @author zhaoyong
  */
 @Repository
 public class SampleGeneElasticsearchRepository extends SimpleElasticsearchRepository<SampleGene, String> {
 
-  private final ElasticsearchTemplate elasticsearchTemplate;
+    private final ElasticsearchTemplate elasticsearchTemplate;
 
-  public SampleGeneElasticsearchRepository(SampleGeneElasticsearchEntityInformation metadata,
-      ElasticsearchOperations elasticsearchOperations) {
-    super(metadata, elasticsearchOperations);
-    elasticsearchTemplate = (ElasticsearchTemplate) super.operations;
-  }
+    public SampleGeneElasticsearchRepository(SampleGeneElasticsearchEntityInformation metadata,
+            ElasticsearchOperations elasticsearchOperations) {
+        super(metadata, elasticsearchOperations);
+        elasticsearchTemplate = (ElasticsearchTemplate) super.operations;
+    }
 
-  @SuppressWarnings({ "unchecked" })
-  public Page<SampleGene> pageList(QueryCriteriaBean data) {
-    Criteria criteria = new Criteria();
-    data.getWhereList().forEach(entity -> {
-      if (!DataUtils.isEmpty(entity.getVal())) {
-        criteria.subCriteria(new Criteria(entity.getKey()).is(entity.getVal()));
-      }
-    });
+    @SuppressWarnings({ "unchecked" })
+    public Page<SampleGene> pageList(QueryCriteriaBean data) {
+        Criteria criteria = new Criteria();
+        data.getWhereList().forEach(entity -> {
+            if (!DataUtils.isEmpty(entity.getVal())) {
+                criteria.subCriteria(new Criteria(entity.getKey()).is(entity.getVal()));
+            }
+        });
 
-    CriteriaQuery searchQuery = CriteriaQuery.builder(criteria).build();
-    searchQuery.setPageable(QueryUtils.buildPageRequest(data));
-    searchQuery.addSort(QueryUtils.buildSortRequest(data.getOrder()));
-    
-    SearchHits<SampleGene> searchHits = elasticsearchTemplate.search(searchQuery, SampleGene.class);
-    SearchPage<SampleGene> page = SearchHitSupport.searchPageFor(searchHits, searchQuery.getPageable());
-    return (Page<SampleGene>) SearchHitSupport.unwrapSearchHits(page);
-  }
+        CriteriaQuery searchQuery = CriteriaQuery.builder(criteria).build();
+        searchQuery.setPageable(QueryUtils.buildPageRequest(data));
+        searchQuery.addSort(QueryUtils.buildSortRequest(data.getOrder()));
+
+        SearchHits<SampleGene> searchHits = elasticsearchTemplate.search(searchQuery, SampleGene.class);
+        SearchPage<SampleGene> page = SearchHitSupport.searchPageFor(searchHits, searchQuery.getPageable());
+        return (Page<SampleGene>) SearchHitSupport.unwrapSearchHits(page);
+    }
 
 }

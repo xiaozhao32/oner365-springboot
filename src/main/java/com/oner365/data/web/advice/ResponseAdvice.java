@@ -29,41 +29,43 @@ import jakarta.annotation.Resource;
 @ControllerAdvice
 public class ResponseAdvice implements ResponseBodyAdvice<Object> {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(ResponseAdvice.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ResponseAdvice.class);
 
-  @Resource
-  private ObjectMapper objectMapper;
+    @Resource
+    private ObjectMapper objectMapper;
 
-  @Override
-  public boolean supports(@NonNull MethodParameter returnType, @NonNull Class<? extends HttpMessageConverter<?>> converterType) {
-    return true;
-  }
+    @Override
+    public boolean supports(@NonNull MethodParameter returnType,
+            @NonNull Class<? extends HttpMessageConverter<?>> converterType) {
+        return true;
+    }
 
-  @Override
-  public Object beforeBodyWrite(@Nullable Object body, @NonNull MethodParameter returnType,
-      @NonNull MediaType selectedContentType, @NonNull Class<? extends HttpMessageConverter<?>> selectedConverterType,
-      @NonNull ServerHttpRequest request, @NonNull ServerHttpResponse response) {
-    if (request.getURI().getPath().contains("/swagger")
-        || request.getURI().getPath().contains("/webjars")
-        || request.getURI().getPath().contains("/v3")) {
-      return body;
+    @Override
+    public Object beforeBodyWrite(@Nullable Object body, @NonNull MethodParameter returnType,
+            @NonNull MediaType selectedContentType,
+            @NonNull Class<? extends HttpMessageConverter<?>> selectedConverterType, @NonNull ServerHttpRequest request,
+            @NonNull ServerHttpResponse response) {
+        if (request.getURI().getPath().contains("/swagger") || request.getURI().getPath().contains("/webjars")
+                || request.getURI().getPath().contains("/v3")) {
+            return body;
+        }
+
+        if (body == null) {
+            return ResponseData.error("服务异常, 请联系管理员系统日志!");
+        }
+        if (body instanceof String) {
+            try {
+                return objectMapper.writeValueAsString(ResponseData.success(String.valueOf(body)));
+            }
+            catch (JsonProcessingException e) {
+                LOGGER.error("beforeBodyWrite error:", e);
+            }
+        }
+        if (body instanceof byte[] || body instanceof ResponseData
+                || body.getClass().getName().contains("org.springframework")) {
+            return body;
+        }
+        return ResponseData.success((Serializable) body);
     }
-    
-    if (body == null) {
-      return ResponseData.error("服务异常, 请联系管理员系统日志!");
-    }
-    if (body instanceof String) {
-      try {
-        return objectMapper.writeValueAsString(ResponseData.success(String.valueOf(body)));
-      } catch (JsonProcessingException e) {
-        LOGGER.error("beforeBodyWrite error:", e);
-      }
-    }
-    if (body instanceof byte[] || body instanceof ResponseData
-        || body.getClass().getName().contains("org.springframework")) {
-      return body;
-    }
-    return ResponseData.success((Serializable)body);
-  }
 
 }

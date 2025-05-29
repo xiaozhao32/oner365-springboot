@@ -19,16 +19,16 @@ import com.oner365.test.dao.BaseDaoTest;
  */
 @SpringBootTest
 class SysUserJobDaoTest extends BaseDaoTest {
-  
-  @Resource
-  private ISysUserJobDao dao;
-  
-  @Test
-  void findUserJobByUserId() {
-    String userId = "1";
-    List<String> result = dao.findUserJobByUserId(userId);
-    logger.info("result:{}", result.size());
-    Assertions.assertNotEquals(0, result.size());
-  }
+
+    @Resource
+    private ISysUserJobDao dao;
+
+    @Test
+    void findUserJobByUserId() {
+        String userId = "1";
+        List<String> result = dao.findUserJobByUserId(userId);
+        logger.info("result:{}", result.size());
+        Assertions.assertNotEquals(0, result.size());
+    }
 
 }

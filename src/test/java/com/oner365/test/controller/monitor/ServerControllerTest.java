@@ -27,5 +27,5 @@ class ServerControllerTest extends BaseControllerTest {
         logger.info("index:[{}] -> {}", url, result);
         Assertions.assertNotNull(result);
     }
-    
+
 }

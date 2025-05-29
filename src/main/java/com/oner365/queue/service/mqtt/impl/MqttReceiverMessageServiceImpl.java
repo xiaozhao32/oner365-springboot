@@ -13,7 +13,7 @@ import com.oner365.queue.service.mqtt.IMqttReceiverMessageService;
 
 /**
  * MQTT 接收实现
- * 
+ *
  * @author zhaoyong
  *
  */
@@ -21,15 +21,13 @@ import com.oner365.queue.service.mqtt.IMqttReceiverMessageService;
 @Conditional(MqttCondition.class)
 public class MqttReceiverMessageServiceImpl implements IMqttReceiverMessageService {
 
-  private final Logger logger = LoggerFactory.getLogger(MqttReceiverMessageServiceImpl.class);
+    private final Logger logger = LoggerFactory.getLogger(MqttReceiverMessageServiceImpl.class);
 
-  @Override
-  @ServiceActivator(
-      inputChannel = MqttConstants.IN_BOUND_CHANNEL + QueueConstants.MESSAGE_QUEUE_NAME, 
-      outputChannel = MqttConstants.OUT_BOUND_CHANNEL + QueueConstants.MESSAGE_QUEUE_NAME
-  )
-  public void message(String message) {
-    logger.info("Mqtt receive message: {}", message);
-  }
+    @Override
+    @ServiceActivator(inputChannel = MqttConstants.IN_BOUND_CHANNEL + QueueConstants.MESSAGE_QUEUE_NAME,
+            outputChannel = MqttConstants.OUT_BOUND_CHANNEL + QueueConstants.MESSAGE_QUEUE_NAME)
+    public void message(String message) {
+        logger.info("Mqtt receive message: {}", message);
+    }
 
 }

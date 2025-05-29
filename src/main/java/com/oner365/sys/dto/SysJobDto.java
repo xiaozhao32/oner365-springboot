@@ -16,6 +16,7 @@ import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
  */
 @Schema(name = "职位信息")
 public class SysJobDto implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     /**

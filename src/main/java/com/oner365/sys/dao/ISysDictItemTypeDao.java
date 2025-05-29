@@ -7,9 +7,10 @@ import com.oner365.sys.entity.SysDictItemType;
 
 /**
  * 字典类型接口
- * 
+ *
  * @author zhaoyong
  */
-public interface ISysDictItemTypeDao extends JpaRepository<SysDictItemType, String>, JpaSpecificationExecutor<SysDictItemType> {
+public interface ISysDictItemTypeDao
+        extends JpaRepository<SysDictItemType, String>, JpaSpecificationExecutor<SysDictItemType> {
 
 }

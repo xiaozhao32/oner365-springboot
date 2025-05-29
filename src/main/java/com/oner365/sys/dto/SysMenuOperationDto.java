@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 
 /**
  * 操作对象
+ *
  * @author zhaoyong
  */
 @Schema(name = "菜单操作")
@@ -111,7 +112,7 @@ public class SysMenuOperationDto implements Serializable {
     public void setUpdateTime(LocalDateTime updateTime) {
         this.updateTime = updateTime;
     }
-    
+
     /**
      * toString Method
      */

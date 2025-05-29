@@ -20,22 +20,21 @@ import jakarta.annotation.Resource;
 @Configuration
 public class RedisListenerConfig {
 
-  @Resource
-  private MessageListener redisMessageReceiver;
+    @Resource
+    private MessageListener redisMessageReceiver;
 
-  /**
-   * 初始化监听器
-   *
-   * @param connectionFactory connectionFactory
-   * @return RedisMessageListenerContainer
-   */
-  @Bean
-  RedisMessageListenerContainer container(RedisConnectionFactory connectionFactory) {
-    RedisMessageListenerContainer container = new RedisMessageListenerContainer();
-    container.setConnectionFactory(connectionFactory);
-    container.addMessageListener(new MessageListenerAdapter(redisMessageReceiver),
-        new PatternTopic(PublicConstants.NAME));
-    return container;
-  }
+    /**
+     * 初始化监听器
+     * @param connectionFactory connectionFactory
+     * @return RedisMessageListenerContainer
+     */
+    @Bean
+    RedisMessageListenerContainer container(RedisConnectionFactory connectionFactory) {
+        RedisMessageListenerContainer container = new RedisMessageListenerContainer();
+        container.setConnectionFactory(connectionFactory);
+        container.addMessageListener(new MessageListenerAdapter(redisMessageReceiver),
+                new PatternTopic(PublicConstants.NAME));
+        return container;
+    }
 
 }

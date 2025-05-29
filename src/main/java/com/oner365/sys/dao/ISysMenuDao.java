@@ -10,6 +10,7 @@ import com.oner365.sys.entity.SysMenu;
 
 /**
  * 菜单接口
+ *
  * @author zhaoyong
  */
 public interface ISysMenuDao extends JpaRepository<SysMenu, String>, JpaSpecificationExecutor<SysMenu> {

@@ -8,7 +8,7 @@ import com.oner365.data.web.controller.BaseController;
 
 /**
  * druid 监控
- * 
+ *
  * @author zhaoyong
  *
  */
@@ -16,13 +16,13 @@ import com.oner365.data.web.controller.BaseController;
 @RequestMapping("/monitor/druid")
 public class DruidController extends BaseController {
 
-  /**
-   * 监控首页
-   * 
-   * @return String
-   */
-  @GetMapping("/index")
-  public String index() {
-    return "redirect:/druid/index.html";
-  }
+    /**
+     * 监控首页
+     * @return String
+     */
+    @GetMapping("/index")
+    public String index() {
+        return "redirect:/druid/index.html";
+    }
+
 }

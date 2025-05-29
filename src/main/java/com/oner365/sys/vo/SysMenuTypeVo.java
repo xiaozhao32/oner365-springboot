@@ -13,6 +13,7 @@ import jakarta.validation.constraints.NotNull;
 
 /**
  * 菜单类型对象
+ *
  * @author zhaoyong
  */
 @Schema(name = "菜单类型")
@@ -116,7 +117,7 @@ public class SysMenuTypeVo implements Serializable {
     public void setUpdateTime(LocalDateTime updateTime) {
         this.updateTime = updateTime;
     }
-    
+
     /**
      * toString Method
      */

@@ -17,7 +17,7 @@ import jakarta.annotation.Resource;
 
 /**
  * 队列 controller
- * 
+ *
  * @author zhaoyong
  *
  */
@@ -26,39 +26,39 @@ import jakarta.annotation.Resource;
 @RequestMapping("/queue")
 public class QueueTestController extends BaseController {
 
-  @Resource
-  private IQueueSendService service;
-  
-  @Resource
-  private RedisTemplate<String, Object> redisTemplate;
+    @Resource
+    private IQueueSendService service;
 
-  /**
-   * 测试发送
-   * 
-   * @param data 参数
-   * @return JSONObject
-   */
-  @Operation(summary = "1.测试发送")
-  @ApiOperationSupport(order = 1)
-  @GetMapping("/send")
-  public JSONObject send(String data) {
-    JSONObject json = new JSONObject();
-    json.put("data", data);
-    service.sendMessage(json.toJSONString());
-    service.syncRoute();
-    return json;
-  }
+    @Resource
+    private RedisTemplate<String, Object> redisTemplate;
 
-  @Operation(summary = "2.测试订阅")
-  @ApiOperationSupport(order = 2)
-  @GetMapping("/subscribe")
-  public JSONObject subscribe(String data) {
-    // 订阅
-    Long result = redisTemplate.convertAndSend(PublicConstants.NAME, data);
-    
-    JSONObject json = new JSONObject();
-    json.put("data", data);
-    json.put("result", result);
-    return json;
-  }
+    /**
+     * 测试发送
+     * @param data 参数
+     * @return JSONObject
+     */
+    @Operation(summary = "1.测试发送")
+    @ApiOperationSupport(order = 1)
+    @GetMapping("/send")
+    public JSONObject send(String data) {
+        JSONObject json = new JSONObject();
+        json.put("data", data);
+        service.sendMessage(json.toJSONString());
+        service.syncRoute();
+        return json;
+    }
+
+    @Operation(summary = "2.测试订阅")
+    @ApiOperationSupport(order = 2)
+    @GetMapping("/subscribe")
+    public JSONObject subscribe(String data) {
+        // 订阅
+        Long result = redisTemplate.convertAndSend(PublicConstants.NAME, data);
+
+        JSONObject json = new JSONObject();
+        json.put("data", data);
+        json.put("result", result);
+        return json;
+    }
+
 }

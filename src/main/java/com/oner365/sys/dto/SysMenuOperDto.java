@@ -6,62 +6,62 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * 菜单操作对象
- * 
+ *
  * @author zhaoyong
  *
  */
 @Schema(name = "菜单操作对象")
 public class SysMenuOperDto implements Serializable {
 
-  /**
-   * 
-   */
-  private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-  /**
-   * 操作id
-   */
-  @Schema(name = "操作id")
-  private String operId;
-  
-  /**
-   * 操作名称
-   */
-  @Schema(name = "操作名称")
-  private String operName;
-  
-  /**
-   * 操作类型
-   */
-  @Schema(name = "操作类型")
-  private String operType;
-  
-  public SysMenuOperDto() {
-    super();
-  }
+    /**
+     * 操作id
+     */
+    @Schema(name = "操作id")
+    private String operId;
 
-  public String getOperId() {
-    return operId;
-  }
+    /**
+     * 操作名称
+     */
+    @Schema(name = "操作名称")
+    private String operName;
 
-  public void setOperId(String operId) {
-    this.operId = operId;
-  }
+    /**
+     * 操作类型
+     */
+    @Schema(name = "操作类型")
+    private String operType;
 
-  public String getOperName() {
-    return operName;
-  }
+    public SysMenuOperDto() {
+        super();
+    }
 
-  public void setOperName(String operName) {
-    this.operName = operName;
-  }
+    public String getOperId() {
+        return operId;
+    }
 
-  public String getOperType() {
-    return operType;
-  }
+    public void setOperId(String operId) {
+        this.operId = operId;
+    }
 
-  public void setOperType(String operType) {
-    this.operType = operType;
-  }
-  
+    public String getOperName() {
+        return operName;
+    }
+
+    public void setOperName(String operName) {
+        this.operName = operName;
+    }
+
+    public String getOperType() {
+        return operType;
+    }
+
+    public void setOperType(String operType) {
+        this.operType = operType;
+    }
+
 }

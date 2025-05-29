@@ -13,6 +13,7 @@ import jakarta.validation.constraints.NotBlank;
 
 /**
  * 菜单对象
+ *
  * @author zhaoyong
  */
 @Schema(name = "菜单信息")
@@ -103,9 +104,11 @@ public class SysMenuVo implements Serializable {
      */
     @Schema(name = "图标")
     private String icon;
-    
+
     private List<SysMenuVo> children = new ArrayList<>();
+
     private String userId;
+
     private List<String> operIds;
 
     /**
@@ -296,7 +299,7 @@ public class SysMenuVo implements Serializable {
     public void setMenuTypeId(String menuTypeId) {
         this.menuTypeId = menuTypeId;
     }
-    
+
     public List<SysMenuVo> getChildren() {
         return children;
     }

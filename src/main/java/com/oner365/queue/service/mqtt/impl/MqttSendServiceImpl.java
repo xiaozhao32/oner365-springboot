@@ -25,77 +25,79 @@ import jakarta.annotation.Resource;
 
 /**
  * MQTT 接收实现
- * 
+ *
  * @author zhaoyong
  *
  */
 @Service
 @Conditional(MqttCondition.class)
 public class MqttSendServiceImpl implements IQueueSendService {
-  
-  private final Logger logger = LoggerFactory.getLogger(MqttSendServiceImpl.class);
-  
-  @Resource
-  private RedisCache redisCache;
-  
-  @Resource
-  private IMqttSendMessageService messageService;
-  
-  @Resource
-  private IMqttSendRouteService routeService;
-  
-  @Resource
-  private IMqttSendInvokeParamService invokeParamService;
-  
-  @Resource
-  private IMqttSendTaskLogService taskLogService;
-  
-  @Resource
-  private IMqttSendTaskExecuteStatusService taskExecuteStatusService;
-  
-  @Async
-  @Override
-  public void sendMessage(String message) {
-    if (!message.isEmpty() && redisCache.lock(QueueConstants.MESSAGE_QUEUE_NAME, PublicConstants.QUEUE_LOCK_TIME_SECOND)) {
-      logger.info("Mqtt send message: {} topic: {}", message, QueueConstants.MESSAGE_QUEUE_NAME);
-      messageService.sendMessage(QueueConstants.MESSAGE_QUEUE_NAME, message);
-    }
-  }
 
-  @Async
-  @Override
-  public void syncRoute() {
-    if (redisCache.lock(QueueConstants.ROUTE_QUEUE_NAME, PublicConstants.QUEUE_LOCK_TIME_SECOND)) {
-      logger.info("Mqtt send syncRoute topic: {}", QueueConstants.ROUTE_QUEUE_NAME);
-      routeService.sendMessage(QueueConstants.ROUTE_QUEUE_NAME, QueueConstants.ROUTE_QUEUE_NAME);
-    }
-  }
+    private final Logger logger = LoggerFactory.getLogger(MqttSendServiceImpl.class);
 
-  @Async
-  @Override
-  public void pullTask(InvokeParamDto data) {
-    if (redisCache.lock(QueueConstants.SCHEDULE_TASK_QUEUE_NAME, PublicConstants.QUEUE_LOCK_TIME_SECOND)) {
-      logger.info("Mqtt send pullTask: {} topic: {}", data, QueueConstants.SCHEDULE_TASK_QUEUE_NAME);
-      invokeParamService.sendMessage(QueueConstants.SCHEDULE_TASK_QUEUE_NAME, JSON.toJSONString(data));
-    }
-  }
+    @Resource
+    private RedisCache redisCache;
 
-  @Async
-  @Override
-  public void updateTaskExecuteStatus(UpdateTaskExecuteStatusDto data) {
-    if (redisCache.lock(QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME, PublicConstants.QUEUE_LOCK_TIME_SECOND)) {
-      logger.info("Mqtt send updateTaskExecuteStatus: {} topic: {}", data, QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME);
-      taskExecuteStatusService.sendMessage(QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME, JSON.toJSONString(data));
-    }
-  }
+    @Resource
+    private IMqttSendMessageService messageService;
 
-  @Async
-  @Override
-  public void saveExecuteTaskLog(SysTaskDto data) {
-    if (redisCache.lock(QueueConstants.SAVE_TASK_LOG_QUEUE_NAME, PublicConstants.QUEUE_LOCK_TIME_SECOND)) {
-      logger.info("Mqtt send saveExecuteTaskLog: {} topic: {}", data, QueueConstants.SAVE_TASK_LOG_QUEUE_NAME);
-      taskLogService.sendMessage(QueueConstants.SAVE_TASK_LOG_QUEUE_NAME, JSON.toJSONString(data));
+    @Resource
+    private IMqttSendRouteService routeService;
+
+    @Resource
+    private IMqttSendInvokeParamService invokeParamService;
+
+    @Resource
+    private IMqttSendTaskLogService taskLogService;
+
+    @Resource
+    private IMqttSendTaskExecuteStatusService taskExecuteStatusService;
+
+    @Async
+    @Override
+    public void sendMessage(String message) {
+        if (!message.isEmpty()
+                && redisCache.lock(QueueConstants.MESSAGE_QUEUE_NAME, PublicConstants.QUEUE_LOCK_TIME_SECOND)) {
+            logger.info("Mqtt send message: {} topic: {}", message, QueueConstants.MESSAGE_QUEUE_NAME);
+            messageService.sendMessage(QueueConstants.MESSAGE_QUEUE_NAME, message);
+        }
     }
-  }
+
+    @Async
+    @Override
+    public void syncRoute() {
+        if (redisCache.lock(QueueConstants.ROUTE_QUEUE_NAME, PublicConstants.QUEUE_LOCK_TIME_SECOND)) {
+            logger.info("Mqtt send syncRoute topic: {}", QueueConstants.ROUTE_QUEUE_NAME);
+            routeService.sendMessage(QueueConstants.ROUTE_QUEUE_NAME, QueueConstants.ROUTE_QUEUE_NAME);
+        }
+    }
+
+    @Async
+    @Override
+    public void pullTask(InvokeParamDto data) {
+        if (redisCache.lock(QueueConstants.SCHEDULE_TASK_QUEUE_NAME, PublicConstants.QUEUE_LOCK_TIME_SECOND)) {
+            logger.info("Mqtt send pullTask: {} topic: {}", data, QueueConstants.SCHEDULE_TASK_QUEUE_NAME);
+            invokeParamService.sendMessage(QueueConstants.SCHEDULE_TASK_QUEUE_NAME, JSON.toJSONString(data));
+        }
+    }
+
+    @Async
+    @Override
+    public void updateTaskExecuteStatus(UpdateTaskExecuteStatusDto data) {
+        if (redisCache.lock(QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME, PublicConstants.QUEUE_LOCK_TIME_SECOND)) {
+            logger.info("Mqtt send updateTaskExecuteStatus: {} topic: {}", data,
+                    QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME);
+            taskExecuteStatusService.sendMessage(QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME, JSON.toJSONString(data));
+        }
+    }
+
+    @Async
+    @Override
+    public void saveExecuteTaskLog(SysTaskDto data) {
+        if (redisCache.lock(QueueConstants.SAVE_TASK_LOG_QUEUE_NAME, PublicConstants.QUEUE_LOCK_TIME_SECOND)) {
+            logger.info("Mqtt send saveExecuteTaskLog: {} topic: {}", data, QueueConstants.SAVE_TASK_LOG_QUEUE_NAME);
+            taskLogService.sendMessage(QueueConstants.SAVE_TASK_LOG_QUEUE_NAME, JSON.toJSONString(data));
+        }
+    }
 
 }

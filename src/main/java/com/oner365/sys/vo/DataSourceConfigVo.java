@@ -11,14 +11,14 @@ import jakarta.validation.constraints.NotBlank;
 
 /**
  * 数据源配置 DataSourceConfig
- * 
+ *
  * @author zhaoyong
  */
 @Schema(name = "数据源配置")
 public class DataSourceConfigVo implements Serializable {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1L;
 
@@ -289,7 +289,7 @@ public class DataSourceConfigVo implements Serializable {
     public void setUrl(String url) {
         this.url = url;
     }
-    
+
     /**
      * toString Method
      */

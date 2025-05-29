@@ -11,6 +11,7 @@ import jakarta.validation.constraints.NotNull;
 
 /**
  * 文件对象
+ *
  * @author zhaoyong
  *
  */
@@ -37,7 +38,7 @@ public class SysFileStorageVo implements Serializable {
      */
     @Schema(name = "显示名称")
     private String displayName;
-    
+
     /**
      * 存储方式
      */
@@ -227,4 +228,5 @@ public class SysFileStorageVo implements Serializable {
     public void setFileStorage(StorageEnum fileStorage) {
         this.fileStorage = fileStorage;
     }
+
 }

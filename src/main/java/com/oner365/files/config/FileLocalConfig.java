@@ -14,21 +14,21 @@ import com.oner365.files.storage.condition.LocalStorageCondition;
 
 /**
  * File Local Config
- * 
+ *
  * @author zhaoyong
  */
 @Configuration
 @Conditional(LocalStorageCondition.class)
 @EnableConfigurationProperties({ FileLocalProperties.class })
 public class FileLocalConfig {
-  
-  private static final Logger LOGGER = LoggerFactory.getLogger(FileLocalConfig.class);
-  
-  @Resource
-  private FileLocalProperties fileLocalProperties;
 
-  public FileLocalConfig() {
-    LOGGER.info("Storage Type: {}, Properties: {}", StorageEnum.LOCAL, fileLocalProperties);
-  }
-  
+    private static final Logger LOGGER = LoggerFactory.getLogger(FileLocalConfig.class);
+
+    @Resource
+    private FileLocalProperties fileLocalProperties;
+
+    public FileLocalConfig() {
+        LOGGER.info("Storage Type: {}, Properties: {}", StorageEnum.LOCAL, fileLocalProperties);
+    }
+
 }

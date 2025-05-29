@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 
 /**
  * SysLog Annotation
- * 
+ *
  * @author zhaoyong
  *
  */
@@ -16,5 +16,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface SysLog {
+
     String value();
+
 }

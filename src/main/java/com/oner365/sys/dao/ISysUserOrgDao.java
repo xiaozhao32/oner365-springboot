@@ -16,7 +16,7 @@ import com.oner365.sys.entity.SysUserOrg;
  *
  * @author zhaoyong
  */
-public interface ISysUserOrgDao extends JpaRepository<SysUserOrg, String>,JpaSpecificationExecutor<SysUserOrg>{
+public interface ISysUserOrgDao extends JpaRepository<SysUserOrg, String>, JpaSpecificationExecutor<SysUserOrg> {
 
     /**
      * 查询机构权限列表
@@ -34,4 +34,5 @@ public interface ISysUserOrgDao extends JpaRepository<SysUserOrg, String>,JpaSpe
     @Transactional(rollbackFor = ProjectRuntimeException.class)
     @Query(value = "delete from SysUserOrg where sysUser.id=?1 ")
     void deleteUserOrgByUserId(String userId);
+
 }

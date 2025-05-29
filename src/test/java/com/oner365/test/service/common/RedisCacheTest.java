@@ -70,4 +70,5 @@ class RedisCacheTest extends BaseServiceTest {
         logger.info("result4:{}", result4);
         redisCache.deleteObject(key4);
     }
+
 }

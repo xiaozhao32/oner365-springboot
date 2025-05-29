@@ -22,8 +22,8 @@ class ClassesUtilTest extends BaseUtilsTest {
 
     @Test
     void isMac() {
-      Boolean b = DeployUtils.isMac();
-      Assertions.assertNotNull(b);
+        Boolean b = DeployUtils.isMac();
+        Assertions.assertNotNull(b);
     }
 
 }

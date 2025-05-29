@@ -13,7 +13,7 @@ import io.swagger.v3.oas.annotations.Operation;
 
 /**
  * 首页信息
- * 
+ *
  * @author zhaoyong
  *
  */
@@ -22,15 +22,15 @@ import io.swagger.v3.oas.annotations.Operation;
 @RequestMapping("/monitor/dashboard")
 public class DashboardController extends BaseController {
 
-  /**
-   * 首页信息
-   * 
-   * @return String
-   */
-  @Operation(summary = "1.首页")
-  @ApiOperationSupport(order = 1)
-  @GetMapping("/index")
-  public String index() {
-    return ResultEnum.SUCCESS.getName();
-  }
+    /**
+     * 首页信息
+     * @return String
+     */
+    @Operation(summary = "1.首页")
+    @ApiOperationSupport(order = 1)
+    @GetMapping("/index")
+    public String index() {
+        return ResultEnum.SUCCESS.getName();
+    }
+
 }

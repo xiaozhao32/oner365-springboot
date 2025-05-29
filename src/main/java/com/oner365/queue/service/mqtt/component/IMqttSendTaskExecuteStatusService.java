@@ -12,7 +12,7 @@ import com.oner365.queue.constants.QueueConstants;
 
 /**
  * Mqtt message service
- * 
+ *
  * @author zhaoyong
  */
 @Service
@@ -20,27 +20,25 @@ import com.oner365.queue.constants.QueueConstants;
 @MessagingGateway(defaultRequestChannel = MqttConstants.IN_BOUND_CHANNEL + QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME)
 public interface IMqttSendTaskExecuteStatusService {
 
-  /**
-   * 发送消息 默认topic
-   *
-   * @param message 发送内容
-   */
-  void sendMessage(String message);
+    /**
+     * 发送消息 默认topic
+     * @param message 发送内容
+     */
+    void sendMessage(String message);
 
-  /**
-   * 发送消息 指定topic
-   *
-   * @param topic   topic
-   * @param message 发送内容
-   */
-  void sendMessage(@Header(MqttHeaders.TOPIC) String topic, String message);
+    /**
+     * 发送消息 指定topic
+     * @param topic topic
+     * @param message 发送内容
+     */
+    void sendMessage(@Header(MqttHeaders.TOPIC) String topic, String message);
 
-  /**
-   * 发送消息 指定topic 指定qos
-   *
-   * @param topic   topic
-   * @param qos     qos
-   * @param message 发送内容
-   */
-  void sendMessage(@Header(MqttHeaders.TOPIC) String topic, @Header(MqttHeaders.QOS) Integer qos, String message);
+    /**
+     * 发送消息 指定topic 指定qos
+     * @param topic topic
+     * @param qos qos
+     * @param message 发送内容
+     */
+    void sendMessage(@Header(MqttHeaders.TOPIC) String topic, @Header(MqttHeaders.QOS) Integer qos, String message);
+
 }

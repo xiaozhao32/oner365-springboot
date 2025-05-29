@@ -19,16 +19,16 @@ import com.oner365.test.dao.BaseDaoTest;
  */
 @SpringBootTest
 class SysMenuOperDaoTest extends BaseDaoTest {
-  
-  @Resource
-  private ISysMenuOperDao dao;
-  
-  @Test
-  void selectByMenuId() {
-    String menuId = "101";
-    List<String> result = dao.selectByMenuId(menuId);
-    logger.info("result:{}", result.size());
-    Assertions.assertNotEquals(0, result.size());
-  }
+
+    @Resource
+    private ISysMenuOperDao dao;
+
+    @Test
+    void selectByMenuId() {
+        String menuId = "101";
+        List<String> result = dao.selectByMenuId(menuId);
+        logger.info("result:{}", result.size());
+        Assertions.assertNotEquals(0, result.size());
+    }
 
 }

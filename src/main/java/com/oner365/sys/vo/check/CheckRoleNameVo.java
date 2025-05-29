@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotBlank;
 
 /**
  * 检测角色编码
- * 
+ *
  * @author zhaoyong
  *
  */
@@ -16,23 +16,23 @@ import jakarta.validation.constraints.NotBlank;
 public class CheckRoleNameVo implements Serializable {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1L;
-    
+
     /**
      * 主键 id
      */
     @Schema(name = "主键")
     private String id;
-    
+
     /**
      * 角色名称
      */
     @Schema(name = "角色名称", requiredMode = RequiredMode.REQUIRED)
     @NotBlank(message = "{system.vo.check.role.name.message}")
     private String roleName;
-    
+
     /**
      * 构造方法
      */

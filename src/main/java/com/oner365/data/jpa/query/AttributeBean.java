@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 /**
  * 查询属性配置
+ *
  * @author zhaoyong
  */
 public class AttributeBean implements Serializable {
@@ -60,4 +61,5 @@ public class AttributeBean implements Serializable {
     public void setOpt(String opt) {
         this.opt = opt;
     }
+
 }

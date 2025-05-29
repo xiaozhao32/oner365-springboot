@@ -38,61 +38,57 @@ import io.swagger.v3.oas.annotations.Operation;
 @RequestMapping("/elasticsearch/sample/location")
 public class SampleLocationController extends BaseController {
 
-  @Resource
-  private ISampleLocationElasticsearchService service;
+    @Resource
+    private ISampleLocationElasticsearchService service;
 
-  /**
-   * 列表
-   *
-   * @param data 查询条件参数
-   * @return PageInfo<SampleLocationDto>
-   */
-  @Operation(summary = "1.获取列表")
-  @ApiOperationSupport(order = 1)
-  @PostMapping("/list")
-  public PageInfo<SampleLocationDto> pageList(@RequestBody QueryCriteriaBean data) {
-    return this.service.pageList(data);
-  }
+    /**
+     * 列表
+     * @param data 查询条件参数
+     * @return PageInfo<SampleLocationDto>
+     */
+    @Operation(summary = "1.获取列表")
+    @ApiOperationSupport(order = 1)
+    @PostMapping("/list")
+    public PageInfo<SampleLocationDto> pageList(@RequestBody QueryCriteriaBean data) {
+        return this.service.pageList(data);
+    }
 
-  /**
-   * id查询
-   *
-   * @param id 编号
-   * @return SampleLocationDto
-   */
-  @Operation(summary = "2.按id查询")
-  @ApiOperationSupport(order = 2)
-  @GetMapping("/get/{id}")
-  public SampleLocationDto get(@PathVariable String id) {
-    return service.findById(id);
-  }
+    /**
+     * id查询
+     * @param id 编号
+     * @return SampleLocationDto
+     */
+    @Operation(summary = "2.按id查询")
+    @ApiOperationSupport(order = 2)
+    @GetMapping("/get/{id}")
+    public SampleLocationDto get(@PathVariable String id) {
+        return service.findById(id);
+    }
 
-  /**
-   * 保存
-   *
-   * @param sampleLocationVo 坐标对象
-   * @return SampleLocationDto
-   */
-  @Operation(summary = "3.保存")
-  @ApiOperationSupport(order = 3)
-  @SysLog("保存坐标对象")
-  @PutMapping("/save")
-  public SampleLocationDto save(@RequestBody SampleLocationVo sampleLocationVo) {
-    return service.save(sampleLocationVo);
-  }
+    /**
+     * 保存
+     * @param sampleLocationVo 坐标对象
+     * @return SampleLocationDto
+     */
+    @Operation(summary = "3.保存")
+    @ApiOperationSupport(order = 3)
+    @SysLog("保存坐标对象")
+    @PutMapping("/save")
+    public SampleLocationDto save(@RequestBody SampleLocationVo sampleLocationVo) {
+        return service.save(sampleLocationVo);
+    }
 
-  /**
-   * 删除
-   *
-   * @param ids 编号
-   * @return Integer
-   */
-  @Operation(summary = "4.删除")
-  @ApiOperationSupport(order = 4)
-  @SysLog("删除坐标对象")
-  @DeleteMapping("/delete")
-  public List<Boolean> delete(@RequestBody String... ids) {
-    return Arrays.stream(ids).map(id -> service.deleteById(id)).collect(Collectors.toList());
-  }
+    /**
+     * 删除
+     * @param ids 编号
+     * @return Integer
+     */
+    @Operation(summary = "4.删除")
+    @ApiOperationSupport(order = 4)
+    @SysLog("删除坐标对象")
+    @DeleteMapping("/delete")
+    public List<Boolean> delete(@RequestBody String... ids) {
+        return Arrays.stream(ids).map(id -> service.deleteById(id)).collect(Collectors.toList());
+    }
 
 }

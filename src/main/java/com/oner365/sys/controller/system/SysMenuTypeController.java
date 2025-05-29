@@ -45,108 +45,102 @@ import io.swagger.v3.oas.annotations.Operation;
 @RequestMapping("/system/menu/type")
 public class SysMenuTypeController extends BaseController {
 
-  @Resource
-  private ISysMenuTypeService menuTypeService;
+    @Resource
+    private ISysMenuTypeService menuTypeService;
 
-  /**
-   * 列表
-   *
-   * @param data 参数
-   * @return PageInfo<SysMenuTypeDto>
-   */
-  @Operation(summary = "1.获取分页列表")
-  @ApiOperationSupport(order = 1)
-  @PostMapping("/list")
-  public PageInfo<SysMenuTypeDto> pageList(@RequestBody QueryCriteriaBean data) {
-    return menuTypeService.pageList(data);
-  }
-
-  /**
-   * 列表
-   *
-   * @return List<SysMenuTypeDto>
-   */
-  @Operation(summary = "2.获取全部有效类型")
-  @ApiOperationSupport(order = 2)
-  @GetMapping("/all")
-  public List<SysMenuTypeDto> findAll() {
-    QueryCriteriaBean data = new QueryCriteriaBean();
-    List<AttributeBean> whereList = new ArrayList<>();
-    AttributeBean attribute = new AttributeBean(SysConstants.STATUS, StatusEnum.YES);
-    whereList.add(attribute);
-    data.setWhereList(whereList);
-    return menuTypeService.findList(data);
-  }
-
-  /**
-   * 获取信息
-   *
-   * @param id 编号
-   * @return SysMenuTypeDto
-   */
-  @Operation(summary = "3.按id查询")
-  @ApiOperationSupport(order = 3)
-  @GetMapping("/get/{id}")
-  public SysMenuTypeDto get(@PathVariable String id) {
-    return menuTypeService.getById(id);
-  }
-
-  /**
-   * 修改状态
-   *
-   * @param id     主键
-   * @param status 状态
-   * @return Boolean
-   */
-  @Operation(summary = "4.修改状态")
-  @ApiOperationSupport(order = 4)
-  @SysLog("修改菜单类型状态")
-  @PostMapping("/status/{id}")
-  public Boolean editStatus(@PathVariable String id, @RequestParam StatusEnum status) {
-    return menuTypeService.editStatus(id, status);
-  }
-
-  /**
-   * 判断是否存在
-   *
-   * @param checkCodeVo 查询参数
-   * @return Boolean
-   */
-  @Operation(summary = "5.判断是否存在")
-  @ApiOperationSupport(order = 5)
-  @PostMapping("/check")
-  public Boolean checkCode(@Validated @RequestBody CheckCodeVo checkCodeVo) {
-    if (checkCodeVo != null) {
-      return menuTypeService.checkCode(checkCodeVo.getId(), checkCodeVo.getCode());
+    /**
+     * 列表
+     * @param data 参数
+     * @return PageInfo<SysMenuTypeDto>
+     */
+    @Operation(summary = "1.获取分页列表")
+    @ApiOperationSupport(order = 1)
+    @PostMapping("/list")
+    public PageInfo<SysMenuTypeDto> pageList(@RequestBody QueryCriteriaBean data) {
+        return menuTypeService.pageList(data);
     }
-    return Boolean.FALSE;
-  }
 
-  /**
-   * 保存
-   *
-   * @param sysMenuTypeVo 菜单类型对象
-   * @return SysMenuTypeDto
-   */
-  @Operation(summary = "6.保存")
-  @ApiOperationSupport(order = 6)
-  @SysLog("保存菜单类型")
-  @PutMapping("/save")
-  public SysMenuTypeDto save(@Validated @RequestBody SysMenuTypeVo sysMenuTypeVo) {
-    return menuTypeService.save(sysMenuTypeVo);
-  }
+    /**
+     * 列表
+     * @return List<SysMenuTypeDto>
+     */
+    @Operation(summary = "2.获取全部有效类型")
+    @ApiOperationSupport(order = 2)
+    @GetMapping("/all")
+    public List<SysMenuTypeDto> findAll() {
+        QueryCriteriaBean data = new QueryCriteriaBean();
+        List<AttributeBean> whereList = new ArrayList<>();
+        AttributeBean attribute = new AttributeBean(SysConstants.STATUS, StatusEnum.YES);
+        whereList.add(attribute);
+        data.setWhereList(whereList);
+        return menuTypeService.findList(data);
+    }
 
-  /**
-   * 删除
-   *
-   * @param ids 编号
-   * @return List<Boolean>
-   */
-  @Operation(summary = "7.删除")
-  @ApiOperationSupport(order = 7)
-  @SysLog("删除菜单类型")
-  @DeleteMapping("/delete")
-  public List<Boolean> delete(@RequestBody String... ids) {
-    return Arrays.stream(ids).map(id -> menuTypeService.deleteById(id)).collect(Collectors.toList());
-  }
+    /**
+     * 获取信息
+     * @param id 编号
+     * @return SysMenuTypeDto
+     */
+    @Operation(summary = "3.按id查询")
+    @ApiOperationSupport(order = 3)
+    @GetMapping("/get/{id}")
+    public SysMenuTypeDto get(@PathVariable String id) {
+        return menuTypeService.getById(id);
+    }
+
+    /**
+     * 修改状态
+     * @param id 主键
+     * @param status 状态
+     * @return Boolean
+     */
+    @Operation(summary = "4.修改状态")
+    @ApiOperationSupport(order = 4)
+    @SysLog("修改菜单类型状态")
+    @PostMapping("/status/{id}")
+    public Boolean editStatus(@PathVariable String id, @RequestParam StatusEnum status) {
+        return menuTypeService.editStatus(id, status);
+    }
+
+    /**
+     * 判断是否存在
+     * @param checkCodeVo 查询参数
+     * @return Boolean
+     */
+    @Operation(summary = "5.判断是否存在")
+    @ApiOperationSupport(order = 5)
+    @PostMapping("/check")
+    public Boolean checkCode(@Validated @RequestBody CheckCodeVo checkCodeVo) {
+        if (checkCodeVo != null) {
+            return menuTypeService.checkCode(checkCodeVo.getId(), checkCodeVo.getCode());
+        }
+        return Boolean.FALSE;
+    }
+
+    /**
+     * 保存
+     * @param sysMenuTypeVo 菜单类型对象
+     * @return SysMenuTypeDto
+     */
+    @Operation(summary = "6.保存")
+    @ApiOperationSupport(order = 6)
+    @SysLog("保存菜单类型")
+    @PutMapping("/save")
+    public SysMenuTypeDto save(@Validated @RequestBody SysMenuTypeVo sysMenuTypeVo) {
+        return menuTypeService.save(sysMenuTypeVo);
+    }
+
+    /**
+     * 删除
+     * @param ids 编号
+     * @return List<Boolean>
+     */
+    @Operation(summary = "7.删除")
+    @ApiOperationSupport(order = 7)
+    @SysLog("删除菜单类型")
+    @DeleteMapping("/delete")
+    public List<Boolean> delete(@RequestBody String... ids) {
+        return Arrays.stream(ids).map(id -> menuTypeService.deleteById(id)).collect(Collectors.toList());
+    }
+
 }

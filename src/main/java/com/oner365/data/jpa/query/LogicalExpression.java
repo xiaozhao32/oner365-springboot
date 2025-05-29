@@ -16,32 +16,35 @@ import jakarta.persistence.criteria.Root;
  */
 public class LogicalExpression implements Criterion {
 
-  /**
-  * 
-  */
-  private static final long serialVersionUID = 1L;
-  /**
-   * 逻辑表达式中包含的表达式
-   */
-  private final Criterion[] criterion;
-  /**
-   * 计算符
-   */
-  private final Operator operator;
+    /**
+    *
+    */
+    private static final long serialVersionUID = 1L;
 
-  public LogicalExpression(Criterion[] criterion, Operator operator) {
-    this.criterion = criterion;
-    this.operator = operator;
-  }
+    /**
+     * 逻辑表达式中包含的表达式
+     */
+    private final Criterion[] criterion;
 
-  @Override
-  public Predicate toPredicate(Root<?> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-    List<Predicate> predicates = Arrays.stream(this.criterion).map(value -> value.toPredicate(root, query, builder))
-        .collect(Collectors.toList());
-    if (Operator.OR.equals(operator)) {
-      return builder.or(predicates.toArray(new Predicate[0]));
+    /**
+     * 计算符
+     */
+    private final Operator operator;
+
+    public LogicalExpression(Criterion[] criterion, Operator operator) {
+        this.criterion = criterion;
+        this.operator = operator;
     }
-    return null;
-  }
+
+    @Override
+    public Predicate toPredicate(Root<?> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+        List<Predicate> predicates = Arrays.stream(this.criterion)
+            .map(value -> value.toPredicate(root, query, builder))
+            .collect(Collectors.toList());
+        if (Operator.OR.equals(operator)) {
+            return builder.or(predicates.toArray(new Predicate[0]));
+        }
+        return null;
+    }
 
 }

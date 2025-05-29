@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 
 /**
  * 菜单对象
+ *
  * @author zhaoyong
  */
 @Schema(name = "菜单信息")
@@ -100,9 +101,11 @@ public class SysMenuDto implements Serializable {
      */
     @Schema(name = "图标")
     private String icon;
-    
+
     private List<SysMenuDto> children = new ArrayList<>();
+
     private String userId;
+
     private List<String> operIds;
 
     /**
@@ -293,7 +296,7 @@ public class SysMenuDto implements Serializable {
     public void setMenuTypeId(String menuTypeId) {
         this.menuTypeId = menuTypeId;
     }
-    
+
     /**
      * toString Method
      */

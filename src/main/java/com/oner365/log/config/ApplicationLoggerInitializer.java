@@ -23,4 +23,5 @@ public class ApplicationLoggerInitializer implements ApplicationContextInitializ
     public void initialize(@NonNull ConfigurableApplicationContext applicationContext) {
         // 配置 logback 这里配置无效
     }
+
 }

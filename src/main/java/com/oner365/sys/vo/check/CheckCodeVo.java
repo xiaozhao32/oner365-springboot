@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotBlank;
 
 /**
  * 检测字典编码
- * 
+ *
  * @author zhaoyong
  *
  */
@@ -16,23 +16,23 @@ import jakarta.validation.constraints.NotBlank;
 public class CheckCodeVo implements Serializable {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1L;
-    
+
     /**
      * 主键 id
      */
     @Schema(name = "主键")
     private String id;
-    
+
     /**
      * 编码
      */
     @Schema(name = "编码", requiredMode = RequiredMode.REQUIRED)
     @NotBlank(message = "{system.vo.check.code.message}")
     private String code;
-    
+
     /**
      * 构造方法
      */

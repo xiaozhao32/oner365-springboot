@@ -17,64 +17,64 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Schema(name = "用户信息")
 public class SysUserInfoVo implements Serializable {
 
-  /**
-   *
-   */
-  private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-  @Schema(name = "用户对象")
-  private SysUserDto sysUser;
+    @Schema(name = "用户对象")
+    private SysUserDto sysUser;
 
-  @Schema(name = "角色列表")
-  private List<SysRoleDto> roleList;
+    @Schema(name = "角色列表")
+    private List<SysRoleDto> roleList;
 
-  @Schema(name = "职位列表")
-  private List<SysJobDto> jobList;
-  
-  public SysUserInfoVo() {
-    super();
-  }
+    @Schema(name = "职位列表")
+    private List<SysJobDto> jobList;
 
-  /**
-   * @return the sysUser
-   */
-  public SysUserDto getSysUser() {
-    return sysUser;
-  }
+    public SysUserInfoVo() {
+        super();
+    }
 
-  /**
-   * @param sysUser the sysUser to set
-   */
-  public void setSysUser(SysUserDto sysUser) {
-    this.sysUser = sysUser;
-  }
+    /**
+     * @return the sysUser
+     */
+    public SysUserDto getSysUser() {
+        return sysUser;
+    }
 
-  /**
-   * @return the roleList
-   */
-  public List<SysRoleDto> getRoleList() {
-    return roleList;
-  }
+    /**
+     * @param sysUser the sysUser to set
+     */
+    public void setSysUser(SysUserDto sysUser) {
+        this.sysUser = sysUser;
+    }
 
-  /**
-   * @param roleList the roleList to set
-   */
-  public void setRoleList(List<SysRoleDto> roleList) {
-    this.roleList = roleList;
-  }
+    /**
+     * @return the roleList
+     */
+    public List<SysRoleDto> getRoleList() {
+        return roleList;
+    }
 
-  /**
-   * @return the jobList
-   */
-  public List<SysJobDto> getJobList() {
-    return jobList;
-  }
+    /**
+     * @param roleList the roleList to set
+     */
+    public void setRoleList(List<SysRoleDto> roleList) {
+        this.roleList = roleList;
+    }
 
-  /**
-   * @param jobList the jobList to set
-   */
-  public void setJobList(List<SysJobDto> jobList) {
-    this.jobList = jobList;
-  }
+    /**
+     * @return the jobList
+     */
+    public List<SysJobDto> getJobList() {
+        return jobList;
+    }
+
+    /**
+     * @param jobList the jobList to set
+     */
+    public void setJobList(List<SysJobDto> jobList) {
+        this.jobList = jobList;
+    }
 
 }

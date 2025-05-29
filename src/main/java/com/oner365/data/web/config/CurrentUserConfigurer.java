@@ -12,18 +12,18 @@ import jakarta.annotation.Resource;
 
 /**
  * 注册用户信息
- * 
+ *
  * @author zhaoyong
  */
 @Configuration
 public class CurrentUserConfigurer implements WebMvcConfigurer {
 
-  @Resource
-  private CurrentUserMethodArgumentResolver resolver;
-  
-  @Override
-  public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
-    argumentResolvers.add(resolver);
-  }
-  
+    @Resource
+    private CurrentUserMethodArgumentResolver resolver;
+
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+        argumentResolvers.add(resolver);
+    }
+
 }

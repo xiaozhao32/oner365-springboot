@@ -11,18 +11,18 @@ import com.oner365.data.commons.enums.QueueEnum;
 
 /**
  * MQTT Condition
- * 
+ *
  * @author zhaoyong
  *
  */
 public class RabbitmqCondition implements Condition {
-  
-  @Override
-  public boolean matches(ConditionContext conditionContext, @NonNull AnnotatedTypeMetadata metadata) {
-    Environment environment = conditionContext.getEnvironment();
-    String type = environment.getProperty(PublicConstants.QUEUE_TYPE);
-    // 是否开启
-    return type == null || type.equalsIgnoreCase(QueueEnum.RABBITMQ.name());
-  }
+
+    @Override
+    public boolean matches(ConditionContext conditionContext, @NonNull AnnotatedTypeMetadata metadata) {
+        Environment environment = conditionContext.getEnvironment();
+        String type = environment.getProperty(PublicConstants.QUEUE_TYPE);
+        // 是否开启
+        return type == null || type.equalsIgnoreCase(QueueEnum.RABBITMQ.name());
+    }
 
 }

@@ -9,7 +9,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * 系统日志对象
- * 
+ *
  * @author zhaoyong
  */
 @Schema(name = "系统日志")
@@ -166,7 +166,7 @@ public class SysLogVo implements Serializable {
     public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
-    
+
     /**
      * toString Method
      */

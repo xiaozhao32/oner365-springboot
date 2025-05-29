@@ -37,7 +37,6 @@ public class CommonsMultipartFile implements MultipartFile, Serializable {
 
     /**
      * Create an instance wrapping the given FileItem.
-     * 
      * @param fileItem the FileItem to wrap
      */
     public CommonsMultipartFile(FileItem fileItem) {
@@ -46,21 +45,21 @@ public class CommonsMultipartFile implements MultipartFile, Serializable {
     }
 
     /**
-     * Return the underlying {@code org.apache.commons.fileupload.FileItem}
-     * instance. There is hardly any need to access this.
+     * Return the underlying {@code org.apache.commons.fileupload.FileItem} instance.
+     * There is hardly any need to access this.
      */
     public final FileItem getFileItem() {
         return this.fileItem;
     }
 
     /**
-     * Set whether to preserve the filename as sent by the client, not stripping off
-     * path information in {@link CommonsMultipartFile#getOriginalFilename()}.
+     * Set whether to preserve the filename as sent by the client, not stripping off path
+     * information in {@link CommonsMultipartFile#getOriginalFilename()}.
      * <p>
      * Default is "false", stripping off path information that may prefix the actual
-     * filename e.g. from Opera. Switch this to "true" for preserving the
-     * client-specified filename as-is, including potential path separators.
-     * 
+     * filename e.g. from Opera. Switch this to "true" for preserving the client-specified
+     * filename as-is, including potential path separators.
+     *
      * @since 4.3.5
      * @see #getOriginalFilename()
      */
@@ -94,7 +93,8 @@ public class CommonsMultipartFile implements MultipartFile, Serializable {
         if (pos != -1) {
             // Any sort of path separator found...
             return filename.substring(pos + 1);
-        } else {
+        }
+        else {
             // A plain name
             return filename;
         }
@@ -140,8 +140,7 @@ public class CommonsMultipartFile implements MultipartFile, Serializable {
         }
 
         if (dest.exists()) {
-            throw new IOException(
-                    "Destination file [" + dest.getAbsolutePath() + "] already exists");
+            throw new IOException("Destination file [" + dest.getAbsolutePath() + "] already exists");
         }
 
         try {
@@ -155,13 +154,16 @@ public class CommonsMultipartFile implements MultipartFile, Serializable {
                         + (traceOn ? ", stored " + getStorageDescription() : "") + ": " + action + " to ["
                         + dest.getAbsolutePath() + "]";
             });
-        } catch (FileUploadException ex) {
+        }
+        catch (FileUploadException ex) {
             throw new IllegalStateException(ex.getMessage(), ex);
-        } catch (IllegalStateException | IOException ex) {
+        }
+        catch (IllegalStateException | IOException ex) {
             // Pass through IllegalStateException when coming from FileItem directly,
             // or propagate an exception from I/O operations within FileItem.write
             throw ex;
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) {
             throw new IOException("File transfer failed", ex);
         }
     }
@@ -176,8 +178,8 @@ public class CommonsMultipartFile implements MultipartFile, Serializable {
     }
 
     /**
-     * Determine whether the multipart content is still available. If a temporary
-     * file has been moved, the content is no longer available.
+     * Determine whether the multipart content is still available. If a temporary file has
+     * been moved, the content is no longer available.
      */
     protected boolean isAvailable() {
         // If in memory, it's available.
@@ -193,16 +195,17 @@ public class CommonsMultipartFile implements MultipartFile, Serializable {
     }
 
     /**
-     * Return a description for the storage location of the multipart content. Tries
-     * to be as specific as possible: mentions the file location in case of a
-     * temporary file.
+     * Return a description for the storage location of the multipart content. Tries to be
+     * as specific as possible: mentions the file location in case of a temporary file.
      */
     public String getStorageDescription() {
         if (this.fileItem.isInMemory()) {
             return "in memory";
-        } else if (this.fileItem instanceof DiskFileItem) {
+        }
+        else if (this.fileItem instanceof DiskFileItem) {
             return "at [" + ((DiskFileItem) this.fileItem).getStoreLocation().getAbsolutePath() + "]";
-        } else {
+        }
+        else {
             return "on disk";
         }
     }
@@ -214,4 +217,5 @@ public class CommonsMultipartFile implements MultipartFile, Serializable {
                 + (this.fileItem.getContentType() != null ? ", contentType=" + this.fileItem.getContentType() : "")
                 + ", size=" + this.fileItem.getSize() + "]";
     }
+
 }

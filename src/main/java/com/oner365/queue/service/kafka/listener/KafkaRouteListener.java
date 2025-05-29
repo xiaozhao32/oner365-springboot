@@ -24,23 +24,23 @@ import jakarta.annotation.Resource;
 @Conditional(KafkaCondition.class)
 public class KafkaRouteListener {
 
-  private final Logger logger = LoggerFactory.getLogger(KafkaRouteListener.class);
+    private final Logger logger = LoggerFactory.getLogger(KafkaRouteListener.class);
 
-  @Resource
-  private DynamicRouteService dynamicRouteService;
+    @Resource
+    private DynamicRouteService dynamicRouteService;
 
-  /**
-   * 监听服务
-   *
-   * @param consumerRecord 参数
-   */
-  @KafkaListener(id = QueueConstants.ROUTE_QUEUE_NAME, topics = { QueueConstants.ROUTE_QUEUE_NAME })
-  public void listener(ConsumerRecord<String, ?> consumerRecord) {
-    Optional<?> kafkaMessage = Optional.of(consumerRecord.value());
-    Object message = kafkaMessage.get();
-    logger.info("Kafka Route received: {}", message);
+    /**
+     * 监听服务
+     * @param consumerRecord 参数
+     */
+    @KafkaListener(id = QueueConstants.ROUTE_QUEUE_NAME, topics = { QueueConstants.ROUTE_QUEUE_NAME })
+    public void listener(ConsumerRecord<String, ?> consumerRecord) {
+        Optional<?> kafkaMessage = Optional.of(consumerRecord.value());
+        Object message = kafkaMessage.get();
+        logger.info("Kafka Route received: {}", message);
 
-    // business
-    dynamicRouteService.refreshRoute();
-  }
+        // business
+        dynamicRouteService.refreshRoute();
+    }
+
 }

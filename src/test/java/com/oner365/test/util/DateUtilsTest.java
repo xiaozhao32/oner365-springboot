@@ -13,7 +13,7 @@ import com.oner365.data.commons.util.DateUtil;
 
 /**
  * 工具类测试
- * 
+ *
  * @author zhaoyong
  *
  */
@@ -24,7 +24,7 @@ class DateUtilsTest extends BaseUtilsTest {
         List<String> result = DateUtil.getDialectDate("2021-05-10", "2021-05-21");
         Assertions.assertEquals(12, result.size());
     }
-    
+
     @Test
     void localDateTest() {
         LocalDate localDate = LocalDate.now();
@@ -35,7 +35,7 @@ class DateUtilsTest extends BaseUtilsTest {
         LocalDate result = DateUtil.dateToLocalDate(date);
         Assertions.assertEquals(localDate, result);
     }
-    
+
     @Test
     void localDateTimeTest() {
         LocalDateTime localDateTime = LocalDateTime.now();
@@ -46,18 +46,19 @@ class DateUtilsTest extends BaseUtilsTest {
         LocalDateTime result = DateUtil.dateToLocalDateTime(date);
         Assertions.assertEquals(localDateTime, result);
     }
-    
+
     @Test
     void getDialectWeekTest() {
-      List<Map<String, String>> result = DateUtil.getDialectWeek("2021-05-10", "2021-05-21");
-      logger.info("list: {}", result);
-      Assertions.assertEquals(2, result.size());
+        List<Map<String, String>> result = DateUtil.getDialectWeek("2021-05-10", "2021-05-21");
+        logger.info("list: {}", result);
+        Assertions.assertEquals(2, result.size());
     }
-    
+
     @Test
     void formatTest() {
-      String result = DateUtil.format(DateUtil.getDate(), DateUtil.FULL_TIME_FORMAT);
-      logger.info("date: {}", result);
-      Assertions.assertNotNull(result);
+        String result = DateUtil.format(DateUtil.getDate(), DateUtil.FULL_TIME_FORMAT);
+        logger.info("date: {}", result);
+        Assertions.assertNotNull(result);
     }
+
 }

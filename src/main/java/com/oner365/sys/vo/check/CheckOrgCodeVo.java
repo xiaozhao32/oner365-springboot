@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotBlank;
 
 /**
  * 检测机构编码
- * 
+ *
  * @author zhaoyong
  *
  */
@@ -16,29 +16,29 @@ import jakarta.validation.constraints.NotBlank;
 public class CheckOrgCodeVo implements Serializable {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1L;
-    
+
     /**
      * 主键 id
      */
     @Schema(name = "主键")
     private String id;
-    
+
     /**
      * 编码
      */
     @Schema(name = "编码", requiredMode = RequiredMode.REQUIRED)
     @NotBlank(message = "{system.vo.check.org.code.message}")
     private String code;
-    
+
     /**
      * 类型
      */
     @Schema(name = "类型")
     private String type;
-    
+
     /**
      * 构造方法
      */
@@ -61,7 +61,7 @@ public class CheckOrgCodeVo implements Serializable {
     public void setCode(String code) {
         this.code = code;
     }
-    
+
     public String getType() {
         return type;
     }

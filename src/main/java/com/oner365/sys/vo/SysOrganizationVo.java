@@ -146,7 +146,7 @@ public class SysOrganizationVo implements Serializable {
      */
     @Schema(name = "数据源")
     private DataSourceConfigVo dataSourceConfigVo;
-    
+
     private List<SysOrganizationVo> children = new ArrayList<>();
 
     /**
@@ -429,7 +429,7 @@ public class SysOrganizationVo implements Serializable {
     public void setDataSourceConfigVo(DataSourceConfigVo dataSourceConfigVo) {
         this.dataSourceConfigVo = dataSourceConfigVo;
     }
-    
+
     /**
      * toString Method
      */

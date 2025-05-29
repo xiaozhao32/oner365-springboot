@@ -14,17 +14,13 @@ import org.junit.runner.RunWith;
  */
 @SuppressWarnings("deprecation")
 @RunWith(JUnitPlatform.class)
-@SelectPackages({
-    "com.oner365.test.controller",
-    "com.oner365.test.service",
-    "com.oner365.test.mapper",
-    "com.oner365.test.dao",
-    "com.oner365.test.util"
-})
+@SelectPackages({ "com.oner365.test.controller", "com.oner365.test.service", "com.oner365.test.mapper",
+        "com.oner365.test.dao", "com.oner365.test.util" })
 class SuiteTest {
 
     @Test
     void test() {
-      Assertions.assertEquals("SuiteTest", SuiteTest.class.getSimpleName());
+        Assertions.assertEquals("SuiteTest", SuiteTest.class.getSimpleName());
     }
+
 }

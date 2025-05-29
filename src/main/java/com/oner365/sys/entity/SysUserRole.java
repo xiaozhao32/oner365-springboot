@@ -22,7 +22,7 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "nt_sys_user_role")
-@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler" })
 public class SysUserRole implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -47,7 +47,6 @@ public class SysUserRole implements Serializable {
     @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "user_id")
     private SysUser sysUser;
-
 
     /**
      * Generate constructor
@@ -93,4 +92,5 @@ public class SysUserRole implements Serializable {
     public String toString() {
         return new ToStringBuilder(this).append("id", getId()).toString();
     }
+
 }

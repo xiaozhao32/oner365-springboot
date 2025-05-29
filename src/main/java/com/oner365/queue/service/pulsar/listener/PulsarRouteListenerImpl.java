@@ -27,25 +27,26 @@ import jakarta.annotation.Resource;
 @Conditional(PulsarCondition.class)
 public class PulsarRouteListenerImpl implements MessageListener<String>, BaseService {
 
-  private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(PulsarRouteListenerImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PulsarRouteListenerImpl.class);
 
-  @Resource
-  private DynamicRouteService dynamicRouteService;
+    @Resource
+    private DynamicRouteService dynamicRouteService;
 
-  @Override
-  public void received(Consumer<String> consumer, Message<String> msg) {
-    try {
-      String data = Arrays.toString(msg.getData());
-      LOGGER.info("Pulsar consumer data: {}, topic: {}", data, consumer.getTopic());
-      consumer.acknowledge(msg);
-    } catch (PulsarClientException e) {
-      consumer.negativeAcknowledge(msg);
+    @Override
+    public void received(Consumer<String> consumer, Message<String> msg) {
+        try {
+            String data = Arrays.toString(msg.getData());
+            LOGGER.info("Pulsar consumer data: {}, topic: {}", data, consumer.getTopic());
+            consumer.acknowledge(msg);
+        }
+        catch (PulsarClientException e) {
+            consumer.negativeAcknowledge(msg);
+        }
+        // business
+        dynamicRouteService.refreshRoute();
+
     }
-    // business
-    dynamicRouteService.refreshRoute();
-
-  }
 
 }

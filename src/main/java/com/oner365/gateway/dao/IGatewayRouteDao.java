@@ -9,8 +9,10 @@ import com.oner365.gateway.entity.GatewayRoute;
 
 /**
  * 网关路由接口
+ *
  * @author zhaoyong
  */
-public interface IGatewayRouteDao extends JpaRepository<GatewayRoute, String>, JpaSpecificationExecutor<GatewayRoute>, Serializable {
+public interface IGatewayRouteDao
+        extends JpaRepository<GatewayRoute, String>, JpaSpecificationExecutor<GatewayRoute>, Serializable {
 
 }

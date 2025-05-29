@@ -18,14 +18,14 @@ import com.oner365.test.controller.BaseControllerTest;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class ApiControllerTest extends BaseControllerTest {
 
-  private static final String PATH = "/api";
+    private static final String PATH = "/api";
 
-  @RepeatedTest(2)
-  void cacheRedis() {
-    String url = PATH + "/cache/redis/test";
-    Object result = get(url);
-    logger.info("cacheRedis:[{}] -> {}", url, result);
-    Assertions.assertNotNull(result);
-  }
+    @RepeatedTest(2)
+    void cacheRedis() {
+        String url = PATH + "/cache/redis/test";
+        Object result = get(url);
+        logger.info("cacheRedis:[{}] -> {}", url, result);
+        Assertions.assertNotNull(result);
+    }
 
 }

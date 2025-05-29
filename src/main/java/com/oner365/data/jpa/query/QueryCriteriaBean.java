@@ -8,7 +8,7 @@ import com.oner365.data.commons.constants.PublicConstants;
 
 /**
  * 查询条件设置
- * 
+ *
  * @author zhaoyong
  */
 public class QueryCriteriaBean implements Serializable {
@@ -70,4 +70,5 @@ public class QueryCriteriaBean implements Serializable {
     public void setOrder(AttributeBean order) {
         this.order = order;
     }
+
 }

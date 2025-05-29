@@ -7,8 +7,9 @@ import com.oner365.sys.entity.SysMenuType;
 
 /**
  * 菜单类型接口
+ *
  * @author zhaoyong
  */
-public interface ISysMenuTypeDao extends JpaRepository<SysMenuType, String>,JpaSpecificationExecutor<SysMenuType>{
+public interface ISysMenuTypeDao extends JpaRepository<SysMenuType, String>, JpaSpecificationExecutor<SysMenuType> {
 
 }

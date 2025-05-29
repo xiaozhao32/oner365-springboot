@@ -15,6 +15,7 @@ import jakarta.validation.constraints.NotNull;
 
 /**
  * Gateway的路由定义模型
+ *
  * @author zhaoyong
  */
 @Schema(name = "路由信息")
@@ -128,7 +129,7 @@ public class GatewayRouteVo implements Serializable {
     public void setPattern(String pattern) {
         this.pattern = pattern;
     }
-    
+
     /**
      * toString Method
      */

@@ -11,18 +11,18 @@ import com.oner365.test.mapper.BaseMapperTest;
 
 /**
  * Mapper 单元测试
- * 
+ *
  * @author zhaoyong
  *
  */
 class GenTableColumnMapperTest extends BaseMapperTest {
 
-  @Test
-  void selectGenTableList() {
-    String tableName = "nt_sys_user";
-    List<GenTableColumn> list = getMapper(GenTableColumnMapper.class).selectDbTableColumnsByName(tableName);
-    logger.info("findList:{}", list.size());
-    Assertions.assertNotEquals(0, list.size());
-  }
+    @Test
+    void selectGenTableList() {
+        String tableName = "nt_sys_user";
+        List<GenTableColumn> list = getMapper(GenTableColumnMapper.class).selectDbTableColumnsByName(tableName);
+        logger.info("findList:{}", list.size());
+        Assertions.assertNotEquals(0, list.size());
+    }
 
 }

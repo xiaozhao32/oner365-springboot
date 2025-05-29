@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotBlank;
 
 /**
  * 检测用户编码
- * 
+ *
  * @author zhaoyong
  *
  */
@@ -16,23 +16,23 @@ import jakarta.validation.constraints.NotBlank;
 public class CheckUserNameVo implements Serializable {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1L;
-    
+
     /**
      * 主键 id
      */
     @Schema(name = "主键")
     private String id;
-    
+
     /**
      * 用户名称
      */
     @Schema(name = "用户名称", requiredMode = RequiredMode.REQUIRED)
     @NotBlank(message = "{system.vo.check.userName.message}")
     private String userName;
-    
+
     /**
      * 构造方法
      */

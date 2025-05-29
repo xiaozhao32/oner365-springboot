@@ -11,7 +11,7 @@ import com.oner365.queue.condition.RabbitmqCondition;
 
 /**
  * 队列回调确认
- * 
+ *
  * @author zhaoyong
  *
  */
@@ -19,14 +19,14 @@ import com.oner365.queue.condition.RabbitmqCondition;
 @Conditional(RabbitmqCondition.class)
 public class QueueRabbitmqConfirmCallback implements ConfirmCallback {
 
-  private final Logger logger = LoggerFactory.getLogger(QueueRabbitmqConfirmCallback.class);
+    private final Logger logger = LoggerFactory.getLogger(QueueRabbitmqConfirmCallback.class);
 
-  @Override
-  public void confirm(CorrelationData correlationData, boolean ack, String cause) {
-    logger.info("Rabbitmq Confirm ack: {}, correlationData: {}", ack, correlationData);
-    if (!ack) {
-      logger.error("Rabbitmq Confirm error:{}", cause);
+    @Override
+    public void confirm(CorrelationData correlationData, boolean ack, String cause) {
+        logger.info("Rabbitmq Confirm ack: {}, correlationData: {}", ack, correlationData);
+        if (!ack) {
+            logger.error("Rabbitmq Confirm error:{}", cause);
+        }
     }
-  }
 
 }

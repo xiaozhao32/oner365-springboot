@@ -27,13 +27,13 @@ class RabbitmqControllerTest extends BaseControllerTest {
         logger.info("index:[{}] -> {}", url, result);
         Assertions.assertNotNull(result);
     }
-    
+
     @Test
     void list() {
-      String url = PATH + "/list/EXCHANGES?pageIndex=1&pageSize=5";
-      Object result = get(url);
-      logger.info("list:[{}] -> {}", url, result);
-      Assertions.assertNotNull(result);
+        String url = PATH + "/list/EXCHANGES?pageIndex=1&pageSize=5";
+        Object result = get(url);
+        logger.info("list:[{}] -> {}", url, result);
+        Assertions.assertNotNull(result);
     }
-    
+
 }

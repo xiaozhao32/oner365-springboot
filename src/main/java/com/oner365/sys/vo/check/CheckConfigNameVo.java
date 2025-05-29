@@ -8,52 +8,52 @@ import jakarta.validation.constraints.NotBlank;
 
 /**
  * 检测配置名称
- * 
+ *
  * @author zhaoyong
  *
  */
 @Schema(name = "检测配置名称")
 public class CheckConfigNameVo implements Serializable {
 
-  /**
-   * 
-   */
-  private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-  /**
-   * 主键 id
-   */
-  @Schema(name = "主键")
-  private String id;
+    /**
+     * 主键 id
+     */
+    @Schema(name = "主键")
+    private String id;
 
-  /**
-   * 编码
-   */
-  @Schema(name = "配置名称", requiredMode = RequiredMode.REQUIRED)
-  @NotBlank(message = "{system.vo.check.config.name.message}")
-  private String configName;
+    /**
+     * 编码
+     */
+    @Schema(name = "配置名称", requiredMode = RequiredMode.REQUIRED)
+    @NotBlank(message = "{system.vo.check.config.name.message}")
+    private String configName;
 
-  /**
-   * 构造方法
-   */
-  public CheckConfigNameVo() {
-    super();
-  }
+    /**
+     * 构造方法
+     */
+    public CheckConfigNameVo() {
+        super();
+    }
 
-  public String getId() {
-    return id;
-  }
+    public String getId() {
+        return id;
+    }
 
-  public void setId(String id) {
-    this.id = id;
-  }
+    public void setId(String id) {
+        this.id = id;
+    }
 
-  public String getConfigName() {
-    return configName;
-  }
+    public String getConfigName() {
+        return configName;
+    }
 
-  public void setConfigName(String configName) {
-    this.configName = configName;
-  }
+    public void setConfigName(String configName) {
+        this.configName = configName;
+    }
 
 }

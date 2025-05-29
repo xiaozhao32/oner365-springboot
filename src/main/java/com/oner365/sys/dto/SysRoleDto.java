@@ -61,13 +61,13 @@ public class SysRoleDto implements Serializable {
      */
     @Schema(name = "更新时间")
     private LocalDateTime updateTime;
-    
+
     /**
      * 菜单id
      */
     @Schema(name = "菜单id")
     private List<String> menuIds;
-    
+
     /**
      * 菜单类型
      */
@@ -166,4 +166,5 @@ public class SysRoleDto implements Serializable {
     public void setMenuType(String menuType) {
         this.menuType = menuType;
     }
+
 }

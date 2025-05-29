@@ -28,89 +28,114 @@ import com.oner365.test.BaseTest;
  */
 public abstract class BaseControllerTest extends BaseTest {
 
-  @Resource
-  protected WebTestClient client;
+    @Resource
+    protected WebTestClient client;
 
-  @Resource
-  private RedisCache redisCache;
+    @Resource
+    private RedisCache redisCache;
 
-  /**
-   * Request Header Authorization
-   *
-   * @return String token
-   */
-  protected String getToken() {
-    final String cacheKey = "Auth:test:token";
-    String token = redisCache.getCacheObject(cacheKey);
-    if (token != null) {
-      return token;
+    /**
+     * Request Header Authorization
+     * @return String token
+     */
+    protected String getToken() {
+        final String cacheKey = "Auth:test:token";
+        String token = redisCache.getCacheObject(cacheKey);
+        if (token != null) {
+            return token;
+        }
+        // auth
+        String url = "/system/auth/login";
+        JSONObject paramJson = new JSONObject();
+        paramJson.put("userName", "admin");
+        paramJson.put("password", "1");
+
+        ResponseData<LoginUserDto> response = client.post()
+            .uri(url)
+            .body(BodyInserters.fromValue(paramJson))
+            .exchange()
+            .expectBody(new ParameterizedTypeReference<ResponseData<LoginUserDto>>() {
+            })
+            .returnResult()
+            .getResponseBody();
+
+        assert response != null;
+        LoginUserDto result = response.getResult();
+        if (ResultEnum.SUCCESS.getCode().equals(response.getCode()) && result != null) {
+            token = result.getAccessToken();
+            redisCache.setCacheObject(cacheKey, token, 3, TimeUnit.MINUTES);
+        }
+        return token;
     }
-    // auth
-    String url = "/system/auth/login";
-    JSONObject paramJson = new JSONObject();
-    paramJson.put("userName", "admin");
-    paramJson.put("password", "1");
 
-    ResponseData<LoginUserDto> response = client.post().uri(url).body(BodyInserters.fromValue(paramJson)).exchange()
-        .expectBody(new ParameterizedTypeReference<ResponseData<LoginUserDto>>() {}).returnResult().getResponseBody();
-
-    assert response != null;
-    LoginUserDto result = response.getResult();
-    if (ResultEnum.SUCCESS.getCode().equals(response.getCode()) && result != null) {
-      token = result.getAccessToken();
-      redisCache.setCacheObject(cacheKey, token, 3, TimeUnit.MINUTES);
+    /**
+     * GET request
+     * @param url 请求地址
+     * @return Object ResponseData result
+     */
+    protected Object get(String url) {
+        ResponseData<?> response = client.get()
+            .uri(url)
+            .header(HttpHeaders.AUTHORIZATION, getToken())
+            .exchange()
+            .expectBody(ResponseData.class)
+            .returnResult()
+            .getResponseBody();
+        return Objects.requireNonNull(response).getResult();
     }
-    return token;
-  }
 
-  /**
-   * GET request
-   *
-   * @param url 请求地址
-   * @return Object ResponseData result
-   */
-  protected Object get(String url) {
-    ResponseData<?> response = client.get().uri(url).header(HttpHeaders.AUTHORIZATION, getToken()).exchange()
-        .expectBody(ResponseData.class).returnResult().getResponseBody();
-    return Objects.requireNonNull(response).getResult();
-  }
+    /**
+     * POST request
+     * @param url 请求地址
+     * @param bodyInserters 请求Body
+     * @return Object ResponseData result
+     */
+    protected Object post(String url, BodyInserter<?, ? super ClientHttpRequest> bodyInserters) {
+        ResponseData<?> response = client.post()
+            .uri(url)
+            .header(HttpHeaders.AUTHORIZATION, getToken())
+            .body(bodyInserters)
+            .exchange()
+            .expectBody(ResponseData.class)
+            .returnResult()
+            .getResponseBody();
+        return Objects.requireNonNull(response).getResult();
+    }
 
-  /**
-   * POST request
-   *
-   * @param url           请求地址
-   * @param bodyInserters 请求Body
-   * @return Object ResponseData result
-   */
-  protected Object post(String url, BodyInserter<?, ? super ClientHttpRequest> bodyInserters) {
-    ResponseData<?> response = client.post().uri(url).header(HttpHeaders.AUTHORIZATION, getToken()).body(bodyInserters)
-        .exchange().expectBody(ResponseData.class).returnResult().getResponseBody();
-    return Objects.requireNonNull(response).getResult();
-  }
+    /**
+     * PUT request
+     * @param url 请求地址
+     * @param bodyInserters 请求Body
+     * @return Object ResponseData result
+     */
+    protected Object put(String url, BodyInserter<?, ? super ClientHttpRequest> bodyInserters) {
+        ResponseData<?> response = client.put()
+            .uri(url)
+            .header(HttpHeaders.AUTHORIZATION, getToken())
+            .body(bodyInserters)
+            .exchange()
+            .expectBody(ResponseData.class)
+            .returnResult()
+            .getResponseBody();
+        return Objects.requireNonNull(response).getResult();
+    }
 
-  /**
-   * PUT request
-   *
-   * @param url           请求地址
-   * @param bodyInserters 请求Body
-   * @return Object ResponseData result
-   */
-  protected Object put(String url, BodyInserter<?, ? super ClientHttpRequest> bodyInserters) {
-    ResponseData<?> response = client.put().uri(url).header(HttpHeaders.AUTHORIZATION, getToken()).body(bodyInserters)
-        .exchange().expectBody(ResponseData.class).returnResult().getResponseBody();
-    return Objects.requireNonNull(response).getResult();
-  }
+    /**
+     * DELETE request
+     * @param url 请求地址
+     * @param bodyInserters 请求Body
+     * @return Object ResponseData result
+     */
+    protected Object delete(String url, BodyInserter<?, ? super ClientHttpRequest> bodyInserters) {
+        ResponseData<?> response = client.method(HttpMethod.DELETE)
+            .uri(url)
+            .header(HttpHeaders.AUTHORIZATION, getToken())
+            .body(bodyInserters)
+            .exchange()
+            .expectBody(ResponseData.class)
+            .returnResult()
+            .getResponseBody();
+        return Objects.requireNonNull(response).getResult();
+    }
 
-  /**
-   * DELETE request
-   *
-   * @param url           请求地址
-   * @param bodyInserters 请求Body
-   * @return Object ResponseData result
-   */
-  protected Object delete(String url, BodyInserter<?, ? super ClientHttpRequest> bodyInserters) {
-    ResponseData<?> response = client.method(HttpMethod.DELETE).uri(url).header(HttpHeaders.AUTHORIZATION, getToken()).body(bodyInserters)
-        .exchange().expectBody(ResponseData.class).returnResult().getResponseBody();
-    return Objects.requireNonNull(response).getResult();
-  }
 }

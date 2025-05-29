@@ -24,28 +24,28 @@ import com.oner365.test.dao.BaseDaoTest;
 @SpringBootTest
 class SysRoleMenuOperDaoTest extends BaseDaoTest {
 
-  @Resource
-  private ISysRoleMenuOperDao dao;
+    @Resource
+    private ISysRoleMenuOperDao dao;
 
-  @Test
-  void findMenuOperListByRoleId() {
-    String roleId = "1";
-    String menuTypeId = "1";
-    List<SysRoleMenuOper> result = dao.findMenuOperListByRoleId(roleId, menuTypeId);
-    result.forEach(map -> logger.info("menuId:{}, operId:{}", map.getMenuId(), map.getOperationId()));
-    logger.info("result:{}", result.size());
-    Assertions.assertNotEquals(0, result.size());
-  }
+    @Test
+    void findMenuOperListByRoleId() {
+        String roleId = "1";
+        String menuTypeId = "1";
+        List<SysRoleMenuOper> result = dao.findMenuOperListByRoleId(roleId, menuTypeId);
+        result.forEach(map -> logger.info("menuId:{}, operId:{}", map.getMenuId(), map.getOperationId()));
+        logger.info("result:{}", result.size());
+        Assertions.assertNotEquals(0, result.size());
+    }
 
-  @Test
-  void findMenuOperByRoles() {
-    List<String> roles = new ArrayList<>();
-    roles.add("1");
-    String menuId = "1011";
-    List<Map<String,String>> result = dao.findMenuOperByRoles(roles, menuId);
-    result.forEach(map -> logger.info("operId:{}", map.get(SysConstants.OPER_ID)));
-    logger.info("result:{}", result.size());
-    Assertions.assertNotEquals(0, result.size());
-  }
+    @Test
+    void findMenuOperByRoles() {
+        List<String> roles = new ArrayList<>();
+        roles.add("1");
+        String menuId = "1011";
+        List<Map<String, String>> result = dao.findMenuOperByRoles(roles, menuId);
+        result.forEach(map -> logger.info("operId:{}", map.get(SysConstants.OPER_ID)));
+        logger.info("result:{}", result.size());
+        Assertions.assertNotEquals(0, result.size());
+    }
 
 }

@@ -10,7 +10,7 @@ import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 
 /**
  * 字典 SysDictItem
- * 
+ *
  * @author zhaoyong
  */
 @Schema(name = "字典")
@@ -125,7 +125,7 @@ public class SysDictItemDto implements Serializable {
     public void setParentId(String parentId) {
         this.parentId = parentId;
     }
-    
+
     /**
      * toString Method
      */

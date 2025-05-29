@@ -11,18 +11,18 @@ import org.springframework.lang.NonNull;
 
 /**
  * fdfs上传模式
- * 
+ *
  * @author zhaoyong
  *
  */
 public class FdfsStorageCondition implements Condition {
 
-  @Override
-  public boolean matches(ConditionContext conditionContext, @NonNull AnnotatedTypeMetadata metadata) {
-    Environment environment = conditionContext.getEnvironment();
-    String type = environment.getProperty(PublicConstants.FILE_STORAGE);
-    // fdfs上传
-    return type != null && type.equalsIgnoreCase(StorageEnum.FDFS.name());
-  }
+    @Override
+    public boolean matches(ConditionContext conditionContext, @NonNull AnnotatedTypeMetadata metadata) {
+        Environment environment = conditionContext.getEnvironment();
+        String type = environment.getProperty(PublicConstants.FILE_STORAGE);
+        // fdfs上传
+        return type != null && type.equalsIgnoreCase(StorageEnum.FDFS.name());
+    }
 
 }

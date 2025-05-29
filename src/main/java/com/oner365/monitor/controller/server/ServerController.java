@@ -13,7 +13,7 @@ import io.swagger.v3.oas.annotations.Operation;
 
 /**
  * 服务器监控
- * 
+ *
  * @author zhaoyong
  */
 @RestController
@@ -21,15 +21,16 @@ import io.swagger.v3.oas.annotations.Operation;
 @RequestMapping("/monitor/server")
 public class ServerController extends BaseController {
 
-  /**
-   * 当前服务器信息
-   */
-  @Operation(summary = "1.首页")
-  @ApiOperationSupport(order = 1)
-  @GetMapping("/index")
-  public Server index() {
-    Server server = new Server();
-    server.copyTo();
-    return server;
-  }
+    /**
+     * 当前服务器信息
+     */
+    @Operation(summary = "1.首页")
+    @ApiOperationSupport(order = 1)
+    @GetMapping("/index")
+    public Server index() {
+        Server server = new Server();
+        server.copyTo();
+        return server;
+    }
+
 }

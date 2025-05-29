@@ -26,19 +26,19 @@ import jakarta.annotation.Resource;
 @EnableConfigurationProperties({ RabbitmqProperties.class })
 public class RabbitAdminConfig {
 
-  @Resource
-  private RabbitTemplate rabbitTemplate;
-  
-  public RabbitAdminConfig() {
-    Logger logger = LoggerFactory.getLogger(RabbitAdminConfig.class);
-    logger.info("Queue Type: {}", QueueEnum.RABBITMQ);
-  }
+    @Resource
+    private RabbitTemplate rabbitTemplate;
 
-  @Bean
-  RabbitAdmin rabbitAdmin() {
-    RabbitAdmin rabbitAdmin = new RabbitAdmin(rabbitTemplate);
-    rabbitAdmin.setAutoStartup(true);
-    return rabbitAdmin;
-  }
+    public RabbitAdminConfig() {
+        Logger logger = LoggerFactory.getLogger(RabbitAdminConfig.class);
+        logger.info("Queue Type: {}", QueueEnum.RABBITMQ);
+    }
+
+    @Bean
+    RabbitAdmin rabbitAdmin() {
+        RabbitAdmin rabbitAdmin = new RabbitAdmin(rabbitTemplate);
+        rabbitAdmin.setAutoStartup(true);
+        return rabbitAdmin;
+    }
 
 }

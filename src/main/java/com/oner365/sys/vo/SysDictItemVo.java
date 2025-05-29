@@ -11,7 +11,7 @@ import jakarta.validation.constraints.NotBlank;
 
 /**
  * 字典 SysDictItem
- * 
+ *
  * @author zhaoyong
  */
 @Schema(name = "字典")
@@ -129,7 +129,7 @@ public class SysDictItemVo implements Serializable {
     public void setParentId(String parentId) {
         this.parentId = parentId;
     }
-    
+
     /**
      * toString Method
      */
