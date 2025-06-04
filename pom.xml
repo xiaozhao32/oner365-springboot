@@ -83,7 +83,7 @@
 		<ch.qos.logback.version>1.5.18</ch.qos.logback.version>
 
 		<org.jetbrains.kotlin.version>2.0.21</org.jetbrains.kotlin.version>
-		<org.junit.platform.version>1.11.4</org.junit.platform.version>
+		<org.junit.platform.version>1.13.0</org.junit.platform.version>
 		<org.javassist.version>3.30.2-GA</org.javassist.version>
 		<org.freemarker.version>2.3.34</org.freemarker.version>
 		<org.reflections.version>0.10.2</org.reflections.version>
@@ -779,8 +779,38 @@
 		</dependency>
 
 		<dependency>
+		    <groupId>org.junit.platform</groupId>
+		    <artifactId>junit-platform-launcher</artifactId>
+		    <version>${org.junit.platform.version}</version>
+		    <scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.junit.platform</groupId>
 			<artifactId>junit-platform-runner</artifactId>
+			<version>${org.junit.platform.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+		    <groupId>org.junit.platform</groupId>
+		    <artifactId>junit-platform-engine</artifactId>
+		    <version>${org.junit.platform.version}</version>
+		    <scope>test</scope>
+		</dependency>
+		<dependency>
+		    <groupId>org.junit.platform</groupId>
+		    <artifactId>junit-platform-suite-api</artifactId>
+		    <version>${org.junit.platform.version}</version>
+		    <scope>test</scope>
+		</dependency>
+		<dependency>
+		    <groupId>org.junit.platform</groupId>
+		    <artifactId>junit-platform-suite</artifactId>
+		    <version>${org.junit.platform.version}</version>
+		    <scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.platform</groupId>
+			<artifactId>junit-platform-suite-commons</artifactId>
 			<version>${org.junit.platform.version}</version>
 			<scope>test</scope>
 		</dependency>
@@ -788,12 +818,12 @@
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-suite-engine</artifactId>
             <version>${org.junit.platform.version}</version>
+            <scope>test</scope>
 		</dependency>
 		<dependency>
-		    <groupId>junit</groupId>
+			<groupId>junit</groupId>
 		    <artifactId>junit</artifactId>
 		    <version>${junit.version}</version>
-		    <scope>test</scope>
 		</dependency>
 
 		<!-- spring data -->

@@ -14,7 +14,6 @@ import org.springframework.web.reactive.function.BodyInserters;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.oner365.data.commons.constants.PublicConstants;
 import com.oner365.sys.entity.SysJob;
 import com.oner365.test.controller.BaseControllerTest;
 
@@ -66,8 +65,7 @@ class SysJobControllerTest extends BaseControllerTest {
         Assertions.assertNotNull(map);
 
         String deletePath = PATH + "/delete";
-        Map<String, Object> sysJob = (Map<String, Object>) map.get(PublicConstants.MSG);
-        String[] ids = new String[] { sysJob.get("id").toString() };
+        String[] ids = new String[] { map.get("id").toString() };
         Object deleteResult = delete(deletePath, BodyInserters.fromValue(ids));
         logger.info("delete:[{}] -> {}", deletePath, deleteResult);
         Assertions.assertNotNull(deleteResult);
