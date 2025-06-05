@@ -1159,6 +1159,21 @@
 	                <pushImage>true</pushImage>
 				</configuration>
 			</plugin>
+			
+			<!-- spring-javaformat:apply -->
+			<plugin>
+	          	<groupId>io.spring.javaformat</groupId>
+	          	<artifactId>spring-javaformat-maven-plugin</artifactId>
+	          	<version>0.0.45</version>
+	          	<executions>
+	              	<execution>
+	                  	<goals>
+	                      	<goal>apply</goal>
+	                  	</goals>
+	                  	<phase>default</phase>
+	              	</execution>
+	          	</executions>
+	      	</plugin>
 
 		</plugins>
 	</build>

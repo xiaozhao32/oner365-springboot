@@ -9,6 +9,7 @@ import com.alibaba.fastjson.JSON;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.data.commons.reponse.ResponseData;
 import com.oner365.data.web.controller.BaseController;
+import com.oner365.log.annotation.SysLog;
 import com.oner365.sys.dto.LoginUserDto;
 import com.oner365.sys.vo.LoginUserVo;
 
@@ -25,22 +26,22 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/client")
 public class ClientTestController extends BaseController {
 
-  /**
-   * 测试系统登录
-   *
-   * @param loginUserVo 登录对象
-   * @return ResponseData
-   */
-  @PostMapping("/login")
-  @ApiOperation("1.登录")
-  @ApiOperationSupport(order = 1)
-  public ResponseData<LoginUserDto> login(@RequestBody LoginUserVo loginUserVo) {
-    if (logger.isDebugEnabled()) {
-      logger.debug("result:{}", JSON.toJSONString(loginUserVo));
+    /**
+     * 测试系统登录
+     * @param loginUserVo 登录对象
+     * @return ResponseData
+     */
+    @ApiOperation("1.登录")
+    @ApiOperationSupport(order = 1)
+    @SysLog("用户登录")
+    @PostMapping("/login")
+    public ResponseData<LoginUserDto> login(@RequestBody LoginUserVo loginUserVo) {
+        if (logger.isDebugEnabled()) {
+            logger.debug("result:{}", JSON.toJSONString(loginUserVo));
+        }
+        LoginUserDto dto = new LoginUserDto();
+        dto.setRealName("成功了");
+        return ResponseData.success(dto);
     }
-    LoginUserDto dto = new LoginUserDto();
-    dto.setRealName("成功了");
-    return ResponseData.success(dto);
-  }
 
 }

@@ -19,6 +19,7 @@ import com.oner365.files.vo.SysFileStorageVo;
 
 /**
  * 本地文件上传
+ *
  * @author zhaoyong
  *
  */
@@ -31,7 +32,6 @@ public class FileLocalUploadUtils {
 
     /**
      * 上传文件
-     *
      * @param file 文件
      * @param fileWeb web访问地址
      * @param filePath 文件上传根目录
@@ -39,8 +39,8 @@ public class FileLocalUploadUtils {
      * @param maxLength 文件长度
      * @return SysFileStorage
      */
-    public static SysFileStorageVo upload(MultipartFile file, StorageEnum storageEnum,
-            String randomName, String fileWeb, String filePath, String uploadDir, long maxLength) {
+    public static SysFileStorageVo upload(MultipartFile file, StorageEnum storageEnum, String randomName,
+            String fileWeb, String filePath, String uploadDir, long maxLength) {
         try {
             long fileNameLength = file.getSize();
             if (fileNameLength > maxLength) {
@@ -53,7 +53,8 @@ public class FileLocalUploadUtils {
             file.transferTo(desc);
             // http url
             return getPathFileName(file, storageEnum, fileWeb, uploadDir, fileName);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             LOGGER.error("upload error:", e);
         }
         return null;
@@ -74,13 +75,13 @@ public class FileLocalUploadUtils {
         LOGGER.info("Local upload File path: {}", absoluteFile);
         File file = new File(absoluteFile);
         if (!file.exists()) {
-          FileUtils.forceMkdir(new File(file.getParent()));
+            FileUtils.forceMkdir(new File(file.getParent()));
         }
         return file;
     }
 
-    private static SysFileStorageVo getPathFileName(MultipartFile file, StorageEnum storageEnum,
-            String fileWeb, String uploadDir, String fileName) {
+    private static SysFileStorageVo getPathFileName(MultipartFile file, StorageEnum storageEnum, String fileWeb,
+            String uploadDir, String fileName) {
         String uploadPath = StringUtils.EMPTY;
         if (!DataUtils.isEmpty(uploadDir)) {
             uploadPath = uploadDir + PublicConstants.DELIMITER;
@@ -116,12 +117,13 @@ public class FileLocalUploadUtils {
         LOGGER.info("Local download File path: {}", path);
         File file = DataUtils.getFile(path);
         if (!file.exists()) {
-          LOGGER.error("download path is not exists: {}", path);
-          return new byte[0];
+            LOGGER.error("download path is not exists: {}", path);
+            return new byte[0];
         }
         try {
             return FileUtil.readAsByteArray(Objects.requireNonNull(file));
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             LOGGER.error("download error:", e);
         }
         return new byte[0];

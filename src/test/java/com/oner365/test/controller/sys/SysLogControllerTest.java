@@ -20,14 +20,14 @@ import com.oner365.test.controller.BaseControllerTest;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class SysLogControllerTest extends BaseControllerTest {
 
-  private static final String PATH = "/system/log";
+    private static final String PATH = "/system/log";
 
-  @RepeatedTest(2)
-  void list() {
-    String url = PATH + "/list";
-    Object result = post(url, BodyInserters.fromValue(new SysLogVo()));
-    logger.info("list:[{}] -> {}", url, result);
-    Assertions.assertNotNull(result);
-  }
+    @RepeatedTest(2)
+    void list() {
+        String url = PATH + "/list";
+        Object result = post(url, BodyInserters.fromValue(new SysLogVo()));
+        logger.info("list:[{}] -> {}", url, result);
+        Assertions.assertNotNull(result);
+    }
 
 }

@@ -7,8 +7,9 @@ import com.oner365.monitor.entity.SysTask;
 
 /**
  * 系统日志接口
+ *
  * @author zhaoyong
  */
-public interface ISysTaskDao extends JpaRepository<SysTask, String>,JpaSpecificationExecutor<SysTask>{
-    
+public interface ISysTaskDao extends JpaRepository<SysTask, String>, JpaSpecificationExecutor<SysTask> {
+
 }

@@ -39,7 +39,7 @@ class SysDictItemTypeServiceTest extends BaseServiceTest {
 
     @Test
     void findListByCodes() {
-        String[] codes = new String[]{"sys_task_group", "sys_task_status"};
+        String[] codes = new String[] { "sys_task_group", "sys_task_status" };
         List<SysDictItemTypeDto> list = service.findListByCodes(Arrays.asList(codes));
         logger.info("findListByCodes:{}", list.size());
         Assertions.assertNotEquals(0, list.size());

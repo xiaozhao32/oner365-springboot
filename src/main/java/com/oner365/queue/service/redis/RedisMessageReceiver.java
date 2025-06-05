@@ -8,19 +8,20 @@ import org.springframework.stereotype.Service;
 
 /**
  * 监听消息
- * 
+ *
  * @author zhaoyong
  *
  */
 @Service
 public class RedisMessageReceiver implements MessageListener {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(RedisMessageReceiver.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RedisMessageReceiver.class);
 
-  @Override
-  public void onMessage(Message message, byte[] pattern) {
-    String messagePattern = new String(pattern);
-    String messageBody = new String(message.getBody());
-    LOGGER.info("Redis receiver pattern:{} message: {}", messagePattern, messageBody);
-  }
+    @Override
+    public void onMessage(Message message, byte[] pattern) {
+        String messagePattern = new String(pattern);
+        String messageBody = new String(message.getBody());
+        LOGGER.info("Redis receiver pattern:{} message: {}", messagePattern, messageBody);
+    }
+
 }

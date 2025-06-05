@@ -18,12 +18,13 @@ import com.oner365.test.service.BaseServiceTest;
 @SpringBootTest
 class PropertiesTest extends BaseServiceTest {
 
-  @Resource
-  private AccessTokenProperties properties;
-  
-  @Test
-  void filePropertiesTest() {
-    Assertions.assertNotNull(properties);
-    logger.info("properties:{}", JSON.toJSONString(properties));
-  }
+    @Resource
+    private AccessTokenProperties properties;
+
+    @Test
+    void filePropertiesTest() {
+        Assertions.assertNotNull(properties);
+        logger.info("properties:{}", JSON.toJSONString(properties));
+    }
+
 }

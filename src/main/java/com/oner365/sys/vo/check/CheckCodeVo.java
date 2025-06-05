@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 /**
  * 检测字典编码
- * 
+ *
  * @author zhaoyong
  *
  */
@@ -17,23 +17,23 @@ import io.swagger.annotations.ApiModelProperty;
 public class CheckCodeVo implements Serializable {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1L;
-    
+
     /**
      * 主键 id
      */
     @ApiModelProperty(value = "主键")
     private String id;
-    
+
     /**
      * 编码
      */
     @ApiModelProperty(value = "编码", required = true)
     @NotBlank(message = "{system.vo.check.code.message}")
     private String code;
-    
+
     /**
      * 构造方法
      */

@@ -11,16 +11,16 @@ import com.oner365.data.commons.enums.StatusEnum;
  * @author liutao
  */
 public class UpdateTaskExecuteStatusDto implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
-
     /**
-     *    任务编号
+     * 任务编号
      */
     private String taskId;
 
     /**
-     *    执行任务状态
+     * 执行任务状态
      */
     private StatusEnum executeStatus;
 

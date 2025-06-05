@@ -6,54 +6,54 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * pulsar 相关配置
- * 
+ *
  * @author zhaoyong
  */
 @ConfigurationProperties(prefix = "pulsar")
 public class PulsarProperties implements Serializable {
-  
-  private static final long serialVersionUID = 1L;
 
-  /**
-   * 请求地址
-   */
-  private String url;
-  
-  /**
-   * subscription
-   */
-  private String subscription;
-  
-  public PulsarProperties() {
-    super();
-  }
+    private static final long serialVersionUID = 1L;
 
-  /**
-   * @return the url
-   */
-  public String getUrl() {
-    return url;
-  }
+    /**
+     * 请求地址
+     */
+    private String url;
 
-  /**
-   * @param url the url to set
-   */
-  public void setUrl(String url) {
-    this.url = url;
-  }
+    /**
+     * subscription
+     */
+    private String subscription;
 
-  /**
-   * @return the subscription
-   */
-  public String getSubscription() {
-    return subscription;
-  }
+    public PulsarProperties() {
+        super();
+    }
 
-  /**
-   * @param subscription the subscription to set
-   */
-  public void setSubscription(String subscription) {
-    this.subscription = subscription;
-  }
+    /**
+     * @return the url
+     */
+    public String getUrl() {
+        return url;
+    }
+
+    /**
+     * @param url the url to set
+     */
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    /**
+     * @return the subscription
+     */
+    public String getSubscription() {
+        return subscription;
+    }
+
+    /**
+     * @param subscription the subscription to set
+     */
+    public void setSubscription(String subscription) {
+        this.subscription = subscription;
+    }
 
 }

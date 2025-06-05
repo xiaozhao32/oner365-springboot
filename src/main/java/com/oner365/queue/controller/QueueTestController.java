@@ -18,7 +18,7 @@ import io.swagger.annotations.ApiOperation;
 
 /**
  * 队列 controller
- * 
+ *
  * @author zhaoyong
  *
  */
@@ -27,38 +27,38 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/queue")
 public class QueueTestController extends BaseController {
 
-  @Resource
-  private IQueueSendService service;
-  
-  @Resource
-  private RedisTemplate<String, Object> redisTemplate;
+    @Resource
+    private IQueueSendService service;
 
-  /**
-   * 测试发送
-   * 
-   * @param data 参数
-   * @return JSONObject
-   */
-  @ApiOperation("1.测试发送")
-  @ApiOperationSupport(order = 1)
-  @GetMapping("/send")
-  public JSONObject send(String data) {
-    JSONObject json = new JSONObject();
-    json.put("data", data);
-    service.sendMessage(json.toJSONString());
-    service.syncRoute();
-    return json;
-  }
+    @Resource
+    private RedisTemplate<String, Object> redisTemplate;
 
-  @ApiOperation("2.测试订阅")
-  @ApiOperationSupport(order = 2)
-  @GetMapping("/subscribe")
-  public JSONObject subscribe(String data) {
-    // 订阅
-    redisTemplate.convertAndSend(PublicConstants.NAME, data);
-    
-    JSONObject json = new JSONObject();
-    json.put("data", data);
-    return json;
-  }
+    /**
+     * 测试发送
+     * @param data 参数
+     * @return JSONObject
+     */
+    @ApiOperation("1.测试发送")
+    @ApiOperationSupport(order = 1)
+    @GetMapping("/send")
+    public JSONObject send(String data) {
+        JSONObject json = new JSONObject();
+        json.put("data", data);
+        service.sendMessage(json.toJSONString());
+        service.syncRoute();
+        return json;
+    }
+
+    @ApiOperation("2.测试订阅")
+    @ApiOperationSupport(order = 2)
+    @GetMapping("/subscribe")
+    public JSONObject subscribe(String data) {
+        // 订阅
+        redisTemplate.convertAndSend(PublicConstants.NAME, data);
+
+        JSONObject json = new JSONObject();
+        json.put("data", data);
+        return json;
+    }
+
 }

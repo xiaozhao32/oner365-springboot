@@ -13,18 +13,14 @@ import org.junit.runner.RunWith;
  *
  */
 @RunWith(JUnitPlatform.class)
-@SelectPackages({
-    "com.oner365.test.service.datasource",
-    "com.oner365.test.service.elasticsearch",
-    "com.oner365.test.service.file",
-    "com.oner365.test.service.gateway",
-    "com.oner365.test.service.monitor",
-    "com.oner365.test.service.sys"
-})
+@SelectPackages({ "com.oner365.test.service.datasource", "com.oner365.test.service.elasticsearch",
+        "com.oner365.test.service.file", "com.oner365.test.service.gateway", "com.oner365.test.service.monitor",
+        "com.oner365.test.service.sys" })
 class SuiteServiceTest {
 
     @Test
     void test() {
-      Assertions.assertEquals("SuiteServiceTest", SuiteServiceTest.class.getSimpleName());
+        Assertions.assertEquals("SuiteServiceTest", SuiteServiceTest.class.getSimpleName());
     }
+
 }

@@ -28,41 +28,43 @@ import com.oner365.queue.constants.QueueConstants;
 @Conditional(KafkaCondition.class)
 public class KafkaTaskExecuteStatusListener {
 
-  private final Logger logger = LoggerFactory.getLogger(KafkaTaskExecuteStatusListener.class);
+    private final Logger logger = LoggerFactory.getLogger(KafkaTaskExecuteStatusListener.class);
 
-  @Resource
-  private ISysTaskService sysTaskService;
+    @Resource
+    private ISysTaskService sysTaskService;
 
-  /**
-   * 监听服务
-   *
-   * @param consumerRecord 参数
-   */
-  @KafkaListener(id = QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME, topics = { QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME })
-  public void listener(ConsumerRecord<String, ?> consumerRecord) {
-    Optional<?> kafkaMessage = Optional.of(consumerRecord.value());
-    Object message = kafkaMessage.get();
-    logger.info("Kafka updateTaskExecuteStatus received: {}", message);
+    /**
+     * 监听服务
+     * @param consumerRecord 参数
+     */
+    @KafkaListener(id = QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME,
+            topics = { QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME })
+    public void listener(ConsumerRecord<String, ?> consumerRecord) {
+        Optional<?> kafkaMessage = Optional.of(consumerRecord.value());
+        Object message = kafkaMessage.get();
+        logger.info("Kafka updateTaskExecuteStatus received: {}", message);
 
-    // business
-    UpdateTaskExecuteStatusDto updateTask = JSON.parseObject(message.toString(), UpdateTaskExecuteStatusDto.class);
-    if (updateTask != null) {
-      SysTaskDto sysTask = sysTaskService.selectTaskById(updateTask.getTaskId());
-      if (sysTask != null) {
-        sysTask.setExecuteStatus(updateTask.getExecuteStatus());
-        try {
-          sysTaskService.save(convert(sysTask));
-        } catch (Exception e) {
-          logger.error("save error", e);
+        // business
+        UpdateTaskExecuteStatusDto updateTask = JSON.parseObject(message.toString(), UpdateTaskExecuteStatusDto.class);
+        if (updateTask != null) {
+            SysTaskDto sysTask = sysTaskService.selectTaskById(updateTask.getTaskId());
+            if (sysTask != null) {
+                sysTask.setExecuteStatus(updateTask.getExecuteStatus());
+                try {
+                    sysTaskService.save(convert(sysTask));
+                }
+                catch (Exception e) {
+                    logger.error("save error", e);
+                }
+            }
         }
-      }
     }
-  }
 
-  SysTaskVo convert(SysTaskDto source) {
-    if (source == null) {
-      return null;
+    SysTaskVo convert(SysTaskDto source) {
+        if (source == null) {
+            return null;
+        }
+        return JSON.parseObject(JSON.toJSONString(source), SysTaskVo.class);
     }
-    return JSON.parseObject(JSON.toJSONString(source), SysTaskVo.class);
-  }
+
 }

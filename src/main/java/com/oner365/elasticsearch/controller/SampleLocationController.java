@@ -22,6 +22,7 @@ import com.oner365.data.web.controller.BaseController;
 import com.oner365.elasticsearch.dto.SampleLocationDto;
 import com.oner365.elasticsearch.service.ISampleLocationElasticsearchService;
 import com.oner365.elasticsearch.vo.SampleLocationVo;
+import com.oner365.log.annotation.SysLog;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -37,59 +38,57 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/elasticsearch/sample/location")
 public class SampleLocationController extends BaseController {
 
-  @Resource
-  private ISampleLocationElasticsearchService service;
+    @Resource
+    private ISampleLocationElasticsearchService service;
 
-  /**
-   * 列表
-   *
-   * @param data 查询条件参数
-   * @return PageInfo<SampleLocationDto>
-   */
-  @ApiOperation("1.获取列表")
-  @ApiOperationSupport(order = 1)
-  @PostMapping("/list")
-  public PageInfo<SampleLocationDto> pageList(@RequestBody QueryCriteriaBean data) {
-    return this.service.pageList(data);
-  }
+    /**
+     * 列表
+     * @param data 查询条件参数
+     * @return PageInfo<SampleLocationDto>
+     */
+    @ApiOperation("1.获取列表")
+    @ApiOperationSupport(order = 1)
+    @PostMapping("/list")
+    public PageInfo<SampleLocationDto> pageList(@RequestBody QueryCriteriaBean data) {
+        return this.service.pageList(data);
+    }
 
-  /**
-   * id查询
-   *
-   * @param id 编号
-   * @return SampleLocationDto
-   */
-  @ApiOperation("2.按id查询")
-  @ApiOperationSupport(order = 2)
-  @GetMapping("/get/{id}")
-  public SampleLocationDto get(@PathVariable("id") String id) {
-    return service.findById(id);
-  }
+    /**
+     * id查询
+     * @param id 编号
+     * @return SampleLocationDto
+     */
+    @ApiOperation("2.按id查询")
+    @ApiOperationSupport(order = 2)
+    @GetMapping("/get/{id}")
+    public SampleLocationDto get(@PathVariable String id) {
+        return service.findById(id);
+    }
 
-  /**
-   * 保存
-   *
-   * @param sampleLocationVo 坐标对象
-   * @return SampleLocationDto
-   */
-  @ApiOperation("3.保存")
-  @ApiOperationSupport(order = 3)
-  @PutMapping("/save")
-  public SampleLocationDto save(@RequestBody SampleLocationVo sampleLocationVo) {
-    return service.save(sampleLocationVo);
-  }
+    /**
+     * 保存
+     * @param sampleLocationVo 坐标对象
+     * @return SampleLocationDto
+     */
+    @ApiOperation("3.保存")
+    @ApiOperationSupport(order = 3)
+    @SysLog("保存坐标对象")
+    @PutMapping("/save")
+    public SampleLocationDto save(@RequestBody SampleLocationVo sampleLocationVo) {
+        return service.save(sampleLocationVo);
+    }
 
-  /**
-   * 删除
-   *
-   * @param ids 编号
-   * @return Integer
-   */
-  @ApiOperation("4.删除")
-  @ApiOperationSupport(order = 4)
-  @DeleteMapping("/delete")
-  public List<Boolean> delete(@RequestBody String... ids) {
-    return Arrays.stream(ids).map(id -> service.deleteById(id)).collect(Collectors.toList());
-  }
+    /**
+     * 删除
+     * @param ids 编号
+     * @return Integer
+     */
+    @ApiOperation("4.删除")
+    @ApiOperationSupport(order = 4)
+    @SysLog("删除坐标对象")
+    @DeleteMapping("/delete")
+    public List<Boolean> delete(@RequestBody String... ids) {
+        return Arrays.stream(ids).map(id -> service.deleteById(id)).collect(Collectors.toList());
+    }
 
 }

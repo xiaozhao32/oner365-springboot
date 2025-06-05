@@ -21,17 +21,17 @@ import com.oner365.queue.constants.QueueConstants;
 @Conditional(KafkaCondition.class)
 public class KafkaMessageListener {
 
-  private final Logger logger = LoggerFactory.getLogger(KafkaMessageListener.class);
+    private final Logger logger = LoggerFactory.getLogger(KafkaMessageListener.class);
 
-  /**
-   * 监听服务
-   *
-   * @param consumerRecord 参数
-   */
-  @KafkaListener(id = QueueConstants.MESSAGE_QUEUE_NAME, topics = { QueueConstants.MESSAGE_QUEUE_NAME })
-  public void listener(ConsumerRecord<String, ?> consumerRecord) {
-    Optional<?> kafkaMessage = Optional.of(consumerRecord.value());
-    Object message = kafkaMessage.get();
-    logger.info("Kafka Message received: {}", message);
-  }
+    /**
+     * 监听服务
+     * @param consumerRecord 参数
+     */
+    @KafkaListener(id = QueueConstants.MESSAGE_QUEUE_NAME, topics = { QueueConstants.MESSAGE_QUEUE_NAME })
+    public void listener(ConsumerRecord<String, ?> consumerRecord) {
+        Optional<?> kafkaMessage = Optional.of(consumerRecord.value());
+        Object message = kafkaMessage.get();
+        logger.info("Kafka Message received: {}", message);
+    }
+
 }

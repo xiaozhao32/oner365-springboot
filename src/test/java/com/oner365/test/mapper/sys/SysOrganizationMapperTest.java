@@ -10,18 +10,18 @@ import com.oner365.test.mapper.BaseMapperTest;
 
 /**
  * Mapper 单元测试
- * 
+ *
  * @author zhaoyong
  *
  */
 class SysOrganizationMapperTest extends BaseMapperTest {
 
-  @Test
-  void selectListByUserId() {
-    String userId = "1";
-    List<String> list = getMapper(SysOrganizationMapper.class).selectListByUserId(userId);
-    logger.info("findList:{}", list.size());
-    Assertions.assertNotEquals(0, list.size());
-  }
-  
+    @Test
+    void selectListByUserId() {
+        String userId = "1";
+        List<String> list = getMapper(SysOrganizationMapper.class).selectListByUserId(userId);
+        logger.info("findList:{}", list.size());
+        Assertions.assertNotEquals(0, list.size());
+    }
+
 }

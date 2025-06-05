@@ -15,9 +15,11 @@ import com.oner365.sys.entity.SysRoleMenuOper;
 
 /**
  * 菜单操作权限接口
+ *
  * @author zhaoyong
  */
-public interface ISysRoleMenuOperDao extends JpaRepository<SysRoleMenuOper, String>,JpaSpecificationExecutor<SysRoleMenuOper>{
+public interface ISysRoleMenuOperDao
+        extends JpaRepository<SysRoleMenuOper, String>, JpaSpecificationExecutor<SysRoleMenuOper> {
 
     /**
      * 查询操作权限列表

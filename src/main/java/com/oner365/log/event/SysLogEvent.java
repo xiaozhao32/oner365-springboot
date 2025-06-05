@@ -14,7 +14,6 @@ public class SysLogEvent {
 
     /**
      * Constructor
-     *
      * @param sysLog SysLog
      */
     public SysLogEvent(SysLogVo sysLog) {
@@ -28,4 +27,5 @@ public class SysLogEvent {
     public SysLogVo getSysLog() {
         return sysLog;
     }
+
 }

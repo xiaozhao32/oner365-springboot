@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 /**
  * 检测角色编码
- * 
+ *
  * @author zhaoyong
  *
  */
@@ -17,23 +17,23 @@ import io.swagger.annotations.ApiModelProperty;
 public class CheckRoleNameVo implements Serializable {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1L;
-    
+
     /**
      * 主键 id
      */
     @ApiModelProperty(value = "主键")
     private String id;
-    
+
     /**
      * 角色名称
      */
     @ApiModelProperty(value = "角色名称", required = true)
     @NotBlank(message = "{system.vo.check.role.name.message}")
     private String roleName;
-    
+
     /**
      * 构造方法
      */

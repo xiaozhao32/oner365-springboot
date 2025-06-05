@@ -18,7 +18,6 @@ public class SysLogListener {
 
     /**
      * Constructor
-     *
      * @param sysLogService ISysLogService
      */
     public SysLogListener(ISysLogService sysLogService) {
@@ -28,7 +27,6 @@ public class SysLogListener {
 
     /**
      * save sysLog
-     *
      * @param event SysLogEvent
      */
     @Async
@@ -37,4 +35,5 @@ public class SysLogListener {
     public void saveSysLog(SysLogEvent event) {
         this.sysLogService.save(event.getSysLog());
     }
+
 }

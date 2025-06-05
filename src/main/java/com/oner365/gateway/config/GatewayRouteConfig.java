@@ -10,6 +10,7 @@ import com.oner365.gateway.service.DynamicRouteService;
 
 /**
  * 加载动态路由信息
+ *
  * @author zhaoyong
  *
  */
@@ -23,4 +24,5 @@ public class GatewayRouteConfig implements ApplicationRunner {
     public void run(ApplicationArguments args) {
         dynamicRouteService.refreshRoute();
     }
+
 }

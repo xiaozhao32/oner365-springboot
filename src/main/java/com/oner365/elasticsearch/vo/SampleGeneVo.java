@@ -159,7 +159,7 @@ public class SampleGeneVo implements Serializable {
     public void setGeneList(JSONArray geneList) {
         this.geneList = geneList;
     }
-    
+
     /**
      * toString Method
      */

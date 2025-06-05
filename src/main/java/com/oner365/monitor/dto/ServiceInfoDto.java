@@ -92,4 +92,5 @@ public class ServiceInfoDto implements Serializable {
     public void setScheme(String scheme) {
         this.scheme = scheme;
     }
+
 }

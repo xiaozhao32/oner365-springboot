@@ -20,9 +20,13 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 class CompletableFutureTest extends BaseUtilsTest {
 
     private static final int CORE_POOL_SIZE = 5;
+
     private static final int MAXIMUM_POOL_SIZE = 10;
+
     private static final int CAPACITY = 10;
+
     private static final long KEEP_ALIVE_TIME = 0L;
+
     private static final String THREAD_NAME_FORMAT = "demo-pool-%d";
 
     @Test
@@ -40,7 +44,6 @@ class CompletableFutureTest extends BaseUtilsTest {
 
     /**
      * completableFuture
-     *
      * @param executorService service
      */
     private void completableFutureTest(ExecutorService executorService) {
@@ -61,4 +64,5 @@ class CompletableFutureTest extends BaseUtilsTest {
         logger.info("Join:{},{}", futureA.join(), futureB.join());
         logger.info("总耗时: {}", (System.currentTimeMillis() - start));
     }
+
 }

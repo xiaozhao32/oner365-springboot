@@ -31,4 +31,5 @@ class AesUtilsTest extends BaseUtilsTest {
         Assertions.assertEquals(data, decrypt2);
         AesUtils.removeKey();
     }
+
 }

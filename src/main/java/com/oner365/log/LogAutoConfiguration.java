@@ -25,7 +25,6 @@ public class LogAutoConfiguration {
 
     /**
      * Constructor
-     *
      * @param sysLogService ISysLogService
      */
     public LogAutoConfiguration(ISysLogService sysLogService) {
@@ -34,7 +33,6 @@ public class LogAutoConfiguration {
 
     /**
      * new SysLogListener
-     *
      * @return SysLogListener
      */
     @Bean
@@ -44,7 +42,6 @@ public class LogAutoConfiguration {
 
     /**
      * new SysLogAspect
-     *
      * @param publisher ApplicationEventPublisher
      * @return SysLogAspect
      */
@@ -52,4 +49,5 @@ public class LogAutoConfiguration {
     SysLogAspect sysLogAspect(ApplicationEventPublisher publisher) {
         return new SysLogAspect(publisher);
     }
+
 }

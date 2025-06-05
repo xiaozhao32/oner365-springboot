@@ -13,17 +13,18 @@ import com.oner365.data.commons.util.Pinyin4jUtils;
  */
 class Pinyin4jUtilsTest extends BaseUtilsTest {
 
-  @Test
-  void toPinYinLowercase() {
-    String str = "你好";
-    String result = Pinyin4jUtils.toPinYinLowercase(str);
-    Assertions.assertEquals("nihao", result);
-  }
-  
-  @Test
-  void toPinYinUppercase() {
-    String str = "你好";
-    String result = Pinyin4jUtils.toPinYinUppercase(str);
-    Assertions.assertEquals("NIHAO", result);
-  }
+    @Test
+    void toPinYinLowercase() {
+        String str = "你好";
+        String result = Pinyin4jUtils.toPinYinLowercase(str);
+        Assertions.assertEquals("nihao", result);
+    }
+
+    @Test
+    void toPinYinUppercase() {
+        String str = "你好";
+        String result = Pinyin4jUtils.toPinYinUppercase(str);
+        Assertions.assertEquals("NIHAO", result);
+    }
+
 }

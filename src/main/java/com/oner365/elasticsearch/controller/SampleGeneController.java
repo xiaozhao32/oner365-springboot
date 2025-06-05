@@ -25,6 +25,7 @@ import com.oner365.data.web.controller.BaseController;
 import com.oner365.elasticsearch.dto.SampleGeneDto;
 import com.oner365.elasticsearch.service.ISampleGeneElasticsearchService;
 import com.oner365.elasticsearch.vo.SampleGeneVo;
+import com.oner365.log.annotation.SysLog;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -40,71 +41,69 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/elasticsearch/sample/gene")
 public class SampleGeneController extends BaseController {
 
-  @Resource
-  private ISampleGeneElasticsearchService service;
+    @Resource
+    private ISampleGeneElasticsearchService service;
 
-  /**
-   * 列表
-   *
-   * @param data 查询条件参数
-   * @return PageInfo<SampleGeneDto>
-   */
-  @ApiOperation("1.获取列表")
-  @ApiOperationSupport(order = 1)
-  @PostMapping("/list")
-  public PageInfo<SampleGeneDto> pageList(@RequestBody QueryCriteriaBean data) {
-    return this.service.pageList(data);
-  }
-
-  /**
-   * id查询
-   *
-   * @param id 编号
-   * @return SampleGeneDto
-   */
-  @ApiOperation("2.按id查询")
-  @ApiOperationSupport(order = 2)
-  @GetMapping("/get/{id}")
-  public SampleGeneDto get(@PathVariable("id") String id) {
-    SampleGeneDto sampleGene = service.findById(id);
-    if (sampleGene != null && !DataUtils.isEmpty(sampleGene.getGeneInfo())) {
-      // 基因型格式转换
-      sampleGene.setGeneList(GeneTransFormUtils.geneFormatList(sampleGene.getGeneInfo().toJSONString()));
+    /**
+     * 列表
+     * @param data 查询条件参数
+     * @return PageInfo<SampleGeneDto>
+     */
+    @ApiOperation("1.获取列表")
+    @ApiOperationSupport(order = 1)
+    @PostMapping("/list")
+    public PageInfo<SampleGeneDto> pageList(@RequestBody QueryCriteriaBean data) {
+        return this.service.pageList(data);
     }
-    return sampleGene;
-  }
 
-  /**
-   * 保存
-   *
-   * @param sampleGeneVo 基因对象
-   * @return SampleGeneDto
-   */
-  @ApiOperation("3.保存")
-  @ApiOperationSupport(order = 3)
-  @PutMapping("/save")
-  public SampleGeneDto save(@RequestBody SampleGeneVo sampleGeneVo) {
-    if (!sampleGeneVo.getGeneList().isEmpty()) {
-      // 基因型格式转换
-      String jsonArray = JSON.toJSONString(sampleGeneVo.getGeneList());
-      sampleGeneVo.setGeneInfo(GeneTransFormUtils.geneFormatString(jsonArray));
-      String s = GeneTransFormUtils.geneTrimString(sampleGeneVo.getGeneInfo().toJSONString());
-      sampleGeneVo.setMatchJson(JSON.parseObject(s));
+    /**
+     * id查询
+     * @param id 编号
+     * @return SampleGeneDto
+     */
+    @ApiOperation("2.按id查询")
+    @ApiOperationSupport(order = 2)
+    @GetMapping("/get/{id}")
+    public SampleGeneDto get(@PathVariable String id) {
+        SampleGeneDto sampleGene = service.findById(id);
+        if (sampleGene != null && !DataUtils.isEmpty(sampleGene.getGeneInfo())) {
+            // 基因型格式转换
+            sampleGene.setGeneList(GeneTransFormUtils.geneFormatList(sampleGene.getGeneInfo().toJSONString()));
+        }
+        return sampleGene;
     }
-    return service.save(sampleGeneVo);
-  }
 
-  /**
-   * 删除
-   *
-   * @param ids 编号
-   * @return Integer
-   */
-  @ApiOperation("4.删除")
-  @ApiOperationSupport(order = 4)
-  @DeleteMapping("/delete")
-  public List<Boolean> delete(@RequestBody String... ids) {
-    return Arrays.stream(ids).map(id -> service.deleteById(id)).collect(Collectors.toList());
-  }
+    /**
+     * 保存
+     * @param sampleGeneVo 基因对象
+     * @return SampleGeneDto
+     */
+    @ApiOperation("3.保存")
+    @ApiOperationSupport(order = 3)
+    @SysLog("保存基因对象")
+    @PutMapping("/save")
+    public SampleGeneDto save(@RequestBody SampleGeneVo sampleGeneVo) {
+        if (!sampleGeneVo.getGeneList().isEmpty()) {
+            // 基因型格式转换
+            String jsonArray = JSON.toJSONString(sampleGeneVo.getGeneList());
+            sampleGeneVo.setGeneInfo(GeneTransFormUtils.geneFormatString(jsonArray));
+            String s = GeneTransFormUtils.geneTrimString(sampleGeneVo.getGeneInfo().toJSONString());
+            sampleGeneVo.setMatchJson(JSON.parseObject(s));
+        }
+        return service.save(sampleGeneVo);
+    }
+
+    /**
+     * 删除
+     * @param ids 编号
+     * @return Integer
+     */
+    @ApiOperation("4.删除")
+    @ApiOperationSupport(order = 4)
+    @SysLog("删除基因对象")
+    @DeleteMapping("/delete")
+    public List<Boolean> delete(@RequestBody String... ids) {
+        return Arrays.stream(ids).map(id -> service.deleteById(id)).collect(Collectors.toList());
+    }
 
 }

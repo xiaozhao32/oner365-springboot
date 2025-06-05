@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 /**
  * 登录数据对象
- * 
+ *
  * @author zhaoyong
  *
  */
@@ -23,49 +23,49 @@ public class LoginUserDto implements Serializable {
      */
     @ApiModelProperty(value = "token")
     private String accessToken;
-    
+
     /**
      * token有效期
      */
     @ApiModelProperty(value = "token有效期")
     private Long expireTime;
-    
+
     /**
      * 账号id
      */
     @ApiModelProperty(value = "账号id")
     private String userId;
-    
+
     /**
      * 真实姓名
      */
     @ApiModelProperty(value = "真实姓名")
     private String realName;
-    
+
     /**
      * 是否管理员
      */
     @ApiModelProperty(value = "是否管理员")
     private String isAdmin;
-    
+
     /**
      * 头像
      */
     @ApiModelProperty(value = "头像")
     private String avatar;
-    
+
     /**
      * 角色信息
      */
     @ApiModelProperty(value = "角色信息")
     private List<String> roles = new ArrayList<>();
-    
+
     /**
      * 职位信息
      */
     @ApiModelProperty(value = "职位信息")
     private List<String> jobs = new ArrayList<>();
-    
+
     /**
      * 机构信息
      */

@@ -43,9 +43,9 @@ public class TransportClientDto implements Serializable {
     public TransportClientDto() {
         super();
     }
-    
+
     public String getHostname() {
-      return hostname;
+        return hostname;
     }
 
     public void setHostname(String hostname) {

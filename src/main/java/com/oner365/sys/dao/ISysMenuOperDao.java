@@ -11,12 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.oner365.data.commons.exception.ProjectRuntimeException;
 import com.oner365.sys.entity.SysMenuOper;
 
-
 /**
  * 菜单操作接口
+ *
  * @author zhaoyong
  */
-public interface ISysMenuOperDao extends JpaRepository<SysMenuOper, String>,JpaSpecificationExecutor<SysMenuOper>{
+public interface ISysMenuOperDao extends JpaRepository<SysMenuOper, String>, JpaSpecificationExecutor<SysMenuOper> {
 
     /**
      * 根据菜单主键查询
@@ -43,4 +43,5 @@ public interface ISysMenuOperDao extends JpaRepository<SysMenuOper, String>,JpaS
     @Modifying(clearAutomatically = true)
     @Query(value = "delete from SysMenuOper where sysMenuOperation.id=?1 ")
     void deleteByOperationId(String operationId);
+
 }

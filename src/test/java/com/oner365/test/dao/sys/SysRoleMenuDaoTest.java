@@ -19,17 +19,17 @@ import com.oner365.test.dao.BaseDaoTest;
  */
 @SpringBootTest
 class SysRoleMenuDaoTest extends BaseDaoTest {
-  
-  @Resource
-  private ISysRoleMenuDao dao;
-  
-  @Test
-  void findUserJobByUserId() {
-    String roleId = "1";
-    String menuTypeId = "1";
-    List<String> result = dao.findMenuListByRoleId(roleId, menuTypeId);
-    logger.info("result:{}", result.size());
-    Assertions.assertNotEquals(0, result.size());
-  }
+
+    @Resource
+    private ISysRoleMenuDao dao;
+
+    @Test
+    void findUserJobByUserId() {
+        String roleId = "1";
+        String menuTypeId = "1";
+        List<String> result = dao.findMenuListByRoleId(roleId, menuTypeId);
+        logger.info("result:{}", result.size());
+        Assertions.assertNotEquals(0, result.size());
+    }
 
 }

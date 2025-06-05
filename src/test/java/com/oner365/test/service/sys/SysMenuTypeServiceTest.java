@@ -25,39 +25,39 @@ import com.oner365.test.service.BaseServiceTest;
 @SpringBootTest
 class SysMenuTypeServiceTest extends BaseServiceTest {
 
-  @Resource
-  private ISysMenuTypeService service;
+    @Resource
+    private ISysMenuTypeService service;
 
-  @RepeatedTest(value = 2)
-  void findList() {
-    QueryCriteriaBean paramData = new QueryCriteriaBean();
-    List<SysMenuTypeDto> list = service.findList(paramData);
-    logger.info("findList:{}", list.size());
-    Assertions.assertNotEquals(0, list.size());
-  }
+    @RepeatedTest(value = 2)
+    void findList() {
+        QueryCriteriaBean paramData = new QueryCriteriaBean();
+        List<SysMenuTypeDto> list = service.findList(paramData);
+        logger.info("findList:{}", list.size());
+        Assertions.assertNotEquals(0, list.size());
+    }
 
-  @Test
-  void pageList() {
-    QueryCriteriaBean paramData = new QueryCriteriaBean();
-    PageInfo<SysMenuTypeDto> list = service.pageList(paramData);
-    logger.info("pageList:{}", list.getSize());
-    Assertions.assertNotEquals(0, list.getSize());
-  }
+    @Test
+    void pageList() {
+        QueryCriteriaBean paramData = new QueryCriteriaBean();
+        PageInfo<SysMenuTypeDto> list = service.pageList(paramData);
+        logger.info("pageList:{}", list.getSize());
+        Assertions.assertNotEquals(0, list.getSize());
+    }
 
-  @Test
-  void getById() {
-    String id = "1";
-    SysMenuTypeDto entity = service.getById(id);
-    logger.info("getById:{}", JSON.toJSONString(entity));
-    Assertions.assertNotNull(entity);
-  }
+    @Test
+    void getById() {
+        String id = "1";
+        SysMenuTypeDto entity = service.getById(id);
+        logger.info("getById:{}", JSON.toJSONString(entity));
+        Assertions.assertNotNull(entity);
+    }
 
-  @Test
-  void getMenuTypeByTypeCode() {
-    String code = "nt_sys";
-    SysMenuTypeDto entity = service.getMenuTypeByTypeCode(code);
-    logger.info("getMenuTypeByTypeCode:{}", JSON.toJSONString(entity));
-    Assertions.assertNotNull(entity);
-  }
+    @Test
+    void getMenuTypeByTypeCode() {
+        String code = "nt_sys";
+        SysMenuTypeDto entity = service.getMenuTypeByTypeCode(code);
+        logger.info("getMenuTypeByTypeCode:{}", JSON.toJSONString(entity));
+        Assertions.assertNotNull(entity);
+    }
 
 }

@@ -18,9 +18,9 @@ import org.springframework.lang.NonNull;
 @EnableElasticsearchRepositories(basePackages = "com.oner365.elasticsearch.repository")
 public class ElasticsearchInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 
-  @Override
-  public void initialize(@NonNull ConfigurableApplicationContext applicationContext) {
-    System.setProperty("es.set.netty.runtime.available.processors", "false");
-  }
+    @Override
+    public void initialize(@NonNull ConfigurableApplicationContext applicationContext) {
+        System.setProperty("es.set.netty.runtime.available.processors", "false");
+    }
 
 }

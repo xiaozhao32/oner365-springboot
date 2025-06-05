@@ -2,10 +2,11 @@ package com.oner365.monitor.exception;
 
 /**
  * 计划策略异常
- * 
+ *
  * @author zhaoyong
  */
 public class TaskException extends Exception {
+
     private static final long serialVersionUID = 1L;
 
     private final Code code;
@@ -24,6 +25,7 @@ public class TaskException extends Exception {
     }
 
     public enum Code {
+
         /* 任务已存在 */
         TASK_EXISTS,
         /* 任务不存在 */
@@ -36,5 +38,7 @@ public class TaskException extends Exception {
         CONFIG_ERROR,
         /* 任务不正确 */
         TASK_NODE_NOT_AVAILABLE
+
     }
+
 }

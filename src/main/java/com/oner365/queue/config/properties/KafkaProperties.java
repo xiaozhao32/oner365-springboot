@@ -5,42 +5,42 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * Kafka配置类
- * 
+ *
  * @author zhaoyong
  */
 @ConfigurationProperties(prefix = "spring.kafka")
 public class KafkaProperties {
 
-  /**
-   * topic
-   */
-  @Value("${spring.kafka.template.default-topic}")
-  private String topic;
-  
-  /**
-   * group
-   */
-  @Value("${spring.kafka.consumer.group-id}")
-  private String group;
-  
-  public KafkaProperties() {
-    super();
-  }
+    /**
+     * topic
+     */
+    @Value("${spring.kafka.template.default-topic}")
+    private String topic;
 
-  public String getTopic() {
-    return topic;
-  }
+    /**
+     * group
+     */
+    @Value("${spring.kafka.consumer.group-id}")
+    private String group;
 
-  public void setTopic(String topic) {
-    this.topic = topic;
-  }
+    public KafkaProperties() {
+        super();
+    }
 
-  public String getGroup() {
-    return group;
-  }
+    public String getTopic() {
+        return topic;
+    }
 
-  public void setGroup(String group) {
-    this.group = group;
-  }
-  
+    public void setTopic(String topic) {
+        this.topic = topic;
+    }
+
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
+    }
+
 }

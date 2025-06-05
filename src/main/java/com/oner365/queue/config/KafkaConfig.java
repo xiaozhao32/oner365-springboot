@@ -21,9 +21,9 @@ import com.oner365.queue.config.properties.KafkaProperties;
 @EnableConfigurationProperties({ KafkaProperties.class })
 public class KafkaConfig {
 
-  public KafkaConfig() {
-    Logger logger = LoggerFactory.getLogger(KafkaConfig.class);
-    logger.info("Queue Type: {}", QueueEnum.KAFKA);
-  }
+    public KafkaConfig() {
+        Logger logger = LoggerFactory.getLogger(KafkaConfig.class);
+        logger.info("Queue Type: {}", QueueEnum.KAFKA);
+    }
 
 }

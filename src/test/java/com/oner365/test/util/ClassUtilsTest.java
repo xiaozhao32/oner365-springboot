@@ -22,25 +22,28 @@ import com.oner365.data.commons.util.ClassesUtil;
  */
 class ClassUtilsTest extends BaseUtilsTest {
 
-  @Test
-  void test() {
-//       BaseEnum.class.;
-    Reflections ref = new Reflections("com.oner365.data.commons.enums");
-    List<Class<? extends BaseEnum>> childList = new ArrayList<>(ref.getSubTypesOf(BaseEnum.class));
-    Assertions.assertNotEquals(0, childList.size());
-    childList.forEach(clazz -> {
-      try {
-        List<Field> fieldList = Arrays.asList(clazz.getDeclaredFields());
-        fieldList = fieldList.stream().filter(field -> !field.getGenericType().getTypeName().contains("[")).collect(Collectors.toList());
-        fieldList.forEach(field -> {
-          if(ClassesUtil.isEnum(field.getGenericType().getTypeName())) {
-            logger.info("Enum name:{}", field.getName());
-          }
+    @Test
+    void test() {
+        // BaseEnum.class.;
+        Reflections ref = new Reflections("com.oner365.data.commons.enums");
+        List<Class<? extends BaseEnum>> childList = new ArrayList<>(ref.getSubTypesOf(BaseEnum.class));
+        Assertions.assertNotEquals(0, childList.size());
+        childList.forEach(clazz -> {
+            try {
+                List<Field> fieldList = Arrays.asList(clazz.getDeclaredFields());
+                fieldList = fieldList.stream()
+                    .filter(field -> !field.getGenericType().getTypeName().contains("["))
+                    .collect(Collectors.toList());
+                fieldList.forEach(field -> {
+                    if (ClassesUtil.isEnum(field.getGenericType().getTypeName())) {
+                        logger.info("Enum name:{}", field.getName());
+                    }
+                });
+            }
+            catch (SecurityException e) {
+                logger.error("SecurityException error", e);
+            }
         });
-      } catch (SecurityException e) {
-        logger.error("SecurityException error", e);
-      }
-    });
-  }
+    }
 
 }

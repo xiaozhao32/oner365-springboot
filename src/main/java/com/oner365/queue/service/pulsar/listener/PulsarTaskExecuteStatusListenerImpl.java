@@ -30,36 +30,38 @@ import com.oner365.queue.condition.PulsarCondition;
 @Conditional(PulsarCondition.class)
 public class PulsarTaskExecuteStatusListenerImpl implements MessageListener<UpdateTaskExecuteStatusDto>, BaseService {
 
-  private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(PulsarTaskExecuteStatusListenerImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PulsarTaskExecuteStatusListenerImpl.class);
 
-  @Resource
-  private ISysTaskService sysTaskService;
+    @Resource
+    private ISysTaskService sysTaskService;
 
-  @Override
-  public void received(Consumer<UpdateTaskExecuteStatusDto> consumer, Message<UpdateTaskExecuteStatusDto> msg) {
-    try {
-      String data = Arrays.toString(msg.getData());
-      LOGGER.info("Pulsar consumer data: {}, topic: {}", data, consumer.getTopic());
-      consumer.acknowledge(msg);
-    } catch (PulsarClientException e) {
-      consumer.negativeAcknowledge(msg);
-    }
-    // business
-    UpdateTaskExecuteStatusDto updateTask = msg.getValue();
-    if (updateTask != null) {
-      SysTaskDto sysTask = sysTaskService.selectTaskById(updateTask.getTaskId());
-      if (sysTask != null) {
-        sysTask.setExecuteStatus(updateTask.getExecuteStatus());
+    @Override
+    public void received(Consumer<UpdateTaskExecuteStatusDto> consumer, Message<UpdateTaskExecuteStatusDto> msg) {
         try {
-          sysTaskService.save(convert(sysTask, SysTaskVo.class));
-        } catch (Exception e) {
-          LOGGER.error("save error", e);
+            String data = Arrays.toString(msg.getData());
+            LOGGER.info("Pulsar consumer data: {}, topic: {}", data, consumer.getTopic());
+            consumer.acknowledge(msg);
         }
-      }
-    }
+        catch (PulsarClientException e) {
+            consumer.negativeAcknowledge(msg);
+        }
+        // business
+        UpdateTaskExecuteStatusDto updateTask = msg.getValue();
+        if (updateTask != null) {
+            SysTaskDto sysTask = sysTaskService.selectTaskById(updateTask.getTaskId());
+            if (sysTask != null) {
+                sysTask.setExecuteStatus(updateTask.getExecuteStatus());
+                try {
+                    sysTaskService.save(convert(sysTask, SysTaskVo.class));
+                }
+                catch (Exception e) {
+                    LOGGER.error("save error", e);
+                }
+            }
+        }
 
-  }
+    }
 
 }

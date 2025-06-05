@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 /**
  * 文件对象
+ *
  * @author zhaoyong
  *
  */
@@ -35,7 +36,7 @@ public class SysFileStorageDto implements Serializable {
      */
     @ApiModelProperty(value = "显示名称")
     private String displayName;
-    
+
     /**
      * 存储方式
      */
@@ -224,4 +225,5 @@ public class SysFileStorageDto implements Serializable {
     public void setFileStorage(StorageEnum fileStorage) {
         this.fileStorage = fileStorage;
     }
+
 }

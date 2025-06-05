@@ -31,14 +31,16 @@ public abstract class AbstractQuartzJob implements Job {
         Object object = context.getMergedJobDataMap().get(ScheduleConstants.TASK_PROPERTIES);
         SysTaskDto sysTask;
         if (object instanceof SysTaskDto) {
-          sysTask = (SysTaskDto)object;
-        } else {
-          sysTask = JSON.toJavaObject(JSON.parseObject(object.toString()), SysTaskDto.class);
+            sysTask = (SysTaskDto) object;
+        }
+        else {
+            sysTask = JSON.toJavaObject(JSON.parseObject(object.toString()), SysTaskDto.class);
         }
         try {
             before(context, sysTask);
             doExecute(context, sysTask);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             LOGGER.error("任务执行异常  - ：", e);
         }
         after(context, sysTask);
@@ -46,9 +48,8 @@ public abstract class AbstractQuartzJob implements Job {
 
     /**
      * 执行前
-     *
      * @param context 工作执行上下文对象
-     * @param sysTask  系统计划任务
+     * @param sysTask 系统计划任务
      */
     protected void before(JobExecutionContext context, SysTaskDto sysTask) {
         THREAD_LOCAL.set(DateUtil.getDate());
@@ -56,8 +57,7 @@ public abstract class AbstractQuartzJob implements Job {
 
     /**
      * 执行后
-     *
-     * @param context        工作执行上下文对象
+     * @param context 工作执行上下文对象
      * @param sysTask 系统计划任务
      */
     protected void after(JobExecutionContext context, SysTaskDto sysTask) {
@@ -66,9 +66,9 @@ public abstract class AbstractQuartzJob implements Job {
 
     /**
      * 执行方法，由子类重载
-     *
      * @param context 工作执行上下文对象
-     * @param sysTask  系统计划任务
+     * @param sysTask 系统计划任务
      */
     protected abstract void doExecute(JobExecutionContext context, SysTaskDto sysTask);
+
 }
