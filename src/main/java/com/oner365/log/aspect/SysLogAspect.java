@@ -3,12 +3,16 @@ package com.oner365.log.aspect;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSON;
 import com.oner365.data.commons.util.DataUtils;
@@ -67,12 +71,27 @@ public class SysLogAspect {
         if (!DataUtils.isEmpty(paramsArray)) {
             params = Arrays.stream(paramsArray)
                 .filter(o -> !DataUtils.isEmpty(o))
+                .filter(o -> excludeFilter(o))
                 .map(JSON::toJSON)
                 .filter(jsonObj -> !DataUtils.isEmpty(jsonObj))
                 .map(jsonObj -> jsonObj.toString() + " ")
                 .collect(Collectors.joining());
         }
         return params.trim();
+    }
+    
+    /**
+     * 过滤参数
+     * 
+     * @param object 请求参数
+     * @return boolean
+     */
+    private boolean excludeFilter(Object object) {
+        if (object instanceof MultipartFile || object instanceof HttpServletRequest
+                || object instanceof HttpServletResponse) {
+            return false;
+        }
+        return true;
     }
 
 }
