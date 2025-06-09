@@ -186,7 +186,7 @@ public class ApiController extends BaseController {
     @GetMapping("/i18n/messages")
     public JSONObject testMessages(@RequestParam String message, @RequestParam String language) {
         Locale locale = Locale.of(language);
-        String name = messageSource.getMessage(message, null, locale);
+        String name = messageSource.getMessage(message, null, message, locale);
 
         JSONObject result = new JSONObject();
         result.put("language", locale.toLanguageTag());
