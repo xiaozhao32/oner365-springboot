@@ -56,7 +56,7 @@ class DateUtilsTest extends BaseUtilsTest {
 
     @Test
     void formatTest() {
-        String result = DateUtil.format(DateUtil.getDate(), DateUtil.FULL_TIME_FORMAT);
+        String result = DateUtil.dateToString(DateUtil.getDate(), DateUtil.FULL_TIME_FORMAT);
         logger.info("date: {}", result);
         Assertions.assertNotNull(result);
     }
