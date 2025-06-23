@@ -43,16 +43,17 @@
 
 		<org.springframework.integration.version>6.5.0</org.springframework.integration.version>
 		<org.springframework.statemachine.version>4.0.0</org.springframework.statemachine.version>
-		<org.springframework.security.version>6.5.0</org.springframework.security.version>
-		<org.springframework.boot.version>3.5.0</org.springframework.boot.version>
-		<org.springframework.version>6.2.7</org.springframework.version>
-		<org.springframework.kafka.version>3.3.6</org.springframework.kafka.version>
-		<org.springdoc.version>2.8.6</org.springdoc.version>
+		<org.springframework.security.version>6.5.1</org.springframework.security.version>
+		<org.springframework.boot.version>3.5.3</org.springframework.boot.version>
+		<org.springframework.data.version>3.5.1</org.springframework.data.version>
+		<org.springframework.version>6.2.8</org.springframework.version>
+		<org.springframework.kafka.version>3.3.7</org.springframework.kafka.version>
+		<org.springdoc.version>2.8.9</org.springdoc.version>
 
-		<org.apache.logging.log4j.version>2.24.3</org.apache.logging.log4j.version>
+		<org.apache.logging.log4j.version>2.25.0</org.apache.logging.log4j.version>
 		<org.apache.httpclient.version>4.5.14</org.apache.httpclient.version>
 		<org.apache.httpcore.version>4.4.16</org.apache.httpcore.version>
-		<org.apache.tomcat.version>10.1.41</org.apache.tomcat.version>
+		<org.apache.tomcat.version>10.1.42</org.apache.tomcat.version>
 		<org.apache.pulsar.version>4.0.5</org.apache.pulsar.version>
 		<org.apache.kafka.version>4.0.0</org.apache.kafka.version>
 		<org.apache.poi.version>5.4.1</org.apache.poi.version>
@@ -62,7 +63,7 @@
 		
 		<commons.collections.version>3.2.2</commons.collections.version>
 		<commons.beanutils.version>1.11.0</commons.beanutils.version>
-		<commons.fileupload.version>1.5</commons.fileupload.version>
+		<commons.fileupload.version>1.6.0</commons.fileupload.version>
 		<commons.compress.version>1.27.1</commons.compress.version>
 		<commons.logging.version>1.3.5</commons.logging.version>
 		<commons.codec.version>1.18.0</commons.codec.version>
@@ -72,8 +73,8 @@
 		<commons.lang.version>2.6</commons.lang.version>
 		<commons.io.version>2.19.0</commons.io.version>
 
-		<org.hibernate.validator.version>8.0.2.Final</org.hibernate.validator.version>
-		<org.hibernate.version>6.6.17.Final</org.hibernate.version>
+		<org.hibernate.validator.version>9.0.1.Final</org.hibernate.validator.version>
+		<org.hibernate.version>6.6.18.Final</org.hibernate.version>
 		<org.mybatis.spring.boot.version>3.0.4</org.mybatis.spring.boot.version>
 		<org.mybatis.version>3.5.19</org.mybatis.version>
 
@@ -769,6 +770,12 @@
 		    <artifactId>spring-boot-starter-thymeleaf</artifactId>
 		    <version>${org.springframework.boot.version}</version>
 		</dependency>
+		
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-validation</artifactId>
+		    <version>${org.springframework.boot.version}</version>
+		</dependency>
 
 		<!-- spring test -->
 		<dependency>
@@ -830,25 +837,25 @@
 		<dependency>
 		    <groupId>org.springframework.data</groupId>
 		    <artifactId>spring-data-commons</artifactId>
-		    <version>${org.springframework.boot.version}</version>
+		    <version>${org.springframework.data.version}</version>
 		</dependency>
 
 		<dependency>
 		    <groupId>org.springframework.data</groupId>
 		    <artifactId>spring-data-jpa</artifactId>
-		    <version>${org.springframework.boot.version}</version>
+		    <version>${org.springframework.data.version}</version>
 		</dependency>
 
 		<dependency>
 		    <groupId>org.springframework.data</groupId>
 		    <artifactId>spring-data-redis</artifactId>
-		    <version>${org.springframework.boot.version}</version>
+		    <version>${org.springframework.data.version}</version>
 		</dependency>
 
 		<dependency>
 		    <groupId>org.springframework.data</groupId>
 		    <artifactId>spring-data-keyvalue</artifactId>
-		    <version>${org.springframework.boot.version}</version>
+		    <version>${org.springframework.data.version}</version>
 		</dependency>
 
 		<!-- spring mybatis -->
