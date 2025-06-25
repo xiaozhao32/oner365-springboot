@@ -121,7 +121,7 @@
 		<io.hypersistence.version>3.9.10</io.hypersistence.version>
 		<io.jsonwebtoken.version>0.9.1</io.jsonwebtoken.version>
 		<io.micrometer.version>1.14.6</io.micrometer.version>
-		<io.netty.version>4.2.1.Final</io.netty.version>
+		<io.netty.version>4.2.2.Final</io.netty.version>
 		<io.minio.version>8.5.17</io.minio.version>
 
 		<net.logstash.logback.version>8.0</net.logstash.logback.version>

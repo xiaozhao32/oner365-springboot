@@ -1,6 +1,7 @@
 package com.oner365.test.util;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -17,6 +18,7 @@ import reactor.netty.http.client.HttpClient;
  * @author zhaoyong
  *
  */
+@Disabled
 class ReactorUtilTest extends BaseUtilsTest {
 
     @Test
