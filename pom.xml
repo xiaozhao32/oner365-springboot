@@ -70,11 +70,11 @@
 		<commons.pool2.version>2.12.1</commons.pool2.version>
 		<commons.lang3.version>3.17.0</commons.lang3.version>
 		<commons.exec.version>1.5.0</commons.exec.version>
-		<commons.lang.version>2.6</commons.lang.version>
 		<commons.io.version>2.19.0</commons.io.version>
 
 		<org.hibernate.validator.version>9.0.1.Final</org.hibernate.validator.version>
 		<org.hibernate.version>6.6.18.Final</org.hibernate.version>
+		<org.jboss.logging.version>3.6.1.Final</org.jboss.logging.version>
 		<org.mybatis.spring.boot.version>3.0.4</org.mybatis.spring.boot.version>
 		<org.mybatis.version>3.5.19</org.mybatis.version>
 
@@ -84,7 +84,7 @@
 		<ch.qos.logback.version>1.5.18</ch.qos.logback.version>
 
 		<org.jetbrains.kotlin.version>2.0.21</org.jetbrains.kotlin.version>
-		<org.junit.platform.version>1.13.0</org.junit.platform.version>
+		<org.junit.platform.version>1.13.1</org.junit.platform.version>
 		<org.javassist.version>3.30.2-GA</org.javassist.version>
 		<org.freemarker.version>2.3.34</org.freemarker.version>
 		<org.reflections.version>0.10.2</org.reflections.version>
@@ -94,7 +94,7 @@
 		<org.glassfish.jaxb.version>4.0.5</org.glassfish.jaxb.version>
 		<org.json.version>20250517</org.json.version>
 		<org.eclipse.paho.version>1.2.5</org.eclipse.paho.version>
-
+		
 		<org.postgresql.version>42.7.6</org.postgresql.version>
 		<com.oracle.version>23.2.0.0</com.oracle.version>
 		<com.dameng.version>8.1.1.49</com.dameng.version>
@@ -136,7 +136,7 @@
 		<javax.servlet.version>4.0.1</javax.servlet.version>
 		<javax.xml.bind.version>2.3.1</javax.xml.bind.version>
 		
-		<cn.smallbun.screw.version>1.0.5</cn.smallbun.screw.version>
+		<cn.smallbun.screw.version>1.0.6-SNAPSHOT</cn.smallbun.screw.version>
 		<redis.clients.version>5.2.0</redis.clients.version>
 		<joda.time.version>2.13.1</joda.time.version>
 		<junit.version>4.13.2</junit.version>
@@ -238,11 +238,6 @@
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>${commons.io.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-lang</groupId>
-			<artifactId>commons-lang</artifactId>
-			<version>${commons.lang.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -596,6 +591,11 @@
 		    <groupId>org.eclipse.paho</groupId>
 		    <artifactId>org.eclipse.paho.client.mqttv3</artifactId>
 		    <version>${org.eclipse.paho.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.logging</groupId>
+			<artifactId>jboss-logging</artifactId>
+			<version>${org.jboss.logging.version}</version>
 		</dependency>
 
 		<!-- freemarker -->
