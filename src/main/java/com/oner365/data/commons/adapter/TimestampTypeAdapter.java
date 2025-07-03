@@ -34,13 +34,13 @@ public class TimestampTypeAdapter implements JsonSerializer<Timestamp>, JsonDese
     }
 
     @Override
-    public JsonElement serialize(Timestamp src, Type arg1, JsonSerializationContext arg2) {
+    public JsonElement serialize(Timestamp src, Type type, JsonSerializationContext context) {
         String dateFormatAsString = SIMPLE_DATE_FORMAT.get().format(new Date(src.getTime()));
         return new JsonPrimitive(dateFormatAsString);
     }
 
     @Override
-    public Timestamp deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) {
+    public Timestamp deserialize(JsonElement json, Type type, JsonDeserializationContext context) {
         if (!(json instanceof JsonPrimitive)) {
             throw new JsonParseException("The date should be a string value");
         }

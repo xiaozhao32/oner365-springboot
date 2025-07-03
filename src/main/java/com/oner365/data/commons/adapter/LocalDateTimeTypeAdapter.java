@@ -34,13 +34,13 @@ public class LocalDateTimeTypeAdapter implements JsonSerializer<LocalDateTime>, 
     }
 
     @Override
-    public JsonElement serialize(LocalDateTime src, Type arg1, JsonSerializationContext arg2) {
+    public JsonElement serialize(LocalDateTime src, Type type, JsonSerializationContext context) {
         String dateFormatAsString = SIMPLE_DATE_FORMAT.get().format(new Date(DateUtil.localDateTimeToDate(src).getTime()));
         return new JsonPrimitive(dateFormatAsString);
     }
 
     @Override
-    public LocalDateTime deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) {
+    public LocalDateTime deserialize(JsonElement json, Type type, JsonDeserializationContext context) {
         if (!(json instanceof JsonPrimitive)) {
             throw new JsonParseException("The localDateTime should be a string value");
         }
