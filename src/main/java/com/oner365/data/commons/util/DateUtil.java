@@ -188,7 +188,9 @@ public class DateUtil {
     public static String dateToString(Date date, String fm) {
         try {
             LocalDateTime localDateTime = DateUtil.dateToLocalDateTime(date);
-            return localDateTime.format(DateTimeFormatter.ofPattern(fm));
+            if (localDateTime != null) {
+                return localDateTime.format(DateTimeFormatter.ofPattern(fm));	
+            }
         }
         catch (Exception e) {
             LOGGER.error("Error dateToString: ", e);

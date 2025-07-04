@@ -114,7 +114,6 @@ public class CacheController extends BaseController {
     /**
      * 清理缓存
      * @param index db
-     * @param nodes
      * @return 是否成功
      */
     @Operation(summary = "3.清除缓存")

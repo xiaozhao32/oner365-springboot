@@ -71,7 +71,7 @@ public class SysLogAspect {
         if (!DataUtils.isEmpty(paramsArray)) {
             params = Arrays.stream(paramsArray)
                 .filter(o -> !DataUtils.isEmpty(o))
-                .filter(o -> excludeFilter(o))
+                .filter(this::excludeFilter)
                 .map(JSON::toJSON)
                 .filter(jsonObj -> !DataUtils.isEmpty(jsonObj))
                 .map(jsonObj -> jsonObj.toString() + " ")
@@ -79,19 +79,16 @@ public class SysLogAspect {
         }
         return params.trim();
     }
-    
+
     /**
      * 过滤参数
-     * 
+     *
      * @param object 请求参数
      * @return boolean
      */
     private boolean excludeFilter(Object object) {
-        if (object instanceof MultipartFile || object instanceof HttpServletRequest
-                || object instanceof HttpServletResponse) {
-            return false;
-        }
-        return true;
+        return !(object instanceof MultipartFile) && !(object instanceof HttpServletRequest)
+                && !(object instanceof HttpServletResponse);
     }
 
 }
