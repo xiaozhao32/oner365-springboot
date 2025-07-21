@@ -33,6 +33,26 @@ spring:
     username: root
     password: Nqsky1130
     
+    druid:
+      test-while-idle: true
+      initial-size: 1
+      max-active: 10
+      min-idle: 1
+      max-wait: 3000
+      
+      # druid 监控
+      filters: stat, slf4j
+      stat-view-servlet:
+        enabled: true
+        allow: 127.0.0.1
+        login-username: ${spring.datasource.username}
+        login-password: ${spring.datasource.password}
+        reset-enable: false 
+      web-stat-filter:
+        enabled: true
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+      use-ping-method: false
+    
   # servlet file
   servlet:
     multipart:

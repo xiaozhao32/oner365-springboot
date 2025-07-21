@@ -45,8 +45,8 @@
 		<org.springframework.statemachine.version>4.0.0</org.springframework.statemachine.version>
 		<org.springframework.security.version>6.5.1</org.springframework.security.version>
 		<org.springframework.boot.version>3.5.3</org.springframework.boot.version>
-		<org.springframework.data.version>3.5.1</org.springframework.data.version>
-		<org.springframework.version>6.2.8</org.springframework.version>
+		<org.springframework.data.version>3.5.2</org.springframework.data.version>
+		<org.springframework.version>6.2.9</org.springframework.version>
 		<org.springframework.kafka.version>3.3.7</org.springframework.kafka.version>
 		<org.springdoc.version>2.8.9</org.springdoc.version>
 
@@ -101,7 +101,7 @@
 		<com.mysql.version>9.3.0</com.mysql.version>
 
 		<com.alibaba.fastjson.version>1.2.83</com.alibaba.fastjson.version>
-		<com.alibaba.druid.version>1.2.23</com.alibaba.druid.version>
+		<com.alibaba.druid.version>1.2.25</com.alibaba.druid.version>
 
 		<com.fasterxml.classmate.version>1.7.0</com.fasterxml.classmate.version>
 		<com.fasterxml.jackson.version>2.19.1</com.fasterxml.jackson.version>
@@ -205,7 +205,7 @@
 		<!-- druid -->
 		<dependency>
 			<groupId>com.alibaba</groupId>
-			<artifactId>druid-spring-boot-starter</artifactId>
+			<artifactId>druid-spring-boot-3-starter</artifactId>
 			<version>${com.alibaba.druid.version}</version>
 		</dependency>
 
