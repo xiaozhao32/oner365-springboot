@@ -12,6 +12,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSON;
+import com.oner365.data.commons.constants.PublicConstants;
 import com.oner365.data.commons.util.DataUtils;
 import com.oner365.log.event.SysLogEvent;
 import com.oner365.log.util.SysLogUtils;
@@ -67,7 +68,7 @@ public class SysLogAspect {
     }
 
     private String getParams(Object[] paramsArray) {
-        String params = "";
+        String params = PublicConstants.EMPTY;
         if (!DataUtils.isEmpty(paramsArray)) {
             params = Arrays.stream(paramsArray)
                 .filter(o -> !DataUtils.isEmpty(o))
