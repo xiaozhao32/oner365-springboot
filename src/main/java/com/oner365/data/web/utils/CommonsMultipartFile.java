@@ -16,6 +16,8 @@ import org.springframework.core.log.LogFormatUtils;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.oner365.data.commons.constants.PublicConstants;
+
 /**
  * {@link MultipartFile} implementation for Apache Commons FileUpload.
  *
@@ -77,7 +79,7 @@ public class CommonsMultipartFile implements MultipartFile, Serializable {
         String filename = this.fileItem.getName();
         if (filename == null) {
             // Should never happen.
-            return "";
+            return PublicConstants.EMPTY;
         }
         if (this.preserveFilename) {
             // Do not try to strip off a path...
@@ -151,7 +153,7 @@ public class CommonsMultipartFile implements MultipartFile, Serializable {
                     action = (isAvailable() ? "copied" : "moved");
                 }
                 return "Part '" + getName() + "',  filename '" + getOriginalFilename() + "'"
-                        + (traceOn ? ", stored " + getStorageDescription() : "") + ": " + action + " to ["
+                        + (traceOn ? ", stored " + getStorageDescription() : PublicConstants.EMPTY) + ": " + action + " to ["
                         + dest.getAbsolutePath() + "]";
             });
         }
@@ -213,8 +215,8 @@ public class CommonsMultipartFile implements MultipartFile, Serializable {
     @Override
     public String toString() {
         return "MultipartFile[field=\"" + this.fileItem.getFieldName() + "\""
-                + (this.fileItem.getName() != null ? ", filename=" + this.fileItem.getName() : "")
-                + (this.fileItem.getContentType() != null ? ", contentType=" + this.fileItem.getContentType() : "")
+                + (this.fileItem.getName() != null ? ", filename=" + this.fileItem.getName() : PublicConstants.EMPTY)
+                + (this.fileItem.getContentType() != null ? ", contentType=" + this.fileItem.getContentType() : PublicConstants.EMPTY)
                 + ", size=" + this.fileItem.getSize() + "]";
     }
 

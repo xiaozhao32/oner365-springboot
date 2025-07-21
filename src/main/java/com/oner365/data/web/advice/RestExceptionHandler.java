@@ -8,6 +8,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.oner365.data.commons.constants.PublicConstants;
 import com.oner365.data.commons.reponse.ResponseData;
 import com.oner365.data.commons.util.DataUtils;
 import com.oner365.data.web.entity.GatewayError;
@@ -42,7 +43,7 @@ public class RestExceptionHandler {
         }
 
         FieldError fieldError = e.getBindingResult().getFieldError();
-        String message = fieldError == null ? "" : fieldError.getDefaultMessage();
+        String message = fieldError == null ? PublicConstants.EMPTY : fieldError.getDefaultMessage();
         GatewayError result = getErrorAttributes(request, message);
         return ResponseData.error(result, HttpStatus.INTERNAL_SERVER_ERROR.value(), ERROR_MESSAGE);
     }
