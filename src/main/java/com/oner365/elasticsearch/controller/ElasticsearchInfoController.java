@@ -22,13 +22,13 @@ import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder.HttpClientConfigCallback;
 import org.springframework.boot.autoconfigure.elasticsearch.ElasticsearchProperties;
 import org.springframework.http.HttpHeaders;
-import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.data.commons.constants.PublicConstants;
+import com.oner365.data.commons.util.DataUtils;
 import com.oner365.data.web.controller.BaseController;
 import com.oner365.elasticsearch.dto.ClusterDto;
 import com.oner365.elasticsearch.dto.ClusterMappingDto;
@@ -70,7 +70,7 @@ public class ElasticsearchInfoController extends BaseController {
     @ApiOperationSupport(order = 1)
     @GetMapping("/index")
     public TransportClientDto index() {
-        if (ObjectUtils.isEmpty(elasticsearchProperties.getUris())) {
+        if (DataUtils.isEmpty(elasticsearchProperties.getUris())) {
             logger.error("elasticsearchProperties is empty: {}", elasticsearchProperties);
             return null;
         }

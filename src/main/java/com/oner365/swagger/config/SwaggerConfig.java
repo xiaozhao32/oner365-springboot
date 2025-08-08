@@ -126,7 +126,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
     private List<SecurityContext> securityContexts() {
         return Collections.singletonList(SecurityContext.builder()
             .securityReferences(Collections.singletonList(new SecurityReference(HttpHeaders.AUTHORIZATION,
-                    new AuthorizationScope[] { new AuthorizationScope("global", "") })))
+                    new AuthorizationScope[] { new AuthorizationScope("global", PublicConstants.EMPTY) })))
             .build());
     }
 
