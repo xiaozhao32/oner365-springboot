@@ -157,14 +157,8 @@ public class ElasticsearchInfoController extends BaseController {
                 });
 
             List<ClusterDto> clusterList = new ArrayList<>();
-            aliasMap.forEach((key, value) -> {
-                ClusterDto clusterDto = new ClusterDto();
-                clusterDto.setIndex(key);
-                clusterDto.setNumberOfShards(shardsMap.get(key));
-                clusterDto.setNumberOfReplicas(1);
-                clusterDto.setStatus(stateMap.get(key));
-                clusterList.add(clusterDto);
-            });
+            aliasMap.forEach(
+                    (key, value) -> clusterList.add(new ClusterDto(key, shardsMap.get(key), 1, stateMap.get(key))));
             result.setClusterList(clusterList);
         }
     }
@@ -180,12 +174,8 @@ public class ElasticsearchInfoController extends BaseController {
             IndexMappingRecord mappingRecord = mappings.get(cluster.getIndex());
             List<ClusterMappingDto> mappingList = new ArrayList<>();
             if (mappingRecord != null) {
-                mappingRecord.mappings().properties().forEach((key, value) -> {
-                    ClusterMappingDto mapping = new ClusterMappingDto();
-                    mapping.setName(key);
-                    mapping.setType(value._get().getClass().getSimpleName());
-                    mappingList.add(mapping);
-                });
+                mappingRecord.mappings().properties().forEach((key, value) -> mappingList
+                        .add(new ClusterMappingDto(key, value._get().getClass().getSimpleName())));
             }
             cluster.setMappingList(mappingList);
         });
@@ -201,6 +191,7 @@ public class ElasticsearchInfoController extends BaseController {
         Mono<JSONObject> mono = webClient.get()
             .uri(elasticsearchProperties.getUris().get(0) + uri)
             .header(HttpHeaders.AUTHORIZATION, getAuthorization())
+            .header(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON.toString())
             .retrieve()
             .bodyToMono(JSONObject.class);
         return mono.block();

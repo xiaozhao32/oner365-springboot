@@ -23,6 +23,11 @@ public class ClusterMappingDto implements Serializable {
     public ClusterMappingDto() {
         super();
     }
+    
+    public ClusterMappingDto(String name, String type) {
+        this.name = name;
+        this.type = type;
+    }
 
     /**
      * @return the name

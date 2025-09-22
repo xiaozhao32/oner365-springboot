@@ -2,8 +2,8 @@
 
 # Oner365 Springboot
 
-![Spring Framework 6.2.9](https://shields.io/badge/Spring%20Framework-6.2.9-blue) 
-![Spring Boot 3.5.5](https://shields.io/badge/Spring%20Boot-3.5.5-blue) 
+![Spring Framework 6.2.11](https://shields.io/badge/Spring%20Framework-6.2.11-blue) 
+![Spring Boot 3.5.6](https://shields.io/badge/Spring%20Boot-3.5.6-blue) 
 ![License Apache 2.0](https://shields.io/badge/License-Apache--2.0-blue) 
 ![Java 21](https://img.shields.io/badge/JDK-21-green)
 

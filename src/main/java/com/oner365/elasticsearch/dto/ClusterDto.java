@@ -35,6 +35,13 @@ public class ClusterDto implements Serializable {
     public ClusterDto() {
         super();
     }
+    
+    public ClusterDto(String index, Integer numberOfShards, Integer numberOfReplicas, ShardRoutingState status) {
+        this.index = index;
+        this.numberOfShards = numberOfShards;
+        this.numberOfReplicas = numberOfReplicas;
+        this.status = status;
+    }
 
     public String getIndex() {
         return index;

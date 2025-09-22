@@ -41,21 +41,21 @@
 		<java.version>21</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		<org.springframework.integration.version>6.5.1</org.springframework.integration.version>
+		<org.springframework.integration.version>6.5.2</org.springframework.integration.version>
 		<org.springframework.statemachine.version>4.0.1</org.springframework.statemachine.version>
-		<org.springframework.security.version>6.5.3</org.springframework.security.version>
-		<org.springframework.boot.version>3.5.5</org.springframework.boot.version>
-		<org.springframework.data.version>3.5.3</org.springframework.data.version>
-		<org.springframework.version>6.2.9</org.springframework.version>
-		<org.springframework.kafka.version>3.3.9</org.springframework.kafka.version>
+		<org.springframework.security.version>6.5.5</org.springframework.security.version>
+		<org.springframework.boot.version>3.5.6</org.springframework.boot.version>
+		<org.springframework.data.version>3.5.4</org.springframework.data.version>
+		<org.springframework.version>6.2.11</org.springframework.version>
+		<org.springframework.kafka.version>3.3.10</org.springframework.kafka.version>
 		<org.springdoc.version>2.8.9</org.springdoc.version>
 
 		<org.apache.logging.log4j.version>2.25.1</org.apache.logging.log4j.version>
 		<org.apache.httpclient.version>4.5.14</org.apache.httpclient.version>
 		<org.apache.httpcore.version>4.4.16</org.apache.httpcore.version>
-		<org.apache.tomcat.version>10.1.44</org.apache.tomcat.version>
-		<org.apache.pulsar.version>4.0.5</org.apache.pulsar.version>
-		<org.apache.kafka.version>4.0.0</org.apache.kafka.version>
+		<org.apache.tomcat.version>10.1.46</org.apache.tomcat.version>
+		<org.apache.pulsar.version>4.1.0</org.apache.pulsar.version>
+		<org.apache.kafka.version>4.1.0</org.apache.kafka.version>
 		<org.apache.poi.version>5.4.1</org.apache.poi.version>
 		<org.apache.ant.version>1.10.15</org.apache.ant.version>
 		<org.apache.velocity.version>2.4.1</org.apache.velocity.version>
@@ -73,9 +73,9 @@
 		<commons.io.version>2.19.0</commons.io.version>
 
 		<org.hibernate.validator.version>9.0.1.Final</org.hibernate.validator.version>
-		<org.hibernate.version>6.6.26.Final</org.hibernate.version>
+		<org.hibernate.version>6.6.29.Final</org.hibernate.version>
 		<org.jboss.logging.version>3.6.1.Final</org.jboss.logging.version>
-		<org.mybatis.spring.boot.version>3.0.4</org.mybatis.spring.boot.version>
+		<org.mybatis.spring.boot.version>3.0.5</org.mybatis.spring.boot.version>
 		<org.mybatis.version>3.5.19</org.mybatis.version>
 
 		<org.bouncycastle.version>1.81</org.bouncycastle.version>
@@ -84,7 +84,8 @@
 		<ch.qos.logback.version>1.5.18</ch.qos.logback.version>
 
 		<org.jetbrains.kotlin.version>2.0.21</org.jetbrains.kotlin.version>
-		<org.junit.platform.version>1.13.1</org.junit.platform.version>
+		<org.junit.platform.version>1.13.4</org.junit.platform.version>
+		<org.junit.jupiter.version>5.13.4</org.junit.jupiter.version>
 		<org.javassist.version>3.30.2-GA</org.javassist.version>
 		<org.freemarker.version>2.3.34</org.freemarker.version>
 		<org.reflections.version>0.10.2</org.reflections.version>
@@ -122,7 +123,7 @@
 		<io.hypersistence.version>3.9.10</io.hypersistence.version>
 		<io.jsonwebtoken.version>0.9.1</io.jsonwebtoken.version>
 		<io.micrometer.version>1.15.2</io.micrometer.version>
-		<io.netty.version>4.2.4.Final</io.netty.version>
+		<io.netty.version>4.2.6.Final</io.netty.version>
 		<io.minio.version>8.5.17</io.minio.version>
 
 		<net.logstash.logback.version>8.1</net.logstash.logback.version>
@@ -833,6 +834,12 @@
             <artifactId>junit-platform-suite-engine</artifactId>
             <version>${org.junit.platform.version}</version>
             <scope>test</scope>
+		</dependency>
+		<dependency>
+		    <groupId>org.junit.jupiter</groupId>
+		    <artifactId>junit-jupiter</artifactId>
+		    <version>${org.junit.jupiter.version}</version>
+		    <scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
