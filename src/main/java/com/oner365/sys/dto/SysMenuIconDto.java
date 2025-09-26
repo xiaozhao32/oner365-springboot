@@ -10,7 +10,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @author zhaoyong
  *
  */
-@Schema(name = "菜单树信息")
+@Schema(description = "菜单树信息")
 public class SysMenuIconDto implements Serializable {
 
     /**
@@ -21,13 +21,13 @@ public class SysMenuIconDto implements Serializable {
     /**
      * 菜单名称
      */
-    @Schema(name = "菜单名称")
+    @Schema(description = "菜单名称")
     private String title;
 
     /**
      * 菜单icon
      */
-    @Schema(name = "菜单图标")
+    @Schema(description = "菜单图标")
     private String icon;
 
     public SysMenuIconDto() {

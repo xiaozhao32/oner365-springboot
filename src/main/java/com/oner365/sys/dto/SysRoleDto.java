@@ -15,7 +15,7 @@ import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
  *
  * @author liutao
  */
-@Schema(name = "角色信息")
+@Schema(description = "角色信息")
 public class SysRoleDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -23,55 +23,55 @@ public class SysRoleDto implements Serializable {
     /**
      * 编号 id
      */
-    @Schema(name = "主键")
+    @Schema(description = "主键")
     private String id;
 
     /**
      * 角色标识 role_code
      */
-    @Schema(name = "角色标识")
+    @Schema(description = "角色标识")
     private String roleCode;
 
     /**
      * 角色名称 role_name
      */
-    @Schema(name = "角色名称", requiredMode = RequiredMode.REQUIRED)
+    @Schema(description = "角色名称", requiredMode = RequiredMode.REQUIRED)
     private String roleName;
 
     /**
      * 角色描述 role_des
      */
-    @Schema(name = "角色描述")
+    @Schema(description = "角色描述")
     private String roleDes;
 
     /**
      * 状态 status
      */
-    @Schema(name = "状态")
+    @Schema(description = "状态")
     private StatusEnum status;
 
     /**
      * 创建时间 create_time
      */
-    @Schema(name = "创建时间")
+    @Schema(description = "创建时间")
     private LocalDateTime createTime;
 
     /**
      * 更新时间 update_time
      */
-    @Schema(name = "更新时间")
+    @Schema(description = "更新时间")
     private LocalDateTime updateTime;
 
     /**
      * 菜单id
      */
-    @Schema(name = "菜单id")
+    @Schema(description = "菜单id")
     private List<String> menuIds;
 
     /**
      * 菜单类型
      */
-    @Schema(name = "菜单类型")
+    @Schema(description = "菜单类型")
     private String menuType;
 
     /**

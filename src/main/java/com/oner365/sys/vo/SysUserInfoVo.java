@@ -14,7 +14,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  *
  * @author zhaoyong
  */
-@Schema(name = "用户信息")
+@Schema(description = "用户信息")
 public class SysUserInfoVo implements Serializable {
 
     /**
@@ -22,13 +22,13 @@ public class SysUserInfoVo implements Serializable {
      */
     private static final long serialVersionUID = 1L;
 
-    @Schema(name = "用户对象")
+    @Schema(description = "用户对象")
     private SysUserDto sysUser;
 
-    @Schema(name = "角色列表")
+    @Schema(description = "角色列表")
     private List<SysRoleDto> roleList;
 
-    @Schema(name = "职位列表")
+    @Schema(description = "职位列表")
     private List<SysJobDto> jobList;
 
     public SysUserInfoVo() {

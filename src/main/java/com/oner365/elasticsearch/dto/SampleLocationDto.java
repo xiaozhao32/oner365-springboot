@@ -11,7 +11,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @author zhaoyong
  *
  */
-@Schema(name = "坐标信息")
+@Schema(description = "坐标信息")
 public class SampleLocationDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -19,31 +19,31 @@ public class SampleLocationDto implements Serializable {
     /**
      * 主键
      */
-    @Schema(name = "主键")
+    @Schema(description = "主键")
     private String id;
 
     /**
      * 坐标名称
      */
-    @Schema(name = "坐标名称")
+    @Schema(description = "坐标名称")
     private String locationName;
 
     /**
      * 坐标信息
      */
-    @Schema(name = "坐标信息")
+    @Schema(description = "坐标信息")
     private GeoPoint locationPoint;
 
     /**
      * 坐标描述
      */
-    @Schema(name = "坐标描述")
+    @Schema(description = "坐标描述")
     private String locationDesc;
 
     /**
      * 创建时间
      */
-    @Schema(name = "创建时间")
+    @Schema(description = "创建时间")
     private Date createTime;
 
     /**

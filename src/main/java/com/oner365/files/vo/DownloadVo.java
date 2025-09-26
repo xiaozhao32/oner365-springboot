@@ -9,7 +9,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  *
  * @author liutao
  */
-@Schema(name = "下载信息")
+@Schema(description = "下载信息")
 public class DownloadVo implements Serializable {
 
     /**
@@ -17,13 +17,13 @@ public class DownloadVo implements Serializable {
      */
     private static final long serialVersionUID = 1L;
 
-    @Schema(name = "主键")
+    @Schema(description = "主键")
     private String fileUrl;
 
-    @Schema(name = "开始")
+    @Schema(description = "开始")
     private long offset;
 
-    @Schema(name = "结束")
+    @Schema(description = "结束")
     private long fileSize;
 
     public DownloadVo() {

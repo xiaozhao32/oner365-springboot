@@ -12,7 +12,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  *
  * @author zhaoyong
  */
-@Schema(name = "系统日志")
+@Schema(description = "系统日志")
 public class SysLogDto implements Serializable {
 
     /**
@@ -23,43 +23,43 @@ public class SysLogDto implements Serializable {
     /**
      * 编号 id
      */
-    @Schema(name = "主键")
+    @Schema(description = "主键")
     private String id;
 
     /**
      * 操作ip
      */
-    @Schema(name = "操作ip")
+    @Schema(description = "操作ip")
     private String operationIp;
 
     /**
      * 请求方式
      */
-    @Schema(name = "请求方式")
+    @Schema(description = "请求方式")
     private String methodName;
 
     /**
      * 操作名称
      */
-    @Schema(name = "操作名称")
+    @Schema(description = "操作名称")
     private String operationName;
 
     /**
      * 请求地址
      */
-    @Schema(name = "请求地址")
+    @Schema(description = "请求地址")
     private String operationPath;
 
     /**
      * 请求内容
      */
-    @Schema(name = "请求内容")
+    @Schema(description = "请求内容")
     private String operationContext;
 
     /**
      * 创建时间 create_time
      */
-    @Schema(name = "创建时间")
+    @Schema(description = "创建时间")
     private LocalDateTime createTime;
 
     /**

@@ -14,7 +14,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  *
  * @author zhaoyong
  */
-@Schema(name = "基因信息")
+@Schema(description = "基因信息")
 public class SampleGeneVo implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -22,43 +22,43 @@ public class SampleGeneVo implements Serializable {
     /**
      * 主键
      */
-    @Schema(name = "主键")
+    @Schema(description = "主键")
     private String id;
 
     /**
      * 基因类型 (格式: 1:X 2:Y)
      */
-    @Schema(name = "基因类型")
+    @Schema(description = "基因类型")
     private GeneTypeEnum geneType;
 
     /**
      * 人员编号
      */
-    @Schema(name = "人员编号")
+    @Schema(description = "人员编号")
     private String personCode;
 
     /**
      * 实验室编号
      */
-    @Schema(name = "实验室编号")
+    @Schema(description = "实验室编号")
     private String initServerNo;
 
     /**
      * 基因型信息 (格式: {key:value} )
      */
-    @Schema(name = "基因型信息")
+    @Schema(description = "基因型信息")
     private JSONObject geneInfo;
 
     /**
      * 比对的基因型信息 (过滤空值)
      */
-    @Schema(name = "比对基因型")
+    @Schema(description = "比对基因型")
     private JSONObject matchJson;
 
     /**
      * 页面使用的基因型 {key:value} 转换成 {"name":key, "value":value} 格式
      */
-    @Schema(name = "基因型集合")
+    @Schema(description = "基因型集合")
     private JSONArray geneList;
 
     /**

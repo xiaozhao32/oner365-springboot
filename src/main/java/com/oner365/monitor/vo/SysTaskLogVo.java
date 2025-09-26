@@ -15,7 +15,7 @@ import jakarta.validation.constraints.NotBlank;
  * @author zhaoyong
  *
  */
-@Schema(name = "定时任务日志")
+@Schema(description = "定时任务日志")
 public class SysTaskLogVo implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -28,21 +28,21 @@ public class SysTaskLogVo implements Serializable {
     /**
      * 任务名称
      */
-    @Schema(name = "任务名称", requiredMode = RequiredMode.REQUIRED)
+    @Schema(description = "任务名称", requiredMode = RequiredMode.REQUIRED)
     @NotBlank(message = "{monitor.vo.task.taskName.message}")
     private String taskName;
 
     /**
      * 任务组名
      */
-    @Schema(name = "任务组", requiredMode = RequiredMode.REQUIRED)
+    @Schema(description = "任务组", requiredMode = RequiredMode.REQUIRED)
     @NotBlank(message = "{monitor.vo.task.taskGroup.message}")
     private String taskGroup;
 
     /**
      * 调用目标字符串
      */
-    @Schema(name = "调用目标", requiredMode = RequiredMode.REQUIRED)
+    @Schema(description = "调用目标", requiredMode = RequiredMode.REQUIRED)
     @NotBlank(message = "{monitor.vo.task.invokeTarget.message}")
     private String invokeTarget;
 

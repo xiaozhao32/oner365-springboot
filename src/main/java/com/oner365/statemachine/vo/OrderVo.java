@@ -11,7 +11,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  *
  * @author zhaoyong
  */
-@Schema(name = "状态机订单对象")
+@Schema(description = "状态机订单对象")
 public class OrderVo implements Serializable {
 
     /**
@@ -22,31 +22,31 @@ public class OrderVo implements Serializable {
     /**
      * 订单号
      */
-    @Schema(name = "订单号")
+    @Schema(description = "订单号")
     private int id;
 
     /**
      * 支付状态
      */
-    @Schema(name = "支付状态")
+    @Schema(description = "支付状态")
     private OrderEventEnum payState;
 
     /**
      * 接收状态
      */
-    @Schema(name = "接收状态")
+    @Schema(description = "接收状态")
     private OrderEventEnum receiveState;
 
     /**
      * 支付结果
      */
-    @Schema(name = "支付结果")
+    @Schema(description = "支付结果")
     private boolean payResult;
 
     /**
      * 接收结果
      */
-    @Schema(name = "接收结果")
+    @Schema(description = "接收结果")
     private boolean receiveResult;
 
     public OrderVo() {

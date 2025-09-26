@@ -12,7 +12,7 @@ import jakarta.validation.constraints.NotBlank;
  * @author zhaoyong
  *
  */
-@Schema(name = "登录对象")
+@Schema(description = "登录对象")
 public class LoginUserVo implements Serializable {
 
     /**
@@ -23,27 +23,27 @@ public class LoginUserVo implements Serializable {
     /**
      * 账号 userName
      */
-    @Schema(name = "账号", requiredMode = RequiredMode.REQUIRED)
+    @Schema(description = "账号", requiredMode = RequiredMode.REQUIRED)
     @NotBlank(message = "{system.vo.loginUser.userName.message}")
     private String userName;
 
     /**
      * 密码 password
      */
-    @Schema(name = "密码", requiredMode = RequiredMode.REQUIRED)
+    @Schema(description = "密码", requiredMode = RequiredMode.REQUIRED)
     @NotBlank(message = "{system.vo.loginUser.password.message}")
     private String password;
 
     /**
      * 图片验证码 uuid
      */
-    @Schema(name = "图片验证码")
+    @Schema(description = "图片验证码")
     private String uuid;
 
     /**
      * 验证码 code
      */
-    @Schema(name = "验证码")
+    @Schema(description = "验证码")
     private String code;
 
     /**

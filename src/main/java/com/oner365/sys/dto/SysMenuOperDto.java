@@ -10,7 +10,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @author zhaoyong
  *
  */
-@Schema(name = "菜单操作对象")
+@Schema(description = "菜单操作对象")
 public class SysMenuOperDto implements Serializable {
 
     /**
@@ -21,19 +21,19 @@ public class SysMenuOperDto implements Serializable {
     /**
      * 操作id
      */
-    @Schema(name = "操作id")
+    @Schema(description = "操作id")
     private String operId;
 
     /**
      * 操作名称
      */
-    @Schema(name = "操作名称")
+    @Schema(description = "操作名称")
     private String operName;
 
     /**
      * 操作类型
      */
-    @Schema(name = "操作类型")
+    @Schema(description = "操作类型")
     private String operType;
 
     public SysMenuOperDto() {

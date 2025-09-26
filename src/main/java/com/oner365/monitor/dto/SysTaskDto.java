@@ -19,7 +19,7 @@ import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
  *
  * @author liutao
  */
-@Schema(name = "定时任务")
+@Schema(description = "定时任务")
 public class SysTaskDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -27,85 +27,85 @@ public class SysTaskDto implements Serializable {
     /**
      * 任务ID
      */
-    @Schema(name = "主键")
+    @Schema(description = "主键")
     private String id;
 
     /**
      * 任务名称
      */
-    @Schema(name = "任务名称", requiredMode = RequiredMode.REQUIRED)
+    @Schema(description = "任务名称", requiredMode = RequiredMode.REQUIRED)
     private String taskName;
 
     /**
      * 任务组名
      */
-    @Schema(name = "任务组", requiredMode = RequiredMode.REQUIRED)
+    @Schema(description = "任务组", requiredMode = RequiredMode.REQUIRED)
     private String taskGroup;
 
     /**
      * 调用目标字符串
      */
-    @Schema(name = "调用目标", requiredMode = RequiredMode.REQUIRED)
+    @Schema(description = "调用目标", requiredMode = RequiredMode.REQUIRED)
     private String invokeTarget;
 
     /**
      * 调用目标参数
      */
-    @Schema(name = "目标参数")
+    @Schema(description = "目标参数")
     private InvokeParamDto invokeParamDto;
 
     /**
      * cron执行表达式
      */
-    @Schema(name = "执行表达式")
+    @Schema(description = "执行表达式")
     private String cronExpression;
 
     /**
      * cron计划策略
      */
-    @Schema(name = "计划策略")
+    @Schema(description = "计划策略")
     private MisfirePolicyEnum misfirePolicy = MisfirePolicyEnum.DEFAULT;
 
     /**
      * 是否并发执行（0允许 1禁止）
      */
-    @Schema(name = "是否并发执行（0允许 1禁止）")
+    @Schema(description = "是否并发执行（0允许 1禁止）")
     private String concurrent;
 
     /**
      * 任务状态（1正常 0暂停）
      */
-    @Schema(name = "任务状态（1正常 0暂停）")
+    @Schema(description = "任务状态（1正常 0暂停）")
     private TaskStatusEnum status;
 
     /**
      * 执行任务状态（0正在执行 1执行完成）
      */
-    @Schema(name = "执行任务状态（0正在执行 1执行完成）")
+    @Schema(description = "执行任务状态（0正在执行 1执行完成）")
     private StatusEnum executeStatus;
 
     /**
      * 备注
      */
-    @Schema(name = "备注")
+    @Schema(description = "备注")
     private String remark;
 
     /**
      * 创建人
      */
-    @Schema(name = "创建人")
+    @Schema(description = "创建人")
     private String createUser;
 
     /**
      * 创建时间
      */
-    @Schema(name = "创建时间")
+    @Schema(description = "创建时间")
     private Date createTime;
 
     /**
      * 更新时间
      */
-    @Schema(name = "更新时间")
+    @Schema(description = "更新时间")
     private Date updateTime;
 
     public SysTaskDto() {

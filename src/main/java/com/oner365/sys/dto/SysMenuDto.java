@@ -16,7 +16,7 @@ import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
  *
  * @author zhaoyong
  */
-@Schema(name = "菜单信息")
+@Schema(description = "菜单信息")
 public class SysMenuDto implements Serializable {
 
     /**
@@ -27,79 +27,79 @@ public class SysMenuDto implements Serializable {
     /**
      * 主键 id
      */
-    @Schema(name = "主键")
+    @Schema(description = "主键")
     private String id;
 
     /**
      * 菜单类别 menu_type_id
      */
-    @Schema(name = "菜单类别", requiredMode = RequiredMode.REQUIRED)
+    @Schema(description = "菜单类别", requiredMode = RequiredMode.REQUIRED)
     private String menuTypeId;
 
     /**
      * 菜单名称 menu_name
      */
-    @Schema(name = "菜单名称", requiredMode = RequiredMode.REQUIRED)
+    @Schema(description = "菜单名称", requiredMode = RequiredMode.REQUIRED)
     private String menuName;
 
     /**
      * 别称 another_name
      */
-    @Schema(name = "别称")
+    @Schema(description = "别称")
     private String anotherName;
 
     /**
      * 父级 parent_id
      */
-    @Schema(name = "上级id", requiredMode = RequiredMode.REQUIRED)
+    @Schema(description = "上级id", requiredMode = RequiredMode.REQUIRED)
     private String parentId;
 
     /**
      * 排序 menu_order
      */
-    @Schema(name = "排序")
+    @Schema(description = "排序")
     private Integer menuOrder;
 
     /**
      * 地址 path
      */
-    @Schema(name = "地址")
+    @Schema(description = "地址")
     private String path;
 
     /**
      * 组件 component
      */
-    @Schema(name = "组件")
+    @Schema(description = "组件")
     private String component;
 
     /**
      * 菜单描述 menu_description
      */
-    @Schema(name = "菜单描述")
+    @Schema(description = "菜单描述")
     private String menuDescription;
 
     /**
      * 状态 status
      */
-    @Schema(name = "状态")
+    @Schema(description = "状态")
     private StatusEnum status;
 
     /**
      * 创建时间 create_time
      */
-    @Schema(name = "创建时间")
+    @Schema(description = "创建时间")
     private LocalDateTime createTime;
 
     /**
      * 更新时间 update_time
      */
-    @Schema(name = "更新时间")
+    @Schema(description = "更新时间")
     private LocalDateTime updateTime;
 
     /**
      * 图标
      */
-    @Schema(name = "图标")
+    @Schema(description = "图标")
     private String icon;
 
     private List<SysMenuDto> children = new ArrayList<>();

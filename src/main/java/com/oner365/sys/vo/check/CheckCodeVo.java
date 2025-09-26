@@ -12,7 +12,7 @@ import jakarta.validation.constraints.NotBlank;
  * @author zhaoyong
  *
  */
-@Schema(name = "检测字典编码")
+@Schema(description = "检测字典编码")
 public class CheckCodeVo implements Serializable {
 
     /**
@@ -23,13 +23,13 @@ public class CheckCodeVo implements Serializable {
     /**
      * 主键 id
      */
-    @Schema(name = "主键")
+    @Schema(description = "主键")
     private String id;
 
     /**
      * 编码
      */
-    @Schema(name = "编码", requiredMode = RequiredMode.REQUIRED)
+    @Schema(description = "编码", requiredMode = RequiredMode.REQUIRED)
     @NotBlank(message = "{system.vo.check.code.message}")
     private String code;
 

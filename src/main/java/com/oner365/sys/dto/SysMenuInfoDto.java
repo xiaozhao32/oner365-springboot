@@ -12,7 +12,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @author zhaoyong
  *
  */
-@Schema(name = "菜单详情")
+@Schema(description = "菜单详情")
 public class SysMenuInfoDto implements Serializable {
 
     /**
@@ -23,19 +23,19 @@ public class SysMenuInfoDto implements Serializable {
     /**
      * 菜单对象
      */
-    @Schema(name = "菜单对象")
+    @Schema(description = "菜单对象")
     private SysMenuDto sysMenu;
 
     /**
      * 菜单列表
      */
-    @Schema(name = "菜单列表")
+    @Schema(description = "菜单列表")
     private List<String> menuOperList = new ArrayList<>();
 
     /**
      * 操作列表
      */
-    @Schema(name = "操作列表")
+    @Schema(description = "操作列表")
     private List<SysMenuOperationDto> operationList = new ArrayList<>();
 
     public SysMenuInfoDto() {

@@ -16,7 +16,7 @@ import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
  *
  * @author zhaoyong
  */
-@Schema(name = "路由信息")
+@Schema(description = "路由信息")
 public class GatewayRouteDto implements Serializable {
 
     /**
@@ -27,43 +27,43 @@ public class GatewayRouteDto implements Serializable {
     /**
      * 路由的Id
      */
-    @Schema(name = "主键")
+    @Schema(description = "主键")
     private String id;
 
     /**
      * 路由断言集合配置
      */
-    @Schema(name = "断言集合")
+    @Schema(description = "断言集合")
     private List<GatewayPredicate> predicates;
 
     /**
      * 路由过滤器集合配置
      */
-    @Schema(name = "过滤器集合")
+    @Schema(description = "过滤器集合")
     private List<GatewayFilter> filters;
 
     /**
      * 路由规则转发的目标uri
      */
-    @Schema(name = "转发地址", requiredMode = RequiredMode.REQUIRED)
+    @Schema(description = "转发地址", requiredMode = RequiredMode.REQUIRED)
     private String uri;
 
     /**
      * 路由执行的顺序
      */
-    @Schema(name = "执行顺序", requiredMode = RequiredMode.REQUIRED)
+    @Schema(description = "执行顺序", requiredMode = RequiredMode.REQUIRED)
     private Integer routeOrder = 0;
 
     /**
      * 路由状态 1：可用 0：不可用
      */
-    @Schema(name = "路由状态", requiredMode = RequiredMode.REQUIRED)
+    @Schema(description = "路由状态", requiredMode = RequiredMode.REQUIRED)
     private StatusEnum status;
 
     /**
      * 界面使用的谓词
      */
-    @Schema(name = "表达式")
+    @Schema(description = "表达式")
     private String pattern;
 
     public GatewayRouteDto() {

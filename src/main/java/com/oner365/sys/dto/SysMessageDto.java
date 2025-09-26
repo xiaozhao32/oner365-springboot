@@ -15,7 +15,7 @@ import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
  *
  * @author zhaoyong
  */
-@Schema(name = "系统消息")
+@Schema(description = "系统消息")
 public class SysMessageDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -23,73 +23,73 @@ public class SysMessageDto implements Serializable {
     /**
      * 主键ID
      */
-    @Schema(name = "主键")
+    @Schema(description = "主键")
     private String id;
 
     /**
      * 队列类型
      */
-    @Schema(name = "队列类型", requiredMode = RequiredMode.REQUIRED)
+    @Schema(description = "队列类型", requiredMode = RequiredMode.REQUIRED)
     private String queueType;
 
     /**
      * 队列标识
      */
-    @Schema(name = "队列标识")
+    @Schema(description = "队列标识")
     private String queueKey;
 
     /**
      * 消息类型
      */
-    @Schema(name = "消息类型")
+    @Schema(description = "消息类型")
     private MessageTypeEnum messageType;
 
     /**
      * 消息名称
      */
-    @Schema(name = "消息名称")
+    @Schema(description = "消息名称")
     private String messageName;
 
     /**
      * 类型ID
      */
-    @Schema(name = "类型id")
+    @Schema(description = "类型id")
     private String typeId;
 
     /**
      * 消息内容
      */
-    @Schema(name = "消息内容")
+    @Schema(description = "消息内容")
     private String context;
 
     /**
      * 发送者
      */
-    @Schema(name = "发送者")
+    @Schema(description = "发送者")
     private String sendUser;
 
     /**
      * 接收者
      */
-    @Schema(name = "接收者")
+    @Schema(description = "接收者")
     private String receiveUser;
 
     /**
      * 状态
      */
-    @Schema(name = "状态")
+    @Schema(description = "状态")
     private MessageStatusEnum status;
 
     /**
      * 创建时间 create_time
      */
-    @Schema(name = "创建时间")
+    @Schema(description = "创建时间")
     private LocalDateTime createTime;
 
     /**
      * 更新时间 update_time
      */
-    @Schema(name = "更新时间")
+    @Schema(description = "更新时间")
     private LocalDateTime updateTime;
 
     /**

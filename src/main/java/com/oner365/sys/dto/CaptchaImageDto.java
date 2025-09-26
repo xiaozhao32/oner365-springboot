@@ -10,7 +10,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @author zhaoyong
  *
  */
-@Schema(name = "验证码")
+@Schema(description = "验证码")
 public class CaptchaImageDto implements Serializable {
 
     /**
@@ -21,13 +21,13 @@ public class CaptchaImageDto implements Serializable {
     /**
      * uuid
      */
-    @Schema(name = "验证码标识")
+    @Schema(description = "验证码标识")
     private String uuid;
 
     /**
      * img base64
      */
-    @Schema(name = "验证码图片")
+    @Schema(description = "验证码图片")
     private String img;
 
     public CaptchaImageDto() {

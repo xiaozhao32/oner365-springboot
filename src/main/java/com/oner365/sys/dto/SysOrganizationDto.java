@@ -16,7 +16,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @author liutao
  *
  */
-@Schema(name = "机构")
+@Schema(description = "机构")
 public class SysOrganizationDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -24,121 +24,121 @@ public class SysOrganizationDto implements Serializable {
     /**
      * 编号 id
      */
-    @Schema(name = "主键")
+    @Schema(description = "主键")
     private String id;
 
     /**
      * 机构名称 org_name
      */
-    @Schema(name = "机构名称")
+    @Schema(description = "机构名称")
     private String orgName;
 
     /**
      * 机构名称 ancestors
      */
-    @Schema(name = "机构编号")
+    @Schema(description = "机构编号")
     private String ancestors;
 
     /**
      * 机构代码 org_code
      */
-    @Schema(name = "机构代码")
+    @Schema(description = "机构代码")
     private String orgCode;
 
     /**
      * 机构统一社会信用代码 org_credit_code
      */
-    @Schema(name = "信用代码")
+    @Schema(description = "信用代码")
     private String orgCreditCode;
 
     /**
      * 机构行政划区代码 org_area_code
      */
-    @Schema(name = "行政区域代码")
+    @Schema(description = "行政区域代码")
     private String orgAreaCode;
 
     /**
      * 机构类型 org_type
      */
-    @Schema(name = "机构类型")
+    @Schema(description = "机构类型")
     private String orgType;
 
     /**
      * 机构图标 org_logo
      */
-    @Schema(name = "图标")
+    @Schema(description = "图标")
     private String orgLogo;
 
     /**
      * 机构图标地址 org_logo_url
      */
-    @Schema(name = "图标地址")
+    @Schema(description = "图标地址")
     private String orgLogoUrl;
 
     /**
      * 机构排序 org_order
      */
-    @Schema(name = "排序")
+    @Schema(description = "排序")
     private Integer orgOrder;
 
     /**
      * 机构父级机构编号 parent_id
      */
-    @Schema(name = "上级id")
+    @Schema(description = "上级id")
     private String parentId;
 
     /**
      * 状态 status
      */
-    @Schema(name = "状态")
+    @Schema(description = "状态")
     private StatusEnum status;
 
     /**
      * 更新时间update_time
      */
-    @Schema(name = "更新时间")
+    @Schema(description = "更新时间")
     private LocalDateTime updateTime;
 
     /**
      * 创建时间 create_time
      */
-    @Schema(name = "修改时间")
+    @Schema(description = "修改时间")
     private LocalDateTime createTime;
 
     /**
      * 业务负责人
      */
-    @Schema(name = "业务负责人")
+    @Schema(description = "业务负责人")
     private String businessName;
 
     /**
      * 业务负责人电话
      */
-    @Schema(name = "业务负责人电话")
+    @Schema(description = "业务负责人电话")
     private String businessPhone;
 
     /**
      * 技术负责人
      */
-    @Schema(name = "技术负责人")
+    @Schema(description = "技术负责人")
     private String technicalName;
 
     /**
      * 技术负责人电话
      */
-    @Schema(name = "技术负责人电话")
+    @Schema(description = "技术负责人电话")
     private String technicalPhone;
 
     /**
      * 技术负责人电话
      */
-    @Schema(name = "账号id")
+    @Schema(description = "账号id")
     private String createUser;
 
     /**
      * 数据源
      */
-    @Schema(name = "数据源")
+    @Schema(description = "数据源")
     private DataSourceConfigDto dataSourceConfigDto;
 
     private List<SysOrganizationDto> children = new ArrayList<>();

@@ -12,7 +12,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  *
  * @author zhaoyong
  */
-@Schema(name = "应用日志")
+@Schema(description = "应用日志")
 public class ApplicationLogDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -20,49 +20,49 @@ public class ApplicationLogDto implements Serializable {
     /**
      * 主键
      */
-    @Schema(name = "主键")
+    @Schema(description = "主键")
     private String id;
 
     /**
      * 线程名称
      */
-    @Schema(name = "线程名称")
+    @Schema(description = "线程名称")
     private String threadName;
 
     /**
      * 版本
      */
-    @Schema(name = "版本")
+    @Schema(description = "版本")
     private String version;
 
     /**
      * 消息内容
      */
-    @Schema(name = "消息内容")
+    @Schema(description = "消息内容")
     private String message;
 
     /**
      * 日志级别
      */
-    @Schema(name = "日志级别")
+    @Schema(description = "日志级别")
     private LogLevel level;
 
     /**
      * 类名称
      */
-    @Schema(name = "类名称")
+    @Schema(description = "类名称")
     private String loggerName;
 
     /**
      * 项目名称
      */
-    @Schema(name = "项目名称")
+    @Schema(description = "项目名称")
     private String projectName;
 
     /**
      * 创建时间
      */
-    @Schema(name = "创建时间")
+    @Schema(description = "创建时间")
     private LocalDateTime createTime;
 
     /**

@@ -14,7 +14,7 @@ import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
  *
  * @author zhaoyong
  */
-@Schema(name = "菜单类型")
+@Schema(description = "菜单类型")
 public class SysMenuTypeDto implements Serializable {
 
     /**
@@ -25,37 +25,37 @@ public class SysMenuTypeDto implements Serializable {
     /**
      * 主键
      */
-    @Schema(name = "主键")
+    @Schema(description = "主键")
     private String id;
 
     /**
      * 类型名称
      */
-    @Schema(name = "类型名称", requiredMode = RequiredMode.REQUIRED)
+    @Schema(description = "类型名称", requiredMode = RequiredMode.REQUIRED)
     private String typeName;
 
     /**
      * 类型编码
      */
-    @Schema(name = "类型编码", requiredMode = RequiredMode.REQUIRED)
+    @Schema(description = "类型编码", requiredMode = RequiredMode.REQUIRED)
     private String typeCode;
 
     /**
      * 状态
      */
-    @Schema(name = "状态", requiredMode = RequiredMode.REQUIRED)
+    @Schema(description = "状态", requiredMode = RequiredMode.REQUIRED)
     private StatusEnum status;
 
     /**
      * 创建时间 create_time
      */
-    @Schema(name = "创建时间")
+    @Schema(description = "创建时间")
     private LocalDateTime createTime;
 
     /**
      * 更新时间 update_time
      */
-    @Schema(name = "更新时间")
+    @Schema(description = "更新时间")
     private LocalDateTime updateTime;
 
     /**

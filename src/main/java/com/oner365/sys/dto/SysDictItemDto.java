@@ -13,7 +13,7 @@ import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
  *
  * @author zhaoyong
  */
-@Schema(name = "字典")
+@Schema(description = "字典")
 public class SysDictItemDto implements Serializable {
 
     /**
@@ -24,43 +24,43 @@ public class SysDictItemDto implements Serializable {
     /**
      * 编号 id
      */
-    @Schema(name = "主键")
+    @Schema(description = "主键")
     private String id;
 
     /**
      * 字典类型编码 type_id
      */
-    @Schema(name = "字典类型编码", requiredMode = RequiredMode.REQUIRED)
+    @Schema(description = "字典类型编码", requiredMode = RequiredMode.REQUIRED)
     private String typeId;
 
     /**
      * 字典编码 item_code
      */
-    @Schema(name = "字典编码", requiredMode = RequiredMode.REQUIRED)
+    @Schema(description = "字典编码", requiredMode = RequiredMode.REQUIRED)
     private String itemCode;
 
     /**
      * 字典名称 item_name
      */
-    @Schema(name = "字典名称", requiredMode = RequiredMode.REQUIRED)
+    @Schema(description = "字典名称", requiredMode = RequiredMode.REQUIRED)
     private String itemName;
 
     /**
      * 排序 item_order
      */
-    @Schema(name = "排序")
+    @Schema(description = "排序")
     private Integer itemOrder;
 
     /**
      * 状态 status
      */
-    @Schema(name = "状态")
+    @Schema(description = "状态")
     private StatusEnum status;
 
     /**
      * 上级id parent_id
      */
-    @Schema(name = "上级id")
+    @Schema(description = "上级id")
     private String parentId;
 
     /**

@@ -13,7 +13,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @author zhaoyong
  *
  */
-@Schema(name = "文件对象")
+@Schema(description = "文件对象")
 public class SysFileStorageDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -21,61 +21,61 @@ public class SysFileStorageDto implements Serializable {
     /**
      * 主键 id
      */
-    @Schema(name = "主键")
+    @Schema(description = "主键")
     private String id;
 
     /**
      * 文件名称 file_name
      */
-    @Schema(name = "文件名称")
+    @Schema(description = "文件名称")
     private String fileName;
 
     /**
      * 显示名称 display_name
      */
-    @Schema(name = "显示名称")
+    @Schema(description = "显示名称")
     private String displayName;
 
     /**
      * 存储方式
      */
-    @Schema(name = "存储方式")
+    @Schema(description = "存储方式")
     private StorageEnum fileStorage;
 
     /**
      * 文件路径 file_path
      */
-    @Schema(name = "文件路径")
+    @Schema(description = "文件路径")
     private String filePath;
 
     /**
      * 文件地址 fastdfs_url
      */
-    @Schema(name = "文件地址")
+    @Schema(description = "文件地址")
     private String fastdfsUrl;
 
     /**
      * 文件后缀 file_suffix
      */
-    @Schema(name = "文件后缀")
+    @Schema(description = "文件后缀")
     private String fileSuffix;
 
     /**
      * 文件大小 file_size
      */
-    @Schema(name = "文件大小")
+    @Schema(description = "文件大小")
     private String size;
 
     /**
      * 创建时间 create_time
      */
-    @Schema(name = "创建时间")
+    @Schema(description = "创建时间")
     private LocalDateTime createTime;
 
     /**
      * 是否目录 is_directory
      */
-    @Schema(name = "是否目录")
+    @Schema(description = "是否目录")
     private boolean isDirectory;
 
     /**

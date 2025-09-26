@@ -12,7 +12,7 @@ import jakarta.validation.constraints.NotBlank;
  * @author zhaoyong
  *
  */
-@Schema(name = "检测配置名称")
+@Schema(description = "检测配置名称")
 public class CheckConfigNameVo implements Serializable {
 
     /**
@@ -23,13 +23,13 @@ public class CheckConfigNameVo implements Serializable {
     /**
      * 主键 id
      */
-    @Schema(name = "主键")
+    @Schema(description = "主键")
     private String id;
 
     /**
      * 编码
      */
-    @Schema(name = "配置名称", requiredMode = RequiredMode.REQUIRED)
+    @Schema(description = "配置名称", requiredMode = RequiredMode.REQUIRED)
     @NotBlank(message = "{system.vo.check.config.name.message}")
     private String configName;
 

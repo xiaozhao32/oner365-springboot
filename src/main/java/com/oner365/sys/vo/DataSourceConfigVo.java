@@ -14,7 +14,7 @@ import jakarta.validation.constraints.NotBlank;
  *
  * @author zhaoyong
  */
-@Schema(name = "数据源配置")
+@Schema(description = "数据源配置")
 public class DataSourceConfigVo implements Serializable {
 
     /**
@@ -25,80 +25,80 @@ public class DataSourceConfigVo implements Serializable {
     /**
      * 主键 id
      */
-    @Schema(name = "主键")
+    @Schema(description = "主键")
     private String id;
 
     /**
      * 连接名
      */
-    @Schema(name = "连接名称", requiredMode = RequiredMode.REQUIRED)
+    @Schema(description = "连接名称", requiredMode = RequiredMode.REQUIRED)
     @NotBlank(message = "{datasource.vo.config.connectName.message}")
     private String connectName;
 
     /**
      * 数据库类型：mysql、oracle
      */
-    @Schema(name = "数据库类型")
+    @Schema(description = "数据库类型")
     private String dbType;
 
     /**
      * 数据源类型: ds, cache
      */
-    @Schema(name = "数据源类型")
+    @Schema(description = "数据源类型")
     private String dsType;
 
     /**
      * 数据库连接地址
      */
-    @Schema(name = "数据库ip")
+    @Schema(description = "数据库ip")
     private String ip;
 
     /**
      * 驱动名称
      */
-    @Schema(name = "驱动名称")
+    @Schema(description = "驱动名称")
     private String driverName;
 
     /**
      * 地址
      */
-    @Schema(name = "数据库地址")
+    @Schema(description = "数据库地址")
     private String url;
 
     /**
      * 数据库名
      */
-    @Schema(name = "数据库名称")
+    @Schema(description = "数据库名称")
     private String dbName;
 
     /**
      * 端口
      */
-    @Schema(name = "端口")
+    @Schema(description = "端口")
     private int port;
 
     /**
      * 用户名
      */
-    @Schema(name = "账号")
+    @Schema(description = "账号")
     private String userName;
 
     /**
      * 密码
      */
-    @Schema(name = "密码")
+    @Schema(description = "密码")
     private String password;
 
     /**
      * 创建时间
      */
-    @Schema(name = "创建时间")
+    @Schema(description = "创建时间")
     private LocalDateTime createTime;
 
     /**
      * 更新时间
      */
-    @Schema(name = "更新时间")
+    @Schema(description = "更新时间")
     private LocalDateTime updateTime;
 
     /**

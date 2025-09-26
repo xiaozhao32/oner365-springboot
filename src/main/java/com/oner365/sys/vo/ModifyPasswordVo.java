@@ -12,7 +12,7 @@ import jakarta.validation.constraints.NotBlank;
  * @author zhaoyong
  *
  */
-@Schema(name = "修改密码对象")
+@Schema(description = "修改密码对象")
 public class ModifyPasswordVo implements Serializable {
 
     /**
@@ -23,14 +23,14 @@ public class ModifyPasswordVo implements Serializable {
     /**
      * 旧密码 oldPassword
      */
-    @Schema(name = "旧密码", requiredMode = RequiredMode.REQUIRED)
+    @Schema(description = "旧密码", requiredMode = RequiredMode.REQUIRED)
     @NotBlank(message = "{system.vo.modify.oldPassword.message}")
     private String oldPassword;
 
     /**
      * 新密码 password
      */
-    @Schema(name = "新密码", requiredMode = RequiredMode.REQUIRED)
+    @Schema(description = "新密码", requiredMode = RequiredMode.REQUIRED)
     @NotBlank(message = "{system.vo.modify.newPassword.message}")
     private String password;
 

@@ -12,7 +12,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @author zhaoyong
  *
  */
-@Schema(name = "菜单树权限")
+@Schema(description = "菜单树权限")
 public class SysMenuTreeSelectDto implements Serializable {
 
     /**
@@ -23,13 +23,13 @@ public class SysMenuTreeSelectDto implements Serializable {
     /**
      * 菜单列表
      */
-    @Schema(name = "菜单列表")
+    @Schema(description = "菜单列表")
     private List<TreeSelect> menus = new ArrayList<>();
 
     /**
      * 选中权限集合
      */
-    @Schema(name = "选中权限集合")
+    @Schema(description = "选中权限集合")
     private List<String> checkedKeys = new ArrayList<>();
 
     public SysMenuTreeSelectDto() {

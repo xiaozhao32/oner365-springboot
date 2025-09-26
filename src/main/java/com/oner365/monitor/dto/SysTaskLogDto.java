@@ -13,7 +13,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @author zhaoyong
  *
  */
-@Schema(name = "定时任务日志")
+@Schema(description = "定时任务日志")
 public class SysTaskLogDto implements Serializable {
 
     private static final long serialVersionUID = 1L;

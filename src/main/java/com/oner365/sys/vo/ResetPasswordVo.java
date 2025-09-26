@@ -12,7 +12,7 @@ import jakarta.validation.constraints.NotBlank;
  * @author zhaoyong
  *
  */
-@Schema(name = "重置密码对象")
+@Schema(description = "重置密码对象")
 public class ResetPasswordVo implements Serializable {
 
     /**
@@ -23,14 +23,14 @@ public class ResetPasswordVo implements Serializable {
     /**
      * 账号 userId
      */
-    @Schema(name = "账号id", requiredMode = RequiredMode.REQUIRED)
+    @Schema(description = "账号id", requiredMode = RequiredMode.REQUIRED)
     @NotBlank(message = "{system.vo.reset.userId.message}")
     private String userId;
 
     /**
      * 密码 password
      */
-    @Schema(name = "密码", requiredMode = RequiredMode.REQUIRED)
+    @Schema(description = "密码", requiredMode = RequiredMode.REQUIRED)
     @NotBlank(message = "{system.vo.reset.password.message}")
     private String password;
 

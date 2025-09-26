@@ -18,7 +18,7 @@ import jakarta.validation.constraints.NotBlank;
  *
  * @author zhaoyong
  */
-@Schema(name = "用户信息")
+@Schema(description = "用户信息")
 public class SysUserVo implements Serializable {
 
     /**
@@ -29,159 +29,159 @@ public class SysUserVo implements Serializable {
     /**
      * 主键
      */
-    @Schema(name = "主键")
+    @Schema(description = "主键")
     private String id;
 
     /**
      * 用户标识
      */
-    @Schema(name = "用户标识")
+    @Schema(description = "用户标识")
     private String userCode;
 
     /**
      * 账号
      */
-    @Schema(name = "账号", requiredMode = RequiredMode.REQUIRED)
+    @Schema(description = "账号", requiredMode = RequiredMode.REQUIRED)
     @NotBlank(message = "{system.vo.loginUser.userName.message}")
     private String userName;
 
     /**
      * 密码
      */
-    @Schema(name = "密码", requiredMode = RequiredMode.REQUIRED)
+    @Schema(description = "密码", requiredMode = RequiredMode.REQUIRED)
     @NotBlank(message = "{system.vo.loginUser.password.message}")
     private String password;
 
     /**
      * 真实姓名
      */
-    @Schema(name = "真实姓名")
+    @Schema(description = "真实姓名")
     private String realName;
 
     /**
      * 头像
      */
-    @Schema(name = "头像")
+    @Schema(description = "头像")
     private String avatar;
 
     /**
      * 性别
      */
-    @Schema(name = "性别")
+    @Schema(description = "性别")
     private SysUserSexEnum sex;
 
     /**
      * 状态
      */
-    @Schema(name = "状态")
+    @Schema(description = "状态")
     private StatusEnum status;
 
     /**
      * 最后登录时间
      */
-    @Schema(name = "最后登录时间")
+    @Schema(description = "最后登录时间")
     private LocalDateTime lastTime;
 
     /**
      * 创建时间
      */
-    @Schema(name = "创建时间")
+    @Schema(description = "创建时间")
     private LocalDateTime createTime;
 
     /**
      * 最后登录ip
      */
-    @Schema(name = "最后登录ip")
+    @Schema(description = "最后登录ip")
     private String lastIp;
 
     /**
      * 邮箱
      */
-    @Schema(name = "邮箱")
+    @Schema(description = "邮箱")
     private String email;
 
     /**
      * 电话
      */
-    @Schema(name = "电话")
+    @Schema(description = "电话")
     private String phone;
 
     /**
      * 身份证
      */
-    @Schema(name = "身份证")
+    @Schema(description = "身份证")
     private String idCard;
 
     /**
      * 是否管理员
      */
-    @Schema(name = "是否管理员")
+    @Schema(description = "是否管理员")
     private String isAdmin;
 
     /**
      * 默认密码
      */
-    @Schema(name = "默认密码")
+    @Schema(description = "默认密码")
     private String defaultPassword;
 
     /**
      * 状态
      */
-    @Schema(name = "状态")
+    @Schema(description = "状态")
     private StatusEnum activeStatus;
 
     /**
      * 用户类型
      */
-    @Schema(name = "用户类型")
+    @Schema(description = "用户类型")
     private SysUserTypeEnum userType;
 
     /**
      * 证件类型
      */
-    @Schema(name = "证件类型")
+    @Schema(description = "证件类型")
     private String idType;
 
     /**
      * 备注
      */
-    @Schema(name = "备注")
+    @Schema(description = "备注")
     private String remark;
 
     /**
      * 角色ID
      */
-    @Schema(name = "角色ID列表")
+    @Schema(description = "角色ID列表")
     private List<String> roles = new ArrayList<>();
 
     /**
      * 角色名称列表
      */
-    @Schema(name = "角色名称列表")
+    @Schema(description = "角色名称列表")
     private List<String> roleNameList = new ArrayList<>();
 
     /**
      * 职位ID
      */
-    @Schema(name = "职位ID列表")
+    @Schema(description = "职位ID列表")
     private List<String> jobs = new ArrayList<>();
 
     /**
      * 职位名称列表
      */
-    @Schema(name = "职位名称列表")
+    @Schema(description = "职位名称列表")
     private List<String> jobNameList = new ArrayList<>();
 
     /**
      * 机构ID
      */
-    @Schema(name = "机构ID列表")
+    @Schema(description = "机构ID列表")
     private List<String> orgs = new ArrayList<>();
 
     /**
      * 机构名称列表
      */
-    @Schema(name = "机构名称列表")
+    @Schema(description = "机构名称列表")
     private List<String> orgNameList = new ArrayList<>();
 
     /**

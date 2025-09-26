@@ -153,7 +153,7 @@ public class ElasticsearchInfoController extends BaseController {
                 .forEachOrdered(shard -> {
                     stateMap.put(shard.getString("index"),
                             ShardRoutingState.valueOf(DataUtils.builderName(shard.getString("state").toLowerCase())));
-                    shardsMap.merge(shard.getString("index"), 1, Integer::sum);
+                    shardsMap.merge(shard.getString("index"), 1, (t, u) -> Integer.sum(t, u));
                 });
 
             List<ClusterDto> clusterList = new ArrayList<>();

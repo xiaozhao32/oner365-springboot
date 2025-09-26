@@ -14,7 +14,7 @@ import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
  *
  * @author zhaoyong
  */
-@Schema(name = "职位信息")
+@Schema(description = "职位信息")
 public class SysJobDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -22,61 +22,61 @@ public class SysJobDto implements Serializable {
     /**
      * 编号 id
      */
-    @Schema(name = "主键")
+    @Schema(description = "主键")
     private String id;
 
     /**
      * 职位名称 job_name
      */
-    @Schema(name = "职位名称", requiredMode = RequiredMode.REQUIRED)
+    @Schema(description = "职位名称", requiredMode = RequiredMode.REQUIRED)
     private String jobName;
 
     /**
      * 职位名称 parent_id
      */
-    @Schema(name = "职位上级id", requiredMode = RequiredMode.REQUIRED)
+    @Schema(description = "职位上级id", requiredMode = RequiredMode.REQUIRED)
     private String parentId;
 
     /**
      * 职位图标 job_logo
      */
-    @Schema(name = "图标名称")
+    @Schema(description = "图标名称")
     private String jobLogo;
 
     /**
      * 职位图标 job_logo_url
      */
-    @Schema(name = "图标地址")
+    @Schema(description = "图标地址")
     private String jobLogoUrl;
 
     /**
      * 职位描述 job_info
      */
-    @Schema(name = "职位描述")
+    @Schema(description = "职位描述")
     private String jobInfo;
 
     /**
      * 职位排序 job_order
      */
-    @Schema(name = "职位排序")
+    @Schema(description = "职位排序")
     private Integer jobOrder;
 
     /**
      * 状态 status
      */
-    @Schema(name = "状态")
+    @Schema(description = "状态")
     private StatusEnum status;
 
     /**
      * 创建时间 create_time
      */
-    @Schema(name = "创建时间")
+    @Schema(description = "创建时间")
     private LocalDateTime createTime;
 
     /**
      * 更新时间 update_time
      */
-    @Schema(name = "更新时间")
+    @Schema(description = "更新时间")
     private LocalDateTime updateTime;
 
     /**
