@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.apache.velocity.VelocityContext;
 
 import com.alibaba.fastjson.JSON;
@@ -182,7 +183,7 @@ public class VelocityUtils {
         String businessName = genTable.getBusinessName();
 
         String javaPath = PROJECT_PATH + PublicConstants.DELIMITER
-                + StringUtils.replace(packageName, ".", PublicConstants.DELIMITER);
+                + Strings.CS.replace(packageName, ".", PublicConstants.DELIMITER);
         String mybatisPath = MYBATIS_PATH + PublicConstants.DELIMITER + moduleName;
         String vuePath = "vue";
 

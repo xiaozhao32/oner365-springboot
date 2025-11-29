@@ -14,11 +14,9 @@ import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import jakarta.annotation.Resource;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -43,6 +41,8 @@ import com.oner365.generator.service.IGenTableService;
 import com.oner365.generator.util.GenUtils;
 import com.oner365.generator.util.VelocityInitializer;
 import com.oner365.generator.util.VelocityUtils;
+
+import jakarta.annotation.Resource;
 
 /**
  * 业务 服务层实现
@@ -226,7 +226,7 @@ public class GenTableServiceImpl implements IGenTableService {
         List<String> templates = VelocityUtils.getTemplateList(table.getTplCategory());
         // 渲染模板
         templates.stream()
-            .filter(template -> !StringUtils.containsAny(template, "sql.vm", "api.js.vm", "index.vue.vm",
+            .filter(template -> !Strings.CS.containsAny(template, "sql.vm", "api.js.vm", "index.vue.vm",
                     "index-tree.vue.vm"))
             .forEach(template -> {
                 StringWriter sw = new StringWriter();
@@ -387,7 +387,7 @@ public class GenTableServiceImpl implements IGenTableService {
      */
     public static String getGenPath(GenTable table, String template) {
         String genPath = table.getGenPath();
-        if (StringUtils.equals(genPath, PublicConstants.DELIMITER)) {
+        if (Strings.CS.equals(genPath, PublicConstants.DELIMITER)) {
             return System.getProperty("user.dir") + File.separator + "src" + File.separator
                     + VelocityUtils.getFileName(template, table);
         }

@@ -1,6 +1,7 @@
 package com.oner365.data.commons.util;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 /**
  * 脱敏工具类
@@ -42,8 +43,7 @@ public class DesensitizationUtils {
         if (StringUtils.isBlank(name)) {
             return null;
         }
-        return StringUtils.left(name, index)
-            .concat(StringUtils
+        return StringUtils.left(name, index).concat(Strings.CS
                 .removeStart(StringUtils.leftPad(StringUtils.right(name, end), StringUtils.length(name), "*"), "***"));
     }
 

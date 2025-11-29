@@ -28,6 +28,7 @@ import java.util.stream.IntStream;
 import org.apache.commons.collections4.map.LRUMap;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.apache.commons.lang3.exception.CloneFailedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -216,7 +217,7 @@ public class DataUtils {
      */
     public static File getFile(String filePath) {
         // 禁止目录上跳级别
-        if (StringUtils.contains(filePath, PARENT_FILE)) {
+        if (Strings.CS.contains(filePath, PARENT_FILE)) {
             return null;
         }
         File file = new File(filePath);
@@ -246,7 +247,7 @@ public class DataUtils {
      */
     public static FileOutputStream getFileOutputStream(String filePath) throws FileNotFoundException {
         // 禁止目录上跳级别
-        if (StringUtils.contains(filePath, PARENT_FILE)) {
+        if (Strings.CS.contains(filePath, PARENT_FILE)) {
             return null;
         }
         return new FileOutputStream(filePath);

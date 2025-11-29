@@ -6,6 +6,7 @@ import java.util.Properties;
 import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.data.redis.connection.RedisServerCommands;
 import org.springframework.data.redis.core.RedisCallback;
@@ -67,7 +68,7 @@ public class CacheController extends BaseController {
             commandStats.stringPropertyNames().forEach(key -> {
                 CacheCommandStatsDto data = new CacheCommandStatsDto();
                 String property = commandStats.getProperty(key);
-                data.setName(StringUtils.removeStart(key, "cmdstat_"));
+                data.setName(Strings.CS.removeStart(key, "cmdstat_"));
                 data.setValue(StringUtils.substringBetween(property, "calls=", ",usec"));
                 cacheCommandStatsDtoList.add(data);
             });

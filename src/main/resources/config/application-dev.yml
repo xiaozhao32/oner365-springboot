@@ -1,58 +1,30 @@
 # server
 server:
-  address: localhost 
   port: 8704
   servlet:
     context-path: /
   tomcat:
     uri-encoding: UTF-8
-    #最大连接数（最大30000）默认值200
-    max-connections: 15000
-    #当tomcat连接数已达最大，接受排队的请求个数默认值100
-    accept-count: 1500
+    #最大连接数（15000）默认值 8192
+    max-connections: 8192
+    #当tomcat连接数已达最大 (1500)，接受排队的请求个数默认值100
+    accept-count: 100
     threads:
-      max: 800
-      min-spare: 30
+      max: 200
+      min-spare: 10
   shutdown: graceful
-
+  
 spring:
 
   # database
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
-
     # mysql
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://172.16.80.211:31979/oner365?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=GMT%2B8
-#    username: root
-#    password: Nationsky1@3
-
-    # postgres
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://172.16.80.211:32621/root?characterEncodeing=utf8&TimeZone=Asia/Shanghai&stringtype=unspecified
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/oner365?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=GMT%2B8
     username: root
-    password: Nqsky1130
-    
-    druid:
-      test-while-idle: true
-      initial-size: 1
-      max-active: 10
-      min-idle: 1
-      max-wait: 3000
-      
-      # druid 监控
-      filters: stat, slf4j
-      stat-view-servlet:
-        enabled: true
-        allow: 127.0.0.1
-        login-username: ${spring.datasource.username}
-        login-password: ${spring.datasource.password}
-        reset-enable: false 
-      web-stat-filter:
-        enabled: true
-        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
-      use-ping-method: false
-    
+    password: 1234
+
   # servlet file
   servlet:
     multipart:
@@ -70,8 +42,8 @@ spring:
   # elasticsearch
   elasticsearch:
     username: elastic
-    password: elastic
-    uris: http://172.16.80.211:32458
+    password: oner365
+    uris: http://localhost:9200
 
   data:
     jpa:
@@ -81,10 +53,11 @@ spring:
     redis:
       repositories:
         enabled: true
-      host: 172.16.80.211
-      port: 32360
-      password: 1234
-      database: 2
+        
+      host: localhost
+      port: 6379
+      password:
+      database: 1
       timeout: 10s
       lettuce:
         pool:
@@ -94,15 +67,15 @@ spring:
           max-wait: -1ms
           
       mode: default
-
+      
     elasticsearch:
       repositories:
-        enabled: false
+        enabled: true
   
   # rabbitmq
   rabbitmq:
-    addresses: 172.16.80.211:31157
-    uri: http://172.16.80.211:30487
+    addresses: localhost:5672
+    uri: http://localhost:15672
     virtual-host: /
     username: admin
     password: admin123
@@ -112,64 +85,22 @@ spring:
     listener:
       simple:
         concurrency: 1
-        max-concurrency: 3
+        max-concurrency: 5
         prefetch: 10
         default-requeue-rejected: true
-  
-  # kafka
-  kafka:
-    bootstrap-servers: 172.16.80.211:32081 
-    listener:
-      missing-topics-fatal: false
-      concurrency: 1
-      poll-timeout: 1500
-      
-    template:
-      default-topic: ${spring.application.name}
-      
-    producer:
-      retries: 0
-      acks: 1
-      batch-size: 16384
-      buffer-memory: 33554432
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer   
-      properties:
-        linger:
-          ms: 0     
-      
-    consumer:
-      group-id: ${spring.application.name}
-      enable-auto-commit: true
-      auto-offset-reset: latest
-      auto-commit-interval: 5s
-      heartbeat-interval: 3s
-      max-poll-records: 100
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      properties:
-        session:
-          timeout:
-            ms: 6000
-        request:
-          timeout:
-            ms: 30000
-        max:
-          poll:
-            interval:
-              ms: 600000
 
   sql:
     init:
       # 首次运行参数为 embedded 或 always 自动初始化以下脚本
       mode: never
       # mysql
-#      schema-locations: classpath:scripts/oner365_mysql.sql
+      schema-locations: classpath:scripts/oner365_mysql.sql
       # postgres
-      schema-locations: classpath:scripts/oner365_postgres.sql
+#      schema-locations: classpath:scripts/oner365_postgres.sql
 
   jpa:
     open-in-view: true
+    
   freemarker:
     check-template-location: false
   thymeleaf:
@@ -191,14 +122,13 @@ spring:
       pool:
         allow-core-thread-timeout: false
         max-size: 60
-        core-size: 2
-        queue-capacity: 100
+        core-size: 10
+        queue-capacity: 60
         keep-alive: 90s
   # 虚拟线程
   threads:
     virtual:
       enabled: true
-
 # mybatis
 mybatis:
   mapper-locations: classpath:mapper/*.xml
@@ -240,6 +170,8 @@ client:
     - /client/login
     
 management:
+  server:
+    port: 50000
   endpoint:
     health:
       probes:
@@ -257,15 +189,15 @@ logging:
   file:
     path: /Users/zhaoyong/Downloads/logs
   level:
-    web: warn
+    web: info
     org:
       springframework: info
-      elasticsearch: error
+      elasticsearch: info
   # logstash
   logstash:
     enabled: false
-    addresses: 172.16.80.211:32522
-   
+    addresses: localhost:5044
+
 # 队列方式    
 queue:
   # rabbitmq rocketmq kafka pulsar activemq mqtt
@@ -276,9 +208,10 @@ pulsar:
   subscription: test-listener
   
 mqtt:
-  uri: tcp://172.16.80.211:31499
-  username: nqsky
-  password: Nqsky1130
+  uri: tcp://localhost:1883
+  username: admin
+  password: admin123
+  default-topic: amq.topic
   client-id: oner365-client
 
 # 文件上传下载地址
@@ -290,20 +223,20 @@ file:
     suffix: xlsx
   # 通用文件下载路径
   download: /Users/zhaoyong/Downloads
-  
+
 # 上传存储到本地
 local:
   # 本地配置web访问地址, fdfs使用 fdfs.web-server-url
   web: http://localhost/uploads
     # 上传地址
-  upload: /Users/zhaoyong/Downloads/logs
+  upload: /Users/zhaoyong/Downloads
 
 # file minio
 minio:
-  username: nqsky
-  password: Nqsky1130
-  url: http://172.16.80.211:31923
-  bucket: testminio
+  username: root
+  password: e8818da9cc9
+  url: http://localhost:9001
+  bucket: ${spring.application.name}
 
 # swagger
 swagger:
@@ -312,7 +245,7 @@ swagger:
   url: https://www.oner365.com
   email: service@oner365.com
   description: Oner365 project
-  
+
 springdoc:
   swagger-ui:
     enabled: true
@@ -369,7 +302,7 @@ knife4j:
 webclient:
   ssl:
     enable: true
-  max-in-memory-size: 209715200  
+  max-in-memory-size: 209715200
 
 #部署目录
 deploy:
@@ -378,16 +311,16 @@ deploy:
     name: /Users/zhaoyong/Documents/deploy/springboot
     version: ${swagger.version}
     suffix: jar
-    active: zy
+    active: dev
     projects:
       - oner365-springboot
     libs:
 
   server:
     deploy: false
-    name: /root/oner365-springboot
+    name: /home/oner365
     servers:
-    - 192.168.213.128:22@root:1234
+    - 192.168.213.131:22@root:1234
 
 # 代码生成
 gen:

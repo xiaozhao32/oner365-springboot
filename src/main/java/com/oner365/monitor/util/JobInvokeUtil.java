@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -140,22 +141,22 @@ public class JobInvokeUtil {
         List<Object[]> classList = new LinkedList<>();
         // String字符串类型，包含'
         Arrays.stream(methodParams).map(StringUtils::trimToEmpty).forEach(str -> {
-            if (StringUtils.contains(str, SYMBOL)) {
-                classList.add(new Object[] { StringUtils.replace(str, SYMBOL, PublicConstants.EMPTY), String.class });
+            if (Strings.CS.contains(str, SYMBOL)) {
+                classList.add(new Object[] { Strings.CS.replace(str, SYMBOL, PublicConstants.EMPTY), String.class });
             }
             // boolean布尔类型，等于true或者false
-            else if (StringUtils.equals(str, Boolean.TRUE.toString())
-                    || StringUtils.equalsIgnoreCase(str, Boolean.FALSE.toString())) {
+            else if (Strings.CS.equals(str, Boolean.TRUE.toString())
+                    || Strings.CI.equals(str, Boolean.FALSE.toString())) {
                 classList.add(new Object[] { Boolean.valueOf(str), Boolean.class });
             }
             // long长整形，包含L
-            else if (StringUtils.containsIgnoreCase(str, SYMBOL_LONG)) {
+            else if (Strings.CI.contains(str, SYMBOL_LONG)) {
                 classList.add(
-                        new Object[] { Long.valueOf(StringUtils.replaceIgnoreCase(str, SYMBOL_LONG, PublicConstants.EMPTY)), Long.class });
+                        new Object[] { Long.valueOf(Strings.CI.replace(str, SYMBOL_LONG, PublicConstants.EMPTY)), Long.class });
             }
             // double浮点类型，包含D
-            else if (StringUtils.containsIgnoreCase(str, SYMBOL_DOUBLE)) {
-                classList.add(new Object[] { Double.valueOf(StringUtils.replaceIgnoreCase(str, SYMBOL_DOUBLE, PublicConstants.EMPTY)),
+            else if (Strings.CI.contains(str, SYMBOL_DOUBLE)) {
+                classList.add(new Object[] { Double.valueOf(Strings.CI.replace(str, SYMBOL_DOUBLE, PublicConstants.EMPTY)),
                         Double.class });
             }
             // 其他类型归类为整形

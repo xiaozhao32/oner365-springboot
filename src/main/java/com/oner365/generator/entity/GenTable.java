@@ -6,13 +6,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 import com.oner365.generator.constants.GenConstants;
+
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 
 /**
  * 业务表 gen_table
@@ -277,7 +277,7 @@ public class GenTable implements Serializable {
     }
 
     public static boolean isTree(String tplCategory) {
-        return tplCategory != null && StringUtils.equals(GenConstants.TPL_TREE, tplCategory);
+        return tplCategory != null && Strings.CS.equals(GenConstants.TPL_TREE, tplCategory);
     }
 
     public boolean isCrud() {
@@ -285,7 +285,7 @@ public class GenTable implements Serializable {
     }
 
     public static boolean isCrud(String tplCategory) {
-        return tplCategory != null && StringUtils.equals(GenConstants.TPL_CRUD, tplCategory);
+        return tplCategory != null && Strings.CS.equals(GenConstants.TPL_CRUD, tplCategory);
     }
 
     public boolean isSuperColumn(String javaField) {
@@ -295,9 +295,9 @@ public class GenTable implements Serializable {
     public static boolean isSuperColumn(String tplCategory, String javaField) {
         // 父类字段
         if (isTree(tplCategory)) {
-            return StringUtils.equalsAnyIgnoreCase(javaField, ArrayUtils.addAll(TREE_ENTITY, BASE_ENTITY));
+            return Strings.CI.equalsAny(javaField, ArrayUtils.addAll(TREE_ENTITY, BASE_ENTITY));
         }
-        return StringUtils.equalsAnyIgnoreCase(javaField, BASE_ENTITY);
+        return Strings.CI.equalsAny(javaField, BASE_ENTITY);
     }
 
     /**

@@ -9,6 +9,7 @@ import java.util.Map;
 import jakarta.validation.constraints.NotBlank;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 import com.oner365.data.commons.util.DataUtils;
 
@@ -162,7 +163,7 @@ public class GenTableColumn implements Serializable {
     }
 
     public boolean isPk(String isPk) {
-        return isPk != null && StringUtils.equals("1", isPk);
+        return isPk != null && Strings.CS.equals("1", isPk);
     }
 
     public String getIsIncrement() {
@@ -178,7 +179,7 @@ public class GenTableColumn implements Serializable {
     }
 
     public boolean isIncrement(String isIncrement) {
-        return isIncrement != null && StringUtils.equals("1", isIncrement);
+        return isIncrement != null && Strings.CS.equals("1", isIncrement);
     }
 
     public void setIsRequired(String isRequired) {
@@ -194,7 +195,7 @@ public class GenTableColumn implements Serializable {
     }
 
     public boolean isRequired(String isRequired) {
-        return isRequired != null && StringUtils.equals("1", isRequired);
+        return isRequired != null && Strings.CS.equals("1", isRequired);
     }
 
     public void setIsInsert(String isInsert) {
@@ -210,7 +211,7 @@ public class GenTableColumn implements Serializable {
     }
 
     public boolean isInsert(String isInsert) {
-        return isInsert != null && StringUtils.equals("1", isInsert);
+        return isInsert != null && Strings.CS.equals("1", isInsert);
     }
 
     public void setIsEdit(String isEdit) {
@@ -226,7 +227,7 @@ public class GenTableColumn implements Serializable {
     }
 
     public boolean isEdit(String isEdit) {
-        return isEdit != null && StringUtils.equals("1", isEdit);
+        return isEdit != null && Strings.CS.equals("1", isEdit);
     }
 
     public void setIsList(String isList) {
@@ -242,7 +243,7 @@ public class GenTableColumn implements Serializable {
     }
 
     public boolean isList(String isList) {
-        return isList != null && StringUtils.equals("1", isList);
+        return isList != null && Strings.CS.equals("1", isList);
     }
 
     public void setIsQuery(String isQuery) {
@@ -258,7 +259,7 @@ public class GenTableColumn implements Serializable {
     }
 
     public boolean isQuery(String isQuery) {
-        return isQuery != null && StringUtils.equals("1", isQuery);
+        return isQuery != null && Strings.CS.equals("1", isQuery);
     }
 
     public void setQueryType(String queryType) {
@@ -298,7 +299,7 @@ public class GenTableColumn implements Serializable {
     }
 
     public static boolean isSuperColumn(String javaField) {
-        return StringUtils.equalsAnyIgnoreCase(javaField,
+        return Strings.CI.equalsAny(javaField,
                 // BaseEntity
                 "createBy", "createTime", "updateBy", "updateTime", "remark",
                 // TreeEntity
@@ -311,7 +312,7 @@ public class GenTableColumn implements Serializable {
 
     public static boolean isUsableColumn(String javaField) {
         // isSuperColumn()中的名单用于避免生成多余Domain属性，若某些属性在生成页面时需要用到不能忽略，则放在此处白名单
-        return StringUtils.equalsAnyIgnoreCase(javaField, "parentId", "orderNum", "remark", "status");
+        return Strings.CI.equalsAny(javaField, "parentId", "orderNum", "remark", "status");
     }
 
     public String readConverterExp() {

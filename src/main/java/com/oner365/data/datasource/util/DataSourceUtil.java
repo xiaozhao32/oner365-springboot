@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -224,7 +225,7 @@ public class DataSourceUtil {
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             // 判断是否是执行语句
-            boolean isExecute = Arrays.stream(key).anyMatch(s -> StringUtils.startsWithIgnoreCase(sql, s));
+            boolean isExecute = Arrays.stream(key).anyMatch(s -> Strings.CI.startsWith(sql, s));
 
             if (isExecute) {
                 execute(con, ps, resultList);

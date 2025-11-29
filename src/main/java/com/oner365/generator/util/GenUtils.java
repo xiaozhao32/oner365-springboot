@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 import com.oner365.data.commons.constants.PublicConstants;
 import com.oner365.data.commons.util.DataUtils;
@@ -150,25 +151,25 @@ public class GenUtils {
 
     private static void setColumnType(GenTableColumn column, String columnName) {
         // 查询字段类型
-        if (StringUtils.endsWithIgnoreCase(columnName, PARAM_NAME)) {
+        if (Strings.CI.endsWith(columnName, PARAM_NAME)) {
             column.setQueryType(GenConstants.QUERY_LIKE);
         }
         // 状态字段设置单选框
-        if (StringUtils.endsWithIgnoreCase(columnName, PARAM_STATUS)) {
+        if (Strings.CI.endsWith(columnName, PARAM_STATUS)) {
             column.setHtmlType(GenConstants.HTML_RADIO);
             column.setJavaType(GenConstants.TYPE_ENUM_STATUS);
         }
         // 类型&性别字段设置下拉框
-        else if (StringUtils.endsWithIgnoreCase(columnName, PARAM_TYPE)
-                || StringUtils.endsWithIgnoreCase(columnName, PARAM_SEX)) {
+        else if (Strings.CI.endsWith(columnName, PARAM_TYPE)
+                || Strings.CI.endsWith(columnName, PARAM_SEX)) {
             column.setHtmlType(GenConstants.HTML_SELECT);
         }
         // 文件字段设置上传控件
-        else if (StringUtils.endsWithIgnoreCase(columnName, PARAM_IMAGE)) {
+        else if (Strings.CI.endsWith(columnName, PARAM_IMAGE)) {
             column.setHtmlType(GenConstants.HTML_UPLOAD_IMAGE);
         }
         // 内容字段设置富文本控件
-        else if (StringUtils.endsWithIgnoreCase(columnName, PARAM_CONTENT)) {
+        else if (Strings.CI.endsWith(columnName, PARAM_CONTENT)) {
             column.setHtmlType(GenConstants.HTML_EDITOR);
         }
     }
@@ -280,7 +281,7 @@ public class GenUtils {
      * @return 截取后的列类型
      */
     public static String getDbType(String columnType) {
-        if (StringUtils.indexOf(columnType, C_LEFT) > 0) {
+        if (Strings.CS.indexOf(columnType, C_LEFT) > 0) {
             return StringUtils.substringBefore(columnType, C_LEFT);
         }
         else {
@@ -294,7 +295,7 @@ public class GenUtils {
      * @return 截取后的列类型
      */
     public static Integer getColumnLength(String columnType) {
-        if (StringUtils.indexOf(columnType, C_LEFT) > 0) {
+        if (Strings.CS.indexOf(columnType, C_LEFT) > 0) {
             String length = StringUtils.substringBetween(columnType, C_LEFT, C_RIGHT);
             return Integer.valueOf(length);
         }

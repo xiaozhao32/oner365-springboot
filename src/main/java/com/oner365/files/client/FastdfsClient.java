@@ -15,6 +15,7 @@ import jakarta.annotation.Resource;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Conditional;
@@ -97,7 +98,7 @@ public class FastdfsClient implements IFileStorageClient {
         // save
         SysFileStorageVo entity = new SysFileStorageVo();
         entity.setFastdfsUrl(PublicConstants.FILE_HTTP + fileFdfsProperties.getIp());
-        entity.setId(StringUtils.replace(url, entity.getFastdfsUrl() + PublicConstants.DELIMITER, PublicConstants.EMPTY));
+        entity.setId(Strings.CS.replace(url, entity.getFastdfsUrl() + PublicConstants.DELIMITER, PublicConstants.EMPTY));
         entity.setCreateTime(LocalDateTime.now());
         entity.setDirectory(false);
         entity.setFileStorage(getName());
@@ -210,7 +211,7 @@ public class FastdfsClient implements IFileStorageClient {
                 directory);
         return vector.stream().map(entry -> {
             SysFileStorageDto fastdfsFile = new SysFileStorageDto();
-            fastdfsFile.setId(StringUtils.replace(directory, fileFdfsProperties.getPath(), "group1")
+            fastdfsFile.setId(Strings.CS.replace(directory, fileFdfsProperties.getPath(), "group1")
                     + PublicConstants.DELIMITER + entry.filename);
             fastdfsFile.setCreateTime(DateUtil.dateToLocalDateTime(new Date(entry.attributes.mtime * 1000L)));
             fastdfsFile.setFileName(entry.filename);
