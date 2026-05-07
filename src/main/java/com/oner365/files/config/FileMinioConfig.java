@@ -39,7 +39,7 @@ public class FileMinioConfig {
             MinioClient minioClient = MinioClient.builder()
                 .endpoint(minioProperties.getUrl())
                 .credentials(minioProperties.getUsername(), minioProperties.getPassword())
-                .region("cn-north-1")
+                .region(minioProperties.getRegion())
                 .build();
 
             // 创建根文件夹 bucket

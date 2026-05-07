@@ -3,6 +3,7 @@ server:
   port: 8704
   servlet:
     context-path: /
+  address: localhost
   tomcat:
     uri-encoding: UTF-8
     #最大连接数（15000）默认值 8192
@@ -236,6 +237,7 @@ minio:
   username: root
   password: e8818da9cc9
   url: http://localhost:9001
+  region: cn-north-1
   bucket: ${spring.application.name}
 
 # swagger

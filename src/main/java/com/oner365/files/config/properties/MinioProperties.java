@@ -29,6 +29,11 @@ public class MinioProperties {
      * 根目录
      */
     private String bucket;
+    
+    /**
+     * 地区
+     */
+    private String region;
 
     /**
      * 构造方法
@@ -91,6 +96,20 @@ public class MinioProperties {
      */
     public void setBucket(String bucket) {
         this.bucket = bucket;
+    }
+
+    /**
+     * @return the region
+     */
+    public String getRegion() {
+        return region;
+    }
+
+    /**
+     * @param region the region to set
+     */
+    public void setRegion(String region) {
+        this.region = region;
     }
 
 }

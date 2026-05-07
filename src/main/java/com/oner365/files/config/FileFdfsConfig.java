@@ -1,7 +1,5 @@
 package com.oner365.files.config;
 
-import jakarta.annotation.Resource;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -24,12 +22,8 @@ public class FileFdfsConfig {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FileFdfsConfig.class);
 
-    @Resource
-    private FileFdfsProperties fileFdfsProperties;
-
-    public FileFdfsConfig() {
-        LOGGER.info("Storage Type: {}", StorageEnum.FDFS);
-        LOGGER.info("init fdfs properties:{}", fileFdfsProperties);
+    public FileFdfsConfig(FileFdfsProperties fileFdfsProperties) {
+        LOGGER.info("Storage Type: {}, Properties: {}", StorageEnum.FDFS, fileFdfsProperties);
     }
 
 }
