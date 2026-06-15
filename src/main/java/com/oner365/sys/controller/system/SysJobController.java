@@ -51,7 +51,7 @@ public class SysJobController extends BaseController {
      */
     @ApiOperation("1.获取列表")
     @ApiOperationSupport(order = 1)
-    @PostMapping("/list")
+    @PostMapping("/page")
     public PageInfo<SysJobDto> pageList(@RequestBody QueryCriteriaBean data) {
         return sysJobService.pageList(data);
     }
@@ -124,6 +124,18 @@ public class SysJobController extends BaseController {
 
         String fileName = SysJobDto.class.getSimpleName() + System.currentTimeMillis();
         return exportExcel(fileName, titleKeys, columnNames, list);
+    }
+    
+    /**
+     * 用户职位列表
+     * @param data 查询参数
+     * @return Page<SysJobDto>
+     */
+    @ApiOperation("7.获取列表")
+    @ApiOperationSupport(order = 7)
+    @PostMapping("/list")
+    public List<SysJobDto> findList(@RequestBody QueryCriteriaBean data) {
+        return sysJobService.findList(data);
     }
 
 }

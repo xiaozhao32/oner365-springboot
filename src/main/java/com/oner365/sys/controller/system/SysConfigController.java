@@ -52,7 +52,7 @@ public class SysConfigController extends BaseController {
      */
     @ApiOperation("1.获取列表")
     @ApiOperationSupport(order = 1)
-    @PostMapping("/list")
+    @PostMapping("/page")
     public PageInfo<SysConfigDto> pageList(@RequestBody QueryCriteriaBean data) {
         return sysConfigService.pageList(data);
     }

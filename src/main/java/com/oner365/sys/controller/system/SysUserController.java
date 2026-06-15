@@ -78,7 +78,7 @@ public class SysUserController extends BaseController {
      */
     @ApiOperation("1.用户列表")
     @ApiOperationSupport(order = 1)
-    @PostMapping("/list")
+    @PostMapping("/page")
     public PageInfo<SysUserDto> pageList(@RequestBody QueryCriteriaBean data) {
         return sysUserService.pageList(data);
     }

@@ -50,9 +50,9 @@ public class SysRoleController extends BaseController {
      * @param data 查询参数
      * @return PageInfo<SysRoleDto>
      */
-    @ApiOperation("1.获取列表")
+    @ApiOperation("1.获取分页")
     @ApiOperationSupport(order = 1)
-    @PostMapping("/list")
+    @PostMapping("/page")
     public PageInfo<SysRoleDto> pageList(@RequestBody QueryCriteriaBean data) {
         return roleService.pageList(data);
     }
@@ -147,6 +147,18 @@ public class SysRoleController extends BaseController {
 
         String fileName = SysRoleDto.class.getSimpleName() + System.currentTimeMillis();
         return exportExcel(fileName, titleKeys, columnNames, list);
+    }
+    
+    /**
+     * 列表
+     * @param data 查询参数
+     * @return PageInfo<SysRoleDto>
+     */
+    @ApiOperation("8.获取列表")
+    @ApiOperationSupport(order = 8)
+    @PostMapping("/list")
+    public List<SysRoleDto> findList(@RequestBody QueryCriteriaBean data) {
+        return roleService.findList(data);
     }
 
 }
