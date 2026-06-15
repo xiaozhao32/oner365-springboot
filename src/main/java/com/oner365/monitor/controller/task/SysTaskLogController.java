@@ -44,7 +44,7 @@ public class SysTaskLogController extends BaseController {
      */
     @Operation(summary = "1.获取列表")
     @ApiOperationSupport(order = 1)
-    @PostMapping("/list")
+    @PostMapping("/page")
     public PageInfo<SysTaskLogDto> pageList(@RequestBody QueryCriteriaBean data) {
         return taskLogService.pageList(data);
     }

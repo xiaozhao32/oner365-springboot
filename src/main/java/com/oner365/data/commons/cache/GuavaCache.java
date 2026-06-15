@@ -1,8 +1,8 @@
 package com.oner365.data.commons.cache;
 
+import java.time.Duration;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +42,7 @@ public class GuavaCache<T> {
     /** 创建缓存 */
     private final LoadingCache<String, Optional<T>> cache = CacheBuilder.newBuilder()
         .concurrencyLevel(CONCURRENCY_LEVEL)
-        .expireAfterWrite(EXPIRE_AFTER_WRITE, TimeUnit.MINUTES)
+        .expireAfterWrite(Duration.ofMinutes(EXPIRE_AFTER_WRITE))
         .initialCapacity(INITIAL_CAPACITY)
         .maximumSize(MAXIMUM_SIZE)
         .recordStats()

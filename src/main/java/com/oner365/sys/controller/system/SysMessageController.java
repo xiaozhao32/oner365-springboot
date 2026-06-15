@@ -73,7 +73,7 @@ public class SysMessageController extends BaseController {
      */
     @Operation(summary = "2.获取列表")
     @ApiOperationSupport(order = 2)
-    @PostMapping("/list")
+    @PostMapping("/page")
     public PageInfo<SysMessageDto> pageList(@RequestBody QueryCriteriaBean data) {
         return sysMessageService.pageList(data);
     }

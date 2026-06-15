@@ -58,7 +58,11 @@
     </appender>
     
     <!-- logstash 远程日志配置 -->
-	<if condition='property("LOGSTASH_ENABLED").equals("true")'>
+	<condition class="ch.qos.logback.core.boolex.PropertyEqualityCondition">
+	    <key>LOGSTASH_ENABLED</key>
+	    <value>true</value>
+	</condition>
+	<if>
 	<then>
 		<appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
 			<!-- 多个input索引监听修改对应logstash监听端口即可 -->
