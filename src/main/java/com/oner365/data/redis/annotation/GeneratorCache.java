@@ -22,14 +22,16 @@ import com.oner365.data.commons.constants.PublicConstants;
 @Cacheable(PublicConstants.NAME)
 public @interface GeneratorCache {
 
-    @AliasFor("cacheNames")
+    @AliasFor(annotation = Cacheable.class, attribute = "value")
     String[] value() default {};
 
-    @AliasFor("value")
+    @AliasFor(annotation = Cacheable.class, attribute = "cacheNames")
     String[] cacheNames() default {};
 
+    @AliasFor(annotation = Cacheable.class, attribute = "key")
     String key() default PublicConstants.EMPTY;
 
+    @AliasFor(annotation = Cacheable.class, attribute = "keyGenerator")
     String keyGenerator() default PublicConstants.KEY_GENERATOR;
 
 }

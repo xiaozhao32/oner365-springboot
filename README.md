@@ -2,7 +2,7 @@
 
 # Oner365 Springboot
 
-![Spring Framework 6.2.18](https://shields.io/badge/Spring%20Framework-6.2.18-blue) 
+![Spring Framework 6.2.19](https://shields.io/badge/Spring%20Framework-6.2.19-blue) 
 ![Spring Boot 3.5.15](https://shields.io/badge/Spring%20Boot-3.5.15-blue) 
 ![Hibernate Core 6.6.52](https://shields.io/badge/Hibernate%20Core-6.6.52-blue) 
 ![Mybatis 3.5.19](https://shields.io/badge/Mybatis-3.5.19-blue) 
