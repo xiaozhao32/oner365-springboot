@@ -160,6 +160,7 @@ public class SysOrganization implements Serializable {
     /**
      * 数据源
      */
+    @SuppressWarnings("removal")
     @OneToOne
     @NotFound(action = NotFoundAction.IGNORE)
     @Cascade(value = { CascadeType.REFRESH })

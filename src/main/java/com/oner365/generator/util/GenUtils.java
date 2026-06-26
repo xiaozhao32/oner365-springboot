@@ -160,8 +160,7 @@ public class GenUtils {
             column.setJavaType(GenConstants.TYPE_ENUM_STATUS);
         }
         // 类型&性别字段设置下拉框
-        else if (Strings.CI.endsWith(columnName, PARAM_TYPE)
-                || Strings.CI.endsWith(columnName, PARAM_SEX)) {
+        else if (Strings.CI.endsWith(columnName, PARAM_TYPE) || Strings.CI.endsWith(columnName, PARAM_SEX)) {
             column.setHtmlType(GenConstants.HTML_SELECT);
         }
         // 文件字段设置上传控件

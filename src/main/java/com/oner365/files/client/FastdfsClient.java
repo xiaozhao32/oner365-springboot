@@ -98,7 +98,8 @@ public class FastdfsClient implements IFileStorageClient {
         // save
         SysFileStorageVo entity = new SysFileStorageVo();
         entity.setFastdfsUrl(PublicConstants.FILE_HTTP + fileFdfsProperties.getIp());
-        entity.setId(Strings.CS.replace(url, entity.getFastdfsUrl() + PublicConstants.DELIMITER, PublicConstants.EMPTY));
+        entity
+            .setId(Strings.CS.replace(url, entity.getFastdfsUrl() + PublicConstants.DELIMITER, PublicConstants.EMPTY));
         entity.setCreateTime(LocalDateTime.now());
         entity.setDirectory(false);
         entity.setFileStorage(getName());

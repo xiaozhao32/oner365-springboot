@@ -3,8 +3,7 @@ package com.oner365.test.controller;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-import jakarta.annotation.Resource;
-
+import org.springframework.boot.webtestclient.autoconfigure.AutoConfigureWebTestClient;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -20,12 +19,15 @@ import com.oner365.data.redis.RedisCache;
 import com.oner365.sys.dto.LoginUserDto;
 import com.oner365.test.BaseTest;
 
+import jakarta.annotation.Resource;
+
 /**
  * Base Controller
  *
  * @author zhaoyong
  *
  */
+@AutoConfigureWebTestClient
 public abstract class BaseControllerTest extends BaseTest {
 
     @Resource

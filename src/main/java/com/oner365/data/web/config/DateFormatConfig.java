@@ -1,19 +1,20 @@
 package com.oner365.data.web.config;
 
+import java.text.DateFormat;
 import java.time.ZoneId;
 import java.util.Locale;
 import java.util.TimeZone;
 
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
-import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
+import org.springframework.boot.jackson.autoconfigure.JacksonAutoConfiguration;
+import org.springframework.boot.jackson.autoconfigure.JsonMapperBuilderCustomizer;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oner365.data.commons.jackson.JavaTimeModule;
-import com.oner365.data.commons.util.DateUtil;
+
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 
 /**
  * 日期格式化
@@ -24,14 +25,14 @@ import com.oner365.data.commons.util.DateUtil;
 @Configuration
 @ConditionalOnClass({ ObjectMapper.class })
 @AutoConfigureBefore({ JacksonAutoConfiguration.class })
-public class DateFormatConfig implements Jackson2ObjectMapperBuilderCustomizer {
+public class DateFormatConfig implements JsonMapperBuilderCustomizer {
 
     @Override
-    public void customize(Jackson2ObjectMapperBuilder builder) {
-        builder.locale(Locale.CHINA);
-        builder.timeZone(TimeZone.getTimeZone(ZoneId.systemDefault()));
-        builder.simpleDateFormat(DateUtil.FULL_TIME_FORMAT);
-        builder.modules(new JavaTimeModule());
+    public void customize(JsonMapper.Builder builder) {
+        builder.defaultLocale(Locale.CHINA);
+        builder.defaultTimeZone(TimeZone.getTimeZone(ZoneId.systemDefault()));
+        builder.defaultDateFormat(DateFormat.getDateTimeInstance());
+        builder.addModule(new JavaTimeModule());
     }
 
 }

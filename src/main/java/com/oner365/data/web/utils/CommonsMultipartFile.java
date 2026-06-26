@@ -153,8 +153,8 @@ public class CommonsMultipartFile implements MultipartFile, Serializable {
                     action = (isAvailable() ? "copied" : "moved");
                 }
                 return "Part '" + getName() + "',  filename '" + getOriginalFilename() + "'"
-                        + (traceOn ? ", stored " + getStorageDescription() : PublicConstants.EMPTY) + ": " + action + " to ["
-                        + dest.getAbsolutePath() + "]";
+                        + (traceOn ? ", stored " + getStorageDescription() : PublicConstants.EMPTY) + ": " + action
+                        + " to [" + dest.getAbsolutePath() + "]";
             });
         }
         catch (FileUploadException ex) {
@@ -216,7 +216,8 @@ public class CommonsMultipartFile implements MultipartFile, Serializable {
     public String toString() {
         return "MultipartFile[field=\"" + this.fileItem.getFieldName() + "\""
                 + (this.fileItem.getName() != null ? ", filename=" + this.fileItem.getName() : PublicConstants.EMPTY)
-                + (this.fileItem.getContentType() != null ? ", contentType=" + this.fileItem.getContentType() : PublicConstants.EMPTY)
+                + (this.fileItem.getContentType() != null ? ", contentType=" + this.fileItem.getContentType()
+                        : PublicConstants.EMPTY)
                 + ", size=" + this.fileItem.getSize() + "]";
     }
 

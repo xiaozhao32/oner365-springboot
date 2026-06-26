@@ -10,7 +10,6 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -49,8 +48,7 @@ public class TokenInterceptor implements HandlerInterceptor {
      * Handler
      */
     @Override
-    public boolean preHandle(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response,
-            @NonNull Object object) {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object object) {
 
         // 验证白名单
         if (validateIgnoreWhites(request)) {

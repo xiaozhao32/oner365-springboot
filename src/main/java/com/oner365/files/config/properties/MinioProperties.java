@@ -29,7 +29,7 @@ public class MinioProperties {
      * 根目录
      */
     private String bucket;
-    
+
     /**
      * 地区
      */

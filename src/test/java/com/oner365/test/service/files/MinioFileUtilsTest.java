@@ -23,13 +23,13 @@ import io.minio.BucketExistsArgs;
 import io.minio.GetObjectArgs;
 import io.minio.GetObjectResponse;
 import io.minio.GetPresignedObjectUrlArgs;
+import io.minio.Http.Method;
 import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
 import io.minio.ObjectWriteResponse;
 import io.minio.PutObjectArgs;
 import io.minio.StatObjectArgs;
 import io.minio.StatObjectResponse;
-import io.minio.http.Method;
 
 /**
  * Test MinioFile Service
@@ -80,7 +80,7 @@ class MinioFileUtilsTest extends BaseServiceTest {
                 ObjectWriteResponse writeResponse = minioClient.putObject(PutObjectArgs.builder()
                     .bucket(minioProperties.getBucket())
                     .object(path)
-                    .stream(inputStream, file.length(), -1)
+                    .stream(inputStream, file.length(), -1L)
                     .contentType(ContentType.IMAGE_JPEG.getMimeType())
                     .build());
                 logger.info("file path: {}", writeResponse.object());
@@ -97,7 +97,7 @@ class MinioFileUtilsTest extends BaseServiceTest {
             logger.info("file contentType: {}", objectResponse.contentType());
             logger.info("file size: {}", objectResponse.size());
         }
-        catch (IOException e) {
+        catch (Exception e) {
             logger.error("statObject error:", e);
         }
 
@@ -120,7 +120,7 @@ class MinioFileUtilsTest extends BaseServiceTest {
                 .build());
             logger.info("file presigned url: {}", url);
         }
-        catch (IOException e) {
+        catch (Exception e) {
             logger.error("presignedObject error:", e);
         }
 

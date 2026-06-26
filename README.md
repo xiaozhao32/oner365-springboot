@@ -2,16 +2,16 @@
 
 # Oner365 Springboot
 
-![Spring Framework 6.2.19](https://shields.io/badge/Spring%20Framework-6.2.19-blue) 
-![Spring Boot 3.5.15](https://shields.io/badge/Spring%20Boot-3.5.15-blue) 
-![Hibernate Core 6.6.52](https://shields.io/badge/Hibernate%20Core-6.6.52-blue) 
+![Spring Framework 7.0.8](https://shields.io/badge/Spring%20Framework-7.0.8-blue) 
+![Spring Boot 4.1.0](https://shields.io/badge/Spring%20Boot-4.1.0-blue) 
+![Hibernate Core 7.4.2](https://shields.io/badge/Hibernate%20Core-7.4.2-blue) 
 ![Mybatis 3.5.19](https://shields.io/badge/Mybatis-3.5.19-blue) 
 
 ![License Apache 2.0](https://shields.io/badge/License-Apache--2.0-yellow) 
 ![Java 21](https://img.shields.io/badge/JDK-21-orange)
 
 ![Author Zy&Lt](https://shields.io/badge/Author-Zy&Lt-purple) 
-![Version 2.1.0](https://shields.io/badge/Version-2.1.0-red) 
+![Version 3.1.0](https://shields.io/badge/Version-3.1.0-red) 
 
 ![Github star](https://img.shields.io/github/stars/xiaozhao32/oner365-springboot?style=flat&logo=github) 
 ![Github fork](https://img.shields.io/github/forks/xiaozhao32/oner365-springboot?style=flat&logo=github) 

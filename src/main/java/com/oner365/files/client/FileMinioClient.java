@@ -29,13 +29,13 @@ import com.oner365.files.vo.SysFileStorageVo;
 import io.minio.GetObjectArgs;
 import io.minio.GetObjectResponse;
 import io.minio.GetPresignedObjectUrlArgs;
+import io.minio.Http.Method;
 import io.minio.MinioClient;
 import io.minio.ObjectWriteResponse;
 import io.minio.PutObjectArgs;
 import io.minio.RemoveObjectArgs;
 import io.minio.StatObjectArgs;
 import io.minio.StatObjectResponse;
-import io.minio.http.Method;
 
 /**
  * minio工具类
@@ -67,7 +67,7 @@ public class FileMinioClient implements IFileStorageClient {
             ObjectWriteResponse writeResponse = minioClient.putObject(PutObjectArgs.builder()
                 .bucket(minioProperties.getBucket())
                 .object(path)
-                .stream(inputStream, file.getSize(), -1)
+                .stream(inputStream, file.getSize(), -1L)
                 .contentType(file.getContentType())
                 .build());
             String result = writeResponse.object();
@@ -91,7 +91,7 @@ public class FileMinioClient implements IFileStorageClient {
             ObjectWriteResponse writeResponse = minioClient.putObject(PutObjectArgs.builder()
                 .bucket(minioProperties.getBucket())
                 .object(path)
-                .stream(inputStream, file.length(), -1)
+                .stream(inputStream, file.length(), -1L)
                 .build());
             String result = writeResponse.object();
             logger.info("uploadFile path: {}", result);

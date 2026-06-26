@@ -15,7 +15,7 @@ import com.oner365.data.commons.util.DataUtils;
 
 /**
  * RedisConfigurer
- * 
+ *
  * @author zhaoyong
  */
 @Configuration
@@ -42,16 +42,20 @@ public class RedisConfigurer implements CachingConfigurer {
                 Arrays.stream(params).forEach(object -> {
                     if (DataUtils.isEmpty(object)) {
                         strBuilder.append(Strings.EMPTY);
-                    } else if (ClassesUtil.isPrimitive(object.getClass())) {
+                    }
+                    else if (ClassesUtil.isPrimitive(object.getClass())) {
                         strBuilder.append(object);
-                    } else {
+                    }
+                    else {
                         strBuilder.append(JSON.toJSONString(object).hashCode());
                     }
                 });
-            } else {
+            }
+            else {
                 strBuilder.append(sp);
             }
             return strBuilder.toString();
         };
     }
+
 }

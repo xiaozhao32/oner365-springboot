@@ -4,8 +4,8 @@ import java.util.HashSet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
-import org.springframework.boot.autoconfigure.data.redis.RedisProperties.Sentinel;
+import org.springframework.boot.data.redis.autoconfigure.DataRedisProperties;
+import org.springframework.boot.data.redis.autoconfigure.DataRedisProperties.Sentinel;
 
 import com.oner365.data.commons.util.DataUtils;
 
@@ -30,7 +30,7 @@ public class JedisUtils {
      * @param redisProperties 属性文件
      * @return Jedis
      */
-    public static Jedis getJedis(RedisProperties redisProperties) {
+    public static Jedis getJedis(DataRedisProperties redisProperties) {
         // sentinel
         if (redisProperties.getSentinel() != null) {
             Sentinel sentinel = redisProperties.getSentinel();

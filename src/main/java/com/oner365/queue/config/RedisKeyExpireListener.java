@@ -1,10 +1,11 @@
 package com.oner365.queue.config;
 
+import java.nio.charset.StandardCharsets;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.connection.Message;
-import org.springframework.data.redis.listener.KeyExpirationEventMessageListener;
-import org.springframework.data.redis.listener.RedisMessageListenerContainer;
+import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.stereotype.Component;
 
 /**
@@ -14,21 +15,17 @@ import org.springframework.stereotype.Component;
  *
  */
 @Component
-public class RedisKeyExpireListener extends KeyExpirationEventMessageListener {
+public class RedisKeyExpireListener implements MessageListener {
 
-    private static final Logger logger = LoggerFactory.getLogger(RedisKeyExpireListener.class);
-
-    public RedisKeyExpireListener(RedisMessageListenerContainer listenerContainer) {
-        super(listenerContainer);
-    }
+    private final Logger logger = LoggerFactory.getLogger(RedisKeyExpireListener.class);
 
     @Override
-    public void doHandleMessage(Message message) {
-        if (message != null) {
-            String body = new String(message.getBody());
-            String channel = new String(message.getChannel());
-            logger.info("RedisKeyExpireListener message: {}, channel: {}", body, channel);
-        }
+    public void onMessage(Message message, byte[] pattern) {
+        // 获取过期的key
+        String expiredKey = new String(message.getBody(), StandardCharsets.UTF_8);
+        String channel = new String(message.getChannel(), StandardCharsets.UTF_8);
+
+        logger.info("Expried Key: {}, Channel: {}", expiredKey, channel);
     }
 
 }

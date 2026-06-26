@@ -3,7 +3,6 @@ package com.oner365.monitor.util;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
-import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
 /**
@@ -18,7 +17,7 @@ public final class SpringUtils implements BeanFactoryPostProcessor {
     private static ConfigurableListableBeanFactory beanFactory;
 
     @Override
-    public void postProcessBeanFactory(@NonNull ConfigurableListableBeanFactory beanFactory) {
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) {
         SpringUtils.beanFactory = beanFactory;
     }
 

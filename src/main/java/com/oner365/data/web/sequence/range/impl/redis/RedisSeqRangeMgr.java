@@ -3,7 +3,7 @@ package com.oner365.data.web.sequence.range.impl.redis;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
+import org.springframework.boot.data.redis.autoconfigure.DataRedisProperties;
 
 import com.oner365.data.redis.util.JedisUtils;
 import com.oner365.data.web.sequence.range.SeqRange;
@@ -28,7 +28,7 @@ public class RedisSeqRangeMgr implements SeqRangeMgr {
 
     private volatile boolean keyAlreadyExist;
 
-    private RedisProperties properties;
+    private DataRedisProperties properties;
 
     @Override
     public SeqRange nextRange(String name) {
@@ -92,11 +92,11 @@ public class RedisSeqRangeMgr implements SeqRangeMgr {
         this.stepStart = stepStart;
     }
 
-    public RedisProperties getProperties() {
+    public DataRedisProperties getProperties() {
         return properties;
     }
 
-    public void setProperties(RedisProperties properties) {
+    public void setProperties(DataRedisProperties properties) {
         this.properties = properties;
     }
 

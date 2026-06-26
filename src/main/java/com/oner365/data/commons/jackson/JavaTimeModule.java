@@ -1,6 +1,5 @@
 package com.oner365.data.commons.jackson;
 
-import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -9,22 +8,23 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.datatype.jsr310.PackageVersion;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import com.oner365.data.commons.util.DataUtils;
 import com.oner365.data.commons.util.DateUtil;
+
+import tools.jackson.core.JsonGenerator;
+import tools.jackson.core.JsonParser;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.SerializationContext;
+import tools.jackson.databind.ValueDeserializer;
+import tools.jackson.databind.ValueSerializer;
+import tools.jackson.databind.cfg.PackageVersion;
+import tools.jackson.databind.ext.javatime.deser.LocalDateDeserializer;
+import tools.jackson.databind.ext.javatime.deser.LocalDateTimeDeserializer;
+import tools.jackson.databind.ext.javatime.deser.LocalTimeDeserializer;
+import tools.jackson.databind.ext.javatime.ser.LocalDateSerializer;
+import tools.jackson.databind.ext.javatime.ser.LocalDateTimeSerializer;
+import tools.jackson.databind.ext.javatime.ser.LocalTimeSerializer;
+import tools.jackson.databind.module.SimpleModule;
 
 /**
  * JavaTimeModule
@@ -55,7 +55,7 @@ public class JavaTimeModule extends SimpleModule {
         addDeserializer(Instant.class, new InstantCustomDeserializer());
     }
 
-    static class InstantCustomSerializer extends JsonSerializer<Instant> {
+    static class InstantCustomSerializer extends ValueSerializer<Instant> {
 
         private final DateTimeFormatter format;
 
@@ -64,8 +64,7 @@ public class JavaTimeModule extends SimpleModule {
         }
 
         @Override
-        public void serialize(Instant instant, JsonGenerator jsonGenerator, SerializerProvider serializerProvider)
-                throws IOException {
+        public void serialize(Instant instant, JsonGenerator jsonGenerator, SerializationContext serializerProvider) {
             if (instant != null) {
                 String jsonValue = format.format(instant.atZone(ZoneId.systemDefault()));
                 jsonGenerator.writeString(jsonValue);
@@ -74,11 +73,11 @@ public class JavaTimeModule extends SimpleModule {
 
     }
 
-    static class InstantCustomDeserializer extends JsonDeserializer<Instant> {
+    static class InstantCustomDeserializer extends ValueDeserializer<Instant> {
 
         @Override
-        public Instant deserialize(JsonParser parser, DeserializationContext context) throws IOException {
-            String dateString = parser.getText().trim();
+        public Instant deserialize(JsonParser parser, DeserializationContext context) {
+            String dateString = parser.getString().trim();
             if (DataUtils.isEmpty(dateString)) {
                 Date pareDate = DateUtil.stringToDate(dateString, DateUtil.FULL_TIME_FORMAT);
                 if (pareDate != null) {

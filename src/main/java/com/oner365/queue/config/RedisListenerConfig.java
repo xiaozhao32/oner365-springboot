@@ -2,15 +2,12 @@ package com.oner365.queue.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.listener.PatternTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 
 import com.oner365.data.commons.constants.PublicConstants;
-
-import jakarta.annotation.Resource;
 
 /**
  * 消息广播监听配置
@@ -20,21 +17,21 @@ import jakarta.annotation.Resource;
 @Configuration
 public class RedisListenerConfig {
 
-    @Resource
-    private MessageListener redisMessageReceiver;
-
-    /**
-     * 初始化监听器
-     * @param connectionFactory connectionFactory
-     * @return RedisMessageListenerContainer
-     */
     @Bean
-    RedisMessageListenerContainer container(RedisConnectionFactory connectionFactory) {
+    RedisMessageListenerContainer redisMessageListenerContainer(RedisConnectionFactory connectionFactory,
+            MessageListenerAdapter keyExpiredListener) {
+
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
-        container.addMessageListener(new MessageListenerAdapter(redisMessageReceiver),
-                new PatternTopic(PublicConstants.NAME));
+
+        // 监听所有key的过期事件
+        container.addMessageListener(keyExpiredListener, new PatternTopic(PublicConstants.NAME));
         return container;
+    }
+
+    @Bean
+    MessageListenerAdapter keyExpiredListener(RedisKeyExpireListener listener) {
+        return new MessageListenerAdapter(listener);
     }
 
 }

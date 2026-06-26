@@ -43,7 +43,8 @@ public class DesensitizationUtils {
         if (StringUtils.isBlank(name)) {
             return null;
         }
-        return StringUtils.left(name, index).concat(Strings.CS
+        return StringUtils.left(name, index)
+            .concat(Strings.CS
                 .removeStart(StringUtils.leftPad(StringUtils.right(name, end), StringUtils.length(name), "*"), "***"));
     }
 

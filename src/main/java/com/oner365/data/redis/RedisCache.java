@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.data.redis.core.types.Expiration;
 import org.springframework.stereotype.Component;
 
 import com.oner365.data.redis.constants.CacheConstants;
@@ -44,7 +45,7 @@ public class RedisCache {
      * @param timeUnit 时间颗粒度
      */
     public <T> void setCacheObject(final String key, final T value, final Integer timeout, final TimeUnit timeUnit) {
-        redisTemplate.opsForValue().set(key, value, timeout, timeUnit);
+        redisTemplate.opsForValue().set(key, value, Expiration.from(timeout, timeUnit));
     }
 
     /**
@@ -65,7 +66,7 @@ public class RedisCache {
      * @return true=设置成功；false=设置失败
      */
     public boolean expire(final String key, final long timeout, final TimeUnit unit) {
-        return redisTemplate.expire(key, timeout, unit);
+        return redisTemplate.expire(key, Expiration.from(timeout, unit));
     }
 
     /**
@@ -211,7 +212,7 @@ public class RedisCache {
      */
     public boolean lock(String key, long expireTime) {
         String lock = CacheConstants.CACHE_LOCK_NAME + key;
-        return redisTemplate.opsForValue().setIfAbsent(lock, lock, expireTime, TimeUnit.SECONDS);
+        return redisTemplate.opsForValue().setIfAbsent(lock, lock, Expiration.from(expireTime, TimeUnit.SECONDS));
     }
 
 }

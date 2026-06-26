@@ -125,7 +125,7 @@ public class SysJobController extends BaseController {
         String fileName = SysJobDto.class.getSimpleName() + System.currentTimeMillis();
         return exportExcel(fileName, titleKeys, columnNames, list);
     }
-    
+
     /**
      * 用户职位列表
      * @param data 查询参数

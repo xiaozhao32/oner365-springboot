@@ -811,7 +811,8 @@ public class ConvertString {
                 p.insert(0, digit[integerPart % 10] + unit[1][j]);
                 integerPart = integerPart / 10;
             }
-            s.insert(0, p.toString().replaceAll(ZERO_POINT + "*零$", PublicConstants.EMPTY).replaceAll("^$", "零") + unit[0][i]);
+            s.insert(0, p.toString().replaceAll(ZERO_POINT + "*零$", PublicConstants.EMPTY).replaceAll("^$", "零")
+                    + unit[0][i]);
         }
         return head + s.toString()
             .replaceAll(ZERO_POINT + "*零元", "元")

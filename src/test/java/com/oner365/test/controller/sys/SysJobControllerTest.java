@@ -7,9 +7,7 @@ import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
-import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.reactive.function.BodyInserters;
 
 import com.alibaba.fastjson.JSON;
@@ -23,7 +21,6 @@ import com.oner365.test.controller.BaseControllerTest;
  * @author zhaoyong
  *
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class SysJobControllerTest extends BaseControllerTest {
 
@@ -44,10 +41,10 @@ class SysJobControllerTest extends BaseControllerTest {
     @RepeatedTest(10)
     @Execution(ExecutionMode.CONCURRENT)
     void list() {
-        String url = PATH + "/list";
+        String url = PATH + "/page";
         JSONObject paramJson = new JSONObject();
         Object result = post(url, BodyInserters.fromValue(paramJson));
-        logger.info("list:[{}] -> {}", url, result);
+        logger.info("page:[{}] -> {}", url, result);
         Assertions.assertNotNull(result);
     }
 

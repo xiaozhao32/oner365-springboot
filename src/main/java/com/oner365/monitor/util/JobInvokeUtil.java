@@ -151,13 +151,13 @@ public class JobInvokeUtil {
             }
             // long长整形，包含L
             else if (Strings.CI.contains(str, SYMBOL_LONG)) {
-                classList.add(
-                        new Object[] { Long.valueOf(Strings.CI.replace(str, SYMBOL_LONG, PublicConstants.EMPTY)), Long.class });
+                classList.add(new Object[] { Long.valueOf(Strings.CI.replace(str, SYMBOL_LONG, PublicConstants.EMPTY)),
+                        Long.class });
             }
             // double浮点类型，包含D
             else if (Strings.CI.contains(str, SYMBOL_DOUBLE)) {
-                classList.add(new Object[] { Double.valueOf(Strings.CI.replace(str, SYMBOL_DOUBLE, PublicConstants.EMPTY)),
-                        Double.class });
+                classList.add(new Object[] {
+                        Double.valueOf(Strings.CI.replace(str, SYMBOL_DOUBLE, PublicConstants.EMPTY)), Double.class });
             }
             // 其他类型归类为整形
             else {

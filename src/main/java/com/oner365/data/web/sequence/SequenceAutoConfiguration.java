@@ -1,7 +1,7 @@
 package com.oner365.data.web.sequence;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
+import org.springframework.boot.data.redis.autoconfigure.DataRedisProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -34,7 +34,7 @@ public class SequenceAutoConfiguration {
     }
 
     @Bean
-    RangeSequence defaultRangeSequence(RedisProperties properties) {
+    RangeSequence defaultRangeSequence(DataRedisProperties properties) {
         DefaultRangeSequence defaultRangeSequence = new DefaultRangeSequence();
         RedisSeqRangeMgr redisSeqRangeMgr = new RedisSeqRangeMgr();
         redisSeqRangeMgr.setProperties(properties);

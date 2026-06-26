@@ -3,9 +3,7 @@ package com.oner365.monitor.config;
 import java.util.Objects;
 import java.util.Properties;
 
-import jakarta.annotation.Resource;
-
-import org.springframework.boot.autoconfigure.quartz.SchedulerFactoryBeanCustomizer;
+import org.springframework.boot.quartz.autoconfigure.SchedulerFactoryBeanCustomizer;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -14,6 +12,8 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.oner365.data.datasource.constants.DataSourceConstants;
 import com.oner365.datasource.dynamic.DynamicDataSource;
+
+import jakarta.annotation.Resource;
 
 /**
  * 定时任务配置

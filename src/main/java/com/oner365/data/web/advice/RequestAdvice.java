@@ -1,6 +1,5 @@
 package com.oner365.data.web.advice;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.Base64;
@@ -11,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJacksonInputMessage;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.RequestBodyAdviceAdapter;
 
@@ -59,14 +57,14 @@ public class RequestAdvice extends RequestBodyAdviceAdapter {
                 String key = RsaUtils.buildRsaDecryptByPrivateKey(sign, clientWhiteProperties.getPrivateKey());
                 String b = Cipher.decodeSms4toString(Base64.getDecoder().decode(content),
                         key.substring(0, 16).getBytes());
-                return new MappingJacksonInputMessage(new ByteArrayInputStream(b.getBytes()),
-                        inputMessage.getHeaders());
+                return new CustomHttpInputMessage(inputMessage.getHeaders(), b);
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             LOGGER.error("sign:{} body:{}", sign, body);
             LOGGER.error("beforeBodyRead ERROR:", e);
         }
-        return new MappingJacksonInputMessage(new ByteArrayInputStream(body.getBytes()), inputMessage.getHeaders());
+        return new CustomHttpInputMessage(inputMessage.getHeaders(), body);
     }
 
 }

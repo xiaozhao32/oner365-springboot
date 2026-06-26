@@ -3,9 +3,7 @@ package com.oner365.test.controller.sys;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.reactive.function.BodyInserters;
 
 import com.alibaba.fastjson.JSONObject;
@@ -17,7 +15,6 @@ import com.oner365.test.controller.BaseControllerTest;
  * @author zhaoyong
  *
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class SysDictItemControllerTest extends BaseControllerTest {
 
@@ -42,7 +39,7 @@ class SysDictItemControllerTest extends BaseControllerTest {
 
     @RepeatedTest(2)
     void findTypeList() {
-        String url = PATH + "/type/list";
+        String url = PATH + "/type/page";
         JSONObject paramJson = new JSONObject();
         Object result = post(url, BodyInserters.fromValue(paramJson));
         logger.info("findTypeList:[{}] -> {}", url, result);
@@ -51,7 +48,7 @@ class SysDictItemControllerTest extends BaseControllerTest {
 
     @RepeatedTest(2)
     void findItemList() {
-        String url = PATH + "/item/list";
+        String url = PATH + "/item/page";
         JSONObject paramJson = new JSONObject();
         Object result = post(url, BodyInserters.fromValue(paramJson));
         logger.info("findItemList:[{}] -> {}", url, result);

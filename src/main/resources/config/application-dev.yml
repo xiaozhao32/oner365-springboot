@@ -102,8 +102,6 @@ spring:
   jpa:
     open-in-view: true
     
-  freemarker:
-    check-template-location: false
   thymeleaf:
     check-template-location: false
   messages:
@@ -170,21 +168,6 @@ client:
   whites:
     - /client/login
     
-management:
-  server:
-    port: 50000
-  endpoint:
-    health:
-      probes:
-        enabled: true
-  endpoints:
-    web:
-      exposure:
-        base-path: /actuator
-        include:
-        - health
-        - shutdown
-
 # Logger
 logging:
   file:
@@ -243,7 +226,7 @@ minio:
 # swagger
 swagger:
   name: ${spring.application.name}
-  version: 2.1.0
+  version: 3.1.0
   url: https://www.oner365.com
   email: service@oner365.com
   description: Oner365 project

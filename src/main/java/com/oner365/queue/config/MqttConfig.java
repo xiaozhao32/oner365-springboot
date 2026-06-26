@@ -9,15 +9,20 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.integration.annotation.IntegrationComponentScan;
+import org.springframework.integration.annotation.MessagingGateway;
 import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.integration.channel.DirectChannel;
+import org.springframework.integration.config.EnableIntegration;
 import org.springframework.integration.core.MessageProducer;
 import org.springframework.integration.mqtt.core.DefaultMqttPahoClientFactory;
 import org.springframework.integration.mqtt.core.MqttPahoClientFactory;
 import org.springframework.integration.mqtt.inbound.MqttPahoMessageDrivenChannelAdapter;
 import org.springframework.integration.mqtt.outbound.MqttPahoMessageHandler;
+import org.springframework.integration.mqtt.support.MqttHeaders;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHandler;
+import org.springframework.messaging.handler.annotation.Header;
 
 import com.oner365.data.commons.enums.QueueEnum;
 import com.oner365.queue.condition.MqttCondition;
@@ -34,6 +39,8 @@ import com.oner365.queue.constants.QueueConstants;
 @Configuration
 @Conditional(MqttCondition.class)
 @EnableConfigurationProperties({ MqttProperties.class })
+@EnableIntegration
+@IntegrationComponentScan
 public class MqttConfig {
 
     @Resource
@@ -208,6 +215,137 @@ public class MqttConfig {
     @Bean(name = MqttConstants.IN_BOUND_CHANNEL + QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME)
     MessageChannel updateStatusInboundChannel() {
         return new DirectChannel();
+    }
+
+    @MessagingGateway(defaultRequestChannel = MqttConstants.IN_BOUND_CHANNEL + QueueConstants.SCHEDULE_TASK_QUEUE_NAME)
+    public interface IMqttSendInvokeParamService {
+
+        /**
+         * 发送消息 默认topic
+         * @param message 发送内容
+         */
+        void sendMessage(String message);
+
+        /**
+         * 发送消息 指定topic
+         * @param topic topic
+         * @param message 发送内容
+         */
+        void sendMessage(@Header(MqttHeaders.TOPIC) String topic, String message);
+
+        /**
+         * 发送消息 指定topic 指定qos
+         * @param topic topic
+         * @param qos qos
+         * @param message 发送内容
+         */
+        void sendMessage(@Header(MqttHeaders.TOPIC) String topic, @Header(MqttHeaders.QOS) Integer qos, String message);
+
+    }
+
+    @MessagingGateway(defaultRequestChannel = MqttConstants.IN_BOUND_CHANNEL + QueueConstants.MESSAGE_QUEUE_NAME)
+    public interface IMqttSendMessageService {
+
+        /**
+         * 发送消息 默认topic
+         * @param message 发送内容
+         */
+        void sendMessage(String message);
+
+        /**
+         * 发送消息 指定topic
+         * @param topic topic
+         * @param message 发送内容
+         */
+        void sendMessage(@Header(MqttHeaders.TOPIC) String topic, String message);
+
+        /**
+         * 发送消息 指定topic 指定qos
+         * @param topic topic
+         * @param qos qos
+         * @param message 发送内容
+         */
+        void sendMessage(@Header(MqttHeaders.TOPIC) String topic, @Header(MqttHeaders.QOS) Integer qos, String message);
+
+    }
+
+    @MessagingGateway(defaultRequestChannel = MqttConstants.IN_BOUND_CHANNEL + QueueConstants.ROUTE_QUEUE_NAME)
+    public interface IMqttSendRouteService {
+
+        /**
+         * 发送消息 默认topic
+         * @param message 发送内容
+         */
+        void sendMessage(String message);
+
+        /**
+         * 发送消息 指定topic
+         * @param topic topic
+         * @param message 发送内容
+         */
+        void sendMessage(@Header(MqttHeaders.TOPIC) String topic, String message);
+
+        /**
+         * 发送消息 指定topic 指定qos
+         * @param topic topic
+         * @param qos qos
+         * @param message 发送内容
+         */
+        void sendMessage(@Header(MqttHeaders.TOPIC) String topic, @Header(MqttHeaders.QOS) Integer qos, String message);
+
+    }
+
+    @MessagingGateway(
+            defaultRequestChannel = MqttConstants.IN_BOUND_CHANNEL + QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME)
+    public interface IMqttSendTaskExecuteStatusService {
+
+        /**
+         * 发送消息 默认topic
+         * @param message 发送内容
+         */
+        void sendMessage(String message);
+
+        /**
+         * 发送消息 指定topic
+         * @param topic topic
+         * @param message 发送内容
+         */
+        void sendMessage(@Header(MqttHeaders.TOPIC) String topic, String message);
+
+        /**
+         * 发送消息 指定topic 指定qos
+         * @param topic topic
+         * @param qos qos
+         * @param message 发送内容
+         */
+        void sendMessage(@Header(MqttHeaders.TOPIC) String topic, @Header(MqttHeaders.QOS) Integer qos, String message);
+
+    }
+
+    @MessagingGateway(defaultRequestChannel = MqttConstants.IN_BOUND_CHANNEL + QueueConstants.SAVE_TASK_LOG_QUEUE_NAME)
+    public interface IMqttSendTaskLogService {
+
+        /**
+         * 发送消息 默认topic
+         * @param message 发送内容
+         */
+        void sendMessage(String message);
+
+        /**
+         * 发送消息 指定topic
+         * @param topic topic
+         * @param message 发送内容
+         */
+        void sendMessage(@Header(MqttHeaders.TOPIC) String topic, String message);
+
+        /**
+         * 发送消息 指定topic 指定qos
+         * @param topic topic
+         * @param qos qos
+         * @param message 发送内容
+         */
+        void sendMessage(@Header(MqttHeaders.TOPIC) String topic, @Header(MqttHeaders.QOS) Integer qos, String message);
+
     }
 
 }

@@ -170,7 +170,8 @@ public class DateUtil {
             if (FULL_DATE_FORMAT.equals(fm)) {
                 LocalDate localDate = LocalDate.parse(strDate, DateTimeFormatter.ofPattern(fm));
                 return DateUtil.localDateToDate(localDate);
-            } else {
+            }
+            else {
                 LocalDateTime localDateTime = LocalDateTime.parse(strDate, DateTimeFormatter.ofPattern(fm));
                 return DateUtil.localDateTimeToDate(localDateTime);
             }
@@ -191,7 +192,7 @@ public class DateUtil {
         try {
             LocalDateTime localDateTime = DateUtil.dateToLocalDateTime(date);
             if (localDateTime != null) {
-                return localDateTime.format(DateTimeFormatter.ofPattern(fm));	
+                return localDateTime.format(DateTimeFormatter.ofPattern(fm));
             }
         }
         catch (Exception e) {

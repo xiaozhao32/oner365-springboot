@@ -24,7 +24,7 @@ import com.oner365.data.commons.util.DateUtil;
 public class LocalDateTimeTypeAdapter implements JsonSerializer<LocalDateTime>, JsonDeserializer<LocalDateTime> {
 
     private static final ThreadLocal<SimpleDateFormat> SIMPLE_DATE_FORMAT = ThreadLocal
-            .withInitial(() -> new SimpleDateFormat(DateUtil.FULL_TIME_FORMAT));
+        .withInitial(() -> new SimpleDateFormat(DateUtil.FULL_TIME_FORMAT));
 
     /**
      * remove method
@@ -35,7 +35,8 @@ public class LocalDateTimeTypeAdapter implements JsonSerializer<LocalDateTime>, 
 
     @Override
     public JsonElement serialize(LocalDateTime src, Type type, JsonSerializationContext context) {
-        String dateFormatAsString = SIMPLE_DATE_FORMAT.get().format(new Date(DateUtil.localDateTimeToDate(src).getTime()));
+        String dateFormatAsString = SIMPLE_DATE_FORMAT.get()
+            .format(new Date(DateUtil.localDateTimeToDate(src).getTime()));
         return new JsonPrimitive(dateFormatAsString);
     }
 

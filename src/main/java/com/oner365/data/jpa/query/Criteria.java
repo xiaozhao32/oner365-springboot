@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.lang.NonNull;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * 定义一个查询条件容器
@@ -23,7 +23,7 @@ public class Criteria<T> implements Specification<T> {
     private final List<Criterion> criterionList = new ArrayList<>();
 
     @Override
-    public Predicate toPredicate(@NonNull Root<T> root, CriteriaQuery<?> query, @NonNull CriteriaBuilder builder) {
+    public Predicate toPredicate(@NotNull Root<T> root, CriteriaQuery<?> query, @NotNull CriteriaBuilder builder) {
         if (!criterionList.isEmpty()) {
             List<Predicate> predicates = new ArrayList<>();
             criterionList.forEach(c -> predicates.add(c.toPredicate(root, query, builder)));

@@ -7,7 +7,7 @@ import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Strings;
-import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
+import org.springframework.boot.data.redis.autoconfigure.DataRedisProperties;
 import org.springframework.data.redis.connection.RedisServerCommands;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -44,7 +44,7 @@ public class CacheController extends BaseController {
     private RedisTemplate<String, String> redisTemplate;
 
     @Resource
-    private RedisProperties redisProperties;
+    private DataRedisProperties redisProperties;
 
     /**
      * 缓存信息

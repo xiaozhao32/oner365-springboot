@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import jakarta.annotation.Resource;
 import javax.sql.DataSource;
 
 import org.apache.ibatis.mapping.DatabaseIdProvider;
@@ -23,6 +22,8 @@ import com.oner365.data.datasource.constants.DataSourceConstants;
 import com.oner365.data.datasource.util.DataSourceUtil;
 import com.oner365.data.redis.RedisCache;
 import com.oner365.datasource.dynamic.DynamicDataSource;
+
+import jakarta.annotation.Resource;
 
 /**
  * 数据源配置

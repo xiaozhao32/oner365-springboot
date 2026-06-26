@@ -24,7 +24,7 @@ import com.oner365.data.commons.util.DateUtil;
 public class TimestampTypeAdapter implements JsonSerializer<Timestamp>, JsonDeserializer<Timestamp> {
 
     private static final ThreadLocal<SimpleDateFormat> SIMPLE_DATE_FORMAT = ThreadLocal
-            .withInitial(() -> new SimpleDateFormat(DateUtil.FULL_TIME_FORMAT));
+        .withInitial(() -> new SimpleDateFormat(DateUtil.FULL_TIME_FORMAT));
 
     /**
      * remove method

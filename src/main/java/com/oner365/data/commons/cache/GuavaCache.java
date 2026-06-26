@@ -6,7 +6,6 @@ import java.util.concurrent.ExecutionException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
 import com.google.common.cache.CacheBuilder;
@@ -15,6 +14,8 @@ import com.google.common.cache.LoadingCache;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.oner365.data.commons.util.DataUtils;
+
+import jakarta.validation.constraints.NotNull;
 
 /**
  * Guava cache
@@ -48,13 +49,13 @@ public class GuavaCache<T> {
         .recordStats()
         .build(new CacheLoader<String, Optional<T>>() {
             @Override
-            public Optional<T> load(@NonNull String key) {
+            public Optional<T> load(@NotNull String key) {
                 LOGGER.debug("load: {}", key);
                 return Optional.empty();
             }
 
             @Override
-            public ListenableFuture<Optional<T>> reload(@NonNull String key, @NonNull Optional<T> value) {
+            public ListenableFuture<Optional<T>> reload(@NotNull String key, @NotNull Optional<T> value) {
                 LOGGER.debug("reload: {}, value: {}", key, value);
                 return Futures.immediateFuture(load(key));
             }

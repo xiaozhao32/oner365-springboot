@@ -19,7 +19,7 @@ import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.message.BasicHeader;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder.HttpClientConfigCallback;
-import org.springframework.boot.autoconfigure.elasticsearch.ElasticsearchProperties;
+import org.springframework.boot.elasticsearch.autoconfigure.ElasticsearchProperties;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -96,8 +96,11 @@ public class ElasticsearchInfoController extends BaseController {
             .setDefaultHeaders(Collections
                 .singleton(new BasicHeader(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON.toString())))
             .setDefaultCredentialsProvider(credentialsProvider)
-            .addInterceptorLast((HttpResponseInterceptor) (response, context) -> response.addHeader("X-Elastic-Product",
-                    "Elasticsearch"));
+            .addInterceptorLast((HttpResponseInterceptor) (response, context) -> {
+                if (!response.containsHeader("X-Elastic-Product")) {
+                    response.setHeader("X-Elastic-Product", "Elasticsearch");
+                }
+            });
 
         try (RestClient restClient = RestClient.builder(HttpHost.create(elasticsearchProperties.getUris().get(0)))
             .setHttpClientConfigCallback(httpClientConfigCallback)
@@ -140,7 +143,7 @@ public class ElasticsearchInfoController extends BaseController {
      */
     private void setShards(@NotNull ElasticsearchClient client, @NotNull TransportClientDto result) throws IOException {
         GetAliasResponse aliasResponse = client.indices().getAlias();
-        Map<String, IndexAliases> aliasMap = aliasResponse.result();
+        Map<String, IndexAliases> aliasMap = aliasResponse.aliases();
         Map<String, ShardRoutingState> stateMap = new HashMap<>(10);
         Map<String, Integer> shardsMap = new HashMap<>(10);
 
@@ -169,12 +172,14 @@ public class ElasticsearchInfoController extends BaseController {
     private void setMappingList(@NotNull ElasticsearchClient client, @NotNull List<ClusterDto> clusterList)
             throws IOException {
         GetMappingResponse mappingResponse = client.indices().getMapping();
-        Map<String, IndexMappingRecord> mappings = mappingResponse.result();
+        Map<String, IndexMappingRecord> mappings = mappingResponse.mappings();
         clusterList.forEach(cluster -> {
             IndexMappingRecord mappingRecord = mappings.get(cluster.getIndex());
             List<ClusterMappingDto> mappingList = new ArrayList<>();
             if (mappingRecord != null) {
-                mappingRecord.mappings().properties().forEach((key, value) -> mappingList
+                mappingRecord.mappings()
+                    .properties()
+                    .forEach((key, value) -> mappingList
                         .add(new ClusterMappingDto(key, value._get().getClass().getSimpleName())));
             }
             cluster.setMappingList(mappingList);
