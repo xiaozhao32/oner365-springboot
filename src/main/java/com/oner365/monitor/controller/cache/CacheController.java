@@ -7,6 +7,7 @@ import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Strings;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.data.redis.autoconfigure.DataRedisProperties;
 import org.springframework.data.redis.connection.RedisServerCommands;
 import org.springframework.data.redis.core.RedisCallback;
@@ -17,14 +18,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.data.commons.enums.ResultEnum;
+import com.oner365.data.redis.enums.RedisMode;
 import com.oner365.data.redis.util.JedisUtils;
 import com.oner365.data.web.controller.BaseController;
 import com.oner365.monitor.dto.CacheCommandStatsDto;
 import com.oner365.monitor.dto.CacheInfoDto;
 import com.oner365.monitor.dto.CacheJedisInfoDto;
 
-import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import redis.clients.jedis.Jedis;
 
@@ -46,8 +48,12 @@ public class CacheController extends BaseController {
     @Resource
     private DataRedisProperties redisProperties;
 
+    @Value("${spring.data.redis.mode}")
+    private String mode;
+
     /**
      * 缓存信息
+     * 
      * @return CacheInfoDto
      */
     @Operation(summary = "1.首页")
@@ -56,7 +62,7 @@ public class CacheController extends BaseController {
     public CacheInfoDto index() {
         Properties info = redisTemplate.execute((RedisCallback<Properties>) RedisServerCommands::info);
         Properties commandStats = (Properties) redisTemplate
-            .execute((RedisCallback<Object>) connection -> connection.serverCommands().info("commandstats"));
+                .execute((RedisCallback<Object>) connection -> connection.serverCommands().info("commandstats"));
         Long dbSize = (Long) redisTemplate.execute((RedisCallback<Object>) RedisServerCommands::dbSize);
 
         CacheInfoDto result = new CacheInfoDto();
@@ -79,6 +85,7 @@ public class CacheController extends BaseController {
 
     /**
      * 缓存列表
+     * 
      * @return List<CacheJedisInfoDto>
      */
     @Operation(summary = "2.缓存列表")
@@ -86,15 +93,20 @@ public class CacheController extends BaseController {
     @GetMapping("/list")
     public List<CacheJedisInfoDto> cacheList() {
         List<CacheJedisInfoDto> result = new ArrayList<>();
-        if (redisProperties.getCluster() != null) {
+        if (RedisMode.CLUSTER.name().equalsIgnoreCase(mode)) {
             CacheJedisInfoDto dto = new CacheJedisInfoDto();
-            dto.setName("Cluster");
+            dto.setName(RedisMode.CLUSTER.name());
             dto.setIndex(0);
             dto.setSize(redisTemplate.execute(RedisServerCommands::dbSize));
             result.add(dto);
-        }
-        else {
-            try (Jedis jedis = JedisUtils.getJedis(redisProperties)) {
+        } else if (RedisMode.SENTINEL.name().equalsIgnoreCase(mode)) {
+            CacheJedisInfoDto dto = new CacheJedisInfoDto();
+            dto.setName(RedisMode.SENTINEL.name());
+            dto.setIndex(0);
+            dto.setSize(redisTemplate.execute(RedisServerCommands::dbSize));
+            result.add(dto);
+        } else {
+            try (Jedis jedis = JedisUtils.getJedis(redisProperties, RedisMode.DEFAULT)) {
                 if (jedis.isConnected()) {
                     IntStream.range(0, DB_LENGTH).forEach(i -> {
                         jedis.select(i);
@@ -114,6 +126,7 @@ public class CacheController extends BaseController {
 
     /**
      * 清理缓存
+     * 
      * @param index db
      * @return 是否成功
      */
@@ -121,14 +134,18 @@ public class CacheController extends BaseController {
     @ApiOperationSupport(order = 3)
     @GetMapping("/clean")
     public String clean(int index) {
-        if (redisProperties.getCluster() != null) {
+        if (RedisMode.CLUSTER.name().equalsIgnoreCase(mode)) {
             redisTemplate.execute((RedisCallback<Properties>) connection -> {
                 connection.serverCommands().flushAll();
                 return null;
             });
-        }
-        else {
-            try (Jedis jedis = JedisUtils.getJedis(redisProperties)) {
+        } else if (RedisMode.SENTINEL.name().equalsIgnoreCase(mode)) {
+            redisTemplate.execute((RedisCallback<Properties>) connection -> {
+                connection.serverCommands().flushAll();
+                return null;
+            });
+        } else {
+            try (Jedis jedis = JedisUtils.getJedis(redisProperties, RedisMode.DEFAULT)) {
                 if (jedis.isConnected()) {
                     jedis.select(index);
                     jedis.flushDB();

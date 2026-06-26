@@ -1,16 +1,13 @@
 package com.oner365.data.redis.util;
 
-import java.util.HashSet;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.data.redis.autoconfigure.DataRedisProperties;
-import org.springframework.boot.data.redis.autoconfigure.DataRedisProperties.Sentinel;
 
 import com.oner365.data.commons.util.DataUtils;
+import com.oner365.data.redis.enums.RedisMode;
 
 import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisSentinelPool;
 
 /**
  * Jedis 工具类
@@ -27,20 +24,16 @@ public class JedisUtils {
 
     /**
      * 获取 Jedis
+     * 
      * @param redisProperties 属性文件
+     * @param mode            RedisMode.DEFAULT
      * @return Jedis
      */
-    public static Jedis getJedis(DataRedisProperties redisProperties) {
-        // sentinel
-        if (redisProperties.getSentinel() != null) {
-            Sentinel sentinel = redisProperties.getSentinel();
-            try (JedisSentinelPool pool = new JedisSentinelPool(sentinel.getMaster(),
-                    new HashSet<>(sentinel.getNodes()), redisProperties.getPassword(), sentinel.getPassword())) {
-                Jedis jedis = pool.getResource();
-                return getConnect(jedis, redisProperties.getPassword());
-            }
+    public static Jedis getJedis(DataRedisProperties redisProperties, RedisMode mode) {
+        if (!RedisMode.DEFAULT.equals(mode)) {
+            LOGGER.error("Only Jedis Connection.");
+            return null;
         }
-
         // default
         Jedis jedis = new Jedis(redisProperties.getHost(), redisProperties.getPort());
         return getConnect(jedis, redisProperties.getPassword());
@@ -50,8 +43,7 @@ public class JedisUtils {
         String auth = "ok";
         if (!DataUtils.isEmpty(password)) {
             auth = jedis.auth(password);
-        }
-        else {
+        } else {
             jedis.connect();
         }
         LOGGER.debug("info: {}", auth);
