@@ -8,9 +8,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
-
-import jakarta.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,6 +58,8 @@ import com.oner365.sys.entity.SysUserOrg;
 import com.oner365.sys.entity.SysUserRole;
 import com.oner365.sys.service.ISysUserService;
 import com.oner365.sys.vo.SysUserVo;
+
+import jakarta.annotation.Resource;
 
 /**
  * 系统用户接口实现类
@@ -231,14 +230,14 @@ public class SysUserServiceImpl implements ISysUserService {
             entity.setRoles(roleList);
             entity.setRoleNameList(roleList.stream()
                 .map(s -> sysRoleDao.getReferenceById(s).getRoleName())
-                .collect(Collectors.toList()));
+                .toList());
         }
 
         try (var executor = Executors.newCachedThreadPool()) {
             List<String> jobList = userJobDao.findUserJobByUserId(entity.getId());
             entity.setJobs(jobList);
             entity.setJobNameList(
-                    jobList.stream().map(s -> sysJobDao.getReferenceById(s).getJobName()).collect(Collectors.toList()));
+                    jobList.stream().map(s -> sysJobDao.getReferenceById(s).getJobName()).toList());
         }
 
         try (var executor = Executors.newCachedThreadPool()) {
@@ -246,7 +245,7 @@ public class SysUserServiceImpl implements ISysUserService {
             entity.setOrgs(orgList);
             entity.setOrgNameList(orgList.stream()
                 .map(s -> sysOrganizationDao.getReferenceById(s).getOrgName())
-                .collect(Collectors.toList()));
+                .toList());
         }
     }
 

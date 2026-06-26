@@ -10,7 +10,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -255,12 +254,12 @@ public class GenTableServiceImpl implements IGenTableService {
         List<GenTableColumn> tableColumns = table.getColumns();
         List<String> tableColumnNames = tableColumns.stream()
             .map(GenTableColumn::getColumnName)
-            .collect(Collectors.toList());
+            .toList();
 
         List<GenTableColumn> dbTableColumns = genTableColumnMapper.selectDbTableColumnsByName(tableName);
         List<String> dbTableColumnNames = dbTableColumns.stream()
             .map(GenTableColumn::getColumnName)
-            .collect(Collectors.toList());
+            .toList();
 
         dbTableColumns.forEach(column -> {
             if (!tableColumnNames.contains(column.getColumnName())) {
@@ -272,7 +271,7 @@ public class GenTableServiceImpl implements IGenTableService {
 
         List<GenTableColumn> delColumns = tableColumns.stream()
             .filter(column -> !dbTableColumnNames.contains(column.getColumnName()))
-            .collect(Collectors.toList());
+            .toList();
         if (!DataUtils.isEmpty(delColumns)) {
             genTableColumnMapper.deleteGenTableColumns(delColumns);
         }

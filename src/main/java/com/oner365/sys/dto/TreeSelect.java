@@ -2,7 +2,6 @@ package com.oner365.sys.dto;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.oner365.data.commons.util.DataUtils;
@@ -34,7 +33,7 @@ public class TreeSelect implements Serializable {
         this.id = organization.getId();
         this.label = organization.getOrgName();
         if (!DataUtils.isEmpty(organization.getChildren())) {
-            this.children = organization.getChildren().stream().map(TreeSelect::new).collect(Collectors.toList());
+            this.children = organization.getChildren().stream().map(TreeSelect::new).toList();
         }
     }
 
@@ -42,7 +41,7 @@ public class TreeSelect implements Serializable {
         this.id = menu.getId();
         this.label = menu.getMenuName();
         if (!DataUtils.isEmpty(menu.getChildren())) {
-            this.children = menu.getChildren().stream().map(TreeSelect::new).collect(Collectors.toList());
+            this.children = menu.getChildren().stream().map(TreeSelect::new).toList();
         }
     }
 

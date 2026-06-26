@@ -2,9 +2,6 @@ package com.oner365.elasticsearch.controller;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import jakarta.annotation.Resource;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,8 +19,9 @@ import com.oner365.elasticsearch.dto.ApplicationLogDto;
 import com.oner365.elasticsearch.service.IApplicationLogElasticsearchService;
 import com.oner365.log.annotation.SysLog;
 
-import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
 
 /**
  * Elasticsearch Controller
@@ -73,7 +71,7 @@ public class ApplicationLogController extends BaseController {
     @SysLog("删除应用日志")
     @DeleteMapping("/delete")
     public List<Boolean> delete(@RequestBody String... ids) {
-        return Arrays.stream(ids).map(id -> service.deleteById(id)).collect(Collectors.toList());
+        return Arrays.stream(ids).map(id -> service.deleteById(id)).toList();
     }
 
 }

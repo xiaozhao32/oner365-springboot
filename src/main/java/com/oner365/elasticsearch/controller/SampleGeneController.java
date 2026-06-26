@@ -2,9 +2,6 @@ package com.oner365.elasticsearch.controller;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import jakarta.annotation.Resource;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,8 +24,9 @@ import com.oner365.elasticsearch.service.ISampleGeneElasticsearchService;
 import com.oner365.elasticsearch.vo.SampleGeneVo;
 import com.oner365.log.annotation.SysLog;
 
-import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
 
 /**
  * Elasticsearch Controller
@@ -103,7 +101,7 @@ public class SampleGeneController extends BaseController {
     @SysLog("删除基因对象")
     @DeleteMapping("/delete")
     public List<Boolean> delete(@RequestBody String... ids) {
-        return Arrays.stream(ids).map(id -> service.deleteById(id)).collect(Collectors.toList());
+        return Arrays.stream(ids).map(id -> service.deleteById(id)).toList();
     }
 
 }

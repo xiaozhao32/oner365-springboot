@@ -5,10 +5,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
-
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.Resource;
 
 import org.quartz.JobDataMap;
 import org.quartz.JobKey;
@@ -37,6 +33,9 @@ import com.oner365.monitor.util.CronUtils;
 import com.oner365.monitor.util.ScheduleUtils;
 import com.oner365.monitor.vo.SysTaskVo;
 import com.oner365.queue.service.IQueueSendService;
+
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.Resource;
 
 /**
  * 定时任务调度信息 服务层
@@ -160,7 +159,7 @@ public class SysTaskServiceImpl implements ISysTaskService {
     @Override
     @Transactional(rollbackFor = ProjectRuntimeException.class)
     public List<Boolean> deleteTaskByIds(String[] ids) {
-        return Arrays.stream(ids).map(this::deleteTask).collect(Collectors.toList());
+        return Arrays.stream(ids).map(this::deleteTask).toList();
     }
 
     @Override

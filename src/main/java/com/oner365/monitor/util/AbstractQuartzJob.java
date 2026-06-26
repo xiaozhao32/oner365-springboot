@@ -30,8 +30,8 @@ public abstract class AbstractQuartzJob implements Job {
     public void execute(JobExecutionContext context) {
         Object object = context.getMergedJobDataMap().get(ScheduleConstants.TASK_PROPERTIES);
         SysTaskDto sysTask;
-        if (object instanceof SysTaskDto) {
-            sysTask = (SysTaskDto) object;
+        if (object instanceof SysTaskDto dto) {
+            sysTask = dto;
         }
         else {
             sysTask = JSON.toJavaObject(JSON.parseObject(object.toString()), SysTaskDto.class);

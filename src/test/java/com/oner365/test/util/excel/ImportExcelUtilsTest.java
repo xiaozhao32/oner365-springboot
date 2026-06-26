@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -48,7 +47,7 @@ class ImportExcelUtilsTest extends BaseUtilsTest {
                 .filter(dto -> (!DataUtils.isEmpty(dto.getAssetsNo()) || !DataUtils.isEmpty(dto.getDepartment())
                         || !DataUtils.isEmpty(dto.getJobNumber()) || !DataUtils.isEmpty(dto.getPhone())
                         || !DataUtils.isEmpty(dto.getSerialNumber()) || !DataUtils.isEmpty(dto.getUserName())))
-                .collect(Collectors.toList());
+                .toList();
             logger.error("excelData dataList size :{}", dataList.size());
         }
         catch (Exception e) {
@@ -86,7 +85,7 @@ class ImportExcelUtilsTest extends BaseUtilsTest {
         indexList.forEach(i -> logger.info("i:{}", i));
         logger.info("index:{}", index.get());
 
-        List<String> newList = list.stream().filter(s -> s.equals("test19")).collect(Collectors.toList());
+        List<String> newList = list.stream().filter(s -> s.equals("test19")).toList();
         Assertions.assertNotNull(newList);
         logger.info("list size:{}", newList.size());
         logger.info("boolean:{}", DataUtils.isEmpty(new StringBuilder()));
@@ -99,7 +98,7 @@ class ImportExcelUtilsTest extends BaseUtilsTest {
         // 添加测试数据
         list.add("test1");
         list.add("test1");
-        list.stream().filter(s -> s.equals("test1")).collect(Collectors.toList());
+        list.stream().filter(s -> s.equals("test1")).toList();
         final List<String> finalList = Lists.newArrayList();
         finalList.addAll(list);
         finalList.addAll(new ArrayList<>());
@@ -146,7 +145,7 @@ class ImportExcelUtilsTest extends BaseUtilsTest {
                 .filter(dto -> (!DataUtils.isEmpty(dto.getAssetsNo()) || !DataUtils.isEmpty(dto.getDepartment())
                         || !DataUtils.isEmpty(dto.getJobNumber()) || !DataUtils.isEmpty(dto.getPhone())
                         || !DataUtils.isEmpty(dto.getSerialNumber()) || !DataUtils.isEmpty(dto.getUserName())))
-                .collect(Collectors.toList());
+                .toList();
             Map<String, String> map = new HashMap<>(10);
             AtomicInteger distinctIndex = new AtomicInteger(0);
             dataList.forEach(dto -> {

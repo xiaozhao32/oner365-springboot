@@ -5,7 +5,6 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -33,7 +32,7 @@ class ClassUtilsTest extends BaseUtilsTest {
                 List<Field> fieldList = Arrays.asList(clazz.getDeclaredFields());
                 fieldList = fieldList.stream()
                     .filter(field -> !field.getGenericType().getTypeName().contains("["))
-                    .collect(Collectors.toList());
+                    .toList();
                 fieldList.forEach(field -> {
                     if (ClassesUtil.isEnum(field.getGenericType().getTypeName())) {
                         logger.info("Enum name:{}", field.getName());

@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
-
-import jakarta.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +38,8 @@ import com.oner365.sys.mapper.SysOrganizationMapper;
 import com.oner365.sys.service.ISysOrganizationService;
 import com.oner365.sys.vo.DataSourceConfigVo;
 import com.oner365.sys.vo.SysOrganizationVo;
+
+import jakarta.annotation.Resource;
 
 /**
  * 机构接口实现类
@@ -163,7 +162,7 @@ public class SysOrganizationServiceImpl implements ISysOrganizationService {
     @GeneratorCache(CACHE_NAME)
     public List<TreeSelect> buildTreeSelect(List<SysOrganizationDto> orgList) {
         List<SysOrganizationDto> menuTrees = buildTree(orgList);
-        return menuTrees.stream().map(TreeSelect::new).collect(Collectors.toList());
+        return menuTrees.stream().map(TreeSelect::new).toList();
     }
 
     @Override
@@ -204,7 +203,7 @@ public class SysOrganizationServiceImpl implements ISysOrganizationService {
      * 得到子节点列表
      */
     private List<SysOrganizationDto> getChildList(List<SysOrganizationDto> list, SysOrganizationDto t) {
-        return list.stream().filter(n -> n.getParentId().equals(t.getId())).collect(Collectors.toList());
+        return list.stream().filter(n -> n.getParentId().equals(t.getId())).toList();
     }
 
     /**

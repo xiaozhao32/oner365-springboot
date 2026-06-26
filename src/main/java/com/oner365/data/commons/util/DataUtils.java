@@ -280,8 +280,8 @@ public class DataUtils {
     public static String getString(Object obj) {
         String str = StringUtils.EMPTY;
         if (obj != null) {
-            if (obj instanceof String) {
-                str = (String) obj;
+            if (obj instanceof String s) {
+                str = s;
             }
             else {
                 str = obj.toString();
@@ -307,20 +307,20 @@ public class DataUtils {
             return true;
         }
 
-        if (obj instanceof Optional) {
-            return !((Optional<?>) obj).isPresent();
+        if (obj instanceof Optional<?> option) {
+            return !option.isPresent();
         }
-        if (obj instanceof CharSequence) {
-            return ((CharSequence) obj).length() == 0;
+        if (obj instanceof CharSequence sequence) {
+            return sequence.length() == 0;
         }
         if (obj.getClass().isArray()) {
             return Array.getLength(obj) == 0;
         }
-        if (obj instanceof Collection) {
-            return ((Collection<?>) obj).isEmpty();
+        if (obj instanceof Collection<?> c) {
+            return c.isEmpty();
         }
-        if (obj instanceof Map) {
-            return ((Map<?, ?>) obj).isEmpty();
+        if (obj instanceof Map<?, ?> map) {
+            return map.isEmpty();
         }
 
         // else

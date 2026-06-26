@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
-
-import jakarta.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +38,8 @@ import com.oner365.sys.entity.SysMenuOperation;
 import com.oner365.sys.mapper.SysMenuMapper;
 import com.oner365.sys.service.ISysMenuService;
 import com.oner365.sys.vo.SysMenuVo;
+
+import jakarta.annotation.Resource;
 
 /**
  * 菜单接口实现类
@@ -161,7 +160,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
     @GeneratorCache(CACHE_NAME)
     public List<TreeSelect> buildTreeSelect(List<SysMenuDto> menus) {
         List<SysMenuDto> menuTrees = buildTree(menus);
-        return menuTrees.stream().map(TreeSelect::new).collect(Collectors.toList());
+        return menuTrees.stream().map(TreeSelect::new).toList();
     }
 
     @Override
@@ -202,7 +201,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
      * 得到子节点列表
      */
     private List<SysMenuDto> getChildList(List<SysMenuDto> list, SysMenuDto t) {
-        return list.stream().filter(e -> e.getParentId().equals(t.getId())).collect(Collectors.toList());
+        return list.stream().filter(e -> e.getParentId().equals(t.getId())).toList();
     }
 
     /**

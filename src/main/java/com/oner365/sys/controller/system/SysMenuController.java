@@ -2,7 +2,6 @@ package com.oner365.sys.controller.system;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -165,7 +164,7 @@ public class SysMenuController extends BaseController {
     @SysLog("删除菜单")
     @DeleteMapping("/delete")
     public List<Boolean> delete(@RequestBody String... ids) {
-        return Arrays.stream(ids).map(id -> menuService.deleteById(id)).collect(Collectors.toList());
+        return Arrays.stream(ids).map(id -> menuService.deleteById(id)).toList();
     }
 
 }

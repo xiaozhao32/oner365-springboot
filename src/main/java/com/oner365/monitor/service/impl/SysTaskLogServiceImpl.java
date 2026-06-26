@@ -5,9 +5,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
-
-import jakarta.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +20,8 @@ import com.oner365.monitor.entity.SysTaskLog;
 import com.oner365.monitor.mapper.SysTaskLogMapper;
 import com.oner365.monitor.service.ISysTaskLogService;
 import com.oner365.monitor.vo.SysTaskLogVo;
+
+import jakarta.annotation.Resource;
 
 /**
  * 定时任务调度日志信息 服务层
@@ -82,7 +81,7 @@ public class SysTaskLogServiceImpl implements ISysTaskLogService {
 
     @Override
     public List<Boolean> deleteTaskLogByIds(String[] ids) {
-        return Arrays.stream(ids).map(this::deleteTaskLogById).collect(Collectors.toList());
+        return Arrays.stream(ids).map(this::deleteTaskLogById).toList();
     }
 
     @Override

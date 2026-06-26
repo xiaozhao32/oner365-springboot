@@ -5,7 +5,6 @@ import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -145,7 +144,7 @@ public class FileStorageController extends BaseController {
     @SysLog("文件删除")
     @DeleteMapping("/delete")
     public List<Boolean> delete(@RequestBody String... ids) {
-        return Arrays.stream(ids).map(id -> fileStorageClient.deleteFile(id)).collect(Collectors.toList());
+        return Arrays.stream(ids).map(id -> fileStorageClient.deleteFile(id)).toList();
     }
 
     /**

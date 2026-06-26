@@ -321,11 +321,11 @@ public class ClassesUtil {
      */
     public static Long getTime(Object value) {
         if (value != null) {
-            if (value instanceof Date) {
-                return ((Date) value).getTime();
+            if (value instanceof Date d) {
+                return d.getTime();
             }
-            if (value instanceof Calendar) {
-                return ((Calendar) value).getTimeInMillis();
+            if (value instanceof Calendar c) {
+                return c.getTimeInMillis();
             }
         }
         return null;

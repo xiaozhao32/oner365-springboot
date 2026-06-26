@@ -2,9 +2,6 @@ package com.oner365.gateway.controller;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import jakarta.annotation.Resource;
 
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,8 +22,9 @@ import com.oner365.gateway.service.DynamicRouteService;
 import com.oner365.gateway.vo.GatewayRouteVo;
 import com.oner365.log.annotation.SysLog;
 
-import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
 
 /**
  * 动态路由控制
@@ -127,7 +125,7 @@ public class DynamicRouteController extends BaseController {
     @SysLog("删除路由")
     @DeleteMapping("/delete")
     public List<Boolean> delete(@RequestBody String... ids) {
-        return Arrays.stream(ids).map(id -> dynamicRouteService.deleteById(id)).collect(Collectors.toList());
+        return Arrays.stream(ids).map(id -> dynamicRouteService.deleteById(id)).toList();
     }
 
 }

@@ -3,7 +3,6 @@ package com.oner365.data.jpa.service;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 
@@ -40,7 +39,7 @@ public interface BaseService {
         if (sourceList.isEmpty()) {
             return Collections.emptyList();
         }
-        return sourceList.stream().map(e -> convert(e, clazz)).collect(Collectors.toList());
+        return sourceList.stream().map(e -> convert(e, clazz)).toList();
     }
 
     /**

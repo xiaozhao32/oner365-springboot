@@ -189,8 +189,8 @@ public class CommonsMultipartFile implements MultipartFile, Serializable {
             return true;
         }
         // Check actual existence of temporary file.
-        if (this.fileItem instanceof DiskFileItem) {
-            return ((DiskFileItem) this.fileItem).getStoreLocation().exists();
+        if (this.fileItem instanceof DiskFileItem item) {
+            return item.getStoreLocation().exists();
         }
         // Check whether current file size is different than original one.
         return (this.fileItem.getSize() == this.size);
@@ -204,8 +204,8 @@ public class CommonsMultipartFile implements MultipartFile, Serializable {
         if (this.fileItem.isInMemory()) {
             return "in memory";
         }
-        else if (this.fileItem instanceof DiskFileItem) {
-            return "at [" + ((DiskFileItem) this.fileItem).getStoreLocation().getAbsolutePath() + "]";
+        else if (this.fileItem instanceof DiskFileItem item) {
+            return "at [" + item.getStoreLocation().getAbsolutePath() + "]";
         }
         else {
             return "on disk";

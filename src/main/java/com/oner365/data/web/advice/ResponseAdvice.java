@@ -68,9 +68,9 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
                 return ResponseData.success(Base64.getEncoder()
                     .encodeToString(Cipher.encodeSms4(JSON.toJSONString(body), key.substring(0, 16).getBytes())));
             }
-            if (body instanceof byte[]) {
+            if (body instanceof byte[] b) {
                 return Base64.getEncoder()
-                    .encodeToString(Cipher.encodeSms4((byte[]) body, key.substring(0, 16).getBytes()))
+                    .encodeToString(Cipher.encodeSms4(b, key.substring(0, 16).getBytes()))
                     .getBytes();
             }
             if (body != null) {
@@ -87,9 +87,9 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
         if (body == null) {
             return ResponseData.error("服务异常, 请联系管理员查看日志!");
         }
-        if (body instanceof String) {
+        if (body instanceof String str) {
             try {
-                return objectMapper.writeValueAsString(ResponseData.success(String.valueOf(body)));
+                return objectMapper.writeValueAsString(ResponseData.success(str));
             }
             catch (JacksonException e) {
                 LOGGER.error("beforeBodyWrite error:", e);

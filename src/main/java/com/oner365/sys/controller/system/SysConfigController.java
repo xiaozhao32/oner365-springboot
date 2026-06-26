@@ -2,7 +2,6 @@ package com.oner365.sys.controller.system;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -27,8 +26,8 @@ import com.oner365.sys.service.ISysConfigService;
 import com.oner365.sys.vo.SysConfigVo;
 import com.oner365.sys.vo.check.CheckConfigNameVo;
 
-import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 
 /**
@@ -105,7 +104,7 @@ public class SysConfigController extends BaseController {
     @SysLog("系统配置删除")
     @DeleteMapping("/delete")
     public List<Boolean> delete(@RequestBody String... ids) {
-        return Arrays.stream(ids).map(id -> sysConfigService.deleteById(id)).collect(Collectors.toList());
+        return Arrays.stream(ids).map(id -> sysConfigService.deleteById(id)).toList();
     }
 
     /**

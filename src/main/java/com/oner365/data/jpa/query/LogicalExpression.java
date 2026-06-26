@@ -2,7 +2,6 @@ package com.oner365.data.jpa.query;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -40,7 +39,7 @@ public class LogicalExpression implements Criterion {
     public Predicate toPredicate(Root<?> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
         List<Predicate> predicates = Arrays.stream(this.criterion)
             .map(value -> value.toPredicate(root, query, builder))
-            .collect(Collectors.toList());
+            .toList();
         if (Operator.OR.equals(operator)) {
             return builder.or(predicates.toArray(new Predicate[0]));
         }

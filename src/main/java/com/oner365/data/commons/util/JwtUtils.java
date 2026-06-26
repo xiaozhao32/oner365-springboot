@@ -33,17 +33,8 @@ public class JwtUtils {
      */
     private static final String TOKEN_USER_NAME = "userName";
 
-    /**
-     * 密钥可放在配置文件
-     */
-    private static final String SECRET = "test";
-
     private JwtUtils() {
 
-    }
-
-    private static SecretKey getSecureKey() {
-        return getSecureKey(SECRET);
     }
 
     private static SecretKey getSecureKey(String secret) {
@@ -82,7 +73,7 @@ public class JwtUtils {
         claims.put("sub", RsaUtils.encrypt(username));
         claims.put("created", DateUtil.getDate());
 
-        SecretKey key = getSecureKey();
+        SecretKey key = getSecureKey(secret);
         return Jwts.builder().claims(claims).expiration(expired).signWith(key).compact();
     }
 
@@ -111,7 +102,7 @@ public class JwtUtils {
      */
     private static Claims getClaimsFromToken(String token, String secret) {
         try {
-            SecretKey key = getSecureKey();
+            SecretKey key = getSecureKey(secret);
             return Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload();
         }
         catch (ExpiredJwtException e) {

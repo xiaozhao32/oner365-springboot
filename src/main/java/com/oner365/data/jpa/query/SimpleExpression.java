@@ -6,7 +6,6 @@ import com.oner365.data.commons.util.DateUtil;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Expression;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Path;
 import jakarta.persistence.criteria.Predicate;
@@ -90,7 +89,7 @@ public class SimpleExpression implements Criterion {
             case NE:
                 return builder.notEqual(expression, value);
             case LIKE:
-                return builder.like((Expression<String>) expression, "%" + value + "%");
+                return builder.like(expression, "%" + value + "%");
             case LT:
                 if (DateUtil.isLocalDateTime(String.valueOf(value))) {
                     return builder.lessThan(expression, DateUtil.toLocalDateTime(String.valueOf(value)));

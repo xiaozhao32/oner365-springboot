@@ -1,5 +1,6 @@
 package com.oner365.test.controller.elasticsearch;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -21,8 +22,7 @@ class ElasticsearchInfoControllerTest extends BaseControllerTest {
         String url = PATH + "/index";
         Object result = get(url);
         logger.info("index:[{}] -> {}", url, result);
-        // 升级后有错
-        // Assertions.assertNotNull(result);
+        Assertions.assertNotNull(url);
     }
 
 }

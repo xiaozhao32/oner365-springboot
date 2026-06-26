@@ -2,9 +2,6 @@ package com.oner365.sys.controller.system;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import jakarta.annotation.Resource;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -28,8 +25,9 @@ import com.oner365.sys.dto.SysJobDto;
 import com.oner365.sys.service.ISysJobService;
 import com.oner365.sys.vo.SysJobVo;
 
-import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
 
 /**
  * 用户职位信息
@@ -105,7 +103,7 @@ public class SysJobController extends BaseController {
     @SysLog("职位删除")
     @DeleteMapping("/delete")
     public List<Boolean> delete(@RequestBody String... ids) {
-        return Arrays.stream(ids).map(id -> sysJobService.deleteById(id)).collect(Collectors.toList());
+        return Arrays.stream(ids).map(id -> sysJobService.deleteById(id)).toList();
     }
 
     /**

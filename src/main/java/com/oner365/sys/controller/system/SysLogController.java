@@ -3,9 +3,6 @@ package com.oner365.sys.controller.system;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import jakarta.annotation.Resource;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,8 +25,9 @@ import com.oner365.sys.dto.SysLogDto;
 import com.oner365.sys.service.ISysLogService;
 import com.oner365.sys.vo.SysLogVo;
 
-import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
 
 /**
  * 系统日志控制器
@@ -90,7 +88,7 @@ public class SysLogController extends BaseController {
     @ApiOperationSupport(order = 4)
     @DeleteMapping("/delete")
     public List<Boolean> delete(@RequestBody String... ids) {
-        return Arrays.stream(ids).map(id -> logService.deleteById(id)).collect(Collectors.toList());
+        return Arrays.stream(ids).map(id -> logService.deleteById(id)).toList();
     }
 
     /**

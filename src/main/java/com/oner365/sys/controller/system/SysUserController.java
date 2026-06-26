@@ -3,7 +3,6 @@ package com.oner365.sys.controller.system;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -246,7 +245,7 @@ public class SysUserController extends BaseController {
     @SysLog("删除用户")
     @DeleteMapping("/delete")
     public List<Boolean> delete(@RequestBody String... ids) {
-        return Arrays.stream(ids).map(id -> sysUserService.deleteById(id)).collect(Collectors.toList());
+        return Arrays.stream(ids).map(id -> sysUserService.deleteById(id)).toList();
     }
 
     /**

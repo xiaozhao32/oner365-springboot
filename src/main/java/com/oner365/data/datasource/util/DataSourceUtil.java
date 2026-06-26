@@ -2,7 +2,6 @@ package com.oner365.data.datasource.util;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -293,25 +292,13 @@ public class DataSourceUtil {
      * @param o 对象
      */
     public static void close(Object o) {
-        try {
-            if (o instanceof ResultSet) {
-                ((ResultSet) o).close();
+        if (o instanceof AutoCloseable closeable) {
+            try {
+                closeable.close();
             }
-            else if (o instanceof CallableStatement) {
-                ((CallableStatement) o).close();
+            catch (Exception e) {
+                LOGGER.error("AutoCloseable error:", e);
             }
-            else if (o instanceof PreparedStatement) {
-                ((PreparedStatement) o).close();
-            }
-            else if (o instanceof Statement) {
-                ((Statement) o).close();
-            }
-            else if (o instanceof Connection) {
-                ((Connection) o).close();
-            }
-        }
-        catch (SQLException e) {
-            LOGGER.error("close error:", e);
         }
     }
 

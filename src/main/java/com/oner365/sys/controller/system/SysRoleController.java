@@ -2,9 +2,6 @@ package com.oner365.sys.controller.system;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import jakarta.annotation.Resource;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -29,8 +26,9 @@ import com.oner365.sys.service.ISysRoleService;
 import com.oner365.sys.vo.SysRoleVo;
 import com.oner365.sys.vo.check.CheckRoleNameVo;
 
-import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
 
 /**
  * 角色管理
@@ -128,7 +126,7 @@ public class SysRoleController extends BaseController {
     @SysLog("删除角色")
     @DeleteMapping("/delete")
     public List<Boolean> delete(@RequestBody String... ids) {
-        return Arrays.stream(ids).map(id -> roleService.deleteById(id)).collect(Collectors.toList());
+        return Arrays.stream(ids).map(id -> roleService.deleteById(id)).toList();
     }
 
     /**

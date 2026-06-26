@@ -2,7 +2,6 @@ package com.oner365.elasticsearch.service.impl;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.springframework.data.domain.Page;
@@ -39,7 +38,7 @@ public class SampleGeneElasticsearchServiceImpl implements ISampleGeneElasticsea
     @Override
     public List<SampleGeneDto> saveAll(List<SampleGeneVo> voList) {
         Iterable<SampleGene> iterable = repository.saveAll(convert(voList, SampleGene.class));
-        List<SampleGene> list = StreamSupport.stream(iterable.spliterator(), false).collect(Collectors.toList());
+        List<SampleGene> list = StreamSupport.stream(iterable.spliterator(), false).toList();
         return convert(list, SampleGeneDto.class);
     }
 

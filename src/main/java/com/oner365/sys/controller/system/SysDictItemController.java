@@ -5,9 +5,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-
-import jakarta.annotation.Resource;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -38,8 +35,9 @@ import com.oner365.sys.vo.SysDictItemVo;
 import com.oner365.sys.vo.check.CheckCodeVo;
 import com.oner365.sys.vo.check.CheckTypeCodeVo;
 
-import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
 
 /**
  * 字典信息
@@ -184,7 +182,7 @@ public class SysDictItemController extends BaseController {
     @SysLog("删除字典类别")
     @DeleteMapping("/type/delete")
     public List<Boolean> deleteItemType(@RequestBody String... ids) {
-        return Arrays.stream(ids).map(id -> sysDictItemTypeService.deleteById(id)).collect(Collectors.toList());
+        return Arrays.stream(ids).map(id -> sysDictItemTypeService.deleteById(id)).toList();
     }
 
     /**
@@ -282,7 +280,7 @@ public class SysDictItemController extends BaseController {
     @SysLog("删除字典")
     @DeleteMapping("/item/delete")
     public List<Boolean> deleteItem(@RequestBody String... ids) {
-        return Arrays.stream(ids).map(id -> sysDictItemService.deleteById(id)).collect(Collectors.toList());
+        return Arrays.stream(ids).map(id -> sysDictItemService.deleteById(id)).toList();
     }
 
     /**

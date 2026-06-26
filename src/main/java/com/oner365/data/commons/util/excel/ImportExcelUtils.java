@@ -161,17 +161,10 @@ public class ImportExcelUtils {
     private static Object getCellValue(Cell cell) {
         Object value;
         switch (cell.getCellType()) {
-            case STRING:
-                value = cell.getStringCellValue().trim();
-                break;
-            case _NONE:
-            case BLANK:
-                value = PublicConstants.EMPTY;
-                break;
-            case BOOLEAN:
-                value = cell.getBooleanCellValue();
-                break;
-            case NUMERIC:
+            case STRING -> value = cell.getStringCellValue().trim();
+            case _NONE, BLANK -> value = PublicConstants.EMPTY;
+            case BOOLEAN -> value = cell.getBooleanCellValue();
+            case NUMERIC -> {
                 if (DateUtil.isCellDateFormatted(cell)) {
                     Date date = cell.getDateCellValue();
                     value = com.oner365.data.commons.util.DateUtil.dateToString(date,
@@ -184,8 +177,8 @@ public class ImportExcelUtils {
                 else {
                     value = (cell + PublicConstants.EMPTY).trim();
                 }
-                break;
-            case FORMULA:
+            }
+            case FORMULA -> {
                 // 读公式计算值
                 value = cell.getCellFormula();
                 if (!DataUtils.isEmpty(value) && value.toString().toUpperCase().contains(STRING_DATE)) {
@@ -200,9 +193,8 @@ public class ImportExcelUtils {
                         value = cell.getRichStringCellValue().toString();
                     }
                 }
-                break;
-            default:
-                value = cell.toString();
+            }
+            default -> value = cell.toString();
         }
         return value;
     }

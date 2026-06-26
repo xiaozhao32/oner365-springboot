@@ -9,9 +9,6 @@ import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import jakarta.annotation.Resource;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -40,6 +37,7 @@ import com.oner365.files.storage.condition.FdfsStorageCondition;
 import com.oner365.files.vo.SysFileStorageVo;
 
 import ch.ethz.ssh2.SFTPv3DirectoryEntry;
+import jakarta.annotation.Resource;
 
 /**
  * fastdfs工具类
@@ -222,7 +220,7 @@ public class FastdfsClient implements IFileStorageClient {
             fastdfsFile.setFastdfsUrl(PublicConstants.FILE_HTTP + fileFdfsProperties.getIp());
             fastdfsFile.setSize(DataUtils.convertFileSize(entry.attributes.size));
             return fastdfsFile;
-        }).collect(Collectors.toList());
+        }).toList();
     }
 
 }

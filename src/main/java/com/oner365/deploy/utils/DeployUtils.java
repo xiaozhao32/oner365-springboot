@@ -1,7 +1,13 @@
 package com.oner365.deploy.utils;
 
-import ch.ethz.ssh2.*;
-import com.oner365.data.commons.exception.ProjectRuntimeException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
+
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecuteResultHandler;
 import org.apache.commons.exec.DefaultExecutor;
@@ -11,14 +17,14 @@ import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-import java.util.stream.Collectors;
+import com.oner365.data.commons.exception.ProjectRuntimeException;
+
+import ch.ethz.ssh2.Connection;
+import ch.ethz.ssh2.SCPClient;
+import ch.ethz.ssh2.SFTPv3Client;
+import ch.ethz.ssh2.SFTPv3DirectoryEntry;
+import ch.ethz.ssh2.Session;
+import ch.ethz.ssh2.StreamGobbler;
 
 /**
  * 安装部署工具类
@@ -175,7 +181,7 @@ public class DeployUtils {
             return Collections.emptyList();
         }
 
-        return commands.stream().map(DeployUtils::execExecute).collect(Collectors.toList());
+        return commands.stream().map(DeployUtils::execExecute).toList();
     }
 
     /**
@@ -287,7 +293,7 @@ public class DeployUtils {
     public static List<String> directoryList(SFTPv3Client sftpClient, String directory) {
         try {
             List<SFTPv3DirectoryEntry> vector = sftpClient.ls(directory);
-            return vector.stream().map(c -> c.filename).collect(Collectors.toList());
+            return vector.stream().map(c -> c.filename).toList();
         }
         catch (IOException e) {
             LOGGER.error("Error directoryList:", e);
