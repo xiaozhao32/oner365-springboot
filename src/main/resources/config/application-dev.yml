@@ -39,6 +39,9 @@ spring:
     locale: zh_CN
     serialization:
       indent-output: false
+    deserialization:
+      fail-on-trailing-tokens: false
+      fail-on-unknown-properties: false
 
   # elasticsearch
   elasticsearch:

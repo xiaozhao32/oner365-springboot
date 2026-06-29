@@ -515,29 +515,6 @@
 		    <version>${com.dameng.version}</version>
 		</dependency>
 
-		<!-- kotlin -->
-		<dependency>
-		    <groupId>org.jetbrains.kotlin</groupId>
-		    <artifactId>kotlin-stdlib</artifactId>
-		    <version>${org.jetbrains.kotlin.version}</version>
-		</dependency>
-		<dependency>
-		    <groupId>org.jetbrains.kotlin</groupId>
-		    <artifactId>kotlin-stdlib-common</artifactId>
-		    <version>2.0.21</version>
-		</dependency>
-		<dependency>
-		    <groupId>org.jetbrains.kotlin</groupId>
-		    <artifactId>kotlin-stdlib-jdk7</artifactId>
-		    <version>${org.jetbrains.kotlin.version}</version>
-		</dependency>
-
-		<dependency>
-		    <groupId>org.jetbrains.kotlin</groupId>
-		    <artifactId>kotlin-stdlib-jdk8</artifactId>
-		    <version>${org.jetbrains.kotlin.version}</version>
-		</dependency>
-
 		<!-- 定时任务 -->
 		<dependency>
 			<groupId>org.quartz-scheduler</groupId>

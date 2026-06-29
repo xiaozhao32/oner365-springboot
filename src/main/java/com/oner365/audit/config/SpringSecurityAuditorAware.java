@@ -2,9 +2,9 @@ package com.oner365.audit.config;
 
 import java.util.Optional;
 
-import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.annotation.Validated;
 
 import com.oner365.data.web.utils.RequestUtils;
 
@@ -14,9 +14,9 @@ import com.oner365.data.web.utils.RequestUtils;
  * @author zhaoyong
  */
 @Component
+@Validated
 public class SpringSecurityAuditorAware implements AuditorAware<String> {
 
-    @NotNull
     @Override
     public Optional<String> getCurrentAuditor() {
         if (RequestUtils.getAuthUser() == null) {

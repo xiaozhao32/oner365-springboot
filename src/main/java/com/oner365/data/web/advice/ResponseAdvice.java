@@ -55,6 +55,7 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
             Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request,
             ServerHttpResponse response) {
         if (RequestUtils.validateClientWhites(request.getURI().getPath(), clientWhiteProperties.getWhites())) {
+            // 客户端白名单公钥加密认证
             String sign = null;
             List<String> headers = request.getHeaders().get("sign");
             if (headers != null) {
@@ -63,20 +64,7 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
             if (DataUtils.isEmpty(sign)) {
                 return null;
             }
-            String key = RsaUtils.buildRsaDecryptByPrivateKey(sign, clientWhiteProperties.getPrivateKey());
-            if (body instanceof ResponseData) {
-                return ResponseData.success(Base64.getEncoder()
-                    .encodeToString(Cipher.encodeSms4(JSON.toJSONString(body), key.substring(0, 16).getBytes())));
-            }
-            if (body instanceof byte[] b) {
-                return Base64.getEncoder()
-                    .encodeToString(Cipher.encodeSms4(b, key.substring(0, 16).getBytes()))
-                    .getBytes();
-            }
-            if (body != null) {
-                return ResponseData.success(Base64.getEncoder()
-                    .encodeToString(Cipher.encodeSms4(body.toString(), key.substring(0, 16).getBytes())));
-            }
+            return responseClientWhites(body, sign);
         }
 
         if (request.getURI().getPath().contains("/swagger") || request.getURI().getPath().contains("/webjars")
@@ -100,6 +88,23 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
             return body;
         }
         return ResponseData.success((Serializable) body);
+    }
+    
+    private Object responseClientWhites(Object body, String sign) {
+        String key = RsaUtils.buildRsaDecryptByPrivateKey(sign, clientWhiteProperties.getPrivateKey());
+
+        if (body instanceof ResponseData<?> data) {
+            return ResponseData.success(Base64.getEncoder()
+                .encodeToString(Cipher.encodeSms4(JSON.toJSONString(data), key.substring(0, 16).getBytes())));
+        }
+        if (body instanceof byte[] b) {
+            return Base64.getEncoder().encodeToString(Cipher.encodeSms4(b, key.substring(0, 16).getBytes())).getBytes();
+        }
+        if (body != null) {
+            return ResponseData.success(Base64.getEncoder()
+                .encodeToString(Cipher.encodeSms4(body.toString(), key.substring(0, 16).getBytes())));
+        }
+        return null;
     }
 
 }
