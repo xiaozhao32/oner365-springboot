@@ -25,7 +25,7 @@ ${AnsiColor.BRIGHT_RED}
           default: ${AnsiColor.BRIGHT_BLACK}rabbitmq${AnsiColor.BRIGHT_RED} [ 1.rabbitmq 2.rocketmq 3.kafka 4.pulsar 5.activemq 6.mqtt ]
     
      Storage Type: ${AnsiColor.BRIGHT_BLUE}${file.storage}${AnsiColor.BRIGHT_RED} 
-          default: ${AnsiColor.BRIGHT_BLACK}local${AnsiColor.BRIGHT_RED}    [ 1.local 2.minio 3.fdfs ]
+          default: ${AnsiColor.BRIGHT_BLACK}local${AnsiColor.BRIGHT_RED}    [ 1.local 2.minio ]
     
     Elasticsearch: ${AnsiColor.BRIGHT_BLUE}${spring.elasticsearch.uris}${AnsiColor.BRIGHT_RED}
     

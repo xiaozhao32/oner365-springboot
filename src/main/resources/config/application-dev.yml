@@ -200,7 +200,7 @@ mqtt:
 
 # 文件上传下载地址
 file:
-  # 存储方式为 local fdfs minio
+  # 存储方式为 local minio
   storage: minio
   # excel后缀
   excel:
@@ -210,7 +210,7 @@ file:
 
 # 上传存储到本地
 local:
-  # 本地配置web访问地址, fdfs使用 fdfs.web-server-url
+  # 本地配置web访问地址
   web: http://localhost/uploads
     # 上传地址
   upload: /Users/zhaoyong/Downloads

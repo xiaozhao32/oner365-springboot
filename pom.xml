@@ -483,18 +483,6 @@
 			<version>${com.auth0.version}</version>
 		</dependency>
 
-		<!-- fastdfs -->
-		<dependency>
-			<groupId>com.github.tobato</groupId>
-			<artifactId>fastdfs-client</artifactId>
-			<version>${com.github.tobato.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>ch.qos.logback</groupId>
-					<artifactId>logback-classic</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
 		<!-- minio -->
 		<dependency>
 		    <groupId>io.minio</groupId>

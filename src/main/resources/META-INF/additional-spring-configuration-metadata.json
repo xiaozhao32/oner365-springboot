@@ -10,31 +10,6 @@
     "description": "Token Expire minute time."
   },
   {
-    "name": "fdfs.storage.path",
-    "type": "java.lang.String",
-    "description": "Fastdfs storage path."
-  },
-  {
-    "name": "fdfs.ip",
-    "type": "java.lang.String",
-    "description": "Fastdfs IP address."
-  },
-  {
-    "name": "fdfs.port",
-    "type": "java.lang.String",
-    "description": "Fastdfs port."
-  },
-  {
-    "name": "fdfs.user",
-    "type": "java.lang.String",
-    "description": "Fastdfs user account."
-  },
-  {
-    "name": "fdfs.password",
-    "type": "java.lang.String",
-    "description": "Fastdfs user password."
-  },
-  {
     "name": "ignore.whites",
     "type": "java.util.List",
     "description": "A description for 'ignore.whites'."
@@ -68,7 +43,7 @@
     "name": "file.storage",
     "type": "com.oner365.data.commons.enums.StorageEnum",
     "defaultValue": "local",
-    "description": "include: [local, minio, fdfs]. "
+    "description": "include: [local, minio]. "
   },
   {
     "name": "file.excel.suffix",

@@ -10,9 +10,7 @@ public enum StorageEnum implements BaseEnum {
     /** 本地上传 */
     LOCAL("本地上传"),
     /** Minio上传 */
-    MINIO("Minio上传"),
-    /** Fdfs上传 */
-    FDFS("Fdfs上传");
+    MINIO("Minio上传");
 
     /**
      * 名称

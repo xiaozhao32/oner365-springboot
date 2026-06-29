@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 public class DefaultFileProperties {
 
     /**
-     * 文件存储类型: local fdfs minio
+     * 文件存储类型: local minio
      */
     private String storage;
 
