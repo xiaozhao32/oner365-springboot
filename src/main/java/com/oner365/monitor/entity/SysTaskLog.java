@@ -1,8 +1,10 @@
 package com.oner365.monitor.entity;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -109,6 +111,7 @@ public class SysTaskLog implements Serializable {
     /**
      * 创建人
      */
+    @CreatedBy
     @Column(name = "create_user", length = 32)
     private String createUser;
 
@@ -117,14 +120,14 @@ public class SysTaskLog implements Serializable {
      */
     @CreatedDate
     @Column(name = "create_time", updatable = false)
-    private Date createTime;
+    private LocalDateTime createTime;
 
     /**
      * 更新时间
      */
     @LastModifiedDate
-    @Column(name = "update_time", updatable = true)
-    private Date updateTime;
+    @Column(name = "update_time", insertable = false)
+    private LocalDateTime updateTime;
 
     public SysTaskLog() {
         super();
@@ -218,19 +221,19 @@ public class SysTaskLog implements Serializable {
         this.createUser = createUser;
     }
 
-    public Date getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 
-    public Date getUpdateTime() {
+    public LocalDateTime getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Date updateTime) {
+    public void setUpdateTime(LocalDateTime updateTime) {
         this.updateTime = updateTime;
     }
 
