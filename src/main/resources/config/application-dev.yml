@@ -74,7 +74,7 @@ spring:
       
     elasticsearch:
       repositories:
-        enabled: true
+        enabled: false
   
   # rabbitmq
   rabbitmq:

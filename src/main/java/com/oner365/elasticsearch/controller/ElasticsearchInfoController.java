@@ -1,57 +1,38 @@
 package com.oner365.elasticsearch.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.IntStream;
+import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpHost;
-import org.apache.http.HttpResponseInterceptor;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.CredentialsProvider;
-import org.apache.http.entity.ContentType;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.message.BasicHeader;
-import org.elasticsearch.client.RestClient;
-import org.elasticsearch.client.RestClientBuilder.HttpClientConfigCallback;
 import org.springframework.boot.elasticsearch.autoconfigure.ElasticsearchProperties;
-import org.springframework.http.HttpHeaders;
+import org.springframework.data.elasticsearch.client.elc.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.core.IndexInformation;
+import org.springframework.data.elasticsearch.core.IndexOperations;
+import org.springframework.data.elasticsearch.core.cluster.ClusterHealth;
+import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.data.commons.constants.PublicConstants;
-import com.oner365.data.commons.util.Base64Utils;
 import com.oner365.data.commons.util.DataUtils;
 import com.oner365.data.web.controller.BaseController;
 import com.oner365.elasticsearch.dto.ClusterDto;
 import com.oner365.elasticsearch.dto.ClusterMappingDto;
 import com.oner365.elasticsearch.dto.TransportClientDto;
 
-import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch._types.HealthStatus;
-import co.elastic.clients.elasticsearch.indices.GetAliasResponse;
-import co.elastic.clients.elasticsearch.indices.GetMappingResponse;
-import co.elastic.clients.elasticsearch.indices.get_alias.IndexAliases;
-import co.elastic.clients.elasticsearch.indices.get_mapping.IndexMappingRecord;
 import co.elastic.clients.elasticsearch.indices.stats.ShardRoutingState;
-import co.elastic.clients.json.jackson.JacksonJsonpMapper;
-import co.elastic.clients.transport.ElasticsearchTransport;
-import co.elastic.clients.transport.rest_client.RestClientTransport;
+import co.elastic.clients.util.ApiTypeHelper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.validation.constraints.NotNull;
-import reactor.core.publisher.Mono;
 
 /**
  * Elasticsearch 信息
@@ -68,10 +49,14 @@ public class ElasticsearchInfoController extends BaseController {
     private ElasticsearchProperties elasticsearchProperties;
 
     @Resource
+    private ElasticsearchTemplate elasticsearchTemplate;
+
+    @Resource
     private WebClient webClient;
 
     /**
      * Elasticsearch 信息
+     * 
      * @return TransportClientDto
      */
     @Operation(summary = "1.首页")
@@ -84,122 +69,75 @@ public class ElasticsearchInfoController extends BaseController {
         }
         // 创建客户端
         String uri = StringUtils.substringAfter(elasticsearchProperties.getUris().get(0), PublicConstants.FILE_HTTP);
-
-        CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
-        // 设置密码 xpack.security.enabled: true
-        if (elasticsearchProperties.getUsername() != null && elasticsearchProperties.getPassword() != null) {
-            credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(
-                    elasticsearchProperties.getUsername(), elasticsearchProperties.getPassword()));
-        }
-
-        HttpClientConfigCallback httpClientConfigCallback = httpClientBuilder -> httpClientBuilder
-            .setDefaultHeaders(Collections
-                .singleton(new BasicHeader(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON.toString())))
-            .setDefaultCredentialsProvider(credentialsProvider)
-            .addInterceptorLast((HttpResponseInterceptor) (response, context) -> {
-                if (!response.containsHeader("X-Elastic-Product")) {
-                    response.setHeader("X-Elastic-Product", "Elasticsearch");
-                }
-            });
-
-        try (RestClient restClient = RestClient.builder(HttpHost.create(elasticsearchProperties.getUris().get(0)))
-            .setHttpClientConfigCallback(httpClientConfigCallback)
-            .build();
-                ElasticsearchTransport transport = new RestClientTransport(restClient, new JacksonJsonpMapper());
-                ElasticsearchClient client = new ElasticsearchClient(transport)) {
-
-            TransportClientDto result = new TransportClientDto();
-            setHealth(uri, result);
-            setShards(client, result);
-            setMappingList(client, result.getClusterList());
-            return result;
-        }
-        catch (Exception e) {
-            logger.error("index error:", e);
-        }
-        return null;
+        TransportClientDto result = new TransportClientDto();
+        setHealth(uri, result);
+        setShards(result);
+        return result;
     }
 
     /**
-     * 返回结果对象
+     * health
      */
     private void setHealth(String uri, @NotNull TransportClientDto result) {
         result.setHostname(StringUtils.substringBefore(uri, PublicConstants.COLON));
         result.setPort(Integer.parseInt(StringUtils.substringAfter(uri, PublicConstants.COLON)));
 
         // Elasticsearch health
-        JSONObject healthResponse = request("/_cluster/health");
-        if (healthResponse != null) {
-            result.setClusterName(healthResponse.getString("cluster_name"));
-            result.setNumberOfDataNodes(healthResponse.getInteger("number_of_data_nodes"));
-            result.setActiveShards(healthResponse.getInteger("active_shards"));
-            result.setStatus(HealthStatus.valueOf(DataUtils.builderName(healthResponse.getString("status"))));
-            result.setTaskMaxWaitingTime(healthResponse.getString("task_max_waiting_in_queue_millis"));
-        }
-    }
-
-    /**
-     * 索引信息
-     */
-    private void setShards(@NotNull ElasticsearchClient client, @NotNull TransportClientDto result) throws IOException {
-        GetAliasResponse aliasResponse = client.indices().getAlias();
-        Map<String, IndexAliases> aliasMap = aliasResponse.aliases();
-        Map<String, ShardRoutingState> stateMap = new HashMap<>(10);
-        Map<String, Integer> shardsMap = new HashMap<>(10);
-
-        // Elasticsearch shards
-        JSONObject shardsResponse = request("/_search_shards");
-        if (shardsResponse != null) {
-            JSONArray shards = shardsResponse.getJSONArray("shards");
-            IntStream.range(0, shards.size())
-                .mapToObj(i -> shards.getJSONArray(i).getJSONObject(0))
-                .forEachOrdered(shard -> {
-                    stateMap.put(shard.getString("index"),
-                            ShardRoutingState.valueOf(DataUtils.builderName(shard.getString("state").toLowerCase())));
-                    shardsMap.merge(shard.getString("index"), 1, (t, u) -> Integer.sum(t, u));
-                });
-
-            List<ClusterDto> clusterList = new ArrayList<>();
-            aliasMap.forEach(
-                    (key, value) -> clusterList.add(new ClusterDto(key, shardsMap.get(key), 1, stateMap.get(key))));
-            result.setClusterList(clusterList);
-        }
-    }
-
-    /**
-     * mapping
-     */
-    private void setMappingList(@NotNull ElasticsearchClient client, @NotNull List<ClusterDto> clusterList)
-            throws IOException {
-        GetMappingResponse mappingResponse = client.indices().getMapping();
-        Map<String, IndexMappingRecord> mappings = mappingResponse.mappings();
-        clusterList.forEach(cluster -> {
-            IndexMappingRecord mappingRecord = mappings.get(cluster.getIndex());
-            List<ClusterMappingDto> mappingList = new ArrayList<>();
-            if (mappingRecord != null) {
-                mappingRecord.mappings()
-                    .properties()
-                    .forEach((key, value) -> mappingList
-                        .add(new ClusterMappingDto(key, value._get().getClass().getSimpleName())));
+        try (ApiTypeHelper.DisabledChecksHandle h = ApiTypeHelper.DANGEROUS_disableRequiredPropertiesCheck(true)) {
+            ClusterHealth healthResponse = elasticsearchTemplate.cluster().health();
+            if (healthResponse != null) {
+                result.setClusterName(healthResponse.getClusterName());
+                result.setNumberOfDataNodes(healthResponse.getNumberOfDataNodes());
+                result.setActiveShards(healthResponse.getActiveShards());
+                result.setStatus(HealthStatus.valueOf(DataUtils.builderName(healthResponse.getStatus().toLowerCase())));
+                result.setTaskMaxWaitingTime(healthResponse.getTaskMaxWaitingTimeMillis() + "");
             }
-            cluster.setMappingList(mappingList);
-        });
+        }
     }
 
-    private String getAuthorization() {
-        String auth = elasticsearchProperties.getUsername() + PublicConstants.COLON
-                + elasticsearchProperties.getPassword();
-        return "Basic " + Base64Utils.encodeBase64String(auth.getBytes());
+    /**
+     * IndexInformation
+     * 
+     * @param result TransportClientDto
+     */
+    private void setShards(@NotNull TransportClientDto result) {
+
+        IndexOperations indexOps = elasticsearchTemplate.indexOps(IndexCoordinates.of("*"));
+        List<IndexInformation> indexInformations = indexOps.getInformation();
+
+        if (DataUtils.isEmpty(indexInformations)) {
+            result.setClusterList(Collections.emptyList());
+            return;
+        }
+
+        List<ClusterDto> clusterList = indexInformations.stream().map(this::buildInfomation).filter(Objects::nonNull)
+                .toList();
+        result.setClusterList(clusterList);
     }
 
-    private JSONObject request(String uri) {
-        Mono<JSONObject> mono = webClient.get()
-            .uri(elasticsearchProperties.getUris().get(0) + uri)
-            .header(HttpHeaders.AUTHORIZATION, getAuthorization())
-            .header(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON.toString())
-            .retrieve()
-            .bodyToMono(JSONObject.class);
-        return mono.block();
+    /**
+     * IndexInformation properties
+     * 
+     * @param information IndexInformation
+     * @return ClusterDto
+     */
+    private ClusterDto buildInfomation(IndexInformation information) {
+        Object indexObject = information.getSettings().get("index");
+        if (indexObject instanceof Map<?, ?> map) {
+            ClusterDto dto = new ClusterDto(information.getName(),
+                    Integer.parseInt(map.get("number_of_shards").toString()),
+                    Integer.parseInt(map.get("number_of_replicas").toString()), ShardRoutingState.Started);
+
+            List<ClusterMappingDto> mappingList = new ArrayList<>();
+            Object propertiesObject = information.getMapping().get("properties");
+            if (propertiesObject instanceof Map<?, ?> properties) {
+                properties.forEach(
+                        (key, value) -> mappingList.add(new ClusterMappingDto(key.toString(), value.toString())));
+                dto.setMappingList(mappingList);
+            }
+            return dto;
+        }
+        return null;
     }
 
 }
