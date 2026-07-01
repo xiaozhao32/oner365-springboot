@@ -1,21 +1,16 @@
 package com.oner365.queue.service.pulsar.impl;
 
-import java.util.concurrent.TimeUnit;
-
 import org.apache.pulsar.client.api.MessageId;
-import org.apache.pulsar.client.api.Producer;
-import org.apache.pulsar.client.api.PulsarClient;
-import org.apache.pulsar.client.api.PulsarClientException;
-import org.apache.pulsar.client.api.Schema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Conditional;
+import org.springframework.pulsar.core.PulsarTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSON;
 import com.oner365.api.dto.UpdateTaskExecuteStatusDto;
 import com.oner365.data.commons.constants.PublicConstants;
-import com.oner365.data.commons.exception.ProjectRuntimeException;
 import com.oner365.data.redis.RedisCache;
 import com.oner365.data.web.utils.HttpClientUtils;
 import com.oner365.monitor.dto.InvokeParamDto;
@@ -42,36 +37,16 @@ public class PulsarSendServiceImpl implements IQueueSendService {
     private RedisCache redisCache;
 
     @Resource
-    private PulsarClient pulsarClient;
-
-    public <T> Producer<T> createProducer(String topic, Schema<T> schema) {
-        try {
-            return pulsarClient.newProducer(schema)
-                .topic(topic)
-                .batchingMaxPublishDelay(10, TimeUnit.MILLISECONDS)
-                .sendTimeout(10, TimeUnit.SECONDS)
-                .blockIfQueueFull(true)
-                .create();
-        }
-        catch (PulsarClientException e) {
-            throw new ProjectRuntimeException("初始化Pulsar Producer失败");
-        }
-    }
+    private PulsarTemplate<String> pulsarTemplate;
 
     @Async
     @Override
     public void sendMessage(String data) {
         boolean isLock = redisCache.lock(QueueConstants.MESSAGE_QUEUE_NAME, PublicConstants.QUEUE_LOCK_TIME_SECOND);
         if (isLock) {
-            try (Producer<String> producer = createProducer(QueueConstants.MESSAGE_QUEUE_NAME,
-                    Schema.JSON(String.class))) {
-                MessageId messageId = producer.send(data);
-                logger.info("Pulsar sendMessage: {} topic: {} messageId: {}", data, QueueConstants.MESSAGE_QUEUE_NAME,
-                        messageId);
-            }
-            catch (PulsarClientException e) {
-                logger.error("Pulsar sendMessage error:", e);
-            }
+            MessageId messageId = pulsarTemplate.send(QueueConstants.MESSAGE_QUEUE_NAME, data);
+            logger.info("Pulsar sendMessage: {} topic: {} messageId: {}", data, QueueConstants.MESSAGE_QUEUE_NAME,
+                    messageId);
         }
     }
 
@@ -80,66 +55,47 @@ public class PulsarSendServiceImpl implements IQueueSendService {
     public void syncRoute() {
         boolean isLock = redisCache.lock(QueueConstants.ROUTE_QUEUE_NAME, PublicConstants.QUEUE_LOCK_TIME_SECOND);
         if (isLock) {
-            try (Producer<String> producer = createProducer(QueueConstants.ROUTE_QUEUE_NAME, Schema.STRING)) {
-                String data = HttpClientUtils.getLocalhost();
-                MessageId messageId = producer.send(data);
-                logger.info("Pulsar syncRoute: {} topic: {} messageId: {}", data, QueueConstants.MESSAGE_QUEUE_NAME,
-                        messageId);
-            }
-            catch (PulsarClientException e) {
-                logger.error("Pulsar syncRoute error:", e);
-            }
+            String data = HttpClientUtils.getLocalhost();
+            MessageId messageId = pulsarTemplate.send(QueueConstants.ROUTE_QUEUE_NAME, data);
+            logger.info("Pulsar syncRoute: {} topic: {} messageId: {}", data, QueueConstants.ROUTE_QUEUE_NAME,
+                    messageId);
         }
     }
 
     @Async
     @Override
     public void pullTask(InvokeParamDto data) {
-        boolean isLock = redisCache.lock(QueueConstants.SCHEDULE_TASK_QUEUE_NAME, PublicConstants.QUEUE_LOCK_TIME_SECOND);
+        boolean isLock = redisCache.lock(QueueConstants.SCHEDULE_TASK_QUEUE_NAME,
+                PublicConstants.QUEUE_LOCK_TIME_SECOND);
         if (isLock) {
-            try (Producer<InvokeParamDto> producer = createProducer(QueueConstants.SCHEDULE_TASK_QUEUE_NAME,
-                    Schema.JSON(InvokeParamDto.class))) {
-                MessageId messageId = producer.send(data);
-                logger.info("Pulsar syncRoute: {} topic: {} messageId: {}", data,
-                        QueueConstants.SCHEDULE_TASK_QUEUE_NAME, messageId);
-            }
-            catch (PulsarClientException e) {
-                logger.error("Pulsar pullTask error:", e);
-            }
+            MessageId messageId = pulsarTemplate.send(QueueConstants.SCHEDULE_TASK_QUEUE_NAME, JSON.toJSONString(data));
+            logger.info("Pulsar pullTask: {} topic: {} messageId: {}", data, QueueConstants.SCHEDULE_TASK_QUEUE_NAME,
+                    messageId);
         }
     }
 
     @Async
     @Override
     public void updateTaskExecuteStatus(UpdateTaskExecuteStatusDto data) {
-        boolean isLock = redisCache.lock(QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME, PublicConstants.QUEUE_LOCK_TIME_SECOND);
+        boolean isLock = redisCache.lock(QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME,
+                PublicConstants.QUEUE_LOCK_TIME_SECOND);
         if (isLock) {
-            try (Producer<UpdateTaskExecuteStatusDto> producer = createProducer(
-                    QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME, Schema.JSON(UpdateTaskExecuteStatusDto.class))) {
-                MessageId messageId = producer.send(data);
-                logger.info("Pulsar updateTaskExecuteStatus: {} topic: {} messageId: {}", data,
-                        QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME, messageId);
-            }
-            catch (PulsarClientException e) {
-                logger.error("Pulsar updateTaskExecuteStatus error:", e);
-            }
+            MessageId messageId = pulsarTemplate.send(QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME,
+                    JSON.toJSONString(data));
+            logger.info("Pulsar updateTaskExecuteStatus: {} topic: {} messageId: {}", data,
+                    QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME, messageId);
         }
     }
 
     @Async
     @Override
     public void saveExecuteTaskLog(SysTaskDto data) {
-        boolean isLock = redisCache.lock(QueueConstants.SAVE_TASK_LOG_QUEUE_NAME, PublicConstants.QUEUE_LOCK_TIME_SECOND);
+        boolean isLock = redisCache.lock(QueueConstants.SAVE_TASK_LOG_QUEUE_NAME,
+                PublicConstants.QUEUE_LOCK_TIME_SECOND);
         if (isLock) {
-            try (Producer<SysTaskDto> producer = createProducer(QueueConstants.SAVE_TASK_LOG_QUEUE_NAME,
-                    Schema.JSON(SysTaskDto.class))) {
-                MessageId messageId = producer.send(data);
-                logger.info("Pulsar saveExecuteTaskLog: {} topic: {} messageId: {}", data,
-                        QueueConstants.SAVE_TASK_LOG_QUEUE_NAME, messageId);
-            }
-            catch (PulsarClientException e) {
-                logger.error("Pulsar saveExecuteTaskLog error:", e);
-            }
+            MessageId messageId = pulsarTemplate.send(QueueConstants.SAVE_TASK_LOG_QUEUE_NAME, JSON.toJSONString(data));
+            logger.info("Pulsar pullTask: {} topic: {} messageId: {}", data, QueueConstants.SAVE_TASK_LOG_QUEUE_NAME,
+                    messageId);
         }
     }
 

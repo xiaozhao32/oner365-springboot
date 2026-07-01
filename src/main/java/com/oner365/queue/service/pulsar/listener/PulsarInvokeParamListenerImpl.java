@@ -1,16 +1,12 @@
 package com.oner365.queue.service.pulsar.listener;
 
-import java.util.Arrays;
-
-import org.apache.pulsar.client.api.Consumer;
-import org.apache.pulsar.client.api.Message;
-import org.apache.pulsar.client.api.MessageListener;
-import org.apache.pulsar.client.api.PulsarClientException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Conditional;
+import org.springframework.pulsar.annotation.PulsarListener;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.oner365.data.commons.enums.StatusEnum;
 import com.oner365.data.commons.util.DateUtil;
@@ -25,7 +21,7 @@ import com.oner365.monitor.service.ISysTaskService;
 import com.oner365.monitor.vo.SysTaskLogVo;
 import com.oner365.monitor.vo.SysTaskVo;
 import com.oner365.queue.condition.PulsarCondition;
-import com.oner365.queue.config.properties.PulsarProperties;
+import com.oner365.queue.constants.QueueConstants;
 
 import jakarta.annotation.Resource;
 
@@ -37,37 +33,25 @@ import jakarta.annotation.Resource;
  */
 @Service
 @Conditional(PulsarCondition.class)
-public class PulsarInvokeParamListenerImpl implements MessageListener<InvokeParamDto>, BaseService {
-
-    private static final long serialVersionUID = 1L;
+public class PulsarInvokeParamListenerImpl implements BaseService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PulsarInvokeParamListenerImpl.class);
-
-    @Resource
-    private PulsarProperties pulsarProperties;
 
     @Resource
     private ISysTaskLogService sysTaskLogService; //NOSONAR
 
     @Resource
     private ISysTaskService sysTaskService; //NOSONAR
-
-    @Override
-    public void received(Consumer<InvokeParamDto> consumer, Message<InvokeParamDto> msg) {
-        try {
-            String data = Arrays.toString(msg.getData());
-            LOGGER.info("Pulsar consumer data: {}, topic: {}", data, consumer.getTopic());
-            consumer.acknowledge(msg);
-        }
-        catch (PulsarClientException e) {
-            consumer.negativeAcknowledge(msg);
-        }
+    
+    @PulsarListener(topics = QueueConstants.SCHEDULE_TASK_QUEUE_NAME, subscriptionName = "pullTask")
+    public void listener(String data) {
+        LOGGER.info("Pulsar consumer data: {}, topic: {}", data, QueueConstants.SCHEDULE_TASK_QUEUE_NAME);
+        
         // business
-        InvokeParamDto dto = msg.getValue();
+        InvokeParamDto dto = JSON.parseObject(data, InvokeParamDto.class);
         if (dto != null && ScheduleConstants.SCHEDULE_SERVER_NAME.equals(dto.getTaskServerName())) {
             taskExecute(dto.getConcurrent(), dto.getTaskId(), dto.getTaskParam());
         }
-
     }
 
     private void taskExecute(String concurrent, String taskId, JSONObject param) {

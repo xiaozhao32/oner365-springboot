@@ -119,6 +119,14 @@ spring:
 #      request-timeout-ms: 30000
 #      max-poll-interval-ms: 600000
 
+  # pulsar
+#  pulsar:
+#    client:
+#      service-url: pulsar://localhost:6650
+#    consumer:
+#      subscription:
+#        name: test-listener
+
   sql:
     init:
       # 首次运行参数为 embedded 或 always 自动初始化以下脚本
@@ -213,19 +221,15 @@ logging:
 
 # 队列方式    
 queue:
-  # rabbitmq rocketmq kafka pulsar activemq mqtt
+  # rabbitmq kafka pulsar mqtt
   type: rabbitmq
 
-pulsar:
-  url: localhost:6650
-  subscription: test-listener
-  
-mqtt:
-  uri: tcp://localhost:1883
-  username: admin
-  password: admin123
-  default-topic: amq.topic
-  client-id: oner365-client
+#mqtt:
+#  uri: tcp://localhost:1883
+#  username: admin
+#  password: admin123
+#  default-topic: amq.topic
+#  client-id: oner365-client
 
 # 文件上传下载地址
 file:
