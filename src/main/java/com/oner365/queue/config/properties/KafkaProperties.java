@@ -1,5 +1,6 @@
 package com.oner365.queue.config.properties;
 
+import org.jspecify.annotations.Nullable;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.kafka.listener.ContainerProperties.AckMode;
 
@@ -14,33 +15,33 @@ public class KafkaProperties {
     /**
      * bootstrap-servers
      */
-    private String bootstrapServers;
+    private @Nullable String bootstrapServers;
 
-    private Listener listener = new Listener();
-    private Producer producer = new Producer();
-    private Consumer consumer = new Consumer();
+    private final Listener listener = new Listener();
+    private final Producer producer = new Producer();
+    private final Consumer consumer = new Consumer();
 
     public static class Listener {
         
         /**
          * ack-mode
          */
-        private AckMode ackMode;
+        private AckMode ackMode = AckMode.RECORD;
         
         /**
          * concurrency
          */
-        private int concurrency;
+        private int concurrency = 3;
         
         /**
          * poll-timeout
          */
-        private int pollTimeout;
+        private int pollTimeout = 3000;
         
         /**
          * missing-topics-fatal
          */
-        private boolean missingTopicsFatal;
+        private boolean missingTopicsFatal = true;
 
         public AckMode getAckMode() {
             return ackMode;
@@ -80,27 +81,27 @@ public class KafkaProperties {
         /**
          * Producer acks
          */
-        private String acks;
+        private String acks = "-1";
 
         /**
          * Producer retries
          */
-        private int retries;
+        private int retries = 3;
         
         /**
          * Producer batch-size
          */
-        private int batchSize;
+        private int batchSize = 16384;
         
         /**
          * Producer buffer-memory
          */
-        private int bufferMemory;
+        private int bufferMemory = 33554432;
         
         /**
          * Producer linger-ms
          */
-        private int lingerMs;
+        private int lingerMs = 5;
 
         public String getAcks() {
             return acks;
@@ -148,42 +149,42 @@ public class KafkaProperties {
         /**
          * Consumer group-id
          */
-        private String groupId;
+        private @Nullable String groupId;
 
         /**
          * Consumer auto-offset-reset
          */
-        private String autoOffsetReset;
+        private String autoOffsetReset = "latest";
 
         /**
          * Consumer enable-auto-commit
          */
-        private boolean enableAutoCommit;
+        private boolean enableAutoCommit = true;
         
         /**
          * Consumer heartbeat.interval.ms
          */
-        private int heartbeatIntervalMs;
+        private int heartbeatIntervalMs = 3000;
         
         /**
          * Consumer max-poll-records
          */
-        private int maxPollRecords;
+        private int maxPollRecords = 100;
         
         /**
          * Consumer session-timeout-ms
          */
-        private int sessionTimeoutMs;
+        private int sessionTimeoutMs = 45000;
         
         /**
          * Consumer request-timeout-ms
          */
-        private int requestTimeoutMs;
+        private int requestTimeoutMs = 30000;
         
         /**
          * Consumer max-poll-interval-ms
          */
-        private int maxPollIntervalMs;
+        private int maxPollIntervalMs = 600000;
 
         public String getGroupId() {
             return groupId;
@@ -267,24 +268,12 @@ public class KafkaProperties {
         return listener;
     }
 
-    public void setListener(Listener listener) {
-        this.listener = listener;
-    }
-
     public Producer getProducer() {
         return producer;
     }
 
-    public void setProducer(Producer producer) {
-        this.producer = producer;
-    }
-
     public Consumer getConsumer() {
         return consumer;
-    }
-
-    public void setConsumer(Consumer consumer) {
-        this.consumer = consumer;
     }
 
 }

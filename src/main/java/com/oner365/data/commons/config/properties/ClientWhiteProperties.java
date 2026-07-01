@@ -3,6 +3,7 @@ package com.oner365.data.commons.config.properties;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jspecify.annotations.Nullable;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -23,7 +24,7 @@ public class ClientWhiteProperties {
     /**
      * 私有key ssl证书提取
      */
-    private String privateKey;
+    private @Nullable String privateKey;
 
     /**
      * 构造方法

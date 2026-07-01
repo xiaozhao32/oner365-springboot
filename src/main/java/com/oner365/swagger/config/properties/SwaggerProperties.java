@@ -1,5 +1,6 @@
 package com.oner365.swagger.config.properties;
 
+import org.jspecify.annotations.Nullable;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
@@ -11,19 +12,19 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class SwaggerProperties {
 
     /** 名称 */
-    private String name;
+    private @Nullable String name;
 
     /** 地址 */
-    private String url;
-
-    /** 描述 */
-    private String description;
+    private @Nullable String url;
 
     /** 版本 */
-    private String version;
+    private @Nullable String version;
 
     /** 邮箱 */
-    private String email;
+    private String email = "";
+    
+    /** 描述 */
+    private String description = "";
 
     /**
      * 构造方法

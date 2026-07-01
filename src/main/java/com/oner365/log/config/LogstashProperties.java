@@ -1,5 +1,6 @@
 package com.oner365.log.config;
 
+import org.jspecify.annotations.Nullable;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -20,7 +21,7 @@ public class LogstashProperties {
     /**
      * logback-spring.xml logstash address
      */
-    private String addresses;
+    private @Nullable String addresses;
 
     public boolean isEnabled() {
         return enabled;

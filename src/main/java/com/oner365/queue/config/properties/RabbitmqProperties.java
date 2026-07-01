@@ -1,5 +1,6 @@
 package com.oner365.queue.config.properties;
 
+import org.jspecify.annotations.Nullable;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
@@ -13,27 +14,27 @@ public class RabbitmqProperties {
     /**
      * 地址
      */
-    private String addresses;
+    private @Nullable String addresses;
 
     /**
      * 账号
      */
-    private String username;
+    private @Nullable String username;
 
     /**
      * 密码
      */
-    private String password;
+    private @Nullable String password;
 
     /**
-     * web地址
+     * Web console used API
      */
-    private String uri;
+    private @Nullable String uri;
 
     /**
      * virtual host
      */
-    private String virtualHost;
+    private @Nullable String virtualHost;
 
     public RabbitmqProperties() {
         super();

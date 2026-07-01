@@ -1,5 +1,6 @@
 package com.oner365.files.config.properties;
 
+import org.jspecify.annotations.Nullable;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
@@ -13,27 +14,27 @@ public class MinioProperties {
     /**
      * 账号
      */
-    private String username;
+    private @Nullable String username;
 
     /**
      * 密码
      */
-    private String password;
+    private @Nullable String password;
 
     /**
      * 地址
      */
-    private String url;
+    private @Nullable String url;
 
     /**
      * 根目录
      */
-    private String bucket;
+    private @Nullable String bucket;
 
     /**
      * 地区
      */
-    private String region;
+    private @Nullable String region;
 
     /**
      * 构造方法

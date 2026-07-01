@@ -13,19 +13,19 @@ public class WebClientProperties {
     /**
      * max-in-memory-size
      */
-    private int maxInMemorySize;
+    private int maxInMemorySize = 209715200;
 
     /**
      * SSL
      */
-    private Ssl ssl = new Ssl();
+    private final Ssl ssl = new Ssl();
 
     public static class Ssl {
         
         /**
          * SSL enable
          */
-        private boolean enable;
+        private boolean enable = true;
 
         public boolean isEnable() {
             return enable;
@@ -48,7 +48,4 @@ public class WebClientProperties {
         return ssl;
     }
 
-    public void setSsl(Ssl ssl) {
-        this.ssl = ssl;
-    }
 }

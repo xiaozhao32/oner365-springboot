@@ -1,5 +1,6 @@
 package com.oner365.queue.config.properties;
 
+import org.jspecify.annotations.Nullable;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
@@ -13,27 +14,27 @@ public class MqttProperties {
     /**
      * 账号
      */
-    private String username;
+    private @Nullable String username;
 
     /**
      * 密码
      */
-    private String password;
+    private @Nullable String password;
 
     /**
      * 地址
      */
-    private String uri;
+    private @Nullable String uri;
 
     /**
      * client
      */
-    private String clientId;
+    private @Nullable String clientId;
     
     /**
      * default-topic
      */
-    private String defaultTopic;
+    private @Nullable String defaultTopic;
 
     /**
      * 构造方法

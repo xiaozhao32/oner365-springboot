@@ -3,6 +3,7 @@ package com.oner365.deploy.config.properties;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jspecify.annotations.Nullable;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -19,19 +20,19 @@ import com.alibaba.fastjson.JSON;
 public class LocalDeployProperties {
 
     /** 部署路径 */
-    private String name;
+    private @Nullable String name;
 
     /** 项目路径 */
-    private String location;
+    private @Nullable String location;
 
     /** 版本 */
-    private String version;
+    private @Nullable String version;
 
-    /** 部署路径 */
-    private String suffix;
+    /** 部署后缀 */
+    private String suffix = "jar";
 
     /** 部署环境 */
-    private String active;
+    private @Nullable String active;
 
     /** 项目名称 */
     private List<String> projects = new ArrayList<>();

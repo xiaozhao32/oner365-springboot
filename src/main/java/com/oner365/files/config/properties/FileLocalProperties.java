@@ -1,5 +1,6 @@
 package com.oner365.files.config.properties;
 
+import org.jspecify.annotations.Nullable;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
@@ -13,12 +14,12 @@ public class FileLocalProperties {
     /**
      * 本地web地址
      */
-    private String web;
+    private @Nullable String web;
 
     /**
      * 本地上传地址
      */
-    private String upload;
+    private @Nullable String upload;
 
     /**
      * 构造方法

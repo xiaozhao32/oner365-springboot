@@ -1,7 +1,10 @@
 package com.oner365.data.commons.config.properties;
 
+import org.jspecify.annotations.Nullable;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+
+import com.oner365.data.commons.enums.StorageEnum;
 
 /**
  * 文件内容处理配置
@@ -15,12 +18,12 @@ public class DefaultFileProperties {
     /**
      * 文件存储类型: local minio
      */
-    private String storage;
+    private @Nullable StorageEnum storage;
 
     /**
      * 文件下载地址
      */
-    private String download;
+    private @Nullable String download;
 
     /**
      * excel导入导出后缀
@@ -50,11 +53,11 @@ public class DefaultFileProperties {
         super();
     }
 
-    public String getStorage() {
+    public StorageEnum getStorage() {
         return storage;
     }
 
-    public void setStorage(String storage) {
+    public void setStorage(StorageEnum storage) {
         this.storage = storage;
     }
 
