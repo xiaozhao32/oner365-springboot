@@ -26,7 +26,7 @@ public class ResponseData<T> implements Serializable {
     /**
      * 返回数据结果
      */
-    private T result;
+    private T result; //NOSONAR
 
     /**
      * 构造方法

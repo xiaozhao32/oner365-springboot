@@ -4,7 +4,7 @@ import javax.net.ssl.SSLException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.reactive.ClientHttpConnector;
@@ -12,8 +12,11 @@ import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import com.oner365.monitor.config.properties.WebClientProperties;
+
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
+import jakarta.annotation.Resource;
 import reactor.netty.http.client.HttpClient;
 
 /**
@@ -23,42 +26,32 @@ import reactor.netty.http.client.HttpClient;
  *
  */
 @Configuration
+@EnableConfigurationProperties({ WebClientProperties.class })
 public class WebClientConfig {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WebClientConfig.class);
 
-    /**
-     * 是否ssl验证开关
-     */
-    @Value("${webclient.ssl.enable:false}")
-    private boolean enable;
-
-    /**
-     * 设置response body体大小
-     */
-    @Value("${webclient.max-in-memory-size:209715200}")
-    private int maxInMemorySize;
+    @Resource
+    private WebClientProperties properties;
 
     @Bean
     WebClient webClient() {
         ClientHttpConnector httpConnector = new ReactorClientHttpConnector();
-        if (!enable) {
+        if (!properties.getSsl().isEnable()) {
             httpConnector = new ReactorClientHttpConnector(HttpClient.create().secure(sslSpec -> {
                 try {
                     sslSpec.sslContext(
                             SslContextBuilder.forClient().trustManager(InsecureTrustManagerFactory.INSTANCE).build());
-                }
-                catch (SSLException e) {
+                } catch (SSLException e) {
                     LOGGER.error("webClient error:", e);
                 }
             }));
         }
-        return WebClient.builder()
-            .clientConnector(httpConnector)
-            .exchangeStrategies(ExchangeStrategies.builder()
-                .codecs(configurer -> configurer.defaultCodecs().maxInMemorySize(maxInMemorySize))
-                .build())
-            .build();
+        return WebClient.builder().clientConnector(httpConnector)
+                .exchangeStrategies(ExchangeStrategies.builder().codecs(
+                        configurer -> configurer.defaultCodecs().maxInMemorySize(properties.getMaxInMemorySize()))
+                        .build())
+                .build();
     }
 
 }

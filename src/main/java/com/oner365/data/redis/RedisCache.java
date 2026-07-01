@@ -26,7 +26,7 @@ import jakarta.annotation.Resource;
 public class RedisCache {
 
     @Resource
-    public RedisTemplate redisTemplate;
+    public RedisTemplate redisTemplate; //NOSONAR
 
     /**
      * 缓存基本的对象，Integer、String、实体类等

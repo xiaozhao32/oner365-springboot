@@ -92,6 +92,32 @@ spring:
         max-concurrency: 5
         prefetch: 10
         default-requeue-rejected: true
+        
+# kafka
+#  kafka:
+#    bootstrap-servers: localhost:9092 
+#    listener:
+#      ack-mode: manual
+#      missing-topics-fatal: false
+#      concurrency: 3
+#      poll-timeout: 3000
+#      
+#    producer:
+#      retries: 3
+#      acks: all
+#      batch-size: 16384
+#      buffer-memory: 33554432
+#      linger-ms: 5     
+#      
+#    consumer:
+#      group-id: ${spring.application.name}
+#      enable-auto-commit: false
+#      auto-offset-reset: latest
+#      heartbeat-interval-ms: 3000
+#      max-poll-records: 100
+#      session-timeout-ms: 45000
+#      request-timeout-ms: 30000
+#      max-poll-interval-ms: 600000
 
   sql:
     init:
@@ -212,11 +238,11 @@ file:
   download: /Users/zhaoyong/Downloads
 
 # 上传存储到本地
-local:
-  # 本地配置web访问地址
-  web: http://localhost/uploads
-    # 上传地址
-  upload: /Users/zhaoyong/Downloads
+#local:
+#  # 本地配置web访问地址
+#  web: http://localhost/uploads
+#    # 上传地址
+#  upload: /Users/zhaoyong/Downloads
 
 # file minio
 minio:

@@ -47,10 +47,10 @@ public class PulsarInvokeParamListenerImpl implements MessageListener<InvokePara
     private PulsarProperties pulsarProperties;
 
     @Resource
-    private ISysTaskLogService sysTaskLogService;
+    private ISysTaskLogService sysTaskLogService; //NOSONAR
 
     @Resource
-    private ISysTaskService sysTaskService;
+    private ISysTaskService sysTaskService; //NOSONAR
 
     @Override
     public void received(Consumer<InvokeParamDto> consumer, Message<InvokeParamDto> msg) {

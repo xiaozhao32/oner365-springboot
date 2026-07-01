@@ -7,7 +7,6 @@ import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Strings;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.data.redis.autoconfigure.DataRedisProperties;
 import org.springframework.data.redis.connection.RedisServerCommands;
 import org.springframework.data.redis.core.RedisCallback;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.data.commons.enums.ResultEnum;
+import com.oner365.data.redis.config.RedisCacheProperties;
 import com.oner365.data.redis.enums.RedisMode;
 import com.oner365.data.redis.util.JedisUtils;
 import com.oner365.data.web.controller.BaseController;
@@ -48,8 +48,8 @@ public class CacheController extends BaseController {
     @Resource
     private DataRedisProperties redisProperties;
 
-    @Value("${spring.data.redis.mode}")
-    private String mode;
+    @Resource
+    private RedisCacheProperties redisCacheProperties;
 
     /**
      * 缓存信息
@@ -93,13 +93,13 @@ public class CacheController extends BaseController {
     @GetMapping("/list")
     public List<CacheJedisInfoDto> cacheList() {
         List<CacheJedisInfoDto> result = new ArrayList<>();
-        if (RedisMode.CLUSTER.name().equalsIgnoreCase(mode)) {
+        if (RedisMode.CLUSTER.equals(redisCacheProperties.getMode())) {
             CacheJedisInfoDto dto = new CacheJedisInfoDto();
             dto.setName(RedisMode.CLUSTER.name());
             dto.setIndex(0);
             dto.setSize(redisTemplate.execute(RedisServerCommands::dbSize));
             result.add(dto);
-        } else if (RedisMode.SENTINEL.name().equalsIgnoreCase(mode)) {
+        } else if (RedisMode.SENTINEL.equals(redisCacheProperties.getMode())) {
             CacheJedisInfoDto dto = new CacheJedisInfoDto();
             dto.setName(RedisMode.SENTINEL.name());
             dto.setIndex(0);
@@ -134,12 +134,12 @@ public class CacheController extends BaseController {
     @ApiOperationSupport(order = 3)
     @GetMapping("/clean")
     public String clean(int index) {
-        if (RedisMode.CLUSTER.name().equalsIgnoreCase(mode)) {
+        if (RedisMode.CLUSTER.equals(redisCacheProperties.getMode())) {
             redisTemplate.execute((RedisCallback<Properties>) connection -> {
                 connection.serverCommands().flushAll();
                 return null;
             });
-        } else if (RedisMode.SENTINEL.name().equalsIgnoreCase(mode)) {
+        } else if (RedisMode.SENTINEL.equals(redisCacheProperties.getMode())) {
             redisTemplate.execute((RedisCallback<Properties>) connection -> {
                 connection.serverCommands().flushAll();
                 return null;

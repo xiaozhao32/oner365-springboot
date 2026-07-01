@@ -35,7 +35,7 @@ public class PulsarTaskExecuteStatusListenerImpl implements MessageListener<Upda
     private static final Logger LOGGER = LoggerFactory.getLogger(PulsarTaskExecuteStatusListenerImpl.class);
 
     @Resource
-    private ISysTaskService sysTaskService;
+    private ISysTaskService sysTaskService; //NOSONAR
 
     @Override
     public void received(Consumer<UpdateTaskExecuteStatusDto> consumer, Message<UpdateTaskExecuteStatusDto> msg) {

@@ -29,6 +29,11 @@ public class MqttProperties {
      * client
      */
     private String clientId;
+    
+    /**
+     * default-topic
+     */
+    private String defaultTopic;
 
     /**
      * 构造方法
@@ -91,6 +96,14 @@ public class MqttProperties {
      */
     public void setClientId(String clientId) {
         this.clientId = clientId;
+    }
+
+    public String getDefaultTopic() {
+        return defaultTopic;
+    }
+
+    public void setDefaultTopic(String defaultTopic) {
+        this.defaultTopic = defaultTopic;
     }
 
 }

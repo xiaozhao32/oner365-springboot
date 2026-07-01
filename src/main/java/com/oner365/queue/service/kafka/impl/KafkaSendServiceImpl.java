@@ -44,13 +44,14 @@ public class KafkaSendServiceImpl implements IQueueSendService {
     @Async
     @Override
     public void sendMessage(String data) {
-        if (redisCache.lock(QueueConstants.MESSAGE_QUEUE_NAME, PublicConstants.QUEUE_LOCK_TIME_SECOND)) {
+        boolean isLock = redisCache.lock(QueueConstants.MESSAGE_QUEUE_NAME, PublicConstants.QUEUE_LOCK_TIME_SECOND);
+        if (isLock) {
             logger.info("Kafka sendMessage: {}", data);
             try {
                 CompletableFuture<SendResult<String, Object>> future = kafkaTemplate
                     .send(QueueConstants.MESSAGE_QUEUE_NAME, data);
                 SendResult<String, Object> result = future.get();
-                logger.info("Kafka future: {}", result.getProducerRecord());
+                logger.info("Kafka topic: {}, future: {}", QueueConstants.MESSAGE_QUEUE_NAME, result.getProducerRecord());
             }
             catch (InterruptedException e) {
                 logger.error("sendMessage InterruptedException:", e);
@@ -65,7 +66,8 @@ public class KafkaSendServiceImpl implements IQueueSendService {
     @Async
     @Override
     public void syncRoute() {
-        if (redisCache.lock(QueueConstants.ROUTE_QUEUE_NAME, PublicConstants.QUEUE_LOCK_TIME_SECOND)) {
+        boolean isLock = redisCache.lock(QueueConstants.ROUTE_QUEUE_NAME, PublicConstants.QUEUE_LOCK_TIME_SECOND);
+        if (isLock) {
             logger.info("Kafka syncRoute: {}", HttpClientUtils.getLocalhost());
             kafkaTemplate.send(QueueConstants.ROUTE_QUEUE_NAME, HttpClientUtils.getLocalhost());
         }
@@ -74,7 +76,8 @@ public class KafkaSendServiceImpl implements IQueueSendService {
     @Async
     @Override
     public void pullTask(InvokeParamDto data) {
-        if (redisCache.lock(QueueConstants.SCHEDULE_TASK_QUEUE_NAME, PublicConstants.QUEUE_LOCK_TIME_SECOND)) {
+        boolean isLock = redisCache.lock(QueueConstants.SCHEDULE_TASK_QUEUE_NAME, PublicConstants.QUEUE_LOCK_TIME_SECOND);
+        if (isLock) {
             logger.info("Kafka pullTask: {}", data);
             kafkaTemplate.send(QueueConstants.SCHEDULE_TASK_QUEUE_NAME, JSON.toJSONString(data));
         }
@@ -83,7 +86,8 @@ public class KafkaSendServiceImpl implements IQueueSendService {
     @Async
     @Override
     public void updateTaskExecuteStatus(UpdateTaskExecuteStatusDto data) {
-        if (redisCache.lock(QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME, PublicConstants.QUEUE_LOCK_TIME_SECOND)) {
+        boolean isLock = redisCache.lock(QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME, PublicConstants.QUEUE_LOCK_TIME_SECOND);
+        if (isLock) {
             logger.info("Kafka updateTaskExecuteStatus push: {}", data);
             kafkaTemplate.send(QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME, JSON.toJSONString(data));
         }
@@ -92,7 +96,8 @@ public class KafkaSendServiceImpl implements IQueueSendService {
     @Async
     @Override
     public void saveExecuteTaskLog(SysTaskDto data) {
-        if (redisCache.lock(QueueConstants.SAVE_TASK_LOG_QUEUE_NAME, PublicConstants.QUEUE_LOCK_TIME_SECOND)) {
+        boolean isLock = redisCache.lock(QueueConstants.SAVE_TASK_LOG_QUEUE_NAME, PublicConstants.QUEUE_LOCK_TIME_SECOND);
+        if (isLock) {
             logger.info("Kafka saveExecuteTaskLog push: {}", data);
             kafkaTemplate.send(QueueConstants.SAVE_TASK_LOG_QUEUE_NAME, JSON.toJSONString(data));
         }

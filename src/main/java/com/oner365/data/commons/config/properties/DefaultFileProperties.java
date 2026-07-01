@@ -1,6 +1,5 @@
 package com.oner365.data.commons.config.properties;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -26,8 +25,23 @@ public class DefaultFileProperties {
     /**
      * excel导入导出后缀
      */
-    @Value("${file.excel.suffix:xlsx}")
-    private String excelSuffix;
+    private Excel excel;
+
+    public static class Excel {
+
+        /**
+         * excel suffix default "xlsx" or "xls"
+         */
+        private String suffix = "xlsx";
+
+        public String getSuffix() {
+            return suffix;
+        }
+
+        public void setSuffix(String suffix) {
+            this.suffix = suffix;
+        }
+    }
 
     /**
      * 构造方法
@@ -52,12 +66,12 @@ public class DefaultFileProperties {
         this.download = download;
     }
 
-    public String getExcelSuffix() {
-        return excelSuffix;
+    public Excel getExcel() {
+        return excel;
     }
 
-    public void setExcelSuffix(String excelSuffix) {
-        this.excelSuffix = excelSuffix;
+    public void setExcel(Excel excel) {
+        this.excel = excel;
     }
 
 }

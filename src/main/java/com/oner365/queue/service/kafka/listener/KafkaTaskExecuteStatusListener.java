@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
@@ -39,11 +40,11 @@ public class KafkaTaskExecuteStatusListener {
      */
     @KafkaListener(id = QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME,
             topics = { QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME })
-    public void listener(ConsumerRecord<String, ?> consumerRecord) {
+    public void listener(ConsumerRecord<String, ?> consumerRecord, Acknowledgment ack) {
         Optional<?> kafkaMessage = Optional.of(consumerRecord.value());
         Object message = kafkaMessage.get();
         logger.info("Kafka updateTaskExecuteStatus received: {}", message);
-
+        ack.acknowledge();
         // business
         UpdateTaskExecuteStatusDto updateTask = JSON.parseObject(message.toString(), UpdateTaskExecuteStatusDto.class);
         if (updateTask != null) {

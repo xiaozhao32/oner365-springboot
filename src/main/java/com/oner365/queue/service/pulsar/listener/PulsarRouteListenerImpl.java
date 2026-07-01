@@ -32,7 +32,7 @@ public class PulsarRouteListenerImpl implements MessageListener<String>, BaseSer
     private static final Logger LOGGER = LoggerFactory.getLogger(PulsarRouteListenerImpl.class);
 
     @Resource
-    private DynamicRouteService dynamicRouteService;
+    private DynamicRouteService dynamicRouteService; //NOSONAR
 
     @Override
     public void received(Consumer<String> consumer, Message<String> msg) {

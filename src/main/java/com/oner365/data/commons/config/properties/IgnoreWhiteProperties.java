@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 public class IgnoreWhiteProperties {
 
     /**
-     * 不校验列表
+     * 不校验 白名单列表
      */
     private List<String> whites = new ArrayList<>();
 

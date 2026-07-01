@@ -37,9 +37,9 @@ public class BaseController {
      */
     protected <T> ResponseEntity<byte[]> exportExcel(String fileName, String[] titleKeys, String[] columnNames,
             List<T> content) {
-        String name = fileName + "." + fileProperties.getExcelSuffix();
+        String name = fileName + "." + fileProperties.getExcel().getSuffix();
         ExportExcelUtils.exportExcel(name, titleKeys, columnNames, content, fileProperties.getDownload(),
-                fileProperties.getExcelSuffix());
+                fileProperties.getExcel().getSuffix());
         File file = DataUtils.getFile(fileProperties.getDownload(), name);
         return HttpClientUtils.download(file, name);
     }

@@ -37,7 +37,7 @@ public class PulsarTaskLogListenerImpl implements MessageListener<SysTaskDto>, B
     private static final Logger LOGGER = LoggerFactory.getLogger(PulsarTaskLogListenerImpl.class);
 
     @Resource
-    private ISysTaskLogService sysTaskLogService;
+    private ISysTaskLogService sysTaskLogService; //NOSONAR
 
     @Override
     public void received(Consumer<SysTaskDto> consumer, Message<SysTaskDto> msg) {
