@@ -1163,12 +1163,6 @@ CREATE TABLE "qrtz_cron_triggers" (
 -- Records of qrtz_cron_triggers
 -- ----------------------------
 BEGIN;
-INSERT INTO "qrtz_cron_triggers" VALUES ('ProjectScheduler', 'TASK_CLASS_NAME8a818b3774bef2910174bef387ec0000', 'DEFAULT', '0/10 * * * * ?', 'Asia/Shanghai');
-INSERT INTO "qrtz_cron_triggers" VALUES ('ProjectScheduler', 'TASK_CLASS_NAMEff80808175cfe8900175d012ecc00002', 'DEFAULT', '0 0 1 * * ?', 'Asia/Shanghai');
-INSERT INTO "qrtz_cron_triggers" VALUES ('ProjectScheduler', 'TASK_CLASS_NAMEff80808175d015c90175d05958e50001', 'DEFAULT', '0 0 1 * * ?', 'Asia/Shanghai');
-INSERT INTO "qrtz_cron_triggers" VALUES ('quartzScheduler', 'TASK_CLASS_NAME8a818b3774bef2910174bef387ec0000', 'DEFAULT', '0/10 * * * * ?', 'Asia/Shanghai');
-INSERT INTO "qrtz_cron_triggers" VALUES ('quartzScheduler', 'TASK_CLASS_NAMEff80808175cfe8900175d012ecc00002', 'DEFAULT', '0 0 1 * * ?', 'Asia/Shanghai');
-INSERT INTO "qrtz_cron_triggers" VALUES ('quartzScheduler', 'TASK_CLASS_NAMEff80808175d015c90175d05958e50001', 'DEFAULT', '0 0 1 * * ?', 'Asia/Shanghai');
 COMMIT;
 
 -- ----------------------------
@@ -1187,8 +1181,8 @@ CREATE TABLE "qrtz_fired_triggers" (
   "state" varchar(16) COLLATE "pg_catalog"."default" NOT NULL,
   "job_name" varchar(200) COLLATE "pg_catalog"."default",
   "job_group" varchar(200) COLLATE "pg_catalog"."default",
-  "is_nonconcurrent" varchar(10) COLLATE "pg_catalog"."default",
-  "requests_recovery" bool
+  "is_nonconcurrent" bool COLLATE "pg_catalog"."default",
+  "requests_recovery" bool COLLATE "pg_catalog"."default"
 )
 ;
 
@@ -1208,9 +1202,9 @@ CREATE TABLE "qrtz_job_details" (
   "job_group" varchar(200) COLLATE "pg_catalog"."default" NOT NULL,
   "description" varchar(250) COLLATE "pg_catalog"."default",
   "job_class_name" varchar(250) COLLATE "pg_catalog"."default" NOT NULL,
-  "is_durable" varchar(10) COLLATE "pg_catalog"."default" NOT NULL,
-  "is_nonconcurrent" varchar(10) COLLATE "pg_catalog"."default" NOT NULL,
-  "is_update_data" varchar(10) COLLATE "pg_catalog"."default" NOT NULL,
+  "is_durable" bool COLLATE "pg_catalog"."default" NOT NULL,
+  "is_nonconcurrent" bool COLLATE "pg_catalog"."default" NOT NULL,
+  "is_update_data" bool COLLATE "pg_catalog"."default" NOT NULL,
   "requests_recovery" varchar(10) COLLATE "pg_catalog"."default" NOT NULL,
   "job_data" bytea
 )
@@ -1220,9 +1214,6 @@ CREATE TABLE "qrtz_job_details" (
 -- Records of qrtz_job_details
 -- ----------------------------
 BEGIN;
-INSERT INTO "qrtz_job_details" VALUES ('quartzScheduler', 'TASK_CLASS_NAME8a818b3774bef2910174bef387ec0000', 'DEFAULT', NULL, 'com.oner365.monitor.util.QuartzDisallowConcurrentExecution', 'false', 'true', 'false', 'false', E'\\254\\355\\000\\005sr\\000\\025org.quartz.JobDataMap\\237\\260\\203\\350\\277\\251\\260\\313\\002\\000\\000xr\\000&org.quartz.utils.StringKeyDirtyFlagMap\\202\\010\\350\\303\\373\\305](\\002\\000\\001Z\\000\\023allowsTransientDataxr\\000\\035org.quartz.utils.DirtyFlagMap\\023\\346.\\255(v\\012\\316\\002\\000\\002Z\\000\\005dirtyL\\000\\003mapt\\000\\017Ljava/util/Map;xp\\001sr\\000\\021java.util.HashMap\\005\\007\\332\\301\\303\\026`\\321\\003\\000\\002F\\000\\012loadFactorI\\000\\011thresholdxp?@\\000\\000\\000\\000\\000\\014w\\010\\000\\000\\000\\020\\000\\000\\000\\001t\\000\\017TASK_PROPERTIESsr\\000"com.oner365.monitor.dto.SysTaskDto\\000\\000\\000\\000\\000\\000\\000\\001\\002\\000\\016L\\000\\012concurrentt\\000\\022Ljava/lang/String;L\\000\\012createTimet\\000\\020Ljava/util/Date;L\\000\\012createUserq\\000~\\000\\011L\\000\\016cronExpressionq\\000~\\000\\011L\\000\\015executeStatust\\000%Lcom/oner365/common/enums/StatusEnum;L\\000\\002idq\\000~\\000\\011L\\000\\016invokeParamDtot\\000(Lcom/oner365/monitor/dto/InvokeParamDto;L\\000\\014invokeTargetq\\000~\\000\\011L\\000\\015misfirePolicyt\\000-Lcom/oner365/monitor/enums/MisfirePolicyEnum;L\\000\\006remarkq\\000~\\000\\011L\\000\\006statust\\000*Lcom/oner365/monitor/enums/TaskStatusEnum;L\\000\\011taskGroupq\\000~\\000\\011L\\000\\010taskNameq\\000~\\000\\011L\\000\\012updateTimeq\\000~\\000\\012xpt\\000\\0011pt\\000\\006liutaot\\000\\0160/10 * * * * ?~r\\000#com.oner365.common.enums.StatusEnum\\000\\000\\000\\000\\000\\000\\000\\000\\022\\000\\000xr\\000\\016java.lang.Enum\\000\\000\\000\\000\\000\\000\\000\\000\\022\\000\\000xpt\\000\\003YESt\\000 8a818b3774bef2910174bef387ec0000pt\\000\\024systemTask.taskRun()~r\\000+com.oner365.monitor.enums.MisfirePolicyEnum\\000\\000\\000\\000\\000\\000\\000\\000\\022\\000\\000xq\\000~\\000\\024t\\000\\007DEFAULTt\\000\\000~r\\000(com.oner365.monitor.enums.TaskStatusEnum\\000\\000\\000\\000\\000\\000\\000\\000\\022\\000\\000xq\\000~\\000\\024t\\000\\005PAUSEt\\000\\007DEFAULTt\\000\\004testpx\\000');
-INSERT INTO "qrtz_job_details" VALUES ('quartzScheduler', 'TASK_CLASS_NAMEff80808175cfe8900175d012ecc00002', 'DEFAULT', NULL, 'com.oner365.monitor.util.QuartzDisallowConcurrentExecution', 'false', 'true', 'false', 'false', E'\\254\\355\\000\\005sr\\000\\025org.quartz.JobDataMap\\237\\260\\203\\350\\277\\251\\260\\313\\002\\000\\000xr\\000&org.quartz.utils.StringKeyDirtyFlagMap\\202\\010\\350\\303\\373\\305](\\002\\000\\001Z\\000\\023allowsTransientDataxr\\000\\035org.quartz.utils.DirtyFlagMap\\023\\346.\\255(v\\012\\316\\002\\000\\002Z\\000\\005dirtyL\\000\\003mapt\\000\\017Ljava/util/Map;xp\\001sr\\000\\021java.util.HashMap\\005\\007\\332\\301\\303\\026`\\321\\003\\000\\002F\\000\\012loadFactorI\\000\\011thresholdxp?@\\000\\000\\000\\000\\000\\014w\\010\\000\\000\\000\\020\\000\\000\\000\\001t\\000\\017TASK_PROPERTIESsr\\000"com.oner365.monitor.dto.SysTaskDto\\000\\000\\000\\000\\000\\000\\000\\001\\002\\000\\016L\\000\\012concurrentt\\000\\022Ljava/lang/String;L\\000\\012createTimet\\000\\020Ljava/util/Date;L\\000\\012createUserq\\000~\\000\\011L\\000\\016cronExpressionq\\000~\\000\\011L\\000\\015executeStatust\\000%Lcom/oner365/common/enums/StatusEnum;L\\000\\002idq\\000~\\000\\011L\\000\\016invokeParamDtot\\000(Lcom/oner365/monitor/dto/InvokeParamDto;L\\000\\014invokeTargetq\\000~\\000\\011L\\000\\015misfirePolicyt\\000-Lcom/oner365/monitor/enums/MisfirePolicyEnum;L\\000\\006remarkq\\000~\\000\\011L\\000\\006statust\\000*Lcom/oner365/monitor/enums/TaskStatusEnum;L\\000\\011taskGroupq\\000~\\000\\011L\\000\\010taskNameq\\000~\\000\\011L\\000\\012updateTimeq\\000~\\000\\012xpt\\000\\0011pt\\000\\005admint\\000\\0130 0 1 * * ?pt\\000 ff80808175cfe8900175d012ecc00002pt\\000\\033systemTask.taskDeleteLog(3)~r\\000+com.oner365.monitor.enums.MisfirePolicyEnum\\000\\000\\000\\000\\000\\000\\000\\000\\022\\000\\000xr\\000\\016java.lang.Enum\\000\\000\\000\\000\\000\\000\\000\\000\\022\\000\\000xpt\\000\\004NONEp~r\\000(com.oner365.monitor.enums.TaskStatusEnum\\000\\000\\000\\000\\000\\000\\000\\000\\022\\000\\000xq\\000~\\000\\026t\\000\\005PAUSEt\\000\\007DEFAULTt\\000\\020\\345\\210\\240\\351\\231\\2443\\345\\244\\251\\346\\227\\245\\345\\277\\227px\\000');
-INSERT INTO "qrtz_job_details" VALUES ('quartzScheduler', 'TASK_CLASS_NAMEff80808175d015c90175d05958e50001', 'DEFAULT', NULL, 'com.oner365.monitor.util.QuartzDisallowConcurrentExecution', 'false', 'true', 'false', 'false', E'\\254\\355\\000\\005sr\\000\\025org.quartz.JobDataMap\\237\\260\\203\\350\\277\\251\\260\\313\\002\\000\\000xr\\000&org.quartz.utils.StringKeyDirtyFlagMap\\202\\010\\350\\303\\373\\305](\\002\\000\\001Z\\000\\023allowsTransientDataxr\\000\\035org.quartz.utils.DirtyFlagMap\\023\\346.\\255(v\\012\\316\\002\\000\\002Z\\000\\005dirtyL\\000\\003mapt\\000\\017Ljava/util/Map;xp\\001sr\\000\\021java.util.HashMap\\005\\007\\332\\301\\303\\026`\\321\\003\\000\\002F\\000\\012loadFactorI\\000\\011thresholdxp?@\\000\\000\\000\\000\\000\\014w\\010\\000\\000\\000\\020\\000\\000\\000\\001t\\000\\017TASK_PROPERTIESsr\\000"com.oner365.monitor.dto.SysTaskDto\\000\\000\\000\\000\\000\\000\\000\\001\\002\\000\\016L\\000\\012concurrentt\\000\\022Ljava/lang/String;L\\000\\012createTimet\\000\\020Ljava/util/Date;L\\000\\012createUserq\\000~\\000\\011L\\000\\016cronExpressionq\\000~\\000\\011L\\000\\015executeStatust\\000%Lcom/oner365/common/enums/StatusEnum;L\\000\\002idq\\000~\\000\\011L\\000\\016invokeParamDtot\\000(Lcom/oner365/monitor/dto/InvokeParamDto;L\\000\\014invokeTargetq\\000~\\000\\011L\\000\\015misfirePolicyt\\000-Lcom/oner365/monitor/enums/MisfirePolicyEnum;L\\000\\006remarkq\\000~\\000\\011L\\000\\006statust\\000*Lcom/oner365/monitor/enums/TaskStatusEnum;L\\000\\011taskGroupq\\000~\\000\\011L\\000\\010taskNameq\\000~\\000\\011L\\000\\012updateTimeq\\000~\\000\\012xpt\\000\\0011pt\\000\\005admint\\000\\0130 0 1 * * ?pt\\000 ff80808175d015c90175d05958e50001pt\\000\\034systemTask.taskParams(''121'')~r\\000+com.oner365.monitor.enums.MisfirePolicyEnum\\000\\000\\000\\000\\000\\000\\000\\000\\022\\000\\000xr\\000\\016java.lang.Enum\\000\\000\\000\\000\\000\\000\\000\\000\\022\\000\\000xpt\\000\\004NONEp~r\\000(com.oner365.monitor.enums.TaskStatusEnum\\000\\000\\000\\000\\000\\000\\000\\000\\022\\000\\000xq\\000~\\000\\026t\\000\\005PAUSEt\\000\\007DEFAULTt\\000\\003111px\\000');
 COMMIT;
 
 -- ----------------------------
@@ -1313,8 +1304,8 @@ CREATE TABLE "qrtz_simprop_triggers" (
   "long_prop_2" int8,
   "dec_prop_1" numeric(13,4),
   "dec_prop_2" numeric(13,4),
-  "bool_prop_1" varchar(1) COLLATE "pg_catalog"."default",
-  "bool_prop_2" varchar(1) COLLATE "pg_catalog"."default"
+  "bool_prop_1" bool COLLATE "pg_catalog"."default",
+  "bool_prop_2" bool COLLATE "pg_catalog"."default"
 )
 ;
 
@@ -1352,9 +1343,6 @@ CREATE TABLE "qrtz_triggers" (
 -- Records of qrtz_triggers
 -- ----------------------------
 BEGIN;
-INSERT INTO "qrtz_triggers" VALUES ('quartzScheduler', 'TASK_CLASS_NAMEff80808175d015c90175d05958e50001', 'DEFAULT', 'TASK_CLASS_NAMEff80808175d015c90175d05958e50001', 'DEFAULT', NULL, 1652547600000, -1, 5, 'PAUSED', 'CRON', 1652522018000, 0, NULL, 2, E'\\\\x');
-INSERT INTO "qrtz_triggers" VALUES ('quartzScheduler', 'TASK_CLASS_NAME8a818b3774bef2910174bef387ec0000', 'DEFAULT', 'TASK_CLASS_NAME8a818b3774bef2910174bef387ec0000', 'DEFAULT', NULL, 1652522020000, -1, 5, 'PAUSED', 'CRON', 1652522018000, 0, NULL, 0, E'\\\\x');
-INSERT INTO "qrtz_triggers" VALUES ('quartzScheduler', 'TASK_CLASS_NAMEff80808175cfe8900175d012ecc00002', 'DEFAULT', 'TASK_CLASS_NAMEff80808175cfe8900175d012ecc00002', 'DEFAULT', NULL, 1652547600000, -1, 5, 'PAUSED', 'CRON', 1652522018000, 0, NULL, 2, E'\\\\x');
 COMMIT;
 
 -- ----------------------------
