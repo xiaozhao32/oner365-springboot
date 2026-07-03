@@ -24,7 +24,7 @@ public class AttributeBean implements Serializable {
     /**
      * 值
      */
-    private Object val; //NOSONAR
+    private Object val; // NOSONAR
 
     /**
      * 构造对象

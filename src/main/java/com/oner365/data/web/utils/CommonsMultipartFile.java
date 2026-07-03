@@ -31,7 +31,7 @@ public class CommonsMultipartFile implements MultipartFile, Serializable {
 
     protected static final Log logger = LogFactory.getLog(CommonsMultipartFile.class);
 
-    private final FileItem fileItem; //NOSONAR
+    private final FileItem fileItem; // NOSONAR
 
     private final long size;
 

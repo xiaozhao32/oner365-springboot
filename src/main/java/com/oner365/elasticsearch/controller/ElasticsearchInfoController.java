@@ -56,7 +56,6 @@ public class ElasticsearchInfoController extends BaseController {
 
     /**
      * Elasticsearch 信息
-     * 
      * @return TransportClientDto
      */
     @Operation(summary = "1.首页")
@@ -97,7 +96,6 @@ public class ElasticsearchInfoController extends BaseController {
 
     /**
      * IndexInformation
-     * 
      * @param result TransportClientDto
      */
     private void setShards(@NotNull TransportClientDto result) {
@@ -110,14 +108,15 @@ public class ElasticsearchInfoController extends BaseController {
             return;
         }
 
-        List<ClusterDto> clusterList = indexInformations.stream().map(this::buildInfomation).filter(Objects::nonNull)
-                .toList();
+        List<ClusterDto> clusterList = indexInformations.stream()
+            .map(this::buildInfomation)
+            .filter(Objects::nonNull)
+            .toList();
         result.setClusterList(clusterList);
     }
 
     /**
      * IndexInformation properties
-     * 
      * @param information IndexInformation
      * @return ClusterDto
      */
@@ -131,8 +130,8 @@ public class ElasticsearchInfoController extends BaseController {
             List<ClusterMappingDto> mappingList = new ArrayList<>();
             Object propertiesObject = information.getMapping().get("properties");
             if (propertiesObject instanceof Map<?, ?> properties) {
-                properties.forEach(
-                        (key, value) -> mappingList.add(new ClusterMappingDto(key.toString(), value.toString())));
+                properties
+                    .forEach((key, value) -> mappingList.add(new ClusterMappingDto(key.toString(), value.toString())));
                 dto.setMappingList(mappingList);
             }
             return dto;

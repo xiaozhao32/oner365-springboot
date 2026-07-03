@@ -44,6 +44,7 @@ public class DefaultFileProperties {
         public void setSuffix(String suffix) {
             this.suffix = suffix;
         }
+
     }
 
     /**

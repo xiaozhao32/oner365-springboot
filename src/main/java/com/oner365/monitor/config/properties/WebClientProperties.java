@@ -21,7 +21,7 @@ public class WebClientProperties {
     private final Ssl ssl = new Ssl();
 
     public static class Ssl {
-        
+
         /**
          * SSL enable
          */
@@ -34,6 +34,7 @@ public class WebClientProperties {
         public void setEnable(boolean enable) {
             this.enable = enable;
         }
+
     }
 
     public int getMaxInMemorySize() {

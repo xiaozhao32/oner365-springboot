@@ -89,7 +89,7 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
         }
         return ResponseData.success((Serializable) body);
     }
-    
+
     private Object responseClientWhites(Object body, String sign) {
         String key = RsaUtils.buildRsaDecryptByPrivateKey(sign, clientWhiteProperties.getPrivateKey());
 

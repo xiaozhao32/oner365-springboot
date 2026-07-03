@@ -45,14 +45,16 @@ public class RedisSeqRangeMgr implements SeqRangeMgr {
             try (JedisCluster cluster = new JedisCluster(nodes, null, this.properties.getPassword())) {
                 return build(cluster, name);
             }
-        } else if (!DataUtils.isEmpty(this.properties.getSentinel())) {
+        }
+        else if (!DataUtils.isEmpty(this.properties.getSentinel())) {
             try (JedisSentinelPool pool = new JedisSentinelPool(this.properties.getSentinel().getMaster(),
                     new HashSet<>(this.properties.getSentinel().getNodes()), this.properties.getPassword(),
                     this.properties.getSentinel().getPassword())) {
                 Jedis jedis = pool.getResource();
                 return build(jedis, name);
             }
-        } else {
+        }
+        else {
             try (Jedis jedis = JedisUtils.getJedis(this.properties, RedisMode.DEFAULT)) {
                 return build(jedis, name);
             }

@@ -72,7 +72,8 @@ public class QueueRabbitmqSendServiceImpl implements IQueueSendService {
     @Async
     @Override
     public void pullTask(InvokeParamDto data) {
-        boolean isLock = redisCache.lock(QueueConstants.SCHEDULE_TASK_QUEUE_NAME, PublicConstants.QUEUE_LOCK_TIME_SECOND);
+        boolean isLock = redisCache.lock(QueueConstants.SCHEDULE_TASK_QUEUE_NAME,
+                PublicConstants.QUEUE_LOCK_TIME_SECOND);
         if (isLock) {
             logger.info("Rabbitmq pullTask: {}", data);
             rabbitTemplate.convertAndSend(QueueConstants.SCHEDULE_TASK_QUEUE_TYPE,
@@ -83,7 +84,8 @@ public class QueueRabbitmqSendServiceImpl implements IQueueSendService {
     @Async
     @Override
     public void updateTaskExecuteStatus(UpdateTaskExecuteStatusDto data) {
-        boolean isLock = redisCache.lock(QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME, PublicConstants.QUEUE_LOCK_TIME_SECOND);
+        boolean isLock = redisCache.lock(QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME,
+                PublicConstants.QUEUE_LOCK_TIME_SECOND);
         if (isLock) {
             logger.info("Rabbitmq updateTaskExecuteStatus push: {}", data);
             rabbitTemplate.convertAndSend(QueueConstants.TASK_UPDATE_STATUS_QUEUE_TYPE,
@@ -94,7 +96,8 @@ public class QueueRabbitmqSendServiceImpl implements IQueueSendService {
     @Async
     @Override
     public void saveExecuteTaskLog(SysTaskDto data) {
-        boolean isLock = redisCache.lock(QueueConstants.SAVE_TASK_LOG_QUEUE_NAME, PublicConstants.QUEUE_LOCK_TIME_SECOND);
+        boolean isLock = redisCache.lock(QueueConstants.SAVE_TASK_LOG_QUEUE_NAME,
+                PublicConstants.QUEUE_LOCK_TIME_SECOND);
         if (isLock) {
             logger.info("Rabbitmq saveExecuteTaskLog push: {}", data);
             rabbitTemplate.convertAndSend(QueueConstants.SAVE_TASK_LOG_QUEUE_TYPE,

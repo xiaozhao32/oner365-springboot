@@ -252,14 +252,10 @@ public class GenTableServiceImpl implements IGenTableService {
     public Boolean syncDb(String tableName) {
         GenTable table = genTableMapper.selectGenTableByName(tableName);
         List<GenTableColumn> tableColumns = table.getColumns();
-        List<String> tableColumnNames = tableColumns.stream()
-            .map(GenTableColumn::getColumnName)
-            .toList();
+        List<String> tableColumnNames = tableColumns.stream().map(GenTableColumn::getColumnName).toList();
 
         List<GenTableColumn> dbTableColumns = genTableColumnMapper.selectDbTableColumnsByName(tableName);
-        List<String> dbTableColumnNames = dbTableColumns.stream()
-            .map(GenTableColumn::getColumnName)
-            .toList();
+        List<String> dbTableColumnNames = dbTableColumns.stream().map(GenTableColumn::getColumnName).toList();
 
         dbTableColumns.forEach(column -> {
             if (!tableColumnNames.contains(column.getColumnName())) {

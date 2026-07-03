@@ -32,8 +32,8 @@ public class PulsarTaskLogListenerImpl implements BaseService {
     private static final Logger LOGGER = LoggerFactory.getLogger(PulsarTaskLogListenerImpl.class);
 
     @Resource
-    private ISysTaskLogService sysTaskLogService; //NOSONAR
-    
+    private ISysTaskLogService sysTaskLogService; // NOSONAR
+
     @PulsarListener(topics = QueueConstants.SAVE_TASK_LOG_QUEUE_NAME, subscriptionName = "saveExecuteTaskLog")
     public void listener(String data) {
         LOGGER.info("Pulsar consumer data: {}, topic: {}", data, QueueConstants.SAVE_TASK_LOG_QUEUE_NAME);

@@ -34,4 +34,5 @@ public class KafkaController extends BaseController {
     public String index() {
         return "success";
     }
+
 }

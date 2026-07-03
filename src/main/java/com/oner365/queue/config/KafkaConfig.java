@@ -55,13 +55,13 @@ public class KafkaConfig {
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootstrapServers());
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        
+
         props.put(ProducerConfig.ACKS_CONFIG, kafkaProperties.getProducer().getAcks());
         props.put(ProducerConfig.RETRIES_CONFIG, kafkaProperties.getProducer().getRetries());
         props.put(ProducerConfig.BATCH_SIZE_CONFIG, kafkaProperties.getProducer().getBatchSize());
         props.put(ProducerConfig.BUFFER_MEMORY_CONFIG, kafkaProperties.getProducer().getBufferMemory());
         props.put(ProducerConfig.LINGER_MS_CONFIG, kafkaProperties.getProducer().getLingerMs());
-                
+
         return new DefaultKafkaProducerFactory<>(props);
     }
 

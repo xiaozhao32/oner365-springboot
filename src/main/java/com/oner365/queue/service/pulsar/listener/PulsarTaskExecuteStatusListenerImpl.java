@@ -44,7 +44,8 @@ public class PulsarTaskExecuteStatusListenerImpl implements BaseService {
                 sysTask.setExecuteStatus(updateTask.getExecuteStatus());
                 try {
                     sysTaskService.save(convert(sysTask, SysTaskVo.class));
-                } catch (Exception e) {
+                }
+                catch (Exception e) {
                     LOGGER.error("save error", e);
                 }
             }

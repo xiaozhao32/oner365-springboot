@@ -76,7 +76,8 @@ public class MqttSendServiceImpl implements IQueueSendService {
     @Async
     @Override
     public void pullTask(InvokeParamDto data) {
-        boolean isLock = redisCache.lock(QueueConstants.SCHEDULE_TASK_QUEUE_NAME, PublicConstants.QUEUE_LOCK_TIME_SECOND);
+        boolean isLock = redisCache.lock(QueueConstants.SCHEDULE_TASK_QUEUE_NAME,
+                PublicConstants.QUEUE_LOCK_TIME_SECOND);
         if (isLock) {
             logger.info("Mqtt send pullTask: {} topic: {}", data, QueueConstants.SCHEDULE_TASK_QUEUE_NAME);
             invokeParamService.sendMessage(QueueConstants.SCHEDULE_TASK_QUEUE_NAME, JSON.toJSONString(data));
@@ -86,7 +87,8 @@ public class MqttSendServiceImpl implements IQueueSendService {
     @Async
     @Override
     public void updateTaskExecuteStatus(UpdateTaskExecuteStatusDto data) {
-        boolean isLock = redisCache.lock(QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME, PublicConstants.QUEUE_LOCK_TIME_SECOND);
+        boolean isLock = redisCache.lock(QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME,
+                PublicConstants.QUEUE_LOCK_TIME_SECOND);
         if (isLock) {
             logger.info("Mqtt send updateTaskExecuteStatus: {} topic: {}", data,
                     QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME);
@@ -97,7 +99,8 @@ public class MqttSendServiceImpl implements IQueueSendService {
     @Async
     @Override
     public void saveExecuteTaskLog(SysTaskDto data) {
-        boolean isLock = redisCache.lock(QueueConstants.SAVE_TASK_LOG_QUEUE_NAME, PublicConstants.QUEUE_LOCK_TIME_SECOND);
+        boolean isLock = redisCache.lock(QueueConstants.SAVE_TASK_LOG_QUEUE_NAME,
+                PublicConstants.QUEUE_LOCK_TIME_SECOND);
         if (isLock) {
             logger.info("Mqtt send saveExecuteTaskLog: {} topic: {}", data, QueueConstants.SAVE_TASK_LOG_QUEUE_NAME);
             taskLogService.sendMessage(QueueConstants.SAVE_TASK_LOG_QUEUE_NAME, JSON.toJSONString(data));

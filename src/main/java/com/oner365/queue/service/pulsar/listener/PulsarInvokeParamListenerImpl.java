@@ -38,15 +38,15 @@ public class PulsarInvokeParamListenerImpl implements BaseService {
     private static final Logger LOGGER = LoggerFactory.getLogger(PulsarInvokeParamListenerImpl.class);
 
     @Resource
-    private ISysTaskLogService sysTaskLogService; //NOSONAR
+    private ISysTaskLogService sysTaskLogService; // NOSONAR
 
     @Resource
-    private ISysTaskService sysTaskService; //NOSONAR
-    
+    private ISysTaskService sysTaskService; // NOSONAR
+
     @PulsarListener(topics = QueueConstants.SCHEDULE_TASK_QUEUE_NAME, subscriptionName = "pullTask")
     public void listener(String data) {
         LOGGER.info("Pulsar consumer data: {}, topic: {}", data, QueueConstants.SCHEDULE_TASK_QUEUE_NAME);
-        
+
         // business
         InvokeParamDto dto = JSON.parseObject(data, InvokeParamDto.class);
         if (dto != null && ScheduleConstants.SCHEDULE_SERVER_NAME.equals(dto.getTaskServerName())) {

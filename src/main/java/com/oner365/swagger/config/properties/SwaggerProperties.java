@@ -22,7 +22,7 @@ public class SwaggerProperties {
 
     /** 邮箱 */
     private String email = "";
-    
+
     /** 描述 */
     private String description = "";
 

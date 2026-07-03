@@ -24,9 +24,8 @@ public class JedisUtils {
 
     /**
      * 获取 Jedis
-     * 
      * @param redisProperties 属性文件
-     * @param mode            RedisMode.DEFAULT
+     * @param mode RedisMode.DEFAULT
      * @return Jedis
      */
     public static Jedis getJedis(DataRedisProperties redisProperties, RedisMode mode) {
@@ -43,7 +42,8 @@ public class JedisUtils {
         String auth = "ok";
         if (!DataUtils.isEmpty(password)) {
             auth = jedis.auth(password);
-        } else {
+        }
+        else {
             jedis.connect();
         }
         LOGGER.debug("info: {}", auth);

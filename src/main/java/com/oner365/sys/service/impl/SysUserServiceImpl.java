@@ -228,24 +228,20 @@ public class SysUserServiceImpl implements ISysUserService {
         try (var executor = Executors.newCachedThreadPool()) {
             List<String> roleList = userRoleDao.findUserRoleByUserId(entity.getId());
             entity.setRoles(roleList);
-            entity.setRoleNameList(roleList.stream()
-                .map(s -> sysRoleDao.getReferenceById(s).getRoleName())
-                .toList());
+            entity.setRoleNameList(roleList.stream().map(s -> sysRoleDao.getReferenceById(s).getRoleName()).toList());
         }
 
         try (var executor = Executors.newCachedThreadPool()) {
             List<String> jobList = userJobDao.findUserJobByUserId(entity.getId());
             entity.setJobs(jobList);
-            entity.setJobNameList(
-                    jobList.stream().map(s -> sysJobDao.getReferenceById(s).getJobName()).toList());
+            entity.setJobNameList(jobList.stream().map(s -> sysJobDao.getReferenceById(s).getJobName()).toList());
         }
 
         try (var executor = Executors.newCachedThreadPool()) {
             List<String> orgList = userOrgDao.findUserOrgByUserId(entity.getId());
             entity.setOrgs(orgList);
-            entity.setOrgNameList(orgList.stream()
-                .map(s -> sysOrganizationDao.getReferenceById(s).getOrgName())
-                .toList());
+            entity.setOrgNameList(
+                    orgList.stream().map(s -> sysOrganizationDao.getReferenceById(s).getOrgName()).toList());
         }
     }
 

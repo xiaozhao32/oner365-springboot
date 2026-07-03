@@ -30,7 +30,7 @@ public class MqttProperties {
      * client
      */
     private @Nullable String clientId;
-    
+
     /**
      * default-topic
      */

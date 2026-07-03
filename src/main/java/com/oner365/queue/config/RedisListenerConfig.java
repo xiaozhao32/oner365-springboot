@@ -7,8 +7,6 @@ import org.springframework.data.redis.listener.PatternTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 
-import com.oner365.data.commons.constants.PublicConstants;
-
 /**
  * 消息广播监听配置
  *
@@ -16,6 +14,8 @@ import com.oner365.data.commons.constants.PublicConstants;
  */
 @Configuration
 public class RedisListenerConfig {
+
+    private static final String EXPIRE_KEY = "*";
 
     @Bean
     RedisMessageListenerContainer redisMessageListenerContainer(RedisConnectionFactory connectionFactory,
@@ -25,7 +25,7 @@ public class RedisListenerConfig {
         container.setConnectionFactory(connectionFactory);
 
         // 监听所有key的过期事件
-        container.addMessageListener(keyExpiredListener, new PatternTopic(PublicConstants.NAME));
+        container.addMessageListener(keyExpiredListener, new PatternTopic(EXPIRE_KEY));
         return container;
     }
 

@@ -35,7 +35,7 @@ public class SimpleExpression implements Criterion {
     /**
      * 对应值
      */
-    private final Object value; //NOSONAR
+    private final Object value; // NOSONAR
 
     /**
      * 计算符

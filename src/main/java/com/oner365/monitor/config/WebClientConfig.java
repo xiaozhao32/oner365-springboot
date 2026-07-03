@@ -42,16 +42,18 @@ public class WebClientConfig {
                 try {
                     sslSpec.sslContext(
                             SslContextBuilder.forClient().trustManager(InsecureTrustManagerFactory.INSTANCE).build());
-                } catch (SSLException e) {
+                }
+                catch (SSLException e) {
                     LOGGER.error("webClient error:", e);
                 }
             }));
         }
-        return WebClient.builder().clientConnector(httpConnector)
-                .exchangeStrategies(ExchangeStrategies.builder().codecs(
-                        configurer -> configurer.defaultCodecs().maxInMemorySize(properties.getMaxInMemorySize()))
-                        .build())
-                .build();
+        return WebClient.builder()
+            .clientConnector(httpConnector)
+            .exchangeStrategies(ExchangeStrategies.builder()
+                .codecs(configurer -> configurer.defaultCodecs().maxInMemorySize(properties.getMaxInMemorySize()))
+                .build())
+            .build();
     }
 
 }
