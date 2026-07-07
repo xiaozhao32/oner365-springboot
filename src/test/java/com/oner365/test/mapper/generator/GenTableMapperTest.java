@@ -1,11 +1,11 @@
 package com.oner365.test.mapper.generator;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import com.oner365.data.commons.util.DateUtil;
 import com.oner365.generator.entity.GenTable;
 import com.oner365.generator.mapper.GenTableMapper;
 import com.oner365.test.mapper.BaseMapperTest;
@@ -67,7 +67,7 @@ class GenTableMapperTest extends BaseMapperTest {
         entity.setGenType("0");
         entity.setGenPath("/");
         entity.setCreateBy("admin");
-        entity.setCreateTime(DateUtil.getDate());
+        entity.setCreateTime(LocalDateTime.now());
 
         int isCreate = getMapper(GenTableMapper.class).insertGenTable(entity);
         logger.info("insert success: {} tableId: {}", isCreate, entity.getTableId());

@@ -2,7 +2,6 @@ package com.oner365.monitor.dto;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import com.oner365.monitor.enums.TaskStatusEnum;
 
@@ -62,12 +61,12 @@ public class SysTaskLogDto implements Serializable {
     /**
      * 开始时间
      */
-    private Date startTime;
+    private LocalDateTime startTime;
 
     /**
      * 停止时间
      */
-    private Date stopTime;
+    private LocalDateTime stopTime;
 
     /**
      * 执行任务服务ip
@@ -159,19 +158,19 @@ public class SysTaskLogDto implements Serializable {
         this.exceptionInfo = exceptionInfo;
     }
 
-    public Date getStartTime() {
+    public LocalDateTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Date startTime) {
+    public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
     }
 
-    public Date getStopTime() {
+    public LocalDateTime getStopTime() {
         return stopTime;
     }
 
-    public void setStopTime(Date stopTime) {
+    public void setStopTime(LocalDateTime stopTime) {
         this.stopTime = stopTime;
     }
 

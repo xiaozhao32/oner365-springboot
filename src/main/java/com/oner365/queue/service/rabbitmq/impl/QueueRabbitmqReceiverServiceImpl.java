@@ -1,6 +1,7 @@
 package com.oner365.queue.service.rabbitmq.impl;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 import jakarta.annotation.Resource;
 
@@ -148,6 +149,7 @@ public class QueueRabbitmqReceiverServiceImpl implements IQueueRabbitmqReceiverS
 
         long time = System.currentTimeMillis();
         SysTaskLogVo taskLog = new SysTaskLogVo();
+        taskLog.setStartTime(LocalDateTime.now());
         taskLog.setExecuteIp(HttpClientUtils.getLocalhost());
         taskLog.setExecuteServerName(ScheduleConstants.SCHEDULE_SERVER_NAME);
         taskLog.setStatus(TaskStatusEnum.NORMAL);
@@ -156,6 +158,7 @@ public class QueueRabbitmqReceiverServiceImpl implements IQueueRabbitmqReceiverS
         taskLog.setTaskName(sysTask.getTaskName());
         taskLog.setInvokeTarget(sysTask.getInvokeTarget());
         taskLog.setCreateUser(sysTask.getCreateUser());
+        taskLog.setStopTime(LocalDateTime.now());
         sysTaskLogService.addTaskLog(taskLog);
     }
 

@@ -1,7 +1,7 @@
 package com.oner365.generator.entity;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -96,11 +96,11 @@ public class GenTable implements Serializable {
 
     private String createBy;
 
-    private Date createTime;
+    private LocalDateTime createTime;
 
     private String updateBy;
 
-    private Date updateTime;
+    private LocalDateTime updateTime;
 
     /** Entity基类字段 */
     protected static final String[] BASE_ENTITY = { "createUser", "createTime", "updateUser", "updateTime", "status",
@@ -331,14 +331,14 @@ public class GenTable implements Serializable {
     /**
      * @return the createTime
      */
-    public Date getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
     /**
      * @param createTime the createTime to set
      */
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 
@@ -359,14 +359,14 @@ public class GenTable implements Serializable {
     /**
      * @return the updateTime
      */
-    public Date getUpdateTime() {
+    public LocalDateTime getUpdateTime() {
         return updateTime;
     }
 
     /**
      * @param updateTime the updateTime to set
      */
-    public void setUpdateTime(Date updateTime) {
+    public void setUpdateTime(LocalDateTime updateTime) {
         this.updateTime = updateTime;
     }
 

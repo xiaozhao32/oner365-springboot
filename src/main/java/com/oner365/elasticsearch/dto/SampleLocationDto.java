@@ -1,7 +1,7 @@
 package com.oner365.elasticsearch.dto;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -44,7 +44,7 @@ public class SampleLocationDto implements Serializable {
      * 创建时间
      */
     @Schema(description = "创建时间")
-    private Date createTime;
+    private LocalDateTime createTime;
 
     /**
      * 构造方法
@@ -112,14 +112,14 @@ public class SampleLocationDto implements Serializable {
     /**
      * @return the createTime
      */
-    public Date getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
     /**
      * @param createTime the createTime to set
      */
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 

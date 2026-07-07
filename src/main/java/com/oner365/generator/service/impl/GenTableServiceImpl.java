@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.charset.Charset;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -29,7 +30,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.oner365.data.commons.constants.PublicConstants;
 import com.oner365.data.commons.exception.ProjectException;
 import com.oner365.data.commons.util.DataUtils;
-import com.oner365.data.commons.util.DateUtil;
 import com.oner365.generator.config.GenConfig;
 import com.oner365.generator.constants.GenConstants;
 import com.oner365.generator.entity.GenTable;
@@ -113,11 +113,11 @@ public class GenTableServiceImpl implements IGenTableService {
     public Boolean updateGenTable(GenTable genTable) {
         String options = JSON.toJSONString(genTable.getParams());
         genTable.setOptions(options);
-        genTable.setUpdateTime(DateUtil.getDate());
+        genTable.setUpdateTime(LocalDateTime.now());
         int row = genTableMapper.updateGenTable(genTable);
         if (row > 0) {
             genTable.getColumns().forEach(cenTableColumn -> {
-                cenTableColumn.setUpdateTime(DateUtil.getDate());
+                cenTableColumn.setUpdateTime(LocalDateTime.now());
                 genTableColumnMapper.updateGenTableColumn(cenTableColumn);
             });
             return Boolean.TRUE;
@@ -148,14 +148,14 @@ public class GenTableServiceImpl implements IGenTableService {
             tableList.forEach(table -> {
                 String tableName = table.getTableName();
                 GenUtils.initTable(genConfig, table, operName);
-                table.setCreateTime(DateUtil.getDate());
+                table.setCreateTime(LocalDateTime.now());
                 int row = genTableMapper.insertGenTable(table);
                 if (row > 0) {
                     // 保存列信息
                     List<GenTableColumn> genTableColumns = genTableColumnMapper.selectDbTableColumnsByName(tableName);
                     genTableColumns.forEach(column -> {
                         GenUtils.initColumnField(column, table);
-                        column.setCreateTime(DateUtil.getDate());
+                        column.setCreateTime(LocalDateTime.now());
                         genTableColumnMapper.insertGenTableColumn(column);
                     });
                 }
@@ -260,7 +260,7 @@ public class GenTableServiceImpl implements IGenTableService {
         dbTableColumns.forEach(column -> {
             if (!tableColumnNames.contains(column.getColumnName())) {
                 GenUtils.initColumnField(column, table);
-                table.setCreateTime(DateUtil.getDate());
+                table.setCreateTime(LocalDateTime.now());
                 genTableColumnMapper.insertGenTableColumn(column);
             }
         });

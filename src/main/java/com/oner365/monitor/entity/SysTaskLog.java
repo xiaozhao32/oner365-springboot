@@ -2,7 +2,6 @@ package com.oner365.monitor.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -82,13 +81,13 @@ public class SysTaskLog implements Serializable {
      * 开始时间
      */
     @Column(name = "start_time")
-    private Date startTime;
+    private LocalDateTime startTime;
 
     /**
      * 停止时间
      */
     @Column(name = "stop_time")
-    private Date stopTime;
+    private LocalDateTime stopTime;
 
     /**
      * 执行任务服务ip
@@ -189,19 +188,19 @@ public class SysTaskLog implements Serializable {
         this.exceptionInfo = exceptionInfo;
     }
 
-    public Date getStartTime() {
+    public LocalDateTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Date startTime) {
+    public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
     }
 
-    public Date getStopTime() {
+    public LocalDateTime getStopTime() {
         return stopTime;
     }
 
-    public void setStopTime(Date stopTime) {
+    public void setStopTime(LocalDateTime stopTime) {
         this.stopTime = stopTime;
     }
 

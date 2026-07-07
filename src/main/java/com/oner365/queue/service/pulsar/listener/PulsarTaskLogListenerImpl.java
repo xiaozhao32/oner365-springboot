@@ -1,5 +1,7 @@
 package com.oner365.queue.service.pulsar.listener;
 
+import java.time.LocalDateTime;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Conditional;
@@ -50,6 +52,7 @@ public class PulsarTaskLogListenerImpl implements BaseService {
 
         long time = System.currentTimeMillis();
         SysTaskLogVo taskLog = new SysTaskLogVo();
+        taskLog.setStartTime(LocalDateTime.now());
         taskLog.setExecuteIp(HttpClientUtils.getLocalhost());
         taskLog.setExecuteServerName(ScheduleConstants.SCHEDULE_SERVER_NAME);
         taskLog.setStatus(TaskStatusEnum.NORMAL);
@@ -58,6 +61,7 @@ public class PulsarTaskLogListenerImpl implements BaseService {
         taskLog.setTaskName(sysTask.getTaskName());
         taskLog.setInvokeTarget(sysTask.getInvokeTarget());
         taskLog.setCreateUser(sysTask.getCreateUser());
+        taskLog.setStopTime(LocalDateTime.now());
         sysTaskLogService.addTaskLog(taskLog);
     }
 

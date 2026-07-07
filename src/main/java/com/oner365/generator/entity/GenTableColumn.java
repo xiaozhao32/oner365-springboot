@@ -1,17 +1,17 @@
 package com.oner365.generator.entity;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
-import jakarta.validation.constraints.NotBlank;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Strings;
 
 import com.oner365.data.commons.util.DataUtils;
+
+import jakarta.validation.constraints.NotBlank;
 
 /**
  * 代码生成业务字段表 gen_table_column
@@ -85,11 +85,11 @@ public class GenTableColumn implements Serializable {
 
     private String createBy;
 
-    private Date createTime;
+    private LocalDateTime createTime;
 
     private String updateBy;
 
-    private Date updateTime;
+    private LocalDateTime updateTime;
 
     /** 请求参数 */
     private Map<String, Serializable> params = new HashMap<>();
@@ -362,14 +362,14 @@ public class GenTableColumn implements Serializable {
     /**
      * @return the createTime
      */
-    public Date getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
     /**
      * @param createTime the createTime to set
      */
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 
@@ -390,14 +390,14 @@ public class GenTableColumn implements Serializable {
     /**
      * @return the updateTime
      */
-    public Date getUpdateTime() {
+    public LocalDateTime getUpdateTime() {
         return updateTime;
     }
 
     /**
      * @param updateTime the updateTime to set
      */
-    public void setUpdateTime(Date updateTime) {
+    public void setUpdateTime(LocalDateTime updateTime) {
         this.updateTime = updateTime;
     }
 

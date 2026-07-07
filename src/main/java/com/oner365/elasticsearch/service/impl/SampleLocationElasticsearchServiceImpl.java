@@ -1,9 +1,10 @@
 package com.oner365.elasticsearch.service.impl;
 
+import java.time.LocalDateTime;
+
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import com.oner365.data.commons.util.DateUtil;
 import com.oner365.data.jpa.page.PageInfo;
 import com.oner365.data.jpa.query.QueryCriteriaBean;
 import com.oner365.elasticsearch.dto.SampleLocationDto;
@@ -35,7 +36,7 @@ public class SampleLocationElasticsearchServiceImpl implements ISampleLocationEl
 
     @Override
     public SampleLocationDto save(SampleLocationVo vo) {
-        vo.setCreateTime(DateUtil.getDate());
+        vo.setCreateTime(LocalDateTime.now());
         SampleLocation entity = repository.save(convert(vo, SampleLocation.class));
         return convert(entity, SampleLocationDto.class);
     }

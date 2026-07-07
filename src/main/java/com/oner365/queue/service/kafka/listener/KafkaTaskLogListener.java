@@ -1,5 +1,6 @@
 package com.oner365.queue.service.kafka.listener;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -58,6 +59,7 @@ public class KafkaTaskLogListener {
 
         long time = System.currentTimeMillis();
         SysTaskLogVo taskLog = new SysTaskLogVo();
+        taskLog.setStartTime(LocalDateTime.now());
         taskLog.setExecuteIp(HttpClientUtils.getLocalhost());
         taskLog.setExecuteServerName(ScheduleConstants.SCHEDULE_SERVER_NAME);
         taskLog.setStatus(TaskStatusEnum.NORMAL);
@@ -66,6 +68,7 @@ public class KafkaTaskLogListener {
         taskLog.setTaskName(sysTask.getTaskName());
         taskLog.setInvokeTarget(sysTask.getInvokeTarget());
         taskLog.setCreateUser(sysTask.getCreateUser());
+        taskLog.setStopTime(LocalDateTime.now());
         sysTaskLogService.addTaskLog(taskLog);
     }
 
