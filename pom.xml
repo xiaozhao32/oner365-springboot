@@ -42,7 +42,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <org.springframework.integration.version>7.1.0</org.springframework.integration.version>
-        <org.springframework.statemachine.version>4.0.2</org.springframework.statemachine.version>
         <org.springframework.security.version>7.1.0</org.springframework.security.version>
         <org.springframework.boot.version>4.1.0</org.springframework.boot.version>
         <org.springframework.data.version>4.1.0</org.springframework.data.version>
@@ -937,17 +936,6 @@
             <groupId>org.springframework.integration</groupId>
             <artifactId>spring-integration-mqtt</artifactId>
             <version>${org.springframework.integration.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.statemachine</groupId>
-            <artifactId>spring-statemachine-core</artifactId>
-            <version>${org.springframework.statemachine.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.statemachine</groupId>
-            <artifactId>spring-statemachine-data-redis</artifactId>
-            <version>${org.springframework.statemachine.version}</version>
         </dependency>
 
         <!-- tomcat -->

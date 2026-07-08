@@ -38,6 +38,7 @@ public class TokenInterceptorConfigurer implements WebMvcConfigurer {
                     HttpMethod.PUT.name(), HttpMethod.DELETE.name())
             .allowedOriginPatterns("*")
             .exposedHeaders(PublicConstants.NAME)
+            .exposedHeaders(PublicConstants.NAME, HttpHeaders.AUTHORIZATION)
             .maxAge(3600);
     }
 

@@ -52,6 +52,10 @@ public class SysOrganizationServiceImpl implements ISysOrganizationService {
     private static final String PARENT_ID = "parentId"; 
 
     private static final String ORG_ORDER = "orgOrder";
+    
+    private static final String ORG_CODE = "orgCode";
+    
+    private static final String ORG_NAME = "orgName";
 
     @Resource
     private ISysOrganizationDao dao;
@@ -129,7 +133,7 @@ public class SysOrganizationServiceImpl implements ISysOrganizationService {
     @GeneratorCache(CACHE_NAME)
     public List<SysOrganizationDto> findListByParentId(String parentId) {
         Criteria<SysOrganization> criteria = new Criteria<>();
-        criteria.add(Restrictions.eq("parentId", parentId));
+        criteria.add(Restrictions.eq(PARENT_ID, parentId));
         return convert(dao.findAll(criteria), SysOrganizationDto.class);
     }
 
@@ -138,7 +142,7 @@ public class SysOrganizationServiceImpl implements ISysOrganizationService {
     public SysOrganizationDto getByCode(String orgCode) {
         Assert.notNull(orgCode, "orgCode is not empty.");
         Criteria<SysOrganization> criteria = new Criteria<>();
-        criteria.add(Restrictions.eq("orgCode", orgCode));
+        criteria.add(Restrictions.eq(ORG_CODE, orgCode));
         return convert(dao.findOne(criteria), SysOrganizationDto.class);
     }
 
@@ -213,7 +217,7 @@ public class SysOrganizationServiceImpl implements ISysOrganizationService {
     public List<SysOrganizationDto> selectList(SysOrganizationVo sysOrganizationVo) {
         Criteria<SysOrganization> criteria = new Criteria<>();
         if (!DataUtils.isEmpty(sysOrganizationVo.getOrgName())) {
-            criteria.add(Restrictions.like("orgName", sysOrganizationVo.getOrgName()));
+            criteria.add(Restrictions.like(ORG_NAME, sysOrganizationVo.getOrgName()));
         }
         if (!DataUtils.isEmpty(sysOrganizationVo.getStatus())) {
             criteria.add(Restrictions.eq(SysConstants.STATUS, sysOrganizationVo.getStatus()));

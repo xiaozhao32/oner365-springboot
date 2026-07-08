@@ -65,8 +65,7 @@ public class SysTaskServiceImpl implements ISysTaskService {
         taskList.forEach(task -> {
             try {
                 ScheduleUtils.createScheduleJob(scheduler, convert(task, SysTaskDto.class));
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 LOGGER.error("Error init:", e);
             }
         });
@@ -134,12 +133,10 @@ public class SysTaskServiceImpl implements ISysTaskService {
             dao.deleteById(id);
             try {
                 scheduler.deleteJob(ScheduleUtils.getJobKey(id, taskGroup));
-            }
-            catch (SchedulerException e) {
+                return Boolean.TRUE;
+            } catch (SchedulerException e) {
                 LOGGER.error("deleteTask scheduler error", e);
-                throw new ProjectRuntimeException("删除定时任务失败", e);
             }
-            return Boolean.TRUE;
         }
         return Boolean.FALSE;
     }
@@ -156,8 +153,7 @@ public class SysTaskServiceImpl implements ISysTaskService {
         Boolean rows = Boolean.FALSE;
         if (TaskStatusEnum.NORMAL.equals(task.getStatus())) {
             rows = resumeTask(task);
-        }
-        else if (TaskStatusEnum.PAUSE.equals(task.getStatus())) {
+        } else if (TaskStatusEnum.PAUSE.equals(task.getStatus())) {
             rows = pauseTask(task);
         }
         return rows;
