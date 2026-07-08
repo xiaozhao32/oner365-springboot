@@ -9,8 +9,6 @@ import java.util.Optional;
 import jakarta.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,7 +37,6 @@ import com.oner365.queue.service.IQueueSendService;
 @Service
 public class DynamicRouteServiceImpl implements DynamicRouteService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DynamicRouteServiceImpl.class);
 
     @Resource
     private IGatewayRouteDao gatewayRouteDao;
@@ -56,15 +53,9 @@ public class DynamicRouteServiceImpl implements DynamicRouteService {
 
     @Override
     public PageInfo<GatewayRouteDto> pageList(QueryCriteriaBean data) {
-        try {
-            Page<GatewayRoute> page = gatewayRouteDao.findAll(QueryUtils.buildCriteria(data),
-                    QueryUtils.buildPageRequest(data));
-            return convert(page, GatewayRouteDto.class);
-        }
-        catch (Exception e) {
-            LOGGER.error("Error pageList: ", e);
-        }
-        return null;
+        Page<GatewayRoute> page = gatewayRouteDao.findAll(QueryUtils.buildCriteria(data),
+                QueryUtils.buildPageRequest(data));
+        return convert(page, GatewayRouteDto.class);
     }
 
     @Override

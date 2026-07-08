@@ -1,7 +1,6 @@
 package com.oner365.sys.service.impl;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -9,8 +8,6 @@ import java.util.Optional;
 import jakarta.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
@@ -52,7 +49,6 @@ import com.oner365.sys.vo.SysRoleVo;
 @Service
 public class SysRoleServiceImpl implements ISysRoleService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SysRoleServiceImpl.class);
 
     private static final String CACHE_NAME = "SysRole";
 
@@ -76,39 +72,21 @@ public class SysRoleServiceImpl implements ISysRoleService {
     @Override
     @GeneratorCache(CACHE_NAME)
     public PageInfo<SysRoleDto> pageList(QueryCriteriaBean data) {
-        try {
-            Page<SysRole> page = roleDao.findAll(QueryUtils.buildCriteria(data), QueryUtils.buildPageRequest(data));
-            return convert(page, SysRoleDto.class);
-        }
-        catch (Exception e) {
-            LOGGER.error("Error pageList: ", e);
-        }
-        return null;
+        Page<SysRole> page = roleDao.findAll(QueryUtils.buildCriteria(data), QueryUtils.buildPageRequest(data));
+        return convert(page, SysRoleDto.class);
     }
 
     @Override
     @GeneratorCache(CACHE_NAME)
     public List<SysRoleDto> findList(QueryCriteriaBean data) {
-        try {
-            return convert(roleDao.findAll(QueryUtils.buildCriteria(data)), SysRoleDto.class);
-        }
-        catch (Exception e) {
-            LOGGER.error("Error findList: ", e);
-        }
-        return Collections.emptyList();
+        return convert(roleDao.findAll(QueryUtils.buildCriteria(data)), SysRoleDto.class);
     }
 
     @Override
     @RedisCacheAble(value = CACHE_NAME, key = PublicConstants.KEY_ID)
     public SysRoleDto getById(String id) {
-        try {
-            Optional<SysRole> optional = roleDao.findById(id);
-            return convert(optional.orElse(null), SysRoleDto.class);
-        }
-        catch (Exception e) {
-            LOGGER.error("Error getInfoById: ", e);
-        }
-        return null;
+        Optional<SysRole> optional = roleDao.findById(id);
+        return convert(optional.orElse(null), SysRoleDto.class);
     }
 
     @Override
@@ -144,18 +122,13 @@ public class SysRoleServiceImpl implements ISysRoleService {
 
     @Override
     public Boolean checkRoleName(String id, String roleName) {
-        try {
-            Criteria<SysRole> criteria = new Criteria<>();
-            criteria.add(Restrictions.eq(SysConstants.ROLE_NAME, DataUtils.trimToNull(roleName)));
-            if (!DataUtils.isEmpty(id)) {
-                criteria.add(Restrictions.ne(SysConstants.ID, id));
-            }
-            if (roleDao.count(criteria) > 0) {
-                return Boolean.TRUE;
-            }
+        Criteria<SysRole> criteria = new Criteria<>();
+        criteria.add(Restrictions.eq(SysConstants.ROLE_NAME, DataUtils.trimToNull(roleName)));
+        if (!DataUtils.isEmpty(id)) {
+            criteria.add(Restrictions.ne(SysConstants.ID, id));
         }
-        catch (Exception e) {
-            LOGGER.error("Error checkRoleName:", e);
+        if (roleDao.count(criteria) > 0) {
+            return Boolean.TRUE;
         }
         return Boolean.FALSE;
     }
@@ -166,14 +139,15 @@ public class SysRoleServiceImpl implements ISysRoleService {
             @CacheEvict(value = CACHE_MENU_NAME, allEntries = true) })
     public Boolean saveAuthority(String menuType, List<String> menuIds, String roleId) {
         roleMenuDao.deleteRoleMenuByRoleId(roleId);
-        menuIds.forEach(menuId -> {
+        List<SysRoleMenu> roleMenuList = menuIds.stream().map(menuId -> {
             SysRoleMenu roleMenu = new SysRoleMenu();
             roleMenu.setRoleId(roleId);
             roleMenu.setMenuId(menuId);
             roleMenu.setMenuTypeId(menuType);
             roleMenu.setId(roleId + menuType + menuId);
-            roleMenuDao.save(roleMenu);
-        });
+            return roleMenu;
+        }).toList();
+        roleMenuDao.saveAll(roleMenuList);
         return Boolean.TRUE;
     }
 

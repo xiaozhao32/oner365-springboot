@@ -1,5 +1,6 @@
 package com.oner365.data.web.resolver;
 
+import org.jspecify.annotations.NonNull;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.annotation.Order;
@@ -21,13 +22,13 @@ import com.oner365.data.web.utils.RequestUtils;
 public class CurrentUserMethodArgumentResolver implements HandlerMethodArgumentResolver {
 
     @Override
-    public boolean supportsParameter(MethodParameter parameter) {
+    public boolean supportsParameter(@NonNull MethodParameter parameter) {
         return parameter.hasParameterAnnotation(CurrentUser.class);
     }
 
     @Override
-    public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
-            NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
+    public @NonNull Object resolveArgument(@NonNull MethodParameter parameter, @NonNull ModelAndViewContainer mavContainer,
+            @NonNull NativeWebRequest webRequest, @NonNull WebDataBinderFactory binderFactory) {
         return RequestUtils.getAuthUser();
     }
 

@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -14,8 +15,6 @@ import com.google.common.cache.LoadingCache;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.oner365.data.commons.util.DataUtils;
-
-import jakarta.validation.constraints.NotNull;
 
 /**
  * Guava cache
@@ -42,24 +41,21 @@ public class GuavaCache<T> {
 
     /** 创建缓存 */
     private final LoadingCache<String, Optional<T>> cache = CacheBuilder.newBuilder()
-        .concurrencyLevel(CONCURRENCY_LEVEL)
-        .expireAfterWrite(Duration.ofMinutes(EXPIRE_AFTER_WRITE))
-        .initialCapacity(INITIAL_CAPACITY)
-        .maximumSize(MAXIMUM_SIZE)
-        .recordStats()
-        .build(new CacheLoader<String, Optional<T>>() {
-            @Override
-            public Optional<T> load(@NotNull String key) {
-                LOGGER.debug("load: {}", key);
-                return Optional.empty();
-            }
+            .concurrencyLevel(CONCURRENCY_LEVEL).expireAfterWrite(Duration.ofMinutes(EXPIRE_AFTER_WRITE))
+            .initialCapacity(INITIAL_CAPACITY).maximumSize(MAXIMUM_SIZE).recordStats()
+            .build(new CacheLoader<String, Optional<T>>() {
+                @Override
+                public @NonNull Optional<T> load(@NonNull String key) {
+                    LOGGER.debug("load: {}", key);
+                    return Optional.empty();
+                }
 
-            @Override
-            public ListenableFuture<Optional<T>> reload(@NotNull String key, @NotNull Optional<T> value) {
-                LOGGER.debug("reload: {}, value: {}", key, value);
-                return Futures.immediateFuture(load(key));
-            }
-        });
+                @Override
+                public @NonNull ListenableFuture<Optional<T>> reload(@NonNull String key, @NonNull Optional<T> value) {
+                    LOGGER.debug("reload: {}, value: {}", key, value);
+                    return Futures.immediateFuture(load(key));
+                }
+            });
 
     /**
      * 构造方法
@@ -70,6 +66,7 @@ public class GuavaCache<T> {
 
     /**
      * 获取缓存
+     * 
      * @param key 键
      * @return Optional<T>
      */
@@ -79,8 +76,7 @@ public class GuavaCache<T> {
         }
         try {
             return cache.get(key);
-        }
-        catch (ExecutionException e) {
+        } catch (ExecutionException e) {
             LOGGER.error("getCache error: {}", e.getMessage());
         }
         return Optional.empty();
@@ -88,7 +84,8 @@ public class GuavaCache<T> {
 
     /**
      * 设置缓存
-     * @param key 键
+     * 
+     * @param key   键
      * @param value 值
      */
     public void setCache(String key, Optional<T> value) {
@@ -99,6 +96,7 @@ public class GuavaCache<T> {
 
     /**
      * 清除缓存
+     * 
      * @param key 键
      */
     public void removeCache(String key) {

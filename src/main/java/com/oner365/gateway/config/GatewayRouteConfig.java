@@ -2,6 +2,7 @@ package com.oner365.gateway.config;
 
 import jakarta.annotation.Resource;
 
+import org.jspecify.annotations.NonNull;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -21,7 +22,7 @@ public class GatewayRouteConfig implements ApplicationRunner {
     private DynamicRouteService dynamicRouteService;
 
     @Override
-    public void run(ApplicationArguments args) {
+    public void run(@NonNull ApplicationArguments args) {
         dynamicRouteService.refreshRoute();
     }
 

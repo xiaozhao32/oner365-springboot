@@ -3,6 +3,7 @@ package com.oner365.init;
 import jakarta.annotation.PreDestroy;
 import jakarta.annotation.Resource;
 
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
@@ -30,7 +31,7 @@ public class RabbitmqRunner implements ApplicationRunner {
     private RabbitAdmin rabbitAdmin;
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(@NonNull ApplicationArguments args) throws Exception {
         // rabbitmq init config
     }
 

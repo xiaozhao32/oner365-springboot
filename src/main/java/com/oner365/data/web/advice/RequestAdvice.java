@@ -5,6 +5,7 @@ import java.lang.reflect.Type;
 import java.util.Base64;
 import java.util.List;
 
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.MethodParameter;
@@ -35,14 +36,15 @@ public class RequestAdvice extends RequestBodyAdviceAdapter {
     private ClientWhiteProperties clientWhiteProperties;
 
     @Override
-    public boolean supports(MethodParameter methodParameter, Type targetType,
-            Class<? extends HttpMessageConverter<?>> converterType) {
+    public boolean supports(@NonNull MethodParameter methodParameter, @NonNull Type targetType,
+            @NonNull Class<? extends HttpMessageConverter<?>> converterType) {
         return true;
     }
 
     @Override
-    public HttpInputMessage beforeBodyRead(HttpInputMessage inputMessage, MethodParameter parameter, Type targetType,
-            Class<? extends HttpMessageConverter<?>> converterType) throws IOException {
+    public @NonNull HttpInputMessage beforeBodyRead(@NonNull HttpInputMessage inputMessage, @NonNull MethodParameter parameter,
+            @NonNull Type targetType, @NonNull Class<? extends HttpMessageConverter<?>> converterType)
+            throws IOException {
         HttpServletRequest request = RequestUtils.getHttpRequest();
         String body = RequestUtils.getRequestBody(inputMessage.getBody());
         String sign = null;
@@ -59,8 +61,7 @@ public class RequestAdvice extends RequestBodyAdviceAdapter {
                         key.substring(0, 16).getBytes());
                 return new CustomHttpInputMessage(inputMessage.getHeaders(), b);
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             LOGGER.error("sign:{} body:{}", sign, body);
             LOGGER.error("beforeBodyRead ERROR:", e);
         }

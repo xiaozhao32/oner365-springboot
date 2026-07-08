@@ -1,5 +1,6 @@
 package com.oner365.log.config;
 
+import org.jspecify.annotations.NonNull;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +20,7 @@ public class ApplicationLoggerInitializer implements ApplicationContextInitializ
      * initialize logger
      */
     @Override
-    public void initialize(ConfigurableApplicationContext applicationContext) {
+    public void initialize(@NonNull ConfigurableApplicationContext applicationContext) {
         // 配置 logback 这里配置无效
     }
 

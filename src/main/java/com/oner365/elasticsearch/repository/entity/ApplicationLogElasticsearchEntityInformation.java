@@ -1,5 +1,6 @@
 package com.oner365.elasticsearch.repository.entity;
 
+import org.jspecify.annotations.NonNull;
 import org.springframework.data.elasticsearch.annotations.Document.VersionType;
 import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
 import org.springframework.data.elasticsearch.repository.support.ElasticsearchEntityInformation;
@@ -19,37 +20,37 @@ public class ApplicationLogElasticsearchEntityInformation
         implements ElasticsearchEntityInformation<ApplicationLog, String> {
 
     @Override
-    public boolean isNew(ApplicationLog entity) {
+    public boolean isNew(@NonNull ApplicationLog entity) {
         return false;
     }
 
     @Override
-    public String getId(ApplicationLog entity) {
+    public String getId(@NonNull ApplicationLog entity) {
         return entity.getId();
     }
 
     @Override
-    public Class<String> getIdType() {
+    public @NonNull Class<String> getIdType() {
         return String.class;
     }
 
     @Override
-    public Class<ApplicationLog> getJavaType() {
+    public @NonNull Class<ApplicationLog> getJavaType() {
         return ApplicationLog.class;
     }
 
     @Override
-    public String getIdAttribute() {
+    public @NonNull String getIdAttribute() {
         return SysConstants.ID;
     }
 
     @Override
-    public IndexCoordinates getIndexCoordinates() {
+    public @NonNull IndexCoordinates getIndexCoordinates() {
         return IndexCoordinates.of(IndexCoordinates.TYPE);
     }
 
     @Override
-    public Long getVersion(ApplicationLog entity) {
+    public Long getVersion(@NonNull ApplicationLog entity) {
         return (long) 2.0;
     }
 

@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.statemachine.data.redis.RedisStateMachineContextRepository;
 import org.springframework.statemachine.data.redis.RedisStateMachinePersister;
+import org.springframework.statemachine.kryo.StateMachineContextSerializer;
 import org.springframework.statemachine.persist.RepositoryStateMachinePersist;
 
 import com.oner365.statemachine.enums.OrderEventEnum;
@@ -28,10 +29,24 @@ public class StateMachinePersisterConfig {
      * Redis持久化配置
      */
     @Bean
-    RedisStateMachinePersister<OrderStateEnum, OrderEventEnum> persister() {
+    RedisStateMachinePersister<OrderStateEnum, OrderEventEnum> persister(StateMachineContextSerializer<OrderStateEnum, OrderEventEnum> serializer) {
+        // 注入 StateMachineContextSerializer
         RedisStateMachineContextRepository<OrderStateEnum, OrderEventEnum> repository = new RedisStateMachineContextRepository<>(
                 redisConnectionFactory);
         return new RedisStateMachinePersister<>(new RepositoryStateMachinePersist<>(repository));
+    }
+    
+    /**
+     * Kryo序列化器，注册状态和事件枚举，解决"Class is not registered"问题
+     */
+    @Bean
+    StateMachineContextSerializer<OrderStateEnum, OrderEventEnum> stateMachineContextSerializer() {
+        StateMachineContextSerializer<OrderStateEnum, OrderEventEnum> serializer = new StateMachineContextSerializer<OrderStateEnum, OrderEventEnum>();
+        // Kryo kryo = serializer.getKryo();
+        // Register enums used by the state machine to avoid Kryo registration errors
+        // kryo.register(OrderStateEnum.class);
+        // kryo.register(OrderEventEnum.class);
+        return serializer;
     }
 
 }

@@ -1,5 +1,6 @@
 package com.oner365.files.storage.condition;
 
+import org.jspecify.annotations.NonNull;
 import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.env.Environment;
@@ -17,7 +18,7 @@ import com.oner365.data.commons.enums.StorageEnum;
 public class MinioStorageCondition implements Condition {
 
     @Override
-    public boolean matches(ConditionContext conditionContext, AnnotatedTypeMetadata metadata) {
+    public boolean matches(@NonNull ConditionContext conditionContext, @NonNull AnnotatedTypeMetadata metadata) {
         Environment environment = conditionContext.getEnvironment();
         String type = environment.getProperty(PublicConstants.FILE_STORAGE);
         // minio上传

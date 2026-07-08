@@ -1,5 +1,6 @@
 package com.oner365.queue.service.rabbitmq.callback;
 
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
@@ -22,7 +23,7 @@ public class QueueRabbitmqConfirmCallback implements ConfirmCallback {
     private final Logger logger = LoggerFactory.getLogger(QueueRabbitmqConfirmCallback.class);
 
     @Override
-    public void confirm(CorrelationData correlationData, boolean ack, String cause) {
+    public void confirm(@NonNull CorrelationData correlationData, boolean ack, @NonNull String cause) {
         logger.info("Rabbitmq Confirm ack: {}, correlationData: {}", ack, correlationData);
         if (!ack) {
             logger.error("Rabbitmq Confirm error:{}", cause);

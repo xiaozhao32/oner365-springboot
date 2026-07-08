@@ -3,6 +3,7 @@ package com.oner365.data.redis.config;
 import java.util.Arrays;
 
 import org.apache.logging.log4j.util.Strings;
+import org.jspecify.annotations.NonNull;
 import org.springframework.cache.annotation.CachingConfigurer;
 import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.Bean;
@@ -26,8 +27,9 @@ public class RedisConfigurer implements CachingConfigurer {
         return keyGenerator();
     }
 
+    @SuppressWarnings("null")
     @Override
-    public KeyGenerator keyGenerator() {
+    public @NonNull KeyGenerator keyGenerator() {
         return (target, method, params) -> {
             String sp = "::";
             StringBuilder strBuilder = new StringBuilder(30);
@@ -42,16 +44,13 @@ public class RedisConfigurer implements CachingConfigurer {
                 Arrays.stream(params).forEach(object -> {
                     if (DataUtils.isEmpty(object)) {
                         strBuilder.append(Strings.EMPTY);
-                    }
-                    else if (ClassesUtil.isPrimitive(object.getClass())) {
+                    } else if (ClassesUtil.isPrimitive(object.getClass())) {
                         strBuilder.append(object);
-                    }
-                    else {
+                    } else {
                         strBuilder.append(JSON.toJSONString(object).hashCode());
                     }
                 });
-            }
-            else {
+            } else {
                 strBuilder.append(sp);
             }
             return strBuilder.toString();

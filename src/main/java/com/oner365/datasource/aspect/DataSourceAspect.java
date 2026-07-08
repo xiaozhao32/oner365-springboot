@@ -1,7 +1,5 @@
 package com.oner365.datasource.aspect;
 
-import java.util.Objects;
-
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -51,12 +49,7 @@ public class DataSourceAspect {
      */
     public DataSource getDataSource(ProceedingJoinPoint point) {
         MethodSignature signature = (MethodSignature) point.getSignature();
-        DataSource dataSource = AnnotationUtils.findAnnotation(signature.getMethod(), DataSource.class);
-        if (Objects.nonNull(dataSource)) {
-            return dataSource;
-        }
-
-        return AnnotationUtils.findAnnotation(signature.getDeclaringType(), DataSource.class);
+        return AnnotationUtils.findAnnotation(signature.getMethod(), DataSource.class);
     }
 
 }

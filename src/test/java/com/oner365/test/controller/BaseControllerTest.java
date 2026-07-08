@@ -40,6 +40,7 @@ public abstract class BaseControllerTest extends BaseTest {
      * Request Header Authorization
      * @return String token
      */
+    @SuppressWarnings("null")
     protected String getToken() {
         final String cacheKey = "Auth:test:token";
         String token = redisCache.getCacheObject(cacheKey);

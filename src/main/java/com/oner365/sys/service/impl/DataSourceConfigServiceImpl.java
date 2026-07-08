@@ -4,8 +4,6 @@ import java.util.Optional;
 
 import jakarta.annotation.Resource;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -35,7 +33,6 @@ import com.oner365.sys.vo.DataSourceConfigVo;
 @Service
 public class DataSourceConfigServiceImpl implements IDataSourceConfigService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DataSourceConfigServiceImpl.class);
 
     private static final String CACHE_NAME = "DataSourceConfig";
 
@@ -45,28 +42,17 @@ public class DataSourceConfigServiceImpl implements IDataSourceConfigService {
     @Override
     @GeneratorCache(CACHE_NAME)
     public PageInfo<DataSourceConfigDto> pageList(QueryCriteriaBean data) {
-        try {
-            Page<DataSourceConfig> page = dao.findAll(QueryUtils.buildCriteria(data),
-                    QueryUtils.buildPageRequest(data));
-            return convert(page, DataSourceConfigDto.class);
-        }
-        catch (Exception e) {
-            LOGGER.error("Error pageList: ", e);
-        }
-        return null;
+        Page<DataSourceConfig> page = dao.findAll(QueryUtils.buildCriteria(data),
+                QueryUtils.buildPageRequest(data));
+        return convert(page, DataSourceConfigDto.class);
     }
 
     @Override
     @RedisCacheAble(value = CACHE_NAME, key = PublicConstants.KEY_ID)
     public DataSourceConfigDto getById(String id) {
-        try {
-            Optional<DataSourceConfig> optional = dao.findById(id);
-            if (optional.isPresent()) {
-                return convert(optional.orElse(null), DataSourceConfigDto.class);
-            }
-        }
-        catch (Exception e) {
-            LOGGER.error("Error getById: ", e);
+        Optional<DataSourceConfig> optional = dao.findById(id);
+        if (optional.isPresent()) {
+            return convert(optional.orElse(null), DataSourceConfigDto.class);
         }
         return null;
     }

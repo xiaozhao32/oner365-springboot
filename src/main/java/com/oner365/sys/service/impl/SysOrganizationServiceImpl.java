@@ -1,14 +1,11 @@
 package com.oner365.sys.service.impl;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
@@ -49,9 +46,12 @@ import jakarta.annotation.Resource;
 @Service
 public class SysOrganizationServiceImpl implements ISysOrganizationService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SysOrganizationServiceImpl.class);
 
     private static final String CACHE_NAME = "SysOrganization";
+
+    private static final String PARENT_ID = "parentId"; 
+
+    private static final String ORG_ORDER = "orgOrder";
 
     @Resource
     private ISysOrganizationDao dao;
@@ -62,14 +62,8 @@ public class SysOrganizationServiceImpl implements ISysOrganizationService {
     @Override
     @RedisCacheAble(value = CACHE_NAME, key = PublicConstants.KEY_ID)
     public SysOrganizationDto getById(String id) {
-        try {
-            Optional<SysOrganization> optional = dao.findById(id);
-            return convert(optional.orElse(null), SysOrganizationDto.class);
-        }
-        catch (Exception e) {
-            LOGGER.error("Error getById: ", e);
-        }
-        return null;
+        Optional<SysOrganization> optional = dao.findById(id);
+        return convert(optional.orElse(null), SysOrganizationDto.class);
     }
 
     @Override
@@ -82,36 +76,26 @@ public class SysOrganizationServiceImpl implements ISysOrganizationService {
 
     @Override
     public Boolean checkCode(String orgId, String code, String type) {
-        try {
-            Criteria<SysOrganization> criteria = new Criteria<>();
-            criteria.add(Restrictions.eq(type, code));
-            if (!DataUtils.isEmpty(orgId)) {
-                criteria.add(Restrictions.ne(SysConstants.ID, orgId));
-            }
-            if (dao.count(criteria) > 0) {
-                return Boolean.TRUE;
-            }
+        Criteria<SysOrganization> criteria = new Criteria<>();
+        criteria.add(Restrictions.eq(type, code));
+        if (!DataUtils.isEmpty(orgId)) {
+            criteria.add(Restrictions.ne(SysConstants.ID, orgId));
         }
-        catch (Exception e) {
-            LOGGER.error("Error checkCode:", e);
+        if (dao.count(criteria) > 0) {
+            return Boolean.TRUE;
         }
         return Boolean.FALSE;
     }
 
     @Override
     public Boolean checkConnection(String id) {
-        try {
-            Optional<SysOrganization> optional = dao.findById(id);
-            if (optional.isPresent()) {
-                DataSourceConfig config = optional.get().getDataSourceConfig();
-                if (config != null) {
-                    return DataSourceUtil.isConnection(config.getDriverName(), config.getUrl(), config.getUserName(),
-                            config.getPassword());
-                }
+        Optional<SysOrganization> optional = dao.findById(id);
+        if (optional.isPresent()) {
+            DataSourceConfig config = optional.get().getDataSourceConfig();
+            if (config != null) {
+                return DataSourceUtil.isConnection(config.getDriverName(), config.getUrl(), config.getUserName(),
+                        config.getPassword());
             }
-        }
-        catch (Exception e) {
-            LOGGER.error("Error checkConnection:", e);
         }
         return false;
     }
@@ -216,18 +200,12 @@ public class SysOrganizationServiceImpl implements ISysOrganizationService {
     @Override
     @GeneratorCache(CACHE_NAME)
     public List<SysOrganizationDto> findList(QueryCriteriaBean data) {
-        try {
-            if (data.getOrder() == null) {
-                return convert(dao.findAll(QueryUtils.buildCriteria(data)), SysOrganizationDto.class);
-            }
-            List<SysOrganization> list = dao.findAll(QueryUtils.buildCriteria(data),
-                    Objects.requireNonNull(QueryUtils.buildSortRequest(data.getOrder())));
-            return convert(list, SysOrganizationDto.class);
+        if (data.getOrder() == null) {
+            return convert(dao.findAll(QueryUtils.buildCriteria(data)), SysOrganizationDto.class);
         }
-        catch (Exception e) {
-            LOGGER.error("Error findList: ", e);
-        }
-        return Collections.emptyList();
+        List<SysOrganization> list = dao.findAll(QueryUtils.buildCriteria(data),
+                Objects.requireNonNull(QueryUtils.buildSortRequest(data.getOrder())));
+        return convert(list, SysOrganizationDto.class);
     }
 
     @Override
@@ -240,7 +218,7 @@ public class SysOrganizationServiceImpl implements ISysOrganizationService {
         if (!DataUtils.isEmpty(sysOrganizationVo.getStatus())) {
             criteria.add(Restrictions.eq(SysConstants.STATUS, sysOrganizationVo.getStatus()));
         }
-        return convert(dao.findAll(criteria, Sort.by(Direction.DESC, "parentId", "orgOrder")),
+        return convert(dao.findAll(criteria, Sort.by(Direction.DESC, PARENT_ID, ORG_ORDER)),
                 SysOrganizationDto.class);
     }
 

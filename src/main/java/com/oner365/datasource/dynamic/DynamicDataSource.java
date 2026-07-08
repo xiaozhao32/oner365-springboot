@@ -4,6 +4,7 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import org.jspecify.annotations.NonNull;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
 /**
@@ -23,7 +24,7 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
      * 获取数据源类型
      */
     @Override
-    protected Object determineCurrentLookupKey() {
+    protected @NonNull Object determineCurrentLookupKey() {
         return DataSourceHolder.getDataSource();
     }
 

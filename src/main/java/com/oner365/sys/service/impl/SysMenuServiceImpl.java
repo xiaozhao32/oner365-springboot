@@ -1,7 +1,6 @@
 package com.oner365.sys.service.impl;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -70,14 +69,8 @@ public class SysMenuServiceImpl implements ISysMenuService {
     @Override
     @RedisCacheAble(value = CACHE_NAME, key = PublicConstants.KEY_ID)
     public SysMenuDto getById(String id) {
-        try {
-            Optional<SysMenu> optional = menuDao.findById(id);
-            return convert(optional.orElse(null), SysMenuDto.class);
-        }
-        catch (Exception e) {
-            LOGGER.error("Error getById: ", e);
-        }
-        return null;
+        Optional<SysMenu> optional = menuDao.findById(id);
+        return convert(optional.orElse(null), SysMenuDto.class);
     }
 
     @Override
@@ -90,14 +83,15 @@ public class SysMenuServiceImpl implements ISysMenuService {
 
             menuOperDao.deleteByMenuId(menu.getId());
             if (!DataUtils.isEmpty(menu.getOperIds())) {
-                menu.getOperIds().forEach(id -> {
+                List<SysMenuOper> menuOperList = menu.getOperIds().stream().map(id -> {
                     SysMenuOperation operation = new SysMenuOperation();
                     operation.setId(id);
                     SysMenuOper menuOper = new SysMenuOper();
                     menuOper.setMenuId(menu.getId());
                     menuOper.setSysMenuOperation(operation);
-                    menuOperDao.save(menuOper);
-                });
+                    return menuOper;
+                }).toList();
+                menuOperDao.saveAll(menuOperList);
             }
             return convert(menu, SysMenuDto.class);
         }
@@ -125,25 +119,13 @@ public class SysMenuServiceImpl implements ISysMenuService {
     @Override
     @GeneratorCache(CACHE_NAME)
     public List<SysMenuDto> findMenuByTypeCode(String typeCode) {
-        try {
-            return convert(menuDao.findMenuByTypeCode(typeCode), SysMenuDto.class);
-        }
-        catch (Exception e) {
-            LOGGER.error("Error findMenuByTypeCode: ", e);
-        }
-        return Collections.emptyList();
+        return convert(menuDao.findMenuByTypeCode(typeCode), SysMenuDto.class);
     }
 
     @Override
     @GeneratorCache(CACHE_NAME)
     public List<SysMenuDto> selectMenuByRoles(List<String> roles, String menuTypeId, String parentId) {
-        try {
-            return convert(menuMapper.selectMenuByRoles(roles, menuTypeId, parentId), SysMenuDto.class);
-        }
-        catch (Exception e) {
-            LOGGER.error("Error findMenuByRoles: ", e);
-        }
-        return Collections.emptyList();
+        return convert(menuMapper.selectMenuByRoles(roles, menuTypeId, parentId), SysMenuDto.class);
     }
 
     @Override
@@ -214,18 +196,12 @@ public class SysMenuServiceImpl implements ISysMenuService {
     @Override
     @GeneratorCache(CACHE_NAME)
     public List<SysMenuDto> findList(QueryCriteriaBean data) {
-        try {
-            if (data.getOrder() == null) {
-                return convert(menuDao.findAll(QueryUtils.buildCriteria(data)), SysMenuDto.class);
-            }
-            List<SysMenu> list = menuDao.findAll(QueryUtils.buildCriteria(data),
-                    Objects.requireNonNull(QueryUtils.buildSortRequest(data.getOrder())));
-            return convert(list, SysMenuDto.class);
+        if (data.getOrder() == null) {
+            return convert(menuDao.findAll(QueryUtils.buildCriteria(data)), SysMenuDto.class);
         }
-        catch (Exception e) {
-            LOGGER.error("Error findList: ", e);
-        }
-        return Collections.emptyList();
+        List<SysMenu> list = menuDao.findAll(QueryUtils.buildCriteria(data),
+                Objects.requireNonNull(QueryUtils.buildSortRequest(data.getOrder())));
+        return convert(list, SysMenuDto.class);
     }
 
     @Override

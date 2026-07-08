@@ -1,6 +1,5 @@
 package com.oner365.data.web.sequence.properties;
 
-import org.jspecify.annotations.Nullable;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -13,9 +12,9 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "sequence.snowflake")
 public class SequenceSnowflakeProperties extends BaseSequenceProperties {
 
-    private @Nullable long datacenterId;
+    private long datacenterId;
 
-    private @Nullable long workerId;
+    private long workerId;
 
     public long getDatacenterId() {
         return datacenterId;

@@ -2,7 +2,6 @@ package com.oner365.sys.service.impl;
 
 import java.time.LocalDateTime;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -161,27 +160,15 @@ public class SysUserServiceImpl implements ISysUserService {
     @Override
     @GeneratorCache(CACHE_NAME)
     public PageInfo<SysUserDto> pageList(QueryCriteriaBean data) {
-        try {
-            Page<SysUser> page = userDao.findAll(QueryUtils.buildCriteria(data), QueryUtils.buildPageRequest(data));
-            page.getContent().forEach(this::setName);
-            return convert(page, SysUserDto.class);
-        }
-        catch (Exception e) {
-            LOGGER.error("Error pageList:", e);
-        }
-        return null;
+        Page<SysUser> page = userDao.findAll(QueryUtils.buildCriteria(data), QueryUtils.buildPageRequest(data));
+        page.getContent().forEach(this::setName);
+        return convert(page, SysUserDto.class);
     }
 
     @Override
     @GeneratorCache(CACHE_NAME)
     public List<SysUserDto> findList(QueryCriteriaBean data) {
-        try {
-            return convert(userDao.findAll(QueryUtils.buildCriteria(data)), SysUserDto.class);
-        }
-        catch (Exception e) {
-            LOGGER.error("Error findList:", e);
-        }
-        return Collections.emptyList();
+        return convert(userDao.findAll(QueryUtils.buildCriteria(data)), SysUserDto.class);
     }
 
     @Override
@@ -264,39 +251,42 @@ public class SysUserServiceImpl implements ISysUserService {
             try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
                 executor.submit(() -> {
                     userRoleDao.deleteUserRoleByUserId(entity.getId());
-                    roles.forEach(id -> {
+                    List<SysUserRole> userRoleList = roles.stream().map(id -> {
                         SysRole sysRole = sysRoleDao.getReferenceById(id);
                         SysUserRole sysUserRole = new SysUserRole();
                         sysUserRole.setSysRole(sysRole);
                         sysUserRole.setSysUser(entity);
-                        userRoleDao.save(sysUserRole);
-                    });
+                        return sysUserRole;
+                    }).toList();
+                    userRoleDao.saveAll(userRoleList);
                 });
             }
 
             // 删除用户职位关联
             userJobDao.deleteUserJobByUserId(entity.getId());
-            jobs.forEach(id -> {
+            List<SysUserJob> userJobList = jobs.stream().map(id -> {
                 SysJob sysJob = sysJobDao.getReferenceById(id);
                 SysUserJob sysUserJob = new SysUserJob();
                 sysUserJob.setSysJob(sysJob);
                 sysUserJob.setSysUser(entity);
                 sysUserJob.setPositionOrder(1);
                 sysUserJob.setStatus(StatusEnum.YES);
-                userJobDao.save(sysUserJob);
-            });
+                return sysUserJob;
+            }).toList();
+            userJobDao.saveAll(userJobList);
 
             // 删除用户单位关联
             userOrgDao.deleteUserOrgByUserId(entity.getId());
-            orgs.forEach(id -> {
+            List<SysUserOrg> userOrgList = orgs.stream().map(id -> {
                 SysOrganization sysOrg = sysOrganizationDao.getReferenceById(id);
                 SysUserOrg sysUserOrg = new SysUserOrg();
                 sysUserOrg.setSysOrganization(sysOrg);
                 sysUserOrg.setSysUser(entity);
                 sysUserOrg.setPositionOrder(1);
                 sysUserOrg.setStatus(StatusEnum.YES);
-                userOrgDao.save(sysUserOrg);
-            });
+                return sysUserOrg;
+            }).toList();
+            userOrgDao.saveAll(userOrgList);
             entity.setRoles(roles);
             entity.setJobs(jobs);
             entity.setOrgs(orgs);
@@ -324,18 +314,13 @@ public class SysUserServiceImpl implements ISysUserService {
 
     @Override
     public Boolean checkUserName(String userId, String userName) {
-        try {
-            Criteria<SysUser> criteria = new Criteria<>();
-            criteria.add(Restrictions.eq(SysConstants.USER_NAME, DataUtils.trimToNull(userName)));
-            if (!DataUtils.isEmpty(userId)) {
-                criteria.add(Restrictions.ne(SysConstants.ID, userId));
-            }
-            if (userDao.count(criteria) > 0) {
-                return Boolean.TRUE;
-            }
+        Criteria<SysUser> criteria = new Criteria<>();
+        criteria.add(Restrictions.eq(SysConstants.USER_NAME, DataUtils.trimToNull(userName)));
+        if (!DataUtils.isEmpty(userId)) {
+            criteria.add(Restrictions.ne(SysConstants.ID, userId));
         }
-        catch (Exception e) {
-            LOGGER.error("Error checkUserName:", e);
+        if (userDao.count(criteria) > 0) {
+            return Boolean.TRUE;
         }
         return Boolean.FALSE;
     }

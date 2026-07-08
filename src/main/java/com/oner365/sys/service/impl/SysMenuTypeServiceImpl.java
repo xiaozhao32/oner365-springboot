@@ -1,13 +1,10 @@
 package com.oner365.sys.service.impl;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import jakarta.annotation.Resource;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
@@ -41,7 +38,6 @@ import com.oner365.sys.vo.SysMenuTypeVo;
 @Service
 public class SysMenuTypeServiceImpl implements ISysMenuTypeService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SysMenuTypeServiceImpl.class);
 
     private static final String CACHE_NAME = "SysMenuType";
 
@@ -53,39 +49,21 @@ public class SysMenuTypeServiceImpl implements ISysMenuTypeService {
     @Override
     @GeneratorCache(CACHE_NAME)
     public PageInfo<SysMenuTypeDto> pageList(QueryCriteriaBean data) {
-        try {
-            Page<SysMenuType> page = dao.findAll(QueryUtils.buildCriteria(data), QueryUtils.buildPageRequest(data));
-            return convert(page, SysMenuTypeDto.class);
-        }
-        catch (Exception e) {
-            LOGGER.error("Error pageList: ", e);
-        }
-        return null;
+        Page<SysMenuType> page = dao.findAll(QueryUtils.buildCriteria(data), QueryUtils.buildPageRequest(data));
+        return convert(page, SysMenuTypeDto.class);
     }
 
     @Override
     @GeneratorCache(CACHE_NAME)
     public List<SysMenuTypeDto> findList(QueryCriteriaBean data) {
-        try {
-            return convert(dao.findAll(QueryUtils.buildCriteria(data)), SysMenuTypeDto.class);
-        }
-        catch (Exception e) {
-            LOGGER.error("Error findList: ", e);
-        }
-        return Collections.emptyList();
+        return convert(dao.findAll(QueryUtils.buildCriteria(data)), SysMenuTypeDto.class);
     }
 
     @Override
     @RedisCacheAble(value = CACHE_NAME, key = PublicConstants.KEY_ID)
     public SysMenuTypeDto getById(String id) {
-        try {
-            Optional<SysMenuType> optional = dao.findById(id);
-            return convert(optional.orElse(null), SysMenuTypeDto.class);
-        }
-        catch (Exception e) {
-            LOGGER.error("Error getById: ", e);
-        }
-        return null;
+        Optional<SysMenuType> optional = dao.findById(id);
+        return convert(optional.orElse(null), SysMenuTypeDto.class);
     }
 
     @Override
@@ -117,18 +95,13 @@ public class SysMenuTypeServiceImpl implements ISysMenuTypeService {
 
     @Override
     public Boolean checkCode(String id, String code) {
-        try {
-            Criteria<SysMenuType> criteria = new Criteria<>();
-            criteria.add(Restrictions.eq(SysConstants.TYPE_CODE, DataUtils.trimToNull(code)));
-            if (!DataUtils.isEmpty(id)) {
-                criteria.add(Restrictions.ne(SysConstants.ID, id));
-            }
-            if (dao.count(criteria) > 0) {
-                return Boolean.TRUE;
-            }
+        Criteria<SysMenuType> criteria = new Criteria<>();
+        criteria.add(Restrictions.eq(SysConstants.TYPE_CODE, DataUtils.trimToNull(code)));
+        if (!DataUtils.isEmpty(id)) {
+            criteria.add(Restrictions.ne(SysConstants.ID, id));
         }
-        catch (Exception e) {
-            LOGGER.error("Error checkCode:", e);
+        if (dao.count(criteria) > 0) {
+            return Boolean.TRUE;
         }
         return Boolean.FALSE;
     }

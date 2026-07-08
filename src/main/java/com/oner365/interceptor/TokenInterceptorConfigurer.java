@@ -1,5 +1,6 @@
 package com.oner365.interceptor;
 
+import org.jspecify.annotations.NonNull;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -24,17 +25,17 @@ public class TokenInterceptorConfigurer implements WebMvcConfigurer {
     private TokenInterceptor tokenInterceptor;
 
     @Override
-    public void addInterceptors(InterceptorRegistry registry) {
+    public void addInterceptors(@NonNull InterceptorRegistry registry) {
         registry.addInterceptor(tokenInterceptor).addPathPatterns("/**");
     }
 
     @Override
-    public void addCorsMappings(CorsRegistry registry) {
+    public void addCorsMappings(@NonNull CorsRegistry registry) {
         registry.addMapping("/**")
             .allowCredentials(true)
             .allowedHeaders(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-            .allowedMethods(HttpMethod.GET.name(), HttpMethod.POST.name(), HttpMethod.PUT.name(),
-                    HttpMethod.DELETE.name())
+            .allowedMethods(HttpMethod.GET.name(), HttpMethod.POST.name(), 
+                    HttpMethod.PUT.name(), HttpMethod.DELETE.name())
             .allowedOriginPatterns("*")
             .exposedHeaders(PublicConstants.NAME)
             .maxAge(3600);

@@ -1,5 +1,6 @@
 package com.oner365.elasticsearch.repository.entity;
 
+import org.jspecify.annotations.NonNull;
 import org.springframework.data.elasticsearch.annotations.Document.VersionType;
 import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
 import org.springframework.data.elasticsearch.repository.support.ElasticsearchEntityInformation;
@@ -19,37 +20,37 @@ public class SampleLocationElasticsearchEntityInformation
         implements ElasticsearchEntityInformation<SampleLocation, String> {
 
     @Override
-    public boolean isNew(SampleLocation entity) {
+    public boolean isNew(@NonNull SampleLocation entity) {
         return false;
     }
 
     @Override
-    public String getId(SampleLocation entity) {
+    public String getId(@NonNull SampleLocation entity) {
         return entity.getId();
     }
 
     @Override
-    public Class<String> getIdType() {
+    public @NonNull Class<String> getIdType() {
         return String.class;
     }
 
     @Override
-    public Class<SampleLocation> getJavaType() {
+    public @NonNull Class<SampleLocation> getJavaType() {
         return SampleLocation.class;
     }
 
     @Override
-    public String getIdAttribute() {
+    public @NonNull String getIdAttribute() {
         return SysConstants.ID;
     }
 
     @Override
-    public IndexCoordinates getIndexCoordinates() {
+    public @NonNull IndexCoordinates getIndexCoordinates() {
         return IndexCoordinates.of(IndexCoordinates.TYPE);
     }
 
     @Override
-    public Long getVersion(SampleLocation entity) {
+    public Long getVersion(@NonNull SampleLocation entity) {
         return (long) 2.0;
     }
 

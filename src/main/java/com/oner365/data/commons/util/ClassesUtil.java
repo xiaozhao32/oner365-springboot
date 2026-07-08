@@ -15,7 +15,12 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 工具类 - 类加载器
@@ -50,6 +55,7 @@ public class ClassesUtil {
 
     /**
      * 判断是否为原子类型
+     * 
      * @param paramClass 类
      * @return boolean
      */
@@ -59,6 +65,7 @@ public class ClassesUtil {
 
     /**
      * 判断数组中是否为原子数组类型
+     * 
      * @param paramClass 类
      * @return boolean
      */
@@ -68,6 +75,7 @@ public class ClassesUtil {
 
     /**
      * 判断是否为原子和原子数组类型
+     * 
      * @param clazz 类
      * @return boolean
      */
@@ -77,6 +85,7 @@ public class ClassesUtil {
 
     /**
      * 判断是否为集合类型
+     * 
      * @param clazz 类
      * @return boolean
      */
@@ -90,6 +99,7 @@ public class ClassesUtil {
 
     /**
      * 判断是否为Map类型
+     * 
      * @param clazz 类
      * @return boolean
      */
@@ -103,6 +113,7 @@ public class ClassesUtil {
 
     /**
      * 判断对象是否为时间(Date)类型和日期(Calendar)类型
+     * 
      * @param value 对象
      * @return boolean
      */
@@ -113,6 +124,7 @@ public class ClassesUtil {
 
     /**
      * 判断类型是否为时间(Date)类型
+     * 
      * @param clazz 类
      * @return boolean
      */
@@ -128,6 +140,7 @@ public class ClassesUtil {
 
     /**
      * 判断是否为Blob Clob类型
+     * 
      * @param clazz 类
      * @return boolean
      */
@@ -142,6 +155,7 @@ public class ClassesUtil {
 
     /**
      * 判断是否为Json类型
+     * 
      * @param clazz 类
      * @return boolean
      */
@@ -155,14 +169,14 @@ public class ClassesUtil {
 
     /**
      * 判断是否为枚举类型
+     * 
      * @param className 类
      * @return boolean
      */
     public static boolean isEnum(String className) {
         try {
             return Class.forName(className).isEnum();
-        }
-        catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException e) {
             LOGGER.error("isEnum error ", e);
         }
         return false;
@@ -170,6 +184,7 @@ public class ClassesUtil {
 
     /**
      * 判断是否为基本类型
+     * 
      * @param clazz 类
      * @return boolean
      */
@@ -179,34 +194,33 @@ public class ClassesUtil {
 
     /**
      * 判断基本类型
+     * 
      * @param clazz 类
      * @return String
      */
     public static String getObjectType(Class<?> clazz) {
         if (clazz == null) {
             return StringUtils.EMPTY;
-        }
-        else if (isAtomic(clazz)) {
+        } else if (isAtomic(clazz)) {
             return clazz.getSimpleName();
-        }
-        else {
+        } else {
             return "Object";
         }
     }
 
     /**
      * 反射调用方法
-     * @param object 兑现
+     * 
+     * @param object     兑现
      * @param methodName 方法
-     * @param args 参数
+     * @param args       参数
      * @return T
      */
     @SuppressWarnings("unchecked")
     public static <T> T invokeMethod(Object object, String methodName, Object... args) {
         try {
             return (T) MethodUtils.invokeMethod(object, methodName, args);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             LOGGER.error("Error invokeMethod:", e);
         }
         return null;
@@ -214,17 +228,17 @@ public class ClassesUtil {
 
     /**
      * 反射调用方法
-     * @param object 对象
+     * 
+     * @param object     对象
      * @param methodName 方法
-     * @param args 参数
+     * @param args       参数
      * @return T
      */
     @SuppressWarnings("unchecked")
     public static <T> T invokeMethod(Object object, String methodName, Object[] args, Class<?>[] parameterTypes) {
         try {
             return (T) MethodUtils.invokeMethod(object, methodName, args, parameterTypes);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             LOGGER.error("Error invokeMethod:", e);
         }
         return null;
@@ -232,16 +246,16 @@ public class ClassesUtil {
 
     /**
      * 反射调用静态方法
-     * @param clazz 类
+     * 
+     * @param clazz      类
      * @param methodName 方法
-     * @param args 参数
+     * @param args       参数
      * @return Object
      */
     public static <T> Object invokeStaticMethod(Class<T> clazz, String methodName, Object... args) {
         try {
             return MethodUtils.invokeStaticMethod(clazz, methodName, args);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             LOGGER.error("Error invokeStaticMethod:", e);
         }
         return null;
@@ -249,17 +263,17 @@ public class ClassesUtil {
 
     /**
      * 反射调用静态方法
-     * @param clazz 类
+     * 
+     * @param clazz      类
      * @param methodName 方法
-     * @param args 参数
+     * @param args       参数
      * @return Object
      */
     public static <T> Object invokeStaticMethod(Class<T> clazz, String methodName, Object[] args,
             Class<?>[] parameterTypes) {
         try {
             return MethodUtils.invokeStaticMethod(clazz, methodName, args, parameterTypes);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             LOGGER.error("Error invokeStaticMethod:", e);
         }
         return null;
@@ -267,25 +281,26 @@ public class ClassesUtil {
 
     /**
      * 获取 get 方法
+     * 
      * @param clazz 类
      * @return Method[]
      */
     public static <T> List<Method> getGetters(Class<T> clazz) {
         Method[] methods = clazz.getMethods();
         List<Method> getters = new ArrayList<>();
-        Arrays.stream(methods)
-            .filter(method -> method.getName().startsWith("get") || method.getName().startsWith("is"))
-            .forEach(method -> {
-                Class<?>[] paramTypes = method.getParameterTypes();
-                if (paramTypes.length == 0) {
-                    getters.add(method);
-                }
-            });
+        Arrays.stream(methods).filter(method -> method.getName().startsWith("get") || method.getName().startsWith("is"))
+                .forEach(method -> {
+                    Class<?>[] paramTypes = method.getParameterTypes();
+                    if (paramTypes.length == 0) {
+                        getters.add(method);
+                    }
+                });
         return getters;
     }
 
     /**
      * 获取 set 方法
+     * 
      * @param clazz 类
      * @return Method[]
      */
@@ -303,19 +318,18 @@ public class ClassesUtil {
 
     /**
      * 获取属性
+     * 
      * @param method 方法
      * @return String
      */
     public static String getProperty(Method method) {
         PropertyDescriptor pd = BeanUtils.findPropertyForMethod(method);
-        if (pd != null) {
-            return pd.getName();
-        }
-        return null;
+        return pd.getName();
     }
 
     /**
      * 转换为时间类型
+     * 
      * @param value 对象
      * @return Long
      */
@@ -333,6 +347,7 @@ public class ClassesUtil {
 
     /**
      * 获取非基本类型对象
+     * 
      * @param clazz 类
      * @return List<Class < ?>>
      */

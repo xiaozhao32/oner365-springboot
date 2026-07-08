@@ -2,6 +2,7 @@ package com.oner365.init;
 
 import jakarta.annotation.PreDestroy;
 
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
@@ -34,7 +35,7 @@ public class StartupRunner implements ApplicationRunner {
     private final Logger logger = LoggerFactory.getLogger(StartupRunner.class);
 
     @Override
-    public void run(ApplicationArguments args) {
+    public void run(@NonNull ApplicationArguments args) {
         initEnum();
     }
 

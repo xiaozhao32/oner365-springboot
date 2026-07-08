@@ -1,5 +1,6 @@
 package com.oner365.queue.service.redis;
 
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.connection.Message;
@@ -18,7 +19,7 @@ public class RedisMessageReceiver implements MessageListener {
     private static final Logger LOGGER = LoggerFactory.getLogger(RedisMessageReceiver.class);
 
     @Override
-    public void onMessage(Message message, byte[] pattern) {
+    public void onMessage(@NonNull Message message, @SuppressWarnings("null") byte[] pattern) {
         String messagePattern = new String(pattern);
         String messageBody = new String(message.getBody());
         LOGGER.info("Redis receiver pattern:{} message: {}", messagePattern, messageBody);

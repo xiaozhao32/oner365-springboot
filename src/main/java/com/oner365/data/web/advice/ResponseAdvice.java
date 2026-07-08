@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Base64;
 import java.util.List;
 
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.MethodParameter;
@@ -46,14 +48,16 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
     private ObjectMapper objectMapper;
 
     @Override
-    public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
+    public boolean supports(@NonNull MethodParameter returnType,
+            @NonNull Class<? extends HttpMessageConverter<?>> converterType) {
         return true;
     }
 
     @Override
-    public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType,
-            Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request,
-            ServerHttpResponse response) {
+    public Object beforeBodyWrite(@Nullable Object body, @NonNull MethodParameter returnType,
+            @NonNull MediaType selectedContentType,
+            @NonNull Class<? extends HttpMessageConverter<?>> selectedConverterType, @NonNull ServerHttpRequest request,
+            @NonNull ServerHttpResponse response) {
         if (RequestUtils.validateClientWhites(request.getURI().getPath(), clientWhiteProperties.getWhites())) {
             // 客户端白名单公钥加密认证
             String sign = null;
@@ -78,8 +82,7 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
         if (body instanceof String str) {
             try {
                 return objectMapper.writeValueAsString(ResponseData.success(str));
-            }
-            catch (JacksonException e) {
+            } catch (JacksonException e) {
                 LOGGER.error("beforeBodyWrite error:", e);
             }
         }
@@ -95,14 +98,14 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
 
         if (body instanceof ResponseData<?> data) {
             return ResponseData.success(Base64.getEncoder()
-                .encodeToString(Cipher.encodeSms4(JSON.toJSONString(data), key.substring(0, 16).getBytes())));
+                    .encodeToString(Cipher.encodeSms4(JSON.toJSONString(data), key.substring(0, 16).getBytes())));
         }
         if (body instanceof byte[] b) {
             return Base64.getEncoder().encodeToString(Cipher.encodeSms4(b, key.substring(0, 16).getBytes())).getBytes();
         }
         if (body != null) {
             return ResponseData.success(Base64.getEncoder()
-                .encodeToString(Cipher.encodeSms4(body.toString(), key.substring(0, 16).getBytes())));
+                    .encodeToString(Cipher.encodeSms4(body.toString(), key.substring(0, 16).getBytes())));
         }
         return null;
     }

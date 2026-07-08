@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEventPublisher;
@@ -48,7 +50,8 @@ public class TokenInterceptor implements HandlerInterceptor {
      * Handler
      */
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object object) {
+    public boolean preHandle(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response,
+            @Nullable Object object) {
 
         // 验证白名单
         if (validateIgnoreWhites(request)) {
@@ -66,7 +69,8 @@ public class TokenInterceptor implements HandlerInterceptor {
 
     /**
      * 返回错误消息
-     * @param request HttpServletRequest
+     * 
+     * @param request  HttpServletRequest
      * @param response HttpServletResponse
      * @return boolean
      */
@@ -81,8 +85,7 @@ public class TokenInterceptor implements HandlerInterceptor {
             LOGGER.error("[{}] Client Unauthorized error. Request uri: {}", HttpStatus.UNAUTHORIZED.value(),
                     request.getRequestURI());
             response.getOutputStream().write(JSON.toJSONString(responseData).getBytes());
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             LOGGER.error("TokenInterceptor setUnauthorizedResponse error", e);
         }
         return false;
@@ -90,6 +93,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 
     /**
      * 验证白名单
+     * 
      * @param request HttpServletRequest
      * @return boolean
      */
@@ -103,6 +107,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 
     /**
      * 验证token
+     * 
      * @param request HttpServletRequest
      * @return boolean
      */
@@ -110,8 +115,7 @@ public class TokenInterceptor implements HandlerInterceptor {
         try {
             String auth = request.getHeader(HttpHeaders.AUTHORIZATION);
             return JwtUtils.validateToken(auth, tokenProperties.getSecret());
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             LOGGER.error("TokenInterceptor validateToken error: {}", request.getRequestURI(), e);
         }
         return false;

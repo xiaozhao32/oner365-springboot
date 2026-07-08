@@ -1,7 +1,6 @@
 package com.oner365.monitor.service.impl;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -75,30 +74,18 @@ public class SysTaskServiceImpl implements ISysTaskService {
 
     @Override
     public PageInfo<SysTaskDto> pageList(QueryCriteriaBean data) {
-        try {
-            Page<SysTask> page = dao.findAll(QueryUtils.buildCriteria(data), QueryUtils.buildPageRequest(data));
-            return convert(page, SysTaskDto.class);
-        }
-        catch (Exception e) {
-            LOGGER.error("Error pageList: ", e);
-        }
-        return null;
+        Page<SysTask> page = dao.findAll(QueryUtils.buildCriteria(data), QueryUtils.buildPageRequest(data));
+        return convert(page, SysTaskDto.class);
     }
 
     @Override
     public List<SysTaskDto> findList(QueryCriteriaBean data) {
-        try {
-            if (data.getOrder() == null) {
-                return convert(dao.findAll(QueryUtils.buildCriteria(data)), SysTaskDto.class);
-            }
-            List<SysTask> list = dao.findAll(QueryUtils.buildCriteria(data),
-                    Objects.requireNonNull(QueryUtils.buildSortRequest(data.getOrder())));
-            return convert(list, SysTaskDto.class);
+        if (data.getOrder() == null) {
+            return convert(dao.findAll(QueryUtils.buildCriteria(data)), SysTaskDto.class);
         }
-        catch (Exception e) {
-            LOGGER.error("Error findList: ", e);
-        }
-        return Collections.emptyList();
+        List<SysTask> list = dao.findAll(QueryUtils.buildCriteria(data),
+                Objects.requireNonNull(QueryUtils.buildSortRequest(data.getOrder())));
+        return convert(list, SysTaskDto.class);
     }
 
     @Override
@@ -140,18 +127,19 @@ public class SysTaskServiceImpl implements ISysTaskService {
     @Override
     @Transactional(rollbackFor = ProjectRuntimeException.class)
     public Boolean deleteTask(String id) {
-        try {
-            Optional<SysTask> optional = dao.findById(id);
-            if (optional.isPresent()) {
-                SysTask task = optional.get();
-                String taskGroup = task.getTaskGroup();
-                dao.deleteById(id);
+        Optional<SysTask> optional = dao.findById(id);
+        if (optional.isPresent()) {
+            SysTask task = optional.get();
+            String taskGroup = task.getTaskGroup();
+            dao.deleteById(id);
+            try {
                 scheduler.deleteJob(ScheduleUtils.getJobKey(id, taskGroup));
-                return Boolean.TRUE;
             }
-        }
-        catch (SchedulerException e) {
-            LOGGER.error("deleteTask error", e);
+            catch (SchedulerException e) {
+                LOGGER.error("deleteTask scheduler error", e);
+                throw new ProjectRuntimeException("删除定时任务失败", e);
+            }
+            return Boolean.TRUE;
         }
         return Boolean.FALSE;
     }

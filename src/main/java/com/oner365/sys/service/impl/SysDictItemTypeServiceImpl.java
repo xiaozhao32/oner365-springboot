@@ -1,15 +1,12 @@
 package com.oner365.sys.service.impl;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 import jakarta.annotation.Resource;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
@@ -29,6 +26,7 @@ import com.oner365.data.jpa.query.Restrictions;
 import com.oner365.data.redis.annotation.GeneratorCache;
 import com.oner365.data.redis.annotation.RedisCacheAble;
 import com.oner365.sys.constants.SysConstants;
+import com.oner365.sys.dao.ISysDictItemDao;
 import com.oner365.sys.dao.ISysDictItemTypeDao;
 import com.oner365.sys.dto.SysDictItemDto;
 import com.oner365.sys.dto.SysDictItemTypeDto;
@@ -45,7 +43,6 @@ import com.oner365.sys.vo.SysDictItemTypeVo;
 @Service
 public class SysDictItemTypeServiceImpl implements ISysDictItemTypeService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SysDictItemTypeServiceImpl.class);
 
     private static final String CACHE_NAME = "SysDictItemType";
 
@@ -56,6 +53,9 @@ public class SysDictItemTypeServiceImpl implements ISysDictItemTypeService {
 
     @Resource
     private ISysDictItemService sysDictItemService;
+
+    @Resource
+    private ISysDictItemDao dictItemDao;
 
     @Override
     @Transactional(rollbackFor = ProjectRuntimeException.class)
@@ -73,60 +73,37 @@ public class SysDictItemTypeServiceImpl implements ISysDictItemTypeService {
     @Override
     @RedisCacheAble(value = CACHE_NAME, key = PublicConstants.KEY_ID)
     public SysDictItemTypeDto getById(String id) {
-        try {
-            Optional<SysDictItemType> optional = dao.findById(id);
-            return convert(optional.orElse(null), SysDictItemTypeDto.class);
-        }
-        catch (Exception e) {
-            LOGGER.error("Error getById: ", e);
-        }
-        return null;
+        Optional<SysDictItemType> optional = dao.findById(id);
+        return convert(optional.orElse(null), SysDictItemTypeDto.class);
     }
 
     @Override
     @GeneratorCache(CACHE_NAME)
     public PageInfo<SysDictItemTypeDto> pageList(QueryCriteriaBean data) {
-        try {
-            Page<SysDictItemType> page = dao.findAll(QueryUtils.buildCriteria(data), QueryUtils.buildPageRequest(data));
-            return convert(page, SysDictItemTypeDto.class);
-        }
-        catch (Exception e) {
-            LOGGER.error("Error pageList: ", e);
-        }
-        return null;
+        Page<SysDictItemType> page = dao.findAll(QueryUtils.buildCriteria(data), QueryUtils.buildPageRequest(data));
+        return convert(page, SysDictItemTypeDto.class);
     }
 
     @Override
     @GeneratorCache(CACHE_NAME)
     public List<SysDictItemTypeDto> findList(QueryCriteriaBean data) {
-        try {
-            if (data.getOrder() == null) {
-                return convert(dao.findAll(QueryUtils.buildCriteria(data)), SysDictItemTypeDto.class);
-            }
-            List<SysDictItemType> list = dao.findAll(QueryUtils.buildCriteria(data),
-                    Objects.requireNonNull(QueryUtils.buildSortRequest(data.getOrder())));
-            return convert(list, SysDictItemTypeDto.class);
+        if (data.getOrder() == null) {
+            return convert(dao.findAll(QueryUtils.buildCriteria(data)), SysDictItemTypeDto.class);
         }
-        catch (Exception e) {
-            LOGGER.error("Error findList: ", e);
-        }
-        return Collections.emptyList();
+        List<SysDictItemType> list = dao.findAll(QueryUtils.buildCriteria(data),
+                Objects.requireNonNull(QueryUtils.buildSortRequest(data.getOrder())));
+        return convert(list, SysDictItemTypeDto.class);
     }
 
     @Override
     public Boolean checkCode(String id, String code) {
-        try {
-            Criteria<SysDictItemType> criteria = new Criteria<>();
-            criteria.add(Restrictions.eq(SysConstants.TYPE_CODE, DataUtils.trimToNull(code)));
-            if (!DataUtils.isEmpty(id)) {
-                criteria.add(Restrictions.ne(SysConstants.ID, id));
-            }
-            if (dao.count(criteria) > 0) {
-                return Boolean.TRUE;
-            }
+        Criteria<SysDictItemType> criteria = new Criteria<>();
+        criteria.add(Restrictions.eq(SysConstants.TYPE_CODE, DataUtils.trimToNull(code)));
+        if (!DataUtils.isEmpty(id)) {
+            criteria.add(Restrictions.ne(SysConstants.ID, id));
         }
-        catch (Exception e) {
-            LOGGER.error("Error checkCode:", e);
+        if (dao.count(criteria) > 0) {
+            return Boolean.TRUE;
         }
         return Boolean.FALSE;
     }
@@ -142,7 +119,10 @@ public class SysDictItemTypeServiceImpl implements ISysDictItemTypeService {
         whereList.add(attribute);
         data.setWhereList(whereList);
         List<SysDictItemDto> dictItemList = sysDictItemService.findList(data);
-        dictItemList.forEach(dictItem -> sysDictItemService.deleteById(dictItem.getId()));
+        List<String> dictItemIds = dictItemList.stream().map(SysDictItemDto::getId).toList();
+        if (!dictItemIds.isEmpty()) {
+            dictItemDao.deleteAllById(dictItemIds);
+        }
         dao.deleteById(id);
         return Boolean.TRUE;
     }
@@ -150,15 +130,9 @@ public class SysDictItemTypeServiceImpl implements ISysDictItemTypeService {
     @Override
     @GeneratorCache(CACHE_NAME)
     public List<SysDictItemTypeDto> findListByCodes(List<String> codeList) {
-        try {
-            Criteria<SysDictItemType> criteria = new Criteria<>();
-            criteria.add(Restrictions.in(SysConstants.TYPE_CODE, codeList, false));
-            return convert(dao.findAll(criteria), SysDictItemTypeDto.class);
-        }
-        catch (Exception e) {
-            LOGGER.error("Error findListByCodes: ", e);
-        }
-        return Collections.emptyList();
+        Criteria<SysDictItemType> criteria = new Criteria<>();
+        criteria.add(Restrictions.in(SysConstants.TYPE_CODE, codeList, false));
+        return convert(dao.findAll(criteria), SysDictItemTypeDto.class);
     }
 
     @Override

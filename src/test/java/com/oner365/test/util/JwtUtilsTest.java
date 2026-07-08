@@ -36,7 +36,7 @@ class JwtUtilsTest extends BaseUtilsTest {
         String token = JwtUtils.generateToken(json.toJSONString(), expireTime, KEY);
         // 打印token
         logger.info("io.jsonwebtoken.Jwts token: {}", token);
-        Assertions.assertNotEquals(null, token);
+        Assertions.assertNotNull(token);
         // 解密token
         String body = JwtUtils.getUsernameFromToken(token, KEY);
         logger.info("io.jsonwebtoken.Jwts parse token: {}", body);
@@ -45,7 +45,7 @@ class JwtUtilsTest extends BaseUtilsTest {
         Assertions.assertEquals(Boolean.TRUE, isValid);
 
         logger.info("io.jsonwebtoken.Jwts base64 decode:");
-        Assertions.assertNotEquals(null, token);
+        Assertions.assertNotNull(token);
         Arrays.stream(token.split("\\."))
             .filter(s -> s.startsWith("ey"))
             .forEach(s -> logger.info("io.jsonwebtoken.Jwts content:{}",
@@ -60,7 +60,7 @@ class JwtUtilsTest extends BaseUtilsTest {
         String token = JwtTools.generateToken(json.toJSONString(), expireTime, KEY);
         // 打印token
         logger.info("com.auth0.jwt token: {}", token);
-        Assertions.assertNotEquals(null, token);
+        Assertions.assertNotNull(token);
         // 解密token
         DecodedJWT jwt = JwtTools.decodeToken(token, KEY);
         logger.info("com.auth0.jwt parse token: {}", Objects.requireNonNull(jwt).getClaim("body").asString());

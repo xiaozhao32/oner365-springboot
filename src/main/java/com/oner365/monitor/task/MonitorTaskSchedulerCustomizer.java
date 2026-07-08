@@ -1,5 +1,6 @@
 package com.oner365.monitor.task;
 
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.task.ThreadPoolTaskSchedulerCustomizer;
@@ -19,14 +20,14 @@ public class MonitorTaskSchedulerCustomizer implements ThreadPoolTaskSchedulerCu
     private final Logger logger = LoggerFactory.getLogger(MonitorTaskSchedulerCustomizer.class);
 
     @Override
-    public void customize(ThreadPoolTaskScheduler taskScheduler) {
+    public void customize(@NonNull ThreadPoolTaskScheduler taskScheduler) {
         taskScheduler.setErrorHandler(new MonitorErrorHandler());
     }
 
     private class MonitorErrorHandler implements ErrorHandler {
 
         @Override
-        public void handleError(Throwable throwable) {
+        public void handleError(@NonNull Throwable throwable) {
             logger.error("ErrorHandler", throwable);
         }
 

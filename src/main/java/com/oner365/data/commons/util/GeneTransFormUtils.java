@@ -1,6 +1,5 @@
 package com.oner365.data.commons.util;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -85,21 +84,19 @@ public class GeneTransFormUtils {
      * @return boolean
      */
     public static boolean match(JSONObject matchJson, JSONObject geneJson) {
-        boolean flag = true;
-        for (Map.Entry<String, Object> entry : matchJson.entrySet()) {
+        // 使用 Stream API 替代显式 for 循环：只有当 geneJson 中存在该 key 时才做匹配检查，其他情况视为通过
+        return matchJson.entrySet().stream().allMatch(entry -> {
             String key = entry.getKey();
-            if (geneJson.getString(key) != null) {
-                List<String> value = new ArrayList<>(
-                        Arrays.asList(matchJson.getString(key).split(PublicConstants.DELIMITER)));
-                List<String> gene = new ArrayList<>(
-                        Arrays.asList(geneJson.getString(key).split(PublicConstants.DELIMITER)));
-                if (value.size() != value.stream().filter(gene::contains).count()) {
-                    flag = false;
-                    break;
-                }
+            String geneVal = geneJson.getString(key);
+            if (geneVal == null) {
+                // geneJson 不包含该 key，等同于原逻辑中的跳过
+                return true;
             }
-        }
-        return flag;
+            List<String> value = Arrays.asList(matchJson.getString(key).split(PublicConstants.DELIMITER));
+            List<String> gene = Arrays.asList(geneVal.split(PublicConstants.DELIMITER));
+            long matched = value.stream().filter(gene::contains).count();
+            return value.size() == matched;
+        });
     }
 
     /**

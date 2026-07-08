@@ -1,13 +1,10 @@
 package com.oner365.monitor.service.impl;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +28,6 @@ import jakarta.annotation.Resource;
 @Service
 public class SysTaskLogServiceImpl implements ISysTaskLogService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SysTaskLogServiceImpl.class);
 
     @Resource
     private ISysTaskLogDao dao;
@@ -41,30 +37,18 @@ public class SysTaskLogServiceImpl implements ISysTaskLogService {
 
     @Override
     public PageInfo<SysTaskLogDto> pageList(QueryCriteriaBean data) {
-        try {
-            Page<SysTaskLog> page = dao.findAll(QueryUtils.buildCriteria(data), QueryUtils.buildPageRequest(data));
-            return convert(page, SysTaskLogDto.class);
-        }
-        catch (Exception e) {
-            LOGGER.error("Error pageList: ", e);
-        }
-        return null;
+        Page<SysTaskLog> page = dao.findAll(QueryUtils.buildCriteria(data), QueryUtils.buildPageRequest(data));
+        return convert(page, SysTaskLogDto.class);
     }
 
     @Override
     public List<SysTaskLogDto> findList(QueryCriteriaBean data) {
-        try {
-            if (data.getOrder() == null) {
-                return convert(dao.findAll(QueryUtils.buildCriteria(data)), SysTaskLogDto.class);
-            }
-            List<SysTaskLog> list = dao.findAll(QueryUtils.buildCriteria(data),
-                    Objects.requireNonNull(QueryUtils.buildSortRequest(data.getOrder())));
-            return convert(list, SysTaskLogDto.class);
+        if (data.getOrder() == null) {
+            return convert(dao.findAll(QueryUtils.buildCriteria(data)), SysTaskLogDto.class);
         }
-        catch (Exception e) {
-            LOGGER.error("Error findList: ", e);
-        }
-        return Collections.emptyList();
+        List<SysTaskLog> list = dao.findAll(QueryUtils.buildCriteria(data),
+                Objects.requireNonNull(QueryUtils.buildSortRequest(data.getOrder())));
+        return convert(list, SysTaskLogDto.class);
     }
 
     @Override
@@ -86,14 +70,8 @@ public class SysTaskLogServiceImpl implements ISysTaskLogService {
 
     @Override
     public Boolean deleteTaskLogById(String id) {
-        try {
-            dao.deleteById(id);
-            return Boolean.TRUE;
-        }
-        catch (Exception e) {
-            LOGGER.error("Error deleteTaskLogById:", e);
-        }
-        return Boolean.FALSE;
+        dao.deleteById(id);
+        return Boolean.TRUE;
     }
 
     @Override
@@ -104,14 +82,8 @@ public class SysTaskLogServiceImpl implements ISysTaskLogService {
 
     @Override
     public Boolean deleteTaskLogByCreateTime(String time) {
-        try {
-            dao.deleteTaskLogByCreateTime(time);
-            return Boolean.TRUE;
-        }
-        catch (Exception e) {
-            LOGGER.error("Error deleteTaskLogByCreateTime: ", e);
-        }
-        return Boolean.FALSE;
+        dao.deleteTaskLogByCreateTime(time);
+        return Boolean.TRUE;
     }
 
 }

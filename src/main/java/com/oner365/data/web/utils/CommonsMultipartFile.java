@@ -7,11 +7,14 @@ import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import javax.annotation.Nonnull;
+
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jspecify.annotations.NonNull;
 import org.springframework.core.log.LogFormatUtils;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -70,12 +73,12 @@ public class CommonsMultipartFile implements MultipartFile, Serializable {
     }
 
     @Override
-    public String getName() {
+    public @NonNull String getName() {
         return this.fileItem.getFieldName();
     }
 
     @Override
-    public String getOriginalFilename() {
+    public @NonNull String getOriginalFilename() {
         String filename = this.fileItem.getName();
         if (filename == null) {
             // Should never happen.
@@ -103,7 +106,7 @@ public class CommonsMultipartFile implements MultipartFile, Serializable {
     }
 
     @Override
-    public String getContentType() {
+    public @NonNull String getContentType() {
         return this.fileItem.getContentType();
     }
 
@@ -118,7 +121,7 @@ public class CommonsMultipartFile implements MultipartFile, Serializable {
     }
 
     @Override
-    public byte[] getBytes() {
+    public @Nonnull byte[] getBytes() {
         if (!isAvailable()) {
             throw new IllegalStateException("File has been moved - cannot be read again");
         }
@@ -127,7 +130,7 @@ public class CommonsMultipartFile implements MultipartFile, Serializable {
     }
 
     @Override
-    public InputStream getInputStream() throws IOException {
+    public @NonNull InputStream getInputStream() throws IOException {
         if (!isAvailable()) {
             throw new IllegalStateException("File has been moved - cannot be read again");
         }
@@ -136,7 +139,7 @@ public class CommonsMultipartFile implements MultipartFile, Serializable {
     }
 
     @Override
-    public void transferTo(File dest) throws IOException, IllegalStateException {
+    public void transferTo(@NonNull File dest) throws IOException, IllegalStateException {
         if (!isAvailable()) {
             throw new IllegalStateException("File has already been moved - cannot be transferred again");
         }
@@ -171,7 +174,7 @@ public class CommonsMultipartFile implements MultipartFile, Serializable {
     }
 
     @Override
-    public void transferTo(Path dest) throws IOException, IllegalStateException {
+    public void transferTo(@NonNull Path dest) throws IOException, IllegalStateException {
         if (!isAvailable()) {
             throw new IllegalStateException("File has already been moved - cannot be transferred again");
         }

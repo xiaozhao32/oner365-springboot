@@ -1,12 +1,9 @@
 package com.oner365.sys.service.impl;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -41,7 +38,6 @@ import jakarta.annotation.Resource;
 @Service
 public class SysConfigServiceImpl implements ISysConfigService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SysConfigServiceImpl.class);
 
     private static final String CACHE_NAME = "SysConfig";
 
@@ -51,44 +47,27 @@ public class SysConfigServiceImpl implements ISysConfigService {
     @Override
     @GeneratorCache(CACHE_NAME)
     public PageInfo<SysConfigDto> pageList(QueryCriteriaBean data) {
-        try {
-            Page<SysConfig> page = dao.findAll(QueryUtils.buildCriteria(data), QueryUtils.buildPageRequest(data));
-            return convert(page, SysConfigDto.class);
-        }
-        catch (Exception e) {
-            LOGGER.error("Error pageList: ", e);
-        }
-        return null;
+        Page<SysConfig> page = dao.findAll(QueryUtils.buildCriteria(data), QueryUtils.buildPageRequest(data));
+        return convert(page, SysConfigDto.class);
     }
 
     @Override
     @GeneratorCache(CACHE_NAME)
     public List<SysConfigDto> findList(QueryCriteriaBean data) {
-        try {
-            if (data.getOrder() == null) {
-                return convert(dao.findAll(QueryUtils.buildCriteria(data)), SysConfigDto.class);
-            }
-            List<SysConfig> list = dao.findAll(QueryUtils.buildCriteria(data),
-                    Objects.requireNonNull(QueryUtils.buildSortRequest(data.getOrder())));
-            return convert(list, SysConfigDto.class);
+        if (data.getOrder() == null) {
+            return convert(dao.findAll(QueryUtils.buildCriteria(data)), SysConfigDto.class);
         }
-        catch (Exception e) {
-            LOGGER.error("Error findList: ", e);
-        }
-        return Collections.emptyList();
+        List<SysConfig> list = dao.findAll(QueryUtils.buildCriteria(data),
+                Objects.requireNonNull(QueryUtils.buildSortRequest(data.getOrder())));
+        return convert(list, SysConfigDto.class);
     }
 
     @Override
     @RedisCacheAble(value = CACHE_NAME, key = PublicConstants.KEY_ID)
     public SysConfigDto getById(String id) {
-        try {
-            Optional<SysConfig> optional = dao.findById(id);
-            if (optional.isPresent()) {
-                return convert(optional.get(), SysConfigDto.class);
-            }
-        }
-        catch (Exception e) {
-            LOGGER.error("Error getById: ", e);
+        Optional<SysConfig> optional = dao.findById(id);
+        if (optional.isPresent()) {
+            return convert(optional.get(), SysConfigDto.class);
         }
         return null;
     }
@@ -127,18 +106,13 @@ public class SysConfigServiceImpl implements ISysConfigService {
 
     @Override
     public Boolean checkConfigName(String id, String configName) {
-        try {
-            Criteria<SysConfig> criteria = new Criteria<>();
-            criteria.add(Restrictions.eq(SysConstants.CONFIG_NAME, DataUtils.trimToNull(configName)));
-            if (!DataUtils.isEmpty(id)) {
-                criteria.add(Restrictions.ne(SysConstants.ID, id));
-            }
-            if (dao.count(criteria) > 0) {
-                return Boolean.TRUE;
-            }
+        Criteria<SysConfig> criteria = new Criteria<>();
+        criteria.add(Restrictions.eq(SysConstants.CONFIG_NAME, DataUtils.trimToNull(configName)));
+        if (!DataUtils.isEmpty(id)) {
+            criteria.add(Restrictions.ne(SysConstants.ID, id));
         }
-        catch (Exception e) {
-            LOGGER.error("Error checkConfigName:", e);
+        if (dao.count(criteria) > 0) {
+            return Boolean.TRUE;
         }
         return Boolean.FALSE;
     }

@@ -1,14 +1,11 @@
 package com.oner365.sys.service.impl;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import jakarta.annotation.Resource;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -35,44 +32,25 @@ import com.oner365.sys.vo.SysLogVo;
 @Component
 public class SysLogServiceImpl implements ISysLogService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SysLogServiceImpl.class);
 
     @Resource
     private ISysLogDao dao;
 
     @Override
     public PageInfo<SysLogDto> pageList(QueryCriteriaBean data) {
-        try {
-            Page<SysLog> page = dao.findAll(QueryUtils.buildCriteria(data), QueryUtils.buildPageRequest(data));
-            return convert(page, SysLogDto.class);
-        }
-        catch (Exception e) {
-            LOGGER.error("Error pageList: ", e);
-        }
-        return null;
+        Page<SysLog> page = dao.findAll(QueryUtils.buildCriteria(data), QueryUtils.buildPageRequest(data));
+        return convert(page, SysLogDto.class);
     }
 
     @Override
     public List<SysLogDto> findList(QueryCriteriaBean data) {
-        try {
-            return convert(dao.findAll(QueryUtils.buildCriteria(data)), SysLogDto.class);
-        }
-        catch (Exception e) {
-            LOGGER.error("Error findList: ", e);
-        }
-        return Collections.emptyList();
+        return convert(dao.findAll(QueryUtils.buildCriteria(data)), SysLogDto.class);
     }
 
     @Override
     public SysLogDto getById(String id) {
-        try {
-            Optional<SysLog> optional = dao.findById(id);
-            return convert(optional.orElse(null), SysLogDto.class);
-        }
-        catch (Exception e) {
-            LOGGER.error("Error getById: ", e);
-        }
-        return null;
+        Optional<SysLog> optional = dao.findById(id);
+        return convert(optional.orElse(null), SysLogDto.class);
     }
 
     @Async

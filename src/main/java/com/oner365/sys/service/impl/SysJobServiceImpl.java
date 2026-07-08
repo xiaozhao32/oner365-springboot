@@ -1,14 +1,11 @@
 package com.oner365.sys.service.impl;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 import jakarta.annotation.Resource;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -37,7 +34,6 @@ import com.oner365.sys.vo.SysJobVo;
 @Service
 public class SysJobServiceImpl implements ISysJobService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SysJobServiceImpl.class);
 
     private static final String CACHE_NAME = "SysJob";
 
@@ -47,44 +43,27 @@ public class SysJobServiceImpl implements ISysJobService {
     @Override
     @GeneratorCache(CACHE_NAME)
     public PageInfo<SysJobDto> pageList(QueryCriteriaBean data) {
-        try {
-            Page<SysJob> page = dao.findAll(QueryUtils.buildCriteria(data), QueryUtils.buildPageRequest(data));
-            return convert(page, SysJobDto.class);
-        }
-        catch (Exception e) {
-            LOGGER.error("Error pageList: ", e);
-        }
-        return null;
+        Page<SysJob> page = dao.findAll(QueryUtils.buildCriteria(data), QueryUtils.buildPageRequest(data));
+        return convert(page, SysJobDto.class);
     }
 
     @Override
     @GeneratorCache(CACHE_NAME)
     public List<SysJobDto> findList(QueryCriteriaBean data) {
-        try {
-            if (data.getOrder() == null) {
-                return convert(dao.findAll(QueryUtils.buildCriteria(data)), SysJobDto.class);
-            }
-            List<SysJob> list = dao.findAll(QueryUtils.buildCriteria(data),
-                    Objects.requireNonNull(QueryUtils.buildSortRequest(data.getOrder())));
-            return convert(list, SysJobDto.class);
+        if (data.getOrder() == null) {
+            return convert(dao.findAll(QueryUtils.buildCriteria(data)), SysJobDto.class);
         }
-        catch (Exception e) {
-            LOGGER.error("Error findList: ", e);
-        }
-        return Collections.emptyList();
+        List<SysJob> list = dao.findAll(QueryUtils.buildCriteria(data),
+                Objects.requireNonNull(QueryUtils.buildSortRequest(data.getOrder())));
+        return convert(list, SysJobDto.class);
     }
 
     @Override
     @RedisCacheAble(value = CACHE_NAME, key = PublicConstants.KEY_ID)
     public SysJobDto getById(String id) {
-        try {
-            Optional<SysJob> optional = dao.findById(id);
-            if (optional.isPresent()) {
-                return convert(optional.orElse(null), SysJobDto.class);
-            }
-        }
-        catch (Exception e) {
-            LOGGER.error("Error getById: ", e);
+        Optional<SysJob> optional = dao.findById(id);
+        if (optional.isPresent()) {
+            return convert(optional.orElse(null), SysJobDto.class);
         }
         return null;
     }

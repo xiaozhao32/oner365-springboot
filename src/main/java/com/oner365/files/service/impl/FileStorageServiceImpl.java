@@ -1,15 +1,12 @@
 package com.oner365.files.service.impl;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 import jakarta.annotation.Resource;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -36,7 +33,6 @@ import com.oner365.files.vo.SysFileStorageVo;
 @Service
 public class FileStorageServiceImpl implements IFileStorageService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(FileStorageServiceImpl.class);
 
     private static final String CACHE_NAME = "FileStorage";
 
@@ -46,44 +42,26 @@ public class FileStorageServiceImpl implements IFileStorageService {
     @Override
     @GeneratorCache(CACHE_NAME)
     public PageInfo<SysFileStorageDto> pageList(QueryCriteriaBean data) {
-        try {
-            Page<SysFileStorage> page = dao.findAll(QueryUtils.buildCriteria(data), QueryUtils.buildPageRequest(data));
-            return convert(page, SysFileStorageDto.class);
-        }
-        catch (Exception e) {
-            LOGGER.error("Error pageList: ", e);
-        }
-        return null;
+        Page<SysFileStorage> page = dao.findAll(QueryUtils.buildCriteria(data), QueryUtils.buildPageRequest(data));
+        return convert(page, SysFileStorageDto.class);
     }
 
     @Override
     @GeneratorCache(CACHE_NAME)
     public List<SysFileStorageDto> findList(QueryCriteriaBean data) {
-        try {
-            if (data.getOrder() == null) {
-                return convert(dao.findAll(QueryUtils.buildCriteria(data)), SysFileStorageDto.class);
-            }
-            List<SysFileStorage> list = dao.findAll(QueryUtils.buildCriteria(data),
-                    Objects.requireNonNull(QueryUtils.buildSortRequest(data.getOrder())));
-            return convert(list, SysFileStorageDto.class);
+        if (data.getOrder() == null) {
+            return convert(dao.findAll(QueryUtils.buildCriteria(data)), SysFileStorageDto.class);
         }
-        catch (Exception e) {
-            LOGGER.error("Error findList: ", e);
-        }
-        return Collections.emptyList();
+        List<SysFileStorage> list = dao.findAll(QueryUtils.buildCriteria(data),
+                Objects.requireNonNull(QueryUtils.buildSortRequest(data.getOrder())));
+        return convert(list, SysFileStorageDto.class);
     }
 
     @Override
     @RedisCacheAble(value = CACHE_NAME, key = PublicConstants.KEY_ID)
     public SysFileStorageDto getById(String id) {
-        try {
-            Optional<SysFileStorage> optional = dao.findById(id);
-            return convert(optional.orElse(null), SysFileStorageDto.class);
-        }
-        catch (Exception e) {
-            LOGGER.error("Error getById: ", e);
-        }
-        return null;
+        Optional<SysFileStorage> optional = dao.findById(id);
+        return convert(optional.orElse(null), SysFileStorageDto.class);
     }
 
     @Override
@@ -99,14 +77,8 @@ public class FileStorageServiceImpl implements IFileStorageService {
     @Transactional(rollbackFor = ProjectRuntimeException.class)
     @CacheEvict(value = CACHE_NAME, allEntries = true)
     public Boolean deleteById(String id) {
-        try {
-            dao.deleteById(id);
-            return Boolean.TRUE;
-        }
-        catch (Exception e) {
-            LOGGER.error("Error deleteById: ", e);
-        }
-        return Boolean.FALSE;
+        dao.deleteById(id);
+        return Boolean.TRUE;
     }
 
 }

@@ -9,7 +9,7 @@ ${AnsiColor.BRIGHT_RED}
               Uri: ${AnsiColor.BRIGHT_BLUE}http://${server.address}:${server.port}${server.servlet.context-path}${AnsiColor.BRIGHT_RED}
               
       Application: ${AnsiColor.BRIGHT_BLUE}${spring.application.name}${AnsiColor.BRIGHT_RED}
-          Version: ${AnsiColor.BRIGHT_BLUE}${project.version}${AnsiColor.BRIGHT_RED}
+          Version: ${AnsiColor.BRIGHT_BLUE}${swagger.version}${AnsiColor.BRIGHT_RED}
           Profile: ${AnsiColor.BRIGHT_BLUE}${spring.profiles.active}${AnsiColor.BRIGHT_RED}
           
    Spring Version: ${AnsiColor.BRIGHT_BLUE}${spring-boot.version}${spring-boot.formatted-version}${AnsiColor.BRIGHT_RED}

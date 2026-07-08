@@ -3,6 +3,7 @@ package com.oner365.monitor.config;
 import java.util.Objects;
 import java.util.Properties;
 
+import org.jspecify.annotations.NonNull;
 import org.springframework.boot.quartz.autoconfigure.SchedulerFactoryBeanCustomizer;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -29,7 +30,7 @@ public class ScheduleConfig implements SchedulerFactoryBeanCustomizer {
     private DynamicDataSource dataSource;
 
     @Override
-    public void customize(SchedulerFactoryBean schedulerFactoryBean) {
+    public void customize(@NonNull SchedulerFactoryBean schedulerFactoryBean) {
         schedulerFactoryBean.setDataSource(dataSource);
         schedulerFactoryBean.setApplicationContextSchedulerContextKey("applicationContextKey");
 

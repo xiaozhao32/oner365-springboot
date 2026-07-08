@@ -2,6 +2,7 @@ package com.oner365.data.web.config;
 
 import java.util.List;
 
+import org.jspecify.annotations.NonNull;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -22,7 +23,7 @@ public class CurrentUserConfigurer implements WebMvcConfigurer {
     private CurrentUserMethodArgumentResolver resolver;
 
     @Override
-    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+    public void addArgumentResolvers(@NonNull List<HandlerMethodArgumentResolver> argumentResolvers) {
         argumentResolvers.add(resolver);
     }
 

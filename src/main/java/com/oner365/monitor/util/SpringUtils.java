@@ -1,5 +1,6 @@
 package com.oner365.monitor.util;
 
+import org.jspecify.annotations.NonNull;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -17,7 +18,7 @@ public final class SpringUtils implements BeanFactoryPostProcessor {
     private static ConfigurableListableBeanFactory beanFactory;
 
     @Override
-    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) {
+    public void postProcessBeanFactory(@NonNull ConfigurableListableBeanFactory beanFactory) {
         SpringUtils.beanFactory = beanFactory;
     }
 

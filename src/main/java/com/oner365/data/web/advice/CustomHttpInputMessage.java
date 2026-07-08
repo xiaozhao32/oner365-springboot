@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.jspecify.annotations.NonNull;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpInputMessage;
 
@@ -24,12 +25,12 @@ public class CustomHttpInputMessage implements HttpInputMessage {
     }
 
     @Override
-    public InputStream getBody() throws IOException {
+    public @NonNull InputStream getBody() throws IOException {
         return new ByteArrayInputStream(body);
     }
 
     @Override
-    public HttpHeaders getHeaders() {
+    public @NonNull HttpHeaders getHeaders() {
         return headers;
     }
 

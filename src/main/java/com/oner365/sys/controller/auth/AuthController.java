@@ -143,13 +143,8 @@ public class AuthController extends BaseController {
     @ApiOperationSupport(order = 3)
     @GetMapping("/menu")
     public List<SysMenuTreeDto> findMenuByRoles(@Parameter(hidden = true) @CurrentUser AuthUser user) {
-        try {
-            if (user != null && !user.getRoleList().isEmpty() && !DataUtils.isEmpty(user.getMenuType())) {
-                return sysRoleService.findMenuByRoles(user.getRoleList(), user.getMenuType());
-            }
-        }
-        catch (Exception e) {
-            logger.error("Error findMenuByRoles: ", e);
+        if (user != null && !user.getRoleList().isEmpty() && !DataUtils.isEmpty(user.getMenuType())) {
+            return sysRoleService.findMenuByRoles(user.getRoleList(), user.getMenuType());
         }
         return Collections.emptyList();
     }
@@ -164,13 +159,8 @@ public class AuthController extends BaseController {
     @GetMapping("/menu/operation/{menuId}")
     public List<SysMenuOperDto> findMenuOperByRoles(@Parameter(hidden = true) @CurrentUser AuthUser user,
             @PathVariable String menuId) {
-        try {
-            if (user != null && !user.getRoleList().isEmpty()) {
-                return sysRoleService.findMenuOperByRoles(user.getRoleList(), menuId);
-            }
-        }
-        catch (Exception e) {
-            logger.error("Error findMenuOperByRoles: ", e);
+        if (user != null && !user.getRoleList().isEmpty()) {
+            return sysRoleService.findMenuOperByRoles(user.getRoleList(), menuId);
         }
         return Collections.emptyList();
     }
