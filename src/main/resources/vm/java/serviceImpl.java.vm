@@ -70,8 +70,8 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service {
                 return convert(dao.findAll(QueryUtils.buildCriteria(data)), ${ClassName}Dto.class);
             }
             List<${ClassName}> list = dao.findAll(QueryUtils.buildCriteria(data),
-              	Objects.requireNonNull(QueryUtils.buildSortRequest(data.getOrder())));
-      		return convert(list, ${ClassName}Dto.class);
+                  Objects.requireNonNull(QueryUtils.buildSortRequest(data.getOrder())));
+              return convert(list, ${ClassName}Dto.class);
         } catch (Exception e) {
             LOGGER.error("Error findList: ", e);
         }
@@ -100,7 +100,7 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service {
             vo.setStatus(StatusEnum.YES);
         }
         ${ClassName} entity = dao.save(convert(vo, ${ClassName}.class));
-    	return convert(entity, ${ClassName}Dto.class);
+        return convert(entity, ${ClassName}Dto.class);
     }
 
     @Override

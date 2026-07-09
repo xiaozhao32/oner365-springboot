@@ -85,7 +85,7 @@ public class ${ClassName} implements Serializable {
     @Type(type = "json")
     @Column(#if($column.isRequired == '1')name = "$column.columnName", nullable = false#else name = "$column.columnName"#end)
 #else
-	#if($column.columnName == 'create_user')
+    #if($column.columnName == 'create_user')
     @CreatedBy
     @Column(name = "create_user")
     #elseif($column.columnName == 'create_time')

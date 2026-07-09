@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oner365.sys.mapper.SysOrganizationMapper">
 
-	<select id="selectListByUserId" parameterType="String" resultType="String">
-		select d.id
-		from nt_sys_organization d
+    <select id="selectListByUserId" parameterType="String" resultType="String">
+        select d.id
+        from nt_sys_organization d
             left join nt_sys_user_org rd on d.id = rd.org_id
         where rd.user_id = #{userId}
-        	and d.id not in (select d.parent_id from nt_sys_organization d inner join nt_sys_user_org rd on d.id = rd.org_id and rd.user_id = #{userId})
-		order by d.parent_id, d.org_order
-	</select>
-	
+            and d.id not in (select d.parent_id from nt_sys_organization d inner join nt_sys_user_org rd on d.id = rd.org_id and rd.user_id = #{userId})
+        order by d.parent_id, d.org_order
+    </select>
+    
 </mapper> 

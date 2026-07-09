@@ -20,7 +20,7 @@ COPY ${OUT_DIRECTORY}/lib /root/oner365-springboot/lib/
 COPY ${OUT_DIRECTORY}/resources /root/oner365-springboot/resources/
 COPY ${JAR_FILE} /root/oner365-springboot/oner365-springboot-3.1.0.jar
 ENTRYPOINT ["java", "-Dspring.profiles.active=${SPRING_PROFILES_ACTIVE}", "-Dserver.address=${SERVER_ADDRESS}", \
-	"-jar", "/root/oner365-springboot/oner365-springboot-3.1.0.jar"]
+    "-jar", "/root/oner365-springboot/oner365-springboot-3.1.0.jar"]
 
 # 本地执行
 # mvn clean package -Dmaven.test.skip=true docker:build

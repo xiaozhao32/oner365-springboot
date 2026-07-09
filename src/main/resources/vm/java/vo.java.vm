@@ -48,7 +48,7 @@ public class ${ClassName}Vo implements Serializable {
 #set($AttrName=$column.javaField.substring(0,1).toUpperCase() + ${column.javaField.substring(1)})
 #end
 #if($column.javaType == 'json')
-	public void set${AttrName}(String $column.javaField) {
+    public void set${AttrName}(String $column.javaField) {
         this.$column.javaField = $column.javaField;
     }
 
