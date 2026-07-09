@@ -38,7 +38,6 @@ public class Criteria<T> implements Specification<T> {
 
     /***
      * 增加简单条件表达式
-     * 
      * @param criterion 表达式
      */
     public void add(Criterion criterion) {

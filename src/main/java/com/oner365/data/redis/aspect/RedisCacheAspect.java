@@ -13,6 +13,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
+import com.oner365.data.commons.config.properties.AccessTokenProperties;
 import com.oner365.data.commons.config.properties.CommonProperties;
 import com.oner365.data.commons.constants.PublicConstants;
 import com.oner365.data.commons.util.ClassesUtil;
@@ -42,6 +43,9 @@ public class RedisCacheAspect {
     @Resource
     private CommonProperties commonProperties;
 
+    @Resource
+    private AccessTokenProperties accessTokenProperties;
+
     @Pointcut("@annotation(com.oner365.data.redis.annotation.RedisCachePut)")
     public void annotationPut() {
         // RedisCachePut
@@ -59,8 +63,9 @@ public class RedisCacheAspect {
 
     /**
      * annotationAble
+     * 
      * @param joinPoint ProceedingJoinPoint
-     * @param rd RedisCacheAble
+     * @param rd        RedisCacheAble
      * @return Object
      * @throws Throwable 异常
      */
@@ -89,7 +94,7 @@ public class RedisCacheAspect {
 
         if (commonProperties.isRedisEnabled()) {
             // Set cache
-            redisCache.setCacheObject(key, JSON.toJSONString(sourceObject), PublicConstants.EXPIRE_TIME,
+            redisCache.setCacheObject(key, JSON.toJSONString(sourceObject), accessTokenProperties.getExpireTime(),
                     TimeUnit.MINUTES);
         }
         return sourceObject;
@@ -97,8 +102,9 @@ public class RedisCacheAspect {
 
     /**
      * annotationEvict
+     * 
      * @param joinPoint JoinPoint
-     * @param rd RedisCacheEvict
+     * @param rd        RedisCacheEvict
      */
     @After("annotationEvict()&& @annotation(rd)")
     public void redisCacheEvict(JoinPoint joinPoint, RedisCacheEvict rd) {
@@ -113,9 +119,10 @@ public class RedisCacheAspect {
 
     /**
      * annotationPut
-     * @param joinPoint JoinPoint
+     * 
+     * @param joinPoint   JoinPoint
      * @param resultValue Object
-     * @param rd RedisCachePut
+     * @param rd          RedisCachePut
      */
     @AfterReturning(returning = "resultValue", pointcut = "annotationPut()&& @annotation(rd)")
     public void redisCachePut(JoinPoint joinPoint, Object resultValue, RedisCachePut rd) {
@@ -128,7 +135,7 @@ public class RedisCacheAspect {
             redisCache.deleteObject(key);
 
             // Set cache
-            redisCache.setCacheObject(key, JSON.toJSONString(resultValue), PublicConstants.EXPIRE_TIME,
+            redisCache.setCacheObject(key, JSON.toJSONString(resultValue), accessTokenProperties.getExpireTime(),
                     TimeUnit.MINUTES);
         }
     }

@@ -30,7 +30,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import com.alibaba.fastjson.support.spring.FastJsonRedisSerializer;
-import com.oner365.data.commons.constants.PublicConstants;
+import com.oner365.data.commons.config.properties.AccessTokenProperties;
 import com.oner365.data.commons.util.DataUtils;
 
 import io.lettuce.core.ReadFrom;
@@ -51,13 +51,18 @@ import redis.clients.jedis.Jedis;
 @AutoConfigureAfter(DataRedisAutoConfiguration.class)
 public class RedisCacheConfig {
 
+    private final AccessTokenProperties accessTokenProperties;
+
+    public RedisCacheConfig(AccessTokenProperties accessTokenProperties) {
+        this.accessTokenProperties = accessTokenProperties;
+    }
+
     @Bean
     CacheManager cacheManager(RedisConnectionFactory connectionFactory) {
         return RedisCacheManager.builder(connectionFactory)
-            .cacheDefaults(RedisCacheConfiguration.defaultCacheConfig()
-                .entryTtl(Duration.ofMinutes(PublicConstants.EXPIRE_TIME)))
-            .transactionAware()
-            .build();
+                .cacheDefaults(RedisCacheConfiguration.defaultCacheConfig()
+                        .entryTtl(Duration.ofMinutes(accessTokenProperties.getExpireTime())))
+                .transactionAware().build();
     }
 
     @Bean
@@ -94,16 +99,11 @@ public class RedisCacheConfig {
         }
 
         ClusterTopologyRefreshOptions clusterTopologyRefreshOptions = ClusterTopologyRefreshOptions.builder()
-            .enablePeriodicRefresh()
-            .refreshPeriod(Duration.ofSeconds(5L))
-            .build();
+                .enablePeriodicRefresh().refreshPeriod(Duration.ofSeconds(5L)).build();
         ClusterClientOptions clusterClientOptions = ClusterClientOptions.builder()
-            .topologyRefreshOptions(clusterTopologyRefreshOptions)
-            .build();
+                .topologyRefreshOptions(clusterTopologyRefreshOptions).build();
         LettuceClientConfiguration lettuceClientConfiguration = LettuceClientConfiguration.builder()
-            .readFrom(ReadFrom.REPLICA_PREFERRED)
-            .clientOptions(clusterClientOptions)
-            .build();
+                .readFrom(ReadFrom.REPLICA_PREFERRED).clientOptions(clusterClientOptions).build();
         return new LettuceConnectionFactory(redisClusterConfiguration, lettuceClientConfiguration);
     }
 
@@ -120,7 +120,7 @@ public class RedisCacheConfig {
             redisSentinelConfiguration.setPassword(redisProperties.getPassword());
         }
         LettuceClientConfiguration lettuceClientConfiguration = LettucePoolingClientConfiguration
-            .defaultConfiguration();
+                .defaultConfiguration();
         return new LettuceConnectionFactory(redisSentinelConfiguration, lettuceClientConfiguration);
     }
 

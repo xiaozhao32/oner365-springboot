@@ -33,7 +33,6 @@ import com.oner365.sys.vo.DataSourceConfigVo;
 @Service
 public class DataSourceConfigServiceImpl implements IDataSourceConfigService {
 
-
     private static final String CACHE_NAME = "DataSourceConfig";
 
     @Resource
@@ -42,8 +41,7 @@ public class DataSourceConfigServiceImpl implements IDataSourceConfigService {
     @Override
     @GeneratorCache(CACHE_NAME)
     public PageInfo<DataSourceConfigDto> pageList(QueryCriteriaBean data) {
-        Page<DataSourceConfig> page = dao.findAll(QueryUtils.buildCriteria(data),
-                QueryUtils.buildPageRequest(data));
+        Page<DataSourceConfig> page = dao.findAll(QueryUtils.buildCriteria(data), QueryUtils.buildPageRequest(data));
         return convert(page, DataSourceConfigDto.class);
     }
 

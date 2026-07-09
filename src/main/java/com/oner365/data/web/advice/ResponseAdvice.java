@@ -82,7 +82,8 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
         if (body instanceof String str) {
             try {
                 return objectMapper.writeValueAsString(ResponseData.success(str));
-            } catch (JacksonException e) {
+            }
+            catch (JacksonException e) {
                 LOGGER.error("beforeBodyWrite error:", e);
             }
         }
@@ -98,14 +99,14 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
 
         if (body instanceof ResponseData<?> data) {
             return ResponseData.success(Base64.getEncoder()
-                    .encodeToString(Cipher.encodeSms4(JSON.toJSONString(data), key.substring(0, 16).getBytes())));
+                .encodeToString(Cipher.encodeSms4(JSON.toJSONString(data), key.substring(0, 16).getBytes())));
         }
         if (body instanceof byte[] b) {
             return Base64.getEncoder().encodeToString(Cipher.encodeSms4(b, key.substring(0, 16).getBytes())).getBytes();
         }
         if (body != null) {
             return ResponseData.success(Base64.getEncoder()
-                    .encodeToString(Cipher.encodeSms4(body.toString(), key.substring(0, 16).getBytes())));
+                .encodeToString(Cipher.encodeSms4(body.toString(), key.substring(0, 16).getBytes())));
         }
         return null;
     }

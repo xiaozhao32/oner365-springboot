@@ -32,7 +32,6 @@ import com.oner365.sys.vo.SysLogVo;
 @Component
 public class SysLogServiceImpl implements ISysLogService {
 
-
     @Resource
     private ISysLogDao dao;
 

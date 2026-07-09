@@ -37,7 +37,6 @@ import com.oner365.queue.service.IQueueSendService;
 @Service
 public class DynamicRouteServiceImpl implements DynamicRouteService {
 
-
     @Resource
     private IGatewayRouteDao gatewayRouteDao;
 

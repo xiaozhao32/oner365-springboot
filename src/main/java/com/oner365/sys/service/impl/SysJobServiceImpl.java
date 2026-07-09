@@ -34,7 +34,6 @@ import com.oner365.sys.vo.SysJobVo;
 @Service
 public class SysJobServiceImpl implements ISysJobService {
 
-
     private static final String CACHE_NAME = "SysJob";
 
     @Resource

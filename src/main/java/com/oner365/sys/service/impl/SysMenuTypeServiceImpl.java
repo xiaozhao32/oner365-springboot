@@ -38,7 +38,6 @@ import com.oner365.sys.vo.SysMenuTypeVo;
 @Service
 public class SysMenuTypeServiceImpl implements ISysMenuTypeService {
 
-
     private static final String CACHE_NAME = "SysMenuType";
 
     private static final String CACHE_MENU_NAME = "SysMenu";

@@ -46,15 +46,14 @@ import jakarta.annotation.Resource;
 @Service
 public class SysOrganizationServiceImpl implements ISysOrganizationService {
 
-
     private static final String CACHE_NAME = "SysOrganization";
 
-    private static final String PARENT_ID = "parentId"; 
+    private static final String PARENT_ID = "parentId";
 
     private static final String ORG_ORDER = "orgOrder";
-    
+
     private static final String ORG_CODE = "orgCode";
-    
+
     private static final String ORG_NAME = "orgName";
 
     @Resource
@@ -222,8 +221,7 @@ public class SysOrganizationServiceImpl implements ISysOrganizationService {
         if (!DataUtils.isEmpty(sysOrganizationVo.getStatus())) {
             criteria.add(Restrictions.eq(SysConstants.STATUS, sysOrganizationVo.getStatus()));
         }
-        return convert(dao.findAll(criteria, Sort.by(Direction.DESC, PARENT_ID, ORG_ORDER)),
-                SysOrganizationDto.class);
+        return convert(dao.findAll(criteria, Sort.by(Direction.DESC, PARENT_ID, ORG_ORDER)), SysOrganizationDto.class);
     }
 
     @Override

@@ -43,7 +43,6 @@ import com.oner365.sys.vo.SysDictItemTypeVo;
 @Service
 public class SysDictItemTypeServiceImpl implements ISysDictItemTypeService {
 
-
     private static final String CACHE_NAME = "SysDictItemType";
 
     private static final String CACHE_ITEM_NAME = "SysDictItem";

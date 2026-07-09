@@ -38,8 +38,7 @@ public class DataSourceAspect {
 
         try {
             return point.proceed();
-        }
-        finally {
+        } finally {
             DataSourceHolder.clearDataSource();
         }
     }
@@ -49,7 +48,12 @@ public class DataSourceAspect {
      */
     public DataSource getDataSource(ProceedingJoinPoint point) {
         MethodSignature signature = (MethodSignature) point.getSignature();
-        return AnnotationUtils.findAnnotation(signature.getMethod(), DataSource.class);
+        DataSource dataSource = AnnotationUtils.findAnnotation(signature.getMethod(), DataSource.class);
+        if (!DataUtils.isEmpty(dataSource)) {
+            return dataSource;
+        }
+        return AnnotationUtils.findAnnotation(signature.getDeclaringType(), DataSource.class);
+
     }
 
 }

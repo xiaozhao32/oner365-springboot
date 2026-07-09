@@ -28,7 +28,6 @@ import jakarta.annotation.Resource;
 @Service
 public class SysTaskLogServiceImpl implements ISysTaskLogService {
 
-
     @Resource
     private ISysTaskLogDao dao;
 

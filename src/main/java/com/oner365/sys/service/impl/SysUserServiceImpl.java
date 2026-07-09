@@ -102,7 +102,7 @@ public class SysUserServiceImpl implements ISysUserService {
     private ISysRoleMenuDao roleMenuDao;
 
     @Resource
-    private AccessTokenProperties tokenProperties;
+    private AccessTokenProperties accessTokenProperties;
 
     @Override
     @Transactional(rollbackFor = ProjectRuntimeException.class)
@@ -116,7 +116,7 @@ public class SysUserServiceImpl implements ISysUserService {
                 return JSON.toJavaObject(cache, LoginUserDto.class);
             }
 
-            Date time = DateUtil.after(DateUtil.getDate(), tokenProperties.getExpireTime(), Calendar.MINUTE);
+            Date time = DateUtil.after(DateUtil.getDate(), accessTokenProperties.getExpireTime(), Calendar.MINUTE);
             JSONObject tokenJson = new JSONObject();
             tokenJson.put(RequestUtils.TOKEN_TYPE, "login");
 
@@ -137,7 +137,8 @@ public class SysUserServiceImpl implements ISysUserService {
                 tokenJson.put(SysConstants.MENU_TYPE, getMenuType(roles.get(0)));
             }
 
-            String accessToken = JwtUtils.generateToken(tokenJson.toJSONString(), time, tokenProperties.getSecret());
+            String accessToken = JwtUtils.generateToken(tokenJson.toJSONString(), time,
+                    accessTokenProperties.getSecret());
 
             LoginUserDto result = new LoginUserDto();
             result.setAccessToken(accessToken);
@@ -150,7 +151,7 @@ public class SysUserServiceImpl implements ISysUserService {
             result.setRoles(roles);
             result.setJobs(jobs);
             result.setOrgs(orgs);
-            redisCache.setCacheObject(key, result, PublicConstants.EXPIRE_TIME, TimeUnit.MINUTES);
+            redisCache.setCacheObject(key, result, accessTokenProperties.getExpireTime(), TimeUnit.MINUTES);
 
             return result;
         }
@@ -292,8 +293,7 @@ public class SysUserServiceImpl implements ISysUserService {
             entity.setOrgs(orgs);
             setName(entity);
             return convert(entity, SysUserDto.class);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             LOGGER.error("Error saveUser: ", e);
 
             throw new ProjectRuntimeException();

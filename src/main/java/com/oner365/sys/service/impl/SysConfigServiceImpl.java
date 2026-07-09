@@ -38,7 +38,6 @@ import jakarta.annotation.Resource;
 @Service
 public class SysConfigServiceImpl implements ISysConfigService {
 
-
     private static final String CACHE_NAME = "SysConfig";
 
     @Resource

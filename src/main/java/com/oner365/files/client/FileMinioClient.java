@@ -6,8 +6,6 @@ import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 
-import jakarta.annotation.Resource;
-
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -16,6 +14,7 @@ import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.oner365.data.commons.config.properties.AccessTokenProperties;
 import com.oner365.data.commons.constants.PublicConstants;
 import com.oner365.data.commons.enums.StorageEnum;
 import com.oner365.data.commons.util.DataUtils;
@@ -36,6 +35,7 @@ import io.minio.PutObjectArgs;
 import io.minio.RemoveObjectArgs;
 import io.minio.StatObjectArgs;
 import io.minio.StatObjectResponse;
+import jakarta.annotation.Resource;
 
 /**
  * minio工具类
@@ -56,6 +56,9 @@ public class FileMinioClient implements IFileStorageClient {
 
     @Resource
     private IFileStorageService fileStorageService;
+    
+    @Resource
+    private AccessTokenProperties accessTokenProperties;
 
     @Override
     public String uploadFile(MultipartFile file, String directory) {
@@ -155,7 +158,7 @@ public class FileMinioClient implements IFileStorageClient {
                 .bucket(minioProperties.getBucket())
                 .object(path)
                 .method(Method.GET)
-                .expiry(PublicConstants.EXPIRE_TIME, TimeUnit.SECONDS)
+                .expiry(accessTokenProperties.getExpireTime(), TimeUnit.MINUTES)
                 .build());
             logger.info("file presigned url: {}", url);
             return url;

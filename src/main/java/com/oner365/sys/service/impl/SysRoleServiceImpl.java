@@ -49,7 +49,6 @@ import com.oner365.sys.vo.SysRoleVo;
 @Service
 public class SysRoleServiceImpl implements ISysRoleService {
 
-
     private static final String CACHE_NAME = "SysRole";
 
     private static final String CACHE_MENU_NAME = "SysMenu";

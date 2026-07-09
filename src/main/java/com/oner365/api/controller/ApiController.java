@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSONObject;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.data.commons.cache.GuavaCache;
-import com.oner365.data.commons.constants.PublicConstants;
+import com.oner365.data.commons.config.properties.AccessTokenProperties;
 import com.oner365.data.commons.enums.ResultEnum;
 import com.oner365.data.commons.util.DataUtils;
 import com.oner365.data.commons.util.DateUtil;
@@ -63,6 +63,9 @@ public class ApiController extends BaseController {
 
     @Resource
     private MessageSource messageSource;
+    
+    @Resource
+    private AccessTokenProperties accessTokenProperties;
 
     /**
      * 测试分库分表
@@ -122,7 +125,7 @@ public class ApiController extends BaseController {
         JSONObject value = new JSONObject();
         value.put("aaa", 111);
         value.put("bbb", 222);
-        redisCache.setCacheObject(key, value, PublicConstants.EXPIRE_TIME, TimeUnit.MINUTES);
+        redisCache.setCacheObject(key, value, accessTokenProperties.getExpireTime(), TimeUnit.MINUTES);
         JSONObject json = redisCache.getCacheObject(key);
         logger.info("test1:{}", json);
 
@@ -145,7 +148,7 @@ public class ApiController extends BaseController {
         dataList.add(m3);
         redisCache.deleteObject(key2);
         redisCache.setCacheList(key2, dataList);
-        redisCache.expire(key2, PublicConstants.EXPIRE_TIME);
+        redisCache.expire(key2, accessTokenProperties.getExpireTime());
         List<String> list = redisCache.getCacheList(key2);
         logger.info("test2:{}", list);
 
@@ -153,7 +156,7 @@ public class ApiController extends BaseController {
         Map<String, Object> dataMap = new HashMap<>(3);
         dataMap.put("ddd", dataList);
         redisCache.setCacheMap(key3, dataMap);
-        redisCache.expire(key3, PublicConstants.EXPIRE_TIME);
+        redisCache.expire(key3, accessTokenProperties.getExpireTime());
         Map<String, Object> map = redisCache.getCacheMap(key3);
         logger.info("test3:{}", map);
 
@@ -162,7 +165,7 @@ public class ApiController extends BaseController {
         dataSet.add("aaa");
         dataSet.add("bbb");
         redisCache.setCacheSet(key4, dataSet);
-        redisCache.expire(key4, PublicConstants.EXPIRE_TIME);
+        redisCache.expire(key4, accessTokenProperties.getExpireTime());
         Set<String> set = redisCache.getCacheSet(key4);
         logger.info("test4:{}", set);
 

@@ -27,8 +27,9 @@ public class CurrentUserMethodArgumentResolver implements HandlerMethodArgumentR
     }
 
     @Override
-    public @NonNull Object resolveArgument(@NonNull MethodParameter parameter, @NonNull ModelAndViewContainer mavContainer,
-            @NonNull NativeWebRequest webRequest, @NonNull WebDataBinderFactory binderFactory) {
+    public @NonNull Object resolveArgument(@NonNull MethodParameter parameter,
+            @NonNull ModelAndViewContainer mavContainer, @NonNull NativeWebRequest webRequest,
+            @NonNull WebDataBinderFactory binderFactory) {
         return RequestUtils.getAuthUser();
     }
 

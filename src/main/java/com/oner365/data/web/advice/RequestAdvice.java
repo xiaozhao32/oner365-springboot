@@ -42,9 +42,9 @@ public class RequestAdvice extends RequestBodyAdviceAdapter {
     }
 
     @Override
-    public @NonNull HttpInputMessage beforeBodyRead(@NonNull HttpInputMessage inputMessage, @NonNull MethodParameter parameter,
-            @NonNull Type targetType, @NonNull Class<? extends HttpMessageConverter<?>> converterType)
-            throws IOException {
+    public @NonNull HttpInputMessage beforeBodyRead(@NonNull HttpInputMessage inputMessage,
+            @NonNull MethodParameter parameter, @NonNull Type targetType,
+            @NonNull Class<? extends HttpMessageConverter<?>> converterType) throws IOException {
         HttpServletRequest request = RequestUtils.getHttpRequest();
         String body = RequestUtils.getRequestBody(inputMessage.getBody());
         String sign = null;
@@ -61,7 +61,8 @@ public class RequestAdvice extends RequestBodyAdviceAdapter {
                         key.substring(0, 16).getBytes());
                 return new CustomHttpInputMessage(inputMessage.getHeaders(), b);
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             LOGGER.error("sign:{} body:{}", sign, body);
             LOGGER.error("beforeBodyRead ERROR:", e);
         }

@@ -20,11 +20,6 @@ public class PublicConstants {
      */
     public static final int THREAD_NUMBER = 10;
 
-    /**
-     * 过期时间
-     */
-    public static final int EXPIRE_TIME = 60 * 12;
-
     /** 字节长度 */
     public static final int BYTE_SIZE = 1024;
 

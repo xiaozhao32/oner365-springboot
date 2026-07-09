@@ -25,7 +25,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.oner365.data.commons.auth.AuthUser;
 import com.oner365.data.commons.config.properties.AccessTokenProperties;
-import com.oner365.data.commons.constants.PublicConstants;
 import com.oner365.data.commons.util.DataUtils;
 import com.oner365.data.commons.util.JwtUtils;
 import com.oner365.data.redis.RedisCache;
@@ -49,7 +48,7 @@ import jakarta.servlet.http.HttpServletRequest;
 public class JwtAuthFilter implements Filter {
 
     @Resource
-    private AccessTokenProperties tokenProperties;
+    private AccessTokenProperties accessTokenProperties;
 
     @Resource
     private RedisCache redisCache;
@@ -65,11 +64,11 @@ public class JwtAuthFilter implements Filter {
             // 获取缓存
             JSONObject authUser = redisCache.getCacheObject(CacheConstants.CACHE_TOKEN_NAME + authToken.hashCode());
             if (authUser == null) {
-                String tokenInfo = JwtUtils.getUsernameFromToken(authToken, tokenProperties.getSecret());
+                String tokenInfo = JwtUtils.getUsernameFromToken(authToken, accessTokenProperties.getSecret());
                 if (tokenInfo != null) {
                     authUser = JSON.parseObject(tokenInfo);
                     redisCache.setCacheObject(CacheConstants.CACHE_TOKEN_NAME + authToken.hashCode(), authUser,
-                            PublicConstants.EXPIRE_TIME, TimeUnit.MINUTES);
+                            accessTokenProperties.getExpireTime(), TimeUnit.MINUTES);
                     setHttpRequest(httpRequest, new AuthUser(authUser), authToken);
                 }
             }
@@ -92,7 +91,7 @@ public class JwtAuthFilter implements Filter {
     }
 
     private void validateToken(AuthUser authUser, String authToken) {
-        boolean isExpired = JwtUtils.validateToken(authToken, tokenProperties.getSecret());
+        boolean isExpired = JwtUtils.validateToken(authToken, accessTokenProperties.getSecret());
         if (!isExpired) {
             String key = CacheConstants.CACHE_LOGIN_NAME + authUser.getUserName();
             redisCache.deleteObject(key);

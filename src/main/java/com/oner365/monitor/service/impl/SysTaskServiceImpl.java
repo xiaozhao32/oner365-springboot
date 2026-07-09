@@ -65,7 +65,8 @@ public class SysTaskServiceImpl implements ISysTaskService {
         taskList.forEach(task -> {
             try {
                 ScheduleUtils.createScheduleJob(scheduler, convert(task, SysTaskDto.class));
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 LOGGER.error("Error init:", e);
             }
         });
@@ -134,7 +135,8 @@ public class SysTaskServiceImpl implements ISysTaskService {
             try {
                 scheduler.deleteJob(ScheduleUtils.getJobKey(id, taskGroup));
                 return Boolean.TRUE;
-            } catch (SchedulerException e) {
+            }
+            catch (SchedulerException e) {
                 LOGGER.error("deleteTask scheduler error", e);
             }
         }
@@ -153,7 +155,8 @@ public class SysTaskServiceImpl implements ISysTaskService {
         Boolean rows = Boolean.FALSE;
         if (TaskStatusEnum.NORMAL.equals(task.getStatus())) {
             rows = resumeTask(task);
-        } else if (TaskStatusEnum.PAUSE.equals(task.getStatus())) {
+        }
+        else if (TaskStatusEnum.PAUSE.equals(task.getStatus())) {
             rows = pauseTask(task);
         }
         return rows;

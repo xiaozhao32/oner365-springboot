@@ -37,7 +37,6 @@ import com.oner365.sys.vo.SysMenuOperationVo;
 @Service
 public class SysMenuOperationServiceImpl implements ISysMenuOperationService {
 
-
     private static final String CACHE_NAME = "SysMenuOperation";
 
     @Resource

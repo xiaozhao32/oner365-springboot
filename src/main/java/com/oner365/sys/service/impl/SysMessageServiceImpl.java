@@ -33,7 +33,6 @@ import com.oner365.sys.vo.SysMessageVo;
 @Service
 public class SysMessageServiceImpl implements ISysMessageService {
 
-
     private static final String CACHE_NAME = "SysMessage";
 
     @Resource

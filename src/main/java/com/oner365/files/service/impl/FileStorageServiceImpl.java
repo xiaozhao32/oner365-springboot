@@ -33,7 +33,6 @@ import com.oner365.files.vo.SysFileStorageVo;
 @Service
 public class FileStorageServiceImpl implements IFileStorageService {
 
-
     private static final String CACHE_NAME = "FileStorage";
 
     @Resource

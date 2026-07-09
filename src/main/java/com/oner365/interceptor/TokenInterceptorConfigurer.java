@@ -34,8 +34,8 @@ public class TokenInterceptorConfigurer implements WebMvcConfigurer {
         registry.addMapping("/**")
             .allowCredentials(true)
             .allowedHeaders(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-            .allowedMethods(HttpMethod.GET.name(), HttpMethod.POST.name(), 
-                    HttpMethod.PUT.name(), HttpMethod.DELETE.name())
+            .allowedMethods(HttpMethod.GET.name(), HttpMethod.POST.name(), HttpMethod.PUT.name(),
+                    HttpMethod.DELETE.name())
             .allowedOriginPatterns("*")
             .exposedHeaders(PublicConstants.NAME)
             .exposedHeaders(PublicConstants.NAME, HttpHeaders.AUTHORIZATION)
