@@ -27,7 +27,6 @@ public class RedisConfigurer implements CachingConfigurer {
         return keyGenerator();
     }
 
-    @SuppressWarnings("null")
     @Override
     public @NonNull KeyGenerator keyGenerator() {
         return (target, method, params) -> {
@@ -42,7 +41,7 @@ public class RedisConfigurer implements CachingConfigurer {
             if (params.length > 0) {
                 // 参数值
                 Arrays.stream(params).forEach(object -> {
-                    if (DataUtils.isEmpty(object)) {
+                    if (object == null || DataUtils.isEmpty(object)) {
                         strBuilder.append(Strings.EMPTY);
                     }
                     else if (ClassesUtil.isPrimitive(object.getClass())) {

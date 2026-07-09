@@ -5,8 +5,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.springframework.data.annotation.CreatedDate;
@@ -16,6 +14,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.oner365.data.commons.enums.StatusEnum;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -160,10 +159,8 @@ public class SysOrganization implements Serializable {
     /**
      * 数据源
      */
-    @SuppressWarnings("removal")
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REFRESH)
     @NotFound(action = NotFoundAction.IGNORE)
-    @Cascade(value = { CascadeType.REFRESH })
     @JoinColumn(name = "config_id")
     private DataSourceConfig dataSourceConfig;
 

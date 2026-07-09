@@ -3,6 +3,7 @@ package com.oner365.test.controller;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
+import org.junit.jupiter.api.Assertions;
 import org.springframework.boot.webtestclient.autoconfigure.AutoConfigureWebTestClient;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
@@ -40,7 +41,6 @@ public abstract class BaseControllerTest extends BaseTest {
      * Request Header Authorization
      * @return String token
      */
-    @SuppressWarnings("null")
     protected String getToken() {
         final String cacheKey = "Auth:test:token";
         String token = redisCache.getCacheObject(cacheKey);
@@ -62,7 +62,7 @@ public abstract class BaseControllerTest extends BaseTest {
             .returnResult()
             .getResponseBody();
 
-        assert response != null;
+        Assertions.assertNotNull(response);
         LoginUserDto result = response.getResult();
         if (ResultEnum.SUCCESS.getCode().equals(response.getCode()) && result != null) {
             token = result.getAccessToken();

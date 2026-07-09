@@ -129,7 +129,6 @@ public class CacheController extends BaseController {
      * @param index db
      * @return 是否成功
      */
-    @SuppressWarnings("null")
     @Operation(summary = "3.清除缓存")
     @ApiOperationSupport(order = 3)
     @GetMapping("/clean")
@@ -137,13 +136,13 @@ public class CacheController extends BaseController {
         if (RedisMode.CLUSTER.equals(redisCacheProperties.getMode())) {
             redisTemplate.execute((RedisCallback<Properties>) connection -> {
                 connection.serverCommands().flushAll();
-                return null;
+                return new Properties();
             });
         }
         else if (RedisMode.SENTINEL.equals(redisCacheProperties.getMode())) {
             redisTemplate.execute((RedisCallback<Properties>) connection -> {
                 connection.serverCommands().flushAll();
-                return null;
+                return new Properties();
             });
         }
         else {
