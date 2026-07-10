@@ -30,7 +30,7 @@ class SysMenuControllerTest extends BaseControllerTest {
 
     @RepeatedTest(2)
     void list() {
-        String url = PATH + "/page";
+        String url = PATH + "/list";
         JSONObject paramJson = new JSONObject();
         paramJson.put("menuTypeId", "1");
         Object result = post(url, BodyInserters.fromValue(paramJson));

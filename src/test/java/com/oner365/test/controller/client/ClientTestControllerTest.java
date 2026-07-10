@@ -45,7 +45,7 @@ class ClientTestControllerTest extends BaseControllerTest {
         logger.info("request body encode:{}", body);
         String sign = RsaUtils.buildRsaEncryptByPublicKey(key, publicKey);
         logger.info("key rsa encode:{}", sign);
-        JSONObject result = client.post()
+        JSONObject result = getWebClient().post()
             .uri(PATH + "/login")
             .header("sign", sign)
             .contentType(MediaType.APPLICATION_JSON)

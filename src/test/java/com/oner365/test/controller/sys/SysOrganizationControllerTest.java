@@ -30,7 +30,7 @@ class SysOrganizationControllerTest extends BaseControllerTest {
 
     @RepeatedTest(2)
     void list() {
-        String url = PATH + "/page";
+        String url = PATH + "/list";
         JSONObject paramJson = new JSONObject();
         Object result = post(url, BodyInserters.fromValue(paramJson));
         logger.info("page:[{}] -> {}", url, result);

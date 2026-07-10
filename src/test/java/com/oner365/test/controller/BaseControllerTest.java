@@ -4,6 +4,7 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.Assertions;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.webtestclient.autoconfigure.AutoConfigureWebTestClient;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
@@ -32,13 +33,25 @@ import jakarta.annotation.Resource;
 public abstract class BaseControllerTest extends BaseTest {
 
     @Resource
-    protected WebTestClient client;
-
-    @Resource
     private RedisCache redisCache;
+
+    private WebTestClient webTestClient;
+
+    @Value("${local.server.port}")
+    private int port;
+
+    protected WebTestClient getWebClient() {
+        if (webTestClient == null) {
+            webTestClient = WebTestClient.bindToServer()
+                .baseUrl("http://localhost:" + port)
+                .build();
+        }
+        return webTestClient;
+    }
 
     /**
      * Request Header Authorization
+     * 
      * @return String token
      */
     protected String getToken() {
@@ -53,14 +66,9 @@ public abstract class BaseControllerTest extends BaseTest {
         paramJson.put("userName", "admin");
         paramJson.put("password", "1");
 
-        ResponseData<LoginUserDto> response = client.post()
-            .uri(url)
-            .body(BodyInserters.fromValue(paramJson))
-            .exchange()
-            .expectBody(new ParameterizedTypeReference<ResponseData<LoginUserDto>>() {
-            })
-            .returnResult()
-            .getResponseBody();
+        ResponseData<LoginUserDto> response = getWebClient().post().uri(url).body(BodyInserters.fromValue(paramJson))
+                .exchange().expectBody(new ParameterizedTypeReference<ResponseData<LoginUserDto>>() {
+                }).returnResult().getResponseBody();
 
         Assertions.assertNotNull(response);
         LoginUserDto result = response.getResult();
@@ -73,71 +81,53 @@ public abstract class BaseControllerTest extends BaseTest {
 
     /**
      * GET request
+     * 
      * @param url 请求地址
      * @return Object ResponseData result
      */
     protected Object get(String url) {
-        ResponseData<?> response = client.get()
-            .uri(url)
-            .header(HttpHeaders.AUTHORIZATION, getToken())
-            .exchange()
-            .expectBody(ResponseData.class)
-            .returnResult()
-            .getResponseBody();
+        ResponseData<?> response = getWebClient().get().uri(url).header(HttpHeaders.AUTHORIZATION, getToken())
+                .exchange().expectBody(ResponseData.class).returnResult().getResponseBody();
         return Objects.requireNonNull(response).getResult();
     }
 
     /**
      * POST request
-     * @param url 请求地址
+     * 
+     * @param url           请求地址
      * @param bodyInserters 请求Body
      * @return Object ResponseData result
      */
     protected Object post(String url, BodyInserter<?, ? super ClientHttpRequest> bodyInserters) {
-        ResponseData<?> response = client.post()
-            .uri(url)
-            .header(HttpHeaders.AUTHORIZATION, getToken())
-            .body(bodyInserters)
-            .exchange()
-            .expectBody(ResponseData.class)
-            .returnResult()
-            .getResponseBody();
+        ResponseData<?> response = getWebClient().post().uri(url).header(HttpHeaders.AUTHORIZATION, getToken())
+                .body(bodyInserters).exchange().expectBody(ResponseData.class).returnResult().getResponseBody();
         return Objects.requireNonNull(response).getResult();
     }
 
     /**
      * PUT request
-     * @param url 请求地址
+     * 
+     * @param url           请求地址
      * @param bodyInserters 请求Body
      * @return Object ResponseData result
      */
     protected Object put(String url, BodyInserter<?, ? super ClientHttpRequest> bodyInserters) {
-        ResponseData<?> response = client.put()
-            .uri(url)
-            .header(HttpHeaders.AUTHORIZATION, getToken())
-            .body(bodyInserters)
-            .exchange()
-            .expectBody(ResponseData.class)
-            .returnResult()
-            .getResponseBody();
+        ResponseData<?> response = getWebClient().put().uri(url).header(HttpHeaders.AUTHORIZATION, getToken())
+                .body(bodyInserters).exchange().expectBody(ResponseData.class).returnResult().getResponseBody();
         return Objects.requireNonNull(response).getResult();
     }
 
     /**
      * DELETE request
-     * @param url 请求地址
+     * 
+     * @param url           请求地址
      * @param bodyInserters 请求Body
      * @return Object ResponseData result
      */
     protected Object delete(String url, BodyInserter<?, ? super ClientHttpRequest> bodyInserters) {
-        ResponseData<?> response = client.method(HttpMethod.DELETE)
-            .uri(url)
-            .header(HttpHeaders.AUTHORIZATION, getToken())
-            .body(bodyInserters)
-            .exchange()
-            .expectBody(ResponseData.class)
-            .returnResult()
-            .getResponseBody();
+        ResponseData<?> response = getWebClient().method(HttpMethod.DELETE).uri(url)
+                .header(HttpHeaders.AUTHORIZATION, getToken()).body(bodyInserters).exchange()
+                .expectBody(ResponseData.class).returnResult().getResponseBody();
         return Objects.requireNonNull(response).getResult();
     }
 

@@ -1,15 +1,17 @@
 package com.oner365.test.util;
 
 import java.io.File;
+import java.io.IOException;
 
-import jakarta.annotation.Resource;
-
+import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.oner365.data.commons.config.properties.DefaultFileProperties;
 import com.oner365.data.commons.util.FileSms4Utils;
+
+import jakarta.annotation.Resource;
 
 /**
  * 工具类测试
@@ -29,7 +31,7 @@ class FileSms4UtilsTest extends BaseUtilsTest {
     @Test
     void encodePartTest() {
         String filePath = properties.getDownload();
-        File encodeFile = new File(filePath + "/test.png");
+        File encodeFile = new File(filePath + "/1.jpg");
         String encodeFilePath = filePath + "/encodePart-test.png";
         FileSms4Utils.encodePart(encodeFile, encodeFilePath);
         Assertions.assertNotNull(encodeFilePath);
@@ -37,6 +39,15 @@ class FileSms4UtilsTest extends BaseUtilsTest {
         File encodePartFile = new File(filePath + "/encodePart-test.png");
         String decodeFilePath = filePath + "/decodePart-test.png";
         FileSms4Utils.decodePart(encodePartFile, decodeFilePath);
+        
+        try {
+            File deleteEncodeFile = FileUtils.delete(encodePartFile);
+            File deleteDecodeFile = FileUtils.delete(new File(decodeFilePath));
+            logger.info("Encode File Path: {}", deleteEncodeFile.getPath());
+            logger.info("Decode File Path: {}", deleteDecodeFile.getPath());
+        } catch (IOException e) {
+            logger.error("delete file error", e);
+        }
     }
 
     /**
@@ -45,7 +56,7 @@ class FileSms4UtilsTest extends BaseUtilsTest {
     @Test
     void encodeTest() {
         String filePath = properties.getDownload();
-        File encodeFile = new File(filePath + "/test.png");
+        File encodeFile = new File(filePath + "/1.jpg");
         String encodeFilePath = filePath + "/encode-test.png";
         FileSms4Utils.encode(encodeFile, encodeFilePath);
         Assertions.assertNotNull(encodeFilePath);
@@ -53,6 +64,15 @@ class FileSms4UtilsTest extends BaseUtilsTest {
         File encodePartFile = new File(filePath + "/encode-test.png");
         String decodeFilePath = filePath + "/decode-test.png";
         FileSms4Utils.decode(encodePartFile, decodeFilePath);
+        
+        try {
+            File deleteEncodeFile = FileUtils.delete(encodePartFile);
+            File deleteDecodeFile = FileUtils.delete(new File(decodeFilePath));
+            logger.info("Encode File Path: {}", deleteEncodeFile.getPath());
+            logger.info("Decode File Path: {}", deleteDecodeFile.getPath());
+        } catch (IOException e) {
+            logger.error("delete file error", e);
+        }
     }
 
     /**
@@ -61,7 +81,7 @@ class FileSms4UtilsTest extends BaseUtilsTest {
     @Test
     void encodePartNoPlaceholderTest() {
         String filePath = properties.getDownload();
-        File encodeFile = new File(filePath + "/test.png");
+        File encodeFile = new File(filePath + "/1.jpg");
         String encodeFilePath = filePath + "/encodePartPlace-test.png";
         FileSms4Utils.encodePartNoPlaceholder(encodeFile, encodeFilePath);
         Assertions.assertNotNull(encodeFilePath);
@@ -69,6 +89,15 @@ class FileSms4UtilsTest extends BaseUtilsTest {
         File encodePartFile = new File(filePath + "/encodePartPlace-test.png");
         String decodeFilePath = filePath + "/decodePartPlace-test.png";
         FileSms4Utils.decodePartNoPlaceholder(encodePartFile, decodeFilePath);
+        
+        try {
+            File deleteEncodeFile = FileUtils.delete(encodePartFile);
+            File deleteDecodeFile = FileUtils.delete(new File(decodeFilePath));
+            logger.info("Encode File Path: {}", deleteEncodeFile.getPath());
+            logger.info("Decode File Path: {}", deleteDecodeFile.getPath());
+        } catch (IOException e) {
+            logger.error("delete file error", e);
+        }
     }
 
 }
