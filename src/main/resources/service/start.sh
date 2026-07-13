@@ -18,12 +18,12 @@ if [ -f tpid ];then
     if kill -0 "$tpid" &> /dev/null; then 
         echo $SERVICE_NAME "Stop '$tpid' Process!"
         kill -15 $tpid
-        sleep 15
+        sleep 5
     fi
     if kill -0 "$tpid" &> /dev/null; then 
         echo $SERVICE_NAME "Kill '$tpid' Process!"
         kill -9 $tpid
-        sleep 15
+        sleep 5
     fi
     rm -f tpid
 fi
@@ -42,7 +42,6 @@ fi
 #  -Xlog:gc*:file=./logs/gc-%t.log:time,uptime,level,tags:filecount=5,filesize=100M \
 #  -XX:+DisableExplicitGC \
 #  -XX:+ParallelRefProcEnabled \
-#  -Dspring.profiles.active=$ACTIVE \
 #  -Djdk.virtualThreadScheduler.parallelism=8 \
 #  -Dspring.profiles.active=$ACTIVE ./$RESOURCE_NAME > logs/$RESOURCE_NAME.log 2>&1 &
 

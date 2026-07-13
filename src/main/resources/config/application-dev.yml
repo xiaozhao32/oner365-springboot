@@ -25,6 +25,19 @@ spring:
     url: jdbc:mysql://localhost:3306/oner365?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=GMT%2B8
     username: root
     password: 1234
+    
+    druid:
+      filters: stat, slf4j
+      stat-view-servlet:
+        enabled: true
+        allow: 127.0.0.1
+        login-username: ${spring.datasource.username}
+        login-password: ${spring.datasource.password}
+        reset-enable: false 
+      web-stat-filter:
+        enabled: true
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+      use-ping-method: false
 
   # servlet file
   servlet:

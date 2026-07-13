@@ -12,12 +12,12 @@ function exec() {
         if kill -0 "$tpid" &> /dev/null; then 
             echo $SERVICE_NAME "Stop '$tpid' Process!"
             kill -15 $tpid
-            sleep 15
+            sleep 5
         fi
         if kill -0 "$tpid" &> /dev/null; then 
             echo $SERVICE_NAME "Kill '$tpid' Process!"
             kill -9 $tpid
-            sleep 15
+            sleep 5
         fi
         rm -f tpid
     fi
