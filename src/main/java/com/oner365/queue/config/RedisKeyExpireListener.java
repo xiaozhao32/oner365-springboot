@@ -27,7 +27,7 @@ public class RedisKeyExpireListener implements MessageListener {
         String expiredKey = new String(message.getBody(), StandardCharsets.UTF_8);
         String channel = new String(message.getChannel(), StandardCharsets.UTF_8);
 
-        logger.info("Expried Key: {}, Channel: {}", expiredKey, channel);
+        logger.info("MessageListener subscribe: {}, Channel: {}", expiredKey, channel);
     }
 
 }

@@ -18,7 +18,9 @@ public enum QueueEnum implements BaseEnum {
     /** Rocketmq */
     ROCKETMQ("Rocketmq"),
     /** Activemq */
-    ACTIVEMQ("Activemq");
+    ACTIVEMQ("Activemq"),
+    /** Redis */
+    REDIS("Redis");
 
     /**
      * 名称

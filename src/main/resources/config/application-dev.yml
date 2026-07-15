@@ -234,8 +234,8 @@ logging:
 
 # 队列方式    
 queue:
-  # rabbitmq kafka pulsar mqtt
-  type: rabbitmq
+  # rabbitmq kafka pulsar mqtt redis
+  type: redis
 
 #mqtt:
 #  uri: tcp://localhost:1883
