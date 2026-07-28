@@ -100,7 +100,8 @@ public class RedisMessageReceiverServiceImpl implements BaseService {
                 logger.info("taskExecute  concurrent : {} , update sysTask  executeStatus = 0", concurrent);
                 execute(taskId, param, sysTask);
 
-            } else {
+            }
+            else {
                 if (!StatusEnum.NO.equals(sysTask.getExecuteStatus())) {
                     execute(taskId, param, sysTask);
                 }
@@ -122,7 +123,8 @@ public class RedisMessageReceiverServiceImpl implements BaseService {
             sysTask.setExecuteStatus(StatusEnum.YES);
             sysTaskService.save(convert(sysTask, SysTaskVo.class));
             return StatusEnum.YES;
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             logger.error("update sysTask Exception:", e);
             return StatusEnum.NO;
         }

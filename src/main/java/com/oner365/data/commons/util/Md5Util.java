@@ -51,7 +51,7 @@ public class Md5Util {
         }
         return result;
     }
-    
+
     /**
      * md5
      * @param data 字符串
@@ -81,7 +81,7 @@ public class Md5Util {
     private String getDigest(String str, String instance) {
         return getDigest(str.getBytes(), instance);
     }
-    
+
     private String getDigest(byte[] str, String instance) {
         try {
             MessageDigest messageDigest = MessageDigest.getInstance(instance);

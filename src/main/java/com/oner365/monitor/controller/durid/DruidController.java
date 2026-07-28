@@ -25,7 +25,6 @@ public class DruidController extends BaseController {
 
     /**
      * 监控首页
-     * 
      * @return String
      */
     @GetMapping("/index")

@@ -56,7 +56,7 @@ public class FileMinioClient implements IFileStorageClient {
 
     @Resource
     private IFileStorageService fileStorageService;
-    
+
     @Resource
     private AccessTokenProperties accessTokenProperties;
 

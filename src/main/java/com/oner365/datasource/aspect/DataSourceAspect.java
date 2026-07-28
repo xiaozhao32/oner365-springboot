@@ -38,7 +38,8 @@ public class DataSourceAspect {
 
         try {
             return point.proceed();
-        } finally {
+        }
+        finally {
             DataSourceHolder.clearDataSource();
         }
     }

@@ -39,13 +39,14 @@ class FileSms4UtilsTest extends BaseUtilsTest {
         File encodePartFile = new File(filePath + "/encodePart-test.png");
         String decodeFilePath = filePath + "/decodePart-test.png";
         FileSms4Utils.decodePart(encodePartFile, decodeFilePath);
-        
+
         try {
             File deleteEncodeFile = FileUtils.delete(encodePartFile);
             File deleteDecodeFile = FileUtils.delete(new File(decodeFilePath));
             logger.info("Encode File Path: {}", deleteEncodeFile.getPath());
             logger.info("Decode File Path: {}", deleteDecodeFile.getPath());
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             logger.error("delete file error", e);
         }
     }
@@ -64,13 +65,14 @@ class FileSms4UtilsTest extends BaseUtilsTest {
         File encodePartFile = new File(filePath + "/encode-test.png");
         String decodeFilePath = filePath + "/decode-test.png";
         FileSms4Utils.decode(encodePartFile, decodeFilePath);
-        
+
         try {
             File deleteEncodeFile = FileUtils.delete(encodePartFile);
             File deleteDecodeFile = FileUtils.delete(new File(decodeFilePath));
             logger.info("Encode File Path: {}", deleteEncodeFile.getPath());
             logger.info("Decode File Path: {}", deleteDecodeFile.getPath());
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             logger.error("delete file error", e);
         }
     }
@@ -89,13 +91,14 @@ class FileSms4UtilsTest extends BaseUtilsTest {
         File encodePartFile = new File(filePath + "/encodePartPlace-test.png");
         String decodeFilePath = filePath + "/decodePartPlace-test.png";
         FileSms4Utils.decodePartNoPlaceholder(encodePartFile, decodeFilePath);
-        
+
         try {
             File deleteEncodeFile = FileUtils.delete(encodePartFile);
             File deleteDecodeFile = FileUtils.delete(new File(decodeFilePath));
             logger.info("Encode File Path: {}", deleteEncodeFile.getPath());
             logger.info("Decode File Path: {}", deleteDecodeFile.getPath());
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             logger.error("delete file error", e);
         }
     }

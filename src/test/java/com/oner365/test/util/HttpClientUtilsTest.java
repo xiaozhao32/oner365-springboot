@@ -40,7 +40,7 @@ class HttpClientUtilsTest extends BaseUtilsTest {
 
     @Resource
     private RabbitmqProperties rabbitmqProperties;
-    
+
     @Resource
     private DefaultQueueProperties defaultQueueProperties;
 
@@ -49,7 +49,7 @@ class HttpClientUtilsTest extends BaseUtilsTest {
         QueueEnum queueType = defaultQueueProperties.getType();
         logger.info("Queue Type: {}", queueType);
         Assertions.assertNotNull(queueType);
-        
+
         // Rabbitmq Test
         if (QueueEnum.RABBITMQ.equals(queueType)) {
             String uri = rabbitmqProperties.getUri();
@@ -57,14 +57,15 @@ class HttpClientUtilsTest extends BaseUtilsTest {
                     Integer.parseInt(StringUtils.substringAfterLast(uri, ":")), StringUtils.substringBefore(uri, ":"));
             CredentialsProvider credsProvider = new BasicCredentialsProvider();
             credsProvider.setCredentials(new AuthScope(target.getHostName(), target.getPort()),
-                    new UsernamePasswordCredentials(rabbitmqProperties.getUsername(), rabbitmqProperties.getPassword()));
+                    new UsernamePasswordCredentials(rabbitmqProperties.getUsername(),
+                            rabbitmqProperties.getPassword()));
             CloseableHttpClient httpclient = HttpClients.custom().setDefaultCredentialsProvider(credsProvider).build();
             HttpGet httpget = new HttpGet(rabbitmqProperties.getUri() + "/api/queues/%2f/oner365.saveTaskLogTask");
             AuthCache authCache = new BasicAuthCache();
             BasicScheme basicAuth = new BasicScheme();
             authCache.put(target, basicAuth);
             HttpClientContext localContext = HttpClientContext.create();
-    
+
             Assertions.assertNotNull(localContext);
             localContext.setAuthCache(authCache);
             CloseableHttpResponse response = httpclient.execute(target, httpget, localContext);

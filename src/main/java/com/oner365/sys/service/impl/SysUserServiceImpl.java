@@ -293,7 +293,8 @@ public class SysUserServiceImpl implements ISysUserService {
             entity.setOrgs(orgs);
             setName(entity);
             return convert(entity, SysUserDto.class);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             LOGGER.error("Error saveUser: ", e);
 
             throw new ProjectRuntimeException();

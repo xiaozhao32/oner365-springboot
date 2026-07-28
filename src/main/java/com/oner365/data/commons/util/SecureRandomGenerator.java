@@ -11,9 +11,9 @@ import org.slf4j.LoggerFactory;
 
 /**
  * 生产级安全随机数工具类 结合 SecureRandom 和多种安全特性
- * 
+ *
  * @author zhaoyong
- * 
+ *
  */
 public class SecureRandomGenerator {
 
@@ -32,7 +32,8 @@ public class SecureRandomGenerator {
         if (workerIdEnv != null) {
             try {
                 workerId = Long.parseLong(workerIdEnv);
-            } catch (NumberFormatException e) {
+            }
+            catch (NumberFormatException e) {
                 logger.warn("Invalid WORKER_ID env: {}", workerIdEnv);
             }
         }
@@ -43,11 +44,12 @@ public class SecureRandomGenerator {
     private SecureRandomGenerator() {
         super();
     }
-    
+
     // 静态内部类持有单例（JVM 保证线程安全）
     private static class SecureRandomSingleton {
+
         private static final SecureRandom INSTANCE;
-        
+
         static {
             SecureRandom random = null;
             try {
@@ -56,19 +58,22 @@ public class SecureRandomGenerator {
                 // 强制初始化（从系统熵源获取种子）
                 random.nextBytes(new byte[1]);
                 logger.info("SecureRandom initialized with SHA1PRNG");
-            } catch (NoSuchAlgorithmException e) {
+            }
+            catch (NoSuchAlgorithmException e) {
                 try {
                     // 降级到 NativePRNG
                     random = SecureRandom.getInstance("NativePRNG");
                     random.nextBytes(new byte[1]);
                     logger.info("SecureRandom initialized with NativePRNG");
-                } catch (NoSuchAlgorithmException ex) {
+                }
+                catch (NoSuchAlgorithmException ex) {
                     try {
                         // 最终降级到默认
                         random = new SecureRandom();
                         random.nextBytes(new byte[1]);
                         logger.info("SecureRandom initialized with default");
-                    } catch (Exception ex2) {
+                    }
+                    catch (Exception ex2) {
                         logger.error("Failed to initialize SecureRandom", ex2);
                         random = new SecureRandom();
                     }
@@ -76,8 +81,9 @@ public class SecureRandomGenerator {
             }
             INSTANCE = random;
         }
+
     }
-    
+
     /**
      * 获取 SecureRandom 实例
      */

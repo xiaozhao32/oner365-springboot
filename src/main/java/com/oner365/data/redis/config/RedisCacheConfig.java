@@ -60,9 +60,10 @@ public class RedisCacheConfig {
     @Bean
     CacheManager cacheManager(RedisConnectionFactory connectionFactory) {
         return RedisCacheManager.builder(connectionFactory)
-                .cacheDefaults(RedisCacheConfiguration.defaultCacheConfig()
-                        .entryTtl(Duration.ofMinutes(accessTokenProperties.getExpireTime())))
-                .transactionAware().build();
+            .cacheDefaults(RedisCacheConfiguration.defaultCacheConfig()
+                .entryTtl(Duration.ofMinutes(accessTokenProperties.getExpireTime())))
+            .transactionAware()
+            .build();
     }
 
     @Bean
@@ -99,11 +100,16 @@ public class RedisCacheConfig {
         }
 
         ClusterTopologyRefreshOptions clusterTopologyRefreshOptions = ClusterTopologyRefreshOptions.builder()
-                .enablePeriodicRefresh().refreshPeriod(Duration.ofSeconds(5L)).build();
+            .enablePeriodicRefresh()
+            .refreshPeriod(Duration.ofSeconds(5L))
+            .build();
         ClusterClientOptions clusterClientOptions = ClusterClientOptions.builder()
-                .topologyRefreshOptions(clusterTopologyRefreshOptions).build();
+            .topologyRefreshOptions(clusterTopologyRefreshOptions)
+            .build();
         LettuceClientConfiguration lettuceClientConfiguration = LettuceClientConfiguration.builder()
-                .readFrom(ReadFrom.REPLICA_PREFERRED).clientOptions(clusterClientOptions).build();
+            .readFrom(ReadFrom.REPLICA_PREFERRED)
+            .clientOptions(clusterClientOptions)
+            .build();
         return new LettuceConnectionFactory(redisClusterConfiguration, lettuceClientConfiguration);
     }
 
@@ -120,7 +126,7 @@ public class RedisCacheConfig {
             redisSentinelConfiguration.setPassword(redisProperties.getPassword());
         }
         LettuceClientConfiguration lettuceClientConfiguration = LettucePoolingClientConfiguration
-                .defaultConfiguration();
+            .defaultConfiguration();
         return new LettuceConnectionFactory(redisSentinelConfiguration, lettuceClientConfiguration);
     }
 

@@ -63,7 +63,7 @@ public class ApiController extends BaseController {
 
     @Resource
     private MessageSource messageSource;
-    
+
     @Resource
     private AccessTokenProperties accessTokenProperties;
 

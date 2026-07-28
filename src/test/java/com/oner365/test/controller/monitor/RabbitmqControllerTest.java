@@ -20,7 +20,7 @@ import jakarta.annotation.Resource;
 class RabbitmqControllerTest extends BaseControllerTest {
 
     private static final String PATH = "/monitor/rabbitmq";
-    
+
     @Resource
     private DefaultQueueProperties defaultQueueProperties;
 
@@ -29,7 +29,7 @@ class RabbitmqControllerTest extends BaseControllerTest {
         QueueEnum queueType = defaultQueueProperties.getType();
         logger.info("Queue Type: {}", queueType);
         Assertions.assertNotNull(queueType);
-        
+
         // Rabbitmq Test
         if (QueueEnum.RABBITMQ.equals(queueType)) {
             String url = PATH + "/index";
@@ -44,7 +44,7 @@ class RabbitmqControllerTest extends BaseControllerTest {
         QueueEnum queueType = defaultQueueProperties.getType();
         logger.info("Queue Type: {}", queueType);
         Assertions.assertNotNull(queueType);
-        
+
         // Rabbitmq Test
         if (QueueEnum.RABBITMQ.equals(queueType)) {
             String url = PATH + "/list/EXCHANGES?pageIndex=1&pageSize=5";
