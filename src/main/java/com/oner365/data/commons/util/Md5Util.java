@@ -1,13 +1,7 @@
 package com.oner365.data.commons.util;
 
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
+import java.security.MessageDigest;
 
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,11 +47,11 @@ public class Md5Util {
     public String getMd5(String data) {
         String result = null;
         if (data != null) {
-            result = DigestUtils.md5Hex(data);
+            result = getDigest(data, "MD5");
         }
         return result;
     }
-
+    
     /**
      * md5
      * @param data 字符串
@@ -66,33 +60,7 @@ public class Md5Util {
     public String getMd5(byte[] data) {
         String result = null;
         if (data != null) {
-            result = DigestUtils.md5Hex(data);
-        }
-        return result;
-    }
-
-    /**
-     * md5
-     * @param data 字符串
-     * @return byte[]
-     */
-    public byte[] md5(String data) {
-        byte[] result = null;
-        if (data != null) {
-            result = DigestUtils.md5(data);
-        }
-        return result;
-    }
-
-    /**
-     * sha1
-     * @param data 字符串
-     * @return byte[]
-     */
-    public byte[] sha1(String data) {
-        byte[] result = null;
-        if (data != null) {
-            result = DigestUtils.sha1(data);
+            result = getDigest(data, "MD5");
         }
         return result;
     }
@@ -105,29 +73,33 @@ public class Md5Util {
     public String getSha1(String data) {
         String result = null;
         if (data != null) {
-            result = DigestUtils.sha1Hex(data);
+            result = getDigest(data, "SHA1");
         }
         return result;
     }
 
-    /**
-     * signature
-     * @param key 标识
-     * @param data 字符串
-     * @param type 类型
-     * @return byte[]
-     */
-    public byte[] getSignature(byte[] key, byte[] data, String type) {
-        SecretKeySpec secretKeySpec = new SecretKeySpec(key, type);
+    private String getDigest(String str, String instance) {
+        return getDigest(str.getBytes(), instance);
+    }
+    
+    private String getDigest(byte[] str, String instance) {
         try {
-            Mac mac = Mac.getInstance(type);
-            mac.init(secretKeySpec);
-            return mac.doFinal(data);
+            MessageDigest messageDigest = MessageDigest.getInstance(instance);
+            byte[] bytes = messageDigest.digest(str);
+            StringBuilder stringBuilder = new StringBuilder();
+            for (byte b : bytes) {
+                int bt = b & 0xff;
+                if (bt < 16) {
+                    stringBuilder.append(0);
+                }
+                stringBuilder.append(Integer.toHexString(bt));
+            }
+            return stringBuilder.toString();
         }
-        catch (InvalidKeyException | NoSuchAlgorithmException e) {
-            LOGGER.error("Error getSignature:", e);
+        catch (Exception e) {
+            LOGGER.error("getMd5 error", e);
         }
-        return ArrayUtils.EMPTY_BYTE_ARRAY;
+        return null;
     }
 
 }

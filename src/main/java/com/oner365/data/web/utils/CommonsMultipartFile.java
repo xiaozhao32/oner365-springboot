@@ -10,12 +10,10 @@ import java.nio.file.Path;
 import javax.annotation.Nonnull;
 
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItem;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.jspecify.annotations.NonNull;
-import org.springframework.core.log.LogFormatUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,7 +30,7 @@ public class CommonsMultipartFile implements MultipartFile, Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    protected static final Log logger = LogFactory.getLog(CommonsMultipartFile.class);
+    protected static final Logger logger = LoggerFactory.getLogger(CommonsMultipartFile.class);
 
     private final FileItem fileItem; // NOSONAR
 
@@ -150,23 +148,6 @@ public class CommonsMultipartFile implements MultipartFile, Serializable {
 
         try {
             this.fileItem.write(dest);
-            LogFormatUtils.traceDebug(logger, traceOn -> {
-                String action = "transferred";
-                if (!this.fileItem.isInMemory()) {
-                    action = (isAvailable() ? "copied" : "moved");
-                }
-                return "Part '" + getName() + "',  filename '" + getOriginalFilename() + "'"
-                        + (traceOn ? ", stored " + getStorageDescription() : PublicConstants.EMPTY) + ": " + action
-                        + " to [" + dest.getAbsolutePath() + "]";
-            });
-        }
-        catch (FileUploadException ex) {
-            throw new IllegalStateException(ex.getMessage(), ex);
-        }
-        catch (IllegalStateException | IOException ex) {
-            // Pass through IllegalStateException when coming from FileItem directly,
-            // or propagate an exception from I/O operations within FileItem.write
-            throw ex;
         }
         catch (Exception ex) {
             throw new IOException("File transfer failed", ex);

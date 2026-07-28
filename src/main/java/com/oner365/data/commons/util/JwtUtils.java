@@ -6,6 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.crypto.SecretKey;
 
@@ -87,9 +88,9 @@ public class JwtUtils {
         if (DataUtils.isEmpty(token)) {
             return null;
         }
-        final Claims claims = getClaimsFromToken(token, secret);
-        if (claims != null && claims.getSubject() != null) {
-            return RsaUtils.decrypt(claims.getSubject());
+        final Optional<Claims> optional = getClaimsFromToken(token, secret);
+        if (optional.isPresent()) {
+            return RsaUtils.decrypt(optional.get().getSubject());
         }
         return null;
     }
@@ -100,19 +101,20 @@ public class JwtUtils {
      * @param secret 加密秘钥
      * @return Claims
      */
-    private static Claims getClaimsFromToken(String token, String secret) {
+    private static Optional<Claims> getClaimsFromToken(String token, String secret) {
         try {
             SecretKey key = getSecureKey(secret);
-            return Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload();
+            Claims claims = Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload();
+            return Optional.ofNullable(claims);
         }
         catch (ExpiredJwtException e) {
             LOGGER.error("token: {}, 已过期: {}", token, e.getMessage());
-            return e.getClaims();
+            return Optional.ofNullable(e.getClaims());
         }
         catch (Exception e) {
             LOGGER.error("getClaimsFromToken error", e);
         }
-        return null;
+        return Optional.empty();
     }
 
     /**
@@ -152,9 +154,9 @@ public class JwtUtils {
      */
     public static Date getExpirationDateFromToken(String token, String secret) {
         Date expiration = null;
-        final Claims claims = getClaimsFromToken(token, secret);
-        if (claims != null) {
-            expiration = claims.getExpiration();
+        final Optional<Claims> optional = getClaimsFromToken(token, secret);
+        if (optional.isPresent()) {
+            expiration = optional.get().getExpiration();
         }
         return expiration;
     }

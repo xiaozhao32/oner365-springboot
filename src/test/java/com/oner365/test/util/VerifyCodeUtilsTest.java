@@ -1,10 +1,11 @@
 package com.oner365.test.util;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import java.util.concurrent.ThreadLocalRandom;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import com.oner365.data.commons.util.VerifyCodeUtils;
+import com.oner365.data.commons.util.SecureRandomGenerator;
 
 /**
  * 工具类测试
@@ -16,8 +17,11 @@ class VerifyCodeUtilsTest extends BaseUtilsTest {
 
     @Test
     void test() {
-        String result = VerifyCodeUtils.generateVerifyCode(4);
-        assertNotNull(result);
+        int number = ThreadLocalRandom.current().nextInt(100);
+        logger.info("ThreadLocalRandom:{}", number);
+        String result = SecureRandomGenerator.randomAlphanumeric(10);
+        logger.info("generateVerifyCode: {}", result);
+        Assertions.assertNotNull(result);
     }
 
 }

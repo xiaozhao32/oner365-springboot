@@ -1,7 +1,9 @@
 package com.oner365.data.web.xss;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Safelist;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.oner365.data.commons.util.DataUtils;
 
@@ -14,26 +16,50 @@ import jakarta.validation.ConstraintValidatorContext;
  * @author zhaoyong
  */
 public class XssValidator implements ConstraintValidator<Xss, String> {
-
-    private static final String HTML_PATTERN = "<(\\S*?)[^>]*>.*?|<.*? />";
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(XssValidator.class);
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext constraintValidatorContext) {
-        if (DataUtils.isEmpty(value)) {
-            return true;
-        }
         return !containsHtml(value);
     }
 
     /**
-     * containsHtml
-     * @param value html value
+     * 检测是否包含 HTML（使用 Jsoup）
+     * 
+     * @param value HTML标签
      * @return 是否包含
      */
     public static boolean containsHtml(String value) {
-        Pattern pattern = Pattern.compile(HTML_PATTERN);
-        Matcher matcher = pattern.matcher(value);
-        return matcher.matches();
+        if (DataUtils.isEmpty(value)) {
+            return true;
+        }
+        try {
+            String cleaned = Jsoup.clean(value, Safelist.none());
+            return !cleaned.equals(value);
+        } catch (Exception e) {
+            LOGGER.error("containsHtml error", e);
+            return value.contains("<") && value.contains(">");
+        }
+    }
+
+    /**
+     * 移除 HTML 标签
+     * 
+     * @param value HTML标签
+     * @return String
+     */
+    public static String removeHtml(String value) {
+        if (DataUtils.isEmpty(value)) {
+            return value;
+        }
+
+        try {
+            return Jsoup.clean(value, Safelist.none());
+        } catch (Exception e) {
+            LOGGER.error("removeHtml error", e);
+            return value.replaceAll("<[^>]*>", "");
+        }
     }
 
 }

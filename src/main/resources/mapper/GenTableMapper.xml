@@ -55,14 +55,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select table_id, table_name, table_comment, class_name, tpl_category, package_name, module_name, business_name, function_name, function_author, gen_type, gen_path, options, create_by, create_time, update_by, update_time, remark from gen_table
     </sql>
     
-    <select id="selectGenTableList" parameterType="com.oner365.generator.entity.GenTable" resultMap="GenTableResult">
+    <select id="selectGenTableList" parameterType="com.oner365.generator.entity.GenTable" resultMap="GenTableResult" databaseId="mysql">
         <include refid="selectGenTableVo"/>
         <where>
             <if test="tableName != null and tableName != ''">
-                AND lower(table_name) like '%' || #{tableName} || '%'
+                AND lower(table_name) like CONCAT('%', #{tableName}, '%')
             </if>
             <if test="tableComment != null and tableComment != ''">
-                AND lower(table_comment) like '%' || #{tableComment} || '%'
+                AND lower(table_comment) like CONCAT('%', #{tableComment}, '%')
+            </if>
+        </where>
+    </select>
+    
+    <select id="selectGenTableList" parameterType="com.oner365.generator.entity.GenTable" resultMap="GenTableResult" databaseId="postgres">
+        <include refid="selectGenTableVo"/>
+        <where>
+            <if test="tableName != null and tableName != ''">
+                AND lower(table_name) like CONCAT('%', #{tableName}, '%')
+            </if>
+            <if test="tableComment != null and tableComment != ''">
+                AND lower(table_comment) like CONCAT('%', #{tableComment}, '%')
             </if>
         </where>
     </select>
@@ -73,10 +85,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         AND table_name NOT LIKE 'qrtz_%' AND table_name NOT LIKE 'gen_%'
         AND table_name NOT IN (select table_name from gen_table)
         <if test="tableName != null and tableName != ''">
-            AND lower(table_name) like '%' || #{tableName} || '%'
+            AND lower(table_name) like CONCAT('%', #{tableName}, '%')
         </if>
         <if test="tableComment != null and tableComment != ''">
-            AND lower(table_comment) like '%' || #{tableComment} || '%'
+            AND lower(table_comment) like CONCAT('%', #{tableComment}, '%')
         </if>
     </select>
     
