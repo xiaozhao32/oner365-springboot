@@ -3,11 +3,11 @@ package com.oner365.sys.controller.auth;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
 
@@ -117,7 +117,7 @@ public class AuthController extends BaseController {
         // 唯一标识
         String uuid = UUID.randomUUID().toString();
         String verifyKey = SysConstants.CAPTCHA_IMAGE + PublicConstants.COLON + uuid;
-        redisCache.setCacheObject(verifyKey, verifyCode, 3, TimeUnit.MINUTES);
+        redisCache.setCacheObject(verifyKey, verifyCode, Duration.ofMinutes(3));
 
         CaptchaImageDto result = new CaptchaImageDto();
 

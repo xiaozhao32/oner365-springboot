@@ -158,7 +158,7 @@ public class FileMinioClient implements IFileStorageClient {
                 .bucket(minioProperties.getBucket())
                 .object(path)
                 .method(Method.GET)
-                .expiry(accessTokenProperties.getExpireTime(), TimeUnit.MINUTES)
+                .expiry(Integer.parseInt(accessTokenProperties.getExpireTime().getSeconds() + ""), TimeUnit.SECONDS)
                 .build());
             logger.info("file presigned url: {}", url);
             return url;

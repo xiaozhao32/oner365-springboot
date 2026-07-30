@@ -7,8 +7,6 @@ import org.jspecify.annotations.Nullable;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
-import com.alibaba.fastjson.JSON;
-
 /**
  * 本地部署
  *
@@ -101,11 +99,6 @@ public class LocalDeployProperties {
 
     public void setActive(String active) {
         this.active = active;
-    }
-
-    @Override
-    public String toString() {
-        return JSON.toJSONString(this);
     }
 
 }

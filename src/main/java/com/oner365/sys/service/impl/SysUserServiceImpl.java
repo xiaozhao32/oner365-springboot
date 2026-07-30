@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -116,7 +115,8 @@ public class SysUserServiceImpl implements ISysUserService {
                 return JSON.toJavaObject(cache, LoginUserDto.class);
             }
 
-            Date time = DateUtil.after(DateUtil.getDate(), accessTokenProperties.getExpireTime(), Calendar.MINUTE);
+            Date time = DateUtil.after(DateUtil.getDate(), 
+                    Integer.parseInt(accessTokenProperties.getExpireTime().getSeconds() + ""), Calendar.SECOND);
             JSONObject tokenJson = new JSONObject();
             tokenJson.put(RequestUtils.TOKEN_TYPE, "login");
 
@@ -151,7 +151,7 @@ public class SysUserServiceImpl implements ISysUserService {
             result.setRoles(roles);
             result.setJobs(jobs);
             result.setOrgs(orgs);
-            redisCache.setCacheObject(key, result, accessTokenProperties.getExpireTime(), TimeUnit.MINUTES);
+            redisCache.setCacheObject(key, result, accessTokenProperties.getExpireTime());
 
             return result;
         }

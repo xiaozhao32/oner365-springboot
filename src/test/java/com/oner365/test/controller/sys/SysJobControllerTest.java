@@ -10,8 +10,6 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.reactive.function.BodyInserters;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.oner365.sys.entity.SysJob;
 import com.oner365.test.controller.BaseControllerTest;
 
@@ -42,8 +40,7 @@ class SysJobControllerTest extends BaseControllerTest {
     @Execution(ExecutionMode.CONCURRENT)
     void list() {
         String url = PATH + "/page";
-        JSONObject paramJson = new JSONObject();
-        Object result = post(url, BodyInserters.fromValue(paramJson));
+        Object result = post(url, BodyInserters.fromValue(objectMapper.createObjectNode()));
         logger.info("page:[{}] -> {}", url, result);
         Assertions.assertNotNull(result);
     }
@@ -57,7 +54,7 @@ class SysJobControllerTest extends BaseControllerTest {
         entity.setJobInfo("test");
         entity.setJobOrder(3);
 
-        Map<String, Object> map = (Map<String, Object>) put(savePath, BodyInserters.fromValue(JSON.toJSON(entity)));
+        Map<String, Object> map = (Map<String, Object>) put(savePath, BodyInserters.fromValue(entity));
         logger.info("save:[{}] -> {}", savePath, map);
         Assertions.assertNotNull(map);
 

@@ -1,5 +1,6 @@
 package com.oner365.data.redis;
 
+import java.time.Duration;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -41,21 +42,10 @@ public class RedisCache {
      * 缓存基本的对象，Integer、String、实体类等
      * @param key 缓存的键值
      * @param value 缓存的值
-     * @param timeout 时间
-     * @param timeUnit 时间颗粒度
+     * @param duration 时间
      */
-    public <T> void setCacheObject(final String key, final T value, final Integer timeout, final TimeUnit timeUnit) {
-        redisTemplate.opsForValue().set(key, value, Expiration.from(timeout, timeUnit));
-    }
-
-    /**
-     * 设置有效时间
-     * @param key Redis键
-     * @param timeout 超时时间
-     * @return true=设置成功；false=设置失败
-     */
-    public boolean expire(final String key, final long timeout) {
-        return expire(key, timeout, TimeUnit.SECONDS);
+    public <T> void setCacheObject(final String key, final T value, final Duration duration) {
+        redisTemplate.opsForValue().set(key, value, duration);
     }
 
     /**
@@ -65,8 +55,8 @@ public class RedisCache {
      * @param unit 时间单位
      * @return true=设置成功；false=设置失败
      */
-    public boolean expire(final String key, final long timeout, final TimeUnit unit) {
-        return redisTemplate.expire(key, Expiration.from(timeout, unit));
+    public boolean expire(final String key, final Duration duration) {
+        return redisTemplate.expire(key, duration);
     }
 
     /**

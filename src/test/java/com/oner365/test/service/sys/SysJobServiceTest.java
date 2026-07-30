@@ -9,7 +9,6 @@ import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.alibaba.fastjson.JSON;
 import com.oner365.data.jpa.page.PageInfo;
 import com.oner365.data.jpa.query.QueryCriteriaBean;
 import com.oner365.sys.dto.SysJobDto;
@@ -48,7 +47,7 @@ class SysJobServiceTest extends BaseServiceTest {
     void getById() {
         String id = "1";
         SysJobDto entity = service.getById(id);
-        logger.info("getById:{}", JSON.toJSONString(entity));
+        logger.info("getById:{}", objectMapper.writeValueAsString(entity));
         Assertions.assertNotNull(entity);
     }
 

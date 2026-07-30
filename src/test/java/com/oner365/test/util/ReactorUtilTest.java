@@ -6,11 +6,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
-import com.alibaba.fastjson.JSONObject;
-
 import reactor.core.publisher.Mono;
 import reactor.netty.ByteBufFlux;
 import reactor.netty.http.client.HttpClient;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.node.ObjectNode;
 
 /**
  * 工具类测试
@@ -33,7 +33,8 @@ class ReactorUtilTest extends BaseUtilsTest {
     @Test
     void testPostUrl() {
         String uri = "http://localhost:8704/system/auth/login";
-        JSONObject json = new JSONObject();
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode json = mapper.createObjectNode();
         json.put("userName", "admin");
         json.put("password", "1");
         // POST
@@ -41,7 +42,7 @@ class ReactorUtilTest extends BaseUtilsTest {
             .headers(h -> h.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
             .post()
             .uri(uri)
-            .send(ByteBufFlux.fromString(Mono.just(json.toJSONString())))
+            .send(ByteBufFlux.fromString(Mono.just(mapper.writeValueAsString(json))))
             .responseContent()
             .aggregate()
             .asString()

@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.alibaba.fastjson.JSON;
 import com.oner365.sys.dto.SysMenuDto;
 import com.oner365.sys.service.ISysMenuService;
 import com.oner365.sys.vo.SysMenuVo;
@@ -31,7 +30,7 @@ class SysMenuServiceTest extends BaseServiceTest {
     void getById() {
         String id = "101";
         SysMenuDto entity = service.getById(id);
-        logger.info("getById:{}", JSON.toJSONString(entity));
+        logger.info("getById:{}", objectMapper.writeValueAsString(entity));
         Assertions.assertNotNull(entity);
     }
 

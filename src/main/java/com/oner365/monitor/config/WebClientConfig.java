@@ -51,7 +51,8 @@ public class WebClientConfig {
         return WebClient.builder()
             .clientConnector(httpConnector)
             .exchangeStrategies(ExchangeStrategies.builder()
-                .codecs(configurer -> configurer.defaultCodecs().maxInMemorySize(properties.getMaxInMemorySize()))
+                .codecs(configurer -> configurer.defaultCodecs()
+                        .maxInMemorySize(Integer.parseInt(properties.getMaxInMemorySize().toBytes() + "")))
                 .build())
             .build();
     }

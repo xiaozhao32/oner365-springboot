@@ -26,6 +26,7 @@ import com.oner365.data.commons.util.RsaUtils;
 import com.oner365.data.web.utils.RequestUtils;
 
 import jakarta.annotation.Resource;
+import jakarta.json.JsonStructure;
 import tools.jackson.core.JacksonException;
 import tools.jackson.databind.ObjectMapper;
 
@@ -90,6 +91,9 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
         if (body instanceof byte[] || body instanceof ResponseData
                 || body.getClass().getName().contains("org.springframework")) {
             return body;
+        }
+        if (body instanceof JsonStructure json) {
+            return ResponseData.success(json.toString());
         }
         return ResponseData.success((Serializable) body);
     }

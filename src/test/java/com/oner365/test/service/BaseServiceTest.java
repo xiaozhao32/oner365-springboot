@@ -6,6 +6,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.oner365.data.commons.exception.ProjectRuntimeException;
 import com.oner365.test.BaseTest;
 
+import jakarta.annotation.Resource;
+import tools.jackson.databind.ObjectMapper;
+
 /**
  * 单元测试父类 - 服务类
  * 
@@ -15,5 +18,8 @@ import com.oner365.test.BaseTest;
 @Rollback
 @Transactional(rollbackFor = ProjectRuntimeException.class)
 public abstract class BaseServiceTest extends BaseTest {
+    
+    @Resource 
+    protected ObjectMapper objectMapper;
 
 }

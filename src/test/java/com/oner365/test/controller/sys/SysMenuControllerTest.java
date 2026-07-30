@@ -6,8 +6,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.reactive.function.BodyInserters;
 
-import com.alibaba.fastjson.JSONObject;
 import com.oner365.test.controller.BaseControllerTest;
+
+import tools.jackson.databind.node.ObjectNode;
 
 /**
  * Test SysMenuController
@@ -31,9 +32,9 @@ class SysMenuControllerTest extends BaseControllerTest {
     @RepeatedTest(2)
     void list() {
         String url = PATH + "/list";
-        JSONObject paramJson = new JSONObject();
-        paramJson.put("menuTypeId", "1");
-        Object result = post(url, BodyInserters.fromValue(paramJson));
+        ObjectNode objectNode = objectMapper.createObjectNode();
+        objectNode.put("menuTypeId", "1");
+        Object result = post(url, BodyInserters.fromValue(objectNode));
         logger.info("page:[{}] -> {}", url, result);
         Assertions.assertNotNull(result);
     }

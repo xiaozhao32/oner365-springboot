@@ -61,7 +61,7 @@ public class RedisCacheConfig {
     CacheManager cacheManager(RedisConnectionFactory connectionFactory) {
         return RedisCacheManager.builder(connectionFactory)
             .cacheDefaults(RedisCacheConfiguration.defaultCacheConfig()
-                .entryTtl(Duration.ofMinutes(accessTokenProperties.getExpireTime())))
+            .entryTtl(accessTokenProperties.getExpireTime()))
             .transactionAware()
             .build();
     }

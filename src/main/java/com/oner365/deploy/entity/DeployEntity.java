@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.alibaba.fastjson.JSON;
-
 /**
  * 部署对象
  *
@@ -98,11 +96,6 @@ public class DeployEntity implements Serializable {
 
     public void setActive(String active) {
         this.active = active;
-    }
-
-    @Override
-    public String toString() {
-        return JSON.toJSONString(this);
     }
 
 }

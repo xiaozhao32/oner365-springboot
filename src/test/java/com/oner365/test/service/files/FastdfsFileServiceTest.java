@@ -9,7 +9,6 @@ import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.alibaba.fastjson.JSON;
 import com.oner365.data.jpa.page.PageInfo;
 import com.oner365.data.jpa.query.QueryCriteriaBean;
 import com.oner365.files.dto.SysFileStorageDto;
@@ -50,7 +49,7 @@ class FastdfsFileServiceTest extends BaseServiceTest {
         List<SysFileStorageDto> list = service.findList(paramData);
         if (!list.isEmpty()) {
             SysFileStorageDto entity = service.getById(list.get(0).getId());
-            logger.info("getById:{}", JSON.toJSONString(entity));
+            logger.info("getById:{}", objectMapper.writeValueAsString(entity));
             Assertions.assertNotNull(entity);
         }
     }

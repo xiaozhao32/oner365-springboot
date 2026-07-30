@@ -1,5 +1,6 @@
 package com.oner365.test.service.common;
 
+import java.time.Duration;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -38,7 +39,7 @@ class RedisCacheTest extends BaseServiceTest {
         final String key = "k1";
         Integer value = 111;
         redisCache.setCacheObject(key, value);
-        boolean expire = redisCache.expire(key, 10000);
+        boolean expire = redisCache.expire(key, Duration.ofMinutes(1));
         Assertions.assertTrue(expire);
 
         Collection<String> result = redisCache.keys(key);

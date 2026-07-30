@@ -1,7 +1,7 @@
 package com.oner365.test.controller;
 
+import java.time.Duration;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.Assertions;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,7 +14,6 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.BodyInserter;
 import org.springframework.web.reactive.function.BodyInserters;
 
-import com.alibaba.fastjson.JSONObject;
 import com.oner365.data.commons.enums.ResultEnum;
 import com.oner365.data.commons.reponse.ResponseData;
 import com.oner365.data.redis.RedisCache;
@@ -22,6 +21,8 @@ import com.oner365.sys.dto.LoginUserDto;
 import com.oner365.test.BaseTest;
 
 import jakarta.annotation.Resource;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.node.ObjectNode;
 
 /**
  * Base Controller
@@ -34,6 +35,9 @@ public abstract class BaseControllerTest extends BaseTest {
 
     @Resource
     private RedisCache redisCache;
+    
+    @Resource 
+    protected ObjectMapper objectMapper;
 
     private WebTestClient webTestClient;
 
@@ -59,13 +63,13 @@ public abstract class BaseControllerTest extends BaseTest {
         }
         // auth
         String url = "/system/auth/login";
-        JSONObject paramJson = new JSONObject();
-        paramJson.put("userName", "admin");
-        paramJson.put("password", "1");
+        ObjectNode objectNode = objectMapper.createObjectNode();
+        objectNode.put("userName", "admin");
+        objectNode.put("password", "1");
 
         ResponseData<LoginUserDto> response = getWebClient().post()
             .uri(url)
-            .body(BodyInserters.fromValue(paramJson))
+            .body(BodyInserters.fromValue(objectNode))
             .exchange()
             .expectBody(new ParameterizedTypeReference<ResponseData<LoginUserDto>>() {
             })
@@ -76,7 +80,7 @@ public abstract class BaseControllerTest extends BaseTest {
         LoginUserDto result = response.getResult();
         if (ResultEnum.SUCCESS.getCode().equals(response.getCode()) && result != null) {
             token = result.getAccessToken();
-            redisCache.setCacheObject(cacheKey, token, 3, TimeUnit.MINUTES);
+            redisCache.setCacheObject(cacheKey, token, Duration.ofMinutes(3));
         }
         return token;
     }

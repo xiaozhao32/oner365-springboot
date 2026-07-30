@@ -3,8 +3,6 @@ package com.oner365.deploy.entity;
 import java.io.Serializable;
 import java.util.List;
 
-import com.alibaba.fastjson.JSON;
-
 /**
  * Server 对象
  *
@@ -44,11 +42,6 @@ public class ServerEntity implements Serializable {
 
     public void setServerList(List<DeployServer> serverList) {
         this.serverList = serverList;
-    }
-
-    @Override
-    public String toString() {
-        return JSON.toJSONString(this);
     }
 
 }

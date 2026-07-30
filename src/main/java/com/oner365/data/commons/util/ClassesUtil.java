@@ -1,13 +1,5 @@
 package com.oner365.data.commons.util;
 
-import com.alibaba.fastjson.JSON;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.reflect.MethodUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
-import org.springframework.util.ClassUtils;
-
 import java.beans.PropertyDescriptor;
 import java.io.Serializable;
 import java.lang.reflect.Method;
@@ -21,6 +13,17 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.reflect.MethodUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
+import org.springframework.util.ClassUtils;
+
+import com.alibaba.fastjson.JSON;
+
+import jakarta.json.JsonStructure;
 
 /**
  * 工具类 - 类加载器
@@ -152,7 +155,8 @@ public class ClassesUtil {
      */
     public static boolean isJson(Class<?> clazz) {
         boolean result = false;
-        if (ClassUtils.isAssignable(JSON.class, clazz)) {
+        if (ClassUtils.isAssignable(JSON.class, clazz)
+                || ClassUtils.isAssignable(JsonStructure.class, clazz)) {
             result = true;
         }
         return result;

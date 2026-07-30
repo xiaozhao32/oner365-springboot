@@ -1,6 +1,8 @@
 package com.oner365.monitor.config.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.util.unit.DataSize;
+import org.springframework.util.unit.DataUnit;
 
 /**
  * webclient配置
@@ -13,7 +15,7 @@ public class WebClientProperties {
     /**
      * max-in-memory-size
      */
-    private int maxInMemorySize = 209715200;
+    private DataSize maxInMemorySize = DataSize.of(1L, DataUnit.GIGABYTES);
 
     /**
      * SSL
@@ -37,11 +39,11 @@ public class WebClientProperties {
 
     }
 
-    public int getMaxInMemorySize() {
+    public DataSize getMaxInMemorySize() {
         return maxInMemorySize;
     }
 
-    public void setMaxInMemorySize(int maxInMemorySize) {
+    public void setMaxInMemorySize(DataSize maxInMemorySize) {
         this.maxInMemorySize = maxInMemorySize;
     }
 

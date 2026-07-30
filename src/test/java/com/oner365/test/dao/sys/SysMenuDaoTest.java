@@ -21,7 +21,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
-import com.alibaba.fastjson.JSON;
 import com.oner365.data.commons.config.properties.DefaultFileProperties;
 import com.oner365.data.commons.util.DateUtil;
 import com.oner365.data.commons.util.excel.ExportExcelUtils;
@@ -31,6 +30,7 @@ import com.oner365.sys.entity.SysMenu;
 import com.oner365.test.dao.BaseDaoTest;
 
 import jakarta.annotation.Resource;
+import tools.jackson.databind.ObjectMapper;
 
 /**
  * Test SysMenuDao
@@ -68,7 +68,8 @@ class SysMenuDaoTest extends BaseDaoTest {
         SysUserDto result = jdbcTemplate.queryForObject("SELECT * FROM nt_sys_user where id='1' ",
                 BeanPropertyRowMapper.newInstance(SysUserDto.class));
         Assertions.assertNotNull(result);
-        logger.info("result:{}", JSON.toJSONString(result));
+        ObjectMapper mapper = new ObjectMapper();
+        logger.info("result:{}", mapper.writeValueAsString(result));
     }
 
     @Test

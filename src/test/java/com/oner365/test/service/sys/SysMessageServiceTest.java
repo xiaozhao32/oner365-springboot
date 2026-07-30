@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.alibaba.fastjson.JSON;
 import com.oner365.data.jpa.query.AttributeBean;
 import com.oner365.data.jpa.query.QueryCriteriaBean;
 import com.oner365.sys.dto.SysMessageDto;
@@ -36,7 +35,7 @@ class SysMessageServiceTest extends BaseServiceTest {
         List<SysMessageDto> list = service.findList(data);
         if (!list.isEmpty()) {
             SysMessageDto entity = service.getById(list.get(0).getId());
-            logger.info("getById:{}", JSON.toJSONString(entity));
+            logger.info("getById:{}", objectMapper.writeValueAsString(entity));
             Assertions.assertNotNull(entity);
         }
     }

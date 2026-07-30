@@ -9,7 +9,6 @@ import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.alibaba.fastjson.JSON;
 import com.oner365.data.jpa.page.PageInfo;
 import com.oner365.data.jpa.query.QueryCriteriaBean;
 import com.oner365.gateway.dto.GatewayRouteDto;
@@ -48,7 +47,7 @@ class GatewayRouteServiceTest extends BaseServiceTest {
         List<GatewayRouteDto> list = service.findList();
         if (!list.isEmpty()) {
             GatewayRouteDto entity = service.getById(list.get(0).getId());
-            logger.info("getById:{}", JSON.toJSONString(entity));
+            logger.info("getById:{}", objectMapper.writeValueAsString(entity));
             Assertions.assertNotNull(entity);
         }
     }

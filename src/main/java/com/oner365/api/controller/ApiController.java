@@ -10,7 +10,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 import org.springframework.context.MessageSource;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -125,7 +124,7 @@ public class ApiController extends BaseController {
         JSONObject value = new JSONObject();
         value.put("aaa", 111);
         value.put("bbb", 222);
-        redisCache.setCacheObject(key, value, accessTokenProperties.getExpireTime(), TimeUnit.MINUTES);
+        redisCache.setCacheObject(key, value, accessTokenProperties.getExpireTime());
         JSONObject json = redisCache.getCacheObject(key);
         logger.info("test1:{}", json);
 

@@ -78,7 +78,7 @@
         <org.mybatis.version>3.5.19</org.mybatis.version>
 
         <org.bouncycastle.version>1.84</org.bouncycastle.version>
-        <org.elasticsearch.version>9.4.2</org.elasticsearch.version>
+        <org.elasticsearch.version>9.4.4</org.elasticsearch.version>
         <org.slf4j.version>2.0.18</org.slf4j.version>
         <ch.qos.logback.version>1.5.35</ch.qos.logback.version>
 
@@ -94,6 +94,7 @@
         <org.json.version>20250517</org.json.version>
         <org.eclipse.paho.version>1.2.5</org.eclipse.paho.version>
         <org.jsoup.version>1.22.2</org.jsoup.version>
+        <org.redisson.version>4.6.1</org.redisson.version>
 
         <org.postgresql.version>42.7.11</org.postgresql.version>
         <com.oracle.version>23.2.0.0</com.oracle.version>
@@ -144,7 +145,7 @@
         <joda.time.version>2.14.1</joda.time.version>
         <junit.version>4.13.2</junit.version>
         <xerces.version>2.12.2</xerces.version>
-        <tools.jackson.version>3.2.0</tools.jackson.version>
+        <tools.jackson.version>3.2.1</tools.jackson.version>
 
         <org.apache.maven.plugins.version>3.3.0</org.apache.maven.plugins.version>
         <docker.host>172.16.80.132:2375</docker.host>
@@ -587,6 +588,12 @@
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
             <version>${org.jsoup.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson-spring-boot-starter</artifactId>
+            <version>${org.redisson.version}</version>
         </dependency>
 
         <!-- jsonwebtoken -->

@@ -2,8 +2,6 @@ package com.oner365.deploy.entity;
 
 import java.io.Serializable;
 
-import com.alibaba.fastjson.JSON;
-
 /**
  * 服务器对象
  *
@@ -89,11 +87,6 @@ public class DeployServer implements Serializable {
      */
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    @Override
-    public String toString() {
-        return JSON.toJSONString(this);
     }
 
 }

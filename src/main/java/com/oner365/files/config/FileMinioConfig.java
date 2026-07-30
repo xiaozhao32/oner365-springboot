@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 
-import com.alibaba.fastjson.JSON;
 import com.oner365.data.commons.enums.StorageEnum;
 import com.oner365.files.config.properties.MinioProperties;
 import com.oner365.files.storage.condition.MinioStorageCondition;
@@ -57,7 +56,7 @@ public class FileMinioConfig {
             return minioClient;
         }
         catch (Exception e) {
-            LOGGER.error("File Minio Client Error: {}", JSON.toJSONString(minioProperties));
+            LOGGER.error("File Minio Client Error: {}", minioProperties);
             LOGGER.error("File Minio Client Error:", e);
         }
         return null;

@@ -16,7 +16,6 @@
 package com.oner365.data.web.filter;
 
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
@@ -68,7 +67,7 @@ public class JwtAuthFilter implements Filter {
                 if (tokenInfo != null) {
                     authUser = JSON.parseObject(tokenInfo);
                     redisCache.setCacheObject(CacheConstants.CACHE_TOKEN_NAME + authToken.hashCode(), authUser,
-                            accessTokenProperties.getExpireTime(), TimeUnit.MINUTES);
+                            accessTokenProperties.getExpireTime());
                     setHttpRequest(httpRequest, new AuthUser(authUser), authToken);
                 }
             }

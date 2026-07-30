@@ -186,7 +186,7 @@ mybatis:
 # Access Token
 token:
   secret: test
-  expire-time: 60
+  expire-time: 1h
 
 # 雪花算法生成id
 sequence:
@@ -333,7 +333,7 @@ knife4j:
 webclient:
   ssl:
     enable: true
-  max-in-memory-size: 209715200
+  max-in-memory-size: 1GB
 
 #部署目录
 deploy:

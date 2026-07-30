@@ -1,7 +1,5 @@
 package com.oner365.data.redis.aspect;
 
-import java.util.concurrent.TimeUnit;
-
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -93,8 +91,7 @@ public class RedisCacheAspect {
 
         if (commonProperties.isRedisEnabled()) {
             // Set cache
-            redisCache.setCacheObject(key, JSON.toJSONString(sourceObject), accessTokenProperties.getExpireTime(),
-                    TimeUnit.MINUTES);
+            redisCache.setCacheObject(key, JSON.toJSONString(sourceObject), accessTokenProperties.getExpireTime());
         }
         return sourceObject;
     }
@@ -132,8 +129,7 @@ public class RedisCacheAspect {
             redisCache.deleteObject(key);
 
             // Set cache
-            redisCache.setCacheObject(key, JSON.toJSONString(resultValue), accessTokenProperties.getExpireTime(),
-                    TimeUnit.MINUTES);
+            redisCache.setCacheObject(key, JSON.toJSONString(resultValue), accessTokenProperties.getExpireTime());
         }
     }
 

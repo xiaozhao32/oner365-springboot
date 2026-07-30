@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.reactive.function.BodyInserters;
 
-import com.alibaba.fastjson.JSONObject;
 import com.oner365.test.controller.BaseControllerTest;
 
 /**
@@ -40,8 +39,7 @@ class SysDictItemControllerTest extends BaseControllerTest {
     @RepeatedTest(2)
     void findTypeList() {
         String url = PATH + "/type/page";
-        JSONObject paramJson = new JSONObject();
-        Object result = post(url, BodyInserters.fromValue(paramJson));
+        Object result = post(url, BodyInserters.fromValue(objectMapper.createObjectNode()));
         logger.info("findTypeList:[{}] -> {}", url, result);
         Assertions.assertNotNull(result);
     }
@@ -49,8 +47,7 @@ class SysDictItemControllerTest extends BaseControllerTest {
     @RepeatedTest(2)
     void findItemList() {
         String url = PATH + "/item/page";
-        JSONObject paramJson = new JSONObject();
-        Object result = post(url, BodyInserters.fromValue(paramJson));
+        Object result = post(url, BodyInserters.fromValue(objectMapper.createObjectNode()));
         logger.info("findItemList:[{}] -> {}", url, result);
         Assertions.assertNotNull(result);
     }

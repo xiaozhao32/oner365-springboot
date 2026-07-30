@@ -2,7 +2,6 @@ package com.oner365.api.dto;
 
 import java.io.Serializable;
 
-import com.alibaba.fastjson.JSON;
 import com.oner365.data.commons.enums.StatusEnum;
 
 /**
@@ -38,11 +37,6 @@ public class UpdateTaskExecuteStatusDto implements Serializable {
 
     public void setExecuteStatus(StatusEnum executeStatus) {
         this.executeStatus = executeStatus;
-    }
-
-    @Override
-    public String toString() {
-        return JSON.toJSONString(this);
     }
 
 }

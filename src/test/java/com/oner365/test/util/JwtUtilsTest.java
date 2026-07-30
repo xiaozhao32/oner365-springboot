@@ -10,12 +10,14 @@ import java.util.Objects;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.oner365.data.commons.util.DateUtil;
 import com.oner365.data.commons.util.JwtTools;
 import com.oner365.data.commons.util.JwtUtils;
+
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.node.ObjectNode;
 
 /**
  * 工具类测试
@@ -31,9 +33,10 @@ class JwtUtilsTest extends BaseUtilsTest {
 
     @Test
     void test() {
-        JSONObject json = new JSONObject();
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode json = mapper.createObjectNode();
         json.put("userName", "test");
-        String token = JwtUtils.generateToken(json.toJSONString(), expireTime, KEY);
+        String token = JwtUtils.generateToken(mapper.writeValueAsString(json), expireTime, KEY);
         // 打印token
         logger.info("io.jsonwebtoken.Jwts token: {}", token);
         Assertions.assertNotNull(token);
@@ -55,9 +58,10 @@ class JwtUtilsTest extends BaseUtilsTest {
     @Test
     void testJwtTools() {
         // 生成token
-        JSONObject json = JSON.parseObject(
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode json = mapper.readTree(
                 "{\"id\":\"CGWU5434122967LGB5E4\",\"tokenType\":\"login\",\"userName\":\"9D11AE753FC3824D79541C7A71EA8EA5\",\"deviceId\":\"1d96163d30db4ea97b7478e39f\"}");
-        String token = JwtTools.generateToken(json.toJSONString(), expireTime, KEY);
+        String token = JwtTools.generateToken(mapper.writeValueAsString(json), expireTime, KEY);
         // 打印token
         logger.info("com.auth0.jwt token: {}", token);
         Assertions.assertNotNull(token);

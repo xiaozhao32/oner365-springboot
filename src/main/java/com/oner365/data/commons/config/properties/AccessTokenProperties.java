@@ -1,5 +1,7 @@
 package com.oner365.data.commons.config.properties;
 
+import java.time.Duration;
+
 import org.jspecify.annotations.Nullable;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
@@ -19,9 +21,9 @@ public class AccessTokenProperties {
     private @Nullable String secret;
 
     /**
-     * token过期分钟
+     * token过期时间
      */
-    private int expireTime = 720;
+    private Duration expireTime = Duration.ofMinutes(720L);
 
     /**
      * 构造方法
@@ -38,11 +40,11 @@ public class AccessTokenProperties {
         this.secret = secret;
     }
 
-    public int getExpireTime() {
+    public Duration getExpireTime() {
         return expireTime;
     }
 
-    public void setExpireTime(int expireTime) {
+    public void setExpireTime(Duration expireTime) {
         this.expireTime = expireTime;
     }
 

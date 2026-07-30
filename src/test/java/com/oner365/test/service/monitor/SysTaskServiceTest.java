@@ -7,7 +7,6 @@ import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.alibaba.fastjson.JSON;
 import com.oner365.data.jpa.page.PageInfo;
 import com.oner365.data.jpa.query.QueryCriteriaBean;
 import com.oner365.monitor.dto.SysTaskDto;
@@ -40,7 +39,7 @@ class SysTaskServiceTest extends BaseServiceTest {
         PageInfo<SysTaskDto> list = service.pageList(paramData);
         if (!list.getContent().isEmpty()) {
             SysTaskDto entity = service.selectTaskById(list.getContent().get(0).getId());
-            logger.info("selectTaskById:{}", JSON.toJSONString(entity));
+            logger.info("selectTaskById:{}", objectMapper.writeValueAsString(entity));
             Assertions.assertNotNull(entity);
         }
     }
