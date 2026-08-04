@@ -1,5 +1,7 @@
 package com.oner365.test.util;
 
+import java.time.LocalDateTime;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -19,11 +21,15 @@ class GsonUtilsTest extends BaseUtilsTest {
         SysJob entity = new SysJob();
         entity.setId("123");
         entity.setJobName("jobName");
+        entity.setCreateTime(LocalDateTime.now());
+        
+        // gson
         String str = GsonUtils.objectToJson(entity);
         logger.info("result:{}", str);
         SysJob result = GsonUtils.jsonToBean(str, SysJob.class);
         logger.info("result:{}", result);
-        Assertions.assertEquals(entity.getJobName(), result.getJobName());
+        Assertions.assertEquals(entity.getCreateTime(), result.getCreateTime());
+        
     }
 
 }

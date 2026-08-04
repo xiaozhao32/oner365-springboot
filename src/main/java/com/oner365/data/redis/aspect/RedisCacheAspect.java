@@ -10,15 +10,15 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 
-import com.alibaba.fastjson.JSON;
 import com.oner365.data.commons.config.properties.AccessTokenProperties;
 import com.oner365.data.commons.config.properties.CommonProperties;
 import com.oner365.data.commons.constants.PublicConstants;
 import com.oner365.data.commons.util.ClassesUtil;
-import com.oner365.data.redis.RedisCache;
+import com.oner365.data.commons.util.GsonUtils;
 import com.oner365.data.redis.annotation.RedisCacheAble;
 import com.oner365.data.redis.annotation.RedisCacheEvict;
 import com.oner365.data.redis.annotation.RedisCachePut;
+import com.oner365.data.redis.util.RedisUtils;
 
 import jakarta.annotation.Resource;
 
@@ -31,9 +31,6 @@ import jakarta.annotation.Resource;
 @Aspect
 @Component
 public class RedisCacheAspect {
-
-    @Resource
-    private RedisCache redisCache;
 
     /**
      * redis缓存开关
@@ -76,11 +73,11 @@ public class RedisCacheAspect {
 
             Class<?> returnClassType = ((MethodSignature) joinPoint.getSignature()).getMethod().getReturnType();
             key = preKey + "::" + arg0;
-            String rtObject = redisCache.getCacheObject(key);
+            String rtObject = RedisUtils.getCacheObject(key);
 
             // Return Cache
             if (rtObject != null) {
-                return JSON.parseObject(rtObject, returnClassType);
+                return GsonUtils.jsonToBean(rtObject, returnClassType);
             }
         }
 
@@ -91,7 +88,7 @@ public class RedisCacheAspect {
 
         if (commonProperties.isRedisEnabled()) {
             // Set cache
-            redisCache.setCacheObject(key, JSON.toJSONString(sourceObject), accessTokenProperties.getExpireTime());
+            RedisUtils.setCacheObject(key, GsonUtils.objectToJson(sourceObject), accessTokenProperties.getExpireTime());
         }
         return sourceObject;
     }
@@ -108,7 +105,7 @@ public class RedisCacheAspect {
             String arg0 = joinPoint.getArgs()[0].toString();
 
             String key = preKey + "::" + arg0;
-            redisCache.deleteObject(key);
+            RedisUtils.deleteObject(key);
         }
     }
 
@@ -126,10 +123,10 @@ public class RedisCacheAspect {
         }
         if (commonProperties.isRedisEnabled()) {
             String key = getRedisKey(rd, resultValue);
-            redisCache.deleteObject(key);
+            RedisUtils.deleteObject(key);
 
             // Set cache
-            redisCache.setCacheObject(key, JSON.toJSONString(resultValue), accessTokenProperties.getExpireTime());
+            RedisUtils.setCacheObject(key, GsonUtils.objectToJson(resultValue), accessTokenProperties.getExpireTime());
         }
     }
 

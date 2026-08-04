@@ -10,6 +10,7 @@ import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.types.RedisClientInfo;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -25,11 +26,11 @@ import com.oner365.test.service.BaseServiceTest;
 class RedisCacheTest extends BaseServiceTest {
 
     @Resource
-    private RedisCache redisCache;
+    private RedisCache<Object> redisCache;
 
     @Test
     void getClientList() {
-        List<String> result = redisCache.getClientList();
+        List<RedisClientInfo> result = redisCache.getClientList();
         Assertions.assertFalse(result.isEmpty());
         logger.info("result:{}", result);
     }
@@ -51,10 +52,10 @@ class RedisCacheTest extends BaseServiceTest {
         String key2 = "k2";
         Integer value2 = 222;
         redisCache.setCacheMapValue(key2, key2, value2);
-        Integer result2 = redisCache.getCacheMapValue(key2, key2);
+        Object result2 = redisCache.getCacheMapValue(key2, key2);
         logger.info("result2:{}", result2);
 
-        List<Integer> list2 = redisCache.getMultiCacheMapValue(key2, Collections.singleton(key2));
+        List<Object> list2 = redisCache.getMultiCacheMapValue(key2, Collections.singleton(key2));
         logger.info("list2:{}", list2);
         Long deleteResult2 = redisCache.deleteObject(Collections.singleton(key2));
         logger.info("deleteResult2:{}", deleteResult2);

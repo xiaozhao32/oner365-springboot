@@ -29,9 +29,9 @@ import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-import com.alibaba.fastjson.support.spring.FastJsonRedisSerializer;
 import com.oner365.data.commons.config.properties.AccessTokenProperties;
 import com.oner365.data.commons.util.DataUtils;
+import com.oner365.data.redis.serializer.JsonObjectRedisSerializer;
 
 import io.lettuce.core.ReadFrom;
 import io.lettuce.core.cluster.ClusterClientOptions;
@@ -70,7 +70,8 @@ public class RedisCacheConfig {
     RedisTemplate<String, Serializable> redisTemplate(RedisConnectionFactory connectionFactory) {
         RedisTemplate<String, Serializable> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(connectionFactory);
-        FastJsonRedisSerializer<Object> serializer = new FastJsonRedisSerializer<>(Object.class);
+        
+        JsonObjectRedisSerializer<Object> serializer = new JsonObjectRedisSerializer<>(Object.class);
         redisTemplate.setValueSerializer(serializer);
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setHashValueSerializer(serializer);

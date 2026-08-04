@@ -21,8 +21,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.ClassUtils;
 
-import com.alibaba.fastjson.JSON;
-
 import jakarta.json.JsonStructure;
 
 /**
@@ -155,8 +153,7 @@ public class ClassesUtil {
      */
     public static boolean isJson(Class<?> clazz) {
         boolean result = false;
-        if (ClassUtils.isAssignable(JSON.class, clazz)
-                || ClassUtils.isAssignable(JsonStructure.class, clazz)) {
+        if (ClassUtils.isAssignable(JsonStructure.class, clazz)) {
             result = true;
         }
         return result;

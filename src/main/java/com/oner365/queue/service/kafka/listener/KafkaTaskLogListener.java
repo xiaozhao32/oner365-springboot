@@ -11,7 +11,6 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Component;
 
-import com.alibaba.fastjson.JSON;
 import com.oner365.data.web.utils.HttpClientUtils;
 import com.oner365.monitor.constants.ScheduleConstants;
 import com.oner365.monitor.dto.SysTaskDto;
@@ -42,13 +41,12 @@ public class KafkaTaskLogListener {
      * @param consumerRecord 参数
      */
     @KafkaListener(id = QueueConstants.SAVE_TASK_LOG_QUEUE_NAME, topics = { QueueConstants.SAVE_TASK_LOG_QUEUE_NAME })
-    public void listener(ConsumerRecord<String, ?> consumerRecord, Acknowledgment ack) {
-        Optional<?> kafkaMessage = Optional.of(consumerRecord.value());
-        Object message = kafkaMessage.get();
-        logger.info("Kafka saveExecuteTaskLog received: {}", message);
+    public void listener(ConsumerRecord<String, SysTaskDto> consumerRecord, Acknowledgment ack) {
+        Optional<SysTaskDto> kafkaMessage = Optional.of(consumerRecord.value());
+        SysTaskDto sysTask = kafkaMessage.get();
+        logger.info("Kafka saveExecuteTaskLog received: {}", sysTask);
         ack.acknowledge();
         // business
-        SysTaskDto sysTask = JSON.parseObject(message.toString(), SysTaskDto.class);
         if (sysTask != null) {
             saveExecuteTaskLog(sysTask);
         }

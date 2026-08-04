@@ -8,9 +8,9 @@ import org.springframework.pulsar.core.PulsarTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSON;
 import com.oner365.api.dto.UpdateTaskExecuteStatusDto;
 import com.oner365.data.commons.constants.PublicConstants;
+import com.oner365.data.commons.util.GsonUtils;
 import com.oner365.data.redis.RedisCache;
 import com.oner365.data.web.utils.HttpClientUtils;
 import com.oner365.monitor.dto.InvokeParamDto;
@@ -34,7 +34,7 @@ public class PulsarSendServiceImpl implements IQueueSendService {
     private final Logger logger = LoggerFactory.getLogger(PulsarSendServiceImpl.class);
 
     @Resource
-    private RedisCache redisCache;
+    private RedisCache<String> redisCache;
 
     @Resource
     private PulsarTemplate<String> pulsarTemplate;
@@ -68,7 +68,8 @@ public class PulsarSendServiceImpl implements IQueueSendService {
         boolean isLock = redisCache.lock(QueueConstants.SCHEDULE_TASK_QUEUE_NAME,
                 PublicConstants.QUEUE_LOCK_TIME_SECOND);
         if (isLock) {
-            MessageId messageId = pulsarTemplate.send(QueueConstants.SCHEDULE_TASK_QUEUE_NAME, JSON.toJSONString(data));
+            MessageId messageId = pulsarTemplate.send(QueueConstants.SCHEDULE_TASK_QUEUE_NAME,
+                    GsonUtils.objectToJson(data));
             logger.info("Pulsar pullTask: {} topic: {} messageId: {}", data, QueueConstants.SCHEDULE_TASK_QUEUE_NAME,
                     messageId);
         }
@@ -81,7 +82,7 @@ public class PulsarSendServiceImpl implements IQueueSendService {
                 PublicConstants.QUEUE_LOCK_TIME_SECOND);
         if (isLock) {
             MessageId messageId = pulsarTemplate.send(QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME,
-                    JSON.toJSONString(data));
+                    GsonUtils.objectToJson(data));
             logger.info("Pulsar updateTaskExecuteStatus: {} topic: {} messageId: {}", data,
                     QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME, messageId);
         }
@@ -93,7 +94,8 @@ public class PulsarSendServiceImpl implements IQueueSendService {
         boolean isLock = redisCache.lock(QueueConstants.SAVE_TASK_LOG_QUEUE_NAME,
                 PublicConstants.QUEUE_LOCK_TIME_SECOND);
         if (isLock) {
-            MessageId messageId = pulsarTemplate.send(QueueConstants.SAVE_TASK_LOG_QUEUE_NAME, JSON.toJSONString(data));
+            MessageId messageId = pulsarTemplate.send(QueueConstants.SAVE_TASK_LOG_QUEUE_NAME,
+                    GsonUtils.objectToJson(data));
             logger.info("Pulsar pullTask: {} topic: {} messageId: {}", data, QueueConstants.SAVE_TASK_LOG_QUEUE_NAME,
                     messageId);
         }

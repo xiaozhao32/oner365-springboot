@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Conditional;
 import org.springframework.pulsar.annotation.PulsarListener;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSON;
+import com.oner365.data.commons.util.GsonUtils;
 import com.oner365.data.jpa.service.BaseService;
 import com.oner365.data.web.utils.HttpClientUtils;
 import com.oner365.monitor.constants.ScheduleConstants;
@@ -40,7 +40,7 @@ public class PulsarTaskLogListenerImpl implements BaseService {
     public void listener(String data) {
         LOGGER.info("Pulsar consumer data: {}, topic: {}", data, QueueConstants.SAVE_TASK_LOG_QUEUE_NAME);
         // business
-        SysTaskDto sysTask = JSON.parseObject(data, SysTaskDto.class);
+        SysTaskDto sysTask = GsonUtils.jsonToBean(data, SysTaskDto.class);
         if (sysTask != null) {
             saveExecuteTaskLog(sysTask);
         }

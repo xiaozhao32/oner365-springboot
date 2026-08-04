@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Conditional;
 import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSON;
+import com.oner365.data.commons.util.GsonUtils;
 import com.oner365.data.web.utils.HttpClientUtils;
 import com.oner365.monitor.constants.ScheduleConstants;
 import com.oner365.monitor.dto.SysTaskDto;
@@ -44,7 +44,7 @@ public class MqttReceiverTaskLogServiceImpl implements IMqttReceiverTaskLogServi
         logger.info("Mqtt receive saveExecuteTaskLog: {}", message);
 
         // business
-        SysTaskDto sysTask = JSON.parseObject(message.toString(), SysTaskDto.class);
+        SysTaskDto sysTask = GsonUtils.jsonToBean(message.toString(), SysTaskDto.class);
         if (sysTask != null) {
             saveExecuteTaskLog(sysTask);
         }

@@ -8,7 +8,6 @@ import org.springframework.data.redis.annotation.RedisListener;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSONObject;
 import com.oner365.api.dto.UpdateTaskExecuteStatusDto;
 import com.oner365.data.commons.enums.StatusEnum;
 import com.oner365.data.commons.util.DateUtil;
@@ -28,6 +27,7 @@ import com.oner365.queue.condition.RedisCondition;
 import com.oner365.queue.constants.QueueConstants;
 
 import jakarta.annotation.Resource;
+import jakarta.json.JsonObject;
 
 /**
  * Redis pub/subscribe Pub Service
@@ -93,7 +93,7 @@ public class RedisMessageReceiverServiceImpl implements BaseService {
         saveTaskLog(sysTask);
     }
 
-    private void taskExecute(String concurrent, String taskId, JSONObject param) {
+    private void taskExecute(String concurrent, String taskId, JsonObject param) {
         SysTaskDto sysTask = sysTaskService.selectTaskById(taskId);
         if (sysTask != null) {
             if (ScheduleConstants.SCHEDULE_CONCURRENT.equals(concurrent)) {
@@ -111,12 +111,12 @@ public class RedisMessageReceiverServiceImpl implements BaseService {
         }
     }
 
-    private StatusEnum execute(String taskId, JSONObject param, SysTaskDto sysTask) {
+    private StatusEnum execute(String taskId, JsonObject param, SysTaskDto sysTask) {
         try {
             logger.info("taskId:{}", taskId);
             sysTask.setExecuteStatus(StatusEnum.NO);
             sysTaskService.save(convert(sysTask, SysTaskVo.class));
-            int day = param.getInteger("day");
+            int day = param.getInt("day");
             String time = DateUtil.nextDay(day - 2 * day, DateUtil.FULL_TIME_FORMAT);
             sysTaskLogService.deleteTaskLogByCreateTime(time);
 

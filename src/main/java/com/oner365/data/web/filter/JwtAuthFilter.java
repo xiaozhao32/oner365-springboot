@@ -20,15 +20,15 @@ import java.io.IOException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.oner365.data.commons.auth.AuthUser;
 import com.oner365.data.commons.config.properties.AccessTokenProperties;
 import com.oner365.data.commons.util.DataUtils;
+import com.oner365.data.commons.util.GsonUtils;
 import com.oner365.data.commons.util.JwtUtils;
-import com.oner365.data.redis.RedisCache;
 import com.oner365.data.redis.constants.CacheConstants;
+import com.oner365.data.redis.util.RedisUtils;
 import com.oner365.data.web.utils.RequestUtils;
+import com.oner365.sys.dto.UserTokenDto;
 
 import jakarta.annotation.Resource;
 import jakarta.servlet.Filter;
@@ -48,10 +48,7 @@ public class JwtAuthFilter implements Filter {
 
     @Resource
     private AccessTokenProperties accessTokenProperties;
-
-    @Resource
-    private RedisCache redisCache;
-
+    
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
@@ -61,12 +58,12 @@ public class JwtAuthFilter implements Filter {
         String authToken = httpRequest.getHeader(HttpHeaders.AUTHORIZATION);
         if (!DataUtils.isEmpty(authToken)) {
             // 获取缓存
-            JSONObject authUser = redisCache.getCacheObject(CacheConstants.CACHE_TOKEN_NAME + authToken.hashCode());
+            UserTokenDto authUser = RedisUtils.getCacheObject(CacheConstants.CACHE_TOKEN_NAME + authToken.hashCode());
             if (authUser == null) {
                 String tokenInfo = JwtUtils.getUsernameFromToken(authToken, accessTokenProperties.getSecret());
                 if (tokenInfo != null) {
-                    authUser = JSON.parseObject(tokenInfo);
-                    redisCache.setCacheObject(CacheConstants.CACHE_TOKEN_NAME + authToken.hashCode(), authUser,
+                    authUser = GsonUtils.jsonToBean(tokenInfo, UserTokenDto.class);
+                    RedisUtils.setCacheObject(CacheConstants.CACHE_TOKEN_NAME + authToken.hashCode(), authUser,
                             accessTokenProperties.getExpireTime());
                     setHttpRequest(httpRequest, new AuthUser(authUser), authToken);
                 }
@@ -93,7 +90,7 @@ public class JwtAuthFilter implements Filter {
         boolean isExpired = JwtUtils.validateToken(authToken, accessTokenProperties.getSecret());
         if (!isExpired) {
             String key = CacheConstants.CACHE_LOGIN_NAME + authUser.getUserName();
-            redisCache.deleteObject(key);
+            RedisUtils.deleteObject(key);
         }
     }
 

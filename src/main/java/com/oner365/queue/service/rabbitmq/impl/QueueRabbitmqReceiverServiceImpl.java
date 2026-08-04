@@ -3,8 +3,6 @@ package com.oner365.queue.service.rabbitmq.impl;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
-import jakarta.annotation.Resource;
-
 import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,11 +10,10 @@ import org.springframework.amqp.core.Message;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.oner365.api.dto.UpdateTaskExecuteStatusDto;
 import com.oner365.data.commons.enums.StatusEnum;
 import com.oner365.data.commons.util.DateUtil;
+import com.oner365.data.commons.util.GsonUtils;
 import com.oner365.data.web.utils.HttpClientUtils;
 import com.oner365.gateway.service.DynamicRouteService;
 import com.oner365.monitor.constants.ScheduleConstants;
@@ -31,6 +28,9 @@ import com.oner365.monitor.vo.SysTaskVo;
 import com.oner365.queue.condition.RabbitmqCondition;
 import com.oner365.queue.service.rabbitmq.IQueueRabbitmqReceiverService;
 import com.rabbitmq.client.Channel;
+
+import jakarta.annotation.Resource;
+import jakarta.json.JsonObject;
 
 /**
  * rabbitmq 接收队列实现类
@@ -87,13 +87,13 @@ public class QueueRabbitmqReceiverServiceImpl implements IQueueRabbitmqReceiverS
 
     @Override
     public void scheduleTask(String data) {
-        InvokeParamDto invokeParamDto = JSON.parseObject(data, InvokeParamDto.class);
+        InvokeParamDto invokeParamDto = GsonUtils.jsonToBean(data, InvokeParamDto.class);
         if (ScheduleConstants.SCHEDULE_SERVER_NAME.equals(invokeParamDto.getTaskServerName())) {
             taskExecute(invokeParamDto.getConcurrent(), invokeParamDto.getTaskId(), invokeParamDto.getTaskParam());
         }
     }
 
-    private void taskExecute(String concurrent, String taskId, JSONObject param) {
+    private void taskExecute(String concurrent, String taskId, JsonObject param) {
         SysTaskDto sysTask = sysTaskService.selectTaskById(taskId);
         if (sysTask != null) {
             if (ScheduleConstants.SCHEDULE_CONCURRENT.equals(concurrent)) {
@@ -107,16 +107,16 @@ public class QueueRabbitmqReceiverServiceImpl implements IQueueRabbitmqReceiverS
                 }
                 logger.info("taskExecute  concurrent : {}", concurrent);
             }
-            saveExecuteTaskLog(JSON.toJSONString(sysTask));
+            saveExecuteTaskLog(GsonUtils.objectToJson(sysTask));
         }
     }
 
-    private StatusEnum execute(String taskId, JSONObject param, SysTaskDto sysTask) {
+    private StatusEnum execute(String taskId, JsonObject param, SysTaskDto sysTask) {
         try {
             logger.info("taskId:{}", taskId);
             sysTask.setExecuteStatus(StatusEnum.NO);
             sysTaskService.save(convert(sysTask, SysTaskVo.class));
-            int day = param.getInteger("day");
+            int day = param.getInt("day");
             String time = DateUtil.nextDay(day - 2 * day, DateUtil.FULL_TIME_FORMAT);
             sysTaskLogService.deleteTaskLogByCreateTime(time);
 
@@ -133,7 +133,7 @@ public class QueueRabbitmqReceiverServiceImpl implements IQueueRabbitmqReceiverS
     @Override
     public void updateTaskExecuteStatus(String data) throws SchedulerException, TaskException {
         logger.info("updateTaskExecuteStatus :{}", data);
-        UpdateTaskExecuteStatusDto updateTask = JSON.parseObject(data, UpdateTaskExecuteStatusDto.class);
+        UpdateTaskExecuteStatusDto updateTask = GsonUtils.jsonToBean(data, UpdateTaskExecuteStatusDto.class);
 
         SysTaskDto sysTask = sysTaskService.selectTaskById(updateTask.getTaskId());
         if (sysTask != null) {
@@ -145,7 +145,7 @@ public class QueueRabbitmqReceiverServiceImpl implements IQueueRabbitmqReceiverS
     @Override
     public void saveExecuteTaskLog(String data) {
         logger.info("saveExecuteTaskLog :{}", data);
-        SysTaskDto sysTask = JSON.parseObject(data, SysTaskDto.class);
+        SysTaskDto sysTask = GsonUtils.jsonToBean(data, SysTaskDto.class);
 
         long time = System.currentTimeMillis();
         SysTaskLogVo taskLog = new SysTaskLogVo();

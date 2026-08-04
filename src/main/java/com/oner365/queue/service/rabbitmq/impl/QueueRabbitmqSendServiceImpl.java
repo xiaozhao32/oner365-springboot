@@ -8,10 +8,10 @@ import org.springframework.context.annotation.Conditional;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSON;
 import com.oner365.api.dto.UpdateTaskExecuteStatusDto;
 import com.oner365.data.commons.constants.PublicConstants;
 import com.oner365.data.commons.util.DateUtil;
+import com.oner365.data.commons.util.GsonUtils;
 import com.oner365.data.redis.RedisCache;
 import com.oner365.data.web.utils.HttpClientUtils;
 import com.oner365.monitor.dto.InvokeParamDto;
@@ -36,7 +36,7 @@ public class QueueRabbitmqSendServiceImpl implements IQueueSendService {
     private final Logger logger = LoggerFactory.getLogger(QueueRabbitmqSendServiceImpl.class);
 
     @Resource
-    private RedisCache redisCache;
+    private RedisCache<String> redisCache;
 
     @Resource
     private RabbitTemplate rabbitTemplate;
@@ -77,7 +77,7 @@ public class QueueRabbitmqSendServiceImpl implements IQueueSendService {
         if (isLock) {
             logger.info("Rabbitmq pullTask: {}", data);
             rabbitTemplate.convertAndSend(QueueConstants.SCHEDULE_TASK_QUEUE_TYPE,
-                    QueueConstants.SCHEDULE_TASK_QUEUE_KEY, JSON.toJSONString(data));
+                    QueueConstants.SCHEDULE_TASK_QUEUE_KEY, GsonUtils.objectToJson(data));
         }
     }
 
@@ -89,7 +89,7 @@ public class QueueRabbitmqSendServiceImpl implements IQueueSendService {
         if (isLock) {
             logger.info("Rabbitmq updateTaskExecuteStatus push: {}", data);
             rabbitTemplate.convertAndSend(QueueConstants.TASK_UPDATE_STATUS_QUEUE_TYPE,
-                    QueueConstants.TASK_UPDATE_STATUS_QUEUE_KEY, JSON.toJSONString(data));
+                    QueueConstants.TASK_UPDATE_STATUS_QUEUE_KEY, GsonUtils.objectToJson(data));
         }
     }
 
@@ -101,7 +101,7 @@ public class QueueRabbitmqSendServiceImpl implements IQueueSendService {
         if (isLock) {
             logger.info("Rabbitmq saveExecuteTaskLog push: {}", data);
             rabbitTemplate.convertAndSend(QueueConstants.SAVE_TASK_LOG_QUEUE_TYPE,
-                    QueueConstants.SAVE_TASK_LOG_QUEUE_KEY, JSON.toJSONString(data));
+                    QueueConstants.SAVE_TASK_LOG_QUEUE_KEY, GsonUtils.objectToJson(data));
         }
     }
 

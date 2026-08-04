@@ -28,8 +28,8 @@ import com.oner365.data.commons.enums.ErrorInfoEnum;
 import com.oner365.data.commons.enums.ResultEnum;
 import com.oner365.data.commons.reponse.ResponseData;
 import com.oner365.data.commons.util.DataUtils;
-import com.oner365.data.redis.RedisCache;
 import com.oner365.data.redis.constants.CacheConstants;
+import com.oner365.data.redis.util.RedisUtils;
 import com.oner365.data.web.controller.BaseController;
 import com.oner365.data.web.utils.HttpClientUtils;
 import com.oner365.data.web.utils.RequestUtils;
@@ -64,9 +64,6 @@ public class AuthController extends BaseController {
     @Resource
     private ISysRoleService sysRoleService;
 
-    @Resource
-    private RedisCache redisCache;
-
     @Resource(name = "captchaProducer")
     private Producer producer;
 
@@ -83,8 +80,8 @@ public class AuthController extends BaseController {
         // 验证码
         if (!DataUtils.isEmpty(loginUserVo.getUuid())) {
             String verifyKey = SysConstants.CAPTCHA_IMAGE + PublicConstants.COLON + loginUserVo.getUuid();
-            String captcha = redisCache.getCacheObject(verifyKey);
-            redisCache.deleteObject(verifyKey);
+            String captcha = RedisUtils.getCacheObject(verifyKey);
+            RedisUtils.deleteObject(verifyKey);
             if (captcha == null || !captcha.equalsIgnoreCase(loginUserVo.getCode())) {
                 return ResponseData.error(ErrorInfoEnum.CAPCHA_ERROR.getName());
             }
@@ -117,7 +114,7 @@ public class AuthController extends BaseController {
         // 唯一标识
         String uuid = UUID.randomUUID().toString();
         String verifyKey = SysConstants.CAPTCHA_IMAGE + PublicConstants.COLON + uuid;
-        redisCache.setCacheObject(verifyKey, verifyCode, Duration.ofMinutes(3));
+        RedisUtils.setCacheObject(verifyKey, verifyCode, Duration.ofMinutes(3));
 
         CaptchaImageDto result = new CaptchaImageDto();
 
@@ -176,7 +173,7 @@ public class AuthController extends BaseController {
     public String logout(@Parameter(hidden = true) @CurrentUser AuthUser authUser) {
         if (authUser != null) {
             String key = CacheConstants.CACHE_LOGIN_NAME + authUser.getUserName();
-            redisCache.deleteObject(key);
+            RedisUtils.deleteObject(key);
         }
         return ResultEnum.SUCCESS.getName();
     }

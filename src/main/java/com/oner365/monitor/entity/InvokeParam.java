@@ -2,7 +2,7 @@ package com.oner365.monitor.entity;
 
 import java.io.Serializable;
 
-import com.alibaba.fastjson.JSONObject;
+import jakarta.json.JsonObject;
 
 /**
  * 定时任务调度
@@ -39,7 +39,7 @@ public class InvokeParam implements Serializable {
     /**
      * 任务所需参数
      */
-    private JSONObject taskParam;
+    private JsonObject taskParam;
 
     public InvokeParam() {
         super();
@@ -61,11 +61,11 @@ public class InvokeParam implements Serializable {
         this.concurrent = concurrent;
     }
 
-    public JSONObject getTaskParam() {
+    public JsonObject getTaskParam() {
         return taskParam;
     }
 
-    public void setTaskParam(JSONObject taskParam) {
+    public void setTaskParam(JsonObject taskParam) {
         this.taskParam = taskParam;
     }
 

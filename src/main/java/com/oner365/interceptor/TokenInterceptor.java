@@ -15,11 +15,11 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import com.alibaba.fastjson.JSON;
 import com.oner365.data.commons.config.properties.AccessTokenProperties;
 import com.oner365.data.commons.config.properties.IgnoreWhiteProperties;
 import com.oner365.data.commons.constants.PublicConstants;
 import com.oner365.data.commons.reponse.ResponseData;
+import com.oner365.data.commons.util.GsonUtils;
 import com.oner365.data.commons.util.JwtUtils;
 
 import jakarta.annotation.Resource;
@@ -83,7 +83,7 @@ public class TokenInterceptor implements HandlerInterceptor {
             // 返回错误消息
             LOGGER.error("[{}] Client Unauthorized error. Request uri: {}", HttpStatus.UNAUTHORIZED.value(),
                     request.getRequestURI());
-            response.getOutputStream().write(JSON.toJSONString(responseData).getBytes());
+            response.getOutputStream().write(GsonUtils.objectToJson(responseData).getBytes());
         }
         catch (IOException e) {
             LOGGER.error("TokenInterceptor setUnauthorizedResponse error", e);

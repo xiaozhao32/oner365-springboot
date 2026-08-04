@@ -10,8 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.unit.DataSize;
 import org.springframework.util.unit.DataUnit;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.oner365.data.commons.constants.PublicConstants;
 import com.oner365.data.redis.RedisCache;
 import com.oner365.data.redis.constants.CacheConstants;
@@ -20,7 +18,6 @@ import com.oner365.sys.dto.LoginUserDto;
 import com.oner365.test.controller.BaseControllerTest;
 
 import jakarta.annotation.Resource;
-import tools.jackson.databind.JsonNode;
 
 /**
  * Test ApiController
@@ -34,18 +31,14 @@ class ApiControllerTest extends BaseControllerTest {
     private static final String PATH = "/api";
 
     @Resource
-    private RedisCache redisCache;
-
+    private RedisCache<LoginUserDto> redisCache;
+    
     @RepeatedTest(2)
     void cacheRedis() {
         String url = PATH + "/cache/redis/test";
         Object result = get(url);
         logger.info("cacheRedis:[{}] -> {}", url, result);
-
-        // fastjson -> jackson
-        String str = objectMapper.writeValueAsString(result);
-        JsonNode jsonNode = objectMapper.readTree(str);
-        Assertions.assertEquals(111, jsonNode.get("aaa").intValue());
+        Assertions.assertEquals("abc", result.toString());
 
         // PO
         LoginUserDto dto = new LoginUserDto();
@@ -72,15 +65,8 @@ class ApiControllerTest extends BaseControllerTest {
         LoginUserDto cacheUser = RedisUtils.getCacheObject(key);
         String cacheUserString = objectMapper.writeValueAsString(cacheUser);
         logger.info("redisson: {}", cacheUserString);
+        Assertions.assertNotNull(cacheUser);
 
-        // Redis Template
-        redisCache.setCacheObject("redis:" + key, dto, duration);
-        JSONObject redisUser = redisCache.getCacheObject("redis:" + key);
-        logger.info("redis po: {}", JSON.toJSON(redisUser));
-
-        redisCache.setCacheObject("abc", "123456789", duration);
-        String s = redisCache.getCacheObject("abc");
-        logger.info("redis string: {}", s);
 
     }
 

@@ -2,17 +2,16 @@ package com.oner365.monitor.task;
 
 import java.util.Date;
 
-import jakarta.annotation.Resource;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import com.alibaba.fastjson.JSON;
 import com.oner365.data.commons.util.DateUtil;
 import com.oner365.monitor.dto.InvokeParamDto;
 import com.oner365.queue.service.IQueueSendService;
 import com.oner365.sys.service.ISysLogService;
+
+import jakarta.annotation.Resource;
 
 /**
  * 定时任务调度测试
@@ -50,7 +49,7 @@ public class SystemTask {
 
     public void taskRun(InvokeParamDto param) {
         LOGGER.info("param: {}", param);
-        queueSendService.pullTask(JSON.toJavaObject(JSON.parseObject(JSON.toJSONString(param)), InvokeParamDto.class));
+        queueSendService.pullTask(param);
     }
 
 }

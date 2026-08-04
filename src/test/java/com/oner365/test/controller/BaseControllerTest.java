@@ -16,7 +16,7 @@ import org.springframework.web.reactive.function.BodyInserters;
 
 import com.oner365.data.commons.enums.ResultEnum;
 import com.oner365.data.commons.reponse.ResponseData;
-import com.oner365.data.redis.RedisCache;
+import com.oner365.data.redis.util.RedisUtils;
 import com.oner365.sys.dto.LoginUserDto;
 import com.oner365.test.BaseTest;
 
@@ -33,9 +33,6 @@ import tools.jackson.databind.node.ObjectNode;
 @AutoConfigureWebTestClient
 public abstract class BaseControllerTest extends BaseTest {
 
-    @Resource
-    private RedisCache redisCache;
-    
     @Resource 
     protected ObjectMapper objectMapper;
 
@@ -57,7 +54,7 @@ public abstract class BaseControllerTest extends BaseTest {
      */
     protected String getToken() {
         final String cacheKey = "Auth:test:token";
-        String token = redisCache.getCacheObject(cacheKey);
+        String token = RedisUtils.getCacheObject(cacheKey);
         if (token != null) {
             return token;
         }
@@ -80,7 +77,7 @@ public abstract class BaseControllerTest extends BaseTest {
         LoginUserDto result = response.getResult();
         if (ResultEnum.SUCCESS.getCode().equals(response.getCode()) && result != null) {
             token = result.getAccessToken();
-            redisCache.setCacheObject(cacheKey, token, Duration.ofMinutes(3));
+            RedisUtils.setCacheObject(cacheKey, token, Duration.ofMinutes(3));
         }
         return token;
     }

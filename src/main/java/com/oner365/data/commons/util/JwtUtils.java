@@ -13,7 +13,7 @@ import javax.crypto.SecretKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.alibaba.fastjson.JSON;
+import com.oner365.sys.dto.UserTokenDto;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -28,11 +28,6 @@ import io.jsonwebtoken.security.Keys;
 public class JwtUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtUtils.class);
-
-    /**
-     * Token 解析中的参数
-     */
-    private static final String TOKEN_USER_NAME = "userName";
 
     private JwtUtils() {
 
@@ -126,8 +121,8 @@ public class JwtUtils {
     public static Boolean validateToken(String token, String secret) {
         final String userName = getUsernameFromToken(token, secret);
         if (userName != null) {
-            return (!DataUtils.isEmpty(JSON.parseObject(userName).getString(TOKEN_USER_NAME))
-                    && !isTokenExpired(token, secret));
+            UserTokenDto userToken = GsonUtils.jsonToBean(userName, UserTokenDto.class);
+            return (!DataUtils.isEmpty(userToken.getUserName()) && !isTokenExpired(token, secret));
         }
         return false;
     }

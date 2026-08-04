@@ -6,10 +6,9 @@ import org.springframework.context.annotation.Conditional;
 import org.springframework.pulsar.annotation.PulsarListener;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.oner365.data.commons.enums.StatusEnum;
 import com.oner365.data.commons.util.DateUtil;
+import com.oner365.data.commons.util.GsonUtils;
 import com.oner365.data.jpa.service.BaseService;
 import com.oner365.data.web.utils.HttpClientUtils;
 import com.oner365.monitor.constants.ScheduleConstants;
@@ -24,6 +23,7 @@ import com.oner365.queue.condition.PulsarCondition;
 import com.oner365.queue.constants.QueueConstants;
 
 import jakarta.annotation.Resource;
+import jakarta.json.JsonObject;
 
 /**
  * pulsar InvokeParamDto listener
@@ -48,13 +48,13 @@ public class PulsarInvokeParamListenerImpl implements BaseService {
         LOGGER.info("Pulsar consumer data: {}, topic: {}", data, QueueConstants.SCHEDULE_TASK_QUEUE_NAME);
 
         // business
-        InvokeParamDto dto = JSON.parseObject(data, InvokeParamDto.class);
+        InvokeParamDto dto = GsonUtils.jsonToBean(data, InvokeParamDto.class);
         if (dto != null && ScheduleConstants.SCHEDULE_SERVER_NAME.equals(dto.getTaskServerName())) {
             taskExecute(dto.getConcurrent(), dto.getTaskId(), dto.getTaskParam());
         }
     }
 
-    private void taskExecute(String concurrent, String taskId, JSONObject param) {
+    private void taskExecute(String concurrent, String taskId, JsonObject param) {
         SysTaskDto sysTask = sysTaskService.selectTaskById(taskId);
         if (sysTask != null) {
             if (ScheduleConstants.SCHEDULE_CONCURRENT.equals(concurrent)) {
@@ -72,12 +72,12 @@ public class PulsarInvokeParamListenerImpl implements BaseService {
         }
     }
 
-    private StatusEnum execute(String taskId, JSONObject param, SysTaskDto sysTask) {
+    private StatusEnum execute(String taskId, JsonObject param, SysTaskDto sysTask) {
         try {
             LOGGER.info("taskId:{}", taskId);
             sysTask.setExecuteStatus(StatusEnum.NO);
             sysTaskService.save(convert(sysTask, SysTaskVo.class));
-            int day = param.getInteger("day");
+            int day = param.getInt("day");
             String time = DateUtil.nextDay(day - 2 * day, DateUtil.FULL_TIME_FORMAT);
             sysTaskLogService.deleteTaskLogByCreateTime(time);
 

@@ -1,5 +1,6 @@
 package com.oner365.generator.util;
 
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -9,14 +10,17 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Strings;
 import org.apache.velocity.VelocityContext;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.oner365.data.commons.constants.PublicConstants;
+import com.oner365.data.commons.exception.ProjectRuntimeException;
 import com.oner365.data.commons.util.DataUtils;
 import com.oner365.data.commons.util.DateUtil;
 import com.oner365.generator.constants.GenConstants;
 import com.oner365.generator.entity.GenTable;
 import com.oner365.generator.entity.GenTableColumn;
+
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonReader;
 
 /**
  * 模板处理工具类
@@ -111,27 +115,39 @@ public class VelocityUtils {
 
     public static void setMenuVelocityContext(VelocityContext context, GenTable genTable) {
         String options = genTable.getOptions();
-        JSONObject paramsObj = JSON.parseObject(options);
-        String parentMenuId = getParentMenuId(paramsObj);
-        context.put("parentMenuId", parentMenuId);
+        if (!DataUtils.isEmpty(options)) {
+            try (JsonReader reader = Json.createReader(new StringReader(options))) {
+                JsonObject paramsObj = reader.readObject();
+                String parentMenuId = getParentMenuId(paramsObj);
+                context.put("parentMenuId", parentMenuId);
+            } catch (Exception e) {
+                throw new ProjectRuntimeException("setMenuVelocityContext error:" + options, e);
+            }
+        }
     }
 
     public static void setTreeVelocityContext(VelocityContext context, GenTable genTable) {
         String options = genTable.getOptions();
-        JSONObject paramsObj = JSON.parseObject(options);
-        String treeCode = getTreeCode(paramsObj);
-        String treeParentCode = getTreeParentCode(paramsObj);
-        String treeName = getTreeName(paramsObj);
-
-        context.put("treeCode", treeCode);
-        context.put("treeParentCode", treeParentCode);
-        context.put("treeName", treeName);
-        context.put("expandColumn", getExpandColumn(genTable));
-        if (paramsObj.containsKey(GenConstants.TREE_PARENT_CODE)) {
-            context.put("tree_parent_code", paramsObj.getString(GenConstants.TREE_PARENT_CODE));
-        }
-        if (paramsObj.containsKey(GenConstants.TREE_NAME)) {
-            context.put("tree_name", paramsObj.getString(GenConstants.TREE_NAME));
+        if (!DataUtils.isEmpty(options)) {
+            try (JsonReader reader = Json.createReader(new StringReader(options))) {
+                JsonObject paramsObj = reader.readObject();
+                String treeCode = getTreeCode(paramsObj);
+                String treeParentCode = getTreeParentCode(paramsObj);
+                String treeName = getTreeName(paramsObj);
+        
+                context.put("treeCode", treeCode);
+                context.put("treeParentCode", treeParentCode);
+                context.put("treeName", treeName);
+                context.put("expandColumn", getExpandColumn(genTable));
+                if (paramsObj.containsKey(GenConstants.TREE_PARENT_CODE)) {
+                    context.put("tree_parent_code", paramsObj.getString(GenConstants.TREE_PARENT_CODE));
+                }
+                if (paramsObj.containsKey(GenConstants.TREE_NAME)) {
+                    context.put("tree_name", paramsObj.getString(GenConstants.TREE_NAME));
+                }
+            } catch (Exception e) {
+                throw new ProjectRuntimeException("setTreeVelocityContext error:" + options, e);
+            }
         }
     }
 
@@ -275,9 +291,9 @@ public class VelocityUtils {
      * @param paramsObj 生成其他选项
      * @return 上级菜单ID字段
      */
-    public static String getParentMenuId(JSONObject paramsObj) {
+    public static String getParentMenuId(JsonObject paramsObj) {
         if (!DataUtils.isEmpty(paramsObj) && paramsObj.containsKey(GenConstants.PARENT_MENU_ID)) {
-            return paramsObj.getString(GenConstants.PARENT_MENU_ID);
+            return paramsObj.getString(GenConstants.PARENT_MENU_ID, DEFAULT_PARENT_MENU_ID);
         }
         return DEFAULT_PARENT_MENU_ID;
     }
@@ -287,7 +303,7 @@ public class VelocityUtils {
      * @param paramsObj 生成其他选项
      * @return 树编码
      */
-    public static String getTreeCode(JSONObject paramsObj) {
+    public static String getTreeCode(JsonObject paramsObj) {
         if (paramsObj.containsKey(GenConstants.TREE_CODE)) {
             return DataUtils.coderName(paramsObj.getString(GenConstants.TREE_CODE));
         }
@@ -299,7 +315,7 @@ public class VelocityUtils {
      * @param paramsObj 生成其他选项
      * @return 树父编码
      */
-    public static String getTreeParentCode(JSONObject paramsObj) {
+    public static String getTreeParentCode(JsonObject paramsObj) {
         if (paramsObj.containsKey(GenConstants.TREE_PARENT_CODE)) {
             return DataUtils.coderName(paramsObj.getString(GenConstants.TREE_PARENT_CODE));
         }
@@ -311,7 +327,7 @@ public class VelocityUtils {
      * @param paramsObj 生成其他选项
      * @return 树名称
      */
-    public static String getTreeName(JSONObject paramsObj) {
+    public static String getTreeName(JsonObject paramsObj) {
         if (paramsObj.containsKey(GenConstants.TREE_NAME)) {
             return DataUtils.coderName(paramsObj.getString(GenConstants.TREE_NAME));
         }
@@ -325,19 +341,26 @@ public class VelocityUtils {
      */
     public static int getExpandColumn(GenTable genTable) {
         String options = genTable.getOptions();
-        JSONObject paramsObj = JSON.parseObject(options);
-        String treeName = paramsObj.getString(GenConstants.TREE_NAME);
-        int num = 0;
-        for (GenTableColumn column : genTable.getColumns()) {
-            if (column.isList()) {
-                num++;
-                String columnName = column.getColumnName();
-                if (columnName.equals(treeName)) {
-                    break;
+        if (!DataUtils.isEmpty(options)) {
+            try (JsonReader reader = Json.createReader(new StringReader(options))) {
+                JsonObject paramsObj = reader.readObject();
+                String treeName = paramsObj.getString(GenConstants.TREE_NAME);
+                int num = 0;
+                for (GenTableColumn column : genTable.getColumns()) {
+                    if (column.isList()) {
+                        num++;
+                        String columnName = column.getColumnName();
+                        if (columnName.equals(treeName)) {
+                            break;
+                        }
+                    }
                 }
+                return num;
+            } catch (Exception e) {
+                throw new ProjectRuntimeException("Failed to parse JSON string: " + options, e);
             }
         }
-        return num;
+        return 0;
     }
 
 }

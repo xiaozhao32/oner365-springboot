@@ -18,7 +18,7 @@ package com.oner365.data.commons.auth;
 import java.io.Serializable;
 import java.util.List;
 
-import com.alibaba.fastjson.JSONObject;
+import com.oner365.sys.dto.UserTokenDto;
 
 /**
  * Jwt验证用户
@@ -52,18 +52,17 @@ public class AuthUser implements Serializable {
 
     private final String menuType;
 
-    @SuppressWarnings("unchecked")
-    public AuthUser(JSONObject json) {
-        this.id = json.getString("id");
-        this.userName = json.getString("userName");
-        this.password = json.getString("password");
-        this.tokenType = json.getString("tokenType");
-        this.isAdmin = json.getString("isAdmin");
-        this.userType = json.getString("userType");
-        this.menuType = json.getString("menuType");
-        this.roleList = json.getObject("roles", List.class);
-        this.jobList = json.getObject("jobs", List.class);
-        this.orgList = json.getObject("orgs", List.class);
+    public AuthUser(UserTokenDto dto) {
+        this.id = dto.getId();
+        this.userName = dto.getUserName();
+        this.password = dto.getPassword();
+        this.tokenType = dto.getTokenType();
+        this.isAdmin = dto.getIsAdmin();
+        this.userType = dto.getUserType().getCode();
+        this.menuType = dto.getMenuType();
+        this.roleList = dto.getRoles();
+        this.jobList = dto.getJobs();
+        this.orgList = dto.getOrgs();
     }
 
     public String getId() {

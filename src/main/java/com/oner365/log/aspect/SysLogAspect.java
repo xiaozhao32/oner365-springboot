@@ -11,9 +11,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.alibaba.fastjson.JSON;
 import com.oner365.data.commons.constants.PublicConstants;
 import com.oner365.data.commons.util.DataUtils;
+import com.oner365.data.commons.util.GsonUtils;
 import com.oner365.log.event.SysLogEvent;
 import com.oner365.log.util.SysLogUtils;
 import com.oner365.sys.vo.SysLogVo;
@@ -73,9 +73,9 @@ public class SysLogAspect {
             params = Arrays.stream(paramsArray)
                 .filter(o -> !DataUtils.isEmpty(o))
                 .filter(this::excludeFilter)
-                .map(JSON::toJSON)
+                .map(GsonUtils::objectToJson)
                 .filter(jsonObj -> !DataUtils.isEmpty(jsonObj))
-                .map(jsonObj -> jsonObj.toString() + " ")
+                .map(jsonObj -> jsonObj + " ")
                 .collect(Collectors.joining());
         }
         return params.trim();

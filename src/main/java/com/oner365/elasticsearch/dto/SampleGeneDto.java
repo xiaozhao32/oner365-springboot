@@ -1,9 +1,9 @@
 package com.oner365.elasticsearch.dto;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.MoreObjects;
 import com.oner365.elasticsearch.enums.GeneTypeEnum;
 
@@ -47,19 +47,19 @@ public class SampleGeneDto implements Serializable {
      * 基因型信息 (格式: {key:value} )
      */
     @Schema(description = "基因型信息")
-    private JSONObject geneInfo;
+    private Map<String, Object> geneInfo;
 
     /**
      * 比对的基因型信息 (过滤空值)
      */
     @Schema(description = "比对基因型")
-    private JSONObject matchJson;
+    private Map<String, Object> matchJson;
 
     /**
      * 页面使用的基因型 {key:value} 转换成 {"name":key, "value":value} 格式
      */
     @Schema(description = "基因型集合")
-    private JSONArray geneList;
+    private List<Map<String, Object>> geneList;
 
     /**
      * @return the id
@@ -120,42 +120,42 @@ public class SampleGeneDto implements Serializable {
     /**
      * @return the geneInfo
      */
-    public JSONObject getGeneInfo() {
+    public Map<String, Object> getGeneInfo() {
         return geneInfo;
     }
 
     /**
      * @param geneInfo the geneInfo to set
      */
-    public void setGeneInfo(JSONObject geneInfo) {
+    public void setGeneInfo(Map<String, Object> geneInfo) {
         this.geneInfo = geneInfo;
     }
 
     /**
      * @return the matchJson
      */
-    public JSONObject getMatchJson() {
+    public Map<String, Object> getMatchJson() {
         return matchJson;
     }
 
     /**
      * @param matchJson the matchJson to set
      */
-    public void setMatchJson(JSONObject matchJson) {
+    public void setMatchJson(Map<String, Object> matchJson) {
         this.matchJson = matchJson;
     }
 
     /**
      * @return the geneList
      */
-    public JSONArray getGeneList() {
+    public List<Map<String, Object>> getGeneList() {
         return geneList;
     }
 
     /**
      * @param geneList the geneList to set
      */
-    public void setGeneList(JSONArray geneList) {
+    public void setGeneList(List<Map<String, Object>> geneList) {
         this.geneList = geneList;
     }
 

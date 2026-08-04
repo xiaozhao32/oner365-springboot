@@ -5,8 +5,6 @@ import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
-import jakarta.annotation.Resource;
-
 import org.springframework.context.annotation.Conditional;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.data.commons.constants.PublicConstants;
 import com.oner365.data.commons.util.Base64Utils;
@@ -29,8 +25,9 @@ import com.oner365.monitor.enums.RabbitmqTypeEnum;
 import com.oner365.queue.condition.RabbitmqCondition;
 import com.oner365.queue.config.properties.RabbitmqProperties;
 
-import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
 import reactor.core.publisher.Mono;
 
 /**
@@ -53,27 +50,29 @@ public class RabbitmqController extends BaseController {
 
     /**
      * 首页
+     * 
      * @return JSONObject
      */
     @Operation(summary = "1.首页")
     @ApiOperationSupport(order = 1)
     @GetMapping("/index")
-    public JSONObject index() {
+    public Map<String, Object> index() {
         return request("/api/overview");
     }
 
     /**
      * 获取队列列表
-     * @param type 类型
+     * 
+     * @param type      类型
      * @param pageIndex 分页页码
-     * @param pageSize 分页长度
-     * @param name 名称
+     * @param pageSize  分页长度
+     * @param name      名称
      * @return JSONObject
      */
     @Operation(summary = "2.获取队列列表")
     @ApiOperationSupport(order = 2)
     @GetMapping("/list/{type}")
-    public JSONObject list(@PathVariable RabbitmqTypeEnum type, @RequestParam int pageIndex, @RequestParam int pageSize,
+    public Map<String, Object> list(@PathVariable RabbitmqTypeEnum type, @RequestParam int pageIndex, @RequestParam int pageSize,
             String name) {
         String url = getUrl(type.getCode(), name, pageIndex, pageSize);
         return request(url);
@@ -81,6 +80,7 @@ public class RabbitmqController extends BaseController {
 
     /**
      * 删除
+     * 
      * @param type 删除类型
      * @param name 名称
      * @return JSONObject
@@ -88,10 +88,10 @@ public class RabbitmqController extends BaseController {
     @Operation(summary = "3.删除不同类型的队列")
     @ApiOperationSupport(order = 3)
     @DeleteMapping("/delete/{type}/{name}")
-    public JSONObject delete(@PathVariable String type, @PathVariable String name) {
+    public String delete(@PathVariable String type, @PathVariable String name) {
         try {
             String vhost = rabbitmqProperties.getVirtualHost();
-            JSONObject paramJson = new JSONObject();
+            Map<String, Object> paramJson = new HashMap<>();
             paramJson.put("vhost", vhost);
             paramJson.put("mode", "delete");
             paramJson.put("name", name);
@@ -100,13 +100,11 @@ public class RabbitmqController extends BaseController {
                     + URLEncoder.encode(vhost, Charset.defaultCharset().name()) + PublicConstants.DELIMITER + name;
             Map<String, Object> headers = new HashMap<>(2);
             headers.put(HttpHeaders.AUTHORIZATION, getAuthorization());
-            String result = HttpClientUtils.httpDeleteRequest(url, headers, paramJson);
-            return JSON.parseObject(result);
-        }
-        catch (Exception e) {
+            return HttpClientUtils.httpDeleteRequest(url, headers, paramJson);
+        } catch (Exception e) {
             logger.error("Rabbitmq delete error:", e);
         }
-        return new JSONObject();
+        return null;
     }
 
     private String getUrl(String paramName, String name, int pageIndex, int pageSize) {
@@ -119,12 +117,10 @@ public class RabbitmqController extends BaseController {
         return "Basic " + Base64Utils.encodeBase64String(auth.getBytes());
     }
 
-    private JSONObject request(String uri) {
-        Mono<JSONObject> mono = client.get()
-            .uri(rabbitmqProperties.getUri() + "/" + uri)
-            .header(HttpHeaders.AUTHORIZATION, getAuthorization())
-            .retrieve()
-            .bodyToMono(JSONObject.class);
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    private Map<String, Object> request(String uri) {
+        Mono<Map> mono = client.get().uri(rabbitmqProperties.getUri() + "/" + uri)
+                .header(HttpHeaders.AUTHORIZATION, getAuthorization()).retrieve().bodyToMono(Map.class);
         return mono.block();
     }
 

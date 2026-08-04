@@ -2,8 +2,9 @@ package com.oner365.monitor.dto;
 
 import java.io.Serializable;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import com.oner365.data.commons.util.GsonUtils;
+
+import jakarta.json.JsonObject;
 
 /**
  * 定时任务调度表
@@ -40,7 +41,7 @@ public class InvokeParamDto implements Serializable {
     /**
      * 任务所需参数
      */
-    private JSONObject taskParam;
+    private JsonObject taskParam;
 
     public InvokeParamDto() {
         super();
@@ -62,17 +63,17 @@ public class InvokeParamDto implements Serializable {
         this.concurrent = concurrent;
     }
 
-    public JSONObject getTaskParam() {
+    public JsonObject getTaskParam() {
         return taskParam;
     }
 
-    public void setTaskParam(JSONObject taskParam) {
+    public void setTaskParam(JsonObject taskParam) {
         this.taskParam = taskParam;
     }
 
     @Override
     public String toString() {
-        return JSON.toJSONString(this);
+        return GsonUtils.objectToJson(this);
     }
 
 }

@@ -10,10 +10,9 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Component;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.oner365.data.commons.enums.StatusEnum;
 import com.oner365.data.commons.util.DateUtil;
+import com.oner365.data.commons.util.GsonUtils;
 import com.oner365.data.web.utils.HttpClientUtils;
 import com.oner365.monitor.constants.ScheduleConstants;
 import com.oner365.monitor.dto.InvokeParamDto;
@@ -27,6 +26,7 @@ import com.oner365.queue.condition.KafkaCondition;
 import com.oner365.queue.constants.QueueConstants;
 
 import jakarta.annotation.Resource;
+import jakarta.json.JsonObject;
 
 /**
  * Kafka 监听服务
@@ -50,19 +50,18 @@ public class KafkaInvokeParamListener {
      * @param consumerRecord 参数
      */
     @KafkaListener(id = QueueConstants.SCHEDULE_TASK_QUEUE_NAME, topics = { QueueConstants.SCHEDULE_TASK_QUEUE_NAME })
-    public void listener(ConsumerRecord<String, ?> consumerRecord, Acknowledgment ack) {
-        Optional<?> kafkaMessage = Optional.of(consumerRecord.value());
-        Object message = kafkaMessage.get();
+    public void listener(ConsumerRecord<String, InvokeParamDto> consumerRecord, Acknowledgment ack) {
+        Optional<InvokeParamDto> kafkaMessage = Optional.of(consumerRecord.value());
+        InvokeParamDto message = kafkaMessage.get();
         logger.info("Kafka pullTask received: {}", message);
         ack.acknowledge();
         // business
-        InvokeParamDto dto = JSON.parseObject(message.toString(), InvokeParamDto.class);
-        if (dto != null && ScheduleConstants.SCHEDULE_SERVER_NAME.equals(dto.getTaskServerName())) {
-            taskExecute(dto.getConcurrent(), dto.getTaskId(), dto.getTaskParam());
+        if (message != null && ScheduleConstants.SCHEDULE_SERVER_NAME.equals(message.getTaskServerName())) {
+            taskExecute(message.getConcurrent(), message.getTaskId(), message.getTaskParam());
         }
     }
 
-    private void taskExecute(String concurrent, String taskId, JSONObject param) {
+    private void taskExecute(String concurrent, String taskId, JsonObject param) {
         SysTaskDto sysTask = sysTaskService.selectTaskById(taskId);
         if (sysTask != null) {
             if (ScheduleConstants.SCHEDULE_CONCURRENT.equals(concurrent)) {
@@ -80,12 +79,12 @@ public class KafkaInvokeParamListener {
         }
     }
 
-    private StatusEnum execute(String taskId, JSONObject param, SysTaskDto sysTask) {
+    private StatusEnum execute(String taskId, JsonObject param, SysTaskDto sysTask) {
         try {
             logger.info("taskId:{}", taskId);
             sysTask.setExecuteStatus(StatusEnum.NO);
             sysTaskService.save(convert(sysTask));
-            int day = param.getInteger("day");
+            int day = param.getInt("day");
             String time = DateUtil.nextDay(day - 2 * day, DateUtil.FULL_TIME_FORMAT);
             sysTaskLogService.deleteTaskLogByCreateTime(time);
 
@@ -118,7 +117,8 @@ public class KafkaInvokeParamListener {
         if (source == null) {
             return null;
         }
-        return JSON.parseObject(JSON.toJSONString(source), SysTaskVo.class);
+        String str = GsonUtils.objectToJson(source);
+        return GsonUtils.jsonToBean(str, SysTaskVo.class);
     }
 
 }

@@ -6,9 +6,9 @@ import org.springframework.context.annotation.Conditional;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSON;
 import com.oner365.api.dto.UpdateTaskExecuteStatusDto;
 import com.oner365.data.commons.constants.PublicConstants;
+import com.oner365.data.commons.util.GsonUtils;
 import com.oner365.data.redis.RedisCache;
 import com.oner365.monitor.dto.InvokeParamDto;
 import com.oner365.monitor.dto.SysTaskDto;
@@ -36,7 +36,7 @@ public class MqttSendServiceImpl implements IQueueSendService {
     private final Logger logger = LoggerFactory.getLogger(MqttSendServiceImpl.class);
 
     @Resource
-    private RedisCache redisCache;
+    private RedisCache<String> redisCache;
 
     @Resource
     private IMqttSendMessageService messageService;
@@ -80,7 +80,7 @@ public class MqttSendServiceImpl implements IQueueSendService {
                 PublicConstants.QUEUE_LOCK_TIME_SECOND);
         if (isLock) {
             logger.info("Mqtt send pullTask: {} topic: {}", data, QueueConstants.SCHEDULE_TASK_QUEUE_NAME);
-            invokeParamService.sendMessage(QueueConstants.SCHEDULE_TASK_QUEUE_NAME, JSON.toJSONString(data));
+            invokeParamService.sendMessage(QueueConstants.SCHEDULE_TASK_QUEUE_NAME, GsonUtils.objectToJson(data));
         }
     }
 
@@ -92,7 +92,7 @@ public class MqttSendServiceImpl implements IQueueSendService {
         if (isLock) {
             logger.info("Mqtt send updateTaskExecuteStatus: {} topic: {}", data,
                     QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME);
-            taskExecuteStatusService.sendMessage(QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME, JSON.toJSONString(data));
+            taskExecuteStatusService.sendMessage(QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME, GsonUtils.objectToJson(data));
         }
     }
 
@@ -103,7 +103,7 @@ public class MqttSendServiceImpl implements IQueueSendService {
                 PublicConstants.QUEUE_LOCK_TIME_SECOND);
         if (isLock) {
             logger.info("Mqtt send saveExecuteTaskLog: {} topic: {}", data, QueueConstants.SAVE_TASK_LOG_QUEUE_NAME);
-            taskLogService.sendMessage(QueueConstants.SAVE_TASK_LOG_QUEUE_NAME, JSON.toJSONString(data));
+            taskLogService.sendMessage(QueueConstants.SAVE_TASK_LOG_QUEUE_NAME, GsonUtils.objectToJson(data));
         }
     }
 

@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 
-import com.alibaba.fastjson.JSON;
+import com.oner365.data.commons.util.GsonUtils;
 import com.oner365.data.jpa.page.PageInfo;
 
 /**
@@ -26,7 +26,8 @@ public interface BaseService {
         if (source == null) {
             return null;
         }
-        return JSON.parseObject(JSON.toJSONString(source), clazz);
+        String str = GsonUtils.objectToJson(source);
+        return GsonUtils.jsonToBean(str, clazz);
     }
 
     /**

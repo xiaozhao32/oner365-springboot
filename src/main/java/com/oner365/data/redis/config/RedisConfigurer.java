@@ -9,10 +9,10 @@ import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.alibaba.fastjson.JSON;
 import com.oner365.data.commons.constants.PublicConstants;
 import com.oner365.data.commons.util.ClassesUtil;
 import com.oner365.data.commons.util.DataUtils;
+import com.oner365.data.commons.util.GsonUtils;
 
 /**
  * RedisConfigurer
@@ -48,7 +48,7 @@ public class RedisConfigurer implements CachingConfigurer {
                         strBuilder.append(object);
                     }
                     else {
-                        strBuilder.append(JSON.toJSONString(object).hashCode());
+                        strBuilder.append(GsonUtils.objectToJson(object).hashCode());
                     }
                 });
             }

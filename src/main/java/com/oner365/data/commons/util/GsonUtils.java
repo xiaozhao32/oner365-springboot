@@ -1,13 +1,14 @@
 package com.oner365.data.commons.util;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import java.lang.reflect.Type;
+import java.util.Optional;
 
-import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.oner365.data.commons.adapter.LocalDateTimeTypeAdapter;
-import com.oner365.data.commons.adapter.TimestampTypeAdapter;
+import com.oner365.data.commons.adapter.JakartaJsonObjectTypeAdapter;
+import com.oner365.data.commons.adapter.OptionalTypeAdapter;
+
+import jakarta.json.JsonObject;
 
 /**
  * Gson工具类
@@ -20,25 +21,29 @@ public class GsonUtils {
 
     }
 
-    protected static final Gson GSON = new GsonBuilder()
-        .registerTypeAdapter(Timestamp.class, new TimestampTypeAdapter())
-        .setDateFormat(DateUtil.FULL_TIME_FORMAT)
-        .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeTypeAdapter())
-        .setDateFormat(DateUtil.FULL_TIME_FORMAT)
-        .create();
+    public static final Gson GSON = new GsonBuilder()
+            .registerTypeAdapter(JsonObject.class, new JakartaJsonObjectTypeAdapter())
+            .registerTypeAdapter(Optional.class, new OptionalTypeAdapter())
+            .create();
 
     /***
      * 把对象转化成JSON
+     * 
      * @param obj 对象
      * @return String
      */
     public static String objectToJson(Object obj) {
         return GSON.toJson(obj);
     }
+    
+    public static <T> String objectToJson(Object obj, Class<T> clazz) {
+        return GSON.toJson(obj, clazz);
+    }
 
     /***
      * JSON转对象类型
-     * @param json json字符串
+     * 
+     * @param json  json字符串
      * @param clazz 类
      * @return T
      */
@@ -48,12 +53,13 @@ public class GsonUtils {
 
     /***
      * JSON转对象类型
+     * 
      * @param json json字符串
-     * @param type new TypeToken<List<T>>() {}
+     * @param type type
      * @return T
      */
-    public static <T> T jsonToBean(String json, TypeToken<T> type) {
-        return GSON.fromJson(json, type.getType());
+    public static <T> T jsonToBean(String json, Type type) {
+        return GSON.fromJson(json, type);
     }
 
 }

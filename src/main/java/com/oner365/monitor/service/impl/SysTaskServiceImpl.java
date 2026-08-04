@@ -15,9 +15,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.alibaba.fastjson.JSON;
 import com.oner365.data.commons.exception.ProjectRuntimeException;
 import com.oner365.data.commons.util.DataUtils;
+import com.oner365.data.commons.util.GsonUtils;
 import com.oner365.data.jpa.page.PageInfo;
 import com.oner365.data.jpa.query.QueryCriteriaBean;
 import com.oner365.data.jpa.query.QueryUtils;
@@ -173,7 +173,7 @@ public class SysTaskServiceImpl implements ISysTaskService {
             SysTask sysTask = optional.get();
             sysTask.setTaskGroup(taskGroup);
             JobDataMap dataMap = new JobDataMap();
-            dataMap.put(ScheduleConstants.TASK_PROPERTIES, JSON.toJSONString(convert(sysTask, SysTaskDto.class)));
+            dataMap.put(ScheduleConstants.TASK_PROPERTIES, GsonUtils.objectToJson(sysTask));
             scheduler.triggerJob(ScheduleUtils.getJobKey(id, taskGroup), dataMap);
             queueSendService.saveExecuteTaskLog(convert(sysTask, SysTaskDto.class));
             return Boolean.TRUE;

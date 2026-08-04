@@ -45,7 +45,7 @@ public class DataSourceConfig {
     private String datasourceType;
 
     @Resource
-    private RedisCache redisCache;
+    private RedisCache<Map<Object, Object>> redisCache;
 
     /**
      * 获取数据源
@@ -58,7 +58,6 @@ public class DataSourceConfig {
 
     @Primary
     @Bean(name = "dynamicDataSource")
-    @SuppressWarnings("unchecked")
     DynamicDataSource dynamicDataSource() {
         DataSource primarySource = primaryDataSource();
         // 当前数据源
@@ -79,19 +78,6 @@ public class DataSourceConfig {
             }
             catch (Exception e) {
                 logger.error("dynamicDataSource dbMap error:", e);
-            }
-        }
-        else if (DataSourceConstants.DS_TYPE_CACHE.equals(datasourceType)) {
-            // redis加载方式
-            try {
-                Map<String, Object> sourceMap = redisCache.getCacheMap(DataSourceConstants.CACHE_MAP);
-                sourceMap.forEach((key, value) -> {
-                    DruidDataSource druidDatasource = builderSource(key, (Map<String, Object>) value);
-                    targetDataSources.put(druidDatasource.getName(), druidDatasource);
-                });
-            }
-            catch (Exception e) {
-                logger.error("dynamicDataSource sourceMap error:", e);
             }
         }
 

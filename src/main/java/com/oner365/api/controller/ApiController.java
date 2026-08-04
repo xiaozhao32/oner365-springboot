@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSONObject;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.data.commons.cache.GuavaCache;
 import com.oner365.data.commons.config.properties.AccessTokenProperties;
@@ -26,6 +25,7 @@ import com.oner365.data.commons.util.DataUtils;
 import com.oner365.data.commons.util.DateUtil;
 import com.oner365.data.datasource.util.DataSourceUtil;
 import com.oner365.data.redis.RedisCache;
+import com.oner365.data.redis.util.RedisUtils;
 import com.oner365.data.web.controller.BaseController;
 import com.oner365.data.web.sequence.sequence.RangeSequence;
 import com.oner365.data.web.sequence.sequence.SnowflakeSequence;
@@ -34,6 +34,8 @@ import com.oner365.datasource.dynamic.DynamicDataSource;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 
 /**
  * API 接口测试
@@ -44,9 +46,13 @@ import jakarta.annotation.Resource;
 @Tag(name = "API公共接口")
 @RequestMapping("/api")
 public class ApiController extends BaseController {
-
+    
     @Resource
-    private RedisCache redisCache;
+    private RedisCache<String> redisCache;
+    @Resource
+    private RedisCache<Map<String, Object>> redisCacheList;
+    @Resource
+    private RedisCache<Object> redisCacheMap;
 
     @Resource
     private DynamicDataSource dataSource;
@@ -65,7 +71,7 @@ public class ApiController extends BaseController {
 
     @Resource
     private AccessTokenProperties accessTokenProperties;
-
+    
     /**
      * 测试分库分表
      * @param orderId 订单id
@@ -119,14 +125,10 @@ public class ApiController extends BaseController {
     @Operation(summary = "3.测试Redis Cache")
     @ApiOperationSupport(order = 3)
     @GetMapping("/cache/redis/test")
-    public JSONObject testRedisCache() {
+    public String testRedisCache() {
         String key = "test1";
-        JSONObject value = new JSONObject();
-        value.put("aaa", 111);
-        value.put("bbb", 222);
-        redisCache.setCacheObject(key, value, accessTokenProperties.getExpireTime());
-        JSONObject json = redisCache.getCacheObject(key);
-        logger.info("test1:{}", json);
+        RedisUtils.setCacheObject(key, "abc", accessTokenProperties.getExpireTime());
+        String json = RedisUtils.getCacheObject(key);
 
         String key2 = "test2";
         List<Map<String, Object>> dataList = new ArrayList<>();
@@ -146,17 +148,18 @@ public class ApiController extends BaseController {
         m3.put("c3", "c33");
         dataList.add(m3);
         redisCache.deleteObject(key2);
-        redisCache.setCacheList(key2, dataList);
+        
+        redisCacheList.setCacheList(key2, dataList);
         redisCache.expire(key2, accessTokenProperties.getExpireTime());
         List<String> list = redisCache.getCacheList(key2);
         logger.info("test2:{}", list);
 
         String key3 = "test3";
-        Map<String, Object> dataMap = new HashMap<>(3);
+        Map<Object, Object> dataMap = new HashMap<>(3);
         dataMap.put("ddd", dataList);
-        redisCache.setCacheMap(key3, dataMap);
+        redisCacheMap.setCacheMap(key3, dataMap);
         redisCache.expire(key3, accessTokenProperties.getExpireTime());
-        Map<String, Object> map = redisCache.getCacheMap(key3);
+        Map<Object, Object> map = redisCache.getCacheMap(key3);
         logger.info("test3:{}", map);
 
         String key4 = "test4";
@@ -167,7 +170,7 @@ public class ApiController extends BaseController {
         redisCache.expire(key4, accessTokenProperties.getExpireTime());
         Set<String> set = redisCache.getCacheSet(key4);
         logger.info("test4:{}", set);
-
+//
         String key5 = "test5";
         boolean b1 = redisCache.lock(key5, 10);
         logger.info("test5 lock:{}", b1);
@@ -186,14 +189,14 @@ public class ApiController extends BaseController {
     @Operation(summary = "4.测试国际化")
     @ApiOperationSupport(order = 4)
     @GetMapping("/i18n/messages")
-    public JSONObject testMessages(@RequestParam String message, @RequestParam String language) {
+    public JsonObject testMessages(@RequestParam String message, @RequestParam String language) {
         Locale locale = Locale.of(language);
         String name = messageSource.getMessage(message, new Object[] {}, message, locale);
 
-        JSONObject result = new JSONObject();
-        result.put("language", locale.toLanguageTag());
-        result.put("name", name);
-        return result;
+        return Json.createObjectBuilder()
+                .add("language", locale.toLanguageTag())
+                .add("name", name)
+                .build();
     }
 
 }

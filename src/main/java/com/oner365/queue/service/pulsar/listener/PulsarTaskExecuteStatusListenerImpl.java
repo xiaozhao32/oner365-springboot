@@ -6,8 +6,8 @@ import org.springframework.context.annotation.Conditional;
 import org.springframework.pulsar.annotation.PulsarListener;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSON;
 import com.oner365.api.dto.UpdateTaskExecuteStatusDto;
+import com.oner365.data.commons.util.GsonUtils;
 import com.oner365.data.jpa.service.BaseService;
 import com.oner365.monitor.dto.SysTaskDto;
 import com.oner365.monitor.service.ISysTaskService;
@@ -37,7 +37,7 @@ public class PulsarTaskExecuteStatusListenerImpl implements BaseService {
         LOGGER.info("Pulsar consumer data: {}, topic: {}", data, QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME);
 
         // business
-        UpdateTaskExecuteStatusDto updateTask = JSON.parseObject(data, UpdateTaskExecuteStatusDto.class);
+        UpdateTaskExecuteStatusDto updateTask = GsonUtils.jsonToBean(data, UpdateTaskExecuteStatusDto.class);
         if (updateTask != null) {
             SysTaskDto sysTask = sysTaskService.selectTaskById(updateTask.getTaskId());
             if (sysTask != null) {

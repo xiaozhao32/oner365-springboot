@@ -8,8 +8,8 @@ import org.springframework.context.annotation.Conditional;
 import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSON;
 import com.oner365.api.dto.UpdateTaskExecuteStatusDto;
+import com.oner365.data.commons.util.GsonUtils;
 import com.oner365.monitor.dto.SysTaskDto;
 import com.oner365.monitor.service.ISysTaskService;
 import com.oner365.monitor.vo.SysTaskVo;
@@ -40,7 +40,7 @@ public class MqttReceiverTaskExecuteStatusServiceImpl implements IMqttReceiverTa
         logger.info("Mqtt receive setExecuteStatus: {}", message);
 
         // business
-        UpdateTaskExecuteStatusDto updateTask = JSON.parseObject(message.toString(), UpdateTaskExecuteStatusDto.class);
+        UpdateTaskExecuteStatusDto updateTask = GsonUtils.jsonToBean(message.toString(), UpdateTaskExecuteStatusDto.class);
         if (updateTask != null) {
             SysTaskDto sysTask = sysTaskService.selectTaskById(updateTask.getTaskId());
             if (sysTask != null) {

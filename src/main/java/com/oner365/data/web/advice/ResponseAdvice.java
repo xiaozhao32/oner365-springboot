@@ -17,11 +17,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
-import com.alibaba.fastjson.JSON;
 import com.oner365.data.commons.config.properties.ClientWhiteProperties;
 import com.oner365.data.commons.reponse.ResponseData;
 import com.oner365.data.commons.util.Cipher;
 import com.oner365.data.commons.util.DataUtils;
+import com.oner365.data.commons.util.GsonUtils;
 import com.oner365.data.commons.util.RsaUtils;
 import com.oner365.data.web.utils.RequestUtils;
 
@@ -82,6 +82,7 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
         }
         if (body instanceof String str) {
             try {
+                response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
                 return objectMapper.writeValueAsString(ResponseData.success(str));
             }
             catch (JacksonException e) {
@@ -103,7 +104,7 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
 
         if (body instanceof ResponseData<?> data) {
             return ResponseData.success(Base64.getEncoder()
-                .encodeToString(Cipher.encodeSms4(JSON.toJSONString(data), key.substring(0, 16).getBytes())));
+                .encodeToString(Cipher.encodeSms4(GsonUtils.objectToJson(data), key.substring(0, 16).getBytes())));
         }
         if (body instanceof byte[] b) {
             return Base64.getEncoder().encodeToString(Cipher.encodeSms4(b, key.substring(0, 16).getBytes())).getBytes();

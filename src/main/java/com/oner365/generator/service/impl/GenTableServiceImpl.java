@@ -3,6 +3,7 @@ package com.oner365.generator.service.impl;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.time.LocalDateTime;
@@ -25,11 +26,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.oner365.data.commons.constants.PublicConstants;
 import com.oner365.data.commons.exception.ProjectException;
+import com.oner365.data.commons.exception.ProjectRuntimeException;
 import com.oner365.data.commons.util.DataUtils;
+import com.oner365.data.commons.util.GsonUtils;
 import com.oner365.generator.config.GenConfig;
 import com.oner365.generator.constants.GenConstants;
 import com.oner365.generator.entity.GenTable;
@@ -42,6 +43,9 @@ import com.oner365.generator.util.VelocityInitializer;
 import com.oner365.generator.util.VelocityUtils;
 
 import jakarta.annotation.Resource;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonReader;
 
 /**
  * 业务 服务层实现
@@ -111,7 +115,7 @@ public class GenTableServiceImpl implements IGenTableService {
     @Override
     @Transactional(rollbackFor = ProjectException.class)
     public Boolean updateGenTable(GenTable genTable) {
-        String options = JSON.toJSONString(genTable.getParams());
+        String options = GsonUtils.objectToJson(genTable.getParams());
         genTable.setOptions(options);
         genTable.setUpdateTime(LocalDateTime.now());
         int row = genTableMapper.updateGenTable(genTable);
@@ -327,16 +331,20 @@ public class GenTableServiceImpl implements IGenTableService {
     @Override
     public void validateEdit(GenTable genTable) {
         if (GenConstants.TPL_TREE.equals(genTable.getTplCategory())) {
-            String options = JSON.toJSONString(genTable.getParams());
-            JSONObject paramsObj = JSON.parseObject(options);
-            if (DataUtils.isEmpty(paramsObj.getString(GenConstants.TREE_CODE))) {
-                LOGGER.error("树编码字段不能为空");
-            }
-            else if (DataUtils.isEmpty(paramsObj.getString(GenConstants.TREE_PARENT_CODE))) {
-                LOGGER.error("树父编码字段不能为空");
-            }
-            else if (DataUtils.isEmpty(paramsObj.getString(GenConstants.TREE_NAME))) {
-                LOGGER.error("树名称字段不能为空");
+            String options = GsonUtils.objectToJson(genTable.getParams());
+            if (!DataUtils.isEmpty(options)) {
+                try (JsonReader reader = Json.createReader(new StringReader(options))) {
+                    JsonObject paramsObj = reader.readObject();
+                    if (DataUtils.isEmpty(paramsObj.getString(GenConstants.TREE_CODE))) {
+                        LOGGER.error("树编码字段不能为空");
+                    }
+                    else if (DataUtils.isEmpty(paramsObj.getString(GenConstants.TREE_PARENT_CODE))) {
+                        LOGGER.error("树父编码字段不能为空");
+                    }
+                    else if (DataUtils.isEmpty(paramsObj.getString(GenConstants.TREE_NAME))) {
+                        LOGGER.error("树名称字段不能为空");
+                    }
+                }
             }
         }
     }
@@ -358,19 +366,25 @@ public class GenTableServiceImpl implements IGenTableService {
      * @param genTable 设置后的生成对象
      */
     public void setTableFromOptions(GenTable genTable) {
-        JSONObject paramsObj = JSON.parseObject(genTable.getOptions());
-        if (!DataUtils.isEmpty(paramsObj)) {
-            String treeCode = paramsObj.getString(GenConstants.TREE_CODE);
-            String treeParentCode = paramsObj.getString(GenConstants.TREE_PARENT_CODE);
-            String treeName = paramsObj.getString(GenConstants.TREE_NAME);
-            String parentMenuId = paramsObj.getString(GenConstants.PARENT_MENU_ID);
-            String parentMenuName = paramsObj.getString(GenConstants.PARENT_MENU_NAME);
-
-            genTable.setTreeCode(treeCode);
-            genTable.setTreeParentCode(treeParentCode);
-            genTable.setTreeName(treeName);
-            genTable.setParentMenuId(parentMenuId);
-            genTable.setParentMenuName(parentMenuName);
+        if (!DataUtils.isEmpty(genTable.getOptions())) {
+            try (JsonReader reader = Json.createReader(new StringReader(genTable.getOptions()))) {
+                JsonObject paramsObj = reader.readObject();
+                if (!DataUtils.isEmpty(paramsObj)) {
+                    String treeCode = paramsObj.getString(GenConstants.TREE_CODE);
+                    String treeParentCode = paramsObj.getString(GenConstants.TREE_PARENT_CODE);
+                    String treeName = paramsObj.getString(GenConstants.TREE_NAME);
+                    String parentMenuId = paramsObj.getString(GenConstants.PARENT_MENU_ID);
+                    String parentMenuName = paramsObj.getString(GenConstants.PARENT_MENU_NAME);
+    
+                    genTable.setTreeCode(treeCode);
+                    genTable.setTreeParentCode(treeParentCode);
+                    genTable.setTreeName(treeName);
+                    genTable.setParentMenuId(parentMenuId);
+                    genTable.setParentMenuName(parentMenuName);
+                }
+            } catch (Exception e) {
+                throw new ProjectRuntimeException("Failed to parse JSON string: " + genTable.getOptions(), e);
+            }
         }
     }
 

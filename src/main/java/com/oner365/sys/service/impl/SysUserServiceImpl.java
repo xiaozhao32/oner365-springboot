@@ -15,14 +15,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.oner365.data.commons.config.properties.AccessTokenProperties;
 import com.oner365.data.commons.constants.PublicConstants;
 import com.oner365.data.commons.enums.StatusEnum;
 import com.oner365.data.commons.exception.ProjectRuntimeException;
 import com.oner365.data.commons.util.DataUtils;
 import com.oner365.data.commons.util.DateUtil;
+import com.oner365.data.commons.util.GsonUtils;
 import com.oner365.data.commons.util.JwtUtils;
 import com.oner365.data.commons.util.Md5Util;
 import com.oner365.data.jpa.page.PageInfo;
@@ -30,11 +29,10 @@ import com.oner365.data.jpa.query.Criteria;
 import com.oner365.data.jpa.query.QueryCriteriaBean;
 import com.oner365.data.jpa.query.QueryUtils;
 import com.oner365.data.jpa.query.Restrictions;
-import com.oner365.data.redis.RedisCache;
 import com.oner365.data.redis.annotation.GeneratorCache;
 import com.oner365.data.redis.annotation.RedisCacheAble;
 import com.oner365.data.redis.constants.CacheConstants;
-import com.oner365.data.web.utils.RequestUtils;
+import com.oner365.data.redis.util.RedisUtils;
 import com.oner365.sys.constants.SysConstants;
 import com.oner365.sys.dao.ISysJobDao;
 import com.oner365.sys.dao.ISysOrganizationDao;
@@ -46,6 +44,7 @@ import com.oner365.sys.dao.ISysUserOrgDao;
 import com.oner365.sys.dao.ISysUserRoleDao;
 import com.oner365.sys.dto.LoginUserDto;
 import com.oner365.sys.dto.SysUserDto;
+import com.oner365.sys.dto.UserTokenDto;
 import com.oner365.sys.entity.SysJob;
 import com.oner365.sys.entity.SysOrganization;
 import com.oner365.sys.entity.SysRole;
@@ -72,9 +71,6 @@ public class SysUserServiceImpl implements ISysUserService {
     private static final String CACHE_NAME = "SysUser";
 
     private static final String CACHE_ORG_NAME = "SysOrganization";
-
-    @Resource
-    private RedisCache redisCache;
 
     @Resource
     private ISysUserDao userDao;
@@ -110,34 +106,34 @@ public class SysUserServiceImpl implements ISysUserService {
         SysUser user = getUserByUserName(userName, password, ip);
         if (user != null) {
             String key = CacheConstants.CACHE_LOGIN_NAME + userName;
-            JSONObject cache = redisCache.getCacheObject(key);
+            LoginUserDto cache = RedisUtils.getCacheObject(key);
             if (cache != null) {
-                return JSON.toJavaObject(cache, LoginUserDto.class);
+                return cache;
             }
 
             Date time = DateUtil.after(DateUtil.getDate(), 
                     Integer.parseInt(accessTokenProperties.getExpireTime().getSeconds() + ""), Calendar.SECOND);
-            JSONObject tokenJson = new JSONObject();
-            tokenJson.put(RequestUtils.TOKEN_TYPE, "login");
+            UserTokenDto tokenJson = new UserTokenDto();
+            tokenJson.setTokenType("login");
 
-            tokenJson.put(SysConstants.ID, user.getId());
-            tokenJson.put(SysConstants.USER_NAME, user.getUserName());
-            tokenJson.put(SysConstants.PASS, user.getPassword());
-            tokenJson.put(SysConstants.IS_ADMIN, user.getIsAdmin());
-            tokenJson.put(SysConstants.USER_TYPE, user.getUserType());
+            tokenJson.setId(user.getId());
+            tokenJson.setUserName(user.getUserName());
+            tokenJson.setPassword(user.getPassword());
+            tokenJson.setIsAdmin(user.getIsAdmin());
+            tokenJson.setUserType(user.getUserType());
 
             List<String> roles = userRoleDao.findUserRoleByUserId(user.getId());
             List<String> orgs = userOrgDao.findUserOrgByUserId(user.getId());
             List<String> jobs = userJobDao.findUserJobByUserId(user.getId());
-            tokenJson.put(SysConstants.ROLES, roles);
-            tokenJson.put(SysConstants.JOBS, jobs);
-            tokenJson.put(SysConstants.ORGS, orgs);
+            tokenJson.setRoles(roles);
+            tokenJson.setJobs(jobs);
+            tokenJson.setOrgs(orgs);
 
             if (!roles.isEmpty()) {
-                tokenJson.put(SysConstants.MENU_TYPE, getMenuType(roles.get(0)));
+                tokenJson.setMenuType(getMenuType(roles.get(0)));
             }
 
-            String accessToken = JwtUtils.generateToken(tokenJson.toJSONString(), time,
+            String accessToken = JwtUtils.generateToken(GsonUtils.objectToJson(tokenJson), time,
                     accessTokenProperties.getSecret());
 
             LoginUserDto result = new LoginUserDto();
@@ -151,7 +147,7 @@ public class SysUserServiceImpl implements ISysUserService {
             result.setRoles(roles);
             result.setJobs(jobs);
             result.setOrgs(orgs);
-            redisCache.setCacheObject(key, result, accessTokenProperties.getExpireTime());
+            RedisUtils.setCacheObject(key, result, accessTokenProperties.getExpireTime());
 
             return result;
         }
@@ -364,7 +360,7 @@ public class SysUserServiceImpl implements ISysUserService {
         userDao.save(entity);
 
         String key = CacheConstants.CACHE_LOGIN_NAME + entity.getUserName();
-        redisCache.deleteObject(key);
+        RedisUtils.deleteObject(key);
         return convert(entity, SysUserDto.class);
     }
 
@@ -382,7 +378,7 @@ public class SysUserServiceImpl implements ISysUserService {
         userDao.save(entity);
 
         String key = CacheConstants.CACHE_LOGIN_NAME + entity.getUserName();
-        redisCache.deleteObject(key);
+        RedisUtils.deleteObject(key);
         return convert(entity, SysUserDto.class);
     }
 

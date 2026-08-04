@@ -10,7 +10,6 @@ import org.springframework.kafka.support.SendResult;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSON;
 import com.oner365.api.dto.UpdateTaskExecuteStatusDto;
 import com.oner365.data.commons.constants.PublicConstants;
 import com.oner365.data.redis.RedisCache;
@@ -36,7 +35,7 @@ public class KafkaSendServiceImpl implements IQueueSendService {
     private final Logger logger = LoggerFactory.getLogger(KafkaSendServiceImpl.class);
 
     @Resource
-    private RedisCache redisCache;
+    private RedisCache<String> redisCache;
 
     @Resource
     private KafkaTemplate<String, Object> kafkaTemplate;
@@ -81,7 +80,7 @@ public class KafkaSendServiceImpl implements IQueueSendService {
                 PublicConstants.QUEUE_LOCK_TIME_SECOND);
         if (isLock) {
             logger.info("Kafka pullTask: {}", data);
-            kafkaTemplate.send(QueueConstants.SCHEDULE_TASK_QUEUE_NAME, JSON.toJSONString(data));
+            kafkaTemplate.send(QueueConstants.SCHEDULE_TASK_QUEUE_NAME, data);
         }
     }
 
@@ -92,7 +91,7 @@ public class KafkaSendServiceImpl implements IQueueSendService {
                 PublicConstants.QUEUE_LOCK_TIME_SECOND);
         if (isLock) {
             logger.info("Kafka updateTaskExecuteStatus push: {}", data);
-            kafkaTemplate.send(QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME, JSON.toJSONString(data));
+            kafkaTemplate.send(QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME, data);
         }
     }
 
@@ -103,7 +102,7 @@ public class KafkaSendServiceImpl implements IQueueSendService {
                 PublicConstants.QUEUE_LOCK_TIME_SECOND);
         if (isLock) {
             logger.info("Kafka saveExecuteTaskLog push: {}", data);
-            kafkaTemplate.send(QueueConstants.SAVE_TASK_LOG_QUEUE_NAME, JSON.toJSONString(data));
+            kafkaTemplate.send(QueueConstants.SAVE_TASK_LOG_QUEUE_NAME, data);
         }
     }
 

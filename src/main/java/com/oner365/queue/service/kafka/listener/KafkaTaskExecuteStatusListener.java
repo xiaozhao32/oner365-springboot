@@ -10,8 +10,8 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Component;
 
-import com.alibaba.fastjson.JSON;
 import com.oner365.api.dto.UpdateTaskExecuteStatusDto;
+import com.oner365.data.commons.util.GsonUtils;
 import com.oner365.monitor.dto.SysTaskDto;
 import com.oner365.monitor.service.ISysTaskService;
 import com.oner365.monitor.vo.SysTaskVo;
@@ -40,13 +40,12 @@ public class KafkaTaskExecuteStatusListener {
      */
     @KafkaListener(id = QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME,
             topics = { QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME })
-    public void listener(ConsumerRecord<String, ?> consumerRecord, Acknowledgment ack) {
-        Optional<?> kafkaMessage = Optional.of(consumerRecord.value());
-        Object message = kafkaMessage.get();
-        logger.info("Kafka updateTaskExecuteStatus received: {}", message);
+    public void listener(ConsumerRecord<String, UpdateTaskExecuteStatusDto> consumerRecord, Acknowledgment ack) {
+        Optional<UpdateTaskExecuteStatusDto> kafkaMessage = Optional.of(consumerRecord.value());
+        UpdateTaskExecuteStatusDto updateTask = kafkaMessage.get();
+        logger.info("Kafka updateTaskExecuteStatus received: {}", updateTask);
         ack.acknowledge();
         // business
-        UpdateTaskExecuteStatusDto updateTask = JSON.parseObject(message.toString(), UpdateTaskExecuteStatusDto.class);
         if (updateTask != null) {
             SysTaskDto sysTask = sysTaskService.selectTaskById(updateTask.getTaskId());
             if (sysTask != null) {
@@ -65,7 +64,8 @@ public class KafkaTaskExecuteStatusListener {
         if (source == null) {
             return null;
         }
-        return JSON.parseObject(JSON.toJSONString(source), SysTaskVo.class);
+        String str = GsonUtils.objectToJson(source);
+        return GsonUtils.jsonToBean(str, SysTaskVo.class);
     }
 
 }

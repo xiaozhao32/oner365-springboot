@@ -3,15 +3,11 @@ package com.oner365.monitor.controller.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.annotation.Resource;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.oner365.data.commons.config.properties.CommonProperties;
 import com.oner365.data.commons.constants.PublicConstants;
@@ -25,8 +21,12 @@ import com.oner365.log.annotation.SysLog;
 import com.oner365.monitor.dto.ServiceInfoDto;
 import com.oner365.queue.service.IQueueSendService;
 
-import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonObject;
 
 /**
  * 服务监控
@@ -91,13 +91,13 @@ public class ServiceController extends BaseController {
     @Operation(summary = "3.配置信息")
     @ApiOperationSupport(order = 3)
     @PostMapping("/info")
-    public JSONObject getActuatorEnv() {
-        JSONObject result = new JSONObject();
-        JSONArray profiles = new JSONArray();
-        profiles.add(commonProperties.getScheme());
-        result.put("activeProfiles", profiles);
-        result.put("propertySources", null);
-        return result;
+    public JsonObject getActuatorEnv() {
+        JsonArray array = Json.createArrayBuilder()
+                .add(commonProperties.getScheme())
+                .build();
+        return Json.createObjectBuilder()
+                .add("activeProfiles", array)
+                .build();
     }
 
     /**
