@@ -22,7 +22,7 @@ public class OptionalTypeAdapter extends TypeAdapter<Optional<?>> {
             // 将 Optional 中的值作为普通 JSON 元素输出
             GsonUtils.GSON.toJson(value.get(), Object.class, out);
         } else {
-         // 如果 Optional 为空，输出 null
+            // 如果 Optional 为空，输出 null
             out.nullValue();
         }
     }

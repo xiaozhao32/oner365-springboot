@@ -23,19 +23,27 @@ public class GsonUtils {
 
     public static final Gson GSON = new GsonBuilder()
             .registerTypeAdapter(JsonObject.class, new JakartaJsonObjectTypeAdapter())
-            .registerTypeAdapter(Optional.class, new OptionalTypeAdapter())
-            .create();
+            .registerTypeAdapter(Optional.class, new OptionalTypeAdapter()).create();
 
     /***
      * 把对象转化成JSON
      * 
      * @param obj 对象
+     * 
      * @return String
      */
     public static String objectToJson(Object obj) {
         return GSON.toJson(obj);
     }
-    
+
+    /***
+     * 把对象转化成JSON
+     * 
+     * @param obj   对象
+     * @param clazz 指定类
+     * 
+     * @return String
+     */
     public static <T> String objectToJson(Object obj, Class<T> clazz) {
         return GSON.toJson(obj, clazz);
     }
@@ -45,6 +53,7 @@ public class GsonUtils {
      * 
      * @param json  json字符串
      * @param clazz 类
+     * 
      * @return T
      */
     public static <T> T jsonToBean(String json, Class<T> clazz) {
@@ -56,6 +65,7 @@ public class GsonUtils {
      * 
      * @param json json字符串
      * @param type type
+     * 
      * @return T
      */
     public static <T> T jsonToBean(String json, Type type) {

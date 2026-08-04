@@ -47,12 +47,12 @@
         <org.springframework.data.version>4.1.0</org.springframework.data.version>
         <org.springframework.version>7.0.8</org.springframework.version>
         <org.springframework.kafka.version>4.1.0</org.springframework.kafka.version>
-        <org.springdoc.version>3.0.3</org.springdoc.version>
+        <org.springdoc.version>3.1.0</org.springdoc.version>
 
         <org.apache.logging.log4j.version>2.26.0</org.apache.logging.log4j.version>
         <org.apache.httpclient.version>4.5.14</org.apache.httpclient.version>
         <org.apache.httpcore.version>4.4.16</org.apache.httpcore.version>
-        <org.apache.tomcat.version>11.0.23</org.apache.tomcat.version>
+        <org.apache.tomcat.version>11.0.24</org.apache.tomcat.version>
         <org.apache.pulsar.version>4.2.2</org.apache.pulsar.version>
         <org.apache.kafka.version>4.3.1</org.apache.kafka.version>
         <org.apache.poi.version>5.5.1</org.apache.poi.version>
@@ -72,7 +72,7 @@
         <commons.io.version>2.22.0</commons.io.version>
 
         <org.hibernate.validator.version>9.1.1.Final</org.hibernate.validator.version>
-        <org.hibernate.version>7.4.2.Final</org.hibernate.version>
+        <org.hibernate.version>7.4.5.Final</org.hibernate.version>
         <org.jboss.logging.version>3.6.3.Final</org.jboss.logging.version>
         <org.mybatis.spring.boot.version>4.0.1</org.mybatis.spring.boot.version>
         <org.mybatis.version>3.5.19</org.mybatis.version>
@@ -80,7 +80,7 @@
         <org.bouncycastle.version>1.84</org.bouncycastle.version>
         <org.elasticsearch.version>9.4.4</org.elasticsearch.version>
         <org.slf4j.version>2.0.18</org.slf4j.version>
-        <ch.qos.logback.version>1.5.35</ch.qos.logback.version>
+        <ch.qos.logback.version>1.6.1</ch.qos.logback.version>
 
         <org.jetbrains.kotlin.version>2.4.0</org.jetbrains.kotlin.version>
         <org.junit.jupiter.version>6.1.0</org.junit.jupiter.version>
@@ -96,7 +96,7 @@
         <org.jsoup.version>1.22.2</org.jsoup.version>
         <org.redisson.version>4.6.1</org.redisson.version>
 
-        <org.postgresql.version>42.7.11</org.postgresql.version>
+        <org.postgresql.version>42.7.13</org.postgresql.version>
         <com.oracle.version>23.2.0.0</com.oracle.version>
         <com.dameng.version>8.1.1.49</com.dameng.version>
         <com.mysql.version>9.6.0</com.mysql.version>
@@ -107,14 +107,14 @@
         <com.fasterxml.jackson.version>2.22.0</com.fasterxml.jackson.version>
         <com.google.code.gson.version>2.14.0</com.google.code.gson.version>
         <com.google.guava.version>33.6.0-jre</com.google.guava.version>
-        <com.google.protobuf.version>4.33.1</com.google.protobuf.version>
+        <com.google.protobuf.version>4.35.1</com.google.protobuf.version>
         <com.squareup.okhttp3.version>4.12.0</com.squareup.okhttp3.version>
         <com.github.xiaoymin.version>4.6.0-SNAPSHOT</com.github.xiaoymin.version>
         <com.github.penggle.version>2.3.3</com.github.penggle.version>
         <com.github.tobato.version>1.27.2</com.github.tobato.version>
-        <com.github.oshi.version>7.3.1</com.github.oshi.version>
+        <com.github.oshi.version>7.4.3</com.github.oshi.version>
         <com.vladmihalcea.version>2.21.1</com.vladmihalcea.version>
-        <com.rabbitmq.version>5.32.0</com.rabbitmq.version>
+        <com.rabbitmq.version>5.34.0</com.rabbitmq.version>
         <com.belerweb.version>2.5.1</com.belerweb.version>
         <com.auth0.version>4.5.2</com.auth0.version>
         <com.jcraft.version>0.1.55</com.jcraft.version>
@@ -122,14 +122,14 @@
 
         <io.projectreactor.core.version>3.8.6</io.projectreactor.core.version>
         <io.projectreactor.netty.version>1.3.6</io.projectreactor.netty.version>
-        <io.hypersistence.version>3.15.2</io.hypersistence.version>
+        <io.hypersistence.version>3.15.3</io.hypersistence.version>
         <io.jsonwebtoken.version>0.13.0</io.jsonwebtoken.version>
         <io.micrometer.version>1.17.0</io.micrometer.version>
-        <io.netty.version>4.2.15.Final</io.netty.version>
+        <io.netty.version>4.2.16.Final</io.netty.version>
         <io.minio.version>9.0.3</io.minio.version>
 
         <net.logstash.logback.version>9.0</net.logstash.logback.version>
-        <net.bytebuddy.version>1.18.8</net.bytebuddy.version>
+        <net.bytebuddy.version>1.18.11</net.bytebuddy.version>
         <net.minidev.version>2.6.0</net.minidev.version>
         <net.sf.jopt.version>5.0.4</net.sf.jopt.version>
 
@@ -141,7 +141,7 @@
 
         <cn.smallbun.screw.version>1.0.6-SNAPSHOT</cn.smallbun.screw.version>
         <redis.clients.version>6.2.0</redis.clients.version>
-        <joda.time.version>2.14.1</joda.time.version>
+        <joda.time.version>2.14.3</joda.time.version>
         <junit.version>4.13.2</junit.version>
         <xerces.version>2.12.2</xerces.version>
         <tools.jackson.version>3.2.1</tools.jackson.version>
