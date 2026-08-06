@@ -175,7 +175,8 @@ public class SysTaskServiceImpl implements ISysTaskService {
             JobDataMap dataMap = new JobDataMap();
             dataMap.put(ScheduleConstants.TASK_PROPERTIES, GsonUtils.objectToJson(sysTask));
             scheduler.triggerJob(ScheduleUtils.getJobKey(id, taskGroup), dataMap);
-            queueSendService.saveExecuteTaskLog(convert(sysTask, SysTaskDto.class));
+            SysTaskDto dto = convert(sysTask, SysTaskDto.class);
+            queueSendService.saveExecuteTaskLog(dto);
             return Boolean.TRUE;
         }
         return Boolean.FALSE;

@@ -13,6 +13,7 @@ import org.springframework.data.redis.core.types.Expiration;
 import org.springframework.data.redis.core.types.RedisClientInfo;
 import org.springframework.stereotype.Component;
 
+import com.oner365.data.commons.util.GsonUtils;
 import com.oner365.data.redis.constants.CacheConstants;
 
 import jakarta.annotation.Resource;
@@ -67,8 +68,9 @@ public class RedisCache<T> {
      * @param key 缓存键值
      * @return 缓存键值对应的数据
      */
-    public T getCacheObject(final String key) {
-        return redisTemplate.opsForValue().get(key);
+    public T getCacheObject(final String key, Class<T> clazz) {
+        Object obj = redisTemplate.opsForValue().get(key);
+        return GsonUtils.jsonToBean(GsonUtils.objectToJson(obj), clazz);
     }
 
     /**

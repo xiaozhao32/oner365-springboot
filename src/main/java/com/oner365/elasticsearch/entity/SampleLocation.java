@@ -1,7 +1,7 @@
 package com.oner365.elasticsearch.entity;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -53,7 +53,7 @@ public class SampleLocation implements Serializable {
      * 创建时间
      */
     @Field(name = "create_time", type = FieldType.Date, pattern = DateUtil.FULL_TIME_FORMAT)
-    private LocalDateTime createTime;
+    private Date createTime;
 
     /**
      * @return the id
@@ -114,14 +114,14 @@ public class SampleLocation implements Serializable {
     /**
      * @return the createTime
      */
-    public LocalDateTime getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
     /**
      * @param createTime the createTime to set
      */
-    public void setCreateTime(LocalDateTime createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 

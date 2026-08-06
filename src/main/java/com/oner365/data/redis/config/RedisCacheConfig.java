@@ -3,6 +3,7 @@ package com.oner365.data.redis.config;
 import java.io.Serializable;
 import java.time.Duration;
 import java.util.HashSet;
+import java.util.TimeZone;
 
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -27,16 +28,20 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 import org.springframework.data.redis.connection.lettuce.LettucePoolingClientConfiguration;
 import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.JacksonJsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.oner365.data.commons.config.properties.AccessTokenProperties;
+import com.oner365.data.commons.jackson.JavaTimeModule;
 import com.oner365.data.commons.util.DataUtils;
-import com.oner365.data.redis.serializer.JsonObjectRedisSerializer;
 
 import io.lettuce.core.ReadFrom;
 import io.lettuce.core.cluster.ClusterClientOptions;
 import io.lettuce.core.cluster.ClusterTopologyRefreshOptions;
 import redis.clients.jedis.Jedis;
+import tools.jackson.databind.DeserializationFeature;
+import tools.jackson.databind.json.JsonMapper;
 
 /**
  * Redis Cache Config
@@ -71,7 +76,16 @@ public class RedisCacheConfig {
         RedisTemplate<String, Serializable> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(connectionFactory);
         
-        JsonObjectRedisSerializer<Object> serializer = new JsonObjectRedisSerializer<>(Object.class);
+        JsonMapper jsonMapper = JsonMapper.builder()
+                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+                .changeDefaultPropertyInclusion(
+                        old -> JsonInclude.Value.construct(JsonInclude.Include.NON_NULL, JsonInclude.Include.NON_NULL))
+                .defaultTimeZone(TimeZone.getDefault())
+                .addModules(new JavaTimeModule())
+                .build();
+        
+        JacksonJsonRedisSerializer<Object> serializer = new JacksonJsonRedisSerializer<>(jsonMapper, Object.class);
+        
         redisTemplate.setValueSerializer(serializer);
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setHashValueSerializer(serializer);

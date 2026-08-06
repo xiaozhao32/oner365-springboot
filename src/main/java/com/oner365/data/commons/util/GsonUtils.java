@@ -1,12 +1,16 @@
 package com.oner365.data.commons.util;
 
 import java.lang.reflect.Type;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.oner365.data.commons.adapter.JakartaJsonObjectTypeAdapter;
+import com.oner365.data.commons.adapter.LocalDateTimeTypeAdapter;
 import com.oner365.data.commons.adapter.OptionalTypeAdapter;
+import com.oner365.data.commons.adapter.TimestampTypeAdapter;
 
 import jakarta.json.JsonObject;
 
@@ -22,8 +26,13 @@ public class GsonUtils {
     }
 
     public static final Gson GSON = new GsonBuilder()
+            .registerTypeAdapter(Timestamp.class, new TimestampTypeAdapter())
+            .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeTypeAdapter())
             .registerTypeAdapter(JsonObject.class, new JakartaJsonObjectTypeAdapter())
-            .registerTypeAdapter(Optional.class, new OptionalTypeAdapter()).create();
+            .registerTypeAdapter(Optional.class, new OptionalTypeAdapter())
+            .setDateFormat(DateUtil.FULL_TIME_FORMAT)
+            .disableHtmlEscaping()
+            .create();
 
     /***
      * 把对象转化成JSON

@@ -24,5 +24,29 @@ class ArithTest extends BaseUtilsTest {
         double result = Arith.sub(1d, -2d);
         Assertions.assertEquals(3d, result);
     }
+    
+    @Test
+    void mul() {
+        double result = Arith.mul(2d, 3d);
+        Assertions.assertEquals(6d, result);
+    }
+    
+    @Test
+    void div() {
+        double result = Arith.div(6d, 2d);
+        Assertions.assertEquals(3d, result);
+    }
+    
+    @Test
+    void divScale() {
+        double result = Arith.div(2d, 3d, 1);
+        Assertions.assertEquals(0.7, result);
+    }
+    
+    @Test
+    void round() {
+        double result = Arith.round(1.2345, 3);
+        Assertions.assertEquals(1.235, result);
+    }
 
 }

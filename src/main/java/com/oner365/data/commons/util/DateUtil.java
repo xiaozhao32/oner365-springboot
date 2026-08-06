@@ -93,6 +93,7 @@ public class DateUtil {
      * 格式：年－月－日 小时：分钟：秒
      */
     public static final String FULL_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    public static final String LOCAL_DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
 
     /**
      * 格式：年－月－日 小时：分钟

@@ -1,11 +1,10 @@
 package com.oner365.test.service.common;
 
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-
-import jakarta.annotation.Resource;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -14,8 +13,12 @@ import org.springframework.data.redis.core.types.RedisClientInfo;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.oner365.data.commons.util.GsonUtils;
 import com.oner365.data.redis.RedisCache;
+import com.oner365.sys.dto.SysJobDto;
 import com.oner365.test.service.BaseServiceTest;
+
+import jakarta.annotation.Resource;
 
 /**
  * 单元测试 - RedisCache
@@ -27,12 +30,29 @@ class RedisCacheTest extends BaseServiceTest {
 
     @Resource
     private RedisCache<Object> redisCache;
+    @Resource
+    private RedisCache<SysJobDto> sysJobCache;
 
     @Test
     void getClientList() {
         List<RedisClientInfo> result = redisCache.getClientList();
         Assertions.assertFalse(result.isEmpty());
         logger.info("result:{}", result);
+    }
+    
+    @Test
+    void getUserTokenDtoTest() {
+        SysJobDto dto = new SysJobDto();
+        dto.setId("1");
+        dto.setJobInfo("job");
+        dto.setJobName("hello");
+        dto.setCreateTime(LocalDateTime.now());
+        
+        String cacheName = "SysJobDto:" + dto.getId();
+        sysJobCache.setCacheObject(cacheName, dto, Duration.ofMinutes(60L));
+        SysJobDto result = sysJobCache.getCacheObject(cacheName, SysJobDto.class);
+        logger.info("{} cache json: {}", cacheName, GsonUtils.objectToJson(result));
+        Assertions.assertNotNull(result);
     }
 
     @Test

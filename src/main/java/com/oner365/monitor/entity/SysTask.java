@@ -1,7 +1,6 @@
 package com.oner365.monitor.entity;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 import org.hibernate.annotations.Type;
@@ -134,14 +133,14 @@ public class SysTask implements Serializable {
      */
     @CreatedDate
     @Column(name = "create_time", updatable = false)
-    private LocalDateTime createTime;
+    private Date createTime;
 
     /**
      * 更新时间
      */
     @LastModifiedDate
     @Column(name = "update_time", updatable = true)
-    private LocalDateTime updateTime;
+    private Date updateTime;
 
     public SysTask() {
         super();
@@ -235,19 +234,19 @@ public class SysTask implements Serializable {
         this.createUser = createUser;
     }
 
-    public LocalDateTime getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(LocalDateTime createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
-    public LocalDateTime getUpdateTime() {
+    public Date getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(LocalDateTime updateTime) {
+    public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
 

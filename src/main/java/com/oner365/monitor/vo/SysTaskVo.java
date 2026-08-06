@@ -1,7 +1,6 @@
 package com.oner365.monitor.vo;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -105,13 +104,13 @@ public class SysTaskVo implements Serializable {
      * 创建时间
      */
     @Schema(description = "创建时间")
-    private LocalDateTime createTime;
+    private Date createTime;
 
     /**
      * 更新时间
      */
     @Schema(description = "更新时间")
-    private LocalDateTime updateTime;
+    private Date updateTime;
 
     public SysTaskVo() {
         super();
@@ -205,19 +204,19 @@ public class SysTaskVo implements Serializable {
         this.createUser = createUser;
     }
 
-    public LocalDateTime getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(LocalDateTime createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
-    public LocalDateTime getUpdateTime() {
+    public Date getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(LocalDateTime updateTime) {
+    public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
 
