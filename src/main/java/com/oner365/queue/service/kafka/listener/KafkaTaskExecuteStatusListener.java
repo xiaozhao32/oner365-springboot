@@ -40,9 +40,9 @@ public class KafkaTaskExecuteStatusListener {
      */
     @KafkaListener(id = QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME,
             topics = { QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME })
-    public void listener(ConsumerRecord<String, UpdateTaskExecuteStatusDto> consumerRecord, Acknowledgment ack) {
-        Optional<UpdateTaskExecuteStatusDto> kafkaMessage = Optional.of(consumerRecord.value());
-        UpdateTaskExecuteStatusDto updateTask = kafkaMessage.get();
+    public void listener(ConsumerRecord<String, String> consumerRecord, Acknowledgment ack) {
+        Optional<String> kafkaMessage = Optional.of(consumerRecord.value());
+        UpdateTaskExecuteStatusDto updateTask = GsonUtils.jsonToBean(kafkaMessage.get(), UpdateTaskExecuteStatusDto.class);
         logger.info("Kafka updateTaskExecuteStatus received: {}", updateTask);
         ack.acknowledge();
         // business

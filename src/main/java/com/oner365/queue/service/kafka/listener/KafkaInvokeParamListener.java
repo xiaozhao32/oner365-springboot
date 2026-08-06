@@ -50,9 +50,9 @@ public class KafkaInvokeParamListener {
      * @param consumerRecord 参数
      */
     @KafkaListener(id = QueueConstants.SCHEDULE_TASK_QUEUE_NAME, topics = { QueueConstants.SCHEDULE_TASK_QUEUE_NAME })
-    public void listener(ConsumerRecord<String, InvokeParamDto> consumerRecord, Acknowledgment ack) {
-        Optional<InvokeParamDto> kafkaMessage = Optional.of(consumerRecord.value());
-        InvokeParamDto message = kafkaMessage.get();
+    public void listener(ConsumerRecord<String, String> consumerRecord, Acknowledgment ack) {
+        Optional<String> kafkaMessage = Optional.of(consumerRecord.value());
+        InvokeParamDto message = GsonUtils.jsonToBean(kafkaMessage.get(), InvokeParamDto.class);
         logger.info("Kafka pullTask received: {}", message);
         ack.acknowledge();
         // business
