@@ -7,37 +7,21 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.oner365.test.controller.BaseControllerTest;
 
 /**
- * Test CacheController
+ * Test DashboardController
  *
  * @author zhaoyong
  *
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class CacheControllerTest extends BaseControllerTest {
+class DashboardControllerTest extends BaseControllerTest {
 
-    private static final String PATH = "/monitor/cache";
+    private static final String PATH = "/monitor/dashboard";
 
     @Test
     void index() {
         String url = PATH + "/index";
         Object result = get(url);
         logger.info("index:[{}] -> {}", url, result);
-        Assertions.assertNotNull(result);
-    }
-
-    @Test
-    void list() {
-        String url = PATH + "/list";
-        Object result = get(url);
-        logger.info("list:[{}] -> {}", url, result);
-        Assertions.assertNotNull(result);
-    }
-
-    @Test
-    void clean() {
-        String url = PATH + "/clean?index=5";
-        Object result = get(url);
-        logger.info("clean:[{}] -> {}", url, result);
         Assertions.assertNotNull(result);
     }
 

@@ -1,6 +1,7 @@
 package com.oner365.elasticsearch.dto;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -54,6 +55,12 @@ public class SampleGeneDto implements Serializable {
      */
     @Schema(description = "比对基因型")
     private Map<String, Object> matchJson;
+
+    /**
+     * 创建时间
+     */
+    @Schema(description = "创建时间")
+    private Date createTime;
 
     /**
      * 页面使用的基因型 {key:value} 转换成 {"name":key, "value":value} 格式
@@ -157,6 +164,20 @@ public class SampleGeneDto implements Serializable {
      */
     public void setGeneList(List<Map<String, Object>> geneList) {
         this.geneList = geneList;
+    }
+
+    /**
+     * @return the createTime
+     */
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    /**
+     * @param createTime the createTime to set
+     */
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     /**

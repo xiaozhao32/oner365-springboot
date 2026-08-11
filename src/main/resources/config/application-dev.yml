@@ -316,10 +316,6 @@ springdoc:
       display-name: Queue(队列)
       paths-to-match: /**
       packages-to-scan: com.oner365.queue
-    - group: statemachine
-      display-name: State(状态转换)
-      paths-to-match: /**
-      packages-to-scan: com.oner365.statemachine
 
 # knife4j
 knife4j:

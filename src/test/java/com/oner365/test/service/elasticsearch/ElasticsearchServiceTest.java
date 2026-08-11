@@ -39,7 +39,7 @@ class ElasticsearchServiceTest extends BaseServiceTest {
 
     @Resource
     private RestTemplate restTemplate;
-    
+
     @Resource
     private ElasticsearchProperties elasticsearchProperties;
 

@@ -19,18 +19,18 @@ public class RedisListenerConfig {
 
     @Bean
     RedisMessageListenerContainer redisMessageListenerContainer(RedisConnectionFactory connectionFactory,
-            MessageListenerAdapter keyExpiredListener) {
+            MessageListenerAdapter adapter) {
 
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
 
-        // 监听指定 Key 事件
-        container.addMessageListener(keyExpiredListener, new PatternTopic(PublicConstants.NAME));
+        // 监听指定Topic 和 @RedisListener 一样
+        container.addMessageListener(adapter, new PatternTopic(PublicConstants.NAME));
         return container;
     }
 
     @Bean
-    MessageListenerAdapter keyExpiredListener(RedisKeyExpireListener listener) {
+    MessageListenerAdapter keyExpiredListener(CustomerRedisListener listener) {
         return new MessageListenerAdapter(listener);
     }
 

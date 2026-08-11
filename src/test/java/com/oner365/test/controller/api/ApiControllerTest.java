@@ -32,7 +32,7 @@ class ApiControllerTest extends BaseControllerTest {
 
     @Resource
     private RedisCache<LoginUserDto> redisCache;
-    
+
     @RepeatedTest(2)
     void cacheRedis() {
         String url = PATH + "/cache/redis/test";
@@ -56,17 +56,16 @@ class ApiControllerTest extends BaseControllerTest {
 
         Duration duration = Duration.ofMinutes(1L);
         logger.info("duration: units: {}, seconds: {}", TimeUnit.SECONDS, duration.getSeconds());
-        
+
         DataSize dataSize = DataSize.of(1L, DataUnit.GIGABYTES);
         logger.info("dataSize: {}", dataSize.toBytes());
-        
+
         // Redisson
         RedisUtils.setCacheObject(key, dto, duration);
         LoginUserDto cacheUser = RedisUtils.getCacheObject(key);
         String cacheUserString = objectMapper.writeValueAsString(cacheUser);
         logger.info("redisson: {}", cacheUserString);
         Assertions.assertNotNull(cacheUser);
-
 
     }
 

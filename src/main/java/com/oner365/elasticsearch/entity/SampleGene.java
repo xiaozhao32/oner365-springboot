@@ -1,10 +1,9 @@
 package com.oner365.elasticsearch.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
-import jakarta.persistence.Enumerated;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -12,7 +11,10 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 import org.springframework.data.elasticsearch.annotations.Setting;
 
+import com.oner365.data.commons.util.DateUtil;
 import com.oner365.elasticsearch.enums.GeneTypeEnum;
+
+import jakarta.persistence.Enumerated;
 
 /**
  * SampleGene
@@ -61,6 +63,12 @@ public class SampleGene implements Serializable {
      */
     @Field(type = FieldType.Object)
     private Map<String, Object> matchJson;
+
+    /**
+     * 创建时间
+     */
+    @Field(name = "create_time", type = FieldType.Date, pattern = DateUtil.FULL_TIME_FORMAT)
+    private Date createTime;
 
     /**
      * 页面使用的基因型 {key:value} 转换成 {"name":key, "value":value} 格式
@@ -163,6 +171,20 @@ public class SampleGene implements Serializable {
      */
     public void setGeneList(List<Map<String, Object>> geneList) {
         this.geneList = geneList;
+    }
+
+    /**
+     * @return the createTime
+     */
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    /**
+     * @param createTime the createTime to set
+     */
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
 }

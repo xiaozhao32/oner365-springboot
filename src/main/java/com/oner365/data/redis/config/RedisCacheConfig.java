@@ -65,8 +65,7 @@ public class RedisCacheConfig {
     @Bean
     CacheManager cacheManager(RedisConnectionFactory connectionFactory) {
         return RedisCacheManager.builder(connectionFactory)
-            .cacheDefaults(RedisCacheConfiguration.defaultCacheConfig()
-            .entryTtl(accessTokenProperties.getExpireTime()))
+            .cacheDefaults(RedisCacheConfiguration.defaultCacheConfig().entryTtl(accessTokenProperties.getExpireTime()))
             .transactionAware()
             .build();
     }
@@ -75,17 +74,17 @@ public class RedisCacheConfig {
     RedisTemplate<String, Serializable> redisTemplate(RedisConnectionFactory connectionFactory) {
         RedisTemplate<String, Serializable> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(connectionFactory);
-        
+
         JsonMapper jsonMapper = JsonMapper.builder()
-                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-                .changeDefaultPropertyInclusion(
-                        old -> JsonInclude.Value.construct(JsonInclude.Include.NON_NULL, JsonInclude.Include.NON_NULL))
-                .defaultTimeZone(TimeZone.getDefault())
-                .addModules(new JavaTimeModule())
-                .build();
-        
+            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+            .changeDefaultPropertyInclusion(
+                    old -> JsonInclude.Value.construct(JsonInclude.Include.NON_NULL, JsonInclude.Include.NON_NULL))
+            .defaultTimeZone(TimeZone.getDefault())
+            .addModules(new JavaTimeModule())
+            .build();
+
         JacksonJsonRedisSerializer<Object> serializer = new JacksonJsonRedisSerializer<>(jsonMapper, Object.class);
-        
+
         redisTemplate.setValueSerializer(serializer);
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setHashValueSerializer(serializer);

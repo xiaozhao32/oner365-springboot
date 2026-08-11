@@ -12,7 +12,7 @@ import com.oner365.data.commons.util.DateUtil;
 
 /**
  * 从 ES 读取时：String → LocalDateTime
- * 
+ *
  * @author zhaoyong
  */
 @ReadingConverter
@@ -24,4 +24,5 @@ public class StringToLocalDateTimeConverter implements Converter<String, LocalDa
     public @Nonnull LocalDateTime convert(@Nonnull String source) {
         return source == null ? null : LocalDateTime.parse(source, FORMATTER);
     }
+
 }

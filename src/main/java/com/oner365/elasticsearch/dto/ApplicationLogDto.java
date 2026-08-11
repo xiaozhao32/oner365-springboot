@@ -1,7 +1,7 @@
 package com.oner365.elasticsearch.dto;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 import org.springframework.boot.logging.LogLevel;
 
@@ -63,7 +63,7 @@ public class ApplicationLogDto implements Serializable {
      * 创建时间
      */
     @Schema(description = "创建时间")
-    private LocalDateTime createTime;
+    private Date createTime;
 
     /**
      * 构造方法
@@ -159,14 +159,14 @@ public class ApplicationLogDto implements Serializable {
     /**
      * @return the createTime
      */
-    public LocalDateTime getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
     /**
      * @param createTime the createTime to set
      */
-    public void setCreateTime(LocalDateTime createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 

@@ -120,7 +120,8 @@ public class VelocityUtils {
                 JsonObject paramsObj = reader.readObject();
                 String parentMenuId = getParentMenuId(paramsObj);
                 context.put("parentMenuId", parentMenuId);
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 throw new ProjectRuntimeException("setMenuVelocityContext error:" + options, e);
             }
         }
@@ -134,7 +135,7 @@ public class VelocityUtils {
                 String treeCode = getTreeCode(paramsObj);
                 String treeParentCode = getTreeParentCode(paramsObj);
                 String treeName = getTreeName(paramsObj);
-        
+
                 context.put("treeCode", treeCode);
                 context.put("treeParentCode", treeParentCode);
                 context.put("treeName", treeName);
@@ -145,7 +146,8 @@ public class VelocityUtils {
                 if (paramsObj.containsKey(GenConstants.TREE_NAME)) {
                     context.put("tree_name", paramsObj.getString(GenConstants.TREE_NAME));
                 }
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 throw new ProjectRuntimeException("setTreeVelocityContext error:" + options, e);
             }
         }
@@ -356,7 +358,8 @@ public class VelocityUtils {
                     }
                 }
                 return num;
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 throw new ProjectRuntimeException("Failed to parse JSON string: " + options, e);
             }
         }

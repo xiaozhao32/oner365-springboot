@@ -46,11 +46,13 @@ import jakarta.json.JsonObject;
 @Tag(name = "API公共接口")
 @RequestMapping("/api")
 public class ApiController extends BaseController {
-    
+
     @Resource
     private RedisCache<String> redisCache;
+
     @Resource
     private RedisCache<Map<String, Object>> redisCacheList;
+
     @Resource
     private RedisCache<Object> redisCacheMap;
 
@@ -71,7 +73,7 @@ public class ApiController extends BaseController {
 
     @Resource
     private AccessTokenProperties accessTokenProperties;
-    
+
     /**
      * 测试分库分表
      * @param orderId 订单id
@@ -148,7 +150,7 @@ public class ApiController extends BaseController {
         m3.put("c3", "c33");
         dataList.add(m3);
         redisCache.deleteObject(key2);
-        
+
         redisCacheList.setCacheList(key2, dataList);
         redisCache.expire(key2, accessTokenProperties.getExpireTime());
         List<String> list = redisCache.getCacheList(key2);
@@ -170,7 +172,7 @@ public class ApiController extends BaseController {
         redisCache.expire(key4, accessTokenProperties.getExpireTime());
         Set<String> set = redisCache.getCacheSet(key4);
         logger.info("test4:{}", set);
-//
+        //
         String key5 = "test5";
         boolean b1 = redisCache.lock(key5, 10);
         logger.info("test5 lock:{}", b1);
@@ -193,10 +195,7 @@ public class ApiController extends BaseController {
         Locale locale = Locale.of(language);
         String name = messageSource.getMessage(message, new Object[] {}, message, locale);
 
-        return Json.createObjectBuilder()
-                .add("language", locale.toLanguageTag())
-                .add("name", name)
-                .build();
+        return Json.createObjectBuilder().add("language", locale.toLanguageTag()).add("name", name).build();
     }
 
 }

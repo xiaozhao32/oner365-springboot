@@ -1,7 +1,7 @@
 package com.oner365.elasticsearch.entity;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 import org.springframework.boot.logging.LogLevel;
 import org.springframework.data.annotation.Id;
@@ -68,8 +68,8 @@ public class ApplicationLog implements Serializable {
     /**
      * 创建时间
      */
-    @Field(name = "createTime", type = FieldType.Date, pattern = DateUtil.FULL_UTC_TIME_FORMAT)
-    private LocalDateTime createTime;
+    @Field(name = "create_time", type = FieldType.Date, pattern = DateUtil.FULL_TIME_FORMAT)
+    private Date createTime;
 
     /**
      * 构造方法
@@ -151,14 +151,14 @@ public class ApplicationLog implements Serializable {
     /**
      * @return the createTime
      */
-    public LocalDateTime getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
     /**
      * @param createTime the createTime to set
      */
-    public void setCreateTime(LocalDateTime createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 

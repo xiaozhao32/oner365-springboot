@@ -24,55 +24,55 @@ public class UserTokenDto implements Serializable {
      */
     @Schema(description = "主键")
     private String id;
-    
+
     /**
      * Token Type
      */
     @Schema(description = "类型")
     private String tokenType;
-    
+
     /**
      * 账号
      */
     @Schema(description = "账号")
     private String userName;
-    
+
     /**
      * 密码密文
      */
     @Schema(description = "密码密文")
     private String password;
-    
+
     /**
      * 是否管理员
      */
     @Schema(description = "是否管理员")
     private String isAdmin;
-    
+
     /**
      * 用户类型
      */
     @Schema(description = "用户类型")
     private SysUserTypeEnum userType;
-    
+
     /**
      * 角色
      */
     @Schema(description = "角色")
     private List<String> roles = new ArrayList<>();
-    
+
     /**
      * 单位
      */
     @Schema(description = "单位")
     private List<String> orgs = new ArrayList<>();
-    
+
     /**
      * 部门
      */
     @Schema(description = "部门")
     private List<String> jobs = new ArrayList<>();
-    
+
     /**
      * 菜单类型
      */

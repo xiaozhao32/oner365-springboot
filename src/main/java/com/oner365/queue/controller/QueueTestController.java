@@ -55,10 +55,7 @@ public class QueueTestController extends BaseController {
         // 订阅
         Long result = redisTemplate.convertAndSend(PublicConstants.NAME, data);
 
-        return Json.createObjectBuilder()
-                .add("data", data)
-                .add("result", result)
-                .build();
+        return Json.createObjectBuilder().add("data", data).add("result", result).build();
     }
 
 }

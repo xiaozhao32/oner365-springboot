@@ -30,6 +30,7 @@ class RedisCacheTest extends BaseServiceTest {
 
     @Resource
     private RedisCache<Object> redisCache;
+
     @Resource
     private RedisCache<SysJobDto> sysJobCache;
 
@@ -39,7 +40,7 @@ class RedisCacheTest extends BaseServiceTest {
         Assertions.assertFalse(result.isEmpty());
         logger.info("result:{}", result);
     }
-    
+
     @Test
     void getUserTokenDtoTest() {
         SysJobDto dto = new SysJobDto();
@@ -47,7 +48,7 @@ class RedisCacheTest extends BaseServiceTest {
         dto.setJobInfo("job");
         dto.setJobName("hello");
         dto.setCreateTime(LocalDateTime.now());
-        
+
         String cacheName = "SysJobDto:" + dto.getId();
         sysJobCache.setCacheObject(cacheName, dto, Duration.ofMinutes(60L));
         SysJobDto result = sysJobCache.getCacheObject(cacheName, SysJobDto.class);

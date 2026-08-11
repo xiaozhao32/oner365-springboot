@@ -50,7 +50,6 @@ public class RabbitmqController extends BaseController {
 
     /**
      * 首页
-     * 
      * @return JSONObject
      */
     @Operation(summary = "1.首页")
@@ -62,25 +61,23 @@ public class RabbitmqController extends BaseController {
 
     /**
      * 获取队列列表
-     * 
-     * @param type      类型
+     * @param type 类型
      * @param pageIndex 分页页码
-     * @param pageSize  分页长度
-     * @param name      名称
+     * @param pageSize 分页长度
+     * @param name 名称
      * @return JSONObject
      */
     @Operation(summary = "2.获取队列列表")
     @ApiOperationSupport(order = 2)
     @GetMapping("/list/{type}")
-    public Map<String, Object> list(@PathVariable RabbitmqTypeEnum type, @RequestParam int pageIndex, @RequestParam int pageSize,
-            String name) {
+    public Map<String, Object> list(@PathVariable RabbitmqTypeEnum type, @RequestParam int pageIndex,
+            @RequestParam int pageSize, String name) {
         String url = getUrl(type.getCode(), name, pageIndex, pageSize);
         return request(url);
     }
 
     /**
      * 删除
-     * 
      * @param type 删除类型
      * @param name 名称
      * @return JSONObject
@@ -101,7 +98,8 @@ public class RabbitmqController extends BaseController {
             Map<String, Object> headers = new HashMap<>(2);
             headers.put(HttpHeaders.AUTHORIZATION, getAuthorization());
             return HttpClientUtils.httpDeleteRequest(url, headers, paramJson);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             logger.error("Rabbitmq delete error:", e);
         }
         return null;
@@ -119,8 +117,11 @@ public class RabbitmqController extends BaseController {
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     private Map<String, Object> request(String uri) {
-        Mono<Map> mono = client.get().uri(rabbitmqProperties.getUri() + "/" + uri)
-                .header(HttpHeaders.AUTHORIZATION, getAuthorization()).retrieve().bodyToMono(Map.class);
+        Mono<Map> mono = client.get()
+            .uri(rabbitmqProperties.getUri() + PublicConstants.DELIMITER + uri)
+            .header(HttpHeaders.AUTHORIZATION, getAuthorization())
+            .retrieve()
+            .bodyToMono(Map.class);
         return mono.block();
     }
 

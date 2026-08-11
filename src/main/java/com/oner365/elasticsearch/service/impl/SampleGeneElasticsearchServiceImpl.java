@@ -7,6 +7,7 @@ import java.util.stream.StreamSupport;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import com.oner365.data.commons.util.DateUtil;
 import com.oner365.data.jpa.page.PageInfo;
 import com.oner365.data.jpa.query.QueryCriteriaBean;
 import com.oner365.elasticsearch.dto.SampleGeneDto;
@@ -44,6 +45,7 @@ public class SampleGeneElasticsearchServiceImpl implements ISampleGeneElasticsea
 
     @Override
     public SampleGeneDto save(SampleGeneVo vo) {
+        vo.setCreateTime(DateUtil.getDate());
         SampleGene entity = repository.save(convert(vo, SampleGene.class));
         return convert(entity, SampleGeneDto.class);
     }

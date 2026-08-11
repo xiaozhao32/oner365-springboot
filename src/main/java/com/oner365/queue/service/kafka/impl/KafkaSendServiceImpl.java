@@ -81,7 +81,8 @@ public class KafkaSendServiceImpl implements IQueueSendService {
                 PublicConstants.QUEUE_LOCK_TIME_SECOND);
         if (isLock) {
             logger.info("Kafka pullTask: {}", data);
-            kafkaTemplate.send(QueueConstants.SCHEDULE_TASK_QUEUE_NAME, GsonUtils.objectToJson(data, InvokeParamDto.class));
+            kafkaTemplate.send(QueueConstants.SCHEDULE_TASK_QUEUE_NAME,
+                    GsonUtils.objectToJson(data, InvokeParamDto.class));
         }
     }
 
@@ -92,7 +93,8 @@ public class KafkaSendServiceImpl implements IQueueSendService {
                 PublicConstants.QUEUE_LOCK_TIME_SECOND);
         if (isLock) {
             logger.info("Kafka updateTaskExecuteStatus push: {}", data);
-            kafkaTemplate.send(QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME, GsonUtils.objectToJson(data, UpdateTaskExecuteStatusDto.class));
+            kafkaTemplate.send(QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME,
+                    GsonUtils.objectToJson(data, UpdateTaskExecuteStatusDto.class));
         }
     }
 

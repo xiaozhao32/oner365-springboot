@@ -3,7 +3,6 @@ package com.oner365;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.web.server.servlet.context.ServletComponentScan;
 
 /**
  * 主函数启动服务
@@ -11,7 +10,6 @@ import org.springframework.boot.web.server.servlet.context.ServletComponentScan;
  * @author zhaoyong
  */
 @SpringBootApplication
-@ServletComponentScan
 @MapperScan({ "com.oner365.**.mapper" })
 public class SpringbootApplication {
 

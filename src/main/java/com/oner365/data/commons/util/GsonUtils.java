@@ -25,20 +25,17 @@ public class GsonUtils {
 
     }
 
-    public static final Gson GSON = new GsonBuilder()
-            .registerTypeAdapter(Timestamp.class, new TimestampTypeAdapter())
-            .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeTypeAdapter())
-            .registerTypeAdapter(JsonObject.class, new JakartaJsonObjectTypeAdapter())
-            .registerTypeAdapter(Optional.class, new OptionalTypeAdapter())
-            .setDateFormat(DateUtil.FULL_TIME_FORMAT)
-            .disableHtmlEscaping()
-            .create();
+    public static final Gson GSON = new GsonBuilder().registerTypeAdapter(Timestamp.class, new TimestampTypeAdapter())
+        .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeTypeAdapter())
+        .registerTypeAdapter(JsonObject.class, new JakartaJsonObjectTypeAdapter())
+        .registerTypeAdapter(Optional.class, new OptionalTypeAdapter())
+        .setDateFormat(DateUtil.FULL_TIME_FORMAT)
+        .disableHtmlEscaping()
+        .create();
 
     /***
      * 把对象转化成JSON
-     * 
      * @param obj 对象
-     * 
      * @return String
      */
     public static String objectToJson(Object obj) {
@@ -47,10 +44,8 @@ public class GsonUtils {
 
     /***
      * 把对象转化成JSON
-     * 
-     * @param obj   对象
+     * @param obj 对象
      * @param clazz 指定类
-     * 
      * @return String
      */
     public static <T> String objectToJson(Object obj, Class<T> clazz) {
@@ -59,10 +54,8 @@ public class GsonUtils {
 
     /***
      * JSON转对象类型
-     * 
-     * @param json  json字符串
+     * @param json json字符串
      * @param clazz 类
-     * 
      * @return T
      */
     public static <T> T jsonToBean(String json, Class<T> clazz) {
@@ -71,10 +64,8 @@ public class GsonUtils {
 
     /***
      * JSON转对象类型
-     * 
      * @param json json字符串
      * @param type type
-     * 
      * @return T
      */
     public static <T> T jsonToBean(String json, Type type) {

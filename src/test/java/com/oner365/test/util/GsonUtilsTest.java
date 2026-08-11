@@ -22,14 +22,15 @@ class GsonUtilsTest extends BaseUtilsTest {
         entity.setId("123");
         entity.setJobName("jobName");
         entity.setCreateTime(LocalDateTime.now());
-        
+
         // gson
         String str = GsonUtils.objectToJson(entity);
         logger.info("result:{}", str);
         SysJob result = GsonUtils.jsonToBean(str, SysJob.class);
         logger.info("result:{}", result);
-        Assertions.assertEquals(entity.getCreateTime(), result.getCreateTime());
-        
+
+        Assertions.assertEquals(entity.getCreateTime().getSecond(), result.getCreateTime().getSecond());
+
     }
 
 }

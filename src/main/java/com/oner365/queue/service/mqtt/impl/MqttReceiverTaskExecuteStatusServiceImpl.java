@@ -40,7 +40,8 @@ public class MqttReceiverTaskExecuteStatusServiceImpl implements IMqttReceiverTa
         logger.info("Mqtt receive setExecuteStatus: {}", message);
 
         // business
-        UpdateTaskExecuteStatusDto updateTask = GsonUtils.jsonToBean(message.toString(), UpdateTaskExecuteStatusDto.class);
+        UpdateTaskExecuteStatusDto updateTask = GsonUtils.jsonToBean(message.toString(),
+                UpdateTaskExecuteStatusDto.class);
         if (updateTask != null) {
             SysTaskDto sysTask = sysTaskService.selectTaskById(updateTask.getTaskId());
             if (sysTask != null) {

@@ -92,7 +92,8 @@ public class MqttSendServiceImpl implements IQueueSendService {
         if (isLock) {
             logger.info("Mqtt send updateTaskExecuteStatus: {} topic: {}", data,
                     QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME);
-            taskExecuteStatusService.sendMessage(QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME, GsonUtils.objectToJson(data));
+            taskExecuteStatusService.sendMessage(QueueConstants.TASK_UPDATE_STATUS_QUEUE_NAME,
+                    GsonUtils.objectToJson(data));
         }
     }
 

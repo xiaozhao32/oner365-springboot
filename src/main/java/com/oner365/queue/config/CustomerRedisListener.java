@@ -11,23 +11,23 @@ import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.stereotype.Component;
 
 /**
- * Redis Key Expire Listener
+ * Customer Redis Listener
  *
  * @author zhaoyong
  *
  */
 @Component
-public class RedisKeyExpireListener implements MessageListener {
+public class CustomerRedisListener implements MessageListener {
 
-    private final Logger logger = LoggerFactory.getLogger(RedisKeyExpireListener.class);
+    private final Logger logger = LoggerFactory.getLogger(CustomerRedisListener.class);
 
     @Override
     public void onMessage(@Nonnull Message message, @Nonnull byte[] pattern) {
-        // 获取过期的key
-        String expiredKey = new String(message.getBody(), StandardCharsets.UTF_8);
+        // Listener
+        String body = new String(message.getBody(), StandardCharsets.UTF_8);
         String channel = new String(message.getChannel(), StandardCharsets.UTF_8);
 
-        logger.info("MessageListener subscribe: {}, Channel: {}", expiredKey, channel);
+        logger.info("MessageListener subscribe: {}, Channel: {}", body, channel);
     }
 
 }

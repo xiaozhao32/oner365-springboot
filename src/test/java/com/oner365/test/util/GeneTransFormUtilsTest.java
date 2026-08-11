@@ -26,7 +26,7 @@ class GeneTransFormUtilsTest extends BaseUtilsTest {
         logger.info("geneFormatList: {}", result);
         Assertions.assertEquals(4, result.size());
     }
-    
+
     @Test
     void geneFormatMapList() {
         Map<String, Object> geneInfo = new HashMap<>();
@@ -48,7 +48,7 @@ class GeneTransFormUtilsTest extends BaseUtilsTest {
         logger.info("geneFormatMap: {}", result);
         Assertions.assertEquals(2, result.size());
     }
-    
+
     @Test
     void geneFormatListMap() {
         List<Map<String, Object>> geneInfo = new ArrayList<>();
@@ -65,7 +65,7 @@ class GeneTransFormUtilsTest extends BaseUtilsTest {
         logger.info("geneFormatListMap: {}", result);
         Assertions.assertEquals(2, result.size());
     }
-    
+
     @Test
     void geneTrimString() {
         String geneInfo = "[{\"name\": \"D8S1179\", \"value\": \"11/12\"}, {\"name\": \"D2S11\", \"value\": \"9/10\"}]";
@@ -78,7 +78,7 @@ class GeneTransFormUtilsTest extends BaseUtilsTest {
     void match() {
         String geneInfo1 = "{\"D2S11\":\"9/10\",\"D8S1179\":\"11/12\",\"D16S539\":\"11/12\"}";
         String geneInfo2 = "{\"D2S11\":\"9/10\",\"D8S1179\":\"11/12/13\"}";
-        boolean result = GeneTransFormUtils.match(GeneTransFormUtils.geneFormatMapFromObject(geneInfo1), 
+        boolean result = GeneTransFormUtils.match(GeneTransFormUtils.geneFormatMapFromObject(geneInfo1),
                 GeneTransFormUtils.geneFormatMapFromObject(geneInfo2));
         logger.info("match: {}", result);
         Assertions.assertTrue(result);
@@ -88,17 +88,18 @@ class GeneTransFormUtilsTest extends BaseUtilsTest {
     void matchEquals() {
         String geneInfo1 = "{\"D2S11\":\"9/10\",\"D8S1179\":\"11/12\",\"D16S539\":\"11/12\"}";
         String geneInfo2 = "{\"D2S11\":\"9/10\",\"D8S1179\":\"11/12\"}";
-        boolean result = GeneTransFormUtils.matchEquals(GeneTransFormUtils.geneFormatMapFromObject(geneInfo1), 
+        boolean result = GeneTransFormUtils.matchEquals(GeneTransFormUtils.geneFormatMapFromObject(geneInfo1),
                 GeneTransFormUtils.geneFormatMapFromObject(geneInfo2));
         logger.info("matchEquals: {}", result);
         Assertions.assertTrue(result);
     }
-    
+
     @Test
     void matchGeneEquals() {
         String geneInfo1 = "{\"D2S11\":\"9/10\",\"D8S1179\":\"11/12\",\"D16S539\":\"11/12\"}";
         String geneInfo2 = "{\"D2S11\":\"9/10\",\"D8S1179\":\"11/12/13\"}";
-        Map<String, Integer> result = GeneTransFormUtils.matchGeneEquals(GeneTransFormUtils.geneFormatMapFromObject(geneInfo2), 
+        Map<String, Integer> result = GeneTransFormUtils.matchGeneEquals(
+                GeneTransFormUtils.geneFormatMapFromObject(geneInfo2),
                 GeneTransFormUtils.geneFormatMapFromObject(geneInfo1));
         // {matchCount=1, totalCount=2, trimCount=1, diffCount=1}
         logger.info("matchGeneEquals: {}", result);
@@ -107,12 +108,13 @@ class GeneTransFormUtilsTest extends BaseUtilsTest {
         Assertions.assertEquals(1, result.get("trimCount"));
         Assertions.assertEquals(1, result.get("diffCount"));
     }
-    
+
     @Test
     void matchGeneContains() {
         String geneInfo1 = "{\"D2S11\":\"9/10\",\"D8S1179\":\"11/12\",\"D16S539\":\"11/12\"}";
         String geneInfo2 = "{\"D2S11\":\"9/10\",\"D8S1179\":\"11/12\",\"D16S531\":\"11/12\"}";
-        Map<String, Integer> result = GeneTransFormUtils.matchGeneContains(GeneTransFormUtils.geneFormatMapFromObject(geneInfo2), 
+        Map<String, Integer> result = GeneTransFormUtils.matchGeneContains(
+                GeneTransFormUtils.geneFormatMapFromObject(geneInfo2),
                 GeneTransFormUtils.geneFormatMapFromObject(geneInfo1));
         // {matchCount=2, totalCount=3, trimCount=0, diffCount=1}
         logger.info("matchGeneContains: {}", result);

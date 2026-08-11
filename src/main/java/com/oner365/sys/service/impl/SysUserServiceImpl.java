@@ -111,7 +111,7 @@ public class SysUserServiceImpl implements ISysUserService {
                 return cache;
             }
 
-            Date time = DateUtil.after(DateUtil.getDate(), 
+            Date time = DateUtil.after(DateUtil.getDate(),
                     Integer.parseInt(accessTokenProperties.getExpireTime().getSeconds() + ""), Calendar.SECOND);
             UserTokenDto tokenJson = new UserTokenDto();
             tokenJson.setTokenType("login");

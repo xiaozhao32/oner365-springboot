@@ -33,7 +33,7 @@ import tools.jackson.databind.node.ObjectNode;
 @AutoConfigureWebTestClient
 public abstract class BaseControllerTest extends BaseTest {
 
-    @Resource 
+    @Resource
     protected ObjectMapper objectMapper;
 
     private WebTestClient webTestClient;

@@ -17,7 +17,7 @@ import com.oner365.test.controller.BaseControllerTest;
 class DataSourceControllerTest extends BaseControllerTest {
 
     private static final String PATH = "/system/datasource";
-    
+
     @RepeatedTest(2)
     void list() {
         String url = PATH + "/page";

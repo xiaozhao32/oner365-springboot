@@ -92,12 +92,8 @@ public class ServiceController extends BaseController {
     @ApiOperationSupport(order = 3)
     @PostMapping("/info")
     public JsonObject getActuatorEnv() {
-        JsonArray array = Json.createArrayBuilder()
-                .add(commonProperties.getScheme())
-                .build();
-        return Json.createObjectBuilder()
-                .add("activeProfiles", array)
-                .build();
+        JsonArray array = Json.createArrayBuilder().add(commonProperties.getScheme()).build();
+        return Json.createObjectBuilder().add("activeProfiles", array).build();
     }
 
     /**

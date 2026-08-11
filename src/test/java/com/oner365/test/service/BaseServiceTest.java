@@ -11,15 +11,15 @@ import tools.jackson.databind.ObjectMapper;
 
 /**
  * 单元测试父类 - 服务类
- * 
+ *
  * @author zhaoyong
  *
  */
 @Rollback
 @Transactional(rollbackFor = ProjectRuntimeException.class)
 public abstract class BaseServiceTest extends BaseTest {
-    
-    @Resource 
+
+    @Resource
     protected ObjectMapper objectMapper;
 
 }

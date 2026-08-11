@@ -17,9 +17,9 @@ import jakarta.json.JsonReader;
 
 /**
  * jakarta.json.Json 解析器
- * 
+ *
  * @author zhaoyong
- * 
+ *
  */
 public class JakartaJsonObjectTypeAdapter implements JsonSerializer<JsonObject>, JsonDeserializer<JsonObject> {
 
@@ -37,8 +37,10 @@ public class JakartaJsonObjectTypeAdapter implements JsonSerializer<JsonObject>,
         String jsonStr = json.toString();
         try (JsonReader reader = Json.createReader(new StringReader(jsonStr))) {
             return reader.readObject();
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             throw new JsonParseException("Failed to deserialize JsonObject", e);
         }
     }
+
 }

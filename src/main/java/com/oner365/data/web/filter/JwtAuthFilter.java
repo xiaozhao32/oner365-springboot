@@ -48,7 +48,7 @@ public class JwtAuthFilter implements Filter {
 
     @Resource
     private AccessTokenProperties accessTokenProperties;
-    
+
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {

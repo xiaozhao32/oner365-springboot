@@ -31,7 +31,7 @@ public class ElasticsearchInitializer implements ApplicationContextInitializer<C
     public void initialize(@NonNull ConfigurableApplicationContext applicationContext) {
         System.setProperty("es.set.netty.runtime.available.processors", "false");
     }
-    
+
     @Bean
     ElasticsearchCustomConversions elasticsearchCustomConversions() {
         List<Converter<?, ?>> converters = new ArrayList<>();

@@ -290,7 +290,7 @@ public class DataUtils {
         return str;
     }
 
-    public static String format(String template, Object... params) {
+    public static String format(String template, String... params) {
         if (isEmpty(params) || isEmpty(template)) {
             return template;
         }
@@ -392,7 +392,7 @@ public class DataUtils {
         return b;
     }
 
-    public static String formatString(final String strPattern, final Object... argArray) {
+    public static String formatString(final String strPattern, final String... argArray) {
         if (isEmpty(strPattern) || isEmpty(argArray)) {
             return strPattern;
         }
@@ -403,7 +403,7 @@ public class DataUtils {
 
         int handledPosition = 0;
         int delimiterIndex;// 占位符所在位置
-        for (Object o : argArray) {
+        for (String o : argArray) {
             delimiterIndex = strPattern.indexOf(EMPTY_JSON, handledPosition);
             if (delimiterIndex == -1) {
                 if (handledPosition == 0) {
@@ -419,7 +419,7 @@ public class DataUtils {
                     if (delimiterIndex > 1 && strPattern.charAt(delimiterIndex - 2) == C_BACKSLASH) {
                         // 转义符之前还有一个转义符，占位符依旧有效
                         builder.append(strPattern, handledPosition, delimiterIndex - 1);
-                        builder.append(ConvertString.utf8Str(o));
+                        builder.append(o);
                         handledPosition = delimiterIndex + 2;
                     }
                     else {
@@ -432,7 +432,7 @@ public class DataUtils {
                 else {
                     // 正常占位符
                     builder.append(strPattern, handledPosition, delimiterIndex);
-                    builder.append(ConvertString.utf8Str(o));
+                    builder.append(o);
                     handledPosition = delimiterIndex + 2;
                 }
             }

@@ -13,16 +13,16 @@ import com.oner365.data.commons.util.GsonUtils;
 
 /**
  * 自定义 JsonObject Redis 序列化器 专门用于序列化/反序列化 JsonObject
- * 
+ *
  * @author zhaoyong
- * 
+ *
  */
 public class JsonObjectRedisSerializer<T> implements RedisSerializer<T> {
-    
+
     private final Class<T> targetClass;
-    
+
     private final Type targetType;
-    
+
     // 使用 Class
     public JsonObjectRedisSerializer(Class<T> targetClass) {
         this.targetClass = targetClass;
@@ -45,7 +45,8 @@ public class JsonObjectRedisSerializer<T> implements RedisSerializer<T> {
             // Gson 解析
             String jsonString = GsonUtils.objectToJson(object, object.getClass());
             return jsonString.getBytes(StandardCharsets.UTF_8);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             throw new SerializationException("Failed to serialize JsonObject", e);
         }
     }
@@ -61,11 +62,14 @@ public class JsonObjectRedisSerializer<T> implements RedisSerializer<T> {
             // 解析为 Gson
             if (targetType != null) {
                 return GsonUtils.jsonToBean(jsonString, targetType);
-            } else {
+            }
+            else {
                 return GsonUtils.jsonToBean(jsonString, targetClass);
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             throw new SerializationException("Failed to deserialize object", e);
         }
     }
+
 }

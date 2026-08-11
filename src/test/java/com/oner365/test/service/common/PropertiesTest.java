@@ -20,10 +20,10 @@ class PropertiesTest extends BaseServiceTest {
 
     @Resource
     private AccessTokenProperties properties;
-    
-    @Resource 
+
+    @Resource
     private ObjectMapper objectMapper;
-    
+
     @Test
     void filePropertiesTest() {
         logger.info("properties:{}", objectMapper.writeValueAsString(properties));

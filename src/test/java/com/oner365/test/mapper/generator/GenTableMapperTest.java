@@ -6,6 +6,7 @@ import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import com.oner365.data.commons.constants.PublicConstants;
 import com.oner365.generator.entity.GenTable;
 import com.oner365.generator.mapper.GenTableMapper;
 import com.oner365.test.mapper.BaseMapperTest;
@@ -63,9 +64,9 @@ class GenTableMapperTest extends BaseMapperTest {
         entity.setModuleName("module");
         entity.setBusinessName("business");
         entity.setFunctionName("Generator");
-        entity.setFunctionAuthor("oner365");
+        entity.setFunctionAuthor(PublicConstants.NAME);
         entity.setGenType("0");
-        entity.setGenPath("/");
+        entity.setGenPath(PublicConstants.DELIMITER);
         entity.setCreateBy("admin");
         entity.setCreateTime(LocalDateTime.now());
 

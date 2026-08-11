@@ -26,8 +26,8 @@ import tools.jackson.databind.ObjectMapper;
 @Tag(name = "加密传输body测试")
 @RequestMapping("/client")
 public class ClientTestController extends BaseController {
-    
-    @Resource 
+
+    @Resource
     protected ObjectMapper objectMapper;
 
     /**
