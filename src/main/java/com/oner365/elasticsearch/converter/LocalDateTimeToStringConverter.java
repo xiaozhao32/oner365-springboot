@@ -3,7 +3,7 @@ package com.oner365.elasticsearch.converter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import javax.annotation.Nonnull;
+import org.jspecify.annotations.NonNull;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.convert.WritingConverter;
@@ -21,7 +21,7 @@ public class LocalDateTimeToStringConverter implements Converter<LocalDateTime, 
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(DateUtil.LOCAL_DATE_TIME_FORMAT);
 
     @Override
-    public @Nonnull String convert(@Nonnull LocalDateTime source) {
+    public @NonNull String convert(@NonNull LocalDateTime source) {
         return source == null ? null : source.format(FORMATTER);
     }
 

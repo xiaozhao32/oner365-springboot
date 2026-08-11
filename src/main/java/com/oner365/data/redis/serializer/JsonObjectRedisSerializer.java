@@ -3,8 +3,7 @@ package com.oner365.data.redis.serializer;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jspecify.annotations.NonNull;
 
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.SerializationException;
@@ -36,7 +35,7 @@ public class JsonObjectRedisSerializer<T> implements RedisSerializer<T> {
     }
 
     @Override
-    public @Nonnull byte[] serialize(@Nullable T object) throws SerializationException {
+    public @NonNull byte[] serialize(@NonNull T object) throws SerializationException {
         if (object == null) {
             return new byte[0];
         }
@@ -52,7 +51,7 @@ public class JsonObjectRedisSerializer<T> implements RedisSerializer<T> {
     }
 
     @Override
-    public T deserialize(@Nullable byte[] bytes) throws SerializationException {
+    public @NonNull T deserialize(@NonNull byte[] bytes) throws SerializationException {
         if (bytes == null || bytes.length == 0) {
             return null;
         }

@@ -30,7 +30,7 @@ public class RedisListenerConfig {
     }
 
     @Bean
-    MessageListenerAdapter keyExpiredListener(CustomerRedisListener listener) {
+    MessageListenerAdapter customerRedisListener(CustomerRedisListener listener) {
         return new MessageListenerAdapter(listener);
     }
 

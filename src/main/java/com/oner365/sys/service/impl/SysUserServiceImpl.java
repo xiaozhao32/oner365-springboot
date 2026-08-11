@@ -172,12 +172,8 @@ public class SysUserServiceImpl implements ISysUserService {
     @RedisCacheAble(value = CACHE_NAME, key = PublicConstants.KEY_ID)
     public SysUserDto getById(String id) {
         Optional<SysUser> optional = userDao.findById(id);
-        if (optional.isPresent()) {
-            SysUser entity = optional.get();
-            setName(entity);
-            return convert(entity, SysUserDto.class);
-        }
-        return null;
+        setName(optional.get());
+        return convert(optional.orElse(null), SysUserDto.class);
     }
 
     private String getMenuType(String roleId) {
