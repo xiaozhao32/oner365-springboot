@@ -7,6 +7,8 @@ import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import javax.annotation.Nonnull;
+
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.jspecify.annotations.NonNull;
@@ -117,7 +119,7 @@ public class CommonsMultipartFile implements MultipartFile, Serializable {
     }
 
     @Override
-    public @NonNull byte[] getBytes() {
+    public @Nonnull byte[] getBytes() {
         if (!isAvailable()) {
             throw new IllegalStateException("File has been moved - cannot be read again");
         }

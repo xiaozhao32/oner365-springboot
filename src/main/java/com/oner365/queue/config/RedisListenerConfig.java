@@ -30,7 +30,7 @@ public class RedisListenerConfig {
     }
 
     @Bean
-    MessageListenerAdapter customerRedisListener(CustomerRedisListener listener) {
+    MessageListenerAdapter customerMessageListener(CustomerRedisListener listener) {
         return new MessageListenerAdapter(listener);
     }
 

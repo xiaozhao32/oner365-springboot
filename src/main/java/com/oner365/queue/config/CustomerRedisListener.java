@@ -2,8 +2,9 @@ package com.oner365.queue.config;
 
 import java.nio.charset.StandardCharsets;
 
-import org.jspecify.annotations.NonNull;
+import javax.annotation.Nonnull;
 
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.connection.Message;
@@ -22,7 +23,7 @@ public class CustomerRedisListener implements MessageListener {
     private final Logger logger = LoggerFactory.getLogger(CustomerRedisListener.class);
 
     @Override
-    public void onMessage(@NonNull Message message, @NonNull byte[] pattern) {
+    public void onMessage(@NonNull Message message, @Nonnull byte[] pattern) {
         // Listener
         String body = new String(message.getBody(), StandardCharsets.UTF_8);
         String channel = new String(message.getChannel(), StandardCharsets.UTF_8);
