@@ -5,6 +5,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import com.oner365.api.dto.UpdateTaskExecuteStatusDto;
+import com.oner365.data.commons.util.GsonUtils;
 import com.oner365.data.web.utils.HttpClientUtils;
 import com.oner365.monitor.dto.InvokeParamDto;
 import com.oner365.monitor.dto.SysTaskDto;
@@ -39,17 +40,17 @@ public class RedisSendServiceImpl implements IQueueSendService {
 
     @Override
     public void pullTask(InvokeParamDto data) {
-        redisTemplate.convertAndSend(QueueConstants.SCHEDULE_TASK_QUEUE_TYPE, data);
+        redisTemplate.convertAndSend(QueueConstants.SCHEDULE_TASK_QUEUE_TYPE, GsonUtils.objectToJson(data, InvokeParamDto.class));
     }
 
     @Override
     public void updateTaskExecuteStatus(UpdateTaskExecuteStatusDto data) {
-        redisTemplate.convertAndSend(QueueConstants.TASK_UPDATE_STATUS_QUEUE_TYPE, data);
+        redisTemplate.convertAndSend(QueueConstants.TASK_UPDATE_STATUS_QUEUE_TYPE, GsonUtils.objectToJson(data, UpdateTaskExecuteStatusDto.class));
     }
 
     @Override
     public void saveExecuteTaskLog(SysTaskDto data) {
-        redisTemplate.convertAndSend(QueueConstants.SAVE_TASK_LOG_QUEUE_TYPE, data);
+        redisTemplate.convertAndSend(QueueConstants.SAVE_TASK_LOG_QUEUE_TYPE, GsonUtils.objectToJson(data, SysTaskDto.class));
     }
 
 }

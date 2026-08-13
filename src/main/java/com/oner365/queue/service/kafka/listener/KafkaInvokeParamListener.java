@@ -1,5 +1,6 @@
 package com.oner365.queue.service.kafka.listener;
 
+import java.util.Map;
 import java.util.Optional;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -26,7 +27,6 @@ import com.oner365.queue.condition.KafkaCondition;
 import com.oner365.queue.constants.QueueConstants;
 
 import jakarta.annotation.Resource;
-import jakarta.json.JsonObject;
 
 /**
  * Kafka 监听服务
@@ -61,7 +61,7 @@ public class KafkaInvokeParamListener {
         }
     }
 
-    private void taskExecute(String concurrent, String taskId, JsonObject param) {
+    private void taskExecute(String concurrent, String taskId, Map<String, Object> param) {
         SysTaskDto sysTask = sysTaskService.selectTaskById(taskId);
         if (sysTask != null) {
             if (ScheduleConstants.SCHEDULE_CONCURRENT.equals(concurrent)) {
@@ -79,12 +79,12 @@ public class KafkaInvokeParamListener {
         }
     }
 
-    private StatusEnum execute(String taskId, JsonObject param, SysTaskDto sysTask) {
+    private StatusEnum execute(String taskId, Map<String, Object> param, SysTaskDto sysTask) {
         try {
             logger.info("taskId:{}", taskId);
             sysTask.setExecuteStatus(StatusEnum.NO);
             sysTaskService.save(convert(sysTask));
-            int day = param.getInt("day");
+            int day = Integer.parseInt(param.get("day").toString());
             String time = DateUtil.nextDay(day - 2 * day, DateUtil.FULL_TIME_FORMAT);
             sysTaskLogService.deleteTaskLogByCreateTime(time);
 

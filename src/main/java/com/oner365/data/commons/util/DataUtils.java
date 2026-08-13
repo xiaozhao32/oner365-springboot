@@ -546,6 +546,16 @@ public class DataUtils {
         AntPathMatcher matcher = new AntPathMatcher();
         return matcher.match(pattern, url);
     }
+    
+    /**
+     * 过滤字符串适配json
+     * 
+     * @param str json字符串
+     * @return String
+     */
+    public static String replaceJson(String str) {
+        return str.replaceAll("^\"|\"$", "").replace("\\\"", "\"");
+    }
 
     /**
      * 克隆

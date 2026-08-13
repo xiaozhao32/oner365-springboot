@@ -1,8 +1,7 @@
 package com.oner365.monitor.entity;
 
 import java.io.Serializable;
-
-import jakarta.json.JsonObject;
+import java.util.Map;
 
 /**
  * 定时任务调度
@@ -28,21 +27,21 @@ public class InvokeParam implements Serializable {
      */
     private String concurrent;
 
+    /**
+     * 任务所需参数
+     */
+    private Map<String, Object> taskParam;
+
+    public InvokeParam() {
+        super();
+    }
+    
     public String getTaskId() {
         return taskId;
     }
 
     public void setTaskId(String taskId) {
         this.taskId = taskId;
-    }
-
-    /**
-     * 任务所需参数
-     */
-    private JsonObject taskParam;
-
-    public InvokeParam() {
-        super();
     }
 
     public String getTaskServerName() {
@@ -61,11 +60,11 @@ public class InvokeParam implements Serializable {
         this.concurrent = concurrent;
     }
 
-    public JsonObject getTaskParam() {
+    public Map<String, Object> getTaskParam() {
         return taskParam;
     }
 
-    public void setTaskParam(JsonObject taskParam) {
+    public void setTaskParam(Map<String, Object> taskParam) {
         this.taskParam = taskParam;
     }
 

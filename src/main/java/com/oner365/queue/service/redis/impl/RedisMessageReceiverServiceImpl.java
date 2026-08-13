@@ -1,5 +1,7 @@
 package com.oner365.queue.service.redis.impl;
 
+import java.util.Map;
+
 import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +12,9 @@ import org.springframework.stereotype.Service;
 
 import com.oner365.api.dto.UpdateTaskExecuteStatusDto;
 import com.oner365.data.commons.enums.StatusEnum;
+import com.oner365.data.commons.util.DataUtils;
 import com.oner365.data.commons.util.DateUtil;
+import com.oner365.data.commons.util.GsonUtils;
 import com.oner365.data.jpa.service.BaseService;
 import com.oner365.data.web.utils.HttpClientUtils;
 import com.oner365.gateway.service.DynamicRouteService;
@@ -27,7 +31,6 @@ import com.oner365.queue.condition.RedisCondition;
 import com.oner365.queue.constants.QueueConstants;
 
 import jakarta.annotation.Resource;
-import jakarta.json.JsonObject;
 
 /**
  * Redis pub/subscribe Pub Service
@@ -62,21 +65,23 @@ public class RedisMessageReceiverServiceImpl implements BaseService {
     }
 
     @RedisListener(topic = QueueConstants.SCHEDULE_TASK_QUEUE_TYPE)
-    public void scheduleTask(Message<InvokeParamDto> message) {
+    public void scheduleTask(Message<String> message) {
         logger.info("@RedisListener scheduleTask: {} Channel: {}", message.getPayload(),
                 QueueConstants.SCHEDULE_TASK_QUEUE_TYPE);
-        InvokeParamDto invokeParamDto = message.getPayload();
+        String str = DataUtils.replaceJson(message.getPayload());
+        InvokeParamDto invokeParamDto = GsonUtils.jsonToBean(str, InvokeParamDto.class);
         if (ScheduleConstants.SCHEDULE_SERVER_NAME.equals(invokeParamDto.getTaskServerName())) {
             taskExecute(invokeParamDto.getConcurrent(), invokeParamDto.getTaskId(), invokeParamDto.getTaskParam());
         }
     }
 
     @RedisListener(topic = QueueConstants.TASK_UPDATE_STATUS_QUEUE_TYPE)
-    public void updateTaskExecuteStatus(Message<UpdateTaskExecuteStatusDto> message)
+    public void updateTaskExecuteStatus(Message<String> message)
             throws SchedulerException, TaskException {
         logger.info("@RedisListener updateTaskExecuteStatus: {} Channel: {}", message.getPayload(),
                 QueueConstants.TASK_UPDATE_STATUS_QUEUE_TYPE);
-        UpdateTaskExecuteStatusDto updateTask = message.getPayload();
+        String str = DataUtils.replaceJson(message.getPayload());
+        UpdateTaskExecuteStatusDto updateTask = GsonUtils.jsonToBean(str, UpdateTaskExecuteStatusDto.class);
 
         SysTaskDto sysTask = sysTaskService.selectTaskById(updateTask.getTaskId());
         if (sysTask != null) {
@@ -86,14 +91,15 @@ public class RedisMessageReceiverServiceImpl implements BaseService {
     }
 
     @RedisListener(topic = QueueConstants.SAVE_TASK_LOG_QUEUE_TYPE)
-    public void saveExecuteTaskLog(Message<SysTaskDto> message) {
+    public void saveExecuteTaskLog(Message<String> message) {
         logger.info("@RedisListener saveExecuteTaskLog: {} Channel: {}", message.getPayload(),
                 QueueConstants.SAVE_TASK_LOG_QUEUE_TYPE);
-        SysTaskDto sysTask = message.getPayload();
+        String str = DataUtils.replaceJson(message.getPayload());
+        SysTaskDto sysTask = GsonUtils.jsonToBean(str, SysTaskDto.class);
         saveTaskLog(sysTask);
     }
 
-    private void taskExecute(String concurrent, String taskId, JsonObject param) {
+    private void taskExecute(String concurrent, String taskId, Map<String, Object> param) {
         SysTaskDto sysTask = sysTaskService.selectTaskById(taskId);
         if (sysTask != null) {
             if (ScheduleConstants.SCHEDULE_CONCURRENT.equals(concurrent)) {
@@ -111,12 +117,12 @@ public class RedisMessageReceiverServiceImpl implements BaseService {
         }
     }
 
-    private StatusEnum execute(String taskId, JsonObject param, SysTaskDto sysTask) {
+    private StatusEnum execute(String taskId, Map<String, Object> param, SysTaskDto sysTask) {
         try {
             logger.info("taskId:{}", taskId);
             sysTask.setExecuteStatus(StatusEnum.NO);
             sysTaskService.save(convert(sysTask, SysTaskVo.class));
-            int day = param.getInt("day");
+            int day = Integer.parseInt(param.get("day").toString());
             String time = DateUtil.nextDay(day - 2 * day, DateUtil.FULL_TIME_FORMAT);
             sysTaskLogService.deleteTaskLogByCreateTime(time);
 

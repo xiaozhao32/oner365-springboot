@@ -1,5 +1,7 @@
 package com.oner365.queue.service.pulsar.listener;
 
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Conditional;
@@ -23,7 +25,6 @@ import com.oner365.queue.condition.PulsarCondition;
 import com.oner365.queue.constants.QueueConstants;
 
 import jakarta.annotation.Resource;
-import jakarta.json.JsonObject;
 
 /**
  * pulsar InvokeParamDto listener
@@ -54,7 +55,7 @@ public class PulsarInvokeParamListenerImpl implements BaseService {
         }
     }
 
-    private void taskExecute(String concurrent, String taskId, JsonObject param) {
+    private void taskExecute(String concurrent, String taskId, Map<String, Object> param) {
         SysTaskDto sysTask = sysTaskService.selectTaskById(taskId);
         if (sysTask != null) {
             if (ScheduleConstants.SCHEDULE_CONCURRENT.equals(concurrent)) {
@@ -72,12 +73,12 @@ public class PulsarInvokeParamListenerImpl implements BaseService {
         }
     }
 
-    private StatusEnum execute(String taskId, JsonObject param, SysTaskDto sysTask) {
+    private StatusEnum execute(String taskId, Map<String, Object> param, SysTaskDto sysTask) {
         try {
             LOGGER.info("taskId:{}", taskId);
             sysTask.setExecuteStatus(StatusEnum.NO);
             sysTaskService.save(convert(sysTask, SysTaskVo.class));
-            int day = param.getInt("day");
+            int day = Integer.parseInt(param.get("day").toString());
             String time = DateUtil.nextDay(day - 2 * day, DateUtil.FULL_TIME_FORMAT);
             sysTaskLogService.deleteTaskLogByCreateTime(time);
 

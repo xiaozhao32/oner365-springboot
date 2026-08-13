@@ -1,10 +1,9 @@
 package com.oner365.monitor.dto;
 
 import java.io.Serializable;
+import java.util.Map;
 
 import com.oner365.data.commons.util.GsonUtils;
-
-import jakarta.json.JsonObject;
 
 /**
  * 定时任务调度表
@@ -30,21 +29,21 @@ public class InvokeParamDto implements Serializable {
      */
     private String concurrent;
 
+    /**
+     * 任务所需参数
+     */
+    private Map<String, Object> taskParam;
+
+    public InvokeParamDto() {
+        super();
+    }
+    
     public String getTaskId() {
         return taskId;
     }
 
     public void setTaskId(String taskId) {
         this.taskId = taskId;
-    }
-
-    /**
-     * 任务所需参数
-     */
-    private JsonObject taskParam;
-
-    public InvokeParamDto() {
-        super();
     }
 
     public String getTaskServerName() {
@@ -63,11 +62,11 @@ public class InvokeParamDto implements Serializable {
         this.concurrent = concurrent;
     }
 
-    public JsonObject getTaskParam() {
+    public Map<String, Object> getTaskParam() {
         return taskParam;
     }
 
-    public void setTaskParam(JsonObject taskParam) {
+    public void setTaskParam(Map<String, Object> taskParam) {
         this.taskParam = taskParam;
     }
 

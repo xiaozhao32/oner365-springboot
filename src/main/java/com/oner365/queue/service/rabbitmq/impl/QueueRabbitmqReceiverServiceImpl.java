@@ -2,6 +2,7 @@ package com.oner365.queue.service.rabbitmq.impl;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Map;
 
 import org.quartz.SchedulerException;
 import org.slf4j.Logger;
@@ -30,7 +31,6 @@ import com.oner365.queue.service.rabbitmq.IQueueRabbitmqReceiverService;
 import com.rabbitmq.client.Channel;
 
 import jakarta.annotation.Resource;
-import jakarta.json.JsonObject;
 
 /**
  * rabbitmq 接收队列实现类
@@ -93,7 +93,7 @@ public class QueueRabbitmqReceiverServiceImpl implements IQueueRabbitmqReceiverS
         }
     }
 
-    private void taskExecute(String concurrent, String taskId, JsonObject param) {
+    private void taskExecute(String concurrent, String taskId, Map<String, Object> param) {
         SysTaskDto sysTask = sysTaskService.selectTaskById(taskId);
         if (sysTask != null) {
             if (ScheduleConstants.SCHEDULE_CONCURRENT.equals(concurrent)) {
@@ -111,12 +111,12 @@ public class QueueRabbitmqReceiverServiceImpl implements IQueueRabbitmqReceiverS
         }
     }
 
-    private StatusEnum execute(String taskId, JsonObject param, SysTaskDto sysTask) {
+    private StatusEnum execute(String taskId, Map<String, Object> param, SysTaskDto sysTask) {
         try {
             logger.info("taskId:{}", taskId);
             sysTask.setExecuteStatus(StatusEnum.NO);
             sysTaskService.save(convert(sysTask, SysTaskVo.class));
-            int day = param.getInt("day");
+            int day = Integer.parseInt(param.get("day").toString());
             String time = DateUtil.nextDay(day - 2 * day, DateUtil.FULL_TIME_FORMAT);
             sysTaskLogService.deleteTaskLogByCreateTime(time);
 

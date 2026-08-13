@@ -1,5 +1,7 @@
 package com.oner365.queue.service.mqtt.impl;
 
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Conditional;
@@ -24,7 +26,6 @@ import com.oner365.queue.constants.QueueConstants;
 import com.oner365.queue.service.mqtt.IMqttReceiverInvokeParamService;
 
 import jakarta.annotation.Resource;
-import jakarta.json.JsonObject;
 
 /**
  * MQTT 接收实现
@@ -57,7 +58,7 @@ public class MqttReceiverInvokeParamServiceImpl implements IMqttReceiverInvokePa
         }
     }
 
-    private void taskExecute(String concurrent, String taskId, JsonObject param) {
+    private void taskExecute(String concurrent, String taskId, Map<String, Object> param) {
         SysTaskDto sysTask = sysTaskService.selectTaskById(taskId);
         if (sysTask != null) {
             if (ScheduleConstants.SCHEDULE_CONCURRENT.equals(concurrent)) {
@@ -75,12 +76,12 @@ public class MqttReceiverInvokeParamServiceImpl implements IMqttReceiverInvokePa
         }
     }
 
-    private StatusEnum execute(String taskId, JsonObject param, SysTaskDto sysTask) {
+    private StatusEnum execute(String taskId, Map<String, Object> param, SysTaskDto sysTask) {
         try {
             logger.info("taskId:{}", taskId);
             sysTask.setExecuteStatus(StatusEnum.NO);
             sysTaskService.save(convert(sysTask, SysTaskVo.class));
-            int day = param.getInt("day");
+            int day = Integer.parseInt(param.get("day").toString());
             String time = DateUtil.nextDay(day - 2 * day, DateUtil.FULL_TIME_FORMAT);
             sysTaskLogService.deleteTaskLogByCreateTime(time);
 
