@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.oner365.data.commons.adapter.HibernateProxyTypeAdapter;
 import com.oner365.data.commons.adapter.JakartaJsonObjectTypeAdapter;
 import com.oner365.data.commons.adapter.LocalDateTimeTypeAdapter;
 import com.oner365.data.commons.adapter.OptionalTypeAdapter;
@@ -29,6 +30,7 @@ public class GsonUtils {
         .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeTypeAdapter())
         .registerTypeAdapter(JsonObject.class, new JakartaJsonObjectTypeAdapter())
         .registerTypeAdapter(Optional.class, new OptionalTypeAdapter())
+        .registerTypeAdapterFactory(HibernateProxyTypeAdapter.FACTORY)
         .setDateFormat(DateUtil.FULL_TIME_FORMAT)
         .disableHtmlEscaping()
         .create();
