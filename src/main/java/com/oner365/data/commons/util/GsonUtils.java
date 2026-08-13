@@ -26,7 +26,8 @@ public class GsonUtils {
 
     }
 
-    public static final Gson GSON = new GsonBuilder().registerTypeAdapter(Timestamp.class, new TimestampTypeAdapter())
+    public static final Gson GSON = new GsonBuilder()
+        .registerTypeAdapter(Timestamp.class, new TimestampTypeAdapter())
         .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeTypeAdapter())
         .registerTypeAdapter(JsonObject.class, new JakartaJsonObjectTypeAdapter())
         .registerTypeAdapter(Optional.class, new OptionalTypeAdapter())

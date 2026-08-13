@@ -34,6 +34,12 @@ public class LoginUserDto implements Serializable {
      */
     @Schema(description = "账号id")
     private String userId;
+    
+    /**
+     * 账号名称
+     */
+    @Schema(description = "账号名称")
+    private String userName;
 
     /**
      * 真实姓名
@@ -148,6 +154,14 @@ public class LoginUserDto implements Serializable {
 
     public void setOrgs(List<String> orgs) {
         this.orgs = orgs;
+    }
+    
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
 }

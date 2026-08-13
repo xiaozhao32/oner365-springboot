@@ -139,7 +139,7 @@ public class SysUserServiceImpl implements ISysUserService {
             LoginUserDto result = new LoginUserDto();
             result.setAccessToken(accessToken);
             result.setExpireTime(time.getTime());
-
+            result.setUserName(user.getUserName());
             result.setRealName(user.getRealName());
             result.setUserId(user.getId());
             result.setIsAdmin(user.getIsAdmin());
