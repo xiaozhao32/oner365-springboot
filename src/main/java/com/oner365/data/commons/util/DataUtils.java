@@ -46,6 +46,8 @@ public class DataUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(DataUtils.class);
 
     private static final LRUMap<String, Integer> CACHE_MAP = new LRUMap<>(100);
+    
+    private static final Pattern QUOTE_PATTERN = Pattern.compile("(?:^\")|(?:\"$)");
 
     public static final String PARENT_FILE = "..";
 
@@ -554,7 +556,7 @@ public class DataUtils {
      * @return String
      */
     public static String replaceJson(String str) {
-        return str.replaceAll("^\"|\"$", "").replace("\\\"", "\"");
+        return QUOTE_PATTERN.matcher(str).replaceAll("").replace("\\\"", "\"");
     }
 
     /**

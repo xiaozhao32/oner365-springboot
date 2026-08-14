@@ -3,7 +3,6 @@ package com.oner365.test.service.elasticsearch;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
-import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
@@ -12,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
@@ -70,7 +70,7 @@ class ElasticsearchServiceTest extends BaseServiceTest {
                 elasticsearchProperties.getUris().get(0) + "/samplelocation/_search", HttpMethod.GET, entity,
                 String.class);
         logger.info("response: {}", response);
-        Assertions.assertNotEquals(HttpStatus.SC_OK, response.getStatusCode());
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
 }

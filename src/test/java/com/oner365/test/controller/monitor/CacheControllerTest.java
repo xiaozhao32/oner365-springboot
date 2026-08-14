@@ -18,7 +18,7 @@ class CacheControllerTest extends BaseControllerTest {
     private static final String PATH = "/monitor/cache";
 
     @Test
-    void index() {
+    void testIndex() {
         String url = PATH + "/index";
         Object result = get(url);
         logger.info("index:[{}] -> {}", url, result);
@@ -26,7 +26,7 @@ class CacheControllerTest extends BaseControllerTest {
     }
 
     @Test
-    void list() {
+    void testList() {
         String url = PATH + "/list";
         Object result = get(url);
         logger.info("list:[{}] -> {}", url, result);
@@ -34,7 +34,7 @@ class CacheControllerTest extends BaseControllerTest {
     }
 
     @Test
-    void clean() {
+    void testClean() {
         String url = PATH + "/clean?index=5";
         Object result = get(url);
         logger.info("clean:[{}] -> {}", url, result);

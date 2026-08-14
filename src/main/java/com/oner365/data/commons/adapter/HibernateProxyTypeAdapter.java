@@ -42,8 +42,8 @@ public class HibernateProxyTypeAdapter extends TypeAdapter<Object> {
 
         // 如果值是 HibernateProxy，获取其真实实现对象
         Object resolved;
-        if (value instanceof HibernateProxy) {
-            resolved = ((HibernateProxy) value).getHibernateLazyInitializer().getImplementation();
+        if (value instanceof HibernateProxy hibernateProxy) {
+            resolved = hibernateProxy.getHibernateLazyInitializer().getImplementation();
         } else {
             resolved = value;
         }

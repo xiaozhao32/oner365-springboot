@@ -53,7 +53,7 @@ class MailServiceTest extends BaseServiceTest {
         String text = "hello";
         String attachmentFile = "/1.jpg";
         File file = new File(fileProperties.getDownload() + attachmentFile);
-        Assertions.assertNotNull(file.exists());
+        Assertions.assertTrue(file.exists());
 
         Context context = new Context();
         context.setVariable("username", to);
