@@ -3,8 +3,8 @@
 # Oner365 Springboot
 
 ![Spring Framework 7.0.8](https://shields.io/badge/Spring%20Framework-7.0.8-blue) 
-![Spring Boot 4.1.0](https://shields.io/badge/Spring%20Boot-4.1.0-blue) 
-![Hibernate Core 7.4.5](https://shields.io/badge/Hibernate%20Core-7.4.5-blue) 
+![Spring Boot 4.1.1](https://shields.io/badge/Spring%20Boot-4.1.1-blue) 
+![Hibernate Core 7.4.6](https://shields.io/badge/Hibernate%20Core-7.4.6-blue) 
 ![Mybatis 3.5.19](https://shields.io/badge/Mybatis-3.5.19-blue) 
 
 ![License Apache 2.0](https://shields.io/badge/License-Apache--2.0-yellow) 
