@@ -36,7 +36,7 @@ public class InvokeParamVo implements Serializable {
     public InvokeParamVo() {
         super();
     }
-    
+
     public String getTaskId() {
         return taskId;
     }

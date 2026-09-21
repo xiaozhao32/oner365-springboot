@@ -17,9 +17,9 @@ import jakarta.annotation.Resource;
 
 /**
  * Redis pub/subscribe Subscribe Service
- * 
+ *
  * @author zhaoyong
- * 
+ *
  */
 @Service
 @Conditional(RedisCondition.class)
@@ -40,17 +40,20 @@ public class RedisSendServiceImpl implements IQueueSendService {
 
     @Override
     public void pullTask(InvokeParamDto data) {
-        redisTemplate.convertAndSend(QueueConstants.SCHEDULE_TASK_QUEUE_TYPE, GsonUtils.objectToJson(data, InvokeParamDto.class));
+        redisTemplate.convertAndSend(QueueConstants.SCHEDULE_TASK_QUEUE_TYPE,
+                GsonUtils.objectToJson(data, InvokeParamDto.class));
     }
 
     @Override
     public void updateTaskExecuteStatus(UpdateTaskExecuteStatusDto data) {
-        redisTemplate.convertAndSend(QueueConstants.TASK_UPDATE_STATUS_QUEUE_TYPE, GsonUtils.objectToJson(data, UpdateTaskExecuteStatusDto.class));
+        redisTemplate.convertAndSend(QueueConstants.TASK_UPDATE_STATUS_QUEUE_TYPE,
+                GsonUtils.objectToJson(data, UpdateTaskExecuteStatusDto.class));
     }
 
     @Override
     public void saveExecuteTaskLog(SysTaskDto data) {
-        redisTemplate.convertAndSend(QueueConstants.SAVE_TASK_LOG_QUEUE_TYPE, GsonUtils.objectToJson(data, SysTaskDto.class));
+        redisTemplate.convertAndSend(QueueConstants.SAVE_TASK_LOG_QUEUE_TYPE,
+                GsonUtils.objectToJson(data, SysTaskDto.class));
     }
 
 }

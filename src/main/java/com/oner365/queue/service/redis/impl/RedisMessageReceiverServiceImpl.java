@@ -76,8 +76,7 @@ public class RedisMessageReceiverServiceImpl implements BaseService {
     }
 
     @RedisListener(topic = QueueConstants.TASK_UPDATE_STATUS_QUEUE_TYPE)
-    public void updateTaskExecuteStatus(Message<String> message)
-            throws SchedulerException, TaskException {
+    public void updateTaskExecuteStatus(Message<String> message) throws SchedulerException, TaskException {
         logger.info("@RedisListener updateTaskExecuteStatus: {} Channel: {}", message.getPayload(),
                 QueueConstants.TASK_UPDATE_STATUS_QUEUE_TYPE);
         String str = DataUtils.replaceJson(message.getPayload());

@@ -11,9 +11,9 @@ import com.google.gson.stream.JsonWriter;
 
 /**
  * Hibernate 代理对象的 Gson 类型适配器
- * 
+ *
  * @author zhaoyong
- * 
+ *
  */
 public class HibernateProxyTypeAdapter extends TypeAdapter<Object> {
 
@@ -22,8 +22,7 @@ public class HibernateProxyTypeAdapter extends TypeAdapter<Object> {
         @SuppressWarnings("unchecked")
         public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
             return (HibernateProxy.class.isAssignableFrom(type.getRawType())
-                    ? (TypeAdapter<T>) new HibernateProxyTypeAdapter(gson)
-                    : null);
+                    ? (TypeAdapter<T>) new HibernateProxyTypeAdapter(gson) : null);
         }
     };
 
@@ -44,7 +43,8 @@ public class HibernateProxyTypeAdapter extends TypeAdapter<Object> {
         Object resolved;
         if (value instanceof HibernateProxy hibernateProxy) {
             resolved = hibernateProxy.getHibernateLazyInitializer().getImplementation();
-        } else {
+        }
+        else {
             resolved = value;
         }
 
@@ -57,4 +57,5 @@ public class HibernateProxyTypeAdapter extends TypeAdapter<Object> {
         // 反序列化不需要特殊处理
         return context.getAdapter(Object.class).read(in);
     }
+
 }
