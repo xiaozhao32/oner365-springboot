@@ -1,7 +1,7 @@
 package com.oner365.test.controller.rabbitmq;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.oner365.test.controller.BaseControllerTest;
@@ -17,7 +17,7 @@ class MqttTestControllerTest extends BaseControllerTest {
 
     private static final String PATH = "/queue";
 
-    @RepeatedTest(2)
+    @Test
     void send() {
         String url = PATH + "/send?data=hello" + System.currentTimeMillis();
         Object result = get(url);

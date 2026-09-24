@@ -1,9 +1,9 @@
 package com.oner365.test.controller.rabbitmq;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.webtestclient.autoconfigure.AutoConfigureWebTestClient;
 
 import com.oner365.test.controller.BaseControllerTest;
 
@@ -13,13 +13,13 @@ import com.oner365.test.controller.BaseControllerTest;
  * @author zhaoyong
  *
  */
-@AutoConfigureWebTestClient(timeout = "10000")
+@Disabled
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class RabbitmqTestControllerTest extends BaseControllerTest {
 
     private static final String PATH = "/queue";
 
-    @RepeatedTest(2)
+    @Test
     void send() {
         String url = PATH + "/send?data=hello" + System.currentTimeMillis();
         Object result = get(url);

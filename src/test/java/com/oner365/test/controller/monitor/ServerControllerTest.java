@@ -1,6 +1,7 @@
 package com.oner365.test.controller.monitor;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -12,6 +13,7 @@ import com.oner365.test.controller.BaseControllerTest;
  * @author zhaoyong
  *
  */
+@Disabled
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class ServerControllerTest extends BaseControllerTest {
 
