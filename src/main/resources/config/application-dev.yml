@@ -20,11 +20,11 @@ spring:
   # database
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
-    # mysql
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/oner365?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=GMT%2B8
-    username: root
-    password: 1234
+    # postgres
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://192.168.1.74:5432/oner365?characterEncodeing=utf8&TimeZone=Asia/Shanghai&stringtype=unspecified
+    username: postgres
+    password: zbsz@1234
     
     druid:
       filters: stat, slf4j
@@ -59,8 +59,8 @@ spring:
   # elasticsearch
   elasticsearch:
     username: elastic
-    password: oner365
-    uris: http://localhost:9200
+    password: Oner365
+    uris: http://192.168.1.74:9200
 
   data:
     jpa:
@@ -71,7 +71,7 @@ spring:
       repositories:
         enabled: false
         
-      host: localhost
+      host: 192.168.1.74
       port: 6379
       password:
       database: 1
@@ -91,9 +91,9 @@ spring:
   
   # rabbitmq
   rabbitmq:
-    addresses: localhost:5672
-    uri: http://localhost:15672
-    virtual-host: /
+    addresses: 192.168.1.74:5672
+    uri: http://192.168.1.74:15672
+    virtual-host: admin
     username: admin
     password: admin123
     connection-timeout: 60s
@@ -108,7 +108,7 @@ spring:
         
 # kafka
 #  kafka:
-#    bootstrap-servers: localhost:9092 
+#    bootstrap-servers: 192.168.1.74:9092 
 #    listener:
 #      ack-mode: manual
 #      missing-topics-fatal: false
@@ -135,7 +135,7 @@ spring:
   # pulsar
 #  pulsar:
 #    client:
-#      service-url: pulsar://localhost:6650
+#      service-url: pulsar://192.168.1.74:6650
 #    consumer:
 #      subscription:
 #        name: test-listener
@@ -183,6 +183,19 @@ mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.oner365.**.entity
 
+management:
+  health:
+    # 低版本兼容问题关闭
+    elasticsearch:
+      enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+  metrics:
+      tags:
+        application: ${spring.application.name} 
+        
 # Access Token
 token:
   secret: test
@@ -230,15 +243,15 @@ logging:
   # logstash
   logstash:
     enabled: false
-    addresses: localhost:5044
+    addresses: 192.168.1.74:5044
 
 # 队列方式    
 queue:
   # rabbitmq kafka pulsar mqtt redis
-  type: redis
+  type: rabbitmq
 
 #mqtt:
-#  uri: tcp://localhost:1883
+#  uri: tcp://192.168.1.74:1883
 #  username: admin
 #  password: admin123
 #  default-topic: amq.topic
@@ -263,9 +276,9 @@ file:
 
 # file minio
 minio:
-  username: root
-  password: e8818da9cc9
-  url: http://localhost:9001
+  username: minioadmin
+  password: minioadmin
+  url: http://192.168.1.74:9000
   region: cn-north-1
   bucket: ${spring.application.name}
 

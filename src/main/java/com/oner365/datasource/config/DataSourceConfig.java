@@ -41,7 +41,7 @@ public class DataSourceConfig {
     /**
      * 数据库加载方式 db cache
      */
-    @Value("${datasource.type:db}")
+    @Value("${datasource.type:}")
     private String datasourceType;
 
     @Resource
