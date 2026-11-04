@@ -144,8 +144,6 @@
         <xerces.version>2.12.2</xerces.version>
         <tools.jackson.version>3.2.2</tools.jackson.version>
 
-        <docker.host>172.16.80.132:2375</docker.host>
-        <docker.harbor>172.16.80.211:30002</docker.harbor>
     </properties>
 
     <dependencies>
@@ -1172,31 +1170,25 @@
                 </dependencies>
             </plugin>
 
-            <!-- mvn docker build -->
+            <!-- mvn clean package docker:build -->
             <plugin>
-                <groupId>com.spotify</groupId>
+                <groupId>io.fabric8</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
-                <version>1.2.2</version>
+                <version>0.49.0</version>
                 <configuration>
-                    <imageName>${project.artifactId}</imageName>
-                    <imageTags>
-                        <imageTag>${project.version}</imageTag>
-                    </imageTags>
-
-                    <!-- docker deploy -->
-                    <dockerDirectory>./</dockerDirectory>
-                    <dockerHost>http://${docker.host}</dockerHost>
-                    <buildArgs>
-                        <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
-                        <OUT_DIRECTORY>target</OUT_DIRECTORY>
-                    </buildArgs>
-
-                    <!-- docker harbor -->
-                    <serverId>harbor</serverId>
-                    <registryUrl>http://${docker.harbor}</registryUrl>
-                    <imageName>
-                        ${docker.harbor}/library/${project.artifactId}:${project.version}</imageName>
-                    <pushImage>true</pushImage>
+                    <images>
+                        <image>
+                            <name>${project.artifactId}:${project.version}</name>
+                            <build>
+                                <dockerFile>Dockerfile</dockerFile>
+                                <contextDir>${project.basedir}</contextDir>
+                                <args>
+                                    <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
+                                    <OUT_DIRECTORY>target</OUT_DIRECTORY>
+                                </args>
+                            </build>
+                        </image>
+                    </images>
                 </configuration>
             </plugin>
 

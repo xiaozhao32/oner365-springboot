@@ -22,7 +22,7 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     # postgres
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://192.168.1.74:5432/oner365?characterEncodeing=utf8&TimeZone=Asia/Shanghai&stringtype=unspecified
+    url: jdbc:postgresql://${ONER365-HOST}:5432/oner365?characterEncoding=utf8&TimeZone=Asia/Shanghai&stringtype=unspecified
     username: postgres
     password: zbsz@1234
     
@@ -30,7 +30,7 @@ spring:
       filters: stat, slf4j
       stat-view-servlet:
         enabled: true
-        allow: 127.0.0.1
+        allow: ${ONER365-HOST}
         login-username: ${spring.datasource.username}
         login-password: ${spring.datasource.password}
         reset-enable: false 
@@ -60,7 +60,7 @@ spring:
   elasticsearch:
     username: elastic
     password: Oner365
-    uris: http://192.168.1.74:9200
+    uris: http://${ONER365-HOST}:9200
 
   data:
     jpa:
@@ -71,7 +71,7 @@ spring:
       repositories:
         enabled: false
         
-      host: 192.168.1.74
+      host: ${ONER365-HOST}
       port: 6379
       password:
       database: 1
@@ -91,8 +91,8 @@ spring:
   
   # rabbitmq
   rabbitmq:
-    addresses: 192.168.1.74:5672
-    uri: http://192.168.1.74:15672
+    addresses: ${ONER365-HOST}:5672
+    uri: http://${ONER365-HOST}:15672
     virtual-host: admin
     username: admin
     password: admin123
@@ -108,7 +108,7 @@ spring:
         
 # kafka
 #  kafka:
-#    bootstrap-servers: 192.168.1.74:9092 
+#    bootstrap-servers: ${ONER365-HOST}:9092 
 #    listener:
 #      ack-mode: manual
 #      missing-topics-fatal: false
@@ -135,7 +135,7 @@ spring:
   # pulsar
 #  pulsar:
 #    client:
-#      service-url: pulsar://192.168.1.74:6650
+#      service-url: pulsar://${ONER365-HOST}:6650
 #    consumer:
 #      subscription:
 #        name: test-listener
@@ -243,7 +243,7 @@ logging:
   # logstash
   logstash:
     enabled: false
-    addresses: 192.168.1.74:5044
+    addresses: ${ONER365-HOST}:5044
 
 # 队列方式    
 queue:
@@ -251,7 +251,7 @@ queue:
   type: rabbitmq
 
 #mqtt:
-#  uri: tcp://192.168.1.74:1883
+#  uri: tcp://${ONER365-HOST}:1883
 #  username: admin
 #  password: admin123
 #  default-topic: amq.topic
@@ -278,7 +278,7 @@ file:
 minio:
   username: minioadmin
   password: minioadmin
-  url: http://192.168.1.74:9000
+  url: http://${ONER365-HOST}:9000
   region: cn-north-1
   bucket: ${spring.application.name}
 
