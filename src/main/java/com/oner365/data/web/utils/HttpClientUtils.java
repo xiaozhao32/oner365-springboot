@@ -145,7 +145,7 @@ public class HttpClientUtils {
     public static CloseableHttpClient createSslClientDefault() {
         try {
             // 信任所有
-            SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(null, (chain, authType) -> true).build();
+            SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(null, (_, _) -> true).build();
             RequestConfig requestConfig = RequestConfig.custom()
                 .setConnectTimeout(REQUEST_TIMEOUT)
                 .setSocketTimeout(REQUEST_SOCKET_TIME)
@@ -171,7 +171,7 @@ public class HttpClientUtils {
     public static String httpsPost(String path, Map<String, String> headers, String body)
             throws IOException, KeyManagementException, NoSuchAlgorithmException {
         URL url = URI.create(path).toURL();
-        HostnameVerifier ignoreHostnameVerifier = (s, sslSession) -> {
+        HostnameVerifier ignoreHostnameVerifier = (_, _) -> {
             LOGGER.warn("WARNING: Hostname is not matched for cert.");
             return true;
         };

@@ -41,7 +41,7 @@ public class SseServiceImpl implements SseService {
         sseEmitter.onTimeout(() -> SUBSCRIBE_MAP.remove(id));
 
         // 连接报错
-        sseEmitter.onError(throwable -> SUBSCRIBE_MAP.remove(id));
+        sseEmitter.onError(_ -> SUBSCRIBE_MAP.remove(id));
         return sseEmitter;
     }
 

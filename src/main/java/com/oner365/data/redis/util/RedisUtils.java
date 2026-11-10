@@ -108,7 +108,7 @@ public class RedisUtils {
      */
     public static <T> void subscribe(String channelKey, Class<T> clazz, Consumer<T> consumer) {
         RTopic topic = CLIENT.getTopic(channelKey);
-        topic.addListener(clazz, (channel, msg) -> consumer.accept(msg));
+        topic.addListener(clazz, (_, msg) -> consumer.accept(msg));
     }
 
     /**

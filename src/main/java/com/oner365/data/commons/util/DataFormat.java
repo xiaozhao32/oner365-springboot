@@ -43,14 +43,14 @@ public class DataFormat {
             pattern.append("'0'");
         }
         // else create integer part with the given length
-        IntStream.range(0, integerLength).mapToObj(i -> "0").forEach(pattern::append);
+        IntStream.range(0, integerLength).mapToObj(_ -> "0").forEach(pattern::append);
         // add symbol "."
         if (totalLength > integerLength) {
             pattern.append(".");
         }
         // create decimal part with the given length ( = total-length minus
         // integer-length)
-        IntStream.range(0, totalLength - integerLength).mapToObj(i -> fixed ? "0" : "#").forEach(pattern::append);
+        IntStream.range(0, totalLength - integerLength).mapToObj(_ -> fixed ? "0" : "#").forEach(pattern::append);
         // create the power part
         pattern.append("E0");
 

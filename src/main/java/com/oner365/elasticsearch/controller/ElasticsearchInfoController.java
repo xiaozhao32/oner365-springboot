@@ -82,7 +82,7 @@ public class ElasticsearchInfoController extends BaseController {
         result.setPort(Integer.parseInt(StringUtils.substringAfter(uri, PublicConstants.COLON)));
 
         // Elasticsearch health
-        try (ApiTypeHelper.DisabledChecksHandle h = ApiTypeHelper.DANGEROUS_disableRequiredPropertiesCheck(true)) {
+        try (ApiTypeHelper.DisabledChecksHandle _ = ApiTypeHelper.DANGEROUS_disableRequiredPropertiesCheck(true)) {
             ClusterHealth healthResponse = elasticsearchTemplate.cluster().health();
             if (healthResponse != null) {
                 result.setClusterName(healthResponse.getClusterName());

@@ -78,7 +78,7 @@ public class RedisCacheConfig {
         JsonMapper jsonMapper = JsonMapper.builder()
             .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
             .changeDefaultPropertyInclusion(
-                    old -> JsonInclude.Value.construct(JsonInclude.Include.NON_NULL, JsonInclude.Include.NON_NULL))
+                    _ -> JsonInclude.Value.construct(JsonInclude.Include.NON_NULL, JsonInclude.Include.NON_NULL))
             .defaultTimeZone(TimeZone.getDefault())
             .addModules(new JavaTimeModule())
             .build();

@@ -181,7 +181,7 @@ public class SysOrganizationServiceImpl implements ISysOrganizationService {
             // 判断是否有子节点
             childList.stream()
                 .filter(tChild -> hasChild(list, tChild))
-                .<Consumer<? super SysOrganizationDto>>map(tChild -> n -> recursionFn(list, n))
+                .<Consumer<? super SysOrganizationDto>>map(_ -> n -> recursionFn(list, n))
                 .forEach(childList::forEach);
         }
     }

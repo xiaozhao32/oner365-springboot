@@ -8,7 +8,7 @@
 ![Mybatis 3.5.19](https://shields.io/badge/Mybatis-3.5.19-blue) 
 
 ![License Apache 2.0](https://shields.io/badge/License-Apache--2.0-yellow) 
-![Java 21](https://img.shields.io/badge/JDK-21-orange)
+![Java 25](https://img.shields.io/badge/JDK-25-orange)
 
 ![Author Zy&Lt](https://shields.io/badge/Author-Zy&Lt-purple) 
 ![Version 3.1.0](https://shields.io/badge/Version-3.1.0-red) 

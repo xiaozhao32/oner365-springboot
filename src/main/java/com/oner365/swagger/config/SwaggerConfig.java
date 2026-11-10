@@ -54,7 +54,7 @@ public class SwaggerConfig {
             // 全局添加鉴权参数
             if (openApi.getPaths() != null) {
                 openApi.getPaths()
-                    .forEach((s, pathItem) -> pathItem.readOperations()
+                    .forEach((_, pathItem) -> pathItem.readOperations()
                         .forEach(operation -> operation
                             .addSecurityItem(new SecurityRequirement().addList(HttpHeaders.AUTHORIZATION))));
             }

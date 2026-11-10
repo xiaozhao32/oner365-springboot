@@ -174,7 +174,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
             // 判断是否有子节点
             childList.stream()
                 .filter(tChild -> hasChild(list, tChild))
-                .<Consumer<? super SysMenuDto>>map(tChild -> n -> recursionFn(list, n))
+                .<Consumer<? super SysMenuDto>>map(_ -> n -> recursionFn(list, n))
                 .forEach(childList::forEach);
         }
     }

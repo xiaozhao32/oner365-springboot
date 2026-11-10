@@ -207,19 +207,19 @@ public class SysUserServiceImpl implements ISysUserService {
     }
 
     private void setName(SysUser entity) {
-        try (var executor = Executors.newCachedThreadPool()) {
+        try (var _ = Executors.newCachedThreadPool()) {
             List<String> roleList = userRoleDao.findUserRoleByUserId(entity.getId());
             entity.setRoles(roleList);
             entity.setRoleNameList(roleList.stream().map(s -> sysRoleDao.getReferenceById(s).getRoleName()).toList());
         }
 
-        try (var executor = Executors.newCachedThreadPool()) {
+        try (var _ = Executors.newCachedThreadPool()) {
             List<String> jobList = userJobDao.findUserJobByUserId(entity.getId());
             entity.setJobs(jobList);
             entity.setJobNameList(jobList.stream().map(s -> sysJobDao.getReferenceById(s).getJobName()).toList());
         }
 
-        try (var executor = Executors.newCachedThreadPool()) {
+        try (var _ = Executors.newCachedThreadPool()) {
             List<String> orgList = userOrgDao.findUserOrgByUserId(entity.getId());
             entity.setOrgs(orgList);
             entity.setOrgNameList(
