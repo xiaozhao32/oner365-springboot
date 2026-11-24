@@ -8,13 +8,9 @@ import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.elasticsearch.autoconfigure.ElasticsearchProperties;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import com.oner365.data.commons.constants.PublicConstants;
 import com.oner365.data.jpa.page.PageInfo;
@@ -38,7 +34,7 @@ class ElasticsearchServiceTest extends BaseServiceTest {
     private ISampleGeneElasticsearchService service;
 
     @Resource
-    private RestTemplate restTemplate;
+    private WebClient webClient;
 
     @Resource
     private ElasticsearchProperties elasticsearchProperties;
@@ -60,17 +56,11 @@ class ElasticsearchServiceTest extends BaseServiceTest {
         String authHeader = "Basic " + new String(encodedAuth);
         logger.info("Auth: {}", authHeader);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.set(HttpHeaders.AUTHORIZATION, authHeader);
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
-        String query = "";
-        HttpEntity<String> entity = new HttpEntity<>(query, headers);
-        ResponseEntity<String> response = restTemplate.exchange(
-                elasticsearchProperties.getUris().get(0) + "/samplelocation/_search", HttpMethod.GET, entity,
-                String.class);
+        String uri = elasticsearchProperties.getUris().get(0) + "/samplelocation/_search";
+        String response = webClient.get().uri(uri).header(HttpHeaders.AUTHORIZATION, authHeader)
+                .accept(MediaType.APPLICATION_JSON).retrieve().bodyToMono(String.class).block();
         logger.info("response: {}", response);
-        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+        Assertions.assertNotNull(response);
     }
 
 }
