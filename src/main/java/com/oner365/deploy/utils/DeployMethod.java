@@ -43,6 +43,8 @@ public class DeployMethod {
 
     private static final String PARAM_ACTIVE = "ACTIVE=";
 
+    private static final String PARAM_HOST = "ONER365-HOST=";
+
     private static final String PARAM_RESOURCE_NAME = "RESOURCE_NAME";
 
     private DeployMethod() {
@@ -121,6 +123,7 @@ public class DeployMethod {
                 items.put(PARAM_SERVICE_NAME, PARAM_SERVICE_NAME + projectName);
                 items.put(PARAM_VERSION, PARAM_VERSION + deployEntity.getVersion());
                 items.put(PARAM_ACTIVE, PARAM_ACTIVE + deployEntity.getActive());
+                items.put(PARAM_HOST, PARAM_HOST + "localhost");
                 DataUtils.replaceContextFileCreate(readFile, writeFile, items);
             }
             URL stopUrl = DeployMethod.class.getResource("/service/stop.sh");
@@ -140,6 +143,7 @@ public class DeployMethod {
                 Map<String, Object> items = new HashMap<>(1);
                 items.put(PARAM_RESOURCE_NAME,
                         projectName + "-" + deployEntity.getVersion() + "." + deployEntity.getSuffix());
+                items.put(PARAM_HOST, PARAM_HOST + "localhost");
                 DataUtils.replaceContextFileCreate(readFile, writeFile, items);
             }
         });

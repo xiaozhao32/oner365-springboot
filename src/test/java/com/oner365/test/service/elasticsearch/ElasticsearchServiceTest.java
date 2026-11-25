@@ -57,8 +57,13 @@ class ElasticsearchServiceTest extends BaseServiceTest {
         logger.info("Auth: {}", authHeader);
 
         String uri = elasticsearchProperties.getUris().get(0) + "/samplelocation/_search";
-        String response = webClient.get().uri(uri).header(HttpHeaders.AUTHORIZATION, authHeader)
-                .accept(MediaType.APPLICATION_JSON).retrieve().bodyToMono(String.class).block();
+        String response = webClient.get()
+            .uri(uri)
+            .header(HttpHeaders.AUTHORIZATION, authHeader)
+            .accept(MediaType.APPLICATION_JSON)
+            .retrieve()
+            .bodyToMono(String.class)
+            .block();
         logger.info("response: {}", response);
         Assertions.assertNotNull(response);
     }

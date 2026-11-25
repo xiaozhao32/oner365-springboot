@@ -345,7 +345,7 @@ webclient:
 deploy:
   local:
     location: /Users/zhaoyong/Documents/git/oner365
-    name: /Users/zhaoyong/Documents/deploy/springboot
+    name: /Users/zhaoyong/Documents/deploy/oner365-springboot
     version: ${swagger.version}
     suffix: jar
     active: dev
