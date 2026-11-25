@@ -1,5 +1,5 @@
-# 镜像依赖
-FROM jdk:21
+# 镜像依赖 当前 arm64
+FROM 192.168.0.91:8888/arm64/jdk:25
 
 # 设置元数据
 LABEL maintainer="zhaoyong@oner365.com" \
@@ -7,7 +7,6 @@ LABEL maintainer="zhaoyong@oner365.com" \
       description="oner365-springboot application"
 
 # 工作目录   
-VOLUME /root/oner365-springboot
 RUN mkdir -p /root/oner365-springboot
 WORKDIR /root/oner365-springboot
 

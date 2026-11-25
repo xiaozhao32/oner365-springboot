@@ -53,7 +53,7 @@
         <org.apache.httpclient.version>4.5.14</org.apache.httpclient.version>
         <org.apache.httpcore.version>4.4.16</org.apache.httpcore.version>
         <org.apache.tomcat.version>11.0.27</org.apache.tomcat.version>
-        <org.apache.pulsar.version>4.2.4</org.apache.pulsar.version>
+        <org.apache.pulsar.version>4.2.5</org.apache.pulsar.version>
         <org.apache.kafka.version>4.3.2</org.apache.kafka.version>
         <org.apache.poi.version>5.5.1</org.apache.poi.version>
         <org.apache.ant.version>1.10.15</org.apache.ant.version>
@@ -77,7 +77,7 @@
         <org.mybatis.spring.boot.version>4.0.1</org.mybatis.spring.boot.version>
         <org.mybatis.version>3.5.19</org.mybatis.version>
 
-        <org.bouncycastle.version>1.84</org.bouncycastle.version>
+        <org.bouncycastle.version>1.86</org.bouncycastle.version>
         <org.elasticsearch.version>9.5.5</org.elasticsearch.version>
         <org.slf4j.version>2.0.20</org.slf4j.version>
         <ch.qos.logback.version>1.6.3</ch.qos.logback.version>

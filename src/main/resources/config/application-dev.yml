@@ -1,6 +1,6 @@
 # server
 server:
-  port: 8704
+  port: 18704
   servlet:
     context-path: /
   address: localhost
