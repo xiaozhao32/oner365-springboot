@@ -45,7 +45,7 @@
         <org.springframework.security.version>7.2.0</org.springframework.security.version>
         <org.springframework.boot.version>4.2.0</org.springframework.boot.version>
         <org.springframework.data.version>4.2.0</org.springframework.data.version>
-        <org.springframework.version>7.0.10</org.springframework.version>
+        <org.springframework.version>7.1.0</org.springframework.version>
         <org.springframework.kafka.version>4.2.0</org.springframework.kafka.version>
         <org.springdoc.version>3.1.1</org.springdoc.version>
 
