@@ -247,11 +247,11 @@ queue:
   # rabbitmq kafka pulsar mqtt redis
   type: rabbitmq
 
-#mqtt:
-#  uri: tcp://${ONER365-HOST}:1883
+# mqtt:
+#  host: ${ONER365-HOST}
+#  port: 1883
 #  username: admin
 #  password: admin123
-#  default-topic: amq.topic
 #  client-id: oner365-client
 
 # 文件上传下载地址
