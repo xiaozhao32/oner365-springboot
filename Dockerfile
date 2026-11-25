@@ -19,7 +19,8 @@ ENV TZ=Asia/Shanghai \
     LANG=C.UTF-8 \
     LC_ALL=C.UTF-8 \
     SPRING_PROFILES_ACTIVE=dev \
-    SERVER_ADDRESS=0.0.0.0
+    SERVER_ADDRESS=0.0.0.0 \
+    ONER365-HOST=localhost
 
 # 复制依赖包
 ARG OUT_DIRECTORY
@@ -34,6 +35,7 @@ COPY ${JAR_FILE} /root/oner365-springboot/oner365-springboot-3.1.0.jar
 ENTRYPOINT ["java", \
     "-Dspring.profiles.active=${SPRING_PROFILES_ACTIVE}", \
     "-Dserver.address=${SERVER_ADDRESS}", \
+    "-DONER365-HOST=${ONER365-HOST}", \
     "-jar", "/root/oner365-springboot/oner365-springboot-3.1.0.jar"]
 
 # 本地执行

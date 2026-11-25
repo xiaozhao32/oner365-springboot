@@ -1,6 +1,5 @@
 package com.oner365.queue.config.properties;
 
-import org.jspecify.annotations.Nullable;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
@@ -11,100 +10,69 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "mqtt")
 public class MqttProperties {
 
-    /**
-     * 账号
-     */
-    private @Nullable String username;
+	/**
+	 * 账号
+	 */
+	private String username;
 
-    /**
-     * 密码
-     */
-    private @Nullable String password;
+	/**
+	 * 密码
+	 */
+	private String password;
 
-    /**
-     * 地址
-     */
-    private @Nullable String uri;
+	/**
+	 * 地址
+	 */
+	private String host;
 
-    /**
-     * client
-     */
-    private @Nullable String clientId;
+	/**
+	 * 端口
+	 */
+	private int port;
 
-    /**
-     * default-topic
-     */
-    private @Nullable String defaultTopic;
+	/**
+	 * client
+	 */
+	private String clientId;
 
-    /**
-     * 构造方法
-     */
-    public MqttProperties() {
-        super();
-    }
+	public String getUsername() {
+		return username;
+	}
 
-    /**
-     * @return the username
-     */
-    public String getUsername() {
-        return username;
-    }
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-    /**
-     * @param username the username to set
-     */
-    public void setUsername(String username) {
-        this.username = username;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    /**
-     * @return the password
-     */
-    public String getPassword() {
-        return password;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    /**
-     * @param password the password to set
-     */
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	public String getHost() {
+		return host;
+	}
 
-    /**
-     * @return the uri
-     */
-    public String getUri() {
-        return uri;
-    }
+	public void setHost(String host) {
+		this.host = host;
+	}
 
-    /**
-     * @param uri the uri to set
-     */
-    public void setUri(String uri) {
-        this.uri = uri;
-    }
+	public int getPort() {
+		return port;
+	}
 
-    /**
-     * @return the clientId
-     */
-    public String getClientId() {
-        return clientId;
-    }
+	public void setPort(int port) {
+		this.port = port;
+	}
 
-    /**
-     * @param clientId the clientId to set
-     */
-    public void setClientId(String clientId) {
-        this.clientId = clientId;
-    }
+	public String getClientId() {
+		return clientId;
+	}
 
-    public String getDefaultTopic() {
-        return defaultTopic;
-    }
-
-    public void setDefaultTopic(String defaultTopic) {
-        this.defaultTopic = defaultTopic;
-    }
+	public void setClientId(String clientId) {
+		this.clientId = clientId;
+	}
 
 }
