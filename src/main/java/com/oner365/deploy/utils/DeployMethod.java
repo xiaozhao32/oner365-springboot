@@ -37,15 +37,9 @@ public class DeployMethod {
 
     private static final String FILE_RESOURCES = "resources";
 
-    private static final String PARAM_SERVICE_NAME = "SERVICE_NAME=";
+    private static final String PARAM_SERVICE_NAME = "${project.artifactId}";
 
-    private static final String PARAM_VERSION = "VERSION=";
-
-    private static final String PARAM_ACTIVE = "ACTIVE=";
-
-    private static final String PARAM_HOST = "ONER365_HOST=";
-
-    private static final String PARAM_RESOURCE_NAME = "RESOURCE_NAME";
+    private static final String PARAM_VERSION = "${project.version}";
 
     private DeployMethod() {
     }
@@ -115,39 +109,25 @@ public class DeployMethod {
             DataUtils.copyDirectory(libPath, targetPath);
 
             // 制作 Linux 启动脚本
-            URL shUrl = DeployMethod.class.getResource("/service/start.sh");
-            if (shUrl != null) {
-                String readFile = shUrl.getPath();
-                String writeFile = targetPath + File.separator + "start.sh";
-                Map<String, Object> items = new HashMap<>(3);
-                items.put(PARAM_SERVICE_NAME, PARAM_SERVICE_NAME + projectName);
-                items.put(PARAM_VERSION, PARAM_VERSION + deployEntity.getVersion());
-                items.put(PARAM_ACTIVE, PARAM_ACTIVE + deployEntity.getActive());
-                items.put(PARAM_HOST, PARAM_HOST + "localhost");
-                DataUtils.replaceContextFileCreate(readFile, writeFile, items);
-            }
-            URL stopUrl = DeployMethod.class.getResource("/service/stop.sh");
-            if (stopUrl != null) {
-                String readFile = stopUrl.getPath();
-                String writeFile = targetPath + File.separator + "stop.sh";
-                Map<String, Object> items = new HashMap<>(3);
-                items.put(PARAM_SERVICE_NAME, PARAM_SERVICE_NAME + projectName);
-                DataUtils.replaceContextFileCreate(readFile, writeFile, items);
-            }
+            replaceShell(targetPath, projectName, deployEntity.getVersion(), "start.sh");
+            replaceShell(targetPath, projectName, deployEntity.getVersion(), "stop.sh");
 
             // 制作 Windows 启动脚本
-            URL batUrl = DeployMethod.class.getResource("/service/start.bat");
-            if (batUrl != null) {
-                String readFile = batUrl.getPath();
-                String writeFile = targetPath + File.separator + "start.bat";
-                Map<String, Object> items = new HashMap<>(1);
-                items.put(PARAM_RESOURCE_NAME,
-                        projectName + "-" + deployEntity.getVersion() + "." + deployEntity.getSuffix());
-                items.put(PARAM_HOST, PARAM_HOST + "localhost");
-                DataUtils.replaceContextFileCreate(readFile, writeFile, items);
-            }
+            replaceShell(targetPath, projectName, deployEntity.getVersion(), "start.bat");
         });
 
+    }
+    
+    private static void replaceShell(String targetPath, String projectName, String version, String fileName) {
+        URL batUrl = DeployMethod.class.getResource("/service/" + fileName);
+        if (batUrl != null) {
+            String readFile = batUrl.getPath();
+            String writeFile = targetPath + File.separator + fileName;
+            Map<String, Object> items = new HashMap<>(3);
+            items.put(PARAM_SERVICE_NAME, projectName);
+            items.put(PARAM_VERSION, version);
+            DataUtils.replaceContextFileCreate(readFile, writeFile, items);
+        }
     }
 
     /**

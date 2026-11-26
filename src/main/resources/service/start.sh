@@ -1,8 +1,9 @@
 #!/bin/bash
-SERVICE_NAME=
-VERSION=
+SERVICE_NAME=${project.artifactId}
+VERSION=${project.version}
 RESOURCE_NAME=$SERVICE_NAME-$VERSION.jar
-ACTIVE=
+ACTIVE=dev
+HOST=localhost
 
 #------------------------------------------------------------------
 
@@ -27,7 +28,7 @@ if [ -f tpid ];then
     fi
     rm -f tpid
 fi
-
+ 
 # 调优后
 #nohup $JAVA_HOME/bin/java -jar \
 #  -XX:InitialRAMPercentage=70.0 \
@@ -43,9 +44,9 @@ fi
 #  -XX:+DisableExplicitGC \
 #  -XX:+ParallelRefProcEnabled \
 #  -Djdk.virtualThreadScheduler.parallelism=8 \
-#  -Dspring.profiles.active=$ACTIVE -DONER365_HOST= ./$RESOURCE_NAME > logs/$RESOURCE_NAME.log 2>&1 &
+#  -Dspring.profiles.active=$ACTIVE -DONER365_HOST=$HOST ./$RESOURCE_NAME > logs/$RESOURCE_NAME.log 2>&1 &
 
-nohup java -jar -Dspring.profiles.active=$ACTIVE -DONER365_HOST= ./$RESOURCE_NAME > logs/$RESOURCE_NAME.log 2>&1 &
+nohup java -jar -Dspring.profiles.active=$ACTIVE -DONER365_HOST=$HOST ./$RESOURCE_NAME > logs/$RESOURCE_NAME.log 2>&1 &
 
 echo $! > tpid
 

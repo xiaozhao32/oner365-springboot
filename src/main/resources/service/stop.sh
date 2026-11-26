@@ -1,5 +1,5 @@
 #!/bin/bash
-SERVICE_NAME=
+SERVICE_NAME=${project.artifactId}
 
 #------------------------------------------------------------------
 
