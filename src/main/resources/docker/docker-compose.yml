@@ -1,0 +1,99 @@
+
+services:
+ 
+  minio:
+    container_name: oner365-minio
+    image: minio:latest
+    restart: always
+    networks:
+      - oner365-net
+    environment:
+    - MINIO_ROOT_USER=minioadmin
+    - MINIO_ROOT_PASSWORD=minioadmin
+    - TZ=Asia/Shanghai
+    ports:
+      - "9001:9001"
+      - "9000:9000"
+    volumes:
+      - ./data/minio:/minio_data
+    command: minio server /minio_data --console-address ":9001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
+  redis:
+    container_name: oner365-redis
+    image: redis:6.2.6
+    restart: always
+    networks:
+      - oner365-net
+    ports:
+    - "6379:6379"
+    volumes:
+    - ./data/redis-data:/home/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  pgvector:
+    container_name: oner365-pgvector
+    image: postgres:17-pgvector0.8.1
+    restart: always
+    networks:
+      - oner365-net
+    ports:
+    - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: oner365
+      TZ: Asia/Shanghai
+    volumes:
+    - ./data/pg_data:/var/lib/postgresql/data
+    depends_on:
+    - "minio"
+    - "redis"
+
+  backend:
+    container_name: oner365-backend
+    image: nginx:latest
+    restart: always
+    networks:
+      - oner365-net
+    ports:
+    - "8701:8701"
+    environment:
+      TZ: Asia/Shanghai
+    volumes:
+    - ./data/nginx/backend/logs:/var/log/nginx
+    - ./data/nginx/backend/conf/nginx.conf:/etc/nginx/nginx.conf
+    - ./data/nginx/backend/dist:/usr/share/nginx/html
+    depends_on:
+    - "pgvector"
+
+  manager:
+    container_name: oner365-manager
+    image: oner365-springboot:3.1.0
+    restart: always
+    networks:
+      - oner365-net
+    ports:
+      - "8704:8704"
+    environment:
+      TZ: Asia/Shanghai
+      SPRING_PROFILES_ACTIVE: local
+      ONER365_HOST: localhost
+    volumes:
+      - ./data/manager/resources/config/application-local.yml:/opt/oner365-springboot/resources/config/application-local.yml
+      - ./data/manager/fonts:/usr/share/fonts
+    depends_on:
+    - "pgvector"
+
+networks:
+  oner365-net:
+    driver: bridge

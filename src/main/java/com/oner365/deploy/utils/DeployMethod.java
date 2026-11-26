@@ -43,7 +43,7 @@ public class DeployMethod {
 
     private static final String PARAM_ACTIVE = "ACTIVE=";
 
-    private static final String PARAM_HOST = "ONER365-HOST=";
+    private static final String PARAM_HOST = "ONER365_HOST=";
 
     private static final String PARAM_RESOURCE_NAME = "RESOURCE_NAME";
 

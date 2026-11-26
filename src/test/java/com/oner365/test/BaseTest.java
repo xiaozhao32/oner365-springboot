@@ -12,7 +12,7 @@ import org.springframework.test.context.TestPropertySource;
  *
  */
 @ActiveProfiles("dev")
-@TestPropertySource(properties = "ONER365-HOST=192.168.1.174")
+@TestPropertySource(properties = "ONER365_HOST=192.168.1.174")
 public abstract class BaseTest {
 
     public final Logger logger = LoggerFactory.getLogger(this.getClass());

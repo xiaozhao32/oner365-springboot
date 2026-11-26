@@ -43,9 +43,9 @@ fi
 #  -XX:+DisableExplicitGC \
 #  -XX:+ParallelRefProcEnabled \
 #  -Djdk.virtualThreadScheduler.parallelism=8 \
-#  -Dspring.profiles.active=$ACTIVE -DONER365-HOST= ./$RESOURCE_NAME > logs/$RESOURCE_NAME.log 2>&1 &
+#  -Dspring.profiles.active=$ACTIVE -DONER365_HOST= ./$RESOURCE_NAME > logs/$RESOURCE_NAME.log 2>&1 &
 
-nohup java -jar -Dspring.profiles.active=$ACTIVE -DONER365-HOST= ./$RESOURCE_NAME > logs/$RESOURCE_NAME.log 2>&1 &
+nohup java -jar -Dspring.profiles.active=$ACTIVE -DONER365_HOST= ./$RESOURCE_NAME > logs/$RESOURCE_NAME.log 2>&1 &
 
 echo $! > tpid
 
